@@ -1,0 +1,106 @@
+{
+    "bezoekLocatie": {
+        "straatnaam": "Geneinde",
+        "huisnummer": 73,
+        "postcode": "6223GT",
+        "woonplaatsnaam": "Maastricht",
+        "datumAanvang": {
+            "datum": "2015-08-28",
+            "jaar": 2015,
+            "maand": 8,
+            "dag": 28
+        }
+    },
+    "postLocatie": {
+        "datumAanvang": {
+            "datum": "2017-01-08",
+            "jaar": 2017,
+            "maand": 1,
+            "dag": 8
+        },
+        "identificatiecodeNummeraanduiding": "0632010000010090",
+        "straatnaam": "Watermolenlaan",
+        "huisnummer": 1,
+        "postcode": "3447GT",
+        "woonplaatsnaam": "Woerden"
+    },
+    "datumAanvang": {
+        "datum": "2017-01-08",
+        "jaar": 2017,
+        "maand": 1,
+        "dag": 8
+    },
+    "activiteiten": [
+        {
+            "code": "3030",
+            "omschrijving": "Vervaardiging van vliegtuigen en onderdelen daarvoor",
+            "isHoofdactiviteit": true
+        },
+        {
+            "code": "4773",
+            "omschrijving": "Apotheken",
+            "isHoofdactiviteit": false
+        },
+        {
+            "code": "3040",
+            "omschrijving": "Vervaardiging van militaire gevechtsvoertuigen",
+            "isHoofdactiviteit": false
+        }
+    ],
+    "telefoonnummer": [
+        "0123456789"
+    ],
+    "wordtUitgeoefendDoor": {
+        "heeftAlsEigenaar": {
+            "rechtsvorm": "Eenmanszaak",
+            "natuurlijkPersoon": {
+                "burgerservicenummer": "559163423",
+                "naam": {
+                    "geslachtsnaam": "µ3× Kõæ©k 1598623087632",
+                    "voornamen": "Díaçrió Ürïá Ðnðýáívić"
+                },
+                "geboorte": {
+                    "datum": {
+                        "datum": "2003-08-28",
+                        "jaar": 2003,
+                        "maand": 8,
+                        "dag": 28
+                    },
+                    "plaats": "Nijmegen",
+                    "land": {
+                        "code": "6030",
+                        "omschrijving": "Nederland"
+                    }
+                },
+                "geslachtsaanduiding": "man"
+            }
+        },
+        "wordtGeleidVanuit": {
+            "vestigingsnummer": "000038509504",
+            "handelsnamen": [
+                "Test EMZ Dagobert"
+            ]
+        },
+        "kvkNummer": "69599084",
+        "naam": "Test EMZ Dagobert"
+    },
+    "typeringVestiging": "Nevenvestiging",
+    "_links": {
+        "self": {
+            "href": "https://wsgateway.ot.denhaag.nl/haalcentraal/api/hr/vestigingen/000038509520"
+        },
+        "maatschappelijkeActiviteit": {
+            "href": "https://wsgateway.ot.denhaag.nl/haalcentraal/api/hr/maatschappelijkeactiviteiten/69599084"
+        },
+        "eigenaar": {
+            "href": "https://wsgateway.ot.denhaag.nl/haalcentraal/api/brp/ingeschrevenpersonen/559163423"
+        }
+    },
+    "vestigingsnummer": "000038509520",
+    "handelsnamen": [
+        "Test EMZ Nevenvestiging Govert",
+        "Tweede handelsnaam Vestiging2",
+        "Derde handelsnaam Vestiging2",
+        "Vierde handelsnaam Vestiging2"
+    ]
+}

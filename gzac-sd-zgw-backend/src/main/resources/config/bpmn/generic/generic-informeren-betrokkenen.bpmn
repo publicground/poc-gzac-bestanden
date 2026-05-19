@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0gn7a75" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.44.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_0zlk7de">
+    <bpmn:participant id="GenericInformerenBetrokkenenParticipant" name="Generic: Informeren betrokkenen" processRef="generic-informeren-betrokkenen" />
+  </bpmn:collaboration>
+  <bpmn:process id="generic-informeren-betrokkenen" name="Generic: Informeren betrokkenen" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1384qyi</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="EmailadresAanwezigGateway" targetRef="VersturenEmailnotificatieTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${emailAanwezig != null &amp;&amp; emailAanwezig != ""}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1nqy3wx" sourceRef="VersturenEmailnotificatieTask" targetRef="Gateway_1u9b04e" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="EmailadresAanwezigGateway" targetRef="Gateway_1u9b04e" />
+    <bpmn:sequenceFlow id="Flow_05bs30e" sourceRef="Gateway_1u9b04e" targetRef="Event_0xxyiu1" />
+    <bpmn:sequenceFlow id="Flow_1384qyi" sourceRef="StartEvent_1" targetRef="EmailadresAanwezigGateway" />
+    <bpmn:serviceTask id="VersturenEmailnotificatieTask" name="Versturen emailnotificatie" camunda:asyncAfter="true" implementation="##WebService" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="voorlettersAanvrager">${voorlettersAanvrager != null ? voorlettersAanvrager : "" }</camunda:inputParameter>
+          <camunda:inputParameter name="voornaamAanvrager">${voornaamAanvrager != null ? voornaamAanvrager : "" }</camunda:inputParameter>
+          <camunda:inputParameter name="voorvoegselAanvrager">${voorvoegselAanvrager != null ? voorvoegselAanvrager : "" }</camunda:inputParameter>
+          <camunda:inputParameter name="achternaamAanvrager">${achternaamAanvrager != null ? achternaamAanvrager : "" }</camunda:inputParameter>
+          <camunda:inputParameter name="zaaknummer">${zaaknummer}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nqy3wx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1u9b04e">
+      <bpmn:incoming>Flow_1nqy3wx</bpmn:incoming>
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_05bs30e</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="EmailadresAanwezigGateway" name="Emailadres aanwezig?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_1384qyi</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_0xxyiu1">
+      <bpmn:incoming>Flow_05bs30e</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0zlk7de">
+      <bpmndi:BPMNShape id="Participant_0fkt80g_di" bpmnElement="GenericInformerenBetrokkenenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="70" width="668" height="380" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="232" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0csc5lz" bpmnElement="VersturenEmailnotificatieTask">
+        <dc:Bounds x="440" y="210" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1u9b04e_di" bpmnElement="Gateway_1u9b04e" isMarkerVisible="true">
+        <dc:Bounds x="585" y="225" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0o8btek_di" bpmnElement="EmailadresAanwezigGateway" isMarkerVisible="true">
+        <dc:Bounds x="335" y="225" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="332" y="195" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0xxyiu1_di" bpmnElement="Event_0xxyiu1">
+        <dc:Bounds x="732" y="232" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_08fejgo_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="385" y="250" />
+        <di:waypoint x="440" y="250" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="394" y="233" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0dptpsh" bpmnElement="Flow_1nqy3wx">
+        <di:waypoint x="540" y="250" />
+        <di:waypoint x="585" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tc4a6m_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="360" y="275" />
+        <di:waypoint x="360" y="340" />
+        <di:waypoint x="610" y="340" />
+        <di:waypoint x="610" y="275" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="369" y="288" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05bs30e_di" bpmnElement="Flow_05bs30e">
+        <di:waypoint x="635" y="250" />
+        <di:waypoint x="732" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1384qyi_di" bpmnElement="Flow_1384qyi">
+        <di:waypoint x="268" y="250" />
+        <di:waypoint x="335" y="250" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

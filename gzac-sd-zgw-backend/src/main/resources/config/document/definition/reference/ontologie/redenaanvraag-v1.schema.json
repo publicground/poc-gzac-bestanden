@@ -1,0 +1,558 @@
+{
+  "$id": "redenaanvraag.schema",
+  "type": "object",
+  "title": "Model Reden aanvraag",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "redenAanvraag": {
+      "type":"object",
+      "properties": {
+        "reden": {
+          "$ref": "#/definitions/cdRedenAanvraagReden"
+        },
+        "onvoldoendeInkomen": {
+          "$ref": "#/definitions/cdRedenAanvraagOnvoldoendeInkomen"
+        },
+        "wijzigingGezin": {
+          "$ref": "#/definitions/cdRedenAanvraagWijzigingGezin"
+        },
+        "zelfstandige": {
+          "$ref": "#/definitions/cdRedenAanvraagZelfstandige"
+        },
+        "verblijfstatus": {
+          "$ref": "#/definitions/cdRedenAanvraagVerblijfstatus"
+        },
+        "gewensteIngangsdatum": {
+          "$ref": "#/definitions/datum"
+        },
+        "gestoptBetaaldWerk": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "naamBedrijf": {
+                "$ref": "#/definitions/tekst"
+              },
+              "bedrijfsadres": {
+                "$ref": "#/definitions/tekst"
+              },
+              "bedrijfstelefoonnummer": {
+                "$ref": "#/definitions/telefoonnummer"
+              },
+              "laatsteSalarisDatum": {
+                "$ref": "#/definitions/datum"
+              },
+              "eindeWerkReden": {
+                "$ref": "#/definitions/cdRedenAanvraagEindeWerk"
+              },
+              "eindeWerkRedenSpecificatie": {
+                "$ref": "#/definitions/tekst"
+              },
+              "contractperiode": {
+                "$ref": "#/definitions/cdRedenAanvraagContractperiode"
+              },
+              "ontslagbriefOntvangen": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "wettelijkeStappenGezet": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "ontslagvergoedingOntvangen": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "min26van36gewerkt": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "wwuitkeringAangevraagd": {
+                "$ref": "#/definitions/cdRedenAanvraagWWgevraagd"
+              },
+              "afwijsredenWWaanvraag": {
+                "$ref": "#/definitions/cdRedenAanvraagWwafgewezen"
+              },
+              "ziektewetUitkeringAangevraagd": {
+                "$ref": "#/definitions/stdIndJN"
+              }
+            }
+          }
+        },
+        "gestopteUitkering": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "uitkering": {
+                "$ref": "#/definitions/cdRedenAanvraagEindeUitkering"
+              },
+              "andereUitkeringSpecificatie": {
+                "$ref": "#/definitions/tekst"
+              },
+              "uitkeringEinddatum": {
+                "$ref": "#/definitions/datum"
+              },
+              "eindeUitkeringReden": {
+                "$ref": "#/definitions/cdRedenAanvraagEindeUitkeringReden"
+              },
+              "eindeUitkeringRedenSpecificatie": {
+                "$ref": "#/definitions/tekst"
+              },
+              "eindeUitkeringInBezwaar": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "werkloosPeriode": {
+                "description": "Het betreft de periode tussen 30 september 2006 en 1 juli 2011",
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "startdatumWWofWGA": {
+                "$ref": "#/definitions/datum"
+              },
+              "wgaingangsdatumPeriode": {
+                "description": "Het betreft de periode tussen 31 december 2007 en 1 juli 2011",
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "ioawontvangen": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "gedeeltelijkArbeidsongeschiktNa50e": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "minderDan35procentArbeidsongeschikt": {
+                "$ref": "#/definitions/stdIndJN"
+              }
+            }
+          }
+        },
+        "gestopteBijstanduitkering": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "eindeBijstandReden": {
+                "$ref": "#/definitions/cdRedenAanvraagEindeBijstand"
+              },
+              "eindeBijstandRedenSpecificatie": {
+                "$ref": "#/definitions/tekst"
+              },
+              "situatieGewijzigd": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "situatieWijzigingsSpecificatie": {
+                "$ref": "#/definitions/tekst"
+              }
+            }
+          }
+        },
+        "gestopteVerlaagdeAlimentatie": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "alimentatieEinddatum": {
+                "$ref": "#/definitions/datum"
+              },
+              "opgaveFinancieleOndersteuning": {
+                "$ref": "#/definitions/tekst"
+              },
+              "eindeAlimentatieReden": {
+                "$ref": "#/definitions/cdRedenAanvraagEindeAlimentatieReden"
+              },
+              "lbioingeschakeld": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "anwnabestaatdeuitkeringAangevraagd": {
+                "$ref": "#/definitions/stdIndJN"
+              }
+            }
+          }
+        },
+        "gestopteStudiefinanciering": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "studiefinancieringEinddatum": {
+                "$ref": "#/definitions/datum"
+              },
+              "studiefinancieringSpecificatie": {
+                "$ref": "#/definitions/cdRedenAanvraagStudiefinancieringType"
+              }
+            }
+          }
+        },
+        "overledenPartner": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "anwnabestaandeuitkeringAangevraagd": {
+                "$ref": "#/definitions/cdRedenAanvraagANWaangevraagd"
+              },
+              "anwafgewezenReden": {
+                "$ref": "#/definitions/cdRedenAanvraagANWafgewezenReden"
+              },
+              "meerDan45procentArbeidsongeschikt": {
+                "$ref": "#/definitions/stdIndJN"
+              }
+            }
+          }
+        },
+        "verbrokenRelatie": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "verbrokenRelatieDatum": {
+                "$ref": "#/definitions/datum"
+              },
+              "opgaveFinancieleOndersteuning": {
+                "$ref": "#/definitions/tekst"
+              },
+              "partnerGeregistreerd": {
+                "description": "Getrouwd of geregistreerd partnerschap",
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "afspraakOnderhoudsbijdrage": {
+                "$ref": "#/definitions/stdIndJN"
+              }
+            }
+          }
+        },
+        "gestoptVerkochtEigenBedrijf": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "eigenBedrijfGestoptReden": {
+                "$ref": "#/definitions/cdRedenAanvraagEindeEigenBedrijf"
+              },
+              "verkoopbedrag": {
+                "$ref": "#/definitions/geldbedrag"
+              },
+              "eigenBedrijfDatum": {
+                "$ref": "#/definitions/datum"
+              },
+              "kvKuitgeschreven": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "kvKinschrijfnummer": {
+                "$ref": "#/definitions/getal"
+              }
+            }
+          }
+        },
+        "vertrekAsielzoekerscentrum": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "ingangsdatumHuurcontract": {
+                "$ref": "#/definitions/datum"
+              },
+              "weekgeldCOA": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "weekgeldCOAbedrag": {
+                "$ref": "#/definitions/geldbedrag"
+              },
+              "weekgeldCOAstopt": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "weekgeldCOAeinddatum": {
+                "$ref": "#/definitions/datum"
+              }
+            }
+          }
+        },
+        "gestopteDetentie": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "detentieDuur": {
+                "description": "Langer dan 31 dagen of niet.",
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "detentieEinddatum": {
+                "$ref": "#/definitions/datum"
+              },
+              "uitkeringVoorDetentie": {
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "soortuitkeringVoorDetentie": {
+                "$ref": "#/definitions/cdRedenAanvraagUitkeringVoorDetentie"
+              },
+              "soortUitkeringVoorDetentieSpecificatie": {
+                "$ref": "#/definitions/tekst"
+              }
+            }
+          }
+        },
+        "andereRedenVerzoek": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "geldtekortSpecificatie": {
+                "$ref": "#/definitions/tekst"
+              },
+              "opgaveFinancieleOndersteuning": {
+                "$ref": "#/definitions/tekst"
+              }
+            }
+          }
+        },
+        "ingangBijstandsuitkering": {
+          "type":"object",
+          "properties": {
+            "eerderAanvragenRedenAanwezig": {
+              "$ref": "#/definitions/stdIndJN"
+            },
+            "wachtenOpBeslissingInstantie": {
+              "$ref": "#/definitions/stdIndJN"
+            },
+            "beslissingInstantieOntvangstdatum": {
+              "$ref": "#/definitions/datum"
+            },
+            "opnameZiekenhuis": {
+              "$ref": "#/definitions/stdIndJN"
+            },
+            "opnameStartdatum": {
+              "$ref": "#/definitions/datum"
+            },
+            "opnameEinddatum": {
+              "$ref": "#/definitions/datum"
+            },
+            "digiDaanvraag": {
+              "$ref": "#/definitions/stdIndJN"
+            },
+            "digiDaanvraagdatum": {
+              "$ref": "#/definitions/datum"
+            },
+            "digitaalVerwezenGemeenteNaMelden": {
+              "$ref": "#/definitions/stdIndJN"
+            },
+            "melddatumGemeente": {
+              "$ref": "#/definitions/datum"
+            },
+            "bijzondereRedenNietEerderAanvragen": {
+              "$ref": "#/definitions/tekst"
+            },
+            "uitkeringStartdatum": {
+              "$ref": "#/definitions/datum"
+            },
+            "bijzondereRedenAanvraagdatumLaterIngaan": {
+              "$ref": "#/definitions/tekst"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "cdRedenAanvraagReden": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Geen of te weinig inkomen" },
+        { "code": "2", "name": "Wijziging gezin" },
+        { "code": "3", "name": "(ex)Zelfstandige" },
+        { "code": "4", "name": "Verblijfsstatus" },
+        { "code": "5", "name": "Ik kom vrij na gevangenisstraf" },
+        { "code": "6", "name": "Anders" }
+      ]
+    },
+    "cdRedenAanvraagOnvoldoendeInkomen": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ik heb geen werk meer" },
+        { "code": "2", "name": "Ik heb wel inkomsten, maar die zijn te laag" },
+        { "code": "3", "name": "Mijn uitkering (geen bijstandsuitkering) is stopgezet" },
+        { "code": "4", "name": "Mijn bijstandsuitkering is stopgezet" },
+        { "code": "5", "name": "Mijn eerdere bijstandsaanvraag is afgewezen of niet in behandeling genomen" },
+        { "code": "6", "name": "Mijn alimentatie is gestopt" },
+        { "code": "7", "name": "Mijn studiefinanciering is gestopt" }
+      ]
+    },
+    "cdRedenAanvraagWijzigingGezin": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ik had een eigen uitkering, maar doe nu een nieuwe aanvraag samen met mijn partner" },
+        { "code": "2", "name": "Mijn relatie is verbroken" },
+        { "code": "3", "name": "Mijn partner is overleden" }
+      ]
+    },
+    "cdRedenAanvraagZelfstandige": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ik ben gestopt met mijn eigen bedrijf" },
+        { "code": "2", "name": "Ik heb een eigen bedrijf, maar onvoldoende inkomen" }
+      ]
+    },
+    "cdRedenAanvraagVerblijfstatus": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ik heb een verblijfsvergunning gekregen" },
+        { "code": "2", "name": "Ik heb een verblijfsvergunning gekregen en vertrek uit een asielzoekerscentrum" }
+      ]
+    },
+    "datum": {
+      "type": "string"
+    },
+    "tekst": {
+      "type": "string"
+    },
+    "telefoonnummer": {
+      "type": "string",
+      "pattern": "^0[1-9][0-9]{8}$"
+    },
+    "cdRedenAanvraagEindeWerk": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Tijdelijk contract is afgelopen" },
+        { "code": "2", "name": "Zelf ontslag genomen" },
+        { "code": "3", "name": "Ontslagen" },
+        { "code": "4", "name": "Ontslagen bij een reorganisatie" },
+        { "code": "5", "name": "Faillissement bedrijf" },
+        { "code": "6", "name": "Ziekte" },
+        { "code": "7", "name": "Andere reden" }
+      ]
+    },
+    "cdRedenAanvraagContractperiode": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ik had een contract van 6 maanden of langer" },
+        { "code": "2", "name": "Ik had een contract van minder dan 6 maanden" }
+      ]
+    },
+    "stdIndJN": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ja" },
+        { "code": "2", "name": "Nee" }
+      ]
+    },
+    "cdRedenAanvraagWWgevraagd": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ja, ik wacht nog op antwoord" },
+        { "code": "2", "name": "Ja, ik ontvang nu een WW-uitkering" },
+        { "code": "3", "name": "Ja, maar mijn WW-aanvraag is afgewezen" },
+        { "code": "4", "name": "Nee, ik heb geen WW-uitkering aangevraagd" }
+      ]
+    },
+    "cdRedenAanvraagWwafgewezen": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ik heb in de periode ervoor onvoldoende gewerkt (wekeneis)" },
+        { "code": "2", "name": "Ik ben niet voldoende beschikbaar voor werk" },
+        { "code": "3", "name": "Ik ben minder dan 5 uren per week achteruit gegaan in uren" },
+        { "code": "4", "name": "Ik ben door eigen schuld ontslagen of heb zelf ontslag genomen" }
+      ]
+    },
+    "cdRedenAanvraagEindeUitkering": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "WW" },
+        { "code": "2", "name": "Ziektewet" },
+        { "code": "3", "name": "Wao/Wia" },
+        { "code": "4", "name": "Wga" },
+        { "code": "5", "name": "Andere uitkering" }
+      ]
+    },
+    "cdRedenAanvraagEindeUitkeringReden": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Maximale duur uitkering bereikt" },
+        { "code": "2", "name": "Arbeidsgeschikt verklaard" },
+        { "code": "3", "name": "Opgelegde maatregel" },
+        { "code": "4", "name": "Gedeeltelijk arbeidsgeschikt verklaard" },
+        { "code": "5", "name": "Andere reden" }
+      ]
+    },
+    "cdRedenAanvraagEindeBijstand": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Verhuizing vanuit andere gemeente" },
+        { "code": "2", "name": "Aangaan relatie met nieuwe partner" },
+        { "code": "3", "name": "Andere reden" }
+      ]
+    },
+    "cdRedenAanvraagEindeAlimentatieReden": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ex-partner is niet meer verplicht te betalen" },
+        { "code": "2", "name": "Ex-partner weigert te betalen" },
+        { "code": "3", "name": "Ex-partner is overleden" }
+      ]
+    },
+    "cdRedenAanvraagStudiefinancieringType": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Studiefinanciering (WSF)" },
+        { "code": "2", "name": "Tegemoetkoming onderwijsbijdrage en schoolkosten (WTOS)" },
+        { "code": "3", "name": "Geen van bovenstaande" }
+      ]
+    },
+    "cdRedenAanvraagANWaangevraagd": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ja, deze is toegekend" },
+        { "code": "2", "name": "Ja, ik wacht nog op een besluit" },
+        { "code": "3", "name": "Ja, deze is afgewezen" },
+        { "code": "4", "name": "Nee" }
+      ]
+    },
+    "cdRedenAanvraagANWafgewezenReden": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ik ben minder dan 45% arbeidsongeschikt" },
+        { "code": "2", "name": "Ik heb geen minderjarige kinderen" }
+      ]
+    },
+    "cdRedenAanvraagEindeEigenBedrijf": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Financi�le redenen" },
+        { "code": "2", "name": "Faillissement" },
+        { "code": "3", "name": "Sluiting opgelegd door de gemeente" },
+        { "code": "4", "name": "Bedrijf verkocht" },
+        { "code": "5", "name": "Zelf gestopt" },
+        { "code": "6", "name": "Andere reden" }
+      ]
+    },
+    "geldbedrag": {
+      "type": "number",
+      "pattern": "^-?[0-9]((;|,|\\.)[0-9]{2}|)$"
+    },
+    "getal": {
+      "type": "integer",
+      "pattern": "^-?[0-9]{1,}$"
+    },
+    "cdRedenAanvraagUitkeringVoorDetentie": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "WW" },
+        { "code": "2", "name": "Ziektewet" },
+        { "code": "3", "name": "Wao/Wia" },
+        { "code": "4", "name": "Wga" },
+        { "code": "5", "name": "Studiefinanciering" },
+        { "code": "6", "name": "Bijstandsuitkering" },
+        { "code": "7", "name": "Andere uitkering" }
+      ]
+    },
+    "integer": {
+      "type": "string",
+      "pattern": "(^-|^)(0|[1-9][0-9]*)$"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "(^-|^+|^)(0|[1-9][0-9]+)($|,[0-9][0-9]$)"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^(http://|https://).*"
+    },
+    "datumTijd": {
+      "type": "string",
+      "pattern": "^([0-2][0-9]|3[0-1]|[1-9])-(0[1-9]|[1-9]|1[0-2])-(19|20)[0-9][0-9] T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]"
+    }
+  }
+}

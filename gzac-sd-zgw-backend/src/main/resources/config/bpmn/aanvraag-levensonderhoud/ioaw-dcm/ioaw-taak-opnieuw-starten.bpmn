@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1dnidhn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_1f55dzh">
+    <bpmn:participant id="IOAWTaakOpnieuwStartenParticipant" name="IOAW: Taak opnieuw starten" processRef="ioaw-taak-opnieuw-starten" />
+  </bpmn:collaboration>
+  <bpmn:process id="ioaw-taak-opnieuw-starten" name="Taak opnieuw starten" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_0a2grse" sourceRef="TaakOpnieuwStartenStartEvent" targetRef="StartTaakOpnieuwEndEvent" />
+    <bpmn:startEvent id="TaakOpnieuwStartenStartEvent" name="Taak opnieuw starten" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_0a2grse</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="StartTaakOpnieuwEndEvent" name="Start taak opnieuw" camunda:asyncAfter="true">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="variables">
+            <camunda:map>
+              <camunda:entry key="gebeurtenis">${execution.getVariable("opTeStartenTaak").gebeurtenis}</camunda:entry>
+              <camunda:entry key="actieUitzettenInformatieverzoek">${execution.getVariable("opTeStartenTaak").actieUitzettenInformatieverzoek}</camunda:entry>
+              <camunda:entry key="handmatigVaststellen">${execution.getVariable("opTeStartenTaak").handmatigVaststellen}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0a2grse</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1mbqg5x" camunda:expression="${correlationService.sendCatchEventMessage(&#34;NIEUWE_GEBEURTENIS_ONTVANGEN_START_MESSAGE&#34;, execution.businessKey, variables)}" />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1f55dzh">
+      <bpmndi:BPMNShape id="Participant_15bkmc9_di" bpmnElement="IOAWTaakOpnieuwStartenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="90" width="380" height="220" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1s27zst_di" bpmnElement="TaakOpnieuwStartenStartEvent">
+        <dc:Bounds x="252" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="243" y="218" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0u0ofqn_di" bpmnElement="StartTaakOpnieuwEndEvent">
+        <dc:Bounds x="422" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="417" y="215" width="48" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0a2grse_di" bpmnElement="Flow_0a2grse">
+        <di:waypoint x="288" y="190" />
+        <di:waypoint x="422" y="190" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

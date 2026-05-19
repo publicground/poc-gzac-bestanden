@@ -1,0 +1,48 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "gegevensVaststelling",
+            "key": "gegevensVaststelling",
+            "type": "hidden",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "className": "alert alert-info",
+            "tag": "div",
+            "content": "<p>Dit dossier is al afgehandeld.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Afgehandeld'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-warning",
+            "content": "<p>Deze taak kan alleen gestart worden als de uitgebreide motivering definitief is ingediend.</p>",
+            "refreshOnChange": false,
+            "key": "htmlMotiveringNietDefinitief",
+            "customConditional": "show = !data.gegevensVaststelling?.uitgebreideMotivering?.isMotiveringDefinitief",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Doorgaan",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "customConditional": "show = !['Afgehandeld', 'Beslist', 'Informatieverzoek uitgezet', 'Aanvullende informatie ontvangen', 'Geen aanvullende informatie ontvangen'].includes(data.openzaak?.statusOmschrijving) && data.gegevensVaststelling?.uitgebreideMotivering?.isMotiveringDefinitief;",
+            "type": "button",
+            "custom": "form.submit(); component.disabled = true;",
+            "input": true
+        }
+    ]
+}

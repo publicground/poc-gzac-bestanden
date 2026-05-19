@@ -1,0 +1,7 @@
+{
+    "templateKey": "suwi-rapportage-alo",
+    "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+    "templateType": "pdf",
+    "metadata": {},
+    "contentRef": "/config/template/suwi-rapportage-alo.ftlh"
+}

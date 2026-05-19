@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0vol0sx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.44.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:collaboration id="Collaboration_1gmd3lc">
+    <bpmn:participant id="GenericOphalenDuoStudiefinancieringInformatieParticipant" name="Generic: Suwinet ophalen DUO studiefinanciering info" processRef="generic-suwinet-ophalen-duo-studiefinanciering-info" />
+    <bpmn:textAnnotation id="TextAnnotation_1izwgaw">
+      <bpmn:text>output: duoStudiefinancieringInfoRaw</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0ynau9c">
+      <bpmn:text>input: bsn</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_13kht6c" associationDirection="None" sourceRef="OphalenDuoStudiefinancieringInfoTask" targetRef="TextAnnotation_1izwgaw" />
+    <bpmn:association id="Association_19sfx5r" associationDirection="None" sourceRef="StartEvent_1" targetRef="TextAnnotation_0ynau9c" />
+  </bpmn:collaboration>
+  <bpmn:process id="generic-suwinet-ophalen-duo-studiefinanciering-info" name="Generic: Suwinet ophalen DUO studiefinanciering info" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1if7i5z</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="OphalenDuoStudiefinancieringInfoTask" name="ophalen duo studiefinanciering informatie" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="javascript">var raw = execution.getVariable('duoStudiefinancieringInfoRaw');
+var dynProps = raw != null &amp;&amp; raw.dynamicProperties != null ? raw.dynamicProperties : null;
+
+function toJavaValue(value) {
+    if (value == null) return null;
+
+    var valueType = typeof value;
+
+    if (valueType === 'string') return String(value);
+    if (valueType === 'number') return Number(value);
+    if (valueType === 'boolean') return value;
+
+    if (Array.isArray(value)) {
+        return toJavaList(value);
+    }
+
+    if (valueType === 'object') {
+        return toJavaMap(value);
+    }
+
+    return String(value);
+}
+
+function toJavaMap(obj) {
+    var map = new Packages.java.util.LinkedHashMap();
+
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            map.put(String(key), toJavaValue(obj[key]));
+        }
+    }
+
+    return map;
+}
+
+function toJavaList(arr) {
+    var list = new Packages.java.util.ArrayList();
+
+    for (var i = 0; i &lt; arr.length; i++) {
+        list.add(toJavaValue(arr[i]));
+    }
+
+    return list;
+}
+
+function normalizeDuoDate(value) {
+    if (value == null) return '';
+    return String(value).replace(/-/g, '');
+}
+
+function mapDuoStudiefinanciering(i) {
+    if (!i) return null;
+
+    return {
+        indicatieToekenningWtosVo18: i.indToekenningWtosVo18 != null ? String(i.indToekenningWtosVo18) : '',
+        codeStatusPartnertoeslagStufi: i.cdStatusPartnertoeslagStufi != null ? String(i.cdStatusPartnertoeslagStufi) : '',
+        codeToekenningBasisbeursStufi: i.cdToekenningBasisbeursStufi != null ? String(i.cdToekenningBasisbeursStufi) : '',
+        codeStatusEenOudertoeslagStufi: i.cdStatusEenOudertoeslagStufi != null ? String(i.cdStatusEenOudertoeslagStufi) : '',
+        indicatieAanvullendeBeursStufi: i.indAanvullendeBeursStufi != null ? String(i.indAanvullendeBeursStufi) : '',
+        dateEindToekenningsperiodeStufi: normalizeDuoDate(i.datEToekenningsperiodeStufi),
+        dateBeginToekenningsperiodeStufi: normalizeDuoDate(i.datBToekenningsperiodeStufi)
+    };
+}
+
+function convertToDuoStudiefinancieringen(data) {
+    var studiefinancieringen = [];
+
+    if (data &amp;&amp; data.studiefinanciering &amp;&amp; data.studiefinanciering.length &gt; 0) {
+        studiefinancieringen = data.studiefinanciering.map(function(i) {
+            return mapDuoStudiefinanciering(i);
+        });
+    }
+
+    return {
+        burgerservicenummer: data &amp;&amp; data.burgerservicenr != null ? String(data.burgerservicenr) : '',
+        studiefinancieringen: studiefinancieringen
+    };
+}
+
+var result = convertToDuoStudiefinancieringen(dynProps);
+if (result != null) {
+    execution.setVariable('duoStudiefinancieringInfo', toJavaValue(result));
+}</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1if7i5z</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ffi0av</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_192vgzu">
+      <bpmn:incoming>Flow_1ffi0av</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1if7i5z" sourceRef="StartEvent_1" targetRef="OphalenDuoStudiefinancieringInfoTask" />
+    <bpmn:sequenceFlow id="Flow_1ffi0av" sourceRef="OphalenDuoStudiefinancieringInfoTask" targetRef="Event_192vgzu" />
+  </bpmn:process>
+  <bpmn:error id="Error_10q1uq2" name="Error_3lbup3a" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1gmd3lc">
+      <bpmndi:BPMNShape id="Participant_0gc491p_di" bpmnElement="GenericOphalenDuoStudiefinancieringInformatieParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="420" height="340" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="249" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j7h7ol_di" bpmnElement="OphalenDuoStudiefinancieringInfoTask">
+        <dc:Bounds x="330" y="227" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_192vgzu_di" bpmnElement="Event_192vgzu">
+        <dc:Bounds x="492" y="249" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1if7i5z_di" bpmnElement="Flow_1if7i5z">
+        <di:waypoint x="268" y="267" />
+        <di:waypoint x="330" y="267" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ffi0av_di" bpmnElement="Flow_1ffi0av">
+        <di:waypoint x="430" y="267" />
+        <di:waypoint x="492" y="267" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1izwgaw_di" bpmnElement="TextAnnotation_1izwgaw">
+        <dc:Bounds x="350" y="140" width="220" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0ynau9c_di" bpmnElement="TextAnnotation_0ynau9c">
+        <dc:Bounds x="270" y="160" width="100" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_13kht6c_di" bpmnElement="Association_13kht6c">
+        <di:waypoint x="416" y="227" />
+        <di:waypoint x="457" y="181" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_19sfx5r_di" bpmnElement="Association_19sfx5r">
+        <di:waypoint x="261" y="253" />
+        <di:waypoint x="309" y="190" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

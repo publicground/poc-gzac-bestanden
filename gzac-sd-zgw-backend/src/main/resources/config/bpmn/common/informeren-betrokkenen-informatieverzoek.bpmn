@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0j8qbxx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.39.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_1qwamgk">
+    <bpmn:participant id="InformerenBetrokkenenInformatieverzoekParticipant" name="Informeren betrokkenen informatieverzoek" processRef="informeren-betrokkenen-informatieverzoek" />
+  </bpmn:collaboration>
+  <bpmn:process id="informeren-betrokkenen-informatieverzoek" name="Informeren betrokkenen informatieverzoek" isExecutable="true">
+    <bpmn:startEvent id="Event_1rc1g1g">
+      <bpmn:outgoing>Flow_0rkzzjl</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="VersturenEmailnotificatieTask" name="Versturen emailnotificatie" camunda:asyncAfter="true" implementation="##WebService" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="datumOntvangstAanvraag">${datumOntvangstAanvraag}</camunda:inputParameter>
+          <camunda:inputParameter name="voorlettersAanvrager">${voorlettersAanvrager}</camunda:inputParameter>
+          <camunda:inputParameter name="voornaamAanvrager">${voornaamAanvrager}</camunda:inputParameter>
+          <camunda:inputParameter name="voorvoegselAanvrager">${voorvoegselAanvrager}</camunda:inputParameter>
+          <camunda:inputParameter name="achternaamAanvrager">${achternaamAanvrager}</camunda:inputParameter>
+          <camunda:inputParameter name="deadlineInformatieverzoek">${prettyDeadline}</camunda:inputParameter>
+          <camunda:inputParameter name="emailAanvrager">${emailAanvrager}</camunda:inputParameter>
+          <camunda:inputParameter name="mailTaskSubject">${mailTaskSubject}</camunda:inputParameter>
+          <camunda:inputParameter name="mailTaskTemplate">${mailTaskTemplate}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nqy3wx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1u9b04e">
+      <bpmn:incoming>Flow_1nqy3wx</bpmn:incoming>
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gnhtsj</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="EmailadresAanwezigGateway" name="Emailadres aanwezig?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_0rkzzjl</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_0xxyiu1">
+      <bpmn:incoming>Flow_0gnhtsj</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0rkzzjl" sourceRef="Event_1rc1g1g" targetRef="EmailadresAanwezigGateway" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="EmailadresAanwezigGateway" targetRef="VersturenEmailnotificatieTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${emailAanwezig != null &amp;&amp; emailAanwezig != ""}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1nqy3wx" sourceRef="VersturenEmailnotificatieTask" targetRef="Gateway_1u9b04e" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="EmailadresAanwezigGateway" targetRef="Gateway_1u9b04e" />
+    <bpmn:sequenceFlow id="Flow_0gnhtsj" sourceRef="Gateway_1u9b04e" targetRef="Event_0xxyiu1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1qwamgk">
+      <bpmndi:BPMNShape id="Participant_0fkt80g_di" bpmnElement="InformerenBetrokkenenInformatieverzoekParticipant" isHorizontal="true">
+        <dc:Bounds x="159" y="90" width="620" height="380" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0vp3sdi" bpmnElement="Event_1rc1g1g">
+        <dc:Bounds x="231" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0csc5lz" bpmnElement="VersturenEmailnotificatieTask">
+        <dc:Bounds x="409" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1u9b04e_di" bpmnElement="Gateway_1u9b04e" isMarkerVisible="true">
+        <dc:Bounds x="554" y="245" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0o8btek_di" bpmnElement="EmailadresAanwezigGateway" isMarkerVisible="true">
+        <dc:Bounds x="304" y="245" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="301" y="215" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0xxyiu1_di" bpmnElement="Event_0xxyiu1">
+        <dc:Bounds x="662" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0rkzzjl_di" bpmnElement="Flow_0rkzzjl">
+        <di:waypoint x="267" y="270" />
+        <di:waypoint x="304" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08fejgo_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="354" y="270" />
+        <di:waypoint x="409" y="270" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="363" y="253" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0dptpsh" bpmnElement="Flow_1nqy3wx">
+        <di:waypoint x="509" y="270" />
+        <di:waypoint x="554" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tc4a6m_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="329" y="295" />
+        <di:waypoint x="329" y="360" />
+        <di:waypoint x="579" y="360" />
+        <di:waypoint x="579" y="295" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="338" y="308" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gnhtsj_di" bpmnElement="Flow_0gnhtsj">
+        <di:waypoint x="604" y="270" />
+        <di:waypoint x="662" y="270" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

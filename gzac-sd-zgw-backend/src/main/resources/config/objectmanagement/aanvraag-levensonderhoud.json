@@ -1,0 +1,11 @@
+{
+    "id": "13da9340-27f6-4e86-8131-c6981132f939",
+    "title": "Verzoek ALO",
+    "objecttypenApiPluginConfigurationId": "bc109d5e-0388-4637-bcfa-b454f402bef8",
+    "objecttypeId": "4414823a-1b58-48f6-8cd1-c63f0fff8720",
+    "objecttypeVersion": "${AUTODEPLOYMENT_OBJECTMANAGEMENT_VERZOEK_ALO_OBJECTTYPE_VERSION}",
+    "objectenApiPluginConfigurationId": "a1a5e464-92db-41fc-9ab9-da663dd18471",
+    "showInDataMenu": false,
+    "formDefinitionView": "",
+    "formDefinitionEdit": ""
+}

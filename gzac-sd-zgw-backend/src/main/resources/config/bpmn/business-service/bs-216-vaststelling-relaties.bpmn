@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0vbmivt" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_0chfsgr">
+    <bpmn:participant id="BS216VaststellingRelatiesParticipant" name="BS 216 vaststelling relaties" processRef="bs-216-vaststelling-relaties" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-216-vaststelling-relaties" name="BS 216 Vaststelling Relaties" isExecutable="true" camunda:historyTimeToLive="10">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0uqv1ea</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_13617y3" sourceRef="VaststellenRelatiesTask" targetRef="Event_09ho9fa" />
+    <bpmn:userTask id="VaststellenRelatiesTask" name="Vaststellen Relaties" camunda:asyncAfter="true" camunda:formKey="" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="30">
+      <bpmn:incoming>Flow_0uqv1ea</bpmn:incoming>
+      <bpmn:outgoing>Flow_13617y3</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_09ho9fa">
+      <bpmn:incoming>Flow_13617y3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0uqv1ea" sourceRef="StartEvent_1" targetRef="VaststellenRelatiesTask" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0chfsgr">
+      <bpmndi:BPMNShape id="Participant_1qul5nj_di" bpmnElement="BS216VaststellingRelatiesParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="580" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="262" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0a8hzon" bpmnElement="VaststellenRelatiesTask">
+        <dc:Bounds x="400" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_09ho9fa_di" bpmnElement="Event_09ho9fa">
+        <dc:Bounds x="602" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_13617y3_di" bpmnElement="Flow_13617y3">
+        <di:waypoint x="500" y="190" />
+        <di:waypoint x="602" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uqv1ea_di" bpmnElement="Flow_0uqv1ea">
+        <di:waypoint x="298" y="190" />
+        <di:waypoint x="400" y="190" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

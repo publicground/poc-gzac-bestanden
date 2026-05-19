@@ -1,0 +1,134 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "index": 1,
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "999991322",
+      "data": {
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Herengracht",
+              "postcode": "2511 EG",
+              "huisletter": "",
+              "huisnummer": "1",
+              "toevoeging": ""
+            },
+            "grPersoongegevens": {
+              "Bsn": "999991322",
+              "voornaam": "Celeste",
+              "achternaam": "Avion",
+              "voorletters": "C.",
+              "voorvoegsels": "",
+              "geboortedatum": "1960-12-29"
+            }
+          }
+        },
+        "alo-uitbetaling": {
+          "ibanAanWie": "JA",
+          "grUitbetalenAnder": {
+            "ibanNaamAnder": "Simon Teler",
+            "ibanAdresAnder": "Onderdebrug 12 \n1233 fr Breeeeda",
+            "ibanUitbetalingAnder": "NL24BOFS0254599257",
+            "ibanUitbetalingWaaromAnder": "Omdat passiviteit zo zacht is als boter"
+          }
+        },
+        "alo-uw-inkomsten": {
+          "heeftInkomsten": "GEEN_INKOMSTEN"
+        },
+        "alo-reden-aanvraag": {
+          "grIngangsdatum": {
+            "bijstandsuitkeringEerderStarten": "NEE"
+          },
+          "grZelfstandige": {
+            "wanneerGestopt": "2025-07-01",
+            "uitgeschrevenKvk": "JA",
+            "waaromBedrijfWeg": "SLUITING_OPGELEGD_GEMEENTE",
+            "redenZelfstandige": "EIGEN_BEDRIJF_GESTOPT"
+          },
+          "waaromBijstandsuitkering": "EX_ZELFSTANDIGE"
+        },
+        "alo-ioaw": {
+          "grIoaw": {
+            "geenRechtMeerWw": "NEE",
+            "geenRechtMeerWga": "NEE",
+            "gedeeltelijkArbeidsongeschikt": "NEE"
+          }
+        },
+        "alo-uw-woonsituatie": {
+          "grHuur": {
+            "hoeveelHuur": 700,
+            "huurcontract": "JA",
+            "wieVerhuurder": "Gert Samson",
+            "contractOpUwNaam": "JA",
+            "hoeveelHuurtoeslag": 200
+          },
+          "hoeWoontU": "ZELFSTANDIGE_HUURWONING",
+          "grAndereBewoners": {
+            "meerMensenOpAdres": "NEE"
+          }
+        },
+        "alo-uw-beschikbaarheid": {
+          "grBeschikbaarheid": {
+            "onbetaald": "NEE",
+            "beschikbaarheid": 8
+          }
+        },
+        "alo-gezinssamenstelling": {
+          "partnerWoontBijU": "NEE",
+          "thuiswonendeKinderen": "NEE"
+        },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": true,
+          "grWoonsituatie": {
+            "woonsituatie": "WAAR_IK_WOON"
+          },
+          "grNationaliteit": {
+            "nationaliteitBezit": "NEDERLANDSE_NATIONALITEIT"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "NEE"
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": false,
+            "emailAdres": "jouw.naam@ritense.com",
+            "geenTelefoon": true
+          }
+        },
+        "alo-bezittingen-en-schulden": {
+          "grRekeningen": {
+            "geenBankrekening": "GEEN_REKENING"
+          },
+          "grUwVermogen": {
+            "welkVermogen": {
+              "CRYPTO": false,
+              "CARAVAN": false,
+              "VAARTUIG": false,
+              "CONTANTEN": false,
+              "KOOPWONING": false,
+              "MOTORVOERTUIG": false,
+              "EEN_STUK_GROND": false,
+              "OBLIGATIES_AANDELEN": false
+            }
+          }
+        },
+        "schulden": {
+          "heeftSchulden": "NEE"
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "language_code": "nl",
+      "submission_id": "47f9cd69-d5c7-4958-9d0b-c9c633af5700",
+      "public_reference": "OF-{{$random.alphanumeric(8)}}"
+    },
+    "startAt": "2025-07-08",
+    "registrationAt": "2025-07-08"
+  }
+}

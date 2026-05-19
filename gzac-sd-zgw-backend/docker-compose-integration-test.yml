@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+    sd-zgw-test-db:
+        image: mysql:8.0-oracle
+        command:
+            --information-schema-stats-expiry=0
+            --innodb-flush-method=O_DIRECT
+            --lower-case-table-names=1
+            --sql-mode=NO_ENGINE_SUBSTITUTION
+        ports:
+            - "3306:3306"
+        cap_add:
+            - SYS_NICE #CAP_SYS_NICE
+        environment:
+            MYSQL_ROOT_PASSWORD: rootpassword
+            MYSQL_DATABASE: test-db
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password

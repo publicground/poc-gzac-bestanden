@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1qi4s28" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_0zs3iaa">
+    <bpmn:participant id="BSB214VaststellingVermogenParticipant" name="BSB 214 vaststelling vermogen" processRef="bsb-214-vaststelling-vermogen" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-214-vaststelling-vermogen" name="BSB 214 vaststelling vermogen" isExecutable="true">
+    <bpmn:startEvent id="StartVaststellingVermogenStartEvent" name="Start vaststelling vermogen" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_0qdeonr</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_11plodr" sourceRef="OphalenInputTask" targetRef="Bs214VaststellenVermogenCallActivity" />
+    <bpmn:sequenceFlow id="Flow_1bgcxac" sourceRef="Bs214VaststellenVermogenCallActivity" targetRef="WegschrijvenOutputVermogenGroepenTask" />
+    <bpmn:sequenceFlow id="Flow_0qdeonr" sourceRef="StartVaststellingVermogenStartEvent" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_1qr31nu" sourceRef="WegschrijvenOutputVermogenGroepenTask" targetRef="WegschrijvenOutputBerekendVermogenTask" />
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}" camunda:resultVariable="OphalenInputTask">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="vermogen">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/vermogen")}</camunda:inputParameter>
+          <camunda:inputParameter name="vastgesteldeVermogen">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/vermogen/vermogenGroepen")}</camunda:inputParameter>
+          <camunda:inputParameter name="isVermogenVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs214vermogen/vermogenVastgesteld")}</camunda:inputParameter>
+          <camunda:outputParameter name="aanvraagBankrekeningen">
+            <camunda:script scriptFormat="javascript">var ArrayList = Java.type("java.util.ArrayList");
+var HashMap = Java.type("java.util.HashMap");
+
+var vermogen = execution.getVariable("vermogen") || {};
+var bankrekeningen = vermogen.bankrekeningen || [];
+
+var result = new ArrayList();
+
+  for (var i = 0; i &lt; bankrekeningen.length; i++) {
+    var bankRekening = bankrekeningen[i] || {};
+
+    var iban = null;
+    if (bankRekening.ibanNederland !== null &amp;&amp; bankRekening.ibanNederland !== undefined) {
+      iban = bankRekening.ibanNederland;
+    } else if (bankRekening.ibanBuitenland !== null &amp;&amp; bankRekening.ibanBuitenland !== undefined) {
+      iban = bankRekening.ibanBuitenland;
+    }
+
+    if (bankRekening.saldoRekening === null || bankRekening.saldoRekening === undefined) {
+      continue;
+    }
+
+    var row = new HashMap();
+
+    if (iban !== null) {
+      row.put("iban", iban);
+    }
+
+    row.put("waarde", bankRekening.saldoRekening);
+
+    if (bankRekening.saldoDatum !== null &amp;&amp; bankRekening.saldoDatum !== undefined) {
+      row.put("datumVaststelling", bankRekening.saldoDatum);
+    }
+
+    result.add(row);
+  }
+
+result</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="aanvraagBezittingen">
+            <camunda:script scriptFormat="javascript">var ArrayList = Java.type("java.util.ArrayList");
+var HashMap = Java.type("java.util.HashMap");
+
+var v = execution.getVariable("vermogen") || {};
+
+var soort = {
+  contanten: { code: "2", name: "Contanten" },
+  onroerend: { code: "4", name: "Overig onroerend goed" },
+  motor: { code: "6", name: "Motorvoertuigen" },
+  caravan: { code: "7", name: "Caravans" },
+  belegging: { code: "16", name: "Beleggingsproduct (Aandeel, Lease, Effect, Obligatie, e.d.)" },
+  crypto: { code: "19", name: "Digitale valuta (cryptomunten)" },
+  overig: { code: "9", name: "Overige bezittingen" }
+};
+
+var result = new ArrayList();
+
+function add(soortObj, waarde, omschrijving, identificatie) {
+  if (waarde === null || waarde === undefined || waarde === "") return;
+
+  var row = new HashMap();
+
+  // Keep soortVermogenscomponent but as a Java map (not JS object)
+  var soortMap = new HashMap();
+  soortMap.put("code", soortObj.code);
+  soortMap.put("name", soortObj.name);
+
+  row.put("soortVermogenscomponent", soortMap);
+  row.put("waarde", waarde);
+
+  if (omschrijving) row.put("omschrijving", omschrijving);
+  if (identificatie) row.put("kenteken", identificatie);
+
+  result.add(row);
+}
+
+// contantGeld
+if (v.contantGeld !== null &amp;&amp; v.contantGeld !== undefined) {
+  add(soort.contanten, v.contantGeld, "Contanten", null);
+}
+
+// grond[]
+var grond = v.grond || [];
+for (var i = 0; i &lt; grond.length; i++) {
+  var g = grond[i] || {};
+  add(soort.onroerend, g.waarde, "Grond", null);
+}
+
+// motorVoertuigen[]
+var motoren = v.motorVoertuigen || [];
+for (var j = 0; j &lt; motoren.length; j++) {
+  var m = motoren[j] || {};
+  add(soort.motor, m.dagwaarde, "Motorvoertuig", m.kenteken || "");
+}
+
+// caravans[]
+var caravans = v.caravans || [];
+for (var k = 0; k &lt; caravans.length; k++) {
+  var c = caravans[k] || {};
+  add(soort.caravan, c.dagwaarde, "Caravan", null);
+}
+
+// vaartuigen[]
+var vaartuigen = v.vaartuigen || [];
+for (var l = 0; l &lt; vaartuigen.length; l++) {
+  var b = vaartuigen[l] || {};
+  add(soort.overig, b.waarde, "Vaartuig", null);
+}
+
+// cryptoCurrencies[]
+var crypto = v.cryptoCurrencies || [];
+for (var n = 0; n &lt; crypto.length; n++) {
+  var cc = crypto[n] || {};
+  add(soort.crypto, cc.waarde, "Crypto", null);
+}
+
+// beleggingsproducten[]
+var beleggingen = v.beleggingsproducten || [];
+for (var p = 0; p &lt; beleggingen.length; p++) {
+  var bp = beleggingen[p] || {};
+  add(soort.belegging, bp.waarde, "Beleggingsproduct", null);
+}
+
+result</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="aanvraagSchulden">
+            <camunda:script scriptFormat="javascript">var ArrayList = Java.type("java.util.ArrayList");
+var HashMap = Java.type("java.util.HashMap");
+
+var vermogen = execution.getVariable("vermogen") || {};
+var schulden = vermogen.schulden || [];
+
+var result = new ArrayList();
+
+for (var i = 0; i &lt; schulden.length; i++) {
+  var s = schulden[i] || {};
+
+  // skip empty values
+  if (s.hoogteSchuld === null || s.hoogteSchuld === undefined || s.hoogteSchuld === "") {
+    continue;
+  }
+
+  var row = new HashMap();
+
+  // soortVermogenscomponent as Java Map
+  var soortMap = new HashMap();
+  soortMap.put("code", "12");
+  soortMap.put("name", "Schulden uitgezonderd studieschuld");
+
+  row.put("soortVermogenscomponent", soortMap);
+  row.put("waarde", s.hoogteSchuld);
+
+  if (s.schuldEiser !== null &amp;&amp; s.schuldEiser !== undefined &amp;&amp; s.schuldEiser !== "") {
+    row.put("omschrijving", s.schuldEiser);
+  }
+
+  result.add(row);
+}
+
+// last expression = outputParameter value
+result</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="aanvraagEigenWoning">
+            <camunda:script scriptFormat="javascript">var ArrayList = Java.type("java.util.ArrayList");
+var HashMap = Java.type("java.util.HashMap");
+
+var v = execution.getVariable("vermogen") || {};
+var koopwoningen = v.koopwoningen || [];
+
+var soort = {
+  eigenWoning: { code: "1", name: "Eigen woning (huis/woonschip/woonwagen in eigendom)" },
+  gekoppeldProduct: { code: "15", name: "Levensverzekering/belegging gekoppeld aan hypotheek" },
+  hypotheek: { code: "17", name: "Hypotheek eigen woning" }
+};
+
+var result = new ArrayList();
+
+function add(soortObj, waarde, omschrijving, identificatie) {
+  if (waarde === null || waarde === undefined || waarde === "") return;
+
+  var row = new HashMap();
+
+  var soortMap = new HashMap();
+  soortMap.put("code", soortObj.code);
+  soortMap.put("name", soortObj.name);
+
+  row.put("soortVermogenscomponent", soortMap);
+  row.put("waarde", waarde);
+
+  if (omschrijving !== null &amp;&amp; omschrijving !== undefined &amp;&amp; omschrijving !== "") {
+    row.put("omschrijving", omschrijving);
+  }
+  if (identificatie !== null &amp;&amp; identificatie !== undefined &amp;&amp; identificatie !== "") {
+    row.put("identificatie", identificatie);
+  }
+
+  result.add(row);
+}
+
+for (var i = 0; i &lt; koopwoningen.length; i++) {
+  var koopwoning = koopwoningen[i] || {};
+
+  // Eigen woning (WOZ)
+  add(soort.eigenWoning, koopwoning.woz, "Koopwoning (WOZ)", null);
+
+  // Hypotheek eigen woning
+  add(soort.hypotheek, koopwoning.hypotheekWaarde, "Hypotheek", null);
+}
+
+result</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldeVermogen">${vastgesteldeVermogen}</camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldeBankrekeningen">
+            <camunda:script scriptFormat="javascript">var ArrayList = Java.type("java.util.ArrayList");
+var HashMap = Java.type("java.util.HashMap");
+
+var isVermogenVastgesteld = execution.getVariable("isVermogenVastgesteld");
+var vastgesteldeVermogen = execution.getVariable("vastgesteldeVermogen") || [];
+
+var result = new ArrayList();
+
+if (isVermogenVastgesteld) {
+  var collected = [];
+
+  if (typeof java !== 'undefined' &amp;&amp; vastgesteldeVermogen instanceof java.util.List) {
+    for (var vi = 0; vi &lt; vastgesteldeVermogen.size(); vi++) {
+      var item = vastgesteldeVermogen.get(vi) || {};
+      var commentaar = item.commentaar !== undefined ? item.commentaar : (typeof item.get === 'function' ? item.get('commentaar') : null);
+      if (commentaar === 'Bankrekeningen') {
+        var comps = item.componenten !== undefined ? item.componenten : (typeof item.get === 'function' ? item.get('componenten') : []);
+        if (typeof java !== 'undefined' &amp;&amp; comps instanceof java.util.List) {
+          for (var ci = 0; ci &lt; comps.size(); ci++) {
+            collected.push(comps.get(ci));
+          }
+        }
+      }
+    }
+  }
+
+  for (var e = 0; e &lt; collected.length; e++) {
+    result.add(collected[e]);
+  }
+
+}
+
+result</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldeBezittingen">
+            <camunda:script scriptFormat="javascript">var ArrayList = Java.type("java.util.ArrayList");
+var HashMap = Java.type("java.util.HashMap");
+
+var isVermogenVastgesteld = execution.getVariable("isVermogenVastgesteld");
+var vastgesteldeVermogen = execution.getVariable("vastgesteldeVermogen") || [];
+
+var result = new ArrayList();
+
+if (isVermogenVastgesteld) {
+  var collected = [];
+
+  if (typeof java !== 'undefined' &amp;&amp; vastgesteldeVermogen instanceof java.util.List) {
+    for (var vi = 0; vi &lt; vastgesteldeVermogen.size(); vi++) {
+      var item = vastgesteldeVermogen.get(vi) || {};
+      var commentaar = item.commentaar !== undefined ? item.commentaar : (typeof item.get === 'function' ? item.get('commentaar') : null);
+      if (commentaar === 'Bezittingen met vrijlatingen' || commentaar === 'Overige bezittingen') {
+        var comps = item.componenten !== undefined ? item.componenten : (typeof item.get === 'function' ? item.get('componenten') : []);
+        if (typeof java !== 'undefined' &amp;&amp; comps instanceof java.util.List) {
+          for (var ci = 0; ci &lt; comps.size(); ci++) {
+            collected.push(comps.get(ci));
+          }
+        }
+      }
+    }
+  }
+
+  for (var e = 0; e &lt; collected.length; e++) {
+    result.add(collected[e]);
+  }
+
+}
+
+result</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldeSchuld">
+            <camunda:script scriptFormat="javascript">var ArrayList = Java.type("java.util.ArrayList");
+var HashMap = Java.type("java.util.HashMap");
+
+var isVermogenVastgesteld = execution.getVariable("isVermogenVastgesteld");
+var vastgesteldeVermogen = execution.getVariable("vastgesteldeVermogen") || [];
+
+var result = new ArrayList();
+
+if (isVermogenVastgesteld) {
+  var collected = [];
+
+  if (typeof java !== 'undefined' &amp;&amp; vastgesteldeVermogen instanceof java.util.List) {
+    for (var vi = 0; vi &lt; vastgesteldeVermogen.size(); vi++) {
+      var item = vastgesteldeVermogen.get(vi) || {};
+      var commentaar = item.commentaar !== undefined ? item.commentaar : (typeof item.get === 'function' ? item.get('commentaar') : null);
+      if (commentaar === 'Schulden') {
+        var comps = item.componenten !== undefined ? item.componenten : (typeof item.get === 'function' ? item.get('componenten') : []);
+        if (typeof java !== 'undefined' &amp;&amp; comps instanceof java.util.List) {
+          for (var ci = 0; ci &lt; comps.size(); ci++) {
+            collected.push(comps.get(ci));
+          }
+        }
+      }
+    }
+  }
+
+  for (var e = 0; e &lt; collected.length; e++) {
+    result.add(collected[e]);
+  }
+
+}
+
+result</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldeEigenWoning">
+            <camunda:script scriptFormat="javascript">var ArrayList = Java.type("java.util.ArrayList");
+var HashMap = Java.type("java.util.HashMap");
+
+var isVermogenVastgesteld = execution.getVariable("isVermogenVastgesteld");
+var vastgesteldeVermogen = execution.getVariable("vastgesteldeVermogen") || [];
+
+var result = new ArrayList();
+
+if (isVermogenVastgesteld) {
+  var collected = [];
+
+  if (typeof java !== 'undefined' &amp;&amp; vastgesteldeVermogen instanceof java.util.List) {
+    for (var vi = 0; vi &lt; vastgesteldeVermogen.size(); vi++) {
+      var item = vastgesteldeVermogen.get(vi) || {};
+      var commentaar = item.commentaar !== undefined ? item.commentaar : (typeof item.get === 'function' ? item.get('commentaar') : null);
+      if (commentaar === 'Eigen woning') {
+        var comps = item.componenten !== undefined ? item.componenten : (typeof item.get === 'function' ? item.get('componenten') : []);
+        if (typeof java !== 'undefined' &amp;&amp; comps instanceof java.util.List) {
+          for (var ci = 0; ci &lt; comps.size(); ci++) {
+            collected.push(comps.get(ci));
+          }
+        }
+      }
+    }
+  }
+
+  for (var e = 0; e &lt; collected.length; e++) {
+    result.add(collected[e]);
+  }
+
+}
+
+result</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="bankrekeningen">${isVermogenVastgesteld ? vastgesteldeBankrekeningen : aanvraagBankrekeningen}</camunda:outputParameter>
+          <camunda:outputParameter name="bezittingen">${isVermogenVastgesteld ? vastgesteldeBezittingen : aanvraagBezittingen}</camunda:outputParameter>
+          <camunda:outputParameter name="schulden">${isVermogenVastgesteld ? vastgesteldeSchuld : aanvraagSchulden}</camunda:outputParameter>
+          <camunda:outputParameter name="eigenWoning">${isVermogenVastgesteld ? vastgesteldeEigenWoning : aanvraagEigenWoning}</camunda:outputParameter>
+          <camunda:outputParameter name="bankrekeningenToelichting">
+            <camunda:script scriptFormat="javascript">var vastgesteldeVermogen = execution.getVariable("vastgesteldeVermogen");
+var toelichting = null;
+
+function getField(obj, name) {
+  if (obj == null) return null;
+  if (obj[name] !== undefined) return obj[name];
+  if (typeof obj.get === 'function') return obj.get(name);
+  return null;
+}
+
+if (typeof java !== 'undefined' &amp;&amp; vastgesteldeVermogen instanceof java.util.List) {
+  for (var i = 0; i &lt; vastgesteldeVermogen.size(); i++) {
+    var item = vastgesteldeVermogen.get(i);
+    if (getField(item, 'commentaar') === 'Bankrekeningen') {
+      toelichting = getField(item, 'toelichting');
+      break;
+    }
+  }
+}
+toelichting;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="bezittingenToelichting">
+            <camunda:script scriptFormat="javascript">var vastgesteldeVermogen = execution.getVariable("vastgesteldeVermogen");
+var toelichting = null;
+
+function getField(obj, name) {
+  if (!obj) return null;
+  if (typeof obj.get === 'function') {
+    var v = obj.get(name);
+    return v == null ? null : v;
+  }
+  return obj[name] == null ? null : obj[name];
+}
+
+if (vastgesteldeVermogen &amp;&amp; typeof vastgesteldeVermogen.size === 'function') {
+  for (var i = 0; i &lt; vastgesteldeVermogen.size(); i++) {
+    var item = vastgesteldeVermogen.get(i);
+    var comment = String(getField(item, 'commentaar') || '');
+    var t = getField(item, 'toelichting');
+
+    if (comment === 'Bezittingen met vrijlatingen' || comment === 'Overige bezittingen') {
+      toelichting = t;
+      break;
+    }
+  }
+}
+
+toelichting;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="schuldenToelichting">
+            <camunda:script scriptFormat="javascript">var vastgesteldeVermogen = execution.getVariable("vastgesteldeVermogen");
+var toelichting = null;
+
+function getField(obj, name) {
+  if (obj == null) return null;
+  if (obj[name] !== undefined) return obj[name];
+  if (typeof obj.get === 'function') return obj.get(name);
+  return null;
+}
+
+if (typeof java !== 'undefined' &amp;&amp; vastgesteldeVermogen instanceof java.util.List) {
+  for (var i = 0; i &lt; vastgesteldeVermogen.size(); i++) {
+    var item = vastgesteldeVermogen.get(i);
+    if (getField(item, 'commentaar') === 'Schulden') {
+      toelichting = getField(item, 'toelichting');
+      break;
+    }
+  }
+}
+toelichting;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="eigenWoningToelichting">
+            <camunda:script scriptFormat="javascript">var vastgesteldeVermogen = execution.getVariable("vastgesteldeVermogen");
+var toelichting = null;
+
+function getField(obj, name) {
+  if (obj == null) return null;
+  if (obj[name] !== undefined) return obj[name];
+  if (typeof obj.get === 'function') return obj.get(name);
+  return null;
+}
+
+if (typeof java !== 'undefined' &amp;&amp; vastgesteldeVermogen instanceof java.util.List) {
+  for (var i = 0; i &lt; vastgesteldeVermogen.size(); i++) {
+    var item = vastgesteldeVermogen.get(i);
+    if (getField(item, 'commentaar') === 'Eigen woning') {
+      toelichting = getField(item, 'toelichting');
+      break;
+    }
+  }
+}
+toelichting;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="voorheenVastgesteldVermogen">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/vermogen/berekendVermogen")}</camunda:outputParameter>
+          <camunda:outputParameter name="inAanmerkingTeNemenVermogenToelichting">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/vermogen/inAanmerkingTeNemenVermogenToelichting")}</camunda:outputParameter>
+          <camunda:outputParameter name="vermogenAangepast">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/vermogen/vermogenAangepast")}</camunda:outputParameter>
+          <camunda:outputParameter name="bankrekeningenVaststellen">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs214vermogen/handmatigeVaststellingBankrekeningen")}</camunda:outputParameter>
+          <camunda:outputParameter name="bezittingenVaststellen">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs214vermogen/handmatigeVaststellingBezittingen")}</camunda:outputParameter>
+          <camunda:outputParameter name="schuldenVaststellen">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs214vermogen/handmatigeVaststellingSchulden")}</camunda:outputParameter>
+          <camunda:outputParameter name="eigenWoningVaststellen">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs214vermogen/handmatigeVaststellingEigenWoning")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0qdeonr</bpmn:incoming>
+      <bpmn:outgoing>Flow_11plodr</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="Bs214VaststellenVermogenCallActivity" name="bs 214 vaststellen vermogen" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-214-vaststelling-vermogen">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="bezittingen" target="bezittingen" />
+        <camunda:in source="eigenWoning" target="eigenWoning" />
+        <camunda:in source="schulden" target="schulden" />
+        <camunda:in source="bankrekeningen" target="bankrekeningen" />
+        <camunda:in source="vastgesteldeVermogen" target="vastgesteldeVermogen" />
+        <camunda:in source="voorheenVastgesteldVermogen" target="voorheenVastgesteldVermogen" />
+        <camunda:in source="vermogenAangepast" target="vermogenAangepast" />
+        <camunda:in source="bankrekeningenToelichting" target="bankrekeningenToelichting" />
+        <camunda:in source="bezittingenToelichting" target="bezittingenToelichting" />
+        <camunda:in source="eigenWoningToelichting" target="eigenWoningToelichting" />
+        <camunda:in source="schuldenToelichting" target="schuldenToelichting" />
+        <camunda:in source="inAanmerkingTeNemenVermogenToelichting" target="inAanmerkingTeNemenVermogenToelichting" />
+        <camunda:in source="aanvraagBezittingen" target="aanvraagBezittingen" />
+        <camunda:in source="aanvraagBankrekeningen" target="aanvraagBankrekeningen" />
+        <camunda:in source="aanvraagSchulden" target="aanvraagSchulden" />
+        <camunda:in source="aanvraagEigenWoning" target="aanvraagEigenWoning" />
+        <camunda:in source="vastgesteldeBankrekeningen" target="vastgesteldeBankrekeningen" />
+        <camunda:in source="bankrekeningenVaststellen" target="bankrekeningenVaststellen" />
+        <camunda:in source="bezittingenVaststellen" target="bezittingenVaststellen" />
+        <camunda:in source="schuldenVaststellen" target="schuldenVaststellen" />
+        <camunda:in source="eigenWoningVaststellen" target="eigenWoningVaststellen" />
+        <camunda:out source="inAanmerkingTeNemenVermogen" target="inAanmerkingTeNemenVermogen" />
+        <camunda:out source="berekendVermogen" target="berekendVermogen" />
+        <camunda:out source="aangepastVermogen" target="aangepastVermogen" />
+        <camunda:out source="aanpassenVermogen" target="vermogenAangepast" />
+        <camunda:out source="inAanmerkingTeNemenVermogenToelichting" target="inAanmerkingTeNemenVermogenToelichting" />
+        <camunda:out source="bankrekeningenVaststellen" target="bankrekeningenVaststellen" />
+        <camunda:out source="bezittingenVaststellen" target="bezittingenVaststellen" />
+        <camunda:out source="schuldenVaststellen" target="schuldenVaststellen" />
+        <camunda:out source="eigenWoningVaststellen" target="eigenWoningVaststellen" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_11plodr</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bgcxac</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="WegschrijvenOutputVermogenGroepenTask" name="wegschrijven output &#39;vermogenGroepen&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/vermogen/vermogenGroepen&#34;, inAanmerkingTeNemenVermogen)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bgcxac</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qr31nu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_02lnbf1" sourceRef="WegschrijvenOutputAdditioneleVeldenTask" targetRef="VermogenVastgesteldEndEvent" />
+    <bpmn:sequenceFlow id="Flow_0a9z0xo" sourceRef="WegschrijvenOutputBerekendVermogenTask" targetRef="WegschrijvenOutputVermogenToelichtingTask" />
+    <bpmn:sequenceFlow id="Flow_0v14t0m" sourceRef="WegschrijvenOutputVermogenToelichtingTask" targetRef="WegschrijvenOutputVermogenAangepastTask" />
+    <bpmn:sequenceFlow id="Flow_1cmof0j" sourceRef="WegschrijvenOutputVermogenAangepastTask" targetRef="WegschrijvenOutputAdditioneleVeldenTask" />
+    <bpmn:serviceTask id="WegschrijvenOutputBerekendVermogenTask" name="wegschrijven output &#39;berekendVermogen&#39;" camunda:asyncBefore="true" camunda:expression="${vermogenAangepast ? valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/vermogen/berekendVermogen&#34;, aangepastVermogen) : valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/vermogen/berekendVermogen&#34;, berekendVermogen)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1qr31nu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0a9z0xo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WegschrijvenOutputVermogenToelichtingTask" name="wegschrijven output &#39;vermogenToelichting&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/vermogen/inAanmerkingTeNemenVermogenToelichting&#34;, inAanmerkingTeNemenVermogenToelichting)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0a9z0xo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0v14t0m</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WegschrijvenOutputVermogenAangepastTask" name="wegschrijven output &#39;vermogenAangepast&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/vermogen/vermogenAangepast&#34;, vermogenAangepast)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0v14t0m</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cmof0j</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="VermogenVastgesteldEndEvent" name="Vermogen vastgesteld">
+      <bpmn:incoming>Flow_02lnbf1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="WegschrijvenOutputAdditioneleVeldenTask" name="wegschrijven output &#39;additioneleVelden&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs214vermogen&#34;, additioneleVelden)}" camunda:resultVariable="">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="additioneleVelden">
+            <camunda:map>
+              <camunda:entry key="datumVastgesteld">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="isHandmatigBeoordeeld">${true}</camunda:entry>
+              <camunda:entry key="toelichting">${execution.getVariable("toelichting")}</camunda:entry>
+              <camunda:entry key="vermogenVastgesteld">${true}</camunda:entry>
+              <camunda:entry key="handmatigeVaststellingBankrekeningen">${bankrekeningenVaststellen}</camunda:entry>
+              <camunda:entry key="handmatigeVaststellingBezittingen">${bezittingenVaststellen}</camunda:entry>
+              <camunda:entry key="handmatigeVaststellingSchulden">${schuldenVaststellen}</camunda:entry>
+              <camunda:entry key="handmatigeVaststellingEigenWoning">${eigenWoningVaststellen}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1cmof0j</bpmn:incoming>
+      <bpmn:outgoing>Flow_02lnbf1</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0zs3iaa">
+      <bpmndi:BPMNShape id="Participant_18gpi8p_di" bpmnElement="BSB214VaststellingVermogenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="55" width="1460" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartVaststellingVermogenStartEvent">
+        <dc:Bounds x="232" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="210" y="205" width="81" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0l4ysuu" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="340" y="140" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0ako40o" bpmnElement="Bs214VaststellenVermogenCallActivity">
+        <dc:Bounds x="520" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0q4tctc" bpmnElement="WegschrijvenOutputVermogenGroepenTask">
+        <dc:Bounds x="690" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1945m8l" bpmnElement="WegschrijvenOutputBerekendVermogenTask">
+        <dc:Bounds x="850" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1kfohnl" bpmnElement="WegschrijvenOutputVermogenToelichtingTask">
+        <dc:Bounds x="1020" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0ou2pcj" bpmnElement="WegschrijvenOutputVermogenAangepastTask">
+        <dc:Bounds x="1180" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00p8ikz_di" bpmnElement="VermogenVastgesteldEndEvent">
+        <dc:Bounds x="1522" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1513" y="205" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0oyjt14" bpmnElement="WegschrijvenOutputAdditioneleVeldenTask">
+        <dc:Bounds x="1350" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_0vlow4x" bpmnElement="Flow_11plodr">
+        <di:waypoint x="440" y="180" />
+        <di:waypoint x="520" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_077t4wi" bpmnElement="Flow_1bgcxac">
+        <di:waypoint x="620" y="180" />
+        <di:waypoint x="690" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qdeonr_di" bpmnElement="Flow_0qdeonr">
+        <di:waypoint x="268" y="180" />
+        <di:waypoint x="340" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qr31nu_di" bpmnElement="Flow_1qr31nu">
+        <di:waypoint x="790" y="180" />
+        <di:waypoint x="850" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02lnbf1_di" bpmnElement="Flow_02lnbf1">
+        <di:waypoint x="1450" y="180" />
+        <di:waypoint x="1522" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0a9z0xo_di" bpmnElement="Flow_0a9z0xo">
+        <di:waypoint x="950" y="180" />
+        <di:waypoint x="1020" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v14t0m_di" bpmnElement="Flow_0v14t0m">
+        <di:waypoint x="1120" y="180" />
+        <di:waypoint x="1180" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cmof0j_di" bpmnElement="Flow_1cmof0j">
+        <di:waypoint x="1280" y="180" />
+        <di:waypoint x="1350" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

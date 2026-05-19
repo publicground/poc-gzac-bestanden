@@ -1,0 +1,175 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "HTML",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<div><h4 style='margin-top: 20px; margin-bottom: 10px;'>Wijzigen contactgegevens aanvrager</h4></div><br>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "aanvrager",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "pv.aanvrager",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "label": "contactgegevens",
+                    "tableView": false,
+                    "validateWhenHidden": false,
+                    "key": "contactgegevens",
+                    "type": "container",
+                    "input": true,
+                    "components": [
+                        {
+                            "label": "Telefoonnummer",
+                            "inputMask": "9999999999",
+                            "applyMaskOn": "change",
+                            "tableView": true,
+                            "validateWhenHidden": false,
+                            "key": "telefoon",
+                            "type": "phoneNumber",
+                            "input": true
+                        },
+                        {
+                            "label": "E-mailadres",
+                            "applyMaskOn": "change",
+                            "tableView": true,
+                            "validate": {
+                                "customMessage": "Dit lijkt geen geldig e-mailadres."
+                            },
+                            "validateWhenHidden": false,
+                            "key": "email",
+                            "type": "email",
+                            "input": true
+                        },
+                        {
+                            "label": "Aanvrager wil diens post liever ook in de brievenbus ontvangen. ",
+                            "tableView": false,
+                            "defaultValue": false,
+                            "redrawOn": "pv.aanvrager.contactgegevens.email",
+                            "customDefaultValue": "data.pv.aanvrager.communicatievoorkeur === 'portaal' ? value = false : value = true",
+                            "calculateValue": "if (data.pv.aanvrager.contactgegevens.email == '') { value = true; }",
+                            "validateWhenHidden": false,
+                            "key": "lieverPost",
+                            "type": "checkbox",
+                            "input": true
+                        }
+                    ]
+                },
+                {
+                    "label": "communicatievoorkeur",
+                    "redrawOn": "pv.aanvrager.contactgegevens.email",
+                    "calculateValue": "data.pv.aanvrager.contactgegevens.lieverPost ? value = 'post' : value = 'portaal';",
+                    "key": "communicatievoorkeur",
+                    "type": "hidden",
+                    "input": true,
+                    "tableView": false
+                }
+            ]
+        },
+        {
+            "label": "HTML",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<h4 style='margin-top: 20px; margin-bottom: 10px;'>Wijzigen gegevens contactpersoon</h4><br>",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Container",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "pv.contactpersoon",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "label": "Naam",
+                    "applyMaskOn": "change",
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "naamContactpersoon",
+                    "type": "textfield",
+                    "input": true
+                },
+                {
+                    "label": "Telefoonnummer",
+                    "inputMask": "9999999999",
+                    "applyMaskOn": "change",
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "telefoon",
+                    "type": "phoneNumber",
+                    "input": true
+                },
+                {
+                    "label": "Relatie tot aanvrager",
+                    "widget": "choicesjs",
+                    "tableView": true,
+                    "data": {
+                        "values": [
+                            {
+                                "label": "Familie",
+                                "value": "FAMILIE"
+                            },
+                            {
+                                "label": "Buurman/Buurvrouw",
+                                "value": "BUURMAN_VROUW"
+                            },
+                            {
+                                "label": "Kennis",
+                                "value": "KENNIS"
+                            },
+                            {
+                                "label": "Hulpverlener",
+                                "value": "HULPVERLENER"
+                            },
+                            {
+                                "label": "Boekhouder",
+                                "value": "BOEKHOUDER"
+                            },
+                            {
+                                "label": "Medewerker van de gemeente",
+                                "value": "MEDEWERKER_VAN_DE_GEMEENTE"
+                            }
+                        ]
+                    },
+                    "validateWhenHidden": false,
+                    "key": "relatieTotAanvrager",
+                    "type": "select",
+                    "input": true
+                }
+            ]
+        },
+        {
+            "label": "Indienen",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "type": "button",
+            "custom": "form.submit(); delete data.pv.aanvrager.contactgegevens.lieverPost; component.disabled = true;",
+            "input": true
+        }
+    ]
+}

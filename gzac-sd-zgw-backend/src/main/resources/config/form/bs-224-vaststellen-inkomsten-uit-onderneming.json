@@ -1,0 +1,610 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "inkomstenVanuitBronnen",
+            "key": "pv.inkomstenVanuitBronnen",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "inkomstenVanuitAanvraag",
+            "key": "pv.inkomstenVanuitAanvraag",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "svbUitkeringenVanuitBronnen",
+            "key": "pv.svbUitkeringenVanuitBronnen",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "kinderAlimentatieVanuitAanvraag",
+            "key": "pv.kinderAlimentatieVanuitAanvraag",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "partnerAlimentatieVanuitAanvraag",
+            "key": "pv.partnerAlimentatieVanuitAanvraag",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "arbeid",
+            "key": "pv.arbeid",
+            "type": "hidden",
+            "defaultValue": {},
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "uitkeringen",
+            "key": "pv.uitkeringen",
+            "type": "hidden",
+            "defaultValue": {},
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "onderneming",
+            "key": "pv.onderneming",
+            "type": "hidden",
+            "defaultValue": {},
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "overigeInkomsten",
+            "key": "pv.overigeInkomsten",
+            "type": "hidden",
+            "defaultValue": {},
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "welkeInkomsten",
+            "key": "pv.welkeInkomsten",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "inkomenVastgesteld",
+            "key": "pv.inkomenVastgesteld",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "persoon",
+            "key": "pv.persoon",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "aanvraagDatum",
+            "key": "pv.aanvraagDatum",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "ondernemingVanuitAanvraag",
+            "customDefaultValue": "let ondernemingen = [];\nlet onderneming = {\n  nettoInkomsten: data.pv?.inkomstenVanuitAanvraag?.onderneming?.totaalBedrag ? data.pv?.inkomstenVanuitAanvraag?.onderneming?.totaalBedrag : 0\n};\n\nondernemingen.push(onderneming);\n\nvalue = ondernemingen;",
+            "key": "pv.ondernemingVanuitAanvraag",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Gegevens van de aanvraag",
+            "content": "<h2 class=\"mb-3\">Vaststellen inkomsten uit onderneming</h2>",
+            "refreshOnChange": false,
+            "key": "hdrTitel",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "AanvragerColumns",
+            "key": "aanvragerColumns",
+            "type": "columns",
+            "customClass": "adres-contact-form-columns",
+            "input": false,
+            "tableView": false,
+            "hideLabel": true,
+            "columns": [
+                {
+                    "width": 4,
+                    "size": "md",
+                    "currentWidth": 4,
+                    "components": [
+                        {
+                            "label": "Tabs",
+                            "key": "tabs",
+                            "type": "tabs",
+                            "input": false,
+                            "tableView": false,
+                            "components": [
+                                {
+                                    "label": "Aanvraag",
+                                    "key": "aanvraag",
+                                    "components": [
+                                        {
+                                            "label": "HTML",
+                                            "content": "<h6>Onderneming</h6>",
+                                            "refreshOnChange": false,
+                                            "key": "hdrAanvraag",
+                                            "type": "htmlelement",
+                                            "customConditional": "show = (data.pv.inkomstenVanuitAanvraag?.onderneming?.length > 0 && Object.keys(data.pv.inkomstenVanuitAanvraag?.onderneming[0]).length > 0)",
+                                            "input": false,
+                                            "customClass": "mb-3 style-title",
+                                            "tableView": false
+                                        },
+                                        {
+                                            "label": "Onderneming (aanvraag)",
+                                            "key": "pv.inkomstenVanuitAanvraag.onderneming",
+                                            "customConditional": "show = (data.pv.inkomstenVanuitAanvraag?.onderneming?.length > 0 && Object.keys(data.pv.inkomstenVanuitAanvraag?.onderneming[0]).length > 0)",
+                                            "type": "datagrid",
+                                            "input": true,
+                                            "tableView": false,
+                                            "hideLabel": true,
+                                            "disabled": true,
+                                            "reorder": false,
+                                            "initEmpty": false,
+                                            "validateWhenHidden": false,
+                                            "components": [
+                                                {
+                                                    "label": "HTML",
+                                                    "attrs": [
+                                                        {
+                                                            "attr": "",
+                                                            "value": ""
+                                                        }
+                                                    ],
+                                                    "content": "<div class=\"row\" style=\"margin:0;padding:8px;border:1px solid #e3e3e3;background-color:#f5f5f5;\">\n  <div class=\"md-6 mr-2\">\n    <div class=\"mb-1\">KvK nummer:</div>\n    <div class=\"mb-1\">Totaal bedrag:</div>\n  </div>\n  <div class=\"md-6\">\n    <div class=\"mb-1 font-weight-bolder\">{{{ row?.kvkNummer || '-' }}}</div>\n    <div class=\"mb-1 font-weight-bolder\">{{{ row?.totaalBedrag || '-' }}}</div>\n  </div>\n</div>",
+                                                    "refreshOnChange": false,
+                                                    "key": "aanvraagCompact",
+                                                    "type": "htmlelement",
+                                                    "input": false,
+                                                    "hideLabel": true,
+                                                    "tableView": false
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "label": "Bronnen",
+                                    "key": "bronnen",
+                                    "components": [
+                                        {
+                                            "label": "HTML",
+                                            "content": "<h6>Informatie vanuit bronnen</h6>",
+                                            "refreshOnChange": false,
+                                            "key": "hdrBronnen",
+                                            "type": "htmlelement",
+                                            "input": false,
+                                            "customClass": "mb-3 style-title",
+                                            "tableView": false
+                                        },
+                                        {
+                                            "label": "Geen broninformatie",
+                                            "key": "geenBronInfo",
+                                            "type": "htmlelement",
+                                            "input": false,
+                                            "tableView": false,
+                                            "content": "<div class=\"text-muted\">Voor deze stap wordt geen broninformatie getoond.</div>"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "width": 8,
+                    "size": "md",
+                    "currentWidth": 8,
+                    "components": [
+                        {
+                            "label": "Beoordeling (container)",
+                            "key": "beoordelingContainer",
+                            "type": "panel",
+                            "input": false,
+                            "hideLabel": true,
+                            "tableView": false,
+                            "components": [
+                                {
+                                    "label": "HTML",
+                                    "content": "<h5>Beoordeling door zaakbehandelaar</h5>",
+                                    "refreshOnChange": false,
+                                    "key": "hdrBeoordeling",
+                                    "type": "htmlelement",
+                                    "input": false,
+                                    "customClass": "mb-3 style-title",
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "Inkomstencomponenten (onderneming)",
+                                    "key": "pv.onderneming.inkomstenComponenten",
+                                    "type": "datagrid",
+                                    "input": true,
+                                    "tableView": false,
+                                    "hideLabel": true,
+                                    "reorder": false,
+                                    "addAnother": "+1 Toevoegen",
+                                    "addAnotherPosition": "bottom",
+                                    "removeRow": "Verwijderen",
+                                    "initEmpty": false,
+                                    "customClass": "inkomsten-data-grid",
+                                    "customDefaultValue": "value = (data.pv?.inkomenVastgesteld || data.pv.onderneming?.inkomstenComponenten?.length > 0) ? instance.component.defaultValue  : data.pv.ondernemingVanuitAanvraag;",
+                                    "validateWhenHidden": false,
+                                    "components": [
+                                        {
+                                            "label": "Columns",
+                                            "key": "columns",
+                                            "type": "columns",
+                                            "input": false,
+                                            "tableView": false,
+                                            "hideLabel": true,
+                                            "columns": [
+                                                {
+                                                    "width": 12,
+                                                    "size": "md",
+                                                    "currentWidth": 12,
+                                                    "components": [
+                                                        {
+                                                            "label": "Algemene gegevens",
+                                                            "content": "<h6 class=\"mb-2\">Algemene velden</h6>",
+                                                            "key": "hdrAlgemeen",
+                                                            "type": "htmlelement",
+                                                            "input": false,
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "Inkomstencomponent type",
+                                                            "labelPosition": "left-left",
+                                                            "widget": "choicesjs",
+                                                            "disabled": true,
+                                                            "tableView": false,
+                                                            "dataSrc": "json",
+                                                            "defaultValue": {
+                                                                "code": "9",
+                                                                "name": "Eigen bedrijf "
+                                                            },
+                                                            "data": {
+                                                                "json": [
+                                                                    {
+                                                                        "code": "9",
+                                                                        "name": "Eigen bedrijf "
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "template": "<span>{{ item.name }} ({{item.code}})</span>",
+                                                            "validate": {
+                                                                "required": true
+                                                            },
+                                                            "validateWhenHidden": false,
+                                                            "key": "primairInkomstencomponentType",
+                                                            "type": "select",
+                                                            "input": true
+                                                        },
+                                                        {
+                                                            "label": "Datum vaststelling",
+                                                            "format": "dd-MM-yyyy",
+                                                            "labelPosition": "left-left",
+                                                            "tableView": false,
+                                                            "key": "datumVaststelling",
+                                                            "defaultDate": "moment()",
+                                                            "type": "datetime",
+                                                            "input": true,
+                                                            "enableTime": false,
+                                                            "widget": {
+                                                                "type": "calendar",
+                                                                "displayInTimezone": "viewer",
+                                                                "locale": "en",
+                                                                "allowInput": true,
+                                                                "mode": "single",
+                                                                "enableTime": false,
+                                                                "noCalendar": false,
+                                                                "format": "dd-MM-yyyy"
+                                                            }
+                                                        },
+                                                        {
+                                                            "label": "Periode startdatum",
+                                                            "format": "dd-MM-yyyy",
+                                                            "labelPosition": "left-left",
+                                                            "tableView": false,
+                                                            "key": "periodeStartdatum",
+                                                            "type": "datetime",
+                                                            "input": true,
+                                                            "enableTime": false,
+                                                            "widget": {
+                                                                "type": "calendar",
+                                                                "displayInTimezone": "viewer",
+                                                                "locale": "en",
+                                                                "allowInput": true,
+                                                                "mode": "single",
+                                                                "enableTime": false,
+                                                                "noCalendar": false,
+                                                                "format": "dd-MM-yyyy"
+                                                            }
+                                                        },
+                                                        {
+                                                            "label": "Periode einddatum",
+                                                            "format": "dd-MM-yyyy",
+                                                            "labelPosition": "left-left",
+                                                            "tableView": false,
+                                                            "key": "periodeEinddatum",
+                                                            "type": "datetime",
+                                                            "input": true,
+                                                            "enableTime": false,
+                                                            "widget": {
+                                                                "type": "calendar",
+                                                                "displayInTimezone": "viewer",
+                                                                "locale": "en",
+                                                                "allowInput": true,
+                                                                "mode": "single",
+                                                                "enableTime": false,
+                                                                "noCalendar": false,
+                                                                "format": "dd-MM-yyyy"
+                                                            }
+                                                        },
+                                                        {
+                                                            "label": "Bruto inkomsten (optioneel)",
+                                                            "key": "brutoInkomsten",
+                                                            "type": "currency",
+                                                            "input": true,
+                                                            "labelPosition": "left-left",
+                                                            "tableView": false,
+                                                            "currency": "EUR",
+                                                            "inputFormat": "plain",
+                                                            "delimiter": true
+                                                        },
+                                                        {
+                                                            "label": "Netto inkomsten (verplicht)",
+                                                            "key": "nettoInkomsten",
+                                                            "type": "currency",
+                                                            "input": true,
+                                                            "labelPosition": "left-left",
+                                                            "tableView": false,
+                                                            "currency": "EUR",
+                                                            "inputFormat": "plain",
+                                                            "delimiter": true,
+                                                            "validate": {
+                                                                "required": true
+                                                            }
+                                                        },
+                                                        {
+                                                            "label": "Periodiciteit uitbetaling",
+                                                            "labelPosition": "left-left",
+                                                            "widget": "choicesjs",
+                                                            "tableView": true,
+                                                            "dataSrc": "json",
+                                                            "data": {
+                                                                "json": [
+                                                                    {
+                                                                        "code": "1",
+                                                                        "name": "Dag"
+                                                                    },
+                                                                    {
+                                                                        "code": "2",
+                                                                        "name": "Week"
+                                                                    },
+                                                                    {
+                                                                        "code": "4",
+                                                                        "name": "4 weken (13 maanden)"
+                                                                    },
+                                                                    {
+                                                                        "code": "6",
+                                                                        "name": "Maand"
+                                                                    },
+                                                                    {
+                                                                        "code": "7",
+                                                                        "name": "Kwartaal"
+                                                                    },
+                                                                    {
+                                                                        "code": "8",
+                                                                        "name": "Jaar"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "template": "<span>{{ item.name }} ({{item.code}})</span>",
+                                                            "validate": {
+                                                                "required": true
+                                                            },
+                                                            "validateWhenHidden": false,
+                                                            "key": "periodiciteitUitbetaling",
+                                                            "type": "select",
+                                                            "input": true
+                                                        },
+                                                        {
+                                                            "label": "Soort bekostiger",
+                                                            "customDefaultValue": "value = { code: \"2\", name: \"Bekostiger persoon\"}",
+                                                            "key": "soortBekostiger",
+                                                            "type": "hidden",
+                                                            "applyMaskOn": "change",
+                                                            "tableView": true,
+                                                            "validateWhenHidden": false,
+                                                            "input": true
+                                                        },
+                                                        {
+                                                            "label": "Inkomstenverhouding",
+                                                            "content": "<h6 class=\"mt-3 mb-2\">Inkomstenverhouding</h6>",
+                                                            "key": "hdrInkomstenverhouding",
+                                                            "type": "htmlelement",
+                                                            "input": false,
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "Additionele primair inkomstencomponent",
+                                                            "content": "<h6 class=\"mt-3 mb-2\">Additionele primair inkomstencomponent</h6>",
+                                                            "key": "hdrPrimair",
+                                                            "type": "htmlelement",
+                                                            "input": false,
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "Aantal uren per week besteed aan werk",
+                                                            "key": "urenPerWeek",
+                                                            "type": "number",
+                                                            "input": true,
+                                                            "labelPosition": "left-left",
+                                                            "tableView": false,
+                                                            "validate": {
+                                                                "integer": true,
+                                                                "min": 0
+                                                            }
+                                                        },
+                                                        {
+                                                            "label": "Indicatie Ingeschreven bij KvK",
+                                                            "key": "indicatieIngeschrevenKvK",
+                                                            "type": "checkbox",
+                                                            "input": true,
+                                                            "labelPosition": "left-left",
+                                                            "defaultValue": false,
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "Indicatie Recht op zelfstandigenaftrek",
+                                                            "key": "indicatieRechtOpZelfstandigenaftrek",
+                                                            "type": "checkbox",
+                                                            "input": true,
+                                                            "labelPosition": "left-left",
+                                                            "defaultValue": false,
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "Soort bedrijf",
+                                                            "key": "soortBedrijf",
+                                                            "type": "textfield",
+                                                            "input": true,
+                                                            "validate": {
+                                                                "required": true
+                                                            },
+                                                            "labelPosition": "left-left",
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "Indicatie toestemming gemeente parttime ondernemen",
+                                                            "key": "indicatieToestemmingGemeenteParttime",
+                                                            "type": "checkbox",
+                                                            "input": true,
+                                                            "labelPosition": "left-left",
+                                                            "defaultValue": false,
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "Totaal netto inkomsten",
+                                                            "calculateValue": "let totaal = 0;\nif(!isNaN(Number(row?.nettoInkomsten))) {\n totaal += row?.nettoInkomsten; \n}\n\n\nvalue = totaal;",
+                                                            "key": "totaalNettoInkomsten",
+                                                            "type": "hidden",
+                                                            "applyMaskOn": "change",
+                                                            "tableView": false,
+                                                            "validateWhenHidden": false,
+                                                            "input": true
+                                                        },
+                                                        {
+                                                            "label": "Totaal netto maandelijkse inkomsten",
+                                                            "calculateValue": "let totaal = 0;\nlet totaalNettoInkomsten = Number(row?.totaalNettoInkomsten);\nif (totaalNettoInkomsten >= 0 && row?.periodiciteitUitbetaling) {\n if (row.periodiciteitUitbetaling.code === '1') {\n    totaal = totaalNettoInkomsten * 260 / 12;\n  } else if (row.periodiciteitUitbetaling.code === '2') {\n    totaal = (totaalNettoInkomsten * 52 / 12);\n  } else if (row.periodiciteitUitbetaling.code === '4') {\n    totaal = totaalNettoInkomsten * 13 / 12;\n  } else if (row.periodiciteitUitbetaling.code === '6') {\n    totaal = totaalNettoInkomsten;\n  } else if (row.periodiciteitUitbetaling.code === '7') {\n    totaal = (totaalNettoInkomsten / 3);\n  } else if (row.periodiciteitUitbetaling.code === '8') {\n    totaal = (totaalNettoInkomsten / 12);\n  } \n} \n  \nvalue = totaal;\n",
+                                                            "key": "totaalNettomaandelijkseInkomsten",
+                                                            "type": "hidden",
+                                                            "applyMaskOn": "change",
+                                                            "tableView": false,
+                                                            "validateWhenHidden": false,
+                                                            "input": true
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "label": "Totaal netto maandelijkse inkomsten van een stap",
+                                    "calculateValue": "let totaalStap = 0;\n\nif(data.pv.onderneming?.inkomstenComponenten?.length > 0) {\n  totaalStap = data.pv.onderneming.inkomstenComponenten.map(onderneming => Number(onderneming?.totaalNettomaandelijkseInkomsten) || 0).reduce((sum, n) => sum + n, 0);\n}\n\n\nvalue = Number(totaalStap);",
+                                    "key": "pv.onderneming.totaalNettomaandelijkseInkomstenVanEenStap",
+                                    "type": "hidden",
+                                    "applyMaskOn": "change",
+                                    "tableView": false,
+                                    "validateWhenHidden": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "Toelichting",
+                            "key": "pv.onderneming.toelichting",
+                            "type": "textarea",
+                            "input": true,
+                            "tableView": false,
+                            "rows": 3
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "ButtonColumns",
+            "columns": [
+                {
+                    "components": [
+                        {
+                            "type": "button",
+                            "label": "Vorige",
+                            "key": "back",
+                            "theme": "warning",
+                            "action": "custom",
+                            "disableOnInvalid": true,
+                            "showValidations": false,
+                            "customClass": "disabled-hover",
+                            "custom": "form.submit(); component.disabled = true;",
+                            "input": true,
+                            "tableView": false
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                },
+                {
+                    "components": [
+                        {
+                            "label": "Volgende",
+                            "action": "custom",
+                            "showValidations": false,
+                            "disableOnInvalid": true,
+                            "tableView": false,
+                            "key": "submit",
+                            "type": "button",
+                            "custom": "form.submit();\ncomponent.disabled = true;",
+                            "input": true
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                }
+            ],
+            "key": "buttonColumns",
+            "type": "columns",
+            "input": false,
+            "tableView": false
+        }
+    ]
+}

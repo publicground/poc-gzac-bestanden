@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_08qsoxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_1956s6d">
+    <bpmn:participant id="BsbAfsluitenZaakParticipant" name="BSB afsluiten zaak" processRef="bsb-afsluiten-zaak" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-afsluiten-zaak" name="BSB afsluiten zaak" isExecutable="true">
+    <bpmn:startEvent id="Event_1pralbu">
+      <bpmn:outgoing>Flow_0c8x61d</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0c8x61d" sourceRef="Event_1pralbu" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_1xj53mv" sourceRef="OphalenInputTask" targetRef="AfsluitenZaakCallActivity" />
+    <bpmn:sequenceFlow id="Flow_1jbtzdr" sourceRef="AfsluitenZaakCallActivity" targetRef="WegschrijvenOutputTask" />
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="besluiten">${valueResolverDelegateService.resolveValue(execution, "doc:besluiten")}</camunda:inputParameter>
+          <camunda:outputParameter name="zaakstatus">Afgehandeld</camunda:outputParameter>
+          <camunda:outputParameter name="genomenBesluit">${besluiten[besluiten.size()-1].genomenBesluit}</camunda:outputParameter>
+          <camunda:outputParameter name="interneStatus">afgehandeld</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0c8x61d</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xj53mv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="AfsluitenZaakCallActivity" name="bs afsluiten zaak" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-afsluiten-zaak">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="zaakstatus" target="zaakstatus" />
+        <camunda:in source="genomenBesluit" target="genomenBesluit" />
+        <camunda:in source="interneStatus" target="interneStatus" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1xj53mv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jbtzdr</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_0ciffnn" sourceRef="WegschrijvenOutputTask" targetRef="AfsluitenZaakAfgerondEndEvent" />
+    <bpmn:serviceTask id="WegschrijvenOutputTask" name="wegschrijven output" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="zaakstatus">${valueResolverDelegateService.resolveValue(execution, "zaakstatus:omschrijving")}</camunda:inputParameter>
+          <camunda:inputParameter name="zaakresultaat">${valueResolverDelegateService.resolveValue(execution, "zaakresultaat:omschrijving")}</camunda:inputParameter>
+          <camunda:outputParameter name="setZaakstatus">${valueResolverDelegateService.handleValue(execution, "doc:/openzaak/statusOmschrijving", zaakstatus)}</camunda:outputParameter>
+          <camunda:outputParameter name="setZaakresultaat">${valueResolverDelegateService.handleValue(execution, "doc:/openzaak/resultaatOmschrijving", zaakresultaat)}</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1jbtzdr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ciffnn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="AfsluitenZaakAfgerondEndEvent" name="afsluiten zaak afgerond">
+      <bpmn:incoming>Flow_0ciffnn</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1956s6d">
+      <bpmndi:BPMNShape id="BPMNShape_1a0t992" bpmnElement="BsbAfsluitenZaakParticipant" isHorizontal="true">
+        <dc:Bounds x="120" y="40" width="760" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1b7noax" bpmnElement="Event_1pralbu">
+        <dc:Bounds x="192" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0hdd1hw" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="280" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03ceqek" bpmnElement="AfsluitenZaakCallActivity">
+        <dc:Bounds x="440" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0frxcyk" bpmnElement="WegschrijvenOutputTask">
+        <dc:Bounds x="610" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0v8ixvu_di" bpmnElement="AfsluitenZaakAfgerondEndEvent">
+        <dc:Bounds x="772" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="757" y="205" width="68" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_02mm7lf" bpmnElement="Flow_0c8x61d">
+        <di:waypoint x="228" y="180" />
+        <di:waypoint x="280" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1ybulzx" bpmnElement="Flow_1xj53mv">
+        <di:waypoint x="380" y="180" />
+        <di:waypoint x="440" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1hqrd67" bpmnElement="Flow_1jbtzdr">
+        <di:waypoint x="540" y="180" />
+        <di:waypoint x="610" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ciffnn_di" bpmnElement="Flow_0ciffnn">
+        <di:waypoint x="710" y="180" />
+        <di:waypoint x="772" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

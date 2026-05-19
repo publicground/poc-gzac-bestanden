@@ -1,0 +1,7 @@
+{
+  "templateKey": "brp-brongegevens-rapportage",
+  "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+  "templateType": "pdf",
+  "metadata": {},
+  "contentRef": "/config/template/brp-brongegevens-rapportage.ftlh"
+}

@@ -1,0 +1,57 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_ft_professionals_en_vrijwilligers}}",
+  "record": {
+  "typeVersion": "{{ftpv_objecttypes_version}}",
+    "data": {
+      "bsn": "",
+      "data": {
+       "uw-gegevens": {
+          "adresgegevens": {
+            "plaats": "'s-Gravenhage",
+            "postcode": "2496 TM",
+            "huisletter": "",
+            "huisnummer": 136,
+            "straatnaam": "Zwaluwsingel",
+            "toevoegingHuisnummer": ""
+          },
+          "contactgegevens": {
+            "eMailadres": "email_deelnemer@ritense.com",
+            "telefoonnummer": "0612345678"
+          },
+          "persoonsgegevens": {
+            "geslacht": "MAN",
+            "voornaam": "Harry",
+            "achternaam": "Burger",
+            "voorvoegsels": "lj"
+          },
+          "gegevensOrganisatie": {
+            "welkeOrganisatie": "Test Crew",
+            "welkeFunctieOrganisatie": "Automation Engineer!"
+          },
+          "trainingsbeheerDocumentId": [
+            "Voeg hier de trainingsbeheer document id toe"
+          ]
+        },
+        "uw-aanmelding": {
+          "gevonden": "b",
+          "namelijk": "",
+          "datumTraining": "",
+          "keuzeTraining": "",
+          "tijdstipTraining":"",
+          "opmerkingenBijzonderheden": "Opmerking"
+        }
+      },
+      "type": "Verzoek trainingsdeelname professionals en vrijwilligers",
+      "attachments": [],
+      "submission_id": "3aa539f3-2623-4915-89f6-3d1296f904f0"
+    },
+    "index": 1,
+    "startAt": "2025-06-06",
+    "registrationAt": "2025-06-06"
+  }
+}

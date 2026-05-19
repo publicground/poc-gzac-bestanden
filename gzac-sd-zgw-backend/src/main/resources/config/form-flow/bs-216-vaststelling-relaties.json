@@ -1,0 +1,35 @@
+ {
+    "startStep": "bs-216-vaststelling-relaties",
+    "steps": [
+        {
+            "key": "bs-216-vaststelling-relaties",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-216-vaststelling-relaties"
+                }
+            },
+            "onComplete": [
+                "${step.submissionData.pv.relatiesVaststellen == 'NEE' ? valtimoFormFlow.completeTask(additionalProperties, step.submissionData, { 'pv:toelichting' : '/pv/toelichting', 'pv:relaties' :'/pv/relaties', 'pv:partnerRelaties' :'/pv/partnerRelaties' }) : false }"
+            ],
+            "nextSteps": [
+                {
+                    "step": "bs-216-vaststelling-relaties-samenvatting",
+                    "condition": "${step.submissionData.pv.relaties != null && step.submissionData.pv.relaties.size() > 0}"
+                }
+            ]
+        },
+        {
+            "key": "bs-216-vaststelling-relaties-samenvatting",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-216-vaststelling-relaties-samenvatting"
+                }
+            },
+            "onComplete": [
+                "${valtimoFormFlow.completeTask(additionalProperties, step.submissionData, { 'pv:relaties' :'/pv/relaties', 'pv:toelichting' : '/pv/toelichting', 'pv:partnerRelaties' :'/pv/partnerRelaties' })}"
+            ]
+        }
+    ]
+}

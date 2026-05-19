@@ -1,0 +1,458 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+    "type": "{{objecttypes_api_url_aanmelding_schuldhulpverlening}}",
+    "record": {
+        "index": 1,
+        "typeVersion": 1,
+        "data": {
+             "kvk": "90002768",
+            "data": {
+                "schulden": {
+                    "schulden": {
+                        "schuldenoverzicht": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/5cac7273-667e-4cc9-bcf0-2c894e887637",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/5cac7273-667e-4cc9-bcf0-2c894e887637",
+                                    "form": "",
+                                    "name": "test.xlsx",
+                                    "size": 8821,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "test-6b26ceab-794c-4f07-9e43-81dc6eb8c3df.xlsx",
+                                "size": 8821,
+                                "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "storage": "url",
+                                "originalName": "test.xlsx"
+                            }
+                        ],
+                        "geefEenToelichtingOpHetSchuldenoverzicht": "Schulden bij de bank"
+                    },
+                    "priveSchulden": {
+                        "bevatHetSchuldenoverzichtPriveSchulden": "b"
+                    }
+                },
+                "overige-shv": {
+                    "tekstvlak1": "Overige informatie",
+                    "overigeDocumenten1": [
+                        {
+                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/15536fbd-d820-4ff8-98c9-9dfe15cae78f",
+                            "data": {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/15536fbd-d820-4ff8-98c9-9dfe15cae78f",
+                                "form": "",
+                                "name": "testing.txt",
+                                "size": 4,
+                                "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                "project": ""
+                            },
+                            "name": "testing-8771ffe2-56d3-4a9f-aeeb-264881b22b3b.txt",
+                            "size": 4,
+                            "type": "text/plain",
+                            "storage": "url",
+                            "originalName": "testing.txt"
+                        }
+                    ]
+                },
+                "bezit-vermogen": {
+                    "vervoersmiddelen": {
+                        "geefAanWatVoorUwClientVariabeleBEnOfDePartnerVanToepassingIs": {
+                            "a": true,
+                            "b": true
+                        }
+                    },
+                    "financieelVermogen": {
+                        "kinderenspaarrekening": false,
+                        "anderFinancieelVermogen": false,
+                        "rekeningafschriftenVanDeAfgelopen3Maanden": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden4": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden7": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden8": [],
+                        "waardeOverzichtAfgelopenJaarPernsioenVerzekering": [],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenSpaarplan": true,
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenPensioenverzekering": false,
+                        "rekeningafschriftenVanDebeheerrekeningVanDeAfgelopen3Maanden1": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/ec86bc85-450f-4f7b-b60a-4fb0e359a966",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/ec86bc85-450f-4f7b-b60a-4fb0e359a966",
+                                    "form": "",
+                                    "name": "test.docx",
+                                    "size": 13056,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "test-22a94b11-6283-43ab-81ab-6970a56ab017.docx",
+                                "size": 13056,
+                                "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "storage": "url",
+                                "originalName": "test.docx"
+                            }
+                        ],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenOfMeerSpaarrekeningen": true,
+                        "rekeningafschriftenVanDeLeefgeldrekeningVanDeAfgelopen3Maanden": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/926c3f59-8c5d-4031-8a24-b59f885b9778",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/926c3f59-8c5d-4031-8a24-b59f885b9778",
+                                    "form": "",
+                                    "name": "test.docx",
+                                    "size": 13056,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "test-1c6109e3-0797-42e0-88b8-86b2e58bbe83.docx",
+                                "size": 13056,
+                                "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "storage": "url",
+                                "originalName": "test.docx"
+                            }
+                        ],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenOfMeerBetaalrekeningen": false,
+                        "mijnClientVariabeleBEnOfDePartnerHeeftMinderjarigeKinderenMetEenOfMeerBetaalrekeningen": false,
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenLevensverzekeringOfOverlijdensrisicoverzekeringInNederlandOfInHetBuitenland": false
+                    },
+                    "overigeBezittingen": {
+                        "geschatteTotaleWaarde": null,
+                        "geefAanWatVoorUwClientVariabeleBEnOfDePartnerVanToepassingIs1": {
+                            "a": false,
+                            "b": false
+                        }
+                    },
+                    "woningenEnVastgoed": {
+                        "toelichting": "Woning in duitsland",
+                        "isUwClientVariabeleBEnOfDePartnerInHetBezitVanWoningenOfVastgoedInNederlandEnOfInHetBuitenland": "a"
+                    }
+                },
+                "belastingen-shv": {
+                    "geefEenToelichting7": "Geef een toelichting",
+                    "belastingAanslagMin1Jaar": [
+                        {
+                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/23a42f4d-b1c2-4c27-95d4-fd0894dfb1b8",
+                            "data": {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/23a42f4d-b1c2-4c27-95d4-fd0894dfb1b8",
+                                "form": "",
+                                "name": "test.docx",
+                                "size": 13056,
+                                "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                "project": ""
+                            },
+                            "name": "test-4c32b6e7-c7b5-425e-ab39-8166e56c9e5e.docx",
+                            "size": 13056,
+                            "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                            "storage": "url",
+                            "originalName": "test.docx"
+                        }
+                    ],
+                    "belastingAanslagMin2Jaar": [
+                        {
+                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/024ebffb-d7ba-4df9-8030-96fbae4dd9f2",
+                            "data": {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/024ebffb-d7ba-4df9-8030-96fbae4dd9f2",
+                                "form": "",
+                                "name": "test.docx",
+                                "size": 13056,
+                                "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                "project": ""
+                            },
+                            "name": "test-c29c42de-f889-4df9-a1c3-44fd4ee3690b.docx",
+                            "size": 13056,
+                            "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                            "storage": "url",
+                            "originalName": "test.docx"
+                        }
+                    ],
+                    "belastingAanslagMin3Jaar": [],
+                    "belastingAanslagMin4Jaar": [],
+                    "belastingAanslagMin5Jaar": [],
+                    "gemeentelijkeEnRegionaleBelastingen": {
+                        "recenteAanslagRegionaleBelastingen": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/8f02b0ef-1869-4d7e-8192-9301dde36bb8",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/8f02b0ef-1869-4d7e-8192-9301dde36bb8",
+                                    "form": "",
+                                    "name": "test.docx",
+                                    "size": 13056,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "test-2b83315d-e3fc-47f9-a211-b2a0b60fcfcd.docx",
+                                "size": 13056,
+                                "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "storage": "url",
+                                "originalName": "test.docx"
+                            }
+                        ],
+                        "isErKwijtscheldingOntvangenVoorDeGemeentelijkeBelastingen": "ja"
+                    }
+                },
+                "gegevens-client": {
+                    "bsn": "111111110",
+                    "emailcl": "jarred.mac.intosh@ritense.com",
+                    "typeBewind": {
+                        "curatele": true,
+                        "lichamelijkeOfGeestelijkeToestand": true,
+                        "verkwistingOfProblematischeSchulden": true
+                    },
+                    "voorvoegselScl": "",
+                    "telefoonnummercl": "0201234567",
+                    "aanvraagformulier": {
+                        "machtiging": [],
+                        "ondertekendAanvraagformulier": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/a9f5298d-ed0f-4e1f-a89c-01d22a5c13f7",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/a9f5298d-ed0f-4e1f-a89c-01d22a5c13f7",
+                                    "form": "",
+                                    "name": "test.docx",
+                                    "size": 13056,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "test-cfec563e-3a5a-4003-8e7e-0fe3f7344d8e.docx",
+                                "size": 13056,
+                                "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "storage": "url",
+                                "originalName": "test.docx"
+                            }
+                        ]
+                    },
+                    "voornaam1OfMeerdere": "James",
+                    "watIsDeBurgelijkeStaat": "a",
+                    "achternaamVolgensPaspoortOfIdKaart": "Oriental"
+                },
+                "onderneming-shv": {
+                    "gegevensOndernemingEn": {
+                        "eenOnderneming": [
+                            {
+                                "kvKNummer4": "90002768",
+                                "organisatienaam1": "Gestaake onderneming",
+                                "jaarrekeningen5JaarTMJaarVanStaking": [
+                                    {
+                                        "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/3f6c80b6-21ae-4b67-9447-32d6938dd3cb",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/3f6c80b6-21ae-4b67-9447-32d6938dd3cb",
+                                            "form": "",
+                                            "name": "test.xlsx",
+                                            "size": 8821,
+                                            "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "test-11dc042a-bb8e-4f1c-816f-574373a09f6e.xlsx",
+                                        "size": 8821,
+                                        "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                        "storage": "url",
+                                        "originalName": "test.xlsx"
+                                    }
+                                ],
+                                "aangiftenOmzetbelastingenVanDeLaatste3Jaar": [
+                                    {
+                                        "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/48fc4b68-277f-42b8-9cde-08b016a631d2",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/48fc4b68-277f-42b8-9cde-08b016a631d2",
+                                            "form": "",
+                                            "name": "test.xlsx",
+                                            "size": 8821,
+                                            "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "test-17f5a50f-f8ef-421a-a5de-64cbcb8c1c4a.xlsx",
+                                        "size": 8821,
+                                        "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                        "storage": "url",
+                                        "originalName": "test.xlsx"
+                                    }
+                                ]
+                            }
+                        ],
+                        "geefEenToelichting8": "Onderneming is uitgeschreven bij kvk"
+                    }
+                },
+                "uw-gegevens-shv": {
+                    "email": "jarred.mac.intosh@ritense.com",
+                    "geslacht": "vrouw",
+                    "achternaam": "Bon",
+                    "voorletterS": "J",
+                    "voorvoegselS": "",
+                    "telefoonnummer": "0101234567",
+                    "organisatienaam": "Agriservice J. Otten"
+                },
+                "inkomsten-uitgaven": {
+                    "budgetplan": {
+                        "budgetplanUpload": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/306f332e-7272-42b9-b15e-d9c1da07936c",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/306f332e-7272-42b9-b15e-d9c1da07936c",
+                                    "form": "",
+                                    "name": "test.xlsx",
+                                    "size": 8821,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "test-57dd0565-9ddd-4c1f-b42e-8340c664cd26.xlsx",
+                                "size": 8821,
+                                "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "storage": "url",
+                                "originalName": "test.xlsx"
+                            }
+                        ],
+                        "geefEenToelichtingOpHetBudgetplan": "Geef een toelichting op het budgetplan"
+                    },
+                    "beslaglegging": {
+                        "ligtErBeslagOpHetInkomenVanUwClientVariabeleBEnOfDePartner": "nee"
+                    },
+                    "inkomstenVanUwClient": {
+                        "herhalendeGroepInkomstenClient": [
+                            {
+                                "naamWerkgever": "Marine",
+                                "soortDienstverband": "onbepaaldeTijd",
+                                "geefEenToelichting6": "Kapitein",
+                                "gemiddeldAantalUurPerWeek3": 40,
+                                "betreftHetEenWisselendOfStabielSalaris1": "stabiel",
+                                "salarisspecificatieVanDeAfgelopenMaand1": [
+                                    {
+                                        "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/5ce549e4-5e9f-4fc4-826e-e25029dcc949",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/5ce549e4-5e9f-4fc4-826e-e25029dcc949",
+                                            "form": "",
+                                            "name": "testing.txt",
+                                            "size": 4,
+                                            "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "testing-dc7d3a59-e016-4462-aeb2-0da16dcd0f64.txt",
+                                        "size": 4,
+                                        "type": "text/plain",
+                                        "storage": "url",
+                                        "originalName": "testing.txt"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "toeslagenBelastingdienst": {
+                        "voorschotbeschikkingToeslagen": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/c7b51a6d-c643-4057-a07a-3928b816b43f",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/c7b51a6d-c643-4057-a07a-3928b816b43f",
+                                    "form": "",
+                                    "name": "test.docx",
+                                    "size": 13056,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "test-5ba7192b-eaa6-49b1-a80f-a4c93cdd7ecf.docx",
+                                "size": 13056,
+                                "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "storage": "url",
+                                "originalName": "test.docx"
+                            }
+                        ]
+                    },
+                    "recenteZorgpolisVanUwClientVariabeleAEnDePartner": [
+                        {
+                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/3924f024-2daf-4a1c-9f4d-4989c92b9a0e",
+                            "data": {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/3924f024-2daf-4a1c-9f4d-4989c92b9a0e",
+                                "form": "",
+                                "name": "testing.txt",
+                                "size": 4,
+                                "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                "project": ""
+                            },
+                            "name": "testing-2e43dcfe-5af2-4ad1-8aca-a108745b0d27.txt",
+                            "size": 4,
+                            "type": "text/plain",
+                            "storage": "url",
+                            "originalName": "testing.txt"
+                        }
+                    ]
+                },
+                "situatie-client-partner": {
+                    "fraude": {
+                        "isUwClientDeAfgelopen5JaarDoorDeRechtbankVeroordeeldVoorFraude": "NEE"
+                    },
+                    "onderneming": {
+                        "veldengroep": {
+                            "kvKNummer2": "90002768",
+                            "organisatienaam3": "Onderneming 1"
+                        },
+                        "heeftUwClientOpDitMomentEenActieveOnderneming": "a",
+                        "heeftUwClientEenOfMeerdereOndernemingenInDeAfgelopen5JaarGestaakt": "a"
+                    },
+                    "woonsituatie": {
+                        "hoeIsDeWoonsituatieVanUwClientVariabeleAEnDePartner": "c"
+                    },
+                    "situatieschets": {
+                        "beschrijfDeLeefWoonSituatieVanUwClient": "Beschrijf de leef/woonsituatie van uw cliënt",
+                        "beschrijfWatTotErNuToeAlGedaanIsOmDeSchuldenOpTeLossen": "Beschrijf wat tot er nu toe al gedaan is om de schulden op te lossen",
+                        "beschrijfWanneerEnHoeDeSchuldenVanUwClientIfZijnOntstaan": "Beschrijf wanneer en hoe de schulden van uw client zijn ontstaan"
+                    },
+                    "Eerderehulpgroep": {
+                        "eerdereFinancieleHulpClient": {
+                            "GEEN_SCHULDREGELING": false,
+                            "MINNELIJKE_SCHULDREGELING": true,
+                            "WETTELIJKE_SCHULDREGELING": true
+                        }
+                    },
+                    "andereHulpverlening": {
+                        "hulpverleninghh": [
+                            {
+                                "soortHulpverlening": "Fysio",
+                                "verwachteEinddatumHulpverlening": "2024-09-13",
+                                "contactpersoonEnOfNaamInstelling": "Fysio"
+                            }
+                        ],
+                        "krijgtUwClientOndersteuningVanAndereHulpverleners": "a"
+                    },
+                    "arbeidssituatieVanUwClient": {
+                        "heeftUwClientBetaaldWerk": "ja",
+                        "werktUwClient36UurOfMeerPerWeek": "ja"
+                    },
+                    "eerdereWettelijkeSchuldregelingClientGroep": {
+                        "eerdereWettelijkeSchuldregelingClientAfgerond": "JA",
+                        "eerdereWettelijkeSchuldregelingClientToelichting": "Toelichting",
+                        "eerderWettelijkeSchuldregelingClientAfgerondDatum": "2024-09-18"
+                    }
+                },
+                "verklaring-van-waarheid": {
+                    "waarheidsVerklaring": true
+                }
+            },
+            "type": "Verzoek schuldhulpverlening bewindvoerders",
+            "pdf_url": "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/a6cc30cf-0c3a-4853-8984-03919aa06553",
+            "attachments": [
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/95a65110-071d-4f35-a1ae-05d6c174930d",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/4815874a-940c-41ca-8c63-0984185d66ca",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/f533b79d-baaf-45c8-95ae-7f0859adc106",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/708507eb-8547-4db4-abd0-3c439582efaf",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/cbd8c1c5-9286-4555-bf52-799fb76c4185",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/108809c5-661b-4776-aae9-938e21f17408",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/9c5fec78-6bc4-49cb-9fba-aaa805526bbf",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/c9c6e2e9-741d-492b-b587-5682da7841f3",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/4b93c9f7-3c98-4cc0-bee9-da6eb96495b8",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/780f164a-021f-48e0-9dc4-87ea92ac414b",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/1e6dba80-d97e-4311-96b6-7b9aaab91eab",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/96e14207-df4f-44f7-95e1-43d05b3f4bd1",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/72165b77-55a3-459d-8ce7-c83106df3b77",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/0320ed2f-480e-4e76-be3e-09da865fcaf0",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/472ca059-a4fb-4655-af76-02529802bccb",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/2ad84568-f249-4b82-a9aa-f9c5958e3e9d"
+            ],
+            "language_code": "nl",
+            "submission_id": "9651e8a2-a1a7-4e59-8eec-8111a294df0e",
+            "public_reference": "OF-6W2ZKU"
+        },
+        "geometry": null,
+        "startAt": "2024-09-12",
+        "endAt": null,
+        "registrationAt": "2024-09-12"
+    }
+}

@@ -1,0 +1,57 @@
+{
+    "startStep": "bs-214-vaststellen-bankrekeningen",
+    "steps": [
+        {
+            "key": "bs-214-vaststellen-bankrekeningen",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-214-vaststellen-bankrekeningen"
+                }
+            },
+            "nextStep": "bs-214-vaststellen-bezittingen"
+        },
+        {
+            "key": "bs-214-vaststellen-bezittingen",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-214-vaststellen-bezittingen"
+                }
+            },
+            "nextStep": "bs-214-vaststellen-schuld"
+        },
+        {
+            "key": "bs-214-vaststellen-schuld",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-214-vaststellen-schuld"
+                }
+            },
+            "nextStep": "bs-214-vaststellen-eigen-woning"
+        },
+        {
+            "key": "bs-214-vaststellen-eigen-woning",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-214-vaststellen-eigen-woning"
+                }
+            },
+            "nextStep": "bs-214-controleren-vastgesteld-vermogen"
+        },
+        {
+            "key": "bs-214-controleren-vastgesteld-vermogen",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-214-controleren-vastgesteld-vermogen"
+                }
+            },
+            "onComplete": [
+                "${valtimoFormFlow.completeTask(additionalProperties, step.submissionData, { 'pv:vermogensComponenten' :'/pv/vermogensComponenten', 'pv:bankrekeningenToelichting' :'/pv/bankrekeningenToelichting', 'pv:bezittingenToelichting' :'/pv/bezittingenToelichting', 'pv:eigenWoningToelichting' :'/pv/eigenWoningToelichting', 'pv:schuldenToelichting' :'/pv/schuldenToelichting', 'pv:bankrekeningen' :'/pv/bankrekeningen', 'pv:bezittingen' :'/pv/bezittingen', 'pv:eigenWoning' :'/pv/eigenWoning', 'pv:schulden' :'/pv/schulden', 'pv:bankrekeningenVaststellen' :'/pv/bankrekeningenVaststellen', 'pv:bezittingenVaststellen' :'/pv/bezittingenVaststellen', 'pv:eigenWoningVaststellen' :'/pv/eigenWoningVaststellen', 'pv:schuldenVaststellen' :'/pv/schuldenVaststellen' })}"
+            ]
+        }
+    ]
+}

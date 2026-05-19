@@ -1,0 +1,73 @@
+{
+    "$id": "financiele-situatie.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "financiele-situatie definition",
+    "properties": {
+        "tijdelijkeOndersteuning": {
+            "type": "boolean"
+        },
+        "toepassingLevensvatbaarheidsonderzoek": {
+            "type": "boolean"
+        },
+        "nettoResultaatHuidigJaarMinDrie": {
+            "$ref": "#/definitions/nettoResultaat"
+        },
+        "nettoResultaatHuidigJaarMinTwee": {
+            "$ref": "#/definitions/nettoResultaat"
+        },
+        "nettoResultaatHuidigJaarMinEen": {
+            "$ref": "#/definitions/nettoResultaat"
+        },
+        "nettoResultaatHuidigJaar": {
+            "$ref": "#/definitions/nettoResultaat"
+        },
+        "kanJaarrekeningenAanleveren": {
+            "type": "boolean"
+        },
+        "redenNietAanleverenJaarrekeningen": {
+            "type": "string"
+        },
+        "typeBedrijfspand": {
+            "type": "object",
+            "enum": [
+                {
+                    "value": "BEZIT",
+                    "label": "Aanvrager bezit zijn bedrijfspand"
+                },
+                {
+                    "value": "HUUR",
+                    "label": "Aanvrager huurt zijn bedrijfspand"
+                },
+                {
+                    "value": "GEEN",
+                    "label": "Aanvrager heeft geen bedrijfspand"
+                }
+            ]
+        },
+        "teVerwachtenWinstKomendeZesMaanden": {
+            "type": "number"
+        },
+        "maandenBenodigdeFinancieleHulp": {
+            "type": "string"
+        },
+        "redenBenodigdeFinancieleHulp": {
+            "type": "string"
+        }
+    },
+    "definitions": {
+        "nettoResultaat": {
+            "type": "object",
+            "properties": {
+                "nettoResultaatAanwezig": {
+                    "type": "boolean"
+                },
+                "nettoResultaatBedrag": {
+                    "type": "number"
+                },
+                "nettoResultaatJaartal": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,8 @@
+[
+    {
+        "activityId": "AnnulerenInformatieverzoekStartEvent",
+        "activityType": "bpmn:StartEvent:start",
+        "processLinkType": "form",
+        "formDefinitionName": "alo-annuleren-informatieverzoek.start"
+    }
+]

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0vol0sx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.31.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:collaboration id="Collaboration_1gmd3lc">
+    <bpmn:participant id="ALOOphalenDuoStudiefinancieringInformatieParticipant" name="ALO: Ophalen DUO studiefinanciering brongegevens" processRef="alo-ophalen-duo-studiefinanciering-brongegevens" />
+    <bpmn:textAnnotation id="TextAnnotation_0qqanl4">
+      <bpmn:text>duoStudiefinancieringInfo exists</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_092b7ow" associationDirection="None" sourceRef="Flow_1tauvj8" targetRef="TextAnnotation_0qqanl4" />
+    <bpmn:textAnnotation id="TextAnnotation_0r7kzlm">
+      <bpmn:text>skip storing studiefinanciering informatie</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0lfn7sm" associationDirection="None" sourceRef="Flow_1h2absw" targetRef="TextAnnotation_0r7kzlm" />
+  </bpmn:collaboration>
+  <bpmn:process id="alo-ophalen-duo-studiefinanciering-brongegevens" name="ALO: Ophalen DUO studiefinanciering info" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_1if7i5z" sourceRef="StartEvent_1" targetRef="OphalenDuoStudiefinancieringInfoTask" />
+    <bpmn:sequenceFlow id="Flow_0u351k3" sourceRef="OphalenDuoStudiefinancieringInfoTask" targetRef="Gateway_1nd5tj7" />
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1if7i5z</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0bkvido" sourceRef="OpslaanStudiefinancieringInfoTask" targetRef="Event_1qzgjt4" />
+    <bpmn:serviceTask id="OphalenDuoStudiefinancieringInfoTask" name="ophalen duo studiefinanciering informatie" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1if7i5z</bpmn:incoming>
+      <bpmn:outgoing>Flow_0u351k3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1nd5tj7" default="Flow_1h2absw">
+      <bpmn:incoming>Flow_0u351k3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1tauvj8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1h2absw</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1tauvj8" sourceRef="Gateway_1nd5tj7" targetRef="OpslaanStudiefinancieringInfoTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable("duoStudiefinancieringInfo")}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1h2absw" name="skip" sourceRef="Gateway_1nd5tj7" targetRef="Event_1cyh7kk" />
+    <bpmn:serviceTask id="OpslaanStudiefinancieringInfoTask" name="opslaan DUO studiefinanciering informatie" camunda:asyncAfter="true" camunda:expression="${bbzDuoProcessService.storeDuoStudiefinancieringInfo(duoStudiefinancieringInfo,execution.getVariable(&#34;duoStudiefinancieringPath&#34;), execution.businessKey)}">
+      <bpmn:incoming>Flow_1tauvj8</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bkvido</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0atf5y9">
+        <bpmn:targetRef>DocumentDataObjectReference</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:dataObjectReference id="DocumentDataObjectReference" name="Document" dataObjectRef="DataObject_1q8v953" />
+    <bpmn:dataObject id="DataObject_1q8v953" />
+    <bpmn:endEvent id="Event_1qzgjt4">
+      <bpmn:incoming>Flow_0bkvido</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_1cyh7kk">
+      <bpmn:incoming>Flow_1h2absw</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:error id="Error_10q1uq2" name="Error_3lbup3a" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1gmd3lc">
+      <bpmndi:BPMNShape id="Participant_0gc491p_di" bpmnElement="ALOOphalenDuoStudiefinancieringInformatieParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1850" height="750" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="399" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j7h7ol_di" bpmnElement="OphalenDuoStudiefinancieringInfoTask">
+        <dc:Bounds x="330" y="377" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1nd5tj7_di" bpmnElement="Gateway_1nd5tj7" isMarkerVisible="true">
+        <dc:Bounds x="505" y="392" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1yxx3np" bpmnElement="OpslaanStudiefinancieringInfoTask">
+        <dc:Bounds x="710" y="377" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_0n9bs02_di" bpmnElement="DocumentDataObjectReference">
+        <dc:Bounds x="742" y="525" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="735" y="582" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qzgjt4_di" bpmnElement="Event_1qzgjt4">
+        <dc:Bounds x="912" y="399" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1cyh7kk_di" bpmnElement="Event_1cyh7kk">
+        <dc:Bounds x="912" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1if7i5z_di" bpmnElement="Flow_1if7i5z">
+        <di:waypoint x="268" y="417" />
+        <di:waypoint x="330" y="417" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0u351k3_di" bpmnElement="Flow_0u351k3">
+        <di:waypoint x="430" y="417" />
+        <di:waypoint x="505" y="417" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bkvido_di" bpmnElement="Flow_0bkvido">
+        <di:waypoint x="810" y="417" />
+        <di:waypoint x="912" y="417" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tauvj8_di" bpmnElement="Flow_1tauvj8">
+        <di:waypoint x="555" y="417" />
+        <di:waypoint x="710" y="417" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1h2absw_di" bpmnElement="Flow_1h2absw">
+        <di:waypoint x="530" y="392" />
+        <di:waypoint x="530" y="270" />
+        <di:waypoint x="912" y="270" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="540" y="353" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0qqanl4_di" bpmnElement="TextAnnotation_0qqanl4">
+        <dc:Bounds x="560" y="470" width="167" height="39" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0r7kzlm_di" bpmnElement="TextAnnotation_0r7kzlm">
+        <dc:Bounds x="600" y="200" width="205" height="50" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0atf5y9_di" bpmnElement="DataOutputAssociation_0atf5y9">
+        <di:waypoint x="760" y="457" />
+        <di:waypoint x="760" y="525" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_092b7ow_di" bpmnElement="Association_092b7ow">
+        <di:waypoint x="633" y="417" />
+        <di:waypoint x="610" y="430" />
+        <di:waypoint x="610" y="470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0lfn7sm_di" bpmnElement="Association_0lfn7sm">
+        <di:waypoint x="660" y="270" />
+        <di:waypoint x="654" y="250" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

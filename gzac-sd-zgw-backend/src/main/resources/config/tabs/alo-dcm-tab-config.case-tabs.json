@@ -1,0 +1,171 @@
+{
+    "changesetId": "alo-dcm-tabs-configuration-v13",
+    "case-definitions": [
+        {
+            "key": "aanvraag-algemene-bijstand-dcm",
+            "tabs": [
+                {
+                    "key": "summary",
+                    "type": "standard",
+                    "contentKey": "summary"
+                },
+                {
+                    "key": "signalen",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemen-bijstand-tab-signalen",
+                    "showTasks": true
+                },
+                {
+                    "key": "poortonderzoek",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemene-bijstand-tab-poortonderzoek",
+                    "showTasks": true
+                },
+                {
+                    "key": "brede-intake",
+                    "name": "Brede Intake",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemene-bijstand-tab-brede-intake",
+                    "showTasks": true
+                },
+                {
+                    "key": "woonsituatie",
+                    "type": "formio",
+                    "contentKey": "aanvraag-levensonderhoud-tab-woonsituatie",
+                    "showTasks": true
+                },
+                {
+                    "key": "inkomen",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemene-bijstand-tab-inkomen",
+                    "showTasks": true
+                },
+                {
+                    "key": "vermogen",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemene-bijstand-tab-vermogen",
+                    "showTasks": true
+                },
+                {
+                    "key": "suwinet",
+                    "type": "formio",
+                    "contentKey": "aanvraag-levensonderhoud-tab-suwinet",
+                    "showTasks": true
+                },
+                {
+                    "key": "informatieverzoeken",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemene-bijstand.informatieverzoeken-simpel-tab",
+                    "showTasks": true
+                },
+                {
+                    "key": "progress",
+                    "type": "standard",
+                    "contentKey": "progress",
+                    "showTasks": false
+                },
+                {
+                    "key": "audit",
+                    "type": "standard",
+                    "contentKey": "audit",
+                    "showTasks": false
+                },
+                {
+                    "key": "documents",
+                    "type": "standard",
+                    "contentKey": "documents",
+                    "showTasks": true
+                },
+                {
+                    "key": "notes",
+                    "type": "standard",
+                    "contentKey": "notes",
+                    "showTasks": true
+                }
+            ]
+        },
+        {
+            "key": "aanvraag-ioaw-uitkering-dcm",
+            "tabs": [
+                {
+                    "key": "summary",
+                    "type": "standard",
+                    "contentKey": "summary"
+                },
+                {
+                    "key": "signalen",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemen-bijstand-tab-signalen",
+                    "showTasks": true
+                },
+                {
+                    "key": "poortonderzoek",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemene-bijstand-tab-poortonderzoek",
+                    "showTasks": true
+                },
+                {
+                    "key": "brede-intake",
+                    "name": "Brede Intake",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemene-bijstand-tab-brede-intake",
+                    "showTasks": true
+                },
+                {
+                    "key": "woonsituatie",
+                    "type": "formio",
+                    "contentKey": "aanvraag-levensonderhoud-tab-woonsituatie",
+                    "showTasks": true
+                },
+                {
+                    "key": "inkomen",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemene-bijstand-tab-inkomen",
+                    "showTasks": true
+                },
+                {
+                    "key": "vermogen",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemene-bijstand-tab-vermogen",
+                    "showTasks": true
+                },
+                {
+                    "key": "suwinet",
+                    "type": "formio",
+                    "contentKey": "aanvraag-levensonderhoud-tab-suwinet",
+                    "showTasks": true
+                },
+                {
+                    "key": "informatieverzoeken",
+                    "type": "formio",
+                    "contentKey": "aanvraag-algemene-bijstand.informatieverzoeken-simpel-tab",
+                    "showTasks": true
+                },
+                {
+                    "key": "progress",
+                    "type": "standard",
+                    "contentKey": "progress",
+                    "showTasks": false
+                },
+                {
+                    "key": "audit",
+                    "type": "standard",
+                    "contentKey": "audit",
+                    "showTasks": false
+                },
+                {
+                    "key": "documents",
+                    "type": "standard",
+                    "contentKey": "documents",
+                    "showTasks": true
+                },
+                {
+                    "key": "notes",
+                    "type": "standard",
+                    "contentKey": "notes",
+                    "showTasks": true
+                }
+            ]
+        }
+    ]
+}

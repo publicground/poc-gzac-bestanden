@@ -1,0 +1,100 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "beslisser",
+            "customDefaultValue": "value = JSON.parse(localStorage.getItem('userIdentity'))?.firstName + ' ' + JSON.parse(localStorage.getItem('userIdentity'))?.lastName;",
+            "key": "pv.beslisser",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "besluitDatum",
+            "customDefaultValue": "value = new Date();",
+            "key": "pv.besluitDatum",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Kanaal waarop de intrekking is ontvangen",
+            "widget": "choicesjs",
+            "tableView": true,
+            "data": {
+                "values": [
+                    {
+                        "label": "Post",
+                        "value": "post"
+                    },
+                    {
+                        "label": "E-mail",
+                        "value": "eMail"
+                    },
+                    {
+                        "label": "Telefoon",
+                        "value": "telefoon"
+                    },
+                    {
+                        "label": "Intake",
+                        "value": "intake"
+                    }
+                ]
+            },
+            "validate": {
+                "required": true
+            },
+            "key": "pv.ingetrokkenVia",
+            "type": "select",
+            "input": true
+        },
+        {
+            "label": "Datum intrekking",
+            "format": "dd-MM-yyyy",
+            "tableView": false,
+            "datePicker": {
+                "disableWeekends": false,
+                "disableWeekdays": false,
+                "maxDate": "moment()"
+            },
+            "enableTime": false,
+            "defaultDate": "moment()",
+            "validate": {
+                "required": true
+            },
+            "enableMinDateInput": true,
+            "enableMaxDateInput": true,
+            "validateWhenHidden": false,
+            "key": "pv.datumIngetrokken",
+            "type": "datetime",
+            "input": true,
+            "widget": {
+                "type": "calendar",
+                "displayInTimezone": "viewer",
+                "locale": "en",
+                "useLocaleSettings": false,
+                "allowInput": true,
+                "mode": "single",
+                "enableTime": false,
+                "noCalendar": false,
+                "format": "dd-MM-yyyy",
+                "hourIncrement": 1,
+                "minuteIncrement": 1,
+                "time_24hr": false,
+                "disableWeekends": false,
+                "disableWeekdays": false,
+                "maxDate": "moment()"
+            }
+        },
+        {
+            "label": "Indienen",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "type": "button",
+            "input": true,
+            "saveOnEnter": false
+        }
+    ]
+}

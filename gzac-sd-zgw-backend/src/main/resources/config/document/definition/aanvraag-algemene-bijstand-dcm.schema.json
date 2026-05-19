@@ -1,0 +1,1325 @@
+{
+    "$id": "aanvraag-algemene-bijstand-dcm.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Algemene bijstand",
+    "type": "object",
+    "properties": {
+        "verzoekGegevensTeTransformeren": {
+            "type": "object",
+            "properties": {}
+        },
+        "openzaak": {
+            "$ref": "openzaak.schema.json#/definitions/openzaakgegevens"
+        },
+        "publicReference": {
+            "type": "string"
+        },
+        "socrates": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "aanvraagId": {
+                    "type": "string"
+                }
+            }
+        },
+        "gegevensVanuitAanvraag": {
+            "type": "object",
+            "properties": {
+                "startDatum": {
+                    "type": "string",
+                    "description": "Start date for the aanvraag process"
+                },
+                "meldingsDatum": {
+                    "type": "string"
+                },
+                "aanvrager": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/persoon-sd-v2.schema.json"
+                },
+                "partner": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/persoon-sd-v2.schema.json"
+                },
+                "kinderen": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "/document/definition/reference/sd/kind-sd-v1.schema.json"
+                    }
+                },
+                "medebewoners": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "/document/definition/reference/sd/medebewoners-sd-v1.schema.json"
+                    }
+                },
+                "medebewonersOpAdres": {
+                    "type": "string",
+                    "enum": [
+                        "JA",
+                        "NEE"
+                    ]
+                },
+                "heeftHulpGehadBijAanvraag": {
+                    "type": "string",
+                    "enum": [
+                        "JA",
+                        "NEE",
+                        "ONBEKEND"
+                    ]
+                },
+                "contactpersoon": {
+                    "$ref": "/document/definition/reference/sd/contactpersoon-sd-v2.schema.json"
+                },
+                "woonsituatie": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/woonsituatie-sd-v2.schema.json"
+                },
+                "redenAanvraag": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/redenaanvraag-sd-v2.schema.json"
+                },
+                "inkomstenAanvrager": {
+                    "$ref": "/document/definition/reference/sd/inkomsten-sd-v3.schema.json"
+                },
+                "inkomstenPartner": {
+                    "$ref": "/document/definition/reference/sd/inkomsten-sd-v3.schema.json"
+                },
+                "kinderAlimentatieAanvrager": {
+                    "$ref": "/document/definition/reference/sd/alimentatie-sd-v1.schema.json"
+                },
+                "partnerAlimentatieAanvrager": {
+                    "$ref": "/document/definition/reference/sd/alimentatie-sd-v1.schema.json"
+                },
+                "partnerAlimentatie": {
+                    "$ref": "/document/definition/reference/sd/alimentatie-sd-v1.schema.json"
+                },
+                "vermogen": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/vermogen-sd-v4.schema.json"
+                },
+                "beschikbaarheidAanvrager": {
+                    "$ref": "/document/definition/reference/sd/beschikbaarheid-sd-v1.schema.json"
+                },
+                "beschikbaarheidPartner": {
+                    "$ref": "/document/definition/reference/sd/beschikbaarheid-sd-v1.schema.json"
+                },
+                "uitbetaling": {
+                    "type": "object",
+                    "items": {
+                        "$ref": "/document/definition/reference/sd/uitbetaling-sd-v1.schema.json"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "gegevensVaststelling": {
+            "type": "object",
+            "properties": {
+                "startDatum": {
+                    "type": "string",
+                    "description": "Start date for the aanvraag process"
+                },
+                "meldingsDatum": {
+                    "type": "string"
+                },
+                "aanvrager": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/persoon-sd-v2.schema.json"
+                },
+                "partner": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/persoon-sd-v2.schema.json"
+                },
+                "kinderen": {
+                    "type": ["array", "null"],
+                    "items": {
+                        "$ref": "/document/definition/reference/sd/kind-sd-v1.schema.json"
+                    }
+                },
+                "medebewoners": {
+                    "type": ["array", "null"],
+                    "items": {
+                        "$ref": "/document/definition/reference/sd/medebewoners-sd-v1.schema.json"
+                    }
+                },
+                "medebewonersOpAdres": {
+                    "type": "string",
+                    "enum": [
+                        "JA",
+                        "NEE"
+                    ]
+                },
+                "heeftHulpGehadBijAanvraag": {
+                    "type": "string",
+                    "enum": [
+                        "JA",
+                        "NEE",
+                        "ONBEKEND"
+                    ]
+                },
+                "contactpersoon": {
+                    "$ref": "/document/definition/reference/sd/contactpersoon-sd-v2.schema.json"
+                },
+                "woonsituatie": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/woonsituatie-sd-v2.schema.json"
+                },
+                "leefsituatie": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "leefsituatie": {
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "enum": [
+                                "INSTITUTIONEEL_HUISHOUDEN",
+                                "ALLEENSTAANDE_OUDER",
+                                "ALLEENSTAAND",
+                                "SAMENWONEND_KINDEREN",
+                                "SAMENWONEND",
+                                null
+                            ]
+                        }
+                    }
+                },
+                "redenAanvraag": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/redenaanvraag-sd-v2.schema.json"
+                },
+                "inkomstenAanvrager": {
+                    "$ref": "/document/definition/reference/sd/inkomsten-sd-v3.schema.json"
+                },
+                "inkomstenPartner": {
+                    "$ref": "/document/definition/reference/sd/inkomsten-sd-v3.schema.json"
+                },
+                "kinderAlimentatieAanvrager": {
+                    "$ref": "/document/definition/reference/sd/alimentatie-sd-v1.schema.json"
+                },
+                "partnerAlimentatieAanvrager": {
+                    "$ref": "/document/definition/reference/sd/alimentatie-sd-v1.schema.json"
+                },
+                "partnerAlimentatie": {
+                    "$ref": "/document/definition/reference/sd/alimentatie-sd-v1.schema.json"
+                },
+                "vermogen": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/vermogen-sd-v4.schema.json"
+                },
+                "beschikbaarheidAanvrager": {
+                    "$ref": "/document/definition/reference/sd/beschikbaarheid-sd-v1.schema.json"
+                },
+                "beschikbaarheidPartner": {
+                    "$ref": "/document/definition/reference/sd/beschikbaarheid-sd-v1.schema.json"
+                },
+                "uitbetaling": {
+                    "type": "object",
+                    "items": {
+                        "$ref": "/document/definition/reference/sd/uitbetaling-sd-v1.schema.json"
+                    }
+                },
+                "vastleggenVoorschot": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "voorschotUitkeren": {
+                                "type": "string",
+                                "enum": [
+                                    "JA",
+                                    "NEE"
+                                ]
+                            },
+                            "toelichting": {
+                                "type": "string"
+                            },
+                            "datumBeoordeeld": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "uitzettenInformatieverzoek": {
+                    "type": "string",
+                    "enum": [
+                        "JA",
+                        "NEE"
+                    ]
+                },
+                "informatieverzoekAfgerond": {
+                    "type": "boolean"
+                },
+                "additioneleVeldenAanvrager": {
+                    "$ref": "#/definitions/additioneleVelden"
+                },
+                "additioneleVeldenPartner": {
+                    "$ref": "#/definitions/additioneleVelden"
+                },
+                "additioneleVeldenAanvraag": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "leefEnWoonsituatie": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "leefEnWoonsituateVastgesteld": {
+                                    "type": "boolean"
+                                },
+                                "datumVastgesteld": {
+                                    "type": "string"
+                                },
+                                "aantalBelanghebbende": {
+                                    "type": "number",
+                                    "enum": [
+                                        1,
+                                        2
+                                    ]
+                                },
+                                "toelichtingWoonsituatie": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "tenlasteKomendeKinderen": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ],
+                                    "enum": [
+                                        "JA",
+                                        "NEE",
+                                        null
+                                    ]
+                                },
+                                "art23Lid3VanToepassing": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ],
+                                    "enum": [
+                                        "JA",
+                                        "NEE",
+                                        null
+                                    ]
+                                },
+                                "toelichtingLeefsituatie": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "isHandmatigBeoordeeld": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "bs219norm": {
+                            "type": ["object", "null"],
+                            "additionalProperties": false,
+                            "properties": {
+                                "normVastgesteld": {
+                                    "type": "boolean"
+                                },
+                                "datumVastgesteld": {
+                                    "type": "string"
+                                },
+                                "isHandmatigBeoordeeld": {
+                                    "type": "boolean"
+                                },
+                                "basisnorm": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "normbedrag": {
+                                    "type": [
+                                        "number",
+                                        "null"
+                                    ]
+                                },
+                                "hoogteNorm": {
+                                    "description": "Uiteindelijke bedrag waar recht op is.",
+                                    "type": [
+                                        "number",
+                                        "null"
+                                    ]
+                                },
+                                "kostendelersnorm": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "kostendelersfactor": {
+                                    "type": [
+                                        "number",
+                                        "null"
+                                    ]
+                                },
+                                "kostendelersNormbedrag": {
+                                    "type": [
+                                        "number",
+                                        "null"
+                                    ]
+                                },
+                                "kostendelersnormPartner": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                },
+                                "kostendelersfactorPartner": {
+                                    "type": [
+                                        "number",
+                                        "null"
+                                    ]
+                                },
+                                "kostendelersNormbedragPartner": {
+                                    "type": [
+                                        "number",
+                                        "null"
+                                    ]
+                                },
+                                "kostendelersNormbedragGezamenlijk": {
+                                    "type": [
+                                        "number",
+                                        "null"
+                                    ]
+                                },
+                                "aantalRechthebbenden": {
+                                    "type": [
+                                        "number",
+                                        "null"
+                                    ]
+                                },
+                                "aantalKostendelers": {
+                                    "type": [
+                                        "number",
+                                        "null"
+                                    ]
+                                },
+                                "toelichting": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "uitgebreideMotivering": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "motivering": {
+                            "type": "string"
+                        },
+                        "isMotiveringDefinitief": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "gegevensVanuitBronnen": {
+            "type": "object",
+            "properties": {
+                "bewoningen": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "/document/definition/reference/sd/bewoning-v1.schema.json#/definitions/bewoning"
+                    }
+                },
+                "aanvrager": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/persoon-uit-bronnen-sd-v1.schema.json"
+                },
+                "partner": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/persoon-uit-bronnen-sd-v1.schema.json"
+                },
+                "inkomstenAanvrager": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/inkomsten-uit-bronnen-sd-v1.schema.json"
+                },
+                "inkomstenPartner": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/inkomsten-uit-bronnen-sd-v1.schema.json"
+                },
+                "vermogenAanvrager": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/vermogen-sd-v4.schema.json"
+                },
+                "vermogenPartner": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/sd/vermogen-sd-v4.schema.json"
+                },
+                "duoAanvrager": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "opleiding": {
+                            "type": "object",
+                            "$ref": "/document/definition/reference/sd/duo-opleiding-sd-v1.schema.json"
+                        }
+                    }
+                },
+                "duoPartner": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "opleiding": {
+                            "type": "object",
+                            "$ref": "/document/definition/reference/sd/duo-opleiding-sd-v1.schema.json"
+                        }
+                    }
+                },
+                "svbUitkeringenAanvrager": {
+                    "$ref": "/document/definition/reference/sd/inkomsten-uit-bronnen-sd-v1.schema.json"
+                },
+                "svbUitkeringenPartner": {
+                    "$ref": "/document/definition/reference/sd/inkomsten-uit-bronnen-sd-v1.schema.json"
+                },
+                "duoStudiefinancieringAanvrager": {
+                    "$ref": "/document/definition/reference/sd/duo-studiefinanciering-sd-v1.schema.json"
+                },
+                "duoStudiefinancieringPartner": {
+                    "$ref": "/document/definition/reference/sd/duo-studiefinanciering-sd-v1.schema.json"
+                }
+            },
+            "additionalProperties": false
+        },
+        "besluiten": {
+            "type": [
+                "array",
+                "null"
+            ],
+            "additionalItems": false,
+            "items": {
+                "$ref": "#/definitions/besluit"
+            }
+        },
+        "informatieverzoeken": {
+            "anyOf": [
+                {
+                    "type": "array"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "items": {
+                "$ref": "#/definitions/informatieverzoek"
+            }
+        },
+        "poortonderzoek": {
+            "$ref": "#/definitions/poortonderzoek"
+        },
+        "ophalenBronGegevens": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "datum": {
+                        "type": "string"
+                    },
+                    "user": {
+                        "type": "string"
+                    },
+                    "bsn": {
+                        "type": "string"
+                    },
+                    "bron": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "connectionError": {
+            "type": [
+                "array",
+                "null"
+            ]
+        },
+        "items": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "besluit": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "genomenBesluit": {
+                    "type": "string",
+                    "enum": [
+                        "TOEGEKEND",
+                        "AFGEWEZEN",
+                        "INGETROKKEN",
+                        "BUITEN_BEHANDELING_GESTELD"
+                    ]
+                },
+                "versneldBeslist": {
+                    "type": ["boolean", "null"]
+                },
+                "beslisser": {
+                    "type": "string"
+                },
+                "besluitDatum": {
+                    "type": "string"
+                },
+                "redenAfwijzing": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "vervalreden": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "vervaldatum": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "besluitDocumenten": {
+                    "$ref": "documenten-api-file.schema.json#/definitions/documentenApiFile"
+                },
+                "buitenBehandelingStellen": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "datumUitgezet": {
+                            "type": "string"
+                        },
+                        "deadlineInformatieverzoek": {
+                            "type": "string"
+                        },
+                        "ontbrekendeStukken": {
+                            "type": "string"
+                        },
+                        "toelichting": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "intrekking": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "datumIngetrokken": {
+                            "type": "string"
+                        },
+                        "ingetrokkenVia": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "dienst": {
+                    "type": [
+                        "array",
+                        "null"
+                    ],
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "dienstId": {
+                                "description": "Identificatie van de dienst",
+                                "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/guid"
+                            },
+                            "periodiciteitStatusformulier": {
+                                "description": "Dit gegeven geeft aan met welk tijdsinterval een statusformulier moet worden gestuurd naar de klant om te checken of de gegevens nog actueel zijn op basis waarvan de uitkering wordt bepaald.",
+                                "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/cdPeriodiciteitStatusformulier"
+                            },
+                            "startdatumStatusformulier": {
+                                "description": "Geeft aan wanneer de periodiek van verzenden statusformulier start",
+                                "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/datum"
+                            },
+                            "begindatum": {
+                                "description": "n.t.b.",
+                                "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/datum"
+                            },
+                            "einddatum": {
+                                "description": "n.t.b.",
+                                "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/datum"
+                            },
+                            "aantalKostendelers": {
+                                "description": "Afgeleid gegeven uit opgegeven medebewoners bij de aanvraag en wordt alleen in het S2S-koppelvlak meegenomen omdat de gegevens van de medebewoners niet zonder doelbinding in vervolgprocessen kunnen worden gebruikt.",
+                                "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/getal"
+                            },
+                            "referteperiode": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "description": "Identificerend kenmerk",
+                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/guid"
+                                    },
+                                    "startdatum": {
+                                        "description": "De startdatum van de referteperiode",
+                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/datum"
+                                    },
+                                    "einddatum": {
+                                        "description": "Einddatum van de referteperiode",
+                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/datum"
+                                    }
+                                }
+                            },
+                            "betalingsblokkade": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "description": "Identificerend gegeven",
+                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/guid"
+                                    },
+                                    "aanduiding": {
+                                        "description": "Vooralsnog is hier (nog) maar een aanduiding relevant en dat is 'Blokkade vakantiegeld'",
+                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/tekst"
+                                    },
+                                    "initieleAanmaakDatum": {
+                                        "description": "De datum waarop de blokkade is aangemaakt en aan de dienst gekoppeld",
+                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/datum"
+                                    },
+                                    "directBlokkeren": {
+                                        "description": "Al dan niet direct blokkeren",
+                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/stdIndJN"
+                                    },
+                                    "reden": {
+                                        "description": "De reden om te blokkeren",
+                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/tekst"
+                                    },
+                                    "blokkadetype": {
+                                        "description": "Type is Uitkering of Vakantiegeld",
+                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/cdTypeBlokkade"
+                                    }
+                                }
+                            },
+                            "leveringsopdracht": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "verstrekkingsvorm": {
+                                            "type": "object",
+                                            "description": "De aard van afgifte van het product aan de burger (of bedrijf). Dit kan bijvoorbeeld zijn als gift, als lening, onder verband van hypotheek, …",
+                                            "properties": {
+                                                "type": {
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "OMNIET",
+                                                        "KREDIETHYPOTHEEK",
+                                                        "LENING",
+                                                        "ON",
+                                                        "RLL",
+                                                        "KH"
+                                                    ]
+                                                }
+                                            }
+                                        },
+                                        "leveringsspecificatie": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "periodeStartdatum": {
+                                                        "description": "De startdatum van de periode waarvoor de leveringsspecificatie geldt.",
+                                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/datum"
+                                                    },
+                                                    "periodeEinddatum": {
+                                                        "description": "De einddatum van de periode waarvoor de leveringsspecificatie geldt.",
+                                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/datum"
+                                                    },
+                                                    "periodiciteit": {
+                                                        "description": "De periode van uitbetaling",
+                                                        "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/cdPeriode"
+                                                    },
+                                                    "leveringscomponent": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "id": {
+                                                                    "description": "Identificerend kenmerk",
+                                                                    "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/guid"
+                                                                },
+                                                                "soort": {
+                                                                    "description": "Beschrijving van de soort die is toegepast",
+                                                                    "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/tekst"
+                                                                },
+                                                                "gevalsrubriek": {
+                                                                    "description": "<p>De gevalsrubriek geeft aan of de bedragen of percentages moeten worden ge�nterpreteerd als</p><ul>                                    </ul>",
+                                                                    "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/onderdeelDienstGevalsrubriek"
+                                                                },
+                                                                "bedrag": {
+                                                                    "description": "De hoogte van het bedrag voor deze leveringscomponent.",
+                                                                    "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/geldbedrag"
+                                                                },
+                                                                "percentage": {
+                                                                    "description": "De hoogte van het percentage dat moet worden toegepast op het bedrag van de leveringscomponent.",
+                                                                    "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/getal"
+                                                                },
+                                                                "omschrijvingAfwijking": {
+                                                                    "description": "De omschrijving van de afwijking, die is toegepast",
+                                                                    "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/tekst"
+                                                                },
+                                                                "periodeStartdatum": {
+                                                                    "description": "De startdatum van de periode",
+                                                                    "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/datum"
+                                                                },
+                                                                "einddatum": {
+                                                                    "description": "n.t.b.",
+                                                                    "$ref": "/document/definition/reference/ontologie/diensten-v1-metverstrekkingsvorm.schema.json#/definitions/datum"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "aanvrager": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "voorliggendeVoorzieningen": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "/document/definition/reference/sd/voorliggendevoorziening-v1.schema.json"
+                                        }
+                                    },
+                                    "uitsluitingsgronden": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "/document/definition/reference/sd/uitsluitingsgronden-v1.schema.json"
+                                        }
+                                    }
+                                }
+                            },
+                            "partner": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                    "voorliggendeVoorzieningen": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "/document/definition/reference/sd/voorliggendevoorziening-v1.schema.json"
+                                        }
+                                    },
+                                    "uitsluitingsgronden": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "/document/definition/reference/sd/uitsluitingsgronden-v1.schema.json"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "poortonderzoek": {
+            "type": "object",
+            "properties": {
+                "uitvoeren": {
+                    "type": "string",
+                    "enum": [
+                        "JA",
+                        "NEE"
+                    ]
+                },
+                "datumAangevraagd": {
+                    "type": "string"
+                },
+                "toelichting": {
+                    "type": "string"
+                },
+                "datumUitkomst": {
+                    "type": "string"
+                },
+                "uitkomst": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "informatieverzoek": {
+            "type": "object",
+            "properties": {
+                "verzoek": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "verwerkerTaakId": {
+                            "type": "string"
+                        },
+                        "opTeVragenInformatie": {
+                            "$ref": "#/definitions/opTeVragenInformatie"
+                        },
+                        "documenten": {
+                            "type": "array"
+                        },
+                        "berichtNaarAanvrager": {
+                            "type": "string"
+                        },
+                        "datumUitgezet": {
+                            "type": "string"
+                        },
+                        "deadlineInformatieverzoek": {
+                            "type": "string"
+                        },
+                        "uitgezetDoor": {
+                            "type": "string"
+                        },
+                        "hersteltermijn": {
+                            "type": "string",
+                            "enum": [
+                                "JA",
+                                "NEE"
+                            ]
+                        },
+                        "hersteltermijnInDagen": {
+                            "type": "number"
+                        },
+                        "status": {
+                            "type": "string"
+                        },
+                        "geannuleerdDoor": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "reactie": {
+                    "anyOf": [
+                        {
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "properties": {
+                        "ontvangenPortaalBestanden": {
+                            "type": "array"
+                        },
+                        "toelichting": {
+                            "type": "string"
+                        },
+                        "reactiedatum": {
+                            "type": "string"
+                        },
+                        "beoordeeldDoor": {
+                            "type": "string"
+                        },
+                        "informatieverzoekIsAfgerond": {
+                            "type": "string",
+                            "enum": [
+                                "JA",
+                                "NEE"
+                            ]
+                        },
+                        "opTeVragenInformatie": {
+                            "$ref": "#/definitions/opTeVragenInformatie"
+                        },
+                        "documenten": {
+                            "type": "array"
+                        },
+                        "deadlineInformatieverzoek": {
+                            "type": "string"
+                        },
+                        "berichtNaarAanvrager": {
+                            "type": "string"
+                        },
+                        "hersteltermijn": {
+                            "type": "string",
+                            "enum": [
+                                "JA",
+                                "NEE"
+                            ]
+                        },
+                        "hersteltermijnInDagen": {
+                            "type": [
+                                "number",
+                                "null"
+                            ]
+                        },
+                        "uitgezetDoor": {
+                            "type": "string"
+                        },
+                        "datumUitgezet": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "opTeVragenInformatie": {
+            "anyOf": [
+                {
+                    "type": "array"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "informatieverzoekItem": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "categorie": {
+                                "type": [
+                                    "array"
+                                ],
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "dossierType": {
+                                "type": [
+                                    "array"
+                                ],
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "code": {
+                                "type": "string"
+                            },
+                            "informatieobjecttypeUrl": {
+                                "type": "string"
+                            },
+                            "omschrijvingAanvrager": {
+                                "type": "string"
+                            },
+                            "omschrijvingBehandelaar": {
+                                "type": "string"
+                            },
+                            "toelichting": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "toelichtingBehandelaar": {
+                        "type": "string"
+                    },
+                    "bestandNietAanleveren": {
+                        "type": "boolean"
+                    },
+                    "documentUpload": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "bestanden": {
+                        "anyOf": [
+                            {
+                                "type": "array",
+                                "items": {
+                                    "type": "object"
+                                }
+                            },
+                            {
+                                "type": "object"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "documentenApiFile": {
+            "type": "array",
+            "additionalProperties": false,
+            "items": {
+                "file": {
+                    "type": "object",
+                    "properties": {
+                        "filename": {
+                            "type": "string"
+                        },
+                        "sizeInBytes": {
+                            "type": "number"
+                        },
+                        "id": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "additioneleVelden": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "verblijfadres": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "verblijfadresVastgesteld": {
+                            "type": "boolean"
+                        },
+                        "teGebruikenAdres": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "datumVastgesteld": {
+                            "type": "string"
+                        },
+                        "isHandmatigBeoordeeld": {
+                            "type": "boolean"
+                        },
+                        "toelichtingConsulent": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        }
+                    }
+                },
+                "bs213verblijfstitel": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "verblijfstitelVastgesteld": {
+                            "type": "boolean"
+                        },
+                        "datumVastgesteld": {
+                            "type": "string"
+                        },
+                        "isHandmatigBeoordeeld": {
+                            "type": "boolean"
+                        },
+                        "rechtOpBijstand": {
+                            "type": "boolean"
+                        },
+                        "toelichtingConsulent": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "isSprakeVanGemeenschapsrecht": {
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "enum": [
+                                "GEMEENSCHAPSRECHT_VAN_TOEPASSING",
+                                "GEMEENSCHAPSRECHT_NIET_VAN_TOEPASSING",
+                                null
+                            ]
+                        }
+                    }
+                },
+                "bs221ingangsdatum": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "ingangsdatum": {
+                            "type": "string"
+                        },
+                        "toelichting": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "datumVastgesteld": {
+                            "type": "string"
+                        },
+                        "ingangsDatumVastgesteld": {
+                            "type": "boolean"
+                        },
+                        "isHandmatigBeoordeeld": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "bs224InkomstenAanvrager": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "inkomenVastgesteld": {
+                            "type": "boolean"
+                        },
+                        "datumVastgesteld": {
+                            "type": "string"
+                        },
+                        "isHandmatigBeoordeeld": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "bs224InkomstenPartner": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "inkomenVastgesteld": {
+                            "type": "boolean"
+                        },
+                        "datumVastgesteld": {
+                            "type": "string"
+                        },
+                        "isHandmatigBeoordeeld": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "bs224bGezamelijkInkomen": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "gezamelijkInkomenVastgesteld": {
+                            "type": "boolean"
+                        },
+                        "datumVastgesteld": {
+                            "type": "string"
+                        },
+                        "isHandmatigBeoordeeld": {
+                            "type": "boolean"
+                        },
+                        "gezamelijkInkomen": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "bs444VoorliggendeVoorzieningen": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "voorliggendeVoorzieningenVastgesteld": {
+                            "type": "boolean"
+                        },
+                        "datumVastgesteld": {
+                            "type": "string"
+                        },
+                        "isHandmatigBeoordeeld": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "bs218Uitsluitingsgronden": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "uitsluitingsgrondenVastgesteld": {
+                            "type": "boolean"
+                        },
+                        "datumVastgesteld": {
+                            "type": "string"
+                        },
+                        "isHandmatigBeoordeeld": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "vastleggingPersoon": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "gebruikenBrpGegevens": {
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "enum": [
+                                "JA",
+                                "NEE",
+                                null
+                            ]
+                        },
+                        "persoonVastgesteld": {
+                            "type": "boolean"
+                        },
+                        "datumVastgesteld": {
+                            "type": "string"
+                        },
+                        "toelichtingConsulent": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "isHandmatigBeoordeeld": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "bs216relaties": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "relatieVastgesteld": {
+                            "type": "boolean"
+                        },
+                        "datumVastgesteld": {
+                            "type": "string"
+                        },
+                        "isHandmatigBeoordeeld": {
+                            "type": "boolean"
+                        },
+                        "toelichting": {
+                            "type": ["string", "null"]
+                        }
+                    }
+                },
+                "bs214vermogen": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "vermogenVastgesteld": {
+                            "type": "boolean"
+                        },
+                        "datumVastgesteld": {
+                            "type": "string"
+                        },
+                        "isHandmatigBeoordeeld": {
+                            "type": "boolean"
+                        },
+                        "toelichting": {
+                            "type": ["string", "null"]
+                        },
+                            "handmatigeVaststellingBankrekeningen": {
+                            "type": ["string","null"]
+                        },
+                        "handmatigeVaststellingBezittingen": {
+                            "type": ["string","null"]
+                        },
+                        "handmatigeVaststellingSchulden": {
+                            "type": ["string","null"]
+                        },
+                        "handmatigeVaststellingEigenWoning": {
+                            "type": ["string","null"]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

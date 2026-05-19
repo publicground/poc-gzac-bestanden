@@ -1,0 +1,133 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+    "type": "{{objecttypes_api_url_alo}}",
+    "record": {
+         "typeVersion": "{{objecttypes_version}}",
+        "data": {
+            "bsn": "999991322",
+            "data": {
+                "alo-ioaw": {
+                    "grIoaw": {
+                        "geenRechtMeerWw": "JA",
+                        "geenRechtMeerWga": "JA",
+                        "gedeeltelijkArbeidsongeschikt": "JA"
+                    }
+                },
+                "your-details": {
+                    "naw": {
+                        "grAdresgegevens": {
+                            "plaats": "'s-Gravenhage",
+                            "straat": "Herengracht",
+                            "postcode": "2511 EG",
+                            "huisletter": "",
+                            "huisnummer": "1",
+                            "toevoeging": ""
+                        },
+                        "grPersoongegevens": {
+                            "Bsn": "999991322",
+                            "voornaam": "Celeste",
+                            "achternaam": "Avion",
+                            "voorletters": "C.",
+                            "voorvoegsels": "",
+                            "geboortedatum": "1960-12-29"
+                        }
+                    }
+                },
+                "alo-uitbetaling": {
+                    "ibanAanWie": "NEE",
+                    "ibanUitbetaling": "NL73BKCH0201783649",
+                    "naamRekeninghouder": "Avion"
+                },
+                "alo-uw-inkomsten": {
+                    "heeftInkomsten": "GEEN_INKOMSTEN"
+                },
+                "alo-reden-aanvraag": {
+                    "grIngangsdatum": {
+                        "bijstandsuitkeringEerderStarten": "NEE",
+                        "welkZiekenhuis": "Den Haag Medisch Centrum",
+                        "welkeredenlaat": "OPNAME_INSTELLING",
+                        "wanneerInZiekenhuis": "2025-07-17",
+                        "wanneerUitZiekenhuis": "2025-08-03"
+                    },
+                    "grVerblijfstatus": {
+                        "stoptWeekgeld": "NEE",
+                        "hoeveelWeekgeld": 550,
+                        "ontvangtWeekgeld": "JA",
+                        "redenVerblijfstatus": "VERBLIJFSDOCUMENT"
+                    },
+                    "waaromBijstandsuitkering": "VERBLIJFSTATUS"
+                },
+                "alo-uw-woonsituatie": {
+                    "hoeWoontU": "BIJ_FAMILIE_VRIENDEN_OF_KENNISSEN",
+                    "bijWieWoontU": "KINDEREN",
+                    "grAndereBewoners": {
+                        "meerMensenOpAdres": "NEE"
+                    }
+                },
+                "alo-uw-beschikbaarheid": {
+                    "grBeschikbaarheid": {
+                        "onbetaald": "NEE",
+                        "beschikbaarheid": 32
+                    }
+                },
+                "alo-gezinssamenstelling": {
+                    "partnerWoontBijU": "NEE",
+                    "thuiswonendeKinderen": "NEE"
+                },
+                "alo-aanvullende-gegevens": {
+                    "lieverPost": true,
+                    "grWoonsituatie": {
+                        "woonsituatie": "ANDER_ADRES"
+                    },
+                    "grAdresVerblijf": {
+                        "plaatsVerblijf": "'s-Gravenhage",
+                        "straatVerblijf": "1e Eeldepad",
+                        "postcodeVerblijf": "2541 JG",
+                        "huisletterVerblijf": "",
+                        "huisnummerVerblijf": 3,
+                        "nummerToevoegingVerblijf": "",
+                        "toelichtingadresVerblijf": "Mijn huis is onbewoonbaar"
+                    },
+                    "grNationaliteit": {
+                        "watGedaanBehouden": "VERLENGING_VERBLIJFSDOCUMENT",
+                        "nationaliteitBezit": "GEEN_VERBLIJFSVERGUNNING",
+                        "geenNederlandseNationaliteit": "JA"
+                    },
+                    "grContactAanvraag": {
+                        "hulpAanvraag": "NEE"
+                    },
+                    "grNieuweContactgegevens": {
+                        "geenEmail": true,
+                        "geenTelefoon": true
+                    }
+                },
+                "alo-bezittingen-en-schulden": {
+                    "grRekeningen": {
+                        "grLogicaBank": {
+                            "hhgVoegRekeningToe": [
+                                {
+                                    "prive": "NL73BKCH0201783649",
+                                    "hoeveelGeld": 5000,
+                                    "typeRekening": "NEDERLANDSE_PRIVE_REKENING",
+                                    "uploadAfschrift": []
+                                }
+                            ]
+                        },
+                        "geenBankrekening": "BEZIT_REKENING"
+                    }
+                }
+            },
+            "type": "Verzoek IOAW DCM",
+            "attachments": [],
+            "language_code": "nl",
+            "submission_id": "8e0a6910-ae47-457c-89f9-b90998ec26de",
+            "public_reference": "OF-{{$random.alphanumeric(8)}}"
+        },
+        "startAt": "2025-07-31",
+        "registrationAt": "2025-07-31"
+    }
+}

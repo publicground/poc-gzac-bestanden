@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0932ye4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:collaboration id="Collaboration_11k79ui">
+    <bpmn:participant id="GenereerRapportageParticipant" name="Genereer rapportage" processRef="alo-genereer-rapportage" />
+  </bpmn:collaboration>
+  <bpmn:process id="alo-genereer-rapportage" name="ALO: Genereer rapportage" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1tagqvw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1wpf0ji" sourceRef="LinkenDocumentAanDeZaakTask" targetRef="Event_1637g5f" />
+    <bpmn:sequenceFlow id="Flow_165kvbm" sourceRef="GenereerRapportageTask" targetRef="RapportageGateway" />
+    <bpmn:sequenceFlow id="BronRapportageSequenceFlow" name="Bron rapportage" sourceRef="RapportageGateway" targetRef="OpslaanBrondocumentInDocumentenApiTask" />
+    <bpmn:sequenceFlow id="DossierRapportageSequenceFlow" name="Dossier rapportage" sourceRef="RapportageGateway" targetRef="OpslaanRapportageInDocumentenApiTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${rapportageType != null &amp;&amp; rapportageType == "dossierRapportage"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1rv1a1f" sourceRef="OpslaanBrondocumentInDocumentenApiTask" targetRef="Gateway_1k1wuqe" />
+    <bpmn:sequenceFlow id="Flow_1skaxxk" sourceRef="OpslaanRapportageInDocumentenApiTask" targetRef="Gateway_1k1wuqe" />
+    <bpmn:sequenceFlow id="Flow_1xdhtau" sourceRef="Gateway_1k1wuqe" targetRef="LinkenDocumentAanDeZaakTask" />
+    <bpmn:serviceTask id="OphalenInputTask" name="Ophalen input" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="rapportageType">${execution.getVariable("rapportageType")}</camunda:outputParameter>
+          <camunda:outputParameter name="dossierType">${execution.getVariable("dossierType")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1tagqvw</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ag7bgp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1tagqvw" sourceRef="StartEvent_1" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_1ag7bgp" sourceRef="OphalenInputTask" targetRef="GenereerRapportageTask" />
+    <bpmn:serviceTask id="GenereerRapportageTask" name="Genereer rapportage" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>Flow_1ag7bgp</bpmn:incoming>
+      <bpmn:outgoing>Flow_165kvbm</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="RapportageGateway" name="Rapportage?" default="BronRapportageSequenceFlow">
+      <bpmn:incoming>Flow_165kvbm</bpmn:incoming>
+      <bpmn:outgoing>BronRapportageSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>DossierRapportageSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="OpslaanBrondocumentInDocumentenApiTask" name="Opslaan brondocument in documenten api" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>BronRapportageSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rv1a1f</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="OpslaanRapportageInDocumentenApiTask" name="Opslaan rapportage in documenten api" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>DossierRapportageSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1skaxxk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="LinkenDocumentAanDeZaakTask" name="Linken document aan de zaak" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>Flow_1xdhtau</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wpf0ji</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1637g5f">
+      <bpmn:incoming>Flow_1wpf0ji</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_1k1wuqe">
+      <bpmn:incoming>Flow_1rv1a1f</bpmn:incoming>
+      <bpmn:incoming>Flow_1skaxxk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xdhtau</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_11k79ui">
+      <bpmndi:BPMNShape id="Participant_0aobzz3_di" bpmnElement="GenereerRapportageParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1190" height="380" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="212" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0oga1xj_di" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="300" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_17d6wnb" bpmnElement="GenereerRapportageTask">
+        <dc:Bounds x="450" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0t4aqyq_di" bpmnElement="RapportageGateway" isMarkerVisible="true">
+        <dc:Bounds x="615" y="185" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="608" y="155" width="64" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0kfsawf" bpmnElement="OpslaanBrondocumentInDocumentenApiTask">
+        <dc:Bounds x="800" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1n94bzb" bpmnElement="OpslaanRapportageInDocumentenApiTask">
+        <dc:Bounds x="800" y="300" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hbk1hw_di" bpmnElement="LinkenDocumentAanDeZaakTask">
+        <dc:Bounds x="1110" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1637g5f_di" bpmnElement="Event_1637g5f">
+        <dc:Bounds x="1262" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1k1wuqe_di" bpmnElement="Gateway_1k1wuqe" isMarkerVisible="true">
+        <dc:Bounds x="975" y="185" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1wpf0ji_di" bpmnElement="Flow_1wpf0ji">
+        <di:waypoint x="1210" y="210" />
+        <di:waypoint x="1262" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_165kvbm_di" bpmnElement="Flow_165kvbm">
+        <di:waypoint x="550" y="210" />
+        <di:waypoint x="615" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0orclyf_di" bpmnElement="BronRapportageSequenceFlow">
+        <di:waypoint x="665" y="210" />
+        <di:waypoint x="800" y="210" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="690" y="193" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08g43m8_di" bpmnElement="DossierRapportageSequenceFlow">
+        <di:waypoint x="640" y="235" />
+        <di:waypoint x="640" y="340" />
+        <di:waypoint x="800" y="340" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="693" y="306" width="54" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rv1a1f_di" bpmnElement="Flow_1rv1a1f">
+        <di:waypoint x="900" y="210" />
+        <di:waypoint x="975" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1skaxxk_di" bpmnElement="Flow_1skaxxk">
+        <di:waypoint x="900" y="340" />
+        <di:waypoint x="1000" y="340" />
+        <di:waypoint x="1000" y="235" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xdhtau_di" bpmnElement="Flow_1xdhtau">
+        <di:waypoint x="1025" y="210" />
+        <di:waypoint x="1110" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tagqvw_di" bpmnElement="Flow_1tagqvw">
+        <di:waypoint x="248" y="210" />
+        <di:waypoint x="300" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ag7bgp_di" bpmnElement="Flow_1ag7bgp">
+        <di:waypoint x="400" y="210" />
+        <di:waypoint x="450" y="210" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

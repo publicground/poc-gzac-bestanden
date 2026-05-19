@@ -1,0 +1,36 @@
+{
+    "$id": "contactpersoon.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Contactpersoon definition",
+    "definitions": {
+        "contactpersoon": {
+            "type": "object",
+            "properties": {
+                "naamContactpersoon": {
+                    "type": "string"
+                },
+                "telefoon": {
+                    "type": "string"
+                },
+                "relatieTotAanvrager": {
+                    "type": "string",
+                    "enum": [
+                        "FAMILIE",
+                        "BUURMAN_VROUW",
+                        "KENNIS",
+                        "HULPVERLENER",
+                        "BOEKHOUDER",
+                        "MEDEWERKER_VAN_DE_GEMEENTE"
+                    ]
+                },
+                "machtigingsformulierOntvangen": {
+                    "type": "boolean"
+                },
+                "toelichting": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
+

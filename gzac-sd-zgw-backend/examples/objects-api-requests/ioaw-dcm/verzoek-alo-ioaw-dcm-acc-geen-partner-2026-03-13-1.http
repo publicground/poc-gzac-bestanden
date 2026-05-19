@@ -1,0 +1,238 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+    "type": "{{objecttypes_api_url_alo}}",
+    "record": {
+        "typeVersion": "{{objecttypes_version}}",
+        "data": {
+            "bsn": "999991322",
+            "data": {
+                "alo-ioaw": {
+                    "grIoaw": {
+                        "geenRechtMeerWw": "JA",
+                        "geenRechtMeerWga": "JA",
+                        "gedeeltelijkArbeidsongeschikt": "JA"
+                    }
+                },
+                "your-details": {
+                    "naw": {
+                        "grAdresgegevens": {
+                            "plaats": "'s-Gravenhage",
+                            "straat": "Herengracht",
+                            "postcode": "2511 EG",
+                            "huisletter": "",
+                            "huisnummer": "1",
+                            "toevoeging": ""
+                        },
+                        "grPersoongegevens": {
+                            "Bsn": "999991322",
+                            "voornaam": "Celeste",
+                            "achternaam": "Avion",
+                            "voorletters": "C.",
+                            "voorvoegsels": "",
+                            "geboortedatum": "1960-12-29"
+                        }
+                    }
+                },
+                "alo-uitbetaling": {
+                    "ibanAanWie": "NEE",
+                    "ibanUitbetaling": "NL59INGB0000000025",
+                    "naamRekeninghouder": "A. de Vries"
+                },
+                "alo-uw-inkomsten": {
+                    "grLoondienst": {
+                        "hhgWerkgevers": [
+                            {
+                                "nettoloon": 899.99,
+                                "uploadLoon": [
+                                    {
+                                        "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/faf7a4d3-2e66-48a5-81a6-194b318ddd0a",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/faf7a4d3-2e66-48a5-81a6-194b318ddd0a",
+                                            "form": "",
+                                            "name": "Loonstrook Jumbo 1.pdf",
+                                            "size": 30293,
+                                            "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "Loonstrook Jumbo 1-1089aae6-f24c-4e76-aaaa-e4e706fb22f3.pdf",
+                                        "size": 30293,
+                                        "type": "application/pdf",
+                                        "storage": "url",
+                                        "originalName": "Loonstrook Jumbo 1.pdf"
+                                    },
+                                    {
+                                        "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/5d16c8a4-75a2-4262-91de-2ba4a271d7c5",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/5d16c8a4-75a2-4262-91de-2ba4a271d7c5",
+                                            "form": "",
+                                            "name": "Loonstrook Jumbo 2.pdf",
+                                            "size": 30293,
+                                            "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "Loonstrook Jumbo 2-e9d5d264-fdff-40d1-b8c4-05c9c6c30012.pdf",
+                                        "size": 30293,
+                                        "type": "application/pdf",
+                                        "storage": "url",
+                                        "originalName": "Loonstrook Jumbo 2.pdf"
+                                    },
+                                    {
+                                        "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/cc95bea5-a940-46f9-9b7a-9a2e70801a35",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/cc95bea5-a940-46f9-9b7a-9a2e70801a35",
+                                            "form": "",
+                                            "name": "Loonstrook Jumbo 3.pdf",
+                                            "size": 30293,
+                                            "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "Loonstrook Jumbo 3-b0661c91-4814-4b62-8edd-09e3fe2c37f1.pdf",
+                                        "size": 30293,
+                                        "type": "application/pdf",
+                                        "storage": "url",
+                                        "originalName": "Loonstrook Jumbo 3.pdf"
+                                    }
+                                ],
+                                "hoevaakLoon": "MAAND",
+                                "naamWerkgever": "jumbo",
+                                "soortContract": "CONTRACT_BEPAALDE_TIJD",
+                                "geenLoonstrook": false,
+                                "hoeveelUurWerk": 34,
+                                "kiesLoonheffing": "JA",
+                                "kiesStopContract": "JA",
+                                "urenvermindering": "NEE",
+                                "kiesExtraUitbetaald": "NEE",
+                                "wanneerStoptContract": "2025-02-11"
+                            }
+                        ]
+                    },
+                    "heeftInkomsten": "JA",
+                    "soortenInkomsten": {
+                        "PENSIOEN": false,
+                        "UITKERING": false,
+                        "LOONDIENST": true,
+                        "ALIMENTATIE": false,
+                        "HEFFINGSKORTING": false,
+                        "OVERIGE_INKOMSTEN": false,
+                        "INKOMEN_UIT_BUITENLAND": false,
+                        "INKOMEN_UIT_ONDERNEMING": false,
+                        "INKOMSTEN_UIT_ONDERHUUR": false
+                    }
+                },
+                "alo-reden-aanvraag": {
+                    "grGeenInkomen": {
+                        "waaromGeenInkomen": "GEEN_WERK"
+                    },
+                    "grIngangsdatum": {
+                        "bijstandsuitkeringEerderStarten": "NEE"
+                    },
+                    "grGeenBetaaldWerk": {
+                        "waaromGeenWerk": "TIJDELIJK_CONTRACT_GESTOPT",
+                        "naamOudWerkgever": "Jumbo",
+                        "adresOudWerkgever": "Kalvermarkt",
+                        "totWanneerSalaris": "2025-02-11",
+                        "telefoonOudWerkgever": ""
+                    },
+                    "grEindeTijdelijkContract": {
+                        "hoelangContract": "KORTER_6_MAANDEN",
+                        "ontslagBriefOntvangen": "JA"
+                    },
+                    "waaromBijstandsuitkering": "GEEN_ONVOLDOENDE_INKOMEN"
+                },
+                "alo-uw-woonsituatie": {
+                    "grHuur": {
+                        "hoeveelHuur": 950.12,
+                        "huurcontract": "JA",
+                        "wieVerhuurder": "Particulier",
+                        "contractOpUwNaam": "JA",
+                        "hoeveelHuurtoeslag": 415
+                    },
+                    "hoeWoontU": "ZELFSTANDIGE_HUURWONING",
+                    "grAndereBewoners": {
+                        "meerMensenOpAdres": "NEE"
+                    }
+                },
+                "alo-uw-beschikbaarheid": {
+                    "grBeschikbaarheid": {
+                        "onbetaald": "NEE",
+                        "beschikbaarheid": 20
+                    }
+                },
+                "alo-gezinssamenstelling": {
+                    "partnerWoontBijU": "NEE",
+                    "thuiswonendeKinderen": "NEE"
+                },
+                "gegevens-partner": {},
+                "gegevens-kinderen": {},
+                "alo-aanvullende-gegevens": {
+                    "lieverPost": true,
+                    "grWoonsituatie": {
+                        "woonsituatie": "WAAR_IK_WOON"
+                    },
+                    "grNationaliteit": {
+                        "nationaliteitBezit": "NEDERLANDSE_NATIONALITEIT"
+                    },
+                    "grContactAanvraag": {
+                        "hulpAanvraag": "NEE"
+                    },
+                    "grNieuweContactgegevens": {
+                        "geenEmail": false,
+                        "emailAdres": "test@denhaag.nl",
+                        "geenTelefoon": false,
+                        "telefoonnummer": "0612345678"
+                    }
+                },
+                "alo-bezittingen-en-schulden": {
+                    "grRekeningen": {
+                        "grLogicaBank": {
+                            "hhgVoegRekeningToe": [
+                                {
+                                    "prive": "NL59INGB0000000025",
+                                    "hoeveelGeld": -123.45,
+                                    "typeRekening": "NEDERLANDSE_PRIVE_REKENING",
+                                    "uploadAfschrift": [
+                                        {
+                                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/fa27bb61-57bb-419f-aa1e-08495e4afd01",
+                                            "data": {
+                                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/fa27bb61-57bb-419f-aa1e-08495e4afd01",
+                                                "form": "",
+                                                "name": "Bankafschrift prive.pdf",
+                                                "size": 30293,
+                                                "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                                "project": ""
+                                            },
+                                            "name": "Bankafschrift prive-c2723633-ff89-4c3c-8971-cf9d3eda4369.pdf",
+                                            "size": 30293,
+                                            "type": "application/pdf",
+                                            "storage": "url",
+                                            "originalName": "Bankafschrift prive.pdf"
+                                        }
+                                    ],
+                                    "geenRekeningUploaden": false
+                                }
+                            ]
+                        },
+                        "geenBankrekening": "BEZIT_REKENING"
+                    }
+                }
+            },
+            "type": "Verzoek IOAW DCM",
+            "pdf_url": "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/e79e64c4-6267-44dd-8e7a-fa81aa6dc8a6",
+            "attachments": [
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/e6e617f5-2ca2-4e84-ae57-cdc38f30bb84",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/6acb92ad-1630-4935-9d99-bd6b17c29744",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/f8be2a4e-5dc3-41aa-a1c5-b5327b680b53",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/1417f5ba-0945-455d-91f3-710d989a2519"
+            ],
+            "language_code": "nl",
+            "submission_id": "e018735f-3f46-4bb8-a9f5-ce5f2d87b179",
+            "public_reference": "OF-{{$random.alphanumeric(8)}}"
+        },
+        "startAt": "2025-03-20",
+        "registrationAt": "2025-03-20"
+    }
+}

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1ci6lum" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.20.0">
+  <bpmn:collaboration id="Collaboration_1r252k4">
+    <bpmn:participant id="AfsluitenZaakParticipant" name="Afsluiten zaak" processRef="generic-afsluiten-zaak-plugin" />
+    <bpmn:textAnnotation id="TextAnnotation_1mzg7wg">
+      <bpmn:text>configureer plugin actie:
+Catalogi API plugin - Resultaat type ophalen</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_13xtzan">
+      <bpmn:text>configureer plugin actie:
+Zaken API plugin - Resultaat aanmaken</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1krdt9z" associationDirection="None" sourceRef="TextAnnotation_1mzg7wg" targetRef="GetResultaatTypeURLTask" />
+    <bpmn:association id="Association_18m7na5" associationDirection="None" sourceRef="TextAnnotation_13xtzan" targetRef="UpdateZaakResultaatTask" />
+  </bpmn:collaboration>
+  <bpmn:process id="generic-afsluiten-zaak-plugin" name="Generic: Afsluiten zaak w/ plugin" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_0id9rpy" sourceRef="StartZaakUpdateStartEvent" targetRef="GetResultaatTypeURLTask" />
+    <bpmn:sequenceFlow id="Flow_1cfti5j" sourceRef="GetResultaatTypeURLTask" targetRef="UpdateZaakResultaatTask" />
+    <bpmn:sequenceFlow id="Flow_13oinal" sourceRef="UpdateZaakResultaatTask" targetRef="UpdateZaakStatusCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0p4klx7" sourceRef="UpdateZaakStatusCallActivity" targetRef="EndEvent" />
+    <bpmn:startEvent id="StartZaakUpdateStartEvent" name="Start Zaak Update" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_0id9rpy</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="UpdateZaakResultaatTask" name="Update Zaak Resultaat" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>Flow_1cfti5j</bpmn:incoming>
+      <bpmn:outgoing>Flow_13oinal</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1dz3nny">
+        <bpmn:targetRef>ZakenAPIDataStoreReference</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent">
+      <bpmn:incoming>Flow_0p4klx7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="UpdateZaakStatusCallActivity" name="Update Zaakstatus" camunda:asyncAfter="true" calledElement="generic-update-zaak-status-plugin">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="status" target="status" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_13oinal</bpmn:incoming>
+      <bpmn:outgoing>Flow_0p4klx7</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="GetResultaatTypeURLTask" name="Get resultaat type URL" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>Flow_0id9rpy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cfti5j</bpmn:outgoing>
+      <bpmn:property id="Property_0tszmsr" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_1b4e3xj">
+        <bpmn:sourceRef>CatalogiAPIDataStoreReference</bpmn:sourceRef>
+        <bpmn:targetRef>Property_0tszmsr</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:dataStoreReference id="CatalogiAPIDataStoreReference" name="Catalogi API" />
+    <bpmn:dataStoreReference id="ZakenAPIDataStoreReference" name="Zaken API" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1r252k4">
+      <bpmndi:BPMNShape id="Participant_0b0kiou_di" bpmnElement="AfsluitenZaakParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="60" width="770" height="310" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1a5i4gt_di" bpmnElement="StartZaakUpdateStartEvent">
+        <dc:Bounds x="229" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="205" y="225" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1166h9j_di" bpmnElement="UpdateZaakResultaatTask">
+        <dc:Bounds x="477" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1o08mf5_di" bpmnElement="EndEvent">
+        <dc:Bounds x="799" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_008harb_di" bpmnElement="UpdateZaakStatusCallActivity">
+        <dc:Bounds x="637" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0fx28oc_di" bpmnElement="GetResultaatTypeURLTask">
+        <dc:Bounds x="317" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_100nit1_di" bpmnElement="CatalogiAPIDataStoreReference">
+        <dc:Bounds x="342" y="275" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="337" y="332" width="61" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_0r57atu_di" bpmnElement="ZakenAPIDataStoreReference">
+        <dc:Bounds x="502" y="275" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="503" y="332" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0id9rpy_di" bpmnElement="Flow_0id9rpy">
+        <di:waypoint x="265" y="200" />
+        <di:waypoint x="317" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cfti5j_di" bpmnElement="Flow_1cfti5j">
+        <di:waypoint x="417" y="200" />
+        <di:waypoint x="477" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13oinal_di" bpmnElement="Flow_13oinal">
+        <di:waypoint x="577" y="200" />
+        <di:waypoint x="637" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p4klx7_di" bpmnElement="Flow_0p4klx7">
+        <di:waypoint x="737" y="200" />
+        <di:waypoint x="799" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_1i7k6o5" bpmnElement="TextAnnotation_1mzg7wg">
+        <dc:Bounds x="260" y="80" width="150" height="55" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_13xtzan_di" bpmnElement="TextAnnotation_13xtzan">
+        <dc:Bounds x="430" y="78" width="150" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1dz3nny_di" bpmnElement="DataOutputAssociation_1dz3nny">
+        <di:waypoint x="527" y="240" />
+        <di:waypoint x="527" y="275" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataInputAssociation_1b4e3xj_di" bpmnElement="DataInputAssociation_1b4e3xj">
+        <di:waypoint x="367" y="275" />
+        <di:waypoint x="367" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1krdt9z_di" bpmnElement="Association_1krdt9z">
+        <di:waypoint x="349" y="135" />
+        <di:waypoint x="362" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_18m7na5_di" bpmnElement="Association_18m7na5">
+        <di:waypoint x="518" y="138" />
+        <di:waypoint x="527" y="160" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

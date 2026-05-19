@@ -1,0 +1,55 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "Uitgezet door",
+            "customDefaultValue": "value = JSON.parse(localStorage.getItem('userIdentity'))?.firstName + ' ' + JSON.parse(localStorage.getItem('userIdentity'))?.lastName;",
+            "key": "pv.user",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "besluit",
+            "applyMaskOn": "change",
+            "tableView": true,
+            "validateWhenHidden": false,
+            "key": "besluit.genomenBesluit",
+            "defaultValue": null,
+            "type": "hidden",
+            "input": true
+        },
+        {
+            "label": "Titel blok",
+            "content": "<div class=\"mb-3\">\n  <h4>Mag geen brongegevens verversen</div>",
+            "refreshOnChange": false,
+            "key": "titelBlok",
+            "customConditional": "const regex = /TOEGEKEND|AFGEWEZEN|INGETROKKEN|BUITEN_BEHANDELING_GESTELD/; show = regex.test(data?.besluit?.genomenBesluit); ",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Titel blok",
+            "content": "<div class=\"mb-3\">\n  <h4>Brongegevens verversen</h4><br>Klik op doorgaan om de op tabblad Suwinet getoonde brongegevens te verversen</div>",
+            "refreshOnChange": false,
+            "key": "titelBlok",
+            "type": "htmlelement",
+            "customConditional": "const regex = /TOEGEKEND|AFGEWEZEN|INGETROKKEN|BUITEN_BEHANDELING_GESTELD/; show = !regex.test(data?.besluit?.genomenBesluit); ",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Doorgaan",
+            "key": "submit",
+            "type": "button",
+            "input": true,
+            "action": "custom",
+            "custom": "delete data.besluit; form.submit();",
+            "customConditional": "const regex = /TOEGEKEND|AFGEWEZEN|INGETROKKEN|BUITEN_BEHANDELING_GESTELD/; show = !regex.test(data?.besluit?.genomenBesluit); ",
+            "tableView": false,
+            "showValidations": false,
+            "disableOnInvalid": true
+        }
+    ]
+}

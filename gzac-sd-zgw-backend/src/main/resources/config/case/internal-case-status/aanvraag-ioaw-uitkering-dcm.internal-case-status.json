@@ -1,0 +1,54 @@
+{
+    "changesetId": "aanvraag-ioaw-uitkering-dcm.v2",
+    "internalCaseStatuses": [
+        {
+            "key": "aanvraag-ontvangen",
+            "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+            "title": "Aanvraag ontvangen",
+            "visibleInCaseListByDefault": true,
+            "color": "COOLGRAY"
+        },
+        {
+            "key": "in-behandeling-genomen",
+            "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+            "title": "In behandeling genomen",
+            "visibleInCaseListByDefault": true,
+            "color": "BLUE"
+        },
+        {
+            "key": "informatieverzoek-uitgezet",
+            "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+            "title": "Informatieverzoek uitgezet",
+            "visibleInCaseListByDefault": true,
+            "color": "TEAL"
+        },
+        {
+            "key": "aanvullende-informatie-ontvangen",
+            "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+            "title": "Aanvullende informatie ontvangen",
+            "visibleInCaseListByDefault": true,
+            "color": "GREEN"
+        },
+        {
+            "key": "geen-aanvullende-informatie-ontvangen",
+            "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+            "title": "Geen aanvullende informatie ontvangen",
+            "visibleInCaseListByDefault": true,
+            "color": "RED"
+        },
+        {
+            "key": "beslist",
+            "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+            "title": "Beslist",
+            "visibleInCaseListByDefault": false,
+            "color": "OUTLINE"
+        },
+        {
+            "key": "afgehandeld",
+            "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+            "title": "Afgehandeld",
+            "visibleInCaseListByDefault": false,
+            "color": "HIGHCONTRAST"
+        }
+    ]
+}

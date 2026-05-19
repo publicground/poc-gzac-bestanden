@@ -1,0 +1,514 @@
+replicaCount: 2
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+## Extra labels to add to Pod
+##
+podLabels:
+  public-access: allow
+
+## Configure the ingress resource that allows you to access the
+## app installation. Set up the URL
+## ref: http://kubernetes.io/docs/user-guide/ingress/
+##
+ingress:
+  ## When the ingress is enabled, a host pointing to this will be created
+  ##
+  hostname: sd-zgw.denhaag.nl
+
+  ## Specify a tls secret which already exists. tls must be set to true
+  ##
+  existingTlsSecret: gzac-zgw-tls-secret
+
+## Autoscaling configuration
+##
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  # targetCPU: 50
+  # targetMemory: 50
+
+## An array to add env vars
+## For example:
+## env:
+##  - name: TEST_VAR
+##    value: test
+##
+env:
+  # - name: AWS_SSM_ENABLED
+  #   value: "false"
+  # - name: SPRING_PROFILES_ACTIVE
+  #   value: postgres
+  - name: KEYCLOAK_AUTH_SERVER_URL
+    value: https://authn.denhaag.nl
+  - name: KEYCLOAK_REALM
+    value: zgw-ad
+  - name: KEYCLOAK_RESOURCE
+    value: gzac-sd-user-m2m-client
+  - name: CAMUNDA_BPM_ADMIN-USER_ID
+    value: ritenseadmin
+  - name: VALTIMO_OAUTH_PUBLIC-KEY
+    value: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxB8lSmBjnBUwORtXccUOdkPfRapuPy+WYsSfYFdLp4sZzvOJ0DXeLtTZmkEjDCfXyshz8QJc95VGKM1Uvga5O/luANBLNof5OkAuLL8d7TFLXjRyX8/9NP2oZpoPjwy6frlcUFi/nP7I0huooCN62/XTM2cT2incV2LwSZ8U7frvJVHXIkkulu26rrfLDLbQpJjT/Yb4uVbWJFCgZDBo2rj5kUahMAcojN9lpRRr9fC+DQJwsqSgvMHDXQY00LGE/+zWlicHhLVKyMKsxFvIoSLhALz3kHAL29zpq+GKb6Qi/WbOsfBxQLoBtRYft7wyhQks8VoqoKocfXyyOTLgTQIDAQAB
+  - name: KEYCLOAK_HOST
+    value: https://authn.denhaag.nl
+  - name: IMPLEMENTATION_OOIEVAARSPAS_BESLUITTYPE
+    value: Besluit i.h.k.v. aanvraag stadspas - v4
+  - name: MAILING_ONLYALLOWWHITELISTEDRECIPIENTS
+    value: "false"
+  - name: VALTIMO_RESOURCE_TEMP_DIRECTORY
+    value: /data/tmp
+  - name: LOGGING_LEVEL_ROOT
+    value: INFO
+
+  #Suwinet
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_SUWINET_SIMULATOR_BASE-URL
+    value: "https://wsgateway.denhaag.nl/postkantoor/suwiml/"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_SUWINET_SUFFIX
+    value: "/v1"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_SUWINET_SIMULATOR_BASIC_NAME
+    value: ""
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_SUWINET_KEY_STORE_PATH
+    value: "/certs/wsgateway-prod-denhaag-nl-full-chain.jks"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_SUWINET_KEY_STORE_KEY
+    value: ""
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_SUWINET_TRUST_STORE_PATH
+    value: "/certs/wsgateway-prod-denhaag-nl-full-chain.jks"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_SUWINET_TRUST_STORE_KEY
+    value: ""
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_SUWINET_AUTHTYPE
+    value: "MTLS"
+  - name: NEW_RELIC_APP_NAME
+    value: "gzac-sd-prod"
+  - name: VALTIMO_SECURITY_WHITELIST_HOSTS_0
+    value: 0.0.0.0/0
+
+    #Socrates
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_SOCRATES_URL
+    value: "https://wsgateway.denhaag.nl/0518pr1-0518/lobehandeld/api/v1"
+
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_OPENZAAK-AUTHENTICATION_CLIENTID
+    value: "gzac-sd"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_CATALOGI-API_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_ZAKEN-API_URL
+    value: "https://openzaak-zgw.denhaag.nl/zaken/api/v1/"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_OBJECTS-API_URL
+    value: "https://objecten-zgw.denhaag.nl/api/v2/"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_OBJECTTYPES-API_URL
+    value: "https://objecttypen-zgw.denhaag.nl/api/v2/"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_OPENNOTIFICATIES_AUTHENTICATION_CLIENTID
+    value: "gzac-sd"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_NOTIFICATIES-API_URL
+    value: "https://opennotificaties-zgw.denhaag.nl/api/v1/"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_NOTIFICATIES-API_CALLBACK-URL
+    value: "https://sd-zgw.denhaag.nl/api/v1/notificatiesapi/callback"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_RSIN
+    value: "100000009"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_ALO_PROPERTIES_INITIATOR-ROL-TYPE-URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/roltypen/ec259fcf-a346-4448-b137-c1e6e389ae78"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_IOAW_PROPERTIES_INITIATOR-ROL-TYPE-URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/roltypen/f6285d0c-a309-4c70-8fc7-67608257d00e"
+  - name: ALGEMENE_BIJSTAND_AANVRAAG_ZAAKEIGENSCHAP_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/eigenschappen/34eb71c7-7e77-4d28-abe2-3c61673aac7b"
+  - name: IOAW_UITKERING_AANVRAAG_ZAAKEIGENSCHAP_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/eigenschappen/9738e061-ca71-41bf-8f83-05d14ea13c4d"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_BRONORGANISATIE_RSIN
+    value: "100000009"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_DOCUMENTEN_API_URL
+    value: "https://openzaak-zgw.denhaag.nl/documenten/api/v1/"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_DOCUMENTEN_API_VERSION
+    value: "1.4.2-maykin-1.13.0"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_OPENDMS_AUTHENTICATION_CLIENTID
+    value: "opendms"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_OPENDMS_DOCUMENTEN_API_URL
+    value: "https://wsgateway.denhaag.nl/opendms/intern/documentenapi/v1/"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_OPENDMS_DOCUMENTEN_API_VERSION
+    value: "1.4.2"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_OPENDMS_AUTHENTICATION_CLIENTSECRET
+    value: "DUMMY-replace-me-with-a-secret"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_BESLUITEN_API_URL
+    value: "https://openzaak-zgw.denhaag.nl/besluiten/api/v1/"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_SMARTDOCUMENTS_URL
+    value: "https://smartdocuments-zgw.denhaag.nl"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_SMARTDOCUMENTS_USERNAME
+    value: "gzac-sd-api-client"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_WORDPRESS_MAIL_BASE_URL
+    value: "https://wordpress-zgw.denhaag.nl"
+
+      # WMV
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_WMV_RSIN
+    value: "100000009"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_WMV_PROPERTIES_0_INITIATOR-ROL-DESCRIPTION
+    value: "Initiator"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_WMV_PROPERTIES_0_INITIATOR-ROL-TYPE-URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/roltypen/dfa6eabc-a7d7-4bb0-8884-1ddec208c960"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_WMV_OBJECTTYPE-ID
+    value: "a096670f-35f3-4526-95a4-affffcf9340e"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_WMV_OBJECTTYPE-VERSION
+    value: "1"
+
+  # HAALCENTRAAL plugins config
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_BASEURL
+    value: "https://wsgateway.denhaag.nl:443/haalcentraal/api/hr"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_TOKENSERVICE_URL
+    value: "https://wsgateway.denhaag.nl:443/tokenservice"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_KEYSTOREPATH
+    value: "/certs/haalcentraal/gzac-sd-zgw-backend-prod-wsg-wmv-client-cert.jks"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_TRUSTSTOREPATH
+    value:
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_TRUSTSTORESECRET
+    value:
+
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_HAALCENTRAAL_TOKENSERVICE_URL
+    value: "tbd"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_HAALCENTRAAL_KEYSTOREPATH
+    value: "tbd"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_HAALCENTRAAL_TRUSTSTOREPATH
+    value:
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_HAALCENTRAAL_TRUSTSTORESECRET
+    value:
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_HAALCENTRAAL_BRP_BEWONING_BASEURL
+    value: "tbd"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_HAALCENTRAAL_BAG_BASEURL
+    value: "tbd"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_HAALCENTRAAL_AUTHENTICATION_PLUGIN
+    value: "33d3d166-6015-4045-804d-cb83756cd725"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_AUTHENTICATION_SECRET
+    value:
+
+  # Doorbraaklab
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_DBL_PROPERTIES_INITIATOR-ROL-TYPE-DESCRIPTION
+    value: "Behandelaar"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_DBL_PROPERTIES_INITIATOR-ROL-TYPE-URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/roltypen/b3b66344-47e9-4f1a-96e2-5e55c84ccce8"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_DBL_OBJECTTYPE-ID
+    value: "23da6a4d-71b5-43b0-b387-66f704ce4f43"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_DBL_OBJECTTYPE-VERSION
+    value: "1"
+
+    # ALO Object Management
+  - name: AUTODEPLOYMENT_OBJECTMANAGEMENT_VERZOEK_ALO_OBJECTTYPE_VERSION
+    value: "3"
+  - name: AUTODEPLOYMENT_OBJECTMANAGEMENT_ALO_INFORMATIEVERZOEK_ITEMS_OBJECTTYPE-ID
+    value: "76432f37-5d4c-425e-a167-0991f8938f11"
+  - name: AUTODEPLOYMENT_OBJECTMANAGEMENT_ALO_INFORMATIEVERZOEK_ITEMS_OBJECTTYPE-VERSION
+    value: "2"
+  - name: AUTODEPLOYMENT_ALO_PORTAALFORMULIER
+    value: "https://objecten-zgw.denhaag.nl/api/v2/objects/c34f9423-1c60-454b-93c1-44e80c0e7675"
+
+    # BBZ
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_BBZ_AANVRAAG_PROPERTIES_INITIATOR-ROL-TYPE-URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/roltypen/d4276b98-5631-491a-b129-44546187f8eb"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_BBZ_KREDIET_PROPERTIES_INITIATOR-ROL-TYPE-URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/roltypen/ede6940d-9963-491e-9e1a-82ceb19f13f8"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_BBZ_OBJECTTYPE-ID
+    value: "02f1d530-3f22-4301-81c0-4a4fc0d1912f"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_BBZ_OBJECTTYPE-VERSION
+    value: "1"
+
+  - name: BBZ_AANVRAAG_ZAAKEIGENSCHAP_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/eigenschappen/3321f9dc-ea2f-4d3b-9d17-08603bc08eb6"
+  - name: BBZ_KREDIET_ZAAKEIGENSCHAP_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/eigenschappen/40d0c567-cf6d-4dba-acea-c365b307858d"
+  - name: AUTODEPLOYMENT_BBZ_PORTAALFORMULIER
+    value: "https://objecten-zgw.denhaag.nl/api/v2/objects/df6ea0ba-bea1-4b5d-ba9d-3d0c52805612"
+  - name: AUTODEPLOYMENT_BBZ_KREDIET_BEVESTIGEN_VOORWAARDEN_PORTAALFORMULIER
+    value: "https://objecten-zgw.denhaag.nl/api/v2/objects/49c2afe7-6f85-4198-acd3-a1db83874233"
+
+    # INFORMATIEOBJECTTYPE URL
+  - name: SD_BEVESTIGINGSBRIEF_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/c4960f39-6887-46de-bf92-fb9450c6c10e"
+  - name: SD_BESCHIKKINGSBRIEF_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/6aff2d92-0932-40e9-ae98-93789575f752"
+  - name: SD_AANVRAAG_RAPPORTAGE_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/aeceaea9-d429-4907-b296-7cd7f89bee8f"
+  - name: SD_BIJLAGE_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/a0d1b4d7-e74c-4118-9ed0-13f7ed8fb5fe"
+  - name: SD_SUWI_RAPPORTAGE_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/6d7bc5d0-0782-401b-b41e-85a0cb932169"
+  - name: SD_TERMIJNBRIEF_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/382ed23e-a1fa-4729-a0ae-37cb88a059eb"
+  - name: SD_VERZOEK_INFORMATIEBRIEF_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/b41b8502-7944-4017-a2d0-bcb014034f97"
+  - name: SD_INTREKKINGSBRIEF_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/1fe5df9e-9142-4412-988d-99263ff0b55f"
+
+  - name: SD_DEELNEMERSLIJST_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/b156b2d3-b556-4bf4-b3ff-b987bf9c7ddb"
+  - name: SD_UITNODIGING_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/ff55dc8d-2f4a-4b5d-b9a5-5551231f6a94"
+  - name: SD_BEWIJS_VAN_DEELNAME_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/ceb3625f-9adb-4d13-9dcb-16e1887c5b12"
+  - name: SD_CERTIFICAAT_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/a1b4c958-3084-42fc-98ce-4f7783215d7a"
+  - name: SD_BEGELEIDENDE_BRIEF_INFORMATIEOBJECTTYPE_URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/informatieobjecttypen/b7e3bec9-67aa-44c8-9870-f55bbf7962d1"
+
+  - name: AUTODEPLOYMENT_OBJECTMANAGEMENT_ALO_ADRESSEN_MET_VEEL_BEWONERS_OBJECTTYPE-ID
+    value: "257ce260-abea-450e-b24b-5c1b5e8cfc51"
+  - name: AUTODEPLOYMENT_OBJECTMANAGEMENT_ALO_ADRESSEN_MET_VEEL_BEWONERS_OBJECTTYPE-VERSION
+    value: "1"
+
+      #Ooievaarspas
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_OOIEVAARPAS_OBJECTTYPE-ID
+    value: "54649829-b347-496b-b248-cd07811de237"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_OOIEVAARSPAS_OBJECTTYPE-VERSION
+    value: "1"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_OOIEVAARSPAS_INITIATOR-ROL-TYPE-URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/roltypen/6b5c2090-0355-417f-91f6-d48f62ce1776"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_PRODUCT_OOIEVAARPAS_OBJECTTYPE-ID
+    value: "4a5d5b4d-caf4-4415-a249-dee8ee5170ad"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_PRODUCT_OOIEVAARSPAS_OBJECTTYPE-VERSION
+    value: "1"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_ZAAKDETAILS_OOIEVAARPAS_OBJECTTYPE-ID
+    value: "bdf14032-c99c-4dc8-9e1b-f8a98515aa39"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_ZAAKDETAILS_OOIEVAARSPAS_OBJECTTYPE-VERSION
+    value: "1"
+  - name: AUTODEPLOYMENT_OBJECTMANAGEMENT_EXTERNE_KLANTTAAK_OBJECTTYPE_ID
+    value: "916ec87b-38d6-424a-b56f-36de2e024cd5"
+  - name: AUTODEPLOYMENT_OBJECTMANAGEMENT_EXTERNE_KLANTTAAK_OBJECTTYPE_VERSION
+    value: "1"
+  - name: AUTODEPLOYMENT_OPAS_PORTAALFORMULIER
+    value: "https://objecten-zgw.denhaag.nl/api/v2/objects/9c185fe3-d147-494a-a80c-ae998b35a7f7"
+
+    # SHV config
+  - name: AUTODEPLOYMENT_SHV_PORTAALFORMULIER
+    value: "https://objecten-zgw.denhaag.nl/api/v2/objects/4ff519da-afa0-4ff5-a868-6d383d208a1f"
+
+      #Financiele trainingen
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_FINANCIELE_TRAINING_INITIATOR-ROL-TYPE-URL
+    value: "https://openzaak-zgw.denhaag.nl/catalogi/api/v1/roltypen/dd1f513b-6390-4df5-a037-086fd15925ae"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_FT_TRAININGSDEELNAME_INWONERS_OBJECTTYPE-ID
+    value: "935a5fd5-754b-4a09-bce0-7036b3aceac3"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_FT_TRAININGSDEELNAME_INWONERS_OBJECTTYPE-VERSION
+    value: "1"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_FT_TRAININGSDEELNAME_PROFESSIONALS_EN_VRIJWILLIGERS_OBJECTTYPE-ID
+    value: "7a8a0a00-a8be-4a7a-b3ff-449cfa634fee"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_FT_TRAININGSDEELNAME_PROFESSIONALS_EN_VRIJWILLIGERS_OBJECTTYPE-VERSION
+    value: "2"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_FT_TRAINING_OBJECTTYPE-ID
+    value: "f7a92d8a-6760-4a48-9519-186f1053a4eb"
+  - name: AUTODEPLOYMENT_PLUGINCONFIG_FT_TRAINING_OBJECTTYPE-VERSION
+    value: "2"
+
+## Sync objects from Azure keyvault to kubernetes as secrets
+##
+##   sync-1:
+##    vaultname: azurekeyvaltname # name of the azure keyvault
+##    objectname: test-secret # secretname stored in AKV
+##    objecttype: secret # objecttype in AKV
+##    output:
+##      transform: # optional transformers executed in listed order
+##      - trim # optional - trims empty space
+##      - base64encode # optional - encode to base64
+##      - base64decode # optional - decode from base64
+##      secret:
+##        name: testsecret # secretname to create in kubernetes
+##        dataKey: TEST_SECRET #key to store in secret
+##
+## The above example will create 1 secret in kubernetes from Azure keyvault
+## Supported vault object types: secret, certificate, key, multi-key-value-secret
+##
+vaultname: kv-zgw-p-weu-01
+syncAKV:
+  sync-1:
+    vaultname: '{{ .Values.vaultname }}'
+    objectname: '{{ include "app.fullname" . }}-prod-keycloak-credentials-secret'
+    objecttype: secret
+    output:
+      secret:
+        name: '{{ include "app.fullname" . }}'
+        dataKey: KEYCLOAK_CREDENTIALS_SECRET
+  sync-2:
+    vaultname: '{{ .Values.vaultname }}'
+    objectname: '{{ include "app.fullname" . }}-prod-spring-datasource-password'
+    objecttype: secret
+    output:
+      secret:
+        name: '{{ include "app.fullname" . }}'
+        dataKey: SPRING_DATASOURCE_PASSWORD
+  sync-3:
+    vaultname: '{{ .Values.vaultname }}'
+    objectname: '{{ include "app.fullname" . }}-prod-valtimo-connector-encryption-secret'
+    objecttype: secret
+    output:
+      secret:
+        name: '{{ include "app.fullname" . }}'
+        dataKey: VALTIMO_CONNECTOR_ENCRYPTION_SECRET
+  sync-4:
+    vaultname: '{{ .Values.vaultname }}'
+    objectname: '{{ include "app.fullname" . }}-prod-spring-datasource-url'
+    objecttype: secret
+    output:
+      secret:
+        name: '{{ include "app.fullname" . }}'
+        dataKey: SPRING_DATASOURCE_URL
+  sync-5:
+    vaultname: '{{ .Values.vaultname }}'
+    objectname: '{{ include "app.fullname" . }}-prod-spring-datasource-username'
+    objecttype: secret
+    output:
+      secret:
+        name: '{{ include "app.fullname" . }}'
+        dataKey: SPRING_DATASOURCE_USERNAME
+  sync-6:
+    vaultname: '{{ .Values.vaultname }}'
+    objectname: '{{ include "app.fullname" . }}-prod-valtimo-plugin-encryption-secret'
+    objecttype: secret
+    output:
+      secret:
+        name: '{{ include "app.fullname" . }}'
+        dataKey: VALTIMO_PLUGIN_ENCRYPTION_SECRET
+  sync-7:
+      vaultname: '{{ .Values.vaultname }}'
+      objectname: 'suwinet-simulator-prod-suwinet-password'
+      objecttype: secret
+      output:
+          secret:
+              name: '{{ include "app.fullname" . }}'
+              dataKey: AUTODEPLOYMENT_PLUGINCONFIG_SUWINET_SIMULATOR_BASIC_SECRET
+  sync-8:
+    vaultname: '{{ .Values.vaultname }}'
+    objectname: '{{ include "app.fullname" . }}-prod-camunda-bpm-adminuser-password'
+    objecttype: secret
+    output:
+      secret:
+        name: '{{ include "app.fullname" . }}'
+        dataKey: CAMUNDA_BPM_ADMINUSER_PASSWORD
+  sync-9:
+      vaultname: '{{ .Values.vaultname }}'
+      objectname: '{{ include "app.fullname" . }}-prod-new-relic-license-key'
+      objecttype: secret
+      output:
+          secret:
+              name: '{{ include "app.fullname" . }}'
+              dataKey: NEW_RELIC_LICENSE_KEY
+  sync-10:
+      vaultname: '{{ .Values.vaultname }}'
+      objectname: '{{ include "app.fullname" . }}-prod-wsg-wmv-client-cert-jks'
+      objecttype: secret
+      output:
+          transform:
+              - base64decode
+          secret:
+              name: '{{ include "app.fullname" . }}-prod-wsg-wmv-client-cert-jks'
+              dataKey: '{{ include "app.fullname" . }}-prod-wsg-wmv-client-cert.jks'
+  sync-11:
+      vaultname: '{{ .Values.vaultname }}'
+      objectname: '{{ include "app.fullname" . }}-prod-autodeployment-pluginconfig-openzaak-authentication-clientsecret'
+      objecttype: secret
+      output:
+          secret:
+              name: '{{ include "app.fullname" . }}'
+              dataKey: AUTODEPLOYMENT_PLUGINCONFIG_OPENZAAK-AUTHENTICATION_CLIENTSECRET
+  sync-12:
+      vaultname: '{{ .Values.vaultname }}'
+      objectname: '{{ include "app.fullname" . }}-prod-autodeployment-pluginconfig-objects-api-authentication-token'
+      objecttype: secret
+      output:
+          secret:
+              name: '{{ include "app.fullname" . }}'
+              dataKey: AUTODEPLOYMENT_PLUGINCONFIG_OBJECTS-API-AUTHENTICATION_TOKEN
+  sync-13:
+      vaultname: '{{ .Values.vaultname }}'
+      objectname: '{{ include "app.fullname" . }}-prod-autodeployment-pluginconfig-objecttypes-api-authentication-token'
+      objecttype: secret
+      output:
+          secret:
+              name: '{{ include "app.fullname" . }}'
+              dataKey: AUTODEPLOYMENT_PLUGINCONFIG_OBJECTTYPES-API-AUTHENTICATION_TOKEN
+  sync-14:
+      vaultname: '{{ .Values.vaultname }}'
+      objectname: '{{ include "app.fullname" . }}-prod-autodeployment-pluginconfig-opennotificaties-authentication-clientsecret'
+      objecttype: secret
+      output:
+          secret:
+              name: '{{ include "app.fullname" . }}'
+              dataKey: AUTODEPLOYMENT_PLUGINCONFIG_OPENNOTIFICATIES_AUTHENTICATION_CLIENTSECRET
+  sync-15:
+      vaultname: '{{ .Values.vaultname }}'
+      objectname: '{{ include "app.fullname" . }}-prod-autodeployment-pluginconfig-handelsregister-keystoresecret'
+      objecttype: secret
+      output:
+          secret:
+              name: '{{ include "app.fullname" . }}'
+              dataKey: AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_KEYSTORESECRET
+  sync-18:
+      vaultname: '{{ .Values.vaultname }}'
+      objectname: '{{ include "app.fullname" . }}-prod-autodeployment-pluginconfig-smartdocuments-password'
+      objecttype: secret
+      output:
+          secret:
+              name: '{{ include "app.fullname" . }}'
+              dataKey: AUTODEPLOYMENT_PLUGINCONFIG_SMARTDOCUMENTS_PASSWORD
+  sync-19:
+      vaultname: '{{ .Values.vaultname }}'
+      objectname: '{{ include "app.fullname" . }}-prod-autodeployment-pluginconfig-haalcentraal-keystoresecret'
+      objecttype: secret
+      output:
+          secret:
+              name: '{{ include "app.fullname" . }}'
+              dataKey: AUTODEPLOYMENT_PLUGINCONFIG_HAALCENTRAAL_KEYSTORESECRET
+extraObjects:
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: '{{ include "common.names.fullname" . }}-camunda'
+    namespace: '{{ .Release.Namespace }}'
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/affinity: "cookie"
+      nginx.ingress.kubernetes.io/session-cookie-path: "/"
+      meta.helm.sh/release-name: '{{ include "common.names.fullname" . }}'
+      meta.helm.sh/release-namespace: '{{ .Release.Namespace }}'
+    labels:
+      app.kubernetes.io/instance: '{{ include "common.names.fullname" . }}'
+      app.kubernetes.io/managed-by: '{{ .Release.Service }}'
+      app.kubernetes.io/name: '{{ include "common.names.fullname" . }}'
+  spec:
+    ingressClassName: nginx
+    rules:
+    - host: '{{ .Values.ingress.hostname }}'
+      http:
+        paths:
+        - backend:
+            service:
+              name: '{{ include "common.names.fullname" . }}'
+              port:
+                name: app
+          path: /camunda/(.*)
+          pathType: ImplementationSpecific
+    tls:
+    - hosts:
+      - '{{ .Values.ingress.hostname }}'
+      secretName: '{{ .Values.ingress.existingTlsSecret }}'
+
+persistence:
+  enabled: true
+  storageClass: zgw-p-azurefile-csi
+  accessMode: ReadWriteMany
+  size: 1Gi
+  mountPath: /data
+
+volumes:
+- name: tmpfs-1
+  emptyDir: {}
+- name: wsg-jks-vol
+  secret:
+    # This secret is not managed by this infra yaml. The secret is deployed by Devops Den Haag
+    secretName: wsgateway-prod-denhaag-nl-full-chain-jks
+- name: wsg-wmv-client-jks-vol
+  secret:
+    secretName: '{{ include "app.fullname" . }}-prod-wsg-wmv-client-cert-jks'
+
+volumeMounts:
+- mountPath: /tmp
+  name: tmpfs-1
+- mountPath: /certs
+  name: wsg-jks-vol
+- mountPath: /certs/haalcentraal
+  name: wsg-wmv-client-jks-vol

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0y9t2as" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_17rouow">
+    <bpmn:participant id="BSVastleggenWijzigingContactgegevensAanvragerParticipant" name="BS Vastleggen wijziging contactgegevens aanvrager" processRef="bs-vastleggen-wijziging-contactgegevens-aanvrager" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-vastleggen-wijziging-contactgegevens-aanvrager" name="BS Vastleggen wijziging contactgegevens aanvrager" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_00qd3pv" sourceRef="WijzigenContactgegevensAanvragerTask" targetRef="WijzigingContactgegevensAanvragerVastgelegdEndEvent" />
+    <bpmn:sequenceFlow id="Flow_09pyv4p" sourceRef="Event_0erbzwt" targetRef="WijzigenContactgegevensAanvragerTask" />
+    <bpmn:endEvent id="WijzigingContactgegevensAanvragerVastgelegdEndEvent" name="wijziging contactgegevens aanvrager vastgelegd">
+      <bpmn:incoming>Flow_00qd3pv</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="Event_0erbzwt">
+      <bpmn:outgoing>Flow_09pyv4p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="WijzigenContactgegevensAanvragerTask" name="Wijzigen contactgegevens aanvrager" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="68">
+      <bpmn:incoming>Flow_09pyv4p</bpmn:incoming>
+      <bpmn:outgoing>Flow_00qd3pv</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_17rouow">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="BSVastleggenWijzigingContactgegevensAanvragerParticipant" isHorizontal="true">
+        <dc:Bounds x="153" y="90" width="427" height="309" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0l73d0i_di" bpmnElement="WijzigingContactgegevensAanvragerVastgelegdEndEvent">
+        <dc:Bounds x="462" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="440" y="255" width="84" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03xt9u9" bpmnElement="Event_0erbzwt">
+        <dc:Bounds x="235" y="212" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0a5p9q2_di" bpmnElement="WijzigenContactgegevensAanvragerTask">
+        <dc:Bounds x="320" y="190" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1d5o6do" bpmnElement="Flow_00qd3pv">
+        <di:waypoint x="420" y="230" />
+        <di:waypoint x="462" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_10a0jsd" bpmnElement="Flow_09pyv4p">
+        <di:waypoint x="271" y="230" />
+        <di:waypoint x="320" y="230" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

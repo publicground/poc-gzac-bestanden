@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "VaststellenLeefEnWoonsituatieTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "bsb-223-vaststelling-leef-en-woonsituatie.vaststellen-leef-en-woonsituatie"
+    }
+]

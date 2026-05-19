@@ -1,0 +1,45 @@
+{
+    "$id": "persoonsgegevens.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Persoonsgegevens definition",
+    "definitions": {
+        "persoonsgegevens": {
+            "type": "object",
+            "properties": {
+                "voorletters": {
+                    "type": "string"
+                },
+                "voornaam": {
+                    "type": "string"
+                },
+                "tussenvoegsel": {
+                    "type": "string"
+                },
+                "achternaam": {
+                    "type": "string"
+                },
+                "volledigeNaam": {
+                    "type": "string"
+                },
+                "geslacht": {
+                    "type": "string"
+                },
+                "geboortedatum": {
+                    "type": "string"
+                },
+                "organisatie": {
+                    "type": "string"
+                },
+                "voorvoegsels": {
+                    "type": "string"
+                },
+                "bsn": {
+                    "type": "string"
+                },
+                "leeftijd": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

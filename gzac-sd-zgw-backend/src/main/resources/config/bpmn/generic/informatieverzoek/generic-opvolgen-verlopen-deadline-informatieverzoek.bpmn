@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.44.0" camunda:diagramRelationId="c1c21bad-48a8-4110-80b2-6350a80a9e03">
+  <bpmn:collaboration id="Collaboration_0o2qrbx">
+    <bpmn:participant id="GenericOpvolgenVerlopenDeadlineInformatieverzoekParticipant" name="Generic: Opvolgen verlopen deadline informatieverzoek" processRef="generic-opvolgen-verlopen-deadline-informatieverzoek" />
+    <bpmn:textAnnotation id="TextAnnotation_1d6j37k">
+      <bpmn:text>nieuwe zaakstatus:  Geen aanvullende informatie ontvangen</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_00z5cc0" associationDirection="None" sourceRef="UpdateZaakstatusCallActivity1" targetRef="TextAnnotation_1d6j37k" />
+  </bpmn:collaboration>
+  <bpmn:process id="generic-opvolgen-verlopen-deadline-informatieverzoek" name="Generic: Opvolgen verlopen deadline" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_0erfpgh" />
+    <bpmn:startEvent id="DeadlineVerlopenStartEvent" name="Deadline verlopen" camunda:asyncAfter="true">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${execution.setVariable(&#34;informatieverzoeken&#34;, valueResolverDelegateService.resolveValue(execution, &#34;doc:/informatieverzoeken&#34;))}" event="end" />
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_161l2xp</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="BepalenVervolgactieNaVerlopenDeadlineTask" name="Bepalen vervolgactie na verlopen deadline" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="52">
+      <bpmn:incoming>Flow_0b46bsi</bpmn:incoming>
+      <bpmn:outgoing>Flow_1spougl</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1jyrg9i">
+      <bpmn:incoming>Flow_1spougl</bpmn:incoming>
+      <bpmn:outgoing>InformatieverzoekAnnulerenSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>DeadlineVerlengenSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="AnnulerenInformatieverzoekCallActivity" name="Annuleren informatie-verzoek" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-annuleren-informatieverzoek">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="verzoek" target="verzoek" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>InformatieverzoekAnnulerenSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1299e5u</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="VerlengingDeadlineCallActivity" name="Verlenging deadline" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-verlengen-deadline-informatieverzoek">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="verzoek" target="verzoek" />
+        <camunda:out source="verzoek" target="verzoek" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>DeadlineVerlengenSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_16g6ibx</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="InformatieverzoekGeannuleerdEndEvent" name="Informatieverzoek geannuleerd" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_1299e5u</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="DeadlineVerlengdEndEvent" name="Deadline verlengd" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_16g6ibx</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="UpdateZaakstatusCallActivity1" name="Update zaakstatus en interne status" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-update-zaakstatus-en-interne-status-plugin-v2">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in sourceExpression="${&#34;Geen aanvullende informatie ontvangen&#34;}" target="zaakstatus" />
+        <camunda:in sourceExpression="${&#34;geen-aanvullende-informatie-ontvangen&#34;}" target="interneStatus" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_161l2xp</bpmn:incoming>
+      <bpmn:outgoing>Flow_0b46bsi</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_161l2xp" sourceRef="DeadlineVerlopenStartEvent" targetRef="UpdateZaakstatusCallActivity1" />
+    <bpmn:sequenceFlow id="Flow_0b46bsi" sourceRef="UpdateZaakstatusCallActivity1" targetRef="BepalenVervolgactieNaVerlopenDeadlineTask" />
+    <bpmn:sequenceFlow id="Flow_1spougl" sourceRef="BepalenVervolgactieNaVerlopenDeadlineTask" targetRef="Gateway_1jyrg9i" />
+    <bpmn:sequenceFlow id="InformatieverzoekAnnulerenSequenceFlow" name="Informatieverzoek annuleren" sourceRef="Gateway_1jyrg9i" targetRef="AnnulerenInformatieverzoekCallActivity">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${vervolgactieVerlopenDeadline == "ANNULEREN"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="DeadlineVerlengenSequenceFlow" name="Deadline verlengen" sourceRef="Gateway_1jyrg9i" targetRef="VerlengingDeadlineCallActivity">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${vervolgactieVerlopenDeadline == "VERLENGEN"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1299e5u" sourceRef="AnnulerenInformatieverzoekCallActivity" targetRef="InformatieverzoekGeannuleerdEndEvent" />
+    <bpmn:sequenceFlow id="Flow_16g6ibx" sourceRef="VerlengingDeadlineCallActivity" targetRef="DeadlineVerlengdEndEvent" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0o2qrbx">
+      <bpmndi:BPMNShape id="BPMNShape_1wrvzyg" bpmnElement="GenericOpvolgenVerlopenDeadlineInformatieverzoekParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="960" height="380" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1g5ek8m" bpmnElement="DeadlineVerlopenStartEvent">
+        <dc:Bounds x="232" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="208" y="285" width="89" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_12aegop" bpmnElement="BepalenVervolgactieNaVerlopenDeadlineTask">
+        <dc:Bounds x="480" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1jyrg9i_di" bpmnElement="Gateway_1jyrg9i" isMarkerVisible="true">
+        <dc:Bounds x="635" y="235" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1626" y="478" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_19rz00n" bpmnElement="AnnulerenInformatieverzoekCallActivity">
+        <dc:Bounds x="850" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_117iglf_di" bpmnElement="VerlengingDeadlineCallActivity">
+        <dc:Bounds x="850" y="330" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0raeoci_di" bpmnElement="InformatieverzoekGeannuleerdEndEvent">
+        <dc:Bounds x="1012" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="987" y="285" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1pnqadb_di" bpmnElement="DeadlineVerlengdEndEvent">
+        <dc:Bounds x="1012" y="352" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="986" y="395" width="89" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1lukpm0" bpmnElement="UpdateZaakstatusCallActivity1">
+        <dc:Bounds x="330" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_0waga23" bpmnElement="Flow_161l2xp">
+        <di:waypoint x="268" y="260" />
+        <di:waypoint x="330" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0b46bsi_di" bpmnElement="Flow_0b46bsi">
+        <di:waypoint x="430" y="260" />
+        <di:waypoint x="480" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1spougl_di" bpmnElement="Flow_1spougl">
+        <di:waypoint x="580" y="260" />
+        <di:waypoint x="635" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0x3tgqe_di" bpmnElement="InformatieverzoekAnnulerenSequenceFlow">
+        <di:waypoint x="685" y="260" />
+        <di:waypoint x="850" y="260" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="706" y="226" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1w2zq2o_di" bpmnElement="DeadlineVerlengenSequenceFlow">
+        <di:waypoint x="660" y="285" />
+        <di:waypoint x="660" y="370" />
+        <di:waypoint x="850" y="370" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="725" y="336" width="49" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1299e5u_di" bpmnElement="Flow_1299e5u">
+        <di:waypoint x="950" y="260" />
+        <di:waypoint x="1012" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16g6ibx_di" bpmnElement="Flow_16g6ibx">
+        <di:waypoint x="950" y="370" />
+        <di:waypoint x="1012" y="370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_00z5cc0_di" bpmnElement="Association_00z5cc0">
+        <di:waypoint x="380" y="220" />
+        <di:waypoint x="380" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1d6j37k_di" bpmnElement="TextAnnotation_1d6j37k">
+        <dc:Bounds x="330" y="100" width="230" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

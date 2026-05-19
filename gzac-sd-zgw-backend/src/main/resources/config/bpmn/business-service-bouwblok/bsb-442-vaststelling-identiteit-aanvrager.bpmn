@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_014sniq" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.37.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_1nqyurs">
+    <bpmn:participant id="BSB442VaststellingIdentiteitAanvragerParticipant" name="BSB 442 vaststelling identiteit aanvrager" processRef="bsb-442-vaststelling-identiteit-aanvrager" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-442-vaststelling-identiteit-aanvrager" name="BSB 442 vaststelling identiteit aanvrager" isExecutable="true">
+    <bpmn:startEvent id="VaststellingIdentiteitAanvragerStartEvent" name="Vaststelling identiteit aanvrager">
+      <bpmn:outgoing>Flow_03j7wy1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_03j7wy1" sourceRef="VaststellingIdentiteitAanvragerStartEvent" targetRef="Event_11q0gc7" />
+    <bpmn:sequenceFlow id="Flow_06rxpdg" sourceRef="Event_11q0gc7" targetRef="IdentiteitAanvragerVastgesteldEndEvent" />
+    <bpmn:endEvent id="IdentiteitAanvragerVastgesteldEndEvent" name="Identiteit aanvrager vastgesteld">
+      <bpmn:incoming>Flow_06rxpdg</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:intermediateCatchEvent id="Event_11q0gc7" camunda:asyncAfter="true">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_03j7wy1</bpmn:incoming>
+      <bpmn:outgoing>Flow_06rxpdg</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_11u3md6">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT60S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1nqyurs">
+      <bpmndi:BPMNShape id="Participant_18gpi8p_di" bpmnElement="BSB442VaststellingIdentiteitAanvragerParticipant" isHorizontal="true">
+        <dc:Bounds x="132" y="82" width="430" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0im01qk" bpmnElement="VaststellingIdentiteitAanvragerStartEvent">
+        <dc:Bounds x="204" y="189" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="196" y="232" width="56" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00p8ikz_di" bpmnElement="IdentiteitAanvragerVastgesteldEndEvent">
+        <dc:Bounds x="474" y="189" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="466" y="232" width="56" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00sb4gb_di" bpmnElement="Event_11q0gc7">
+        <dc:Bounds x="352" y="189" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_03j7wy1_di" bpmnElement="Flow_03j7wy1">
+        <di:waypoint x="240" y="207" />
+        <di:waypoint x="352" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06rxpdg_di" bpmnElement="Flow_06rxpdg">
+        <di:waypoint x="388" y="207" />
+        <di:waypoint x="474" y="207" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,2552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="generic-besturen-business-services" name="Besturen business services " namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <decision id="besturen-business-services" name="Besturen business services">
+    <informationRequirement id="InformationRequirement_02zp2kc">
+      <requiredDecision href="#bepalen-vaststelling-volledig" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0zcjngm">
+      <requiredDecision href="#Decision_0ff51u0" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0uvej7j">
+      <requiredDecision href="#Decision_06ps2k2" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0btlg45" hitPolicy="FIRST" biodi:annotationsWidth="400">
+      <input id="InputClause_0xvickl" label="Zaakdossiertype" biodi:width="268" camunda:inputVariable="zaakdossiertype">
+        <inputExpression id="LiteralExpression_11f3zle" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="Input_1" label="Huidige fase" biodi:width="271" camunda:inputVariable="fase">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1c01gya">
+          <text></text>
+        </inputValues>
+      </input>
+      <input id="InputClause_0ibznu2" label="Ontvangen gebeurtenis" biodi:width="300" camunda:inputVariable="gebeurtenis">
+        <inputExpression id="LiteralExpression_0v8mtjj" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0hwf0ba" label="Aanvraag bevat partner" biodi:width="150" camunda:inputVariable="aanvraagBevatPartner">
+        <inputExpression id="LiteralExpression_17xqh5k" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1muexrl" label="Fase &#39;vaststellen belanghebbenden&#39; afgerond" biodi:width="170" camunda:inputVariable="vaststellenBelanghebbendenAfgerond">
+        <inputExpression id="LiteralExpression_0tbk5st" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1i7i0jf" label="Fase &#39;opvoeren-dienst&#39; afgerond" camunda:inputVariable="opvoerenDienstAfgerond">
+        <inputExpression id="LiteralExpression_0xgzvm6" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0favbo0" label="Fase &#39;vaststellen&#39; afgerond" biodi:width="150" camunda:inputVariable="vaststellingVolledig">
+        <inputExpression id="LiteralExpression_1b66yez" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Te starten business service bouwblokken" name="teStartenBsBouwblokken" typeRef="string" biodi:width="362" />
+      <output id="OutputClause_1mhl8kd" label="Te annuleren business service bouwblokken" name="teAnnulerenBsBouwblokken" typeRef="string" biodi:width="172" />
+      <output id="OutputClause_00xg26i" label="Nieuwe fase" name="fase" typeRef="string" biodi:width="263" />
+      <rule id="DecisionRule_1ixupz4">
+        <inputEntry id="UnaryTests_0f29aqu">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yhrilc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10hwv48">
+          <text>"aanvraag-in-behandeling-genomen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p6bn5r">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fex477">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08qpaey">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16lgq2z">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1i5qksl">
+          <text>"bsb-211-vaststelling-persoon-aanvrager, bsb-opbouwen-uitgebreide-motivering"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ks1kdb">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0fyntux">
+          <text>"vaststellen-belanghebbenden"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hu146h">
+        <inputEntry id="UnaryTests_198xizj">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bwpb87">
+          <text>"vaststellen-belanghebbenden"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11eu7h8">
+          <text>"persoon-aanvrager-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0t5b50h">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11dzy1z">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13lzbis">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qoma4f">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0c99idj">
+          <text>"bsb-211-vaststelling-persoon-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0u5z4dl">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ekmyfr">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14yhbgn">
+        <inputEntry id="UnaryTests_0botka3">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0a69465">
+          <text>"vaststellen-belanghebbenden"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ii6q2i">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16cao17">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cerkrt">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1h4sxam">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1q6pq70">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_191o1si">
+          <text>"bsb-opvoeren-dienst-in-socrates"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0d2o9zq">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wbg0my">
+          <text>"opvoeren-dienst"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1vjqtcg">
+        <inputEntry id="UnaryTests_03aykic">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0f1lt31">
+          <text>"opvoeren-dienst"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18vo2t6">
+          <text>"dienst-in-socrates-opgevoerd"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e1beqy">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i8mz54">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1957r7s">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1w1p3tz">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0r9dgda">
+          <text>"bsb-ophalen-brongegevens-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0k2cvs3">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0x5h6h1">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0wp2w9r">
+        <inputEntry id="UnaryTests_00n9dzk">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13eb8m6">
+          <text>"opvoeren-dienst"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02in3xj">
+          <text>"brongegevens-aanvrager-opgehaald"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bb6c5g">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16kh56k">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0onhl3b">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1icwxdd">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xvhn7y">
+          <text>"bsb-ophalen-brongegevens-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06334qi">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wy9w8j">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1gnwqh8">
+        <inputEntry id="UnaryTests_1x85bn2">
+          <text>"aanvraag-algemene-bijstand"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07mjul6">
+          <text>"opvoeren-dienst"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1feom84">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cpnt06">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ubucbf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16ifx6r">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1k56mqd">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1w9k7tm">
+          <text>"bsb-overwegen-inzetten-handhaving, bsb-overwegen-uitzetten-informatieverzoek, bsb-213-vaststelling-verblijfstitel-aanvrager, bsb-218-vaststelling-uitsluitingsgronden-aanvrager, bsb-442-vaststelling-identiteit-aanvrager, bsb-224-vaststelling-inkomen-aanvrager, bsb-214-vaststelling-vermogen, bsb-444-vaststelling-voorliggende-voorzieningen-aanvrager, bsb-221-vaststelling-ingangsdatum"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0mwy9jj">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wzz600">
+          <text>"vaststellen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zknxm1">
+        <inputEntry id="UnaryTests_1we13ln">
+          <text>"aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19chbip">
+          <text>"opvoeren-dienst"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zulinc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ai1a9r">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ysumks">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02s0ndc">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15z2gfo">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1k93yz7">
+          <text>"bsb-overwegen-inzetten-handhaving, bsb-overwegen-uitzetten-informatieverzoek, bsb-213-vaststelling-verblijfstitel-aanvrager, bsb-218-vaststelling-uitsluitingsgronden-aanvrager, bsb-442-vaststelling-identiteit-aanvrager, bsb-444-vaststelling-voorliggende-voorzieningen-aanvrager, bsb-221-vaststelling-ingangsdatum"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0pq8efz">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1l5g6bd">
+          <text>"vaststellen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1h8re6i">
+        <inputEntry id="UnaryTests_1tvutoy">
+          <text>"aanvraag-algemene-bijstand"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lsd4r4">
+          <text>"vaststellen","beslissen","beslist","intrekken","buiten-behandeling-stellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1k253nu">
+          <text>"start-behandeling-aanvraag-opnieuw"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ofbvq0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02ybp2w">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0krh8n3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00vztbn">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0xmuje0">
+          <text>"bsb-behandeling-aanvraag-opnieuw-starten, bsb-overwegen-uitzetten-informatieverzoek, bsb-213-vaststelling-verblijfstitel-aanvrager, bsb-218-vaststelling-uitsluitingsgronden-aanvrager, bsb-442-vaststelling-identiteit-aanvrager, bsb-224-vaststelling-inkomen-aanvrager, bsb-214-vaststelling-vermogen, bsb-444-vaststelling-voorliggende-voorzieningen-aanvrager, bsb-221-vaststelling-ingangsdatum, bsb-opbouwen-uitgebreide-motivering"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_073or0j">
+          <text>"alle-actieve-bsb"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0j8hpmq">
+          <text>"vaststellen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_081pv1c">
+        <inputEntry id="UnaryTests_0hl3scj">
+          <text>"aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1vrk7o6">
+          <text>"vaststellen","beslissen","beslist","intrekken","buiten-behandeling-stellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i7cd4i">
+          <text>"start-behandeling-aanvraag-opnieuw"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_174rk6c">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00s5rc1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0udbli0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0uila98">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ejmbxk">
+          <text>"bsb-behandeling-aanvraag-opnieuw-starten, bsb-overwegen-uitzetten-informatieverzoek, bsb-213-vaststelling-verblijfstitel-aanvrager, bsb-218-vaststelling-uitsluitingsgronden-aanvrager, bsb-442-vaststelling-identiteit-aanvrager, bsb-444-vaststelling-voorliggende-voorzieningen-aanvrager, bsb-221-vaststelling-ingangsdatum, bsb-opbouwen-uitgebreide-motivering"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jfo8to">
+          <text>"alle-actieve-bsb"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1whe4s4">
+          <text>"vaststellen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0o5cvup">
+        <inputEntry id="UnaryTests_1tn8xsp">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04ehbhr">
+          <text>"intrekken","buiten-behandeling-stellen","beslissen","vaststellen-belanghebbenden","vaststellen","beslist"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19g7o0k">
+          <text>"start-wijzigen-contactgegevens-aanvrager"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0e9ihvi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_071r9mr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0923gcr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17c5lf8">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0q8xj7q">
+          <text>"bsb-vastleggen-wijziging-contactgegevens-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_07xua2h">
+          <text>"bsb-vastleggen-wijziging-contactgegevens-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_17l3gd8">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_128mz9h">
+        <inputEntry id="UnaryTests_0cgnmvn">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dpttvn">
+          <text>"vaststellen-belanghebbenden","vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15yc4cs">
+          <text>"handhaving-ingezet"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mqkudw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zuz07w">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xuuh9x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lmaf7u">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xu64tk">
+          <text>"bsb-vastleggen-resultaat-inzet-handhaving"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_18m4fi0">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1fyfm26">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jkw4wk">
+        <inputEntry id="UnaryTests_0wnqb8v">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gef09e">
+          <text>"vaststellen-belanghebbenden","vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0uhgy4z">
+          <text>"op-te-vragen-items-bepaald"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0klbvr3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zv6e92">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0f423jp">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10mfpie">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_07astro">
+          <text>"bsb-uitzetten-en-opvolgen-informatieverzoek"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jj6bp9">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1e9lcl5">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1j3qvvr">
+        <inputEntry id="UnaryTests_0qoxqxk">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1r365ro">
+          <text>"vaststellen-belanghebbenden","vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gw5ay2">
+          <text>"persoon-aanvrager-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1v4xroz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nej5dm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rtp1pg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_106mpmd">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_01hjaeu">
+          <text>"bsb-ophalen-brongegevens-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04e9dcd">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_162p7qa">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08fmsou">
+        <inputEntry id="UnaryTests_1u3hfuy">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0083uqh">
+          <text>"vaststellen-belanghebbenden","vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qfas8m">
+          <text>"persoon-partner-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i2mwp2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dp67fs">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ywj8i1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1oz7ht6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1lfvewg">
+          <text>"bsb-ophalen-brongegevens-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0zw55iq">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0tla5wk">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_15dj6ys">
+        <inputEntry id="UnaryTests_1mdn7rw">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wrx1jd">
+          <text>"vaststellen-belanghebbenden","vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s0xfl9">
+          <text>"start-verversen-brongegevens"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mc2rhn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16t8usb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07vl7mc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02nv9ri">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0glocce">
+          <text>"bsb-ophalen-brongegevens-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1whno3g">
+          <text>"bsb-ophalen-brongegevens-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03pr49a">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07je0iv">
+        <inputEntry id="UnaryTests_12ntj5x">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1o1rqtk">
+          <text>"vaststellen-belanghebbenden","vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gjn947">
+          <text>"brongegevens-aanvrager-opgehaald"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jz8ify">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0uf94ua">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ll0735">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ms2zcb">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1c6o9lv">
+          <text>"bsb-ophalen-brongegevens-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0d82s97">
+          <text>"bsb-ophalen-brongegevens-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1079owi">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0cepqr8">
+        <inputEntry id="UnaryTests_1kfxuqz">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0n81tmm">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kw4282">
+          <text>"verblijfstitel-aanvrager-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qs8t1d">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i8o1mt">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uf4u11">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0nfzgdu">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0htav31">
+          <text>"bsb-217-vaststelling-verblijfadres-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_180jo14">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19e3vto">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hdbho2">
+        <inputEntry id="UnaryTests_1x3jynb">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_127xgbh">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kenqo8">
+          <text>"verblijfstitel-aanvrager-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nkufz7">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gouzfv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0t65rba">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_083ew05">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_197vo0q">
+          <text>"bsb-213-vaststelling-verblijfstitel-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0blhzd6">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1t3q96w">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1oanzrk">
+        <inputEntry id="UnaryTests_0rtmjvj">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bqel4h">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11e34w0">
+          <text>"verblijfstitel-partner-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hikmba">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oc8dj7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fhh3ie">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02i5ag6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ogtxya">
+          <text>"bsb-217-vaststelling-verblijfadres-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0akjw54">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1g3jztk">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0rqpg5f">
+        <inputEntry id="UnaryTests_1j5m65x">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ln2aee">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lf0i2x">
+          <text>"verblijfadres-aanvrager-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18gph2f">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1u15bdf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_180qwyn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_125ebj9">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_19usw4n">
+          <text>"bsb-217-vaststelling-verblijfadres-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_087p6wq">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_11vg4nq">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_19xtfg8">
+        <inputEntry id="UnaryTests_0a6admh">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19d54b6">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0es2yi4">
+          <text>"verblijfadres-aanvrager-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0x0sffr">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m02d36">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01ry0op">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fairel">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1g58lt5">
+          <text>"bsb-223-vaststelling-leef-en-woonsituatie"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hy69qq">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_08m3ncj">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0n90y86">
+        <inputEntry id="UnaryTests_0bzdnt4">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0du78qp">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18q2gqb">
+          <text>"verblijfadres-partner-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16yhbhf">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0d87u8c">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bhruj6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1yo8sbi">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_18tliw9">
+          <text>"bsb-223-vaststelling-leef-en-woonsituatie"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0h6hn7n">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0yvhfk6">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02l4m8d">
+        <inputEntry id="UnaryTests_0jvqk8l">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_121gpvq">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08whhx4">
+          <text>"leef-en-woonsituatie-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0t8y78a">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08bc53o">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ils7pf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xn4niz">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0es9n9w">
+          <text>"bsb-216-vaststelling-relaties"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1m5t3f3">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_14y1uv6">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1bmkj8p">
+        <inputEntry id="UnaryTests_0wyr5f6">
+          <text>"aanvraag-algemene-bijstand"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_139um04">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08hk8wc">
+          <text>"relaties-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_139nq4o">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0cq15mm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0irh3j3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13xsp72">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_03fdpeo">
+          <text>"bsb-219-vaststelling-norm"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1co1jng">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_11krhc0">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09kyn5t">
+        <inputEntry id="UnaryTests_0pkbnqf">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0v076vg">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0n4jmwp">
+          <text>"uitsluitingsgronden-aanvrager-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dq78zw">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08rnz8y">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1me62lp">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wzsx3w">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0db1tlk">
+          <text>"bsb-218-vaststelling-uitsluitingsgronden-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06pvr07">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0fdu0o3">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hyu5hn">
+        <inputEntry id="UnaryTests_0eeavtf">
+          <text>"aanvraag-algemene-bijstand"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jyusqi">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nl8rv0">
+          <text>"inkomen-aanvrager-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0r3jur5">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0f8qktv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0u9ahuw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1h4aoto">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vraaj8">
+          <text>"bsb-224-vaststelling-inkomen-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13p3jdn">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0mlis93">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_066xchj">
+        <inputEntry id="UnaryTests_115ul7t">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ptc8bh">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0p7bnzs">
+          <text>"identiteit-aanvrager-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0d24csr">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jd2vhk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1o62f5s">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1on45n2">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_01wovk7">
+          <text>"bsb-442-vaststelling-identiteit-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04ful3v">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1bh43gn">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0pjuvhh">
+        <inputEntry id="UnaryTests_0mb9wzq">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17ro55t">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1sydeov">
+          <text>"voorliggende-voorzieningen-aanvrager-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ungkqa">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_175pbrf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nrdc6t">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01hjiv0">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_14bleeg">
+          <text>"bsb-444-vaststelling-voorliggende-voorzieningen-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1arbzp4">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1770tp0">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1cn8ilr">
+        <inputEntry id="UnaryTests_0ajta92">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qh3way">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gb1i9h">
+          <text>"start-vaststelling-leef-en-woonsituatie"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14g4810">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11uv03o">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0x2v846">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rxbbsu">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0x5c4hr">
+          <text>"bsb-223-vaststelling-leef-en-woonsituatie"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_18mb576">
+          <text>"bsb-213-vaststelling-verblijfstitel-aanvrager,bsb-213-vaststelling-verblijfstitel-partner,bsb-217-vaststelling-verblijfadres-aanvrager,bsb-217-vaststelling-verblijfadres-partner,bsb-223-vaststelling-leef-en-woonsituatie,bsb-216-vaststelling-relaties,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ft74fe">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0c7t46z">
+        <inputEntry id="UnaryTests_02f3dfd">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07dthvu">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tnw84s">
+          <text>"start-vaststelling-relaties"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0w36vqp">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1eby16a">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mi15dr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_113rtxi">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1mrprjo">
+          <text>"bsb-216-vaststelling-relaties"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05k08nt">
+          <text>"bsb-213-vaststelling-verblijfstitel-aanvrager,bsb-213-vaststelling-verblijfstitel-partner,bsb-217-vaststelling-verblijfadres-aanvrager,bsb-217-vaststelling-verblijfadres-partner,bsb-223-vaststelling-leef-en-woonsituatie,bsb-216-vaststelling-relaties,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1kehkn1">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0u4y4ls">
+        <inputEntry id="UnaryTests_106cphx">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05p7p4z">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0931bus">
+          <text>"start-vaststelling-verblijfadres"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04fulaq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pam1rj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zpa437">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mf3z3w">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0tzmyf9">
+          <text>"bsb-217-vaststelling-verblijfadres-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_01r0702">
+          <text>"bsb-213-vaststelling-verblijfstitel-aanvrager,bsb-213-vaststelling-verblijfstitel-partner,bsb-217-vaststelling-verblijfadres-aanvrager,bsb-217-vaststelling-verblijfadres-partner,bsb-223-vaststelling-leef-en-woonsituatie,bsb-216-vaststelling-relaties,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1azrofx">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1pp7sbm">
+        <inputEntry id="UnaryTests_1b5f2bk">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uprv62">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sia0ds">
+          <text>"start-vaststelling-verblijfadres-partner"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i1yjj1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wo26qw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08ulua0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12valci">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1oui3wj">
+          <text>"bsb-217-vaststelling-verblijfadres-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_18hxfv1">
+          <text>"bsb-213-vaststelling-verblijfstitel-aanvrager,bsb-213-vaststelling-verblijfstitel-partner,bsb-217-vaststelling-verblijfadres-aanvrager,bsb-217-vaststelling-verblijfadres-partner,bsb-223-vaststelling-leef-en-woonsituatie,bsb-216-vaststelling-relaties,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0bitqjn">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1qsakft">
+        <inputEntry id="UnaryTests_1sgbry1">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1w8i5cj">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yzfxtb">
+          <text>"start-vaststelling-verblijfstitel"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jdxput">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_158pd23">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0b1g4hs">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uc0ty9">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1evj653">
+          <text>"bsb-213-vaststelling-verblijfstitel-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1mgcyln">
+          <text>"bsb-213-vaststelling-verblijfstitel-aanvrager,bsb-213-vaststelling-verblijfstitel-partner,bsb-217-vaststelling-verblijfadres-aanvrager,bsb-217-vaststelling-verblijfadres-partner,bsb-223-vaststelling-leef-en-woonsituatie,bsb-216-vaststelling-relaties,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0e1qlo4">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1cqbddb">
+        <inputEntry id="UnaryTests_0bs4i3y">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04chi61">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hgltsc">
+          <text>"start-vaststelling-verblijfstitel-partner"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mj3foy">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1d9tq3x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1pkqmsm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00pxac3">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0zb23lt">
+          <text>"bsb-213-vaststelling-verblijfstitel-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jbx6az">
+          <text>"bsb-213-vaststelling-verblijfstitel-aanvrager,bsb-213-vaststelling-verblijfstitel-partner,bsb-217-vaststelling-verblijfadres-aanvrager,bsb-217-vaststelling-verblijfadres-partner,bsb-223-vaststelling-leef-en-woonsituatie,bsb-216-vaststelling-relaties,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ukl3ov">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0rnsw22">
+        <inputEntry id="UnaryTests_13zqmy4">
+          <text>"aanvraag-algemene-bijstand"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pbljr3">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15rb00r">
+          <text>"start-vaststelling-norm"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ehnpae">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_032wz2i">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1iep9x1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0d94qms">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0hja543">
+          <text>"bsb-219-vaststelling-norm"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1eqmz42">
+          <text>"bsb-213-vaststelling-verblijfstitel-aanvrager,bsb-213-vaststelling-verblijfstitel-partner,bsb-217-vaststelling-verblijfadres-aanvrager,bsb-217-vaststelling-verblijfadres-partner,bsb-223-vaststelling-leef-en-woonsituatie,bsb-216-vaststelling-relaties,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jomjqa">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_11z29qi">
+        <inputEntry id="UnaryTests_14ko34h">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01smgrk">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mjz4v7">
+          <text>"start-vaststelling-ingangsdatum"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ccog1t">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rvz30g">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1msikhq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05c3awl">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1hdxozd">
+          <text>"bsb-221-vaststelling-ingangsdatum"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0t9ri8g">
+          <text>"bsb-221-vaststelling-ingangsdatum,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ai12er">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1qnuwwb">
+        <inputEntry id="UnaryTests_0d44zxs">
+          <text>"aanvraag-algemene-bijstand"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0c59xwu">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yrblm3">
+          <text>"start-vaststelling-vermogen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m2q5qc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01wtb6v">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1t8bxkd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0c6owt9">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0e33zmq">
+          <text>"bsb-214-vaststelling-vermogen"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04curm0">
+          <text>"bsb-214-vaststelling-vermogen,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0y0kx4c">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ve3l6d">
+        <inputEntry id="UnaryTests_0dcv52a">
+          <text>"aanvraag-algemene-bijstand"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01m28hk">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1azca1y">
+          <text>"start-vaststelling-inkomen-aanvrager"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nr5n3y">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1c8uwym">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1827eju">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1827ejm">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1htvzb2">
+          <text>"bsb-224-vaststelling-inkomen-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_198pcb2">
+          <text>"bsb-224-vaststelling-inkomen-aanvrager,bsb-vastleggen-besluit,bsb-224-vaststelling-inkomen-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0bfjsmx">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_01dec3v">
+        <inputEntry id="UnaryTests_0pg7lsa">
+          <text>"aanvraag-algemene-bijstand"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ym72xj">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_154bixr">
+          <text>"start-vaststelling-inkomen-partner"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06myhf9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1pk11s3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p80l8w">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p80l8l">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_007uq0y">
+          <text>"bsb-224-vaststelling-inkomen-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1xt7lh5">
+          <text>"bsb-vastleggen-besluit,bsb-224-vaststelling-inkomen-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ih2exp">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0injt5g">
+        <inputEntry id="UnaryTests_11ogroq">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0n1f00v">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qtx0bz">
+          <text>"start-overwegen-voorschot"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cs833s">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05x7bvr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lpf9xu">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1434qv8">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bwktbc">
+          <text>"bsb-overwegen-voorschot"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0xv6yjp">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0c6tiii">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1rtvbnv">
+        <inputEntry id="UnaryTests_1emf9mi">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vhrnoz">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1asg24h">
+          <text>"start-overwegen-uitzetten-informatieverzoek"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19t93co">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ne8l2r">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0eomxwn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1q3hk3r">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1txv1h6">
+          <text>"bsb-overwegen-uitzetten-informatieverzoek"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vlz5wb">
+          <text>"bsb-annuleren-portaaltaak,bsb-overwegen-uitzetten-informatieverzoek,bsb-uitzetten-en-opvolgen-informatieverzoek,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04x1uno">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1yw9ff5">
+        <inputEntry id="UnaryTests_1e3501s">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mpq4e7">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16kk7n3">
+          <text>"start-overwegen-inzetten-handhaving"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e6r6an">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0n0sj0l">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0id9q9y">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1sgo2df">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1u2l7g9">
+          <text>"bsb-overwegen-inzetten-handhaving"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0yjrlrk">
+          <text>"bsb-overwegen-inzetten-handhaving,bsb-vastleggen-resultaat-inzet-handhaving,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wggk95">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0jsp0tx">
+        <inputEntry id="UnaryTests_1y2qikv">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1btw0pu">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0q8wzgc">
+          <text>"start-vaststelling-voorliggende-voorzieningen-aanvrager"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1oo688c">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1a4otlc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0eaimev">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gow8qa">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0xesly0">
+          <text>"bsb-444-vaststelling-voorliggende-voorzieningen-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0gaoph0">
+          <text>"bsb-444-vaststelling-voorliggende-voorzieningen-aanvrager,bsb-444-vaststelling-voorliggende-voorzieningen-partner,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1h0603n">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05ith6e">
+        <inputEntry id="UnaryTests_14qtu79">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13h8c06">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ss1a9o">
+          <text>"start-vaststelling-voorliggende-voorzieningen-partner"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hswmmj">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0m3p3z5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jc0wey">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0btcfvq">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0qtq5du">
+          <text>"bsb-444-vaststelling-voorliggende-voorzieningen-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0i3va63">
+          <text>"bsb-444-vaststelling-voorliggende-voorzieningen-partner,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1u3grfn">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_12cc4yp">
+        <inputEntry id="UnaryTests_0sbahy2">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rps12g">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00byvde">
+          <text>"start-vaststelling-uitsluitingsgronden-aanvrager"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08sseq8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kf5dux">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fa13kb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qilhaw">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_018s3xw">
+          <text>"bsb-218-vaststelling-uitsluitingsgronden-aanvrager"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wc887x">
+          <text>"bsb-218-vaststelling-uitsluitingsgronden-aanvrager,bsb-218-vaststelling-uitsluitingsgronden-partner,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0v6erqn">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0w3xxp0">
+        <inputEntry id="UnaryTests_1bdjw62">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lwb6uz">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i71k51">
+          <text>"start-vaststelling-uitsluitingsgronden-partner"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15ji70y">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i61vnb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jfg39v">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03o7zop">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0c58hxb">
+          <text>"bsb-218-vaststelling-uitsluitingsgronden-partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1d5a159">
+          <text>"bsb-218-vaststelling-uitsluitingsgronden-partner,bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qp0u7z">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_11tkxbo">
+        <inputEntry id="UnaryTests_0rqh4nx">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00lmkza">
+          <text>"vaststellen-belanghebbenden","opvoeren-dienst","vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05p6074">
+          <text>"start-uitgebreide-motivering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0f4bc4x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0402m6z">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_139aotr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ed2eaj">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ommxtf">
+          <text>"bsb-opbouwen-uitgebreide-motivering"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1oh2tvb">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1fsx393">
+          <text>if fase = "beslissen" then "vaststellen" else fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ijpu4f">
+        <inputEntry id="UnaryTests_0cavf4g">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1k1rwv3">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0khr5i9">
+          <text>"start-annuleren-portaaltaak"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_199ecay">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ouo24i">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11eo3dd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1derssr">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0j1m7g0">
+          <text>"bsb-annuleren-portaaltaak"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_00i07j4">
+          <text>"bsb-annuleren-portaaltaak"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_08bhmg9">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1p0xdev">
+        <inputEntry id="UnaryTests_0aqx3g6">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0nh0wff">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02qc18m">
+          <text>"start-verwerken-intrekking"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_044oooc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0k2ila5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g9nqcg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04f2owo">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1cvz3pm">
+          <text>"bsb-verwerken-intrekking"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1bgsmyx">
+          <text>"alle-actieve-bsb"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0t1wl1u">
+          <text>"intrekken"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05l10ox">
+        <inputEntry id="UnaryTests_0a8yuk9">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tb2tar">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10egsqn">
+          <text>"start-buiten-behandeling-stellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14w1xej">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_175n3dr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06y4dyl">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1odsjfp">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_129jz13">
+          <text>"bsb-verwerken-buiten-behandeling-stelling"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_055v1qz">
+          <text>"alle-actieve-bsb"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_00kzp0j">
+          <text>"buiten-behandeling-stellen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1nlbyvh">
+        <inputEntry id="UnaryTests_1nj7pqw">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0w1ldc1">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mptp8j">
+          <text>"start-aanvraag-direct-beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1y1trby">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04ycmbu">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ckyr1l">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ckyr1o">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0q1abgi">
+          <text>"bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1b9da8d">
+          <text>"alle-actieve-bsb"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jw5i78">
+          <text>"aanvraag-direct-beslissen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0w76o40">
+        <inputEntry id="UnaryTests_0141oi8">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ds1qtq">
+          <text>"beslissen","aanvraag-direct-beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00r8i14">
+          <text>"vastleggen-besluit-afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11gc0k4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s9r284">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jcb3u7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1u9ids7">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ujj25a">
+          <text>"bsb-genereren-rapportage"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0pe6jpu">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02uxlay">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jv4eak">
+        <inputEntry id="UnaryTests_0usnd78">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1us7kmf">
+          <text>"beslissen","buiten-behandeling-stellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oxk4rx">
+          <text>"buiten-behandeling-stelling-verwerkt"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0clj876">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04ilyg1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uplw22">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ksemlp">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_173vlf4">
+          <text>"bsb-genereren-rapportage"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_070i1y2">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0s6rmaq">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0asq5yx">
+        <inputEntry id="UnaryTests_0nhr7zm">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04rvmw4">
+          <text>"beslissen","intrekken"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0appygc">
+          <text>"intrekking-verwerkt"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13a914k">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xi9g5n">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1h8zqs7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qkej6t">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_14jj7fi">
+          <text>"bsb-genereren-rapportage"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_11pu2jq">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_151jp9p">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jnul0j">
+        <inputEntry id="UnaryTests_1t79klh">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1k65c8j">
+          <text>"beslissen","aanvraag-direct-beslissen","buiten-behandeling-stellen","intrekken"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_188qi6g">
+          <text>"genereren-rapportage-afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ovwxde">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0scfx0q">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kssne1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xz80jr">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1j0ycqf">
+          <text>"bsb-lopende-bezwaartermijn"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_12atrhz">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qvq01r">
+          <text>"beslist"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1q8w18q">
+        <inputEntry id="UnaryTests_03bk406">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rdwl19">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12n3747">
+          <text>"bezwaartermijn-verlopen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0r3phwx">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m17gow">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1a9782c">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ussb04">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0e2pp8h">
+          <text>"bsb-afsluiten-zaak"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_17fy25p">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1y7vnls">
+          <text>"afsluiten"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ayx52c">
+        <inputEntry id="UnaryTests_0qpfre5">
+          <text>"aanvraag-algemene-bijstand"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16pa5zi">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1syqvui">
+          <text>"inkomen-partner-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mwka9f">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zkubgb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0e0bxsa">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11qi7o9">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1419g0h">
+          <text>"bsb-224b-vaststelling-gezamelijk-inkomen"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1qragdi">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1vqsvd9">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1aeom26">
+        <inputEntry id="UnaryTests_0qfleih">
+          <text>"aanvraag-algemene-bijstand"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1edel0p">
+          <text>"vaststellen","beslissen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0l95uzy">
+          <text>"vermogen-vastgesteld"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13kcguy">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08ze719">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_054zidb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0irp1bx">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xezjic">
+          <text>"bsb-212-vaststelling-bijstandsvorm"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vxlwoh">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0j4f4ex">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ojn6k2">
+        <inputEntry id="UnaryTests_1ias7da">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0h939tu">
+          <text>"vaststellen"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1087aw8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pb967s">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08m4lqn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mhl8hy">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0uhl8yr">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10udi5r">
+          <text>"bsb-vastleggen-besluit"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1c89q9w">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_15ms4wv">
+          <text>"beslissen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_158ohnk">
+        <inputEntry id="UnaryTests_07fhrxp">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10a05pi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kedxsz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0plvsvz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hm45u9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00kk6ca">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0th8vt2">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1jp9744">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ar3il2">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hu4qyi">
+          <text>fase</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bepalen-vaststelling-volledig" name="Fase &#39;vaststellen&#39; afgerond">
+    <decisionTable id="DecisionTable_09y7fvo" hitPolicy="FIRST">
+      <input id="InputClause_1u8afzf" label="Zaakdossiertype" camunda:inputVariable="zaakdossiertype">
+        <inputExpression id="LiteralExpression_06zrx97" typeRef="string" />
+      </input>
+      <input id="InputClause_07o0i9d" label="Overwegen voorschot" biodi:width="376" camunda:inputVariable="statusOverwegenVoorschot">
+        <inputExpression id="LiteralExpression_0ikorzp" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_116kv1l" label="Overwegen inzetten handhaving" camunda:inputVariable="statusOverwegenInzettenHandhaving">
+        <inputExpression id="LiteralExpression_08olz4n" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_02du9rf" label="Vastleggen resultaat inzet handhaving" camunda:inputVariable="statusVastleggenResultaatInzetHandhaving">
+        <inputExpression id="LiteralExpression_0ffhkob" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0dy8q1i" label="Vaststelling verblijfadres aanvrager" camunda:inputVariable="statusVaststellingVerblijfadresAanvrager">
+        <inputExpression id="LiteralExpression_063cbv6" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0esy808" label="Vaststelling verblijfadres partner" biodi:width="192" camunda:inputVariable="statusVaststellingVerblijfadresPartner">
+        <inputExpression id="LiteralExpression_0q2eqli" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0h5ok2j" label="Vaststelling verblijfstitel aanvrager" camunda:inputVariable="statusVaststellingVerblijfstitelAanvrager">
+        <inputExpression id="LiteralExpression_07ctmvi" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1u7pbps" label="Vaststelling verblijfstitel partner" camunda:inputVariable="statusVaststellingVerblijfstitelPartner">
+        <inputExpression id="LiteralExpression_0hfimxe" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1sdhpqd" label="Vaststelling leef- en woonsituatie" camunda:inputVariable="statusVaststellingLeefEnWoonsituatie">
+        <inputExpression id="LiteralExpression_0f7ej6o" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1mpe1i4" label="Vaststelling relaties" camunda:inputVariable="statusVaststellingRelaties">
+        <inputExpression id="LiteralExpression_0nlj1rz" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0myjrny" label="Vaststelling uitsluitingsgronden aanvrager" camunda:inputVariable="statusVaststellingUitsluitingsgrondenAanvrager">
+        <inputExpression id="LiteralExpression_12j15il" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1olk1xy" label="Vaststelling uitsluitingsgronden partner" camunda:inputVariable="statusVaststellingUitsluitingsgrondenPartner">
+        <inputExpression id="LiteralExpression_1r9pmcg" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0zlus7b" label="Vaststelling vermogen" camunda:inputVariable="statusVaststellingVermogen">
+        <inputExpression id="LiteralExpression_0t2jmii" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0umkgft" label="Vaststelling norm" camunda:inputVariable="statusVaststellingNorm">
+        <inputExpression id="LiteralExpression_1kmhnl3" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_04sj875" label="Vaststelling identiteit aanvrager" camunda:inputVariable="statusVaststellingIdentiteitAanvrager">
+        <inputExpression id="LiteralExpression_037ww1y" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1kislnf" label="Vaststelling inkomen aanvrager" camunda:inputVariable="statusVaststellingInkomenAanvrager">
+        <inputExpression id="LiteralExpression_0hitfu7" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0ywydhl" label="Vaststelling inkomen partner" camunda:inputVariable="statusVaststellingInkomenPartner">
+        <inputExpression id="LiteralExpression_1npjmaw" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0deds6s" label="Vaststelling voorliggende voorzieningen aanvrager" camunda:inputVariable="statusVaststellingVoorliggendeVoorzieningenAanvrager">
+        <inputExpression id="LiteralExpression_13uelvd" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0bi7xk1" label="Vaststelling voorliggende voorzieningen partner" camunda:inputVariable="statusVaststellingVoorliggendeVoorzieningenPartner">
+        <inputExpression id="LiteralExpression_0qw64a4" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1iwpbio" label="Vaststelling ingangsdatum" camunda:inputVariable="statusVaststellingIngangsdatum">
+        <inputExpression id="LiteralExpression_0w824xq" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0vh8f8e" label="Overwegen uitzetten informatieverzoek" biodi:width="192" camunda:inputVariable="statusOverwegenUitzettenInformatieverzoek">
+        <inputExpression id="LiteralExpression_04t7bup" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0wl9oqt" label="Vaststelling bijstandsvorm" camunda:inputVariable="statusVaststellingBijstandsvorm">
+        <inputExpression id="LiteralExpression_01ga78x" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0uusk9a" label="Uitzetten en opvolgen informatieverzoek" biodi:width="266" camunda:inputVariable="statusUitzettenEnOpvolgenInformatieverzoek">
+        <inputExpression id="LiteralExpression_0at5exn" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1xgi2or" label="Opbouwen uitgebreide motivering" camunda:inputVariable="statusOpbouwenUitgebreideMotivatie">
+        <inputExpression id="LiteralExpression_1k806vc" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_049fkim" label="Fase &#39;vaststellen&#39; afgerond" name="vaststellingVolledig" typeRef="boolean" />
+      <rule id="DecisionRule_0obzcag">
+        <inputEntry id="UnaryTests_0ej5cws">
+          <text>"aanvraag-algemene-bijstand"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0g07ld6">
+          <text>statusOverwegenVoorschot != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ll66ef">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_077f0l2">
+          <text>statusVastleggenResultaatInzetHandhaving != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tgow18">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1k3iwb1">
+          <text>statusVaststellingVerblijfadresPartner != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14zw0oz">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qhbqb8">
+          <text>statusVaststellingVerblijfstitelPartner != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p0urep">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1igd5dq">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10w0u20">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02uycsn">
+          <text>statusVaststellingUitsluitingsgrondenPartner != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0syjx8x">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02lyyal">
+          <text>statusVaststellingNorm != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13w7dj0">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1iiautr">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1abd5qu">
+          <text>statusVaststellingInkomenPartner != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vxt7gt">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0t73ft9">
+          <text>statusVaststellingVoorliggendeVoorzieningenPartner != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tolz7z">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19qbq9m">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_120p0z1">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xpp1p0">
+          <text>statusUitzettenEnOpvolgenInformatieverzoek != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mvu0vj">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0q1gkzw">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05qu62n">
+        <inputEntry id="UnaryTests_029dm7n">
+          <text>"aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03w086z">
+          <text>statusOverwegenVoorschot != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ez6qo5">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i1cgwg">
+          <text>statusVastleggenResultaatInzetHandhaving != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cll621">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12azld2">
+          <text>statusVaststellingVerblijfadresPartner != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0om6s0e">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xnxq1l">
+          <text>statusVaststellingVerblijfstitelPartner != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15s80p5">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qafe5n">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0r9cdti">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hwqz4e">
+          <text>statusVaststellingUitsluitingsgrondenPartner != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1vjaksb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13fsucd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12gl98n">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00mnd0n">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vcisxd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0frnvro">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1w62up9">
+          <text>statusVaststellingVoorliggendeVoorzieningenPartner != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bqv7ed">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0afvqof">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16g0s49">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1spiotb">
+          <text>statusUitzettenEnOpvolgenInformatieverzoek != "gestart"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14io2fe">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_17cbb48">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0s93r4v">
+        <inputEntry id="UnaryTests_1hkewbe">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nx4he8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0o5mxur">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1oepnk3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1n1zpjz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04g411l">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g8mtb6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kfhm4v">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11mcjb4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ojll69">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bedayk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nr2sn3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qy95eq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vlvn8r">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1reriqe">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e8p63f">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1t3cits">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lbgr94">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p3dywh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rqrd95">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cgbbak">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tydm3z">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1krdg5t">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fi38nh">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_17u81ga">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_0ff51u0" name="Fase vaststellen belanghebbenden afgerond">
+    <decisionTable id="DecisionTable_0s5k2xf" hitPolicy="FIRST">
+      <input id="InputClause_0reoxik" label="Zaakdossiertype" camunda:inputVariable="zaakdossiertype">
+        <inputExpression id="LiteralExpression_00ym28z" typeRef="string" />
+      </input>
+      <input id="InputClause_01r4h2m" label="Huidige fase" camunda:inputVariable="fase">
+        <inputExpression id="LiteralExpression_135edfg" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1jdqr7t" label="Aanvraag bevat partner" biodi:width="150" camunda:inputVariable="aanvraagBevatPartner">
+        <inputExpression id="LiteralExpression_0bf37ew" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1ap9nbs" label="Vaststelling persoon aanvrager" camunda:inputVariable="statusVaststellingPersoonAanvrager">
+        <inputExpression id="LiteralExpression_0m262q2" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_006ln5o" label="Vaststelling persoon partner" camunda:inputVariable="statusVaststellingPersoonPartner">
+        <inputExpression id="LiteralExpression_053ypze" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1ucdmav" label="Fase vaststellen belanghebbenden afgerond" name="vaststellenBelanghebbendenAfgerond" typeRef="boolean" />
+      <rule id="DecisionRule_08efkpd">
+        <inputEntry id="UnaryTests_1fmdc5l">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uh4pny">
+          <text>"vaststellen-belanghebbenden"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13zxyzr">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0u683xq">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cbfuwb">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0kc7muk">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0d7c2s9">
+        <inputEntry id="UnaryTests_1xek5zf">
+          <text>"aanvraag-algemene-bijstand","aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_082jtjt">
+          <text>"vaststellen-belanghebbenden"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1f6vlc0">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1od76ti">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0cbzpun">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_14sf1be">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1kg24sr">
+        <inputEntry id="UnaryTests_1jl4tuk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m1h833">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0v136gz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0181s5v">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vcmkoe">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0twlo34">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_06ps2k2" name="Fase &#39;opvoeren dienst&#39; afgerond">
+    <decisionTable id="DecisionTable_0yntyie" hitPolicy="FIRST">
+      <input id="InputClause_0iqbrjl" label="Zaakdossiertype" camunda:inputVariable="zaakdossiertype">
+        <inputExpression id="LiteralExpression_1qa4ipd" typeRef="string" />
+      </input>
+      <input id="InputClause_1ckbfkx" label="Huidige fase" camunda:inputVariable="fase">
+        <inputExpression id="LiteralExpression_0yz60xa" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_17cssve" label="Aanvraag bevat partner" camunda:inputVariable="aanvraagBevatPartner">
+        <inputExpression id="LiteralExpression_1we94wu" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0geg7r3" label="opvoeren dienst in socrates" camunda:inputVariable="statusOpvoerenDienstInSocrates">
+        <inputExpression id="LiteralExpression_1jqk7ft" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_168cdal" label="ophalen brongegevens aanvrager" camunda:inputVariable="statusOphalenBrongegevensAanvrager">
+        <inputExpression id="LiteralExpression_1qmp17b" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1dpmq3x" label="ophalen brongegevens partner" camunda:inputVariable="statusOphalenBrongegevensPartner">
+        <inputExpression id="LiteralExpression_0avb6ql" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_034kg50" label="Fase opvoeren dienst afgerond" name="opvoerenDienstAfgerond" typeRef="boolean" />
+      <rule id="DecisionRule_1bek407">
+        <inputEntry id="UnaryTests_1sstw5s">
+          <text>"aanvraag-algemene-bijstand", "aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1yauik3">
+          <text>"opvoeren-dienst"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16nwkmd">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1n5zyv1">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0y32fsy">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15z44z6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0b9mffg">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18zyif0">
+        <inputEntry id="UnaryTests_1iotaux">
+          <text>"aanvraag-algemene-bijstand", "aanvraag-ioaw-uitkering"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14vdim2">
+          <text>"opvoeren-dienst"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01z14tq">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1y7lc3k">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17eg8ro">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gwpp6l">
+          <text>"afgerond"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_13ajrke">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tm2vkg">
+        <inputEntry id="UnaryTests_0lzx8ns">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wvi0u8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m979cj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vzdbmv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0miis1w">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hqkj0k">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qiqnet">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="besturen-business-services">
+        <dc:Bounds height="80" width="180" x="380" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0vmdhmo" dmnElementRef="bepalen-vaststelling-volledig">
+        <dc:Bounds height="80" width="180" x="600" y="260" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1sgz05u" dmnElementRef="InformationRequirement_02zp2kc">
+        <di:waypoint x="690" y="260" />
+        <di:waypoint x="515" y="200" />
+        <di:waypoint x="515" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_05yyh00" dmnElementRef="InformationRequirement_0zcjngm">
+        <di:waypoint x="250" y="260" />
+        <di:waypoint x="425" y="200" />
+        <di:waypoint x="425" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_01mmlgu" dmnElementRef="Decision_0ff51u0">
+        <dc:Bounds height="80" width="180" x="160" y="260" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1a1bm1k" dmnElementRef="InformationRequirement_0uvej7j">
+        <di:waypoint x="470" y="260" />
+        <di:waypoint x="470" y="200" />
+        <di:waypoint x="470" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0fug73q" dmnElementRef="Decision_06ps2k2">
+        <dc:Bounds height="80" width="180" x="380" y="260" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

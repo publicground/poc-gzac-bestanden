@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1s9w3ki" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.32.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_1gfeo0f">
+    <bpmn:participant id="VerlengenDeadlineInformatieverzoekParticipant" name="Verlengen deadline informatieverzoek" processRef="ioaw-start-verlengen-deadline-informatieverzoek-dcm" />
+  </bpmn:collaboration>
+  <bpmn:process id="ioaw-start-verlengen-deadline-informatieverzoek-dcm" name="Informatieverzoek deadline verlengen" isExecutable="true">
+    <bpmn:startEvent id="VerlengenDeadlineInformatieverzoekStartEvent" name="Verlengen deadline informatieverzoek">
+      <bpmn:outgoing>Flow_1vt38pl</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1vt38pl" sourceRef="VerlengenDeadlineInformatieverzoekStartEvent" targetRef="VerlengenDeadlineInformatieverzoekEndEvent" />
+    <bpmn:endEvent id="VerlengenDeadlineInformatieverzoekEndEvent" name="Verlengen deadline informatieverzoek" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_1vt38pl</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_00ddkjp" camunda:expression="${correlationService.sendCatchEventMessage(&#34;VERLENGEN_DEADLINE_INFORMATIEVERZOEK&#34;, execution.businessKey)}" />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1gfeo0f">
+      <bpmndi:BPMNShape id="Participant_1bh3dtc_di" bpmnElement="VerlengenDeadlineInformatieverzoekParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="120" width="440" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="VerlengenDeadlineInformatieverzoekStartEvent">
+        <dc:Bounds x="239" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="214" y="245" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_045izh6_di" bpmnElement="VerlengenDeadlineInformatieverzoekEndEvent">
+        <dc:Bounds x="442" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="417" y="245" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1vt38pl_di" bpmnElement="Flow_1vt38pl">
+        <di:waypoint x="275" y="220" />
+        <di:waypoint x="442" y="220" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

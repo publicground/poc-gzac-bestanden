@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0iep3b4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_1ddxz4e">
+    <bpmn:participant id="BSOverwegenVoorschotParticipant" name="BS Overwegen voorschot" processRef="bs-overwegen-voorschot" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-overwegen-voorschot" name="BS Overwegen voorschot" isExecutable="true">
+    <bpmn:startEvent id="Event_1myz6kd" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_0bnxedq</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0bnxedq" sourceRef="Event_1myz6kd" targetRef="Activity_1f13if4" />
+    <bpmn:sequenceFlow id="Flow_1iwrbof" sourceRef="OverwegenVoorschotTask" targetRef="Activity_1pab4v1" />
+    <bpmn:userTask id="OverwegenVoorschotTask" name="Overwegen voorschot" camunda:asyncAfter="true" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="66">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0jlii98</bpmn:incoming>
+      <bpmn:outgoing>Flow_1iwrbof</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_1f13if4" name="Zet voorschot tag" camunda:expression="${documentDelegateService.addCaseTag(execution,&#34;voorschot&#34;)}">
+      <bpmn:incoming>Flow_0bnxedq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jlii98</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0jlii98" sourceRef="Activity_1f13if4" targetRef="OverwegenVoorschotTask" />
+    <bpmn:serviceTask id="Activity_1pab4v1" name="Verwijder voorschot tag" camunda:expression="${documentDelegateService.removeCaseTag(execution,&#34;voorschot&#34;)}">
+      <bpmn:incoming>Flow_1iwrbof</bpmn:incoming>
+      <bpmn:outgoing>Flow_19jo8ef</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_19jo8ef" sourceRef="Activity_1pab4v1" targetRef="Event_18t5ixm" />
+    <bpmn:endEvent id="Event_18t5ixm">
+      <bpmn:incoming>Flow_19jo8ef</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1ddxz4e">
+      <bpmndi:BPMNShape id="Participant_024ay2j_di" bpmnElement="BSOverwegenVoorschotParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="770" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1myz6kd_di" bpmnElement="Event_1myz6kd">
+        <dc:Bounds x="232" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0jhvd4w_di" bpmnElement="OverwegenVoorschotTask">
+        <dc:Bounds x="440" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0l61hyl_di" bpmnElement="Activity_1f13if4">
+        <dc:Bounds x="310" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1msc6i1" bpmnElement="Activity_1pab4v1">
+        <dc:Bounds x="580" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_18t5ixm_di" bpmnElement="Event_18t5ixm">
+        <dc:Bounds x="762" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0bnxedq_di" bpmnElement="Flow_0bnxedq">
+        <di:waypoint x="268" y="200" />
+        <di:waypoint x="310" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1iwrbof_di" bpmnElement="Flow_1iwrbof">
+        <di:waypoint x="540" y="200" />
+        <di:waypoint x="580" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jlii98_di" bpmnElement="Flow_0jlii98">
+        <di:waypoint x="410" y="200" />
+        <di:waypoint x="440" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19jo8ef_di" bpmnElement="Flow_19jo8ef">
+        <di:waypoint x="680" y="200" />
+        <di:waypoint x="762" y="200" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

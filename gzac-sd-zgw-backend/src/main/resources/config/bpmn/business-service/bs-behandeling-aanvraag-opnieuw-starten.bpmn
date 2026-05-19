@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1qa4dip" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_06duyea">
+    <bpmn:participant id="BSBehandelingAanvraagOpnieuwStartenParticipant" name="BS Behandeling aanvraag opnieuw starten" processRef="bs-behandeling-aanvraag-opnieuw-starten" />
+    <bpmn:textAnnotation id="TextAnnotation_1y34p41">
+      <bpmn:text>nieuw status: In behandeling genomen</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_1gqtxzn">
+      <bpmn:text>het meest recente besluit</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0qwyt0k" associationDirection="None" sourceRef="UpdateZaakstatusEnInterneStatusCallActivity" targetRef="TextAnnotation_1y34p41" />
+    <bpmn:association id="Association_1j48zsr" associationDirection="None" sourceRef="OphalenBesluitCallActivity" targetRef="TextAnnotation_1gqtxzn" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-behandeling-aanvraag-opnieuw-starten" name="BS Behandeling aanvraag opnieuw starten" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_14auuw1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_14auuw1" sourceRef="StartEvent_1" targetRef="Minimaal1BesluitAanwezigGateway" />
+    <bpmn:sequenceFlow id="Flow_11sc6u5" sourceRef="OphalenBesluitCallActivity" targetRef="BesluitZonderVervaldatumGateway" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="BesluitZonderVervaldatumGateway" targetRef="Gateway_1nu3y8b" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="BesluitZonderVervaldatumGateway" targetRef="VastleggenVervaldatumEnVervalredenBesluitTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${besluit != null &amp;&amp; (besluit.get("vervaldatum") == null || besluit.get("vervaldatum").isNull())}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0fnfild" sourceRef="VastleggenVervaldatumEnVervalredenBesluitTask" targetRef="Gateway_1nu3y8b" />
+    <bpmn:sequenceFlow id="Flow_0om5b9b" sourceRef="Gateway_1nu3y8b" targetRef="Gateway_0ojbgw9" />
+    <bpmn:sequenceFlow id="Flow_0oomx3a" sourceRef="UpdateZaakstatusEnInterneStatusCallActivity" targetRef="Event_01txd19" />
+    <bpmn:sequenceFlow id="JaSequenceFlow1" name="Ja" sourceRef="Minimaal1BesluitAanwezigGateway" targetRef="OphalenBesluitCallActivity">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${not empty besluiten and not empty besluiten[besluiten.size() - 1].genomenBesluit}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="NeeSequenceFlow1" name="Nee" sourceRef="Minimaal1BesluitAanwezigGateway" targetRef="Gateway_0ojbgw9" />
+    <bpmn:sequenceFlow id="Flow_0uiceo4" sourceRef="Gateway_0ojbgw9" targetRef="UpdateZaakstatusEnInterneStatusCallActivity" />
+    <bpmn:callActivity id="OphalenBesluitCallActivity" name="Ophalen besluit" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-ophalen-besluit">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:out source="besluit" target="besluit" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>JaSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_11sc6u5</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="BesluitZonderVervaldatumGateway" name="Besluit zonder vervaldatum?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_11sc6u5</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="VastleggenVervaldatumEnVervalredenBesluitTask" name="vastleggen vervaldatum en vervalreden besluit" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="vervalreden">ingetrokken_overheid</camunda:inputParameter>
+          <camunda:inputParameter name="vervaldatum">${dateTime().toLocalDate().toString("yyyy-MM-dd")}</camunda:inputParameter>
+          <camunda:inputParameter name="besluitUrl">${besluit.get("url")}</camunda:inputParameter>
+          <camunda:outputParameter name="vervalreden">${vervalreden}</camunda:outputParameter>
+          <camunda:outputParameter name="vervaldatum">${vervaldatum}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fnfild</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0pv19ni">
+        <bpmn:targetRef>OpenZaakDataStoreReference</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1nu3y8b">
+      <bpmn:incoming>Flow_0fnfild</bpmn:incoming>
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0om5b9b</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:dataStoreReference id="OpenZaakDataStoreReference" name="Open zaak" />
+    <bpmn:exclusiveGateway id="Minimaal1BesluitAanwezigGateway" name="Minimaal 1 besluit aanwezig?" default="NeeSequenceFlow1">
+      <bpmn:incoming>Flow_14auuw1</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow1</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0ojbgw9">
+      <bpmn:incoming>NeeSequenceFlow1</bpmn:incoming>
+      <bpmn:incoming>Flow_0om5b9b</bpmn:incoming>
+      <bpmn:outgoing>Flow_0uiceo4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_01txd19">
+      <bpmn:incoming>Flow_0oomx3a</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="UpdateZaakstatusEnInterneStatusCallActivity" name="Update zaakstatus en interne status" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-update-zaakstatus-en-interne-status-plugin-v2">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${&#34;In behandeling genomen&#34;}" target="zaakstatus" />
+        <camunda:in sourceExpression="${&#34;in-behandeling-genomen&#34;}" target="interneStatus" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0uiceo4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0oomx3a</bpmn:outgoing>
+    </bpmn:callActivity>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_06duyea">
+      <bpmndi:BPMNShape id="Participant_0j6fi26_di" bpmnElement="BSBehandelingAanvraagOpnieuwStartenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1160" height="400" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="237" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1m5gxmi_di" bpmnElement="OphalenBesluitCallActivity">
+        <dc:Bounds x="440" y="215" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1oyngvq_di" bpmnElement="BesluitZonderVervaldatumGateway" isMarkerVisible="true">
+        <dc:Bounds x="605" y="230" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="595" y="290" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0m0u1k2_di" bpmnElement="VastleggenVervaldatumEnVervalredenBesluitTask">
+        <dc:Bounds x="710" y="215" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1nu3y8b_di" bpmnElement="Gateway_1nu3y8b" isMarkerVisible="true">
+        <dc:Bounds x="865" y="230" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_0uxfoec_di" bpmnElement="OpenZaakDataStoreReference">
+        <dc:Bounds x="735" y="325" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="733" y="382" width="54" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1532m2j_di" bpmnElement="Minimaal1BesluitAanwezigGateway" isMarkerVisible="true">
+        <dc:Bounds x="335" y="230" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="316" y="200" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ojbgw9_di" bpmnElement="Gateway_0ojbgw9" isMarkerVisible="true">
+        <dc:Bounds x="965" y="230" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_01txd19_di" bpmnElement="Event_01txd19">
+        <dc:Bounds x="1242" y="237" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jujnh9_di" bpmnElement="UpdateZaakstatusEnInterneStatusCallActivity">
+        <dc:Bounds x="1070" y="215" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_14auuw1_di" bpmnElement="Flow_14auuw1">
+        <di:waypoint x="268" y="255" />
+        <di:waypoint x="335" y="255" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11sc6u5_di" bpmnElement="Flow_11sc6u5">
+        <di:waypoint x="540" y="255" />
+        <di:waypoint x="605" y="255" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rkzppv_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="630" y="230" />
+        <di:waypoint x="630" y="170" />
+        <di:waypoint x="890" y="170" />
+        <di:waypoint x="890" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="599" y="206" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0eanxcp_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="655" y="255" />
+        <di:waypoint x="710" y="255" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="672" y="237" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fnfild_di" bpmnElement="Flow_0fnfild">
+        <di:waypoint x="810" y="255" />
+        <di:waypoint x="865" y="255" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0om5b9b_di" bpmnElement="Flow_0om5b9b">
+        <di:waypoint x="915" y="255" />
+        <di:waypoint x="965" y="255" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0oomx3a_di" bpmnElement="Flow_0oomx3a">
+        <di:waypoint x="1170" y="255" />
+        <di:waypoint x="1242" y="255" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0n213ia_di" bpmnElement="JaSequenceFlow1">
+        <di:waypoint x="385" y="255" />
+        <di:waypoint x="440" y="255" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="407" y="237" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_138mzf9_di" bpmnElement="NeeSequenceFlow1">
+        <di:waypoint x="360" y="280" />
+        <di:waypoint x="360" y="430" />
+        <di:waypoint x="990" y="430" />
+        <di:waypoint x="990" y="280" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="369" y="297" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uiceo4_di" bpmnElement="Flow_0uiceo4">
+        <di:waypoint x="1015" y="255" />
+        <di:waypoint x="1070" y="255" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1y34p41_di" bpmnElement="TextAnnotation_1y34p41">
+        <dc:Bounds x="1072" y="160" width="160" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1gqtxzn_di" bpmnElement="TextAnnotation_1gqtxzn">
+        <dc:Bounds x="460" y="140" width="130" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0pv19ni_di" bpmnElement="DataOutputAssociation_0pv19ni">
+        <di:waypoint x="760" y="295" />
+        <di:waypoint x="760" y="325" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0qwyt0k_di" bpmnElement="Association_0qwyt0k">
+        <di:waypoint x="1120" y="215" />
+        <di:waypoint x="1120" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1j48zsr_di" bpmnElement="Association_1j48zsr">
+        <di:waypoint x="501" y="215" />
+        <di:waypoint x="510" y="181" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

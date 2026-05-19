@@ -1,0 +1,26 @@
+[
+    {
+        "activityId": "UploadDocumentTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "bc095125-b9a9-435e-8372-0bf92f8be9be",
+        "pluginActionDefinitionKey": "store-uploaded-document"
+    },
+    {
+        "activityId": "LinkDocumentToZaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "link-uploaded-document-to-zaak"
+    },
+    {
+        "activityId": "AddTagToTheDocumentTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "e0a8f9ab-0b5a-4b88-b505-20d204f57036",
+        "pluginActionDefinitionKey": "store-informatieobjecttype-trefwoord",
+        "actionProperties": {
+            "documentUrl": "pv:documentUrl"
+        }
+    }
+]

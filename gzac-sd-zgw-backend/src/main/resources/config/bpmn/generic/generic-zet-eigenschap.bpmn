@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1k0bs1d" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.32.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_1jblatp">
+    <bpmn:participant id="GenericZetZaakeigenschapParticipant" name="Generic: Zet zaakeigenschap" processRef="generic-zet-zaakeigenschap" />
+    <bpmn:textAnnotation id="TextAnnotation_0iqj5at">
+      <bpmn:text>plugin actie:
+Catalogi API plugin - Eigenschap opvragen</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_19c2tq1">
+      <bpmn:text>plugin actie:
+Zaken API plugin - Creëer zaakeigenschap</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0clt5e8">
+      <bpmn:text>input: eigenschapnaam</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1x84a4k" associationDirection="None" sourceRef="ZetZaakeigenschapTask" targetRef="TextAnnotation_19c2tq1" />
+    <bpmn:association id="Association_0olpuhc" associationDirection="None" sourceRef="StartEvent_1" targetRef="TextAnnotation_0clt5e8" />
+  </bpmn:collaboration>
+  <bpmn:process id="generic-zet-zaakeigenschap" name="Generic: Zet zaakeigenschap" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_0t2hizj" sourceRef="GetZaakeigenschapUrlTask" targetRef="ZetZaakeigenschapTask" />
+    <bpmn:sequenceFlow id="Flow_11vociw" sourceRef="StartEvent_1" targetRef="GetZaakeigenschapUrlTask" />
+    <bpmn:sequenceFlow id="Flow_0xs4eyc" sourceRef="ZetZaakeigenschapTask" targetRef="Event_0e2afyk" />
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_11vociw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ZetZaakeigenschapTask" name="Zet zaak-eigenschap" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0t2hizj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xs4eyc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0e2afyk">
+      <bpmn:incoming>Flow_0xs4eyc</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="GetZaakeigenschapUrlTask" name="Get zaak-eigenschap url" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>Flow_11vociw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0t2hizj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:association id="Association_0otouwv" associationDirection="None" sourceRef="GetZaakeigenschapUrlTask" targetRef="TextAnnotation_0iqj5at" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1jblatp">
+      <bpmndi:BPMNShape id="Participant_17jwseo_di" bpmnElement="GenericZetZaakeigenschapParticipant" isHorizontal="true">
+        <dc:Bounds x="132" y="70" width="638" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0h4890q_di" bpmnElement="ZetZaakeigenschapTask">
+        <dc:Bounds x="530" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0e2afyk_di" bpmnElement="Event_0e2afyk">
+        <dc:Bounds x="692" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1i89hyx_di" bpmnElement="GetZaakeigenschapUrlTask">
+        <dc:Bounds x="350" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0otouwv_di" bpmnElement="Association_0otouwv">
+        <di:waypoint x="410" y="180" />
+        <di:waypoint x="420" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0t2hizj_di" bpmnElement="Flow_0t2hizj">
+        <di:waypoint x="450" y="220" />
+        <di:waypoint x="530" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11vociw_di" bpmnElement="Flow_11vociw">
+        <di:waypoint x="268" y="220" />
+        <di:waypoint x="350" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xs4eyc_di" bpmnElement="Flow_0xs4eyc">
+        <di:waypoint x="630" y="220" />
+        <di:waypoint x="692" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1x84a4k_di" bpmnElement="Association_1x84a4k">
+        <di:waypoint x="603" y="180" />
+        <di:waypoint x="614" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0olpuhc_di" bpmnElement="Association_0olpuhc">
+        <di:waypoint x="254" y="203" />
+        <di:waypoint x="264" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_19c2tq1_di" bpmnElement="TextAnnotation_19c2tq1">
+        <dc:Bounds x="540" y="100" width="150" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0iqj5at_di" bpmnElement="TextAnnotation_0iqj5at">
+        <dc:Bounds x="360" y="98" width="155" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0clt5e8_di" bpmnElement="TextAnnotation_0clt5e8">
+        <dc:Bounds x="220" y="106" width="110" height="44" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

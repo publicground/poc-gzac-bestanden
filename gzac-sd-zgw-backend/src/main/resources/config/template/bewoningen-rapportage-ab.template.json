@@ -1,0 +1,7 @@
+{
+    "templateKey": "bewoningen-brongegevens-rapportage",
+    "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+    "templateType": "pdf",
+    "metadata": {},
+    "contentRef": "/config/template/bewoningen-brongegevens-rapportage.ftlh"
+}

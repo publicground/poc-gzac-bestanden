@@ -1,0 +1,280 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+
+{
+    "type": "{{objecttypes_api_url}}",
+    "record": {
+        "data": {
+            "bsn": "999991322",
+            "data": {
+                "uw-gegevens": {
+                    "digid": {
+                        "persoongegevensPrefill": {
+                            "BsnPrefill": "999991322",
+                            "voornaamPrefill": "Celeste",
+                            "achternaamPrefill": "Avion",
+                            "voorlettersPrefill": "C.",
+                            "voorvoegselPrefill": "",
+                            "geboortedatumPrefill": "1960-12-29"
+                        },
+                        "adresgegevensPrefillGroep": {
+                            "plaatsPrefill": "'s-Gravenhage",
+                            "straatPrefill": "Herengracht",
+                            "postcodePrefill": "2511 EG",
+                            "HuisletterPrefill": "",
+                            "huisnummerPrefill": 1,
+                            "toevoegingPrefill": ""
+                        }
+                    },
+                    "contactgegevens": {
+                        "email": "bram@info.nl",
+                        "Telefoonnummer": "+31610698934"
+                    }
+                },
+                "foo-inleiding": {},
+                "foo-uitbetaling": {
+                    "uitkeringAanDerden": "NEE"
+                },
+                "foo-uw-aanvraag": {
+                    "uwAanvraag": {
+                        "EEN_BEDRIJFSKREDIET": true,
+                        "WAT_IK_WIL_AANVRAGEN_STAAT_HIER_NIET_TUSSEN": false,
+                        "EEN_BBZ_UITKERING_VOOR_ONDERNEMERS_DIE_LANGER_DAN_1_5_JAAR_ONDERNEMEN": false
+                    }
+                },
+                "foo-uw-inkomsten": {
+                    "vormenInkomsten": {
+                        "PENSIOEN": false,
+                        "UITKERING": false,
+                        "LOONDIENST": false,
+                        "ALIMENTATIE": false,
+                        "HEFFINGSKORTING": false,
+                        "OVERIGE_INKOMSTEN": false,
+                        "IK_HEB_GEEN_INKOMSTEN": true,
+                        "INKOMSTEN_UIT_ONDERHUUR": false,
+                        "INKOMEN_UIT_HET_BUITENLAND": false
+                    }
+                },
+                "foo-bedrijfskrediet": {
+                    "andereLeningen": "NEE",
+                    "wanneerTraject": "2011-11-11",
+                    "isBeslaglegging": "JA",
+                    "contactSchuldhulp": "JA",
+                    "afsprakenSchuldhulp": "ER_WORDT_EEN_SCHULDHULPVERLENINGSTRAJECT_OPGESTART",
+                    "redenBedrijfskrediet": {
+                        "SANERING": true,
+                        "ACHTERSTANDEN": false,
+                        "INVESTERINGEN": false,
+                        "ANDERS_NAMELIJK": false,
+                        "HERFINANCIERING": false
+                    },
+                    "bedragBedrijfskrediet": 12000,
+                    "toelichtingSchuldhulp": "test",
+                    "toelichtingBeslaglegging": "test",
+                    "toelichtingBedrijfskrediet": "test"
+                },
+                "foo-uw-woonsituatie": {
+                    "hoeWonen": "IK_WOON_IN_EEN_INSTELLING_VOOR_MAATSCHAPPELIJKE_OPVANG",
+                    "maatschappelijkeOpvangGroep": {
+                        "WelkeOpvang": "Test de maatschappij ",
+                        "dagenOpvang": 5,
+                        "postcodeOpvang": "2222 AA",
+                        "huisnummerOpvang": 2,
+                        "straatnaamMaatschappelijkeOpvang": "Zeilmakerstraat"
+                    }
+                },
+                "foo-uw-ondernemingen": {
+                    "ondernemingGr": {
+                        "ingeschrevenKvk": "JA"
+                    },
+                    "10JaarOnafgebroken": "JA",
+                    "ingeschrevenOnderneming": [
+                        {
+                            "kvk": "90004760",
+                            "rechtsvorm": "MAATSCHAP",
+                            "bezitDiplomas": "JA",
+                            "ondernemingNaam": "NV de NV",
+                            "aanvraagSurseance": "JA",
+                            "korteOmschrijving": "Test",
+                            "inschrijvingsDatum": "1940-11-22",
+                            "stoppenOnderneming": "NEE",
+                            "aanvraagFaillissement": "JA"
+                        }
+                    ]
+                },
+                "foo-financiele-situatie": {
+                    "bedrijfspandGroep": {
+                        "typeBedrijfspand": "IK_BEZIT_MIJN_BEDRIJFSPAND",
+                        "uploadContractBedrijfspand": [
+                            {
+                                "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/e790a785-75ac-4a58-9cb1-b105884fd18e",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/e790a785-75ac-4a58-9cb1-b105884fd18e",
+                                    "form": "",
+                                    "name": "test.docx",
+                                    "size": 11919,
+                                    "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "test-b8bd9ac7-0588-46bb-b1d9-0e5268292f64.docx",
+                                "size": 11919,
+                                "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "storage": "url",
+                                "originalName": "test.docx"
+                            }
+                        ]
+                    },
+                    "inkomenOndernemingGroep": {
+                        "waaromHulp": "test",
+                        "welkeMaandenHulp": "11111",
+                        "winstKomendeMaanden": 555
+                    },
+                    "situatieOndernemingGroep": {
+                        "voldoendeInkomsten": "NEE",
+                        "resultaatHuidigJaar": "JA",
+                        "toestemmingOnderzoek": "NEE",
+                        "finSituatieOnderneming": [
+                            {
+                                "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/d163373c-888e-4a68-aa16-088da6587a4d",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/d163373c-888e-4a68-aa16-088da6587a4d",
+                                    "form": "",
+                                    "name": "test.docx",
+                                    "size": 11919,
+                                    "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "test-6b380bc7-d535-4464-86c7-e64353e12075.docx",
+                                "size": 11919,
+                                "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "storage": "url",
+                                "originalName": "test.docx"
+                            }
+                        ],
+                        "resultaatEenJaarGeleden": 1111,
+                        "resultaatDrieJaarGeleden": 1111,
+                        "resultaatTweeJaarGeleden": 11111,
+                        "resultaatHuidigJaarBedrag": 1111,
+                        "aangifteBelastingAanleveren": "JA",
+                        "resultaatEenJaarBeschikbaar": "JA",
+                        "resultaatDrieJaarBeschikbaar": "JA",
+                        "resultaatTweeJaarBeschikbaar": "JA"
+                    }
+                },
+                "foo-gezinssamenstelling": {
+                    "gezinssituatieGr": {
+                        "partnerDieBijUWoont": "NEE",
+                        "thuiswonendeKinderen": "NEE"
+                    }
+                },
+                "foo-waarheidsverklaring": {
+                    "ikVulDitFormulierNaarWaarheidIn": true
+                },
+                "foo-aanvullende-gegevens": {
+                    "woonsituatieGr": {
+                        "woonsituatie": "IK_WOON_OP_EEN_ANDER_ADRES_DAN_WAAR_IK_BEN_INGESCHREVEN"
+                    },
+                    "nationaliteitGR": {
+                        "uploadKopieId": [
+                            {
+                                "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/9fc819ce-1a3b-479f-8f14-42767efdc628",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/9fc819ce-1a3b-479f-8f14-42767efdc628",
+                                    "form": "",
+                                    "name": "test.docx",
+                                    "size": 11919,
+                                    "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "test-faf4ba15-5de2-4e85-be9b-7c771c0a17d4.docx",
+                                "size": 11919,
+                                "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                "storage": "url",
+                                "originalName": "test.docx"
+                            }
+                        ],
+                        "nationaliteitBezit": "IK_BEN_EU_ONDERDAAN"
+                    },
+                    "verblijfAdresGr": {
+                        "straatVerblijf": "Hendriksstraat",
+                        "postcodeVerblijf": "1111 AA",
+                        "huisletterVerblijf": "",
+                        "huisnummerVerblijf": 1,
+                        "woonplaatsVerblijf": "Den Haag",
+                        "toelichtingVerblijf": "test",
+                        "huisnummerToevoeging": ""
+                    },
+                    "contactAanvraagGr": {
+                        "hulpBijAanvraag": "NEE"
+                    },
+                    "jaIkWilPostOntvangen": true
+                },
+                "foo-uw-inkomsten-overzicht": {},
+                "foo-bezittingen-en-schulden": {
+                    "heeftSchulden": "NEE",
+                    "rekeningenGroep": {
+                        "rekeningHerGroep": [
+                            {
+                                "saldoRekening": 1000,
+                                "welkeRekeningen": "BUITENLANDSE_PRIVE_REKENING",
+                                "uploadSaldoRekening": [
+                                    {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/7f2c2191-1821-4310-85ec-29f89183ef33",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/7f2c2191-1821-4310-85ec-29f89183ef33",
+                                            "form": "",
+                                            "name": "test.docx",
+                                            "size": 11919,
+                                            "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "test-275d9f3c-c396-4cd4-bfac-8352227e21d1.docx",
+                                        "size": 11919,
+                                        "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                        "storage": "url",
+                                        "originalName": "test.docx"
+                                    }
+                                ],
+                                "rekeningnBuitenlandPrive": "NL83RABO0123932832"
+                            }
+                        ]
+                    },
+                    "uwVermogenGroep": {
+                        "welkVermogen": {
+                            "CRYPTO": false,
+                            "CARAVAN": false,
+                            "VAARTUIG": false,
+                            "CONTANTEN": false,
+                            "OBLIGATIES_AANDELEN": false,
+                            "EEN_MOTORVOERTUIG_AUTO_CAMPER_OF_MOTOR": false,
+                            "EEN_STUK_GROND_IN_NEDERLAND_EN_OF_HET_BUITENLAND": false,
+                            "BANK_EN_SPAARREKENINGEN_PRIVE_EN_ZAKELIJK_BINNEN_EN_BUITENLAND": true,
+                            "EEN_OF_MEERDERE_KOOPWONING_EN_IN_NEDERLAND_EN_OF_HET_BUITENLAND": false
+                        }
+                    }
+                },
+                "foo-bezittingen-schulden-overzicht": {}
+            },
+            "type": "verzoek-bbz-krediet",
+            "pdf_url": "https://openzaak-zgw.test.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/953b25e4-9e1a-4450-ab9b-7909a4ea318b",
+            "attachments": [
+                "https://openzaak-zgw.test.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/260f38cb-145b-4b81-89b4-7cbc68ecd007",
+                "https://openzaak-zgw.test.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/b90d8d6a-ee37-4c86-8351-aaf2317d6fd7",
+                "https://openzaak-zgw.test.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/d428b45e-f4c4-42d3-9eb4-54f3d2e87bc5",
+                "https://openzaak-zgw.test.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/e1379f4b-a46f-44f3-a422-57c4e13b3006"
+            ],
+            "language_code": "nl",
+            "submission_id": "486ffeeb-51d8-4c2c-89fc-4ce2f66bed55"
+        },
+        "index": 1,
+        "startAt": "2024-04-25",
+        "typeVersion": 1,
+        "registrationAt": "2024-04-25"
+    }
+}
+
+
+

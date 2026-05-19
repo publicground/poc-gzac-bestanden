@@ -1,0 +1,8 @@
+[
+    {
+        "activityId": "StartAanvraagOpnieuwStartEvent",
+        "activityType": "bpmn:StartEvent:start",
+        "processLinkType": "form",
+        "formDefinitionName": "generic.start-behandeling-gehele-aanvraag-opnieuw.start"
+    }
+]

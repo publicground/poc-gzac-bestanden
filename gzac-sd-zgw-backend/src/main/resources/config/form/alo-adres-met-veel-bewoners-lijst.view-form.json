@@ -1,0 +1,136 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "HTML",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<h4>\n  Adressen met veel bewoners\n</h4><hr>",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Adresgegevens",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "adressenMetVeelBewoners",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "label": "Omschrijving",
+                    "applyMaskOn": "change",
+                    "disabled": true,
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "omschrijving",
+                    "type": "textarea",
+                    "input": true
+                },
+                {
+                    "label": "Type",
+                    "widget": "choicesjs",
+                    "disabled": true,
+                    "tableView": true,
+                    "data": {
+                        "values": [
+                            {
+                                "label": "Zorginstelling",
+                                "value": "ZORGINSTELLING"
+                            },
+                            {
+                                "label": "Penitentiare inrichting",
+                                "value": "PENITENTIARE_INRICHTING"
+                            },
+                            {
+                                "label": "Opvang",
+                                "value": "OPVANG"
+                            },
+                            {
+                                "label": "Woonvorm met veel bewoners",
+                                "value": "WOONVORM_MET_VEEL_BEWONERS"
+                            }
+                        ]
+                    },
+                    "validateWhenHidden": false,
+                    "key": "type",
+                    "type": "select",
+                    "input": true
+                },
+                {
+                    "label": "Straat",
+                    "applyMaskOn": "change",
+                    "disabled": true,
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "straat",
+                    "type": "textfield",
+                    "input": true
+                },
+                {
+                    "label": "Huisnummer",
+                    "applyMaskOn": "change",
+                    "mask": false,
+                    "disabled": true,
+                    "tableView": false,
+                    "delimiter": false,
+                    "requireDecimal": false,
+                    "inputFormat": "plain",
+                    "truncateMultipleSpaces": false,
+                    "validateWhenHidden": false,
+                    "key": "huisnummer",
+                    "type": "number",
+                    "input": true
+                },
+                {
+                    "label": "Huisletter",
+                    "applyMaskOn": "change",
+                    "autoExpand": true,
+                    "disabled": true,
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "huisletter",
+                    "type": "textfield",
+                    "input": true
+                },
+                {
+                    "label": "Huisnummer toevoeging",
+                    "applyMaskOn": "change",
+                    "disabled": true,
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "huisnummertoevoeging",
+                    "type": "textfield",
+                    "input": true
+                },
+                {
+                    "label": "Postcode",
+                    "applyMaskOn": "change",
+                    "disabled": true,
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "postcode",
+                    "type": "textfield",
+                    "input": true
+                },
+                {
+                    "label": "Plaats",
+                    "applyMaskOn": "change",
+                    "disabled": true,
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "woonplaats",
+                    "type": "textfield",
+                    "input": true
+                }
+            ]
+        }
+    ]
+}

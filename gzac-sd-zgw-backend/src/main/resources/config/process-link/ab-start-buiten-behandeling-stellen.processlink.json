@@ -1,0 +1,8 @@
+[
+    {
+        "activityId": "StartBuitenBehandelingStellenStartEvent",
+        "activityType": "bpmn:StartEvent:start",
+        "processLinkType": "form",
+        "formDefinitionName": "generic.buiten-behandeling-stellen.start"
+    }
+]

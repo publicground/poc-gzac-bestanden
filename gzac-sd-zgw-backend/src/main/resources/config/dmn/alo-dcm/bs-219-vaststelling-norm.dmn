@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="bs-219-vaststelling-norm" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.39.0" modeler:executionPlatform="Camunda Platform">
+  <decision id="bs-219-bepaal-basisnorm" name="Bepaal Basisnorm">
+    <informationRequirement id="InformationRequirement_04alb4q">
+      <requiredInput href="#InputData_0rubknz" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0ks47fj">
+      <requiredInput href="#InputData_0nosnts" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_18effc6">
+      <requiredInput href="#InputData_1rjy2vm" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1am5pyt">
+      <requiredInput href="#InputData_0n4wlqa" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1p07cbq">
+      <requiredInput href="#InputData_1ib9g7y" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0wct1t1" hitPolicy="FIRST">
+      <input id="InputClause_1397gtz" label="Woonsituatie" biodi:width="192">
+        <inputExpression id="LiteralExpression_1dph1y2" typeRef="string">
+          <text>vastgesteldeWoonsitutatie</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0n7y7dv" label="Leeftijd jongste of enige belanghebbende">
+        <inputExpression id="LiteralExpression_0kwyugk" typeRef="integer">
+          <text>abs(date(leeftijdJongsteBelanghebbende).year - now().year) </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1hhsbpu" label="aantal belanghebbenden">
+        <inputExpression id="LiteralExpression_0txtnev" typeRef="integer">
+          <text>aantalBelanghebbende</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0uob75h" label="Leeftijd oudste belanghebbende (als er twee zijn)" biodi:width="191">
+        <inputExpression id="LiteralExpression_12dbx9z" typeRef="integer">
+          <text>abs(date(leeftijdOudsteBelanghebbende).year - now().year) </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0frquf7" label="Ten laste komende kinderen">
+        <inputExpression id="LiteralExpression_00nol4u" typeRef="string">
+          <text>tenlasteKomendeKinderen</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0emh0ii" label="Leefsituatie" biodi:width="208">
+        <inputExpression id="LiteralExpression_1tpfx5i" typeRef="string">
+          <text>vastgesteldeLeefsituatie</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_18pkvvt" label="Basisnorm" name="vastgesteldeBasisnorm" typeRef="string" biodi:width="300" />
+      <rule id="DecisionRule_1wjyn3y">
+        <description>art 23.1a + 23.2a </description>
+        <inputEntry id="UnaryTests_0m08iby">
+          <text>"VERBLIJF_INSTELLING"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zc3vh7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nep3nz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0omvr6c">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nreumu">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0v7rjwz">
+          <text>"INSTITUTIONEEL_HUISHOUDEN", "ALLEENSTAAND",  "ALLEENSTAANDE_OUDER"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16ddj5x">
+          <text>"alleenstaande-in-inrichting-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0r96y57">
+        <description>art 23.1b + 23.2b</description>
+        <inputEntry id="UnaryTests_0hrgcgi">
+          <text>"VERBLIJF_INSTELLING"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1y0wyij">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ed5ppv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07ps2b5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zfwotz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0o768fm">
+          <text>"INSTITUTIONEEL_HUISHOUDEN", "SAMENWONEND_KINDEREN", "SAMENWONEND"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ilfli0">
+          <text>"samenwonend-in-inrichting-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0z15wk8">
+        <description>art 20.2a</description>
+        <inputEntry id="UnaryTests_18gvmj0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mu4m3m">
+          <text>&lt;21</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j9axqk">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fgeu1g">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e9fjrx">
+          <text>"JA"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1os8uum">
+          <text>"ALLEENSTAANDE_OUDER"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mkgiwy">
+          <text>"alleenstaande-ouder-jongere-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tbvvdq">
+        <description>art 20.2b</description>
+        <inputEntry id="UnaryTests_14j8ee5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wppugu">
+          <text>&lt;21</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kckr4o">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0iewhgu">
+          <text>&lt;21</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jmjygm">
+          <text>"JA"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10azb7v">
+          <text>"SAMENWONEND_KINDEREN"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0k59rnt">
+          <text>"samenwonende-jongere-met-kinderen-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ne3tn8">
+        <description>art 20.2c</description>
+        <inputEntry id="UnaryTests_1cma9yh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18dxn8m">
+          <text>&lt;21</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0t9in7v">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14cxeir">
+          <text>&gt;=21</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jylpno">
+          <text>"JA"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kmbhwl">
+          <text>"SAMENWONEND_KINDEREN"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_199o1bj">
+          <text>"samenwonende-waarvan-1-jongere-met-kinderen-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_19qb66v">
+        <description>art  20.1a</description>
+        <inputEntry id="UnaryTests_01oxp8t">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e8535s">
+          <text>&lt;21</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07vpn3g">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dj3nbn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0clwl8b">
+          <text>"NEE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p5mfgx">
+          <text>"ALLEENSTAAND"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11xxrgp">
+          <text>"alleenstaande-jongere-zonder kinderen-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ulple8">
+        <description>art 20.1b</description>
+        <inputEntry id="UnaryTests_0yid83c">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cuc9x8">
+          <text>&lt;21</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pjjpsp">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0b8n1e9">
+          <text>&lt;21</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cjbg5n">
+          <text>"NEE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i2x6gy">
+          <text>"SAMENWONEND"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1kc2bd2">
+          <text>"samenwonende-jongere-zonder-kinderen-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hm6kwc">
+        <description>art 20.1c</description>
+        <inputEntry id="UnaryTests_0zkdiws">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tdrovp">
+          <text>&lt;21</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xwo9en">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0o3mjn3">
+          <text>&gt;=21</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pu3fq7">
+          <text>"NEE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1vmec4z">
+          <text>"SAMENWONEND"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_12kirvb">
+          <text>"samenwonende-waarvan-1-jongere-zonder-kinderen-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1qjnkf2">
+        <description>art 21.a</description>
+        <inputEntry id="UnaryTests_0w6ppc7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0anh5nd">
+          <text>[21..67)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jz0gko">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0agmgri">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_026r3jm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03k31k7">
+          <text>"ALLEENSTAAND", "ALLEENSTAANDE_OUDER"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0v0v0jk">
+          <text>"alleenstaande-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0nqyav3">
+        <description>art 21.b</description>
+        <inputEntry id="UnaryTests_1hk21v7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02xuumy">
+          <text>[21..67)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lr0cd4">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qiys43">
+          <text>[21..67)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17r0pq2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qjsqza">
+          <text>"SAMENWONEND_KINDEREN", "SAMENWONEND"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1wiswr9">
+          <text>"samenwonende-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09v412z">
+        <description>art 22.a (wordt door SVB uitgevoerd, art 47a.1)</description>
+        <inputEntry id="UnaryTests_187fat8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_132qbj7">
+          <text>&gt;=67</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1oa5g45">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ty8qlf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14ktm3c">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fk7id3">
+          <text>"ALLEENSTAAND", "ALLEENSTAANDE_OUDER"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1g9jwxc">
+          <text>"alleenstaande-oudere-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1xumgg9">
+        <description>art 22.b  (wordt door SVB uitgevoerd, art 47a.1)</description>
+        <inputEntry id="UnaryTests_0bsp3qo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hwkyn3">
+          <text>&gt;=67</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1r28da2">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ydub25">
+          <text>&gt;=67</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1t9fxau">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09wv6nr">
+          <text>"SAMENWONEND_KINDEREN", "SAMENWONEND"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05s5lbj">
+          <text>"samenwonende-oudere-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_01unhnf">
+        <description>art 22.c (wordt door SVB uitgevoerd, art 47a.1)</description>
+        <inputEntry id="UnaryTests_0qcigeh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_055uavk">
+          <text>&lt;67</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1x77ng7">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tlbagq">
+          <text>&gt;=67</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wzan2i">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18xutjy">
+          <text>"SAMENWONEND_KINDEREN", "SAMENWONEND"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1pxw9r8">
+          <text>"samenwonende-1-oudere-norm"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0rubknz" name="vastgesteldeWoonsitutatie" />
+  <inputData id="InputData_0nosnts" name="vastgesteldeLeefsituatie" />
+  <decision id="bs-219-bepaal-kostendelersnorm" name="Bepaal basiskostendelersnorm">
+    <informationRequirement id="InformationRequirement_1wfc3la">
+      <requiredInput href="#InputData_1ccjms6" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_19wx290">
+      <requiredInput href="#InputData_1i4dkji" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_04enzqu">
+      <requiredInput href="#InputData_09ru3kw" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0m2s6tk">
+      <requiredInput href="#InputData_0aglktg" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0agvbnn" hitPolicy="FIRST">
+      <input id="InputClause_0r0odio" label="Leeftijd Jongste belanghebbende &#60; 21" biodi:width="192" camunda:inputVariable="leeftijdJongsteBelanghebbende">
+        <inputExpression id="LiteralExpression_0y9nrlk" typeRef="boolean">
+          <text>abs(date(leeftijdJongsteBelanghebbende).year - now().year) &lt; 21</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1rb8bze" label="Aantal belanghebbende" camunda:inputVariable="aantalBelanghebbende">
+        <inputExpression id="LiteralExpression_13nch01" typeRef="integer">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_12rnppl" label="Leeftijd oudste belanghebbende &#62; 21" camunda:inputVariable="leeftijdOudsteBelanghebbende">
+        <inputExpression id="LiteralExpression_12wrtk8" typeRef="boolean">
+          <text>abs(date(leeftijdOudsteBelanghebbende).year - now().year) &gt;= 21</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_096ndd3" label="Ten laste komende kinderen?" camunda:inputVariable="tenlasteKomendeKinderen">
+        <inputExpression id="LiteralExpression_05boycx" typeRef="string">
+          <text>tenlasteKomendeKinderen</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1wmf1ak" label="Basiskostendelersnorm (indiviueel)" name="vastgesteldeBasisnorm" typeRef="string" biodi:width="350" />
+      <rule id="DecisionRule_14xo3rj">
+        <description>Als 1 van beide belanghebbende jonger is dan 21 en de ander niet en er zijn ten laste komende kinderen, dan is artikel 22a.3a van toepassing</description>
+        <inputEntry id="UnaryTests_0fcawf8">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0g7zsb7">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14xckkx">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17sfx5n">
+          <text>"JA"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15842cx">
+          <text>"samenwonende-waarvan-1-jongere-met-kinderen-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05f7n8v">
+        <description>Als 1 van beide belanghebbende jonger is dan 21 en de ander niet en er zijn geen ten laste komende kinderen, dan is artikel 22a.3b van toepassing</description>
+        <inputEntry id="UnaryTests_0z5zcnv">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_139wcox">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fy36bc">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03beztg">
+          <text>"NEE"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0lcrho0">
+          <text>"samenwonende-waarvan-1-jongere-zonder-kinderen-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ljib2g">
+        <description></description>
+        <inputEntry id="UnaryTests_0f76xyi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lcy4bl">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xbhiew">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07he94t">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1yfth6z">
+          <text>"samenwonende-norm"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1ccjms6" name="aantalBelanghebbende" />
+  <inputData id="InputData_1i4dkji" name="leeftijdJongsteBelanghebbende" />
+  <inputData id="InputData_09ru3kw" name="leeftijdOudsteBelanghebbende" />
+  <inputData id="InputData_1rjy2vm" name="leeftijdJongsteBelanghebbende" />
+  <inputData id="InputData_0n4wlqa" name="leeftijdOudsteBelanghebbende" />
+  <inputData id="InputData_1ib9g7y" name="aantalBelanghebbende" />
+  <decision id="bs-219-bepaal-kostendelersfactor" name="Bepaal Kostendelersfactor">
+    <informationRequirement id="InformationRequirement_0nltx7y">
+      <requiredInput href="#InputData_1vsf5j1" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_05zsefe">
+      <requiredInput href="#InputData_1hgti92" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1eqgplv">
+      <requiredInput href="#InputData_0li1m4a" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1p4f3s0" hitPolicy="FIRST">
+      <input id="InputClause_1chlppx" label="Persoon &#60; 21 jaar" camunda:inputVariable="geboortedatum">
+        <inputExpression id="LiteralExpression_1opuc8h" typeRef="boolean">
+          <text>abs(date(geboortedatum).year - now().year) &lt; 21</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1uibe4h" label="Vastgestelde Leefsituatie" camunda:inputVariable="vastgesteldeLeefsituatie">
+        <inputExpression id="LiteralExpression_0qil60z" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_04jssic" label="Kostendelersfactor" name="kostendelersfactor" typeRef="double" biodi:width="446" />
+      <rule id="DecisionRule_06au6qe">
+        <inputEntry id="UnaryTests_159mh6r">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1r7fx23">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0cxhnv3">
+          <text>1</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ka1d9v">
+        <inputEntry id="UnaryTests_1qtyism">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ff23me">
+          <text>"ALLEENSTAAND", "ALLEENSTAANDE_OUDER"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0x4ig88">
+          <text>(0.4 + (1 + aantalKostendelers) * 0.3) / (1 + aantalKostendelers)</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_12ho5lq">
+        <inputEntry id="UnaryTests_155bqlg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0p40caa">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qradmu">
+          <text>(0.4 + (2 + aantalKostendelers) * 0.3) / (2 + aantalKostendelers)</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0aglktg" name="tenlasteKomendeKinderenAanwezig" />
+  <inputData id="InputData_1vsf5j1" name="leeftijdPersoon" />
+  <inputData id="InputData_1hgti92" name="vastgesteldeLeefsituatie" />
+  <inputData id="InputData_0li1m4a" name="aantalKostendelers" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="DMNShape_0bng3l4" dmnElementRef="bs-219-bepaal-basisnorm">
+        <dc:Bounds height="80" width="180" x="1570" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_03rhuz4" dmnElementRef="InputData_0rubknz">
+        <dc:Bounds height="45" width="125" x="1266" y="208" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1h9sto0" dmnElementRef="InputData_0nosnts">
+        <dc:Bounds height="45" width="125" x="1436" y="208" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_15p31q4" dmnElementRef="bs-219-bepaal-kostendelersnorm">
+        <dc:Bounds height="80" width="180" x="360" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_14x34i1" dmnElementRef="InputData_1ccjms6">
+        <dc:Bounds height="45" width="125" x="157" y="208" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1ssplbq" dmnElementRef="InformationRequirement_1wfc3la">
+        <di:waypoint x="220" y="208" />
+        <di:waypoint x="396" y="180" />
+        <di:waypoint x="396" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_08jvbxl" dmnElementRef="InputData_1i4dkji">
+        <dc:Bounds height="45" width="125" x="307" y="208" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_053itql" dmnElementRef="InformationRequirement_19wx290">
+        <di:waypoint x="370" y="208" />
+        <di:waypoint x="432" y="180" />
+        <di:waypoint x="432" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1yvxkop" dmnElementRef="InputData_09ru3kw">
+        <dc:Bounds height="45" width="125" x="447" y="208" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_072rall" dmnElementRef="InformationRequirement_04enzqu">
+        <di:waypoint x="510" y="208" />
+        <di:waypoint x="468" y="180" />
+        <di:waypoint x="468" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1ydxc3g" dmnElementRef="InformationRequirement_04alb4q">
+        <di:waypoint x="1329" y="208" />
+        <di:waypoint x="1600" y="180" />
+        <di:waypoint x="1600" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_03qnibl" dmnElementRef="InformationRequirement_0ks47fj">
+        <di:waypoint x="1499" y="208" />
+        <di:waypoint x="1630" y="180" />
+        <di:waypoint x="1630" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_19ddm1w" dmnElementRef="InputData_1rjy2vm">
+        <dc:Bounds height="45" width="125" x="1597" y="209" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_16utlse" dmnElementRef="InformationRequirement_18effc6">
+        <di:waypoint x="1660" y="209" />
+        <di:waypoint x="1660" y="180" />
+        <di:waypoint x="1660" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_05dake4" dmnElementRef="InputData_0n4wlqa">
+        <dc:Bounds height="45" width="125" x="1747" y="209" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_196ya87" dmnElementRef="InputData_1ib9g7y">
+        <dc:Bounds height="45" width="125" x="1897" y="209" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0dmhl5q" dmnElementRef="InformationRequirement_1am5pyt">
+        <di:waypoint x="1810" y="209" />
+        <di:waypoint x="1690" y="180" />
+        <di:waypoint x="1690" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0lj0kdz" dmnElementRef="InformationRequirement_1p07cbq">
+        <di:waypoint x="1960" y="209" />
+        <di:waypoint x="1720" y="180" />
+        <di:waypoint x="1720" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0snn4ui" dmnElementRef="bs-219-bepaal-kostendelersfactor">
+        <dc:Bounds height="80" width="180" x="920" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_10s5ezh" dmnElementRef="InputData_0aglktg">
+        <dc:Bounds height="45" width="125" x="598" y="208" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0q1ej92" dmnElementRef="InformationRequirement_0m2s6tk">
+        <di:waypoint x="661" y="208" />
+        <di:waypoint x="504" y="180" />
+        <di:waypoint x="504" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_19or5ik" dmnElementRef="InputData_1vsf5j1">
+        <dc:Bounds height="45" width="125" x="807" y="208" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1249unu" dmnElementRef="InformationRequirement_0nltx7y">
+        <di:waypoint x="870" y="208" />
+        <di:waypoint x="965" y="180" />
+        <di:waypoint x="965" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0084rji" dmnElementRef="InputData_1hgti92">
+        <dc:Bounds height="45" width="125" x="947" y="208" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1ml7auw" dmnElementRef="InformationRequirement_05zsefe">
+        <di:waypoint x="1010" y="208" />
+        <di:waypoint x="1010" y="180" />
+        <di:waypoint x="1010" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0m12t39" dmnElementRef="InputData_0li1m4a">
+        <dc:Bounds height="45" width="125" x="1087" y="208" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1crlq8j" dmnElementRef="InformationRequirement_1eqgplv">
+        <di:waypoint x="1150" y="208" />
+        <di:waypoint x="1055" y="180" />
+        <di:waypoint x="1055" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

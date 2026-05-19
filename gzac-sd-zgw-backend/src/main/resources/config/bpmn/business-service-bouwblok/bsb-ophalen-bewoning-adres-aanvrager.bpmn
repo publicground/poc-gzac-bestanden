@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0y9t2as" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_17rouow">
+    <bpmn:participant id="BSBOphalenBewoningAdresAanvragerParticipant" name="BSB ophalen bewoning adres aanvrager" processRef="bsb-ophalen-bewoning-adres-aanvrager" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-ophalen-bewoning-adres-aanvrager" name="BSB ophalen bewoning adres aanvrager" isExecutable="true">
+    <bpmn:startEvent id="Event_0erbzwt">
+      <bpmn:outgoing>Flow_09pyv4p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0j39whd" sourceRef="OphalenInputTask" targetRef="BsOphalenBewoningAdresCallActivity" />
+    <bpmn:sequenceFlow id="Flow_00qd3pv" sourceRef="BsOphalenBewoningAdresCallActivity" targetRef="WegschrijvenOutputBewoningenTask" />
+    <bpmn:sequenceFlow id="Flow_1mhmwt5" sourceRef="WegschrijvenOutputBewoningenTask" targetRef="WegschrijvenOutputTypeInstellingTask" />
+    <bpmn:sequenceFlow id="Flow_09pyv4p" sourceRef="Event_0erbzwt" targetRef="OphalenInputTask" />
+    <bpmn:callActivity id="BsOphalenBewoningAdresCallActivity" name="bs ophalen bewoning adres" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-ophalen-bewoning-adres">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="verblijfadres" target="verblijfadres" />
+        <camunda:in source="peildatum" target="peildatum" />
+        <camunda:in source="objectManagementTitle" target="objectManagementTitle" />
+        <camunda:in source="brpPersoonsgegevensInfo" target="brpPersoonsgegevensInfo" />
+        <camunda:in source="templateKey" target="templateKey" />
+        <camunda:out source="matchResult" target="matchResult" />
+        <camunda:out source="bewoningen" target="bewoningen" />
+        <camunda:inputOutput>
+          <camunda:outputParameter name="veelBewonersAdres">${matchResult.veelBewonersAdres}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0j39whd</bpmn:incoming>
+      <bpmn:outgoing>Flow_00qd3pv</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="WegschrijvenOutputBewoningenTask" name="Wegschrijven output &#39;bewoningen&#39;" camunda:asyncBefore="true" camunda:expression="${bewoningen != null ? valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVanuitBronnen/bewoningen&#34;, bewoningen) : null}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_00qd3pv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mhmwt5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="OphalenInputTask" name="Ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="verblijfadres">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/verblijfadres")}</camunda:outputParameter>
+          <camunda:outputParameter name="peildatum">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/startDatum")}</camunda:outputParameter>
+          <camunda:outputParameter name="objectManagementTitle">Adressen met veel bewoners</camunda:outputParameter>
+          <camunda:outputParameter name="brpPersoonsgegevensInfo">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager")}</camunda:outputParameter>
+          <camunda:outputParameter name="templateKey">bewoningen-brongegevens-rapportage</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_09pyv4p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j39whd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="InzettenHandhavingOverwogenEndEvent">
+      <bpmn:incoming>Flow_06ffzyc</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="WegschrijvenOutputTypeInstellingTask" name="Wegschrijven output &#39;typeInstelling&#39;" camunda:asyncBefore="true" camunda:expression="${veelBewonersAdres != null ?  valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVanuitBronnen/typeInstelling&#34;, veelBewonersAdres.get(&#34;type&#34;)) : null}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1mhmwt5</bpmn:incoming>
+      <bpmn:outgoing>Flow_06ffzyc</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_06ffzyc" sourceRef="WegschrijvenOutputTypeInstellingTask" targetRef="InzettenHandhavingOverwogenEndEvent" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_17rouow">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="BSBOphalenBewoningAdresAanvragerParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="930" height="260" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03xt9u9" bpmnElement="Event_0erbzwt">
+        <dc:Bounds x="232" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1pfuhdg" bpmnElement="BsOphalenBewoningAdresCallActivity">
+        <dc:Bounds x="470" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_07ekwf0" bpmnElement="WegschrijvenOutputBewoningenTask">
+        <dc:Bounds x="620" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0x5izaw" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="320" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0l73d0i_di" bpmnElement="InzettenHandhavingOverwogenEndEvent">
+        <dc:Bounds x="922" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="761" y="225" width="59" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0mupwto" bpmnElement="WegschrijvenOutputTypeInstellingTask">
+        <dc:Bounds x="770" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1qcvydq" bpmnElement="Flow_0j39whd">
+        <di:waypoint x="420" y="200" />
+        <di:waypoint x="470" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1d5o6do" bpmnElement="Flow_00qd3pv">
+        <di:waypoint x="570" y="200" />
+        <di:waypoint x="620" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0h43fut" bpmnElement="Flow_1mhmwt5">
+        <di:waypoint x="720" y="200" />
+        <di:waypoint x="770" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_10a0jsd" bpmnElement="Flow_09pyv4p">
+        <di:waypoint x="268" y="200" />
+        <di:waypoint x="320" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06ffzyc_di" bpmnElement="Flow_06ffzyc">
+        <di:waypoint x="870" y="200" />
+        <di:waypoint x="922" y="200" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

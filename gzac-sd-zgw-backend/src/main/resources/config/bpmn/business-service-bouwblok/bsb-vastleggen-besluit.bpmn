@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0k8olc4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_1eb9r6l">
+    <bpmn:participant id="BSBVastleggenBesluitParticipant" name="BSB vastleggen besluit" processRef="bsb-vastleggen-besluit" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-vastleggen-besluit" name="BSB vastleggen besluit" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_1xj53mv" sourceRef="OphalenInputTask" targetRef="BsVastleggenBesluitCallActivity" />
+    <bpmn:sequenceFlow id="Flow_1jbtzdr" sourceRef="BsVastleggenBesluitCallActivity" targetRef="WegschrijvenOutputBesluitenTask" />
+    <bpmn:sequenceFlow id="Flow_0c8x61d" sourceRef="Event_1pralbu" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_0lkfiyr" sourceRef="WegschrijvenOutputBesluitenTask" targetRef="WegschrijvenOutputNormTask" />
+    <bpmn:startEvent id="Event_1pralbu">
+      <bpmn:outgoing>Flow_0c8x61d</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:callActivity id="BsVastleggenBesluitCallActivity" name="bs vastleggen besluit" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-vastleggen-besluit">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="zaakstatus" target="zaakstatus" />
+        <camunda:in source="gegevensVaststelling" target="gegevensVaststelling" />
+        <camunda:in source="besluit" target="besluit" />
+        <camunda:in source="mailTaskTemplate" target="mailTaskTemplate" />
+        <camunda:in source="mailTaskSubject" target="mailTaskSubject" />
+        <camunda:in source="emailAanvrager" target="emailAanvrager" />
+        <camunda:in source="voorlettersAanvrager" target="voorlettersAanvrager" />
+        <camunda:in source="voornaamAanvrager" target="voornaamAanvrager" />
+        <camunda:in source="tussenvoegselAanvrager" target="tussenvoegselAanvrager" />
+        <camunda:in source="achternaamAanvrager" target="achternaamAanvrager" />
+        <camunda:in source="datumOntvangstAanvraag" target="datumOntvangstAanvraag" />
+        <camunda:in source="communicatievoorkeur" target="communicatievoorkeur" />
+        <camunda:in source="zaakstatus" target="zaakstatus" />
+        <camunda:in source="interneStatus" target="interneStatus" />
+        <camunda:in source="verstrekkingsvorm" target="verstrekkingsvorm" />
+        <camunda:in source="norm" target="norm" />
+        <camunda:in source="zaakdossiertype" target="zaakdossiertype" />
+        <camunda:in source="aantalBelanghebbende" target="aantalBelanghebbende" />
+        <camunda:in source="versneldBeslist" target="versneldBeslist" />
+        <camunda:out source="besluit" target="besluit" />
+        <camunda:out source="norm" target="norm" />
+        <camunda:inputOutput>
+          <camunda:outputParameter name="mappedBesluit">
+            <camunda:script scriptFormat="javascript">var HashMap = Java.type("java.util.HashMap");
+
+var besluit = execution.getVariable("besluit");
+var mappedBesluit = null;
+
+if (besluit) {
+  mappedBesluit = new HashMap();
+
+  if (besluit.genomenBesluit != null) {
+    mappedBesluit.put("genomenBesluit", besluit.genomenBesluit);
+  }
+  if (besluit.beslisser != null) {
+    mappedBesluit.put("beslisser", besluit.beslisser);
+  }
+  if (besluit.besluitDatum != null) {
+    mappedBesluit.put("besluitDatum", besluit.besluitDatum);
+  }
+  if (besluit.redenAfwijzing != null) {
+    mappedBesluit.put("redenAfwijzing", besluit.redenAfwijzing);
+  }
+  if (besluit.dienst != null) {
+    mappedBesluit.put("dienst", besluit.dienst);
+  }
+  if (besluit.versneldBeslist != null) {
+    mappedBesluit.put("versneldBeslist", besluit.versneldBeslist);
+  }
+}
+
+mappedBesluit;</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1xj53mv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jbtzdr</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="mailTaskTemplate">SD Inkomen besluit aanvraag Algemene Bijstand</camunda:outputParameter>
+          <camunda:outputParameter name="mailTaskSubject">Besluit aanvraag</camunda:outputParameter>
+          <camunda:outputParameter name="emailAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/contactgegevens/email", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/contactgegevens/email", execution,""))}</camunda:outputParameter>
+          <camunda:outputParameter name="voorlettersAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/voorletters", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/voorletters", execution,""))}</camunda:outputParameter>
+          <camunda:outputParameter name="voornaamAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/voornaam", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/voornaam", execution,""))}</camunda:outputParameter>
+          <camunda:outputParameter name="tussenvoegselAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/voorvoegsel", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/voorvoegsel", execution,""))}</camunda:outputParameter>
+          <camunda:outputParameter name="achternaamAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/achternaam", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/achternaam", execution,""))}</camunda:outputParameter>
+          <camunda:outputParameter name="datumOntvangstAanvraag">${dateTime().parse(valueResolverDelegateService.resolveValue(execution, "doc:gegevensVaststelling.startDatum")).toLocalDate().toString("dd-MM-yyyy")}</camunda:outputParameter>
+          <camunda:outputParameter name="communicatievoorkeur">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/communicatievoorkeur", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/communicatievoorkeur", execution,"portaal"))}</camunda:outputParameter>
+          <camunda:outputParameter name="zaakstatus">Beslist</camunda:outputParameter>
+          <camunda:outputParameter name="interneStatus">beslist</camunda:outputParameter>
+          <camunda:outputParameter name="verstrekkingsvorm">${execution.getVariable("verstrekkingsvorm")}</camunda:outputParameter>
+          <camunda:outputParameter name="norm">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/bs219norm")}</camunda:outputParameter>
+          <camunda:outputParameter name="besluiten">${valueResolverDelegateService.resolveValue(execution, "doc:/besluiten")}</camunda:outputParameter>
+          <camunda:outputParameter name="aantalBelanghebbende">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/leefEnWoonsituatie/aantalBelanghebbende")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0c8x61d</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xj53mv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WegschrijvenOutputBesluitenTask" name="wegschrijven output &#39;besluiten&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/besluiten&#34;, besluiten)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="besluiten">
+            <camunda:script scriptFormat="javascript">var besluiten = execution.getVariable("besluiten");
+var besluit = execution.getVariable("mappedBesluit");
+
+besluiten = besluiten instanceof java.util.List ? Java.from(besluiten) : [];
+
+besluiten.push(besluit);
+
+result = java.util.Arrays.asList(besluiten);</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1jbtzdr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lkfiyr</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="VastleggenBesluitAfgerondEndEvent">
+      <bpmn:incoming>Flow_0epuowd</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="WegschrijvenOutputNormTask" name="wegschrijven output &#39;norm&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/additioneleVeldenAanvraag/bs219norm&#34;, norm)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0lkfiyr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0epuowd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0epuowd" sourceRef="WegschrijvenOutputNormTask" targetRef="VastleggenBesluitAfgerondEndEvent" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1eb9r6l">
+      <bpmndi:BPMNShape id="BPMNShape_1a0t992" bpmnElement="BSBVastleggenBesluitParticipant" isHorizontal="true">
+        <dc:Bounds x="145" y="40" width="865" height="240" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1b7noax" bpmnElement="Event_1pralbu">
+        <dc:Bounds x="212" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03ceqek" bpmnElement="BsVastleggenBesluitCallActivity">
+        <dc:Bounds x="445" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0hdd1hw" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="295" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0frxcyk" bpmnElement="WegschrijvenOutputBesluitenTask">
+        <dc:Bounds x="595" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0a4eugx_di" bpmnElement="VastleggenBesluitAfgerondEndEvent">
+        <dc:Bounds x="917" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="731" y="185" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0laf3ib" bpmnElement="WegschrijvenOutputNormTask">
+        <dc:Bounds x="750" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1ybulzx" bpmnElement="Flow_1xj53mv">
+        <di:waypoint x="395" y="160" />
+        <di:waypoint x="445" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1hqrd67" bpmnElement="Flow_1jbtzdr">
+        <di:waypoint x="545" y="160" />
+        <di:waypoint x="595" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_02mm7lf" bpmnElement="Flow_0c8x61d">
+        <di:waypoint x="248" y="160" />
+        <di:waypoint x="295" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0h65s3k" bpmnElement="Flow_0lkfiyr">
+        <di:waypoint x="695" y="160" />
+        <di:waypoint x="750" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0epuowd_di" bpmnElement="Flow_0epuowd">
+        <di:waypoint x="850" y="160" />
+        <di:waypoint x="917" y="160" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,999 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "key": "gegevensVaststelling",
+            "type": "hidden",
+            "input": true,
+            "label": "persoon vaststelling",
+            "tableView": false,
+            "attributes": {
+                "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-gegevensVaststelling"
+            }
+        },
+        {
+            "label": "openzaak",
+            "key": "openzaak",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "key": "aanvraagVermogen",
+            "type": "hidden",
+            "input": true,
+            "label": "aanvraagVermogen",
+            "calculateValue": "value = data.gegevensVaststelling.vermogen",
+            "tableView": false
+        },
+        {
+            "key": "vastgesteldeVermogen",
+            "type": "hidden",
+            "input": true,
+            "label": "vastgesteldeVermogen",
+            "calculateValue": "value = data.gegevensVaststelling.vermogen.vermogenGroepen",
+            "tableView": false
+        },
+        {
+            "label": "vastgesteldeBankrekeningen",
+            "key": "vastgesteldeBankrekeningen",
+            "type": "hidden",
+            "input": true,
+            "tableView": false,
+            "calculateValue": "value = data.vastgesteldeVermogen ? data.vastgesteldeVermogen.filter(item => item.commentaar === 'Bankrekeningen') : [];"
+        },
+        {
+            "label": "bezittingenMetVrijlating",
+            "key": "bezittingenMetVrijlating",
+            "calculateValue": "value = data.vastgesteldeVermogen ? data.vastgesteldeVermogen.filter(item => item.commentaar === 'Bezittingen met vrijlatingen') : [];",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "bezittingenZonderVrijlating",
+            "key": "bezittingenZonderVrijlating",
+            "calculateValue": "value = data.vastgesteldeVermogen ? data.vastgesteldeVermogen.filter(item => item.commentaar === 'Overige bezittingen') : [];",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "vastgesteldeSchuld",
+            "key": "vastgesteldeSchuld",
+            "calculateValue": "value = data.vastgesteldeVermogen ? data.vastgesteldeVermogen.filter(item => item.commentaar === 'Schulden') : [];",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "vastgesteldeEigenWoning",
+            "key": "vastgesteldeEigenWoning",
+            "calculateValue": "value = data.vastgesteldeVermogen ? data.vastgesteldeVermogen.filter(item => item.commentaar === 'Eigen woning') : [];",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "berekendVermogen",
+            "calculateValue": "value = data.gegevensVaststelling.vermogen.berekendVermogen",
+            "key": "berekendVermogen",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "isVermogenVastgesteld",
+            "calculateValue": "value = data.gegevensVaststelling.additioneleVeldenAanvrager.bs214vermogen.vermogenVastgesteld",
+            "key": "isVermogenVastgesteld",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "key": "eigenWoningCalc",
+            "type": "hidden",
+            "input": false,
+            "label": "eigenwoningCalc",
+            "tableView": false,
+            "calculateValue": "const toNumberOrZero = v => Number.isFinite(v) ? v : 0;\n\nconst eigenWoningBlocks = Array.isArray(data.vastgesteldeEigenWoning)\n  ? data.vastgesteldeEigenWoning.filter(Boolean)\n  : [];\n\nconst components = eigenWoningBlocks.flatMap(b =>\n  Array.isArray(b.componenten) ? b.componenten.filter(Boolean) : []\n);\n\nconst sumBy = (rows, predicate) =>\n  rows.reduce((sum, row) => sum + (predicate(row) ? toNumberOrZero(row.waarde) : 0), 0);\n\nconst woz = sumBy(components, r => r?.soortVermogenscomponent?.code === '1');\nconst hypotheek = sumBy(components, r => r?.soortVermogenscomponent?.code === '17');\nconst levensBelegging = sumBy(components, r => r?.soortVermogenscomponent?.code === '15');\nconst buitenBeschouwing = eigenWoningBlocks.reduce((sum, b) => sum + toNumberOrZero(b.vrijlating), 0);\nconst beschikbaar = woz - hypotheek + levensBelegging - buitenBeschouwing;\n\nconst toelichting =\n  components.find(r => typeof r?.toelichting === 'string' && r.toelichting.trim())?.toelichting || '';\n\nvalue = { woz, hypotheek, levensBelegging, buitenBeschouwing, beschikbaar, toelichting };"
+        },
+        {
+            "label": "headerIdentificatie",
+            "customClass": "border-around-formio-container",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "headerIdentificatie",
+            "type": "container",
+            "title": "header",
+            "input": true,
+            "components": [
+                {
+                    "label": "headerHTML",
+                    "content": "<section class=\"container-fluid p-0\">\n  <div class=\"bg-light border-bottom m-0 py-1 px-3\">\n    <div class=\"row align-items-center mx-0\">\n      <div class=\"col-12 px-1\">\n        <div style=\"font-size: 1.1rem; font-weight: normal; line-height: 1.4; margin: 0; white-space: nowrap; overflow: visible; text-overflow: clip;\" title=\"{{ data.openzaak?.identificatie || '-' }}\">{{{ data.openzaak?.identificatie || '-' }}}</div>\n      </div>\n    </div>\n  </div>\n\n  <!-- BODY MET REGELS -->\n  <div class=\"row align-items-center mx-0 gx-0 px-3 py-2\">\n\n    <!-- LINKERKOLOM -->\n    <div class=\"col-4 mb-0 p-0\">\n      <div class=\"row mb-1 mx-0\">\n        <div class=\"col-6 p-0\">Aanvrager:</div>\n        <div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.achternaam ? (data.gegevensVaststelling?.aanvrager?.achternaam + ((data.gegevensVaststelling?.aanvrager?.voorvoegsel || data.gegevensVaststelling?.aanvrager?.tussenvoegsel) ? ', ' + (data.gegevensVaststelling?.aanvrager?.voorvoegsel || data.gegevensVaststelling?.aanvrager?.tussenvoegsel) : '')) : '-' }}}</strong></div>\n      </div>\n      <div class=\"row mb-0 mx-0\">\n        <div class=\"col-6 p-0\">Partner:</div>\n        <div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.achternaam ? (data.gegevensVaststelling?.partner?.achternaam + ((data.gegevensVaststelling?.partner?.voorvoegsel || data.gegevensVaststelling?.partner?.tussenvoegsel) ? ', ' + (data.gegevensVaststelling?.partner?.voorvoegsel || data.gegevensVaststelling?.partner?.tussenvoegsel) : '')) : '-' }}}</strong></div>\n      </div>\n    </div>\n\n    <div class=\"col-4 mb-0 px-1\">\n      <div class=\"row mb-1 mx-0\"><div class=\"col-6\">Geb. datum:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.geboortedatum ? moment(data.gegevensVaststelling.aanvrager.geboortedatum).format('DD-MM-YYYY') : '-' }}}</strong></div></div>\n      <div class=\"row mb-0 mx-0\"><div class=\"col-6\">Geb. datum partner:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.geboortedatum ? moment(data.gegevensVaststelling.partner.geboortedatum).format('DD-MM-YYYY') : '-' }}}</strong></div></div>\n    </div>\n\n    <div class=\"col-4 mb-0 px-1\">\n      <div class=\"row mb-1 mx-0\"><div class=\"col-6\">BSN:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.bsn || '-' }}}</strong></div></div>\n      <div class=\"row mb-0 mx-0\"><div class=\"col-6\">BSN partner:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.bsn || '-' }}}</strong></div></div>\n    </div>\n\n  </div>\n</section>",
+                    "refreshOnChange": false,
+                    "customClass": "no-border-around-formio-container",
+                    "key": "html",
+                    "type": "htmlelement",
+                    "tableView": false,
+                    "input": true
+                }
+            ]
+        },
+        {
+            "key": "aanvragerContainer",
+            "type": "container",
+            "input": true,
+            "label": "Aanvrager container",
+            "customClass": "inkomsten-tab-container",
+            "tableView": false,
+            "attributes": {
+                "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-aanvragerContainer"
+            },
+            "components": [
+                {
+                    "key": "aanvrager",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "Contant geld",
+                    "content": "<h4>Bank- of spaartegoed<span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>\n",
+                    "tableView": false,
+                    "customClass": "no-border-bottom-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "html1",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "HTML",
+                    "content": "<div class=\"row pb-1 pt-1\" style=\"margin-left:1px\">\n  <div class=\"col-2 font-weight-bold\">Bankrekening</div>\n  <div class=\"col-2 font-weight-bold\">Peildatum</div>\n  <div class=\"col-2 font-weight-bold\">Tenaamstelling</div>\n  <div class=\"col-2 font-weight-bold\">Bruto saldo</div>\n  <div class=\"col-2 font-weight-bold\">Vrijlating</div>\n  <div class=\"col-2 font-weight-bold\">Netto saldo</div>\n</div>",
+                    "tableView": false,
+                    "customClass": "border-top-0 border-bottom-0 no-border-radius",
+                    "customConditional": "var isV = !!(data.vastgesteldeVermogen); if (!isV) { show = true; } else { var L = (data.vastgesteldeBankrekeningen || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "bankrekeningen",
+                    "calculateValue": "value = data.vastgesteldeVermogen ? data.vastgesteldeBankrekeningen.flatMap(item => item.componenten) : data.gegevensVaststelling?.vermogen?.bankrekeningen;",
+                    "customConditional": "var isV = !!(data.vastgesteldeVermogen); if (!isV) { show = true; } else { var L = (data.vastgesteldeBankrekeningen || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "disabled": true,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "attributes": {
+                        "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-gegevensVaststelling.vermogen.bankrekeningen"
+                    },
+                    "components": [
+                        {
+                            "label": "HTML",
+                            "attrs": [
+                                {
+                                    "attr": "",
+                                    "value": ""
+                                }
+                            ],
+                            "content": "<div class=\"row mb-1\">\n    <div class=\"col-2\">\n        {{{ _.get(row,'ibanNederland') || _.get(row,'ibanBuitenland') || _.get(row,'iban') || _.get(row,'bankrekeningnummer') || '-' }}}\n    </div>\n    <div class=\"col-2\">\n    {{{ row?.datumVaststelling ? moment(row?.datumVaststelling).format('DD-MM-YYYY') : '-' }}}\n  </div>\n    <div class=\"col-2\">\n        {{{ row?.tenaamstelling || '-' }}}\n    </div>\n    <div class=\"col-2\">\n        {{{\n        (typeof _.get(row,'waarde') === 'number')\n        ? _.get(row,'waarde').toLocaleString('nl-NL',{style:'currency',currency:'EUR'})\n        : (typeof _.get(row,'saldoRekening') === 'number')\n        ? _.get(row,'saldoRekening').toLocaleString('nl-NL',{style:'currency',currency:'EUR'})\n        : '-'\n        }}}\n    </div>\n    <div class=\"col-2\"></div>\n    <div class=\"col-2\"></div>\n</div>",
+                            "refreshOnChange": false,
+                            "key": "bankrekeningHtml",
+                            "type": "htmlelement",
+                            "input": false,
+                            "hideLabel": true,
+                            "tableView": false
+                        }
+                    ],
+                    "customClass": "bbz-inkomsten-tab-data-grid no-border-bottom-radius extra-padding-html-element no-border-bottom no-border-top-radius",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom"
+                },
+                {
+                    "label": "HTML",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "<div class=\"row py-2\">\n    <div class=\"col-3\">\n    </div>\n    <div class=\"col-3\">\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.vastgesteldeBankrekeningen || []).find(i => i && typeof i.brutoSubtotaal==='number')?.brutoSubtotaal?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.vastgesteldeBankrekeningen || []).find(i => i && typeof i.vrijlating==='number')?.vrijlating?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.vastgesteldeBankrekeningen || []).find(i => i && typeof i.nettoSubtotaal==='number')?.nettoSubtotaal?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n</div>",
+                    "key": "bankrekeningHtml1",
+                    "customClass": "extra-padding-html-element",
+                    "customConditional": "if (!data.isVermogenVastgesteld) { show = true; } else { var L = (data.vastgesteldeBankrekeningen || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "type": "htmlelement",
+                    "refreshOnChange": true,
+                    "input": false,
+                    "hideLabel": true,
+                    "tableView": false
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-3\">Toelichting</dd>\n        <dt class=\"col-9\">{{{ (data.vastgesteldeBankrekeningen).find(i => i?.toelichting)?.toelichting || '' }}}</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml1",
+                    "customConditional": "var vastgesteldeBankrekeningen = (data.vastgesteldeBankrekeningen) || []; show = Array.isArray(vastgesteldeBankrekeningen) && vastgesteldeBankrekeningen.some(function(item){ return item && item.toelichting; });",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-3\">Toelichting geen bankrekeningen vastgesteld</dd>\n        <dt class=\"col-9\">Er is geen relevante component van bankrekeningen vastgesteld.</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml1",
+                    "customConditional": "var isV = !!data.isVermogenVastgesteld; var list = Array.isArray(data.vastgesteldeBankrekeningen) ? data.vastgesteldeBankrekeningen : []; var hasAnyComponenten = list.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length>0; }); var hasEmptyToelichting = list.some(function(it){ var t = it && it.toelichting; return String(t||'').trim()===''; }); show = isV && !hasAnyComponenten && hasEmptyToelichting;",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                }
+            ],
+            "customConditional": "(data.vastgesteldeVermogen || data?.gegevensVaststelling?.vermogen?.bankrekeningen?.some(rekening => rekening.soortRekening === 'REKENING_PRIVE_NL' || rekening.soortRekening === 'REKENING_PRIVE_BUITENLAND')) ? show = true : show = false;"
+        },
+        {
+            "key": "aanvragerContainer1",
+            "type": "container",
+            "input": true,
+            "label": "Aanvrager container",
+            "customConditional": "data.vastgesteldeVermogen ? show = false : show = true;",
+            "tableView": false,
+            "attributes": {
+                "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-aanvragerContainer1"
+            },
+            "components": [
+                {
+                    "key": "aanvrager",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "Contant geld",
+                    "content": "<h4>Waarde overige bezittingen<span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>\n",
+                    "tableView": false,
+                    "customClass": "no-border-bottom-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "html3",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "HTML",
+                    "content": "<div class=\"row pb-1 pt-1\" style=\"margin-left:1px\">\n    <div class=\"col-3 font-weight-bold\">Soort</div>\n    <div class=\"col-3 font-weight-bold\">Omschrijving</div>\n    <div class=\"col-2 font-weight-bold\">Bruto waarde</div>\n    <div class=\"col-2 font-weight-bold\">Vrijlating</div>\n    <div class=\"col-2 font-weight-bold\">Netto waarde</div>\n</div>",
+                    "tableView": false,
+                    "customClass": "border-top-0 border-bottom-0 no-border-bottom-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "contantenHtml",
+                    "type": "htmlelement",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "input": false,
+                    "label": "HTML",
+                    "content": "<div class=\"row mb-2 mt-1\" style=\"margin-left:1px\">\n    <div class=\"col-3\">Contanten</div>\n    <div class=\"col-3\">-</div>\n    <div class=\"col-2\">{{{ (typeof data?.gegevensVaststelling?.vermogen?.contantGeld === 'number' ? data?.gegevensVaststelling?.vermogen?.contantGeld.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) : '-') }}}</div>\n    <div class=\"col-2\"></div>\n    <div class=\"col-2\"></div>\n</div>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "pt-1 pb-1 no-border-top-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "gegevensVaststelling.vermogen.beleggingsproducten",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "disabled": true,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "attributes": {
+                        "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-gegevensVaststelling.vermogen.beleggingsproducten"
+                    },
+                    "components": [
+                        {
+                            "key": "beleggingsproductenHtml",
+                            "type": "htmlelement",
+                            "attrs": [
+                                {
+                                    "attr": "",
+                                    "value": ""
+                                }
+                            ],
+                            "input": false,
+                            "label": "HTML",
+                            "content": "<div class=\"row mb-1 mt-1\">\n    <div class=\"col-3\">Obligaties/Aandelen</div>\n    <div class=\"col-3\">-</div>\n    <div class=\"col-2\">{{{ (typeof row?.waarde === 'number' ? row?.waarde.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) : '-') }}}</div>\n    <div class=\"col-2\"></div>\n    <div class=\"col-2\"></div>\n</div>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "refreshOnChange": false
+                        }
+                    ],
+                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element no-border-bottom-radius no-border-bottom no-border-top-radius",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom"
+                },
+                {
+                    "key": "gegevensVaststelling.vermogen.cryptoCurrencies",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "disabled": true,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "attributes": {
+                        "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-gegevensVaststelling.vermogen.cryptoCurrencies"
+                    },
+                    "components": [
+                        {
+                            "key": "cryptoCurrenciesHtml",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "<div class=\"row mb-1 mt-1\">\n    <div class=\"col-3\">Crypto</div>\n    <div class=\"col-3\">-</div>\n    <div class=\"col-2\">{{{ row?.waarde?.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) || '-' }}}</div>\n    <div class=\"col-2\"></div>\n    <div class=\"col-2\"></div>\n</div>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "refreshOnChange": false
+                        }
+                    ],
+                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element no-border-bottom-radius no-border-bottom no-border-top-radius",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom"
+                },
+                {
+                    "key": "gegevensVaststelling.vermogen.koopwoningen",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "disabled": true,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "attributes": {
+                        "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-gegevensVaststelling.vermogen.koopwoningen"
+                    },
+                    "components": [
+                        {
+                            "key": "grondHtml",
+                            "type": "htmlelement",
+                            "attrs": [
+                                {
+                                    "attr": "",
+                                    "value": ""
+                                }
+                            ],
+                            "input": false,
+                            "label": "HTML",
+                            "content": "<div class=\"row mb-1 mt-1\">\n    <div class=\"col-3\">Een of meerdere koopwoning(en) in Nederland en/of het buitenland</div>\n    <div class=\"col-3\">-</div>\n    <div class=\"col-2\">{{{ (row?.woz?.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) || '-') }}}</div>\n    <div class=\"col-2\"></div>\n    <div class=\"col-2\"></div>\n</div>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "refreshOnChange": false
+                        }
+                    ],
+                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element no-border-bottom-radius no-border-bottom no-border-top-radius",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom"
+                },
+                {
+                    "key": "gegevensVaststelling.vermogen.grond",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "disabled": true,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "attributes": {
+                        "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-gegevensVaststelling.vermogen.grond"
+                    },
+                    "components": [
+                        {
+                            "key": "grondHtml",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "<div class=\"row mb-1 mt-1\">\n    <div class=\"col-3\">Een stuk grond in Nederland en/of het buitenland</div>\n    <div class=\"col-3\">-</div>\n    <div class=\"col-2\">{{{ (row?.waarde?.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) || '-') }}}</div>\n    <div class=\"col-2\"></div>\n    <div class=\"col-2\"></div>\n</div>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "refreshOnChange": false
+                        }
+                    ],
+                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element no-border-bottom-radius no-border-bottom  no-border-top-radius",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom"
+                },
+                {
+                    "key": "gegevensVaststelling.vermogen.motorVoertuigen",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "disabled": true,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "attributes": {
+                        "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-gegevensVaststelling.vermogen.motorVoertuigen"
+                    },
+                    "components": [
+                        {
+                            "key": "motorVoertuigenHtml",
+                            "type": "htmlelement",
+                            "attrs": [
+                                {
+                                    "attr": "",
+                                    "value": ""
+                                }
+                            ],
+                            "input": false,
+                            "label": "HTML",
+                            "content": "<div class=\"row mb-1 mt-1\">\n    <div class=\"col-3\">Motorvoertuig (auto)</div>\n    <div class=\"col-3\">{{{row?.merk}}} {{{row?.model}}} {{{row?.kenteken}}}</div>\n    <div class=\"col-2\">{{{ row?.dagwaarde?.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) || '-' }}}</div>\n    <div class=\"col-2\"></div>\n    <div class=\"col-2\"></div>\n</div>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "refreshOnChange": false
+                        }
+                    ],
+                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element no-border-bottom-radius no-border-bottom  no-border-top-radius",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom"
+                },
+                {
+                    "key": "gegevensVaststelling.vermogen.caravans",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "disabled": true,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "attributes": {
+                        "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-gegevensVaststelling.vermogen.caravans"
+                    },
+                    "components": [
+                        {
+                            "key": "caravansHtml",
+                            "type": "htmlelement",
+                            "attrs": [
+                                {
+                                    "attr": "",
+                                    "value": ""
+                                }
+                            ],
+                            "input": false,
+                            "label": "HTML",
+                            "content": "<div class=\"row mb-1 mt-1\">\n    <div class=\"col-3\">Caravan</div>\n    <div class=\"col-3\">{{{ (row?.merk ||  row?.type || row?.kenteken) ? row?.merk + ' ' + row?.type + ' ' + row?.kenteken : '-' }}}</div>\n    <div class=\"col-2\">{{{ row?.dagwaarde?.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) || '-' }}}</div>\n    <div class=\"col-2\"></div>\n    <div class=\"col-2\"></div>\n</div>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "refreshOnChange": false
+                        }
+                    ],
+                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element no-border-bottom-radius no-border-bottom no-border-top-radius",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom"
+                },
+                {
+                    "key": "gegevensVaststelling.vermogen.vaartuigen",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "disabled": true,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "attributes": {
+                        "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-gegevensVaststelling.vermogen.vaartuigen"
+                    },
+                    "components": [
+                        {
+                            "key": "caravansHtml",
+                            "type": "htmlelement",
+                            "attrs": [
+                                {
+                                    "attr": "",
+                                    "value": ""
+                                }
+                            ],
+                            "input": false,
+                            "label": "HTML",
+                            "content": "<div class=\"row mb-1 mt-1\">\n    <div class=\"col-3\">Vaartuig</div>\n    <div class=\"col-3\">-</div>\n    <div class=\"col-2\">{{{ row?.waarde?.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) || '-' }}}</div>\n    <div class=\"col-2\"></div>\n    <div class=\"col-2\"></div>\n</div>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "refreshOnChange": false
+                        }
+                    ],
+                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element no-border-bottom-radius no-border-top-radius",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom"
+                },
+                {
+                    "key": "gegevensVaststelling.vermogen.erfenis",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "disabled": true,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "attributes": {
+                        "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-gegevensVaststelling.vermogen.erfenis"
+                    },
+                    "components": [
+                        {
+                            "key": "erfenisHtml",
+                            "type": "htmlelement",
+                            "attrs": [
+                                {
+                                    "attr": "",
+                                    "value": ""
+                                }
+                            ],
+                            "input": false,
+                            "label": "HTML",
+                            "content": "<div class=\"row mb-1 mt-1\">\n    <div class=\"col-3\">Erfenis</div>\n    <div class=\"col-3\">-</div>\n    <div class=\"col-2\">{{{ row?.waarde?.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) || '-' }}}</div>\n    <div class=\"col-2\"></div>\n    <div class=\"col-2\"></div>\n</div>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "refreshOnChange": false
+                        }
+                    ],
+                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element no-border-bottom-radius no-border-top-radius",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom"
+                }
+            ],
+            "customClass": "inkomsten-tab-container"
+        },
+        {
+            "label": "Aanvrager container",
+            "tableView": true,
+            "validateWhenHidden": false,
+            "key": "container1",
+            "customClass": "inkomsten-tab-container",
+            "customConditional": "data.vastgesteldeVermogen ? show = true : show = false;",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "key": "aanvrager",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "Contant geld",
+                    "content": "<h4>Bezittingen<span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>\n",
+                    "tableView": false,
+                    "customClass": "no-border-bottom",
+                    "refreshOnChange": false
+                },
+                {
+                    "label": "HTML",
+                    "content": "<div class=\"row pb-1 pt-1\" style=\"margin-left:1px\">\n  <div class=\"col-2 font-weight-bold\">Overige bezittingen met vrijlatingen</div>\n  <div class=\"col-2 font-weight-bold\">Peildatum</div>\n  <div class=\"col-3 font-weight-bold\">Omschrijving</div>\n  <div class=\"col-2 font-weight-bold\">Bruto waarde</div>\n  <div class=\"col-2 font-weight-bold\">Vrijlating</div>\n  <div class=\"col-2 font-weight-bold\">Netto waarde</div>\n</div>\n",
+                    "refreshOnChange": true,
+                    "customClass": "border-top-0 border-bottom-0 no-border-radius",
+                    "key": "html1",
+                    "customConditional": "var isV = !!(data.bezittingenMetVrijlating); if (!isV) { show = true; } else { var L = (data.bezittingenMetVrijlating || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "addAnotherPosition": "bottom",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "initEmpty": false,
+                    "customClass": "bbz-inkomsten-tab-data-grid no-border-bottom-radius no-border-bottom no-border-top-radius",
+                    "hideLabel": true,
+                    "disabled": true,
+                    "tableView": false,
+                    "defaultValue": [
+                        {}
+                    ],
+                    "calculateValue": "value = data.bezittingenMetVrijlating.flatMap(item => item.componenten)",
+                    "customConditional": "var isV = !!(data.bezittingenMetVrijlating); if (!isV) { show = true; } else { var L = (data.bezittingenMetVrijlating || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "validateWhenHidden": false,
+                    "key": "bezittingenGrid",
+                    "type": "datagrid",
+                    "input": true,
+                    "components": [
+                        {
+                            "label": "Columns",
+                            "hideLabel": true,
+                            "columns": [
+                                {
+                                    "components": [
+                                        {
+                                            "label": "HTML",
+                                            "attrs": [
+                                                {
+                                                    "attr": "",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "content": "<div class=\"row mb-1\">\n  <div class=\"col-2\">\n    {{{ row?.soortVermogenscomponent?.name || '-' }}}\n  </div>\n  <div class=\"col-2\">\n    {{{ row?.datumVaststelling ? moment(row?.datumVaststelling).format('DD-MM-YYYY') : '-' }}}\n  </div>\n  <div class=\"col-2\">\n    {{{ row?.identificatie ? (row?.soort?.name + ' ' + row?.identificatie) : \n    (row?.toelichting ? row?.omschrijving + ' ' + row?.toelichting : row?.omschrijving || '-' )}}}\n  </div>\n  <div class=\"col-2\">\n  {{{ typeof row?.waarde === 'number' ? row?.waarde.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) : '-' }}}\n  </div>\n  <div class=\"col-2\">\n    </div>\n    <div class=\"col-2\">\n    </div>\n</div>\n",
+                                            "refreshOnChange": true,
+                                            "customClass": "extra-padding-html-element",
+                                            "key": "bankrekeningHtml",
+                                            "type": "htmlelement",
+                                            "input": false,
+                                            "hideLabel": true,
+                                            "tableView": false
+                                        }
+                                    ],
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 12,
+                                    "width": 12
+                                },
+                                {
+                                    "components": [],
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 1,
+                                    "width": 1
+                                }
+                            ],
+                            "key": "columns",
+                            "type": "columns",
+                            "input": false,
+                            "tableView": false
+                        }
+                    ]
+                },
+                {
+                    "label": "HTML",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "<div class=\"row py-2\">\n    <div class=\"col-3\">\n    </div>\n    <div class=\"col-3\">\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.bezittingenMetVrijlating || []).find(i => i && typeof i.brutoSubtotaal==='number')?.brutoSubtotaal?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.bezittingenMetVrijlating || []).find(i => i && typeof i.vrijlating==='number')?.vrijlating?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.bezittingenMetVrijlating || []).find(i => i && typeof i.nettoSubtotaal==='number')?.nettoSubtotaal?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n</div>",
+                    "key": "bankrekeningHtml1",
+                    "type": "htmlelement",
+                    "customClass": "extra-padding-html-element",
+                    "customConditional": "var isV = !!(data.bezittingenMetVrijlating); if (!isV) { show = true; } else { var L = (data.bezittingenMetVrijlating || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "refreshOnChange": true,
+                    "input": false,
+                    "hideLabel": true,
+                    "tableView": false
+                },
+                {
+                    "label": "HTML",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "<hr><div class=\"row pb-1 pt-1\" style=\"margin-left:1px\">\n  <div class=\"col-2 font-weight-bold\">Overige bezittingen zonder vrijlatingen</div>\n  <div class=\"col-2 font-weight-bold\">Peildatum</div>  \n  <div class=\"col-2 font-weight-bold\">Omschrijving</div>\n  <div class=\"col-2 font-weight-bold\">Bruto waarde</div>\n  <div class=\"col-2 font-weight-bold\">Vrijlating</div>\n  <div class=\"col-2 font-weight-bold\">Netto waarde</div>\n</div>\n",
+                    "refreshOnChange": true,
+                    "customClass": "border-top-0 border-bottom-0 no-border-radius",
+                    "key": "html1",
+                    "customConditional": "var isV = !!(data.bezittingenZonderVrijlating); if (!isV) { show = true; } else { var L = (data.bezittingenZonderVrijlating || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "addAnotherPosition": "bottom",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "initEmpty": false,
+                    "customClass": "bbz-inkomsten-tab-data-grid no-border-bottom-radius no-border-bottom no-border-top-radius",
+                    "hideLabel": true,
+                    "disabled": true,
+                    "tableView": false,
+                    "defaultValue": [
+                        {}
+                    ],
+                    "calculateValue": "value = data.bezittingenZonderVrijlating.flatMap(item => item.componenten);",
+                    "customConditional": "var isV = !!(data.bezittingenZonderVrijlating); if (!isV) { show = true; } else { var L = (data.bezittingenZonderVrijlating || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "validateWhenHidden": false,
+                    "key": "overigeBezittingenGrid",
+                    "type": "datagrid",
+                    "input": true,
+                    "components": [
+                        {
+                            "label": "Columns",
+                            "hideLabel": true,
+                            "columns": [
+                                {
+                                    "components": [
+                                        {
+                                            "label": "HTML",
+                                            "attrs": [
+                                                {
+                                                    "attr": "",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "content": "<div class=\"row mb-1\">\n  <div class=\"col-2\">\n    {{{ row?.soortVermogenscomponent?.name || '-' }}}\n  </div>\n  <div class=\"col-2\">\n    {{{ row?.datumVaststelling ? moment(row?.datumVaststelling).format('DD-MM-YYYY') : '-' }}}\n  </div>\n  <div class=\"col-2\">\n    {{{ row?.identificatie ? (row?.soort?.name + ' ' + row?.identificatie) : \n    (row?.toelichting ? row?.omschrijving + ' ' + row?.toelichting : row?.omschrijving || '-' )}}}\n  </div>\n  <div class=\"col-2\">\n  {{{ typeof row?.waarde === 'number' ? row?.waarde.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) : '-' }}}\n  </div>\n  <div class=\"col-2\">\n  </div>\n    <div class=\"col-2\">\n </div>\n</div>\n",
+                                            "refreshOnChange": true,
+                                            "customClass": "extra-padding-html-element",
+                                            "key": "bankrekeningHtml1",
+                                            "type": "htmlelement",
+                                            "input": false,
+                                            "hideLabel": true,
+                                            "tableView": false
+                                        }
+                                    ],
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 12,
+                                    "width": 12
+                                },
+                                {
+                                    "components": [],
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 1,
+                                    "width": 1
+                                }
+                            ],
+                            "key": "columns",
+                            "type": "columns",
+                            "input": false,
+                            "tableView": false
+                        }
+                    ]
+                },
+                {
+                    "label": "HTML",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "<div class=\"row py-2\">\n    <div class=\"col-3\">\n    </div>\n    <div class=\"col-3\">\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.bezittingenZonderVrijlating || []).find(i => i && typeof i.brutoSubtotaal==='number')?.brutoSubtotaal?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.bezittingenZonderVrijlating || []).find(i => i && typeof i.vrijlating==='number')?.vrijlating?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.bezittingenZonderVrijlating || []).find(i => i && typeof i.nettoSubtotaal==='number')?.nettoSubtotaal?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n</div>",
+                    "key": "bankrekeningHtml1",
+                    "type": "htmlelement",
+                    "customClass": "extra-padding-html-element",
+                    "customConditional": "var isV = !!(data.bezittingenZonderVrijlating); if (!isV) { show = true; } else { var L = (data.bezittingenZonderVrijlating || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "refreshOnChange": true,
+                    "input": false,
+                    "hideLabel": true,
+                    "tableView": false
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-3\">Toelichting</dd>\n        <dt class=\"col-9\">{{{ _.get(\n  _.find([].concat(data.bezittingenMetVrijlating || [], data.bezittingenZonderVrijlating || []), 'toelichting'),'toelichting', ''\n) }}}</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml1",
+                    "customConditional": "var m=data.bezittingenMetVrijlating; var z=data.bezittingenZonderVrijlating; var list=(Array.isArray(m)&&m.length? m : (Array.isArray(z)? z : [])); show = list.some(function(item){ return item && item.toelichting; });",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-3\">Toelichting geen bezittingen vastgesteld </dd>\n        <dt class=\"col-9\">Er is geen relevante component van bezittingen vastgesteld.</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml1",
+                    "customConditional": "var isV=!!data.isVermogenVastgesteld; var m=Array.isArray(data.bezittingenMetVrijlating)?data.bezittingenMetVrijlating:[]; var z=Array.isArray(data.bezittingenZonderVrijlating)?data.bezittingenZonderVrijlating:[]; var list=m.concat(z); var hasAnyComponenten=list.some(function(it){return it&&Array.isArray(it.componenten)&&it.componenten.length>0;}); var hasEmptyToelichting=list.some(function(it){return it&&String((it.toelichting||'')).trim()==='';}); show=isV&&!hasAnyComponenten&&hasEmptyToelichting;",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                }
+            ]
+        },
+        {
+            "key": "aanvragerContainer",
+            "type": "container",
+            "input": true,
+            "label": "Aanvrager container",
+            "customClass": "inkomsten-tab-container",
+            "tableView": false,
+            "attributes": {
+                "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-aanvragerContainer"
+            },
+            "components": [
+                {
+                    "key": "aanvrager",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "Contant geld",
+                    "content": "<h4>Schulden<span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>\n",
+                    "tableView": false,
+                    "customClass": "no-border-bottom-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "label": "HTML",
+                    "content": "<div class=\"row pb-1 pt-1\" style=\"margin-left:1px\">\n    <div class=\"col-3 font-weight-bold\">Omschrijving</div>\n    <div class=\"col-3 font-weight-bold\">Peildatum</div>\n    <div class=\"col-2 font-weight-bold\">Bruto schuld</div>\n    <div class=\"col-2 font-weight-bold\">Vrijlating</div>\n    <div class=\"col-2 font-weight-bold\">Netto schuld</div>\n</div>",
+                    "refreshOnChange": false,
+                    "customClass": "border-top-0 border-bottom-0 no-border-radius",
+                    "key": "html1",
+                    "customConditional": "var isV = !!(data.vastgesteldeVermogen); if (!isV) { show = true; } else { var L = (data.vastgesteldeSchuld || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "key": "schulden",
+                    "calculateValue": "value = data.vastgesteldeVermogen ? data.vastgesteldeSchuld.flatMap(item => item.componenten) : data.gegevensVaststelling?.vermogen?.schulden;",
+                    "customConditional": "var isV = !!(data.vastgesteldeVermogen); if (!isV) { show = true; } else { var L = (data.vastgesteldeSchuld || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "disabled": true,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "attributes": {
+                        "data-testid": "aanvraag-algemene-bijstand-tab-vermogen-gegevensVaststelling.vermogen.schulden"
+                    },
+                    "components": [
+                        {
+                            "label": "HTML",
+                            "attrs": [
+                                {
+                                    "attr": "",
+                                    "value": ""
+                                }
+                            ],
+                            "content": "<div class=\"row mb-1 mt-1\">\n    <div class=\"col-3\">{{{ _.get(row,'schuldEiser') || _.get(row,'omschrijving') || '-' }}}</div>\n    <div class=\"col-3\">   {{{ row?.datumVaststelling ? moment(row?.datumVaststelling).format('DD-MM-YYYY') : '-' }}}</div>\n    <div class=\"col-2\">{{{\n        (typeof _.get(row,'waarde') === 'number')\n        ? _.get(row,'waarde').toLocaleString('nl-NL',{style:'currency',currency:'EUR'})\n        : (typeof _.get(row,'hoogteSchuld') === 'number')\n        ? _.get(row,'hoogteSchuld').toLocaleString('nl-NL',{style:'currency',currency:'EUR'})\n        : '-'\n        }}}</div>\n    <div class=\"col-2\"></div>\n    <div class=\"col-2\"></div>\n</div>",
+                            "refreshOnChange": false,
+                            "key": "bankrekeningHtml",
+                            "type": "htmlelement",
+                            "input": false,
+                            "hideLabel": true,
+                            "tableView": false
+                        }
+                    ],
+                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom"
+                },
+                {
+                    "label": "HTML",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "<div class=\"row py-2\">\n    <div class=\"col-3\">\n    </div>\n    <div class=\"col-3\">\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.vastgesteldeSchuld || []).find(i => i && typeof i.brutoSubtotaal==='number')?.brutoSubtotaal?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.vastgesteldeSchuld || []).find(i => i && typeof i.vrijlating==='number')?.vrijlating?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n    <div class=\"col-2 font-weight-bold\">\n        {{{ (data.vastgesteldeSchuld || []).find(i => i && typeof i.nettoSubtotaal==='number')?.nettoSubtotaal?.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) || '-' }}}\n    </div>\n</div>",
+                    "key": "bankrekeningHtml1",
+                    "type": "htmlelement",
+                    "customClass": "border-top-0 no-border-radius extra-padding-html-element",
+                    "customConditional": "var isV = !!(data.vastgesteldeSchuld); if (!isV) { show = true; } else { var L = (data.vastgesteldeSchuld || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "refreshOnChange": true,
+                    "input": false,
+                    "hideLabel": true,
+                    "tableView": false
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-3\">Toelichting</dd>\n        <dt class=\"col-9\">{{{ (data.vastgesteldeSchuld).find(i => i?.toelichting)?.toelichting || '' }}}</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml1",
+                    "customConditional": "var vastgesteldeSchuld = (data.vastgesteldeSchuld) || []; show = Array.isArray(vastgesteldeSchuld) && vastgesteldeSchuld.some(function(item){ return item && item.toelichting; });",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-3\">Toelichting geen schuld vastgesteld </dd>\n        <dt class=\"col-9\">Er is geen relevante component van schuld vastgesteld.</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml1",
+                    "customConditional": "var isV = !!data.isVermogenVastgesteld; var list = Array.isArray(data.vastgesteldeSchuld) ? data.vastgesteldeSchuld : []; var hasAnyComponenten = list.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length>0; }); var hasEmptyToelichting = list.some(function(it){ var t = it && it.toelichting; return String(t||'').trim()===''; }); show = isV && !hasAnyComponenten && hasEmptyToelichting;",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                }
+            ]
+        },
+        {
+            "key": "html1",
+            "type": "htmlelement",
+            "input": false,
+            "label": "HTML",
+            "customConditional": "data.vastgesteldeVermogen ? show = true : show = false;",
+            "content": "<div class=\"row mb-1\" style=\"margin-left:1px\">\n  <div class=\"col-12 font-weight-bold d-flex justify-content-end\">\n    <span style=\"padding-right: 10px; font-size: 1.2rem;\">In aanmerking te nemen vermogen</span>\n  </div>\n</div>\n",
+            "tableView": false,
+            "customClass": "border-top-0 border-bottom-0 no-border-radius",
+            "refreshOnChange": true
+        },
+        {
+            "key": "bankrekeningHtml1",
+            "type": "htmlelement",
+            "input": false,
+            "label": "HTML",
+            "content": "<div class=\"row mb-3\" style=\"margin-left:1px\">\n    <div class=\"col-12 font-weight-bold d-flex justify-content-end mb-3\">\n    <span style=\"padding-right: 10px; font-size: 1.2rem;\">\n        {{{ typeof data.berekendVermogen === 'number' ? data.berekendVermogen.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) : '-' }}}\n    </span>\n    </div>\n\n    <div class=\"col-3 d-flex justify-content-start {{!!data.gegevensVaststelling?.vermogen?.inAanmerkingTeNemenVermogenToelichting && data.gegevensVaststelling?.vermogen?.vermogenAangepast ? '' : 'd-none' }}\">\n        {{data.gegevensVaststelling?.vermogen?.inAanmerkingTeNemenVermogenToelichting ? '<span style=\"padding-left: 0; font-size: 0.9rem;\">Toelichting in aanmerking <br>te nemen vermogen</span>' : '' }}\n    </div>\n    <div class=\"col-9 font-weight-bold d-flex justify-content-start {{!!data.gegevensVaststelling?.vermogen?.inAanmerkingTeNemenVermogenToelichting && data.gegevensVaststelling?.vermogen?.vermogenAangepast ? '' : 'd-none' }}\">\n    <span style=\"padding-right: 10px;\">\n        {{{ data.gegevensVaststelling?.vermogen?.inAanmerkingTeNemenVermogenToelichting || ''}}}\n    </span>\n    </div>\n</div>",
+            "hideLabel": true,
+            "tableView": false,
+            "refreshOnChange": true,
+            "customConditional": "data.vastgesteldeVermogen ? show = true : show = false;"
+        },
+        {
+            "label": "Aanvrager container",
+            "tableView": true,
+            "validateWhenHidden": false,
+            "key": "container3",
+            "customClass": "inkomsten-tab-container",
+            "customConditional": "data.vastgesteldeVermogen ? show = true : show = false;",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "key": "aanvrager",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "Contant geld",
+                    "content": "<h4>Eigen woning<span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs214vermogen?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>\n",
+                    "tableView": false,
+                    "customClass": "no-border-bottom",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "ewTable",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "HTML",
+                    "content": "<div class=\"pl-1\">\n    <table class=\"table\" style=\"margin-bottom:0 table-layout: fixed; width:100%;\" >\n        <tbody>\n        <tr style=\"border-bottom:1px;\" class=\"font-weight-bold\">\n            <th class=\"col-2\" style=\"text-align:right\"></th>\n            <th class=\"col-2 text-nowrap\" style=\"text-align:right\">WOZ waarde</th>\n            <th class=\"col-2 text-nowrap\" style=\"text-align:right\">- Hypotheek</th>\n            <th class=\"col-2 text-nowrap\" style=\"text-align:right\">+ Levensverzekering<br>/ belegging</th>\n            <th class=\"col-2 text-nowrap\" style=\"text-align:right\">- Buiten beschouwing<br>te laten waarde</th>\n            <th class=\"col-2 text-nowrap\" style=\"text-align:right\">= Beschikbare waarde<br>eigen woning</th>\n        </tr>\n        <tr style=\"border-bottom:1px;\">\n            <td><strong>Waarde</strong></td>\n            <td style=\"text-align:right\">{{ (typeof data.eigenWoningCalc?.woz === 'number') ? data.eigenWoningCalc.woz.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) : '€ 0,00' }}</td>\n            <td style=\"text-align:right\">{{ (typeof data.eigenWoningCalc?.hypotheek === 'number') ? data.eigenWoningCalc.hypotheek.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) : '€ 0,00' }}</td>\n            <td style=\"text-align:right\">{{ (typeof data.eigenWoningCalc?.levensBelegging === 'number') ? data.eigenWoningCalc.levensBelegging.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) : '€ 0,00' }}</td>\n            <td style=\"text-align:right\">{{ (typeof data.eigenWoningCalc?.buitenBeschouwing === 'number') ? data.eigenWoningCalc.buitenBeschouwing.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) : '€ 0,00' }}</td>\n            <td style=\"text-align:right\"><strong>{{ (typeof data.eigenWoningCalc?.beschikbaar === 'number' && data.eigenWoningCalc?.beschikbaar > 0) ? data.eigenWoningCalc.beschikbaar.toLocaleString('nl-NL',{style:'currency',currency:'EUR'}) : '€ 0,00' }}</strong></td>\n        </tr>\n        </tbody>\n    </table>\n</div>",
+                    "tableView": false,
+                    "customClass": "border-top-0  no-border-radius extra-padding-html-element",
+                    "customConditional": "var isV = !!(data.vastgesteldeEigenWoning); if (!isV) { show = true; } else { var L = (data.vastgesteldeEigenWoning || []); show = Array.isArray(L) && L.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length > 0; }); }",
+                    "refreshOnChange": true
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-3\">Toelichting</dd>\n        <dt class=\"col-9\">{{{ (data.vastgesteldeEigenWoning).find(i => i?.toelichting)?.toelichting || '' }}}</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml1",
+                    "customConditional": "var vastgesteldeEigenWoning = (data.vastgesteldeEigenWoning) || []; show = Array.isArray(vastgesteldeEigenWoning) && vastgesteldeEigenWoning.some(function(item){ return item && item.toelichting; });",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-3\">Toelichting geen eigen woning vastgesteld </dd>\n        <dt class=\"col-9\">Er is geen relevante component van eigen woning vastgesteld.</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml1",
+                    "customConditional": "var isV = !!data.isVermogenVastgesteld; var list = Array.isArray(data.vastgesteldeEigenWoning) ? data.vastgesteldeEigenWoning : []; var hasAnyComponenten = list.some(function(it){ return it && Array.isArray(it.componenten) && it.componenten.length>0; }); var hasEmptyToelichting = list.some(function(it){ var t = it && it.toelichting; return String(t||'').trim()===''; }); show = isV && !hasAnyComponenten && hasEmptyToelichting;",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                }
+            ]
+        }
+    ]
+}

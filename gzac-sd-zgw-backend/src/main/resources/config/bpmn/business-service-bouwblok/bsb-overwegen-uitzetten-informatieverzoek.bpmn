@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0y9t2as" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_17rouow">
+    <bpmn:participant id="BSBOverwegenUitzettenInformatieverzoekParticipant" name="BSB overwegen uitzetten informatieverzoek" processRef="bsb-overwegen-uitzetten-informatieverzoek" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-overwegen-uitzetten-informatieverzoek" name="BSB overwegen uitzetten informatieverzoek" isExecutable="true">
+    <bpmn:startEvent id="Event_0erbzwt">
+      <bpmn:outgoing>Flow_09pyv4p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0j39whd" sourceRef="OphalenInputTask" targetRef="BSOverwegenUitzettenInformatieverzoekCallActivity" />
+    <bpmn:sequenceFlow id="Flow_00qd3pv" sourceRef="BSOverwegenUitzettenInformatieverzoekCallActivity" targetRef="Gateway_0rvkaxi" />
+    <bpmn:sequenceFlow id="Flow_09pyv4p" sourceRef="Event_0erbzwt" targetRef="OphalenInputTask" />
+    <bpmn:serviceTask id="OphalenInputTask" name="Ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="aanvrager">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager")}</camunda:outputParameter>
+          <camunda:outputParameter name="informatieverzoekenArray">${valueResolverDelegateService.resolveValue(execution, "doc:/informatieverzoeken")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_09pyv4p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j39whd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0z8phua" sourceRef="WegschrijvenOutputTask" targetRef="OpTeVragenItemsBepaaldEndEvent" />
+    <bpmn:callActivity id="BSOverwegenUitzettenInformatieverzoekCallActivity" name="BS overwegen uitzetten informatie-verzoek" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-overwegen-uitzetten-informatieverzoek-v2">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:out source="verzoek" target="verzoek" />
+        <camunda:out source="vervolgactieUitzettenInformatieverzoek" target="vervolgactieUitzettenInformatieverzoek" />
+        <camunda:in source="aanvrager" target="aanvrager" />
+        <camunda:in source="actieUitzettenInformatieverzoek" target="actieUitzettenInformatieverzoek" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0j39whd</bpmn:incoming>
+      <bpmn:outgoing>Flow_00qd3pv</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_1bq2l7g" sourceRef="Gateway_0rvkaxi" targetRef="WegschrijvenOutputTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${vervolgactieUitzettenInformatieverzoek == "informatieverzoekUitzetten"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0tati9b" sourceRef="Gateway_0rvkaxi" targetRef="Activity_18kka8r" />
+    <bpmn:exclusiveGateway id="Gateway_0rvkaxi" default="Flow_0tati9b">
+      <bpmn:incoming>Flow_00qd3pv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bq2l7g</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0tati9b</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="WegschrijvenOutputTask" name="Wegschrijven output" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/informatieverzoeken&#34;, newInformatieverzoeken)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="newInformatieverzoeken">
+            <camunda:script scriptFormat="javascript">var informatieverzoekenArray = execution.getVariable("informatieverzoekenArray");
+var verzoek = execution.getVariable("verzoek");
+
+function addToArray(existingArray, newData) {
+    existingArray = existingArray instanceof java.util.List ? Java.from(existingArray) : [];
+
+    var map = new java.util.HashMap();
+    map.put("verzoek", newData);
+
+    existingArray.push(map);
+
+    return java.util.Arrays.asList(existingArray);
+}
+
+addToArray(informatieverzoekenArray, verzoek);</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bq2l7g</bpmn:incoming>
+      <bpmn:outgoing>Flow_0z8phua</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="OpTeVragenItemsBepaaldEndEvent" name="op te vragen items bepaald" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_0z8phua</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="InformatieverzoekNietUitzettenEndEvent" name="informatieverzoek niet uitzetten" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_0ioa3wq</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activity_18kka8r" name="Wegschrijven output" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/informatieverzoekAfgerond&#34;, true)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0tati9b</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ioa3wq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0ioa3wq" sourceRef="Activity_18kka8r" targetRef="InformatieverzoekNietUitzettenEndEvent" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_17rouow">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="BSBOverwegenUitzettenInformatieverzoekParticipant" isHorizontal="true">
+        <dc:Bounds x="150" y="90" width="870" height="300" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03xt9u9" bpmnElement="Event_0erbzwt">
+        <dc:Bounds x="232" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0x5izaw" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="320" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1pfuhdg" bpmnElement="BSOverwegenUitzettenInformatieverzoekCallActivity">
+        <dc:Bounds x="470" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0rvkaxi_di" bpmnElement="Gateway_0rvkaxi" isMarkerVisible="true">
+        <dc:Bounds x="625" y="175" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_07ekwf0" bpmnElement="WegschrijvenOutputTask">
+        <dc:Bounds x="730" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0l73d0i_di" bpmnElement="OpTeVragenItemsBepaaldEndEvent">
+        <dc:Bounds x="892" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="876" y="225" width="69" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1h9dd9z_di" bpmnElement="InformatieverzoekNietUitzettenEndEvent">
+        <dc:Bounds x="892" y="282" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="867" y="325" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0qbqnqo" bpmnElement="Activity_18kka8r">
+        <dc:Bounds x="730" y="260" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1qcvydq" bpmnElement="Flow_0j39whd">
+        <di:waypoint x="420" y="200" />
+        <di:waypoint x="470" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1d5o6do" bpmnElement="Flow_00qd3pv">
+        <di:waypoint x="570" y="200" />
+        <di:waypoint x="625" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_10a0jsd" bpmnElement="Flow_09pyv4p">
+        <di:waypoint x="268" y="200" />
+        <di:waypoint x="320" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z8phua_di" bpmnElement="Flow_0z8phua">
+        <di:waypoint x="830" y="200" />
+        <di:waypoint x="892" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bq2l7g_di" bpmnElement="Flow_1bq2l7g">
+        <di:waypoint x="675" y="200" />
+        <di:waypoint x="730" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tati9b_di" bpmnElement="Flow_0tati9b">
+        <di:waypoint x="650" y="225" />
+        <di:waypoint x="650" y="300" />
+        <di:waypoint x="730" y="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="622" y="260" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ioa3wq_di" bpmnElement="Flow_0ioa3wq">
+        <di:waypoint x="830" y="300" />
+        <di:waypoint x="892" y="300" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0y9t2as" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_17rouow">
+    <bpmn:participant id="BSBUitzettenEnOpvolgenInformatieverzoekParticipant" name="BSB uitzetten en opvolgen informatieverzoek" processRef="bsb-uitzetten-en-opvolgen-informatieverzoek" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-uitzetten-en-opvolgen-informatieverzoek" name="BSB uitzetten en opvolgen informatieverzoek" isExecutable="true">
+    <bpmn:startEvent id="Event_0erbzwt">
+      <bpmn:outgoing>Flow_09pyv4p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0j39whd" sourceRef="OphalenInputTask" targetRef="BsUitzettenEnOpvolgenInformatieverzoekCallActivity" />
+    <bpmn:sequenceFlow id="Flow_00qd3pv" sourceRef="BsUitzettenEnOpvolgenInformatieverzoekCallActivity" targetRef="WegschrijvenOutputInformatieverzoekenTask" />
+    <bpmn:sequenceFlow id="Flow_09pyv4p" sourceRef="Event_0erbzwt" targetRef="OphalenInputTask" />
+    <bpmn:callActivity id="BsUitzettenEnOpvolgenInformatieverzoekCallActivity" name="bs uitzetten en opvolgen informatie-verzoek" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-uitzetten-en-opvolgen-informatieverzoek">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="informatieverzoeken" target="informatieverzoeken" />
+        <camunda:in source="verzoek" target="verzoek" />
+        <camunda:in source="prettyDeadline" target="prettyDeadline" />
+        <camunda:in source="documenten" target="documenten" />
+        <camunda:in source="opgevraagdeStukken" target="opgevraagdeStukken" />
+        <camunda:in source="gegevensAanvrager" target="gegevensAanvrager" />
+        <camunda:in source="gegevensPartner" target="gegevensPartner" />
+        <camunda:in source="verzendadres" target="verzendadres" />
+        <camunda:in source="verzenddatum" target="verzenddatum" />
+        <camunda:in source="deadlineInformatieverzoek" target="deadlineInformatieverzoek" />
+        <camunda:in source="datumOntvangstAanvraag" target="datumOntvangstAanvraag" />
+        <camunda:in source="templateGroup" target="templateGroup" />
+        <camunda:in source="templateName" target="templateName" />
+        <camunda:in source="mailTaskTemplate" target="mailTaskTemplate" />
+        <camunda:in source="mailTaskSubject" target="mailTaskSubject" />
+        <camunda:out source="reactie" target="reactie" />
+        <camunda:out source="reactieBeoordeeld" target="reactieBeoordeeld" />
+        <camunda:out source="vervolgActieUitzettenInformatieverzoek" target="vervolgActieUitzettenInformatieverzoek" />
+        <camunda:out source="verzoek" target="verzoek" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0j39whd</bpmn:incoming>
+      <bpmn:outgoing>Flow_00qd3pv</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="informatieverzoeken">${valueResolverDelegateService.resolveValue(execution, "doc:/informatieverzoeken")}</camunda:outputParameter>
+          <camunda:outputParameter name="verzoek">${informatieverzoeken[informatieverzoeken.size() - 1].verzoek}</camunda:outputParameter>
+          <camunda:outputParameter name="prettyDeadline">${dateTime().parse(verzoek.deadlineInformatieverzoek).toLocalDate().toString("dd-MM-yyyy")}</camunda:outputParameter>
+          <camunda:outputParameter name="documenten">${informatieverzoeken[informatieverzoeken.size() - 1].verzoek.documenten}</camunda:outputParameter>
+          <camunda:outputParameter name="opgevraagdeStukken">${verzoek.opTeVragenInformatie}</camunda:outputParameter>
+          <camunda:outputParameter name="gegevensAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager", execution,"")}</camunda:outputParameter>
+          <camunda:outputParameter name="gegevensPartner">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/partner", execution,"")}</camunda:outputParameter>
+          <camunda:outputParameter name="verzendadres">${
+            valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/verblijfadres/verblijfadresVastgesteld") == true
+                ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/verblijfadres")
+                : (
+                    valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/woonsituatie") == "ELDERS"
+                        ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/verblijfadres")
+                        : valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/adresBrp")
+                )
+            }</camunda:outputParameter>
+          <camunda:outputParameter name="verzenddatum">${now().toInstant().toString()}</camunda:outputParameter>
+          <camunda:outputParameter name="deadlineInformatieverzoek">${verzoek.deadlineInformatieverzoek}</camunda:outputParameter>
+          <camunda:outputParameter name="datumOntvangstAanvraag">${dateTime().parse(valueResolverDelegateService.resolveValue(execution, "doc:gegevensVaststelling.startDatum")).toLocalDate().toString("dd-MM-yyyy")}</camunda:outputParameter>
+          <camunda:outputParameter name="templateGroup">${(zaakdossiertype == "aanvraag-algemene-bijstand") ? "GZAC Sociaal domein / ALO" : "GZAC Sociaal domein / IOAW"}</camunda:outputParameter>
+          <camunda:outputParameter name="templateName">${(zaakdossiertype == "aanvraag-algemene-bijstand") ? "ALO Gegevens sturen bijstandsuitkering" : "IOAW Gegevens sturen bijstandsuitkering"}</camunda:outputParameter>
+          <camunda:outputParameter name="mailTaskTemplate">${(zaakdossiertype == "aanvraag-algemene-bijstand") ? "SD Inkomen informatieverzoek Algemene Bijstand" : "SD Inkomen informatieverzoek IOAW"}</camunda:outputParameter>
+          <camunda:outputParameter name="mailTaskSubject">Inkomen informatieverzoek Algemene Bijstand</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_09pyv4p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j39whd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1sbvj31" sourceRef="WegschrijvenOutputInformatieverzoekenTask" targetRef="WegschrijvenOutputInformatieverzoekAfgerondTask" />
+    <bpmn:sequenceFlow id="Flow_1im3unn" sourceRef="VervolgActieGateway" targetRef="ReactieInformatieverzoekOntvangenEnBeoordeeldEndEvent">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${vervolgActieUitzettenInformatieverzoek == 'beoordeeld'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1ece9sc" sourceRef="VervolgActieGateway" targetRef="InformatieverzoekGeannuleerdEndEvent">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${vervolgActieUitzettenInformatieverzoek == 'geannuleerd'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="WegschrijvenOutputInformatieverzoekenTask" name="wegschrijven output &#39;informatieverzoeken&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/informatieverzoeken&#34;, newInformatieverzoeken)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="newInformatieverzoeken">
+            <camunda:script scriptFormat="javascript">var informatieverzoekenArray = execution.getVariable("informatieverzoeken");
+var verzoek = execution.getVariable("verzoek");
+var reactie = execution.getVariable("reactie");
+var vervolgActie = execution.getVariable("vervolgActieUitzettenInformatieverzoek");
+
+if (verzoek) {
+  if (vervolgActie === 'geannuleerd') {
+    verzoek.status = 'Geannuleerd';
+  } else {
+    verzoek.status = 'Afgehandeld';
+  }
+}
+
+if (reactie &amp;&amp; typeof reactie.remove === 'function') {
+  reactie.remove('status');
+}
+
+function updateLastInformatieverzoek(existingArray, verzoek, reactie) {
+  existingArray = existingArray instanceof java.util.List ? Java.from(existingArray) : [];
+
+  existingArray[existingArray.length - 1].verzoek = verzoek;
+  existingArray[existingArray.length - 1].reactie = reactie;
+
+  return java.util.Arrays.asList(existingArray);
+}
+
+updateLastInformatieverzoek(informatieverzoekenArray, verzoek, reactie);</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_00qd3pv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1sbvj31</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="ReactieInformatieverzoekOntvangenEnBeoordeeldEndEvent" name="reactie informatieverzoek ontvangen en beoordeeld">
+      <bpmn:incoming>Flow_1im3unn</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="InformatieverzoekGeannuleerdEndEvent" name="Informatieverzoek geannuleerd">
+      <bpmn:incoming>Flow_1ece9sc</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="VervolgActieGateway" name="Vervolg actie">
+      <bpmn:incoming>Flow_16bp074</bpmn:incoming>
+      <bpmn:outgoing>Flow_1im3unn</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ece9sc</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="WegschrijvenOutputInformatieverzoekAfgerondTask" name="wegschrijven output &#39;informatieverzoekAfgerond&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/informatieverzoekAfgerond&#34;, true)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1sbvj31</bpmn:incoming>
+      <bpmn:outgoing>Flow_16bp074</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_16bp074" sourceRef="WegschrijvenOutputInformatieverzoekAfgerondTask" targetRef="VervolgActieGateway" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_17rouow">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="BSBUitzettenEnOpvolgenInformatieverzoekParticipant" isHorizontal="true">
+        <dc:Bounds x="150" y="90" width="1030" height="330" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03xt9u9" bpmnElement="Event_0erbzwt">
+        <dc:Bounds x="232" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1pfuhdg" bpmnElement="BsUitzettenEnOpvolgenInformatieverzoekCallActivity">
+        <dc:Bounds x="470" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0x5izaw" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="320" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_07ekwf0" bpmnElement="WegschrijvenOutputInformatieverzoekenTask">
+        <dc:Bounds x="620" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_08i4xh0" bpmnElement="ReactieInformatieverzoekOntvangenEnBeoordeeldEndEvent">
+        <dc:Bounds x="1062" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1037" y="225" width="87" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_10w5fkf" bpmnElement="InformatieverzoekGeannuleerdEndEvent">
+        <dc:Bounds x="1062" y="302" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1036" y="345" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0mvbfys" bpmnElement="VervolgActieGateway" isMarkerVisible="true">
+        <dc:Bounds x="925" y="175" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="921" y="153" width="63" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1f5egzh" bpmnElement="WegschrijvenOutputInformatieverzoekAfgerondTask">
+        <dc:Bounds x="770" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1qcvydq" bpmnElement="Flow_0j39whd">
+        <di:waypoint x="420" y="200" />
+        <di:waypoint x="470" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1d5o6do" bpmnElement="Flow_00qd3pv">
+        <di:waypoint x="570" y="200" />
+        <di:waypoint x="620" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_10a0jsd" bpmnElement="Flow_09pyv4p">
+        <di:waypoint x="268" y="200" />
+        <di:waypoint x="320" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sbvj31_di" bpmnElement="Flow_1sbvj31">
+        <di:waypoint x="720" y="200" />
+        <di:waypoint x="770" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1im3unn_di" bpmnElement="Flow_1im3unn">
+        <di:waypoint x="975" y="200" />
+        <di:waypoint x="1062" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ece9sc_di" bpmnElement="Flow_1ece9sc">
+        <di:waypoint x="950" y="225" />
+        <di:waypoint x="950" y="320" />
+        <di:waypoint x="1062" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16bp074_di" bpmnElement="Flow_16bp074">
+        <di:waypoint x="870" y="200" />
+        <di:waypoint x="925" y="200" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

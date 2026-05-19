@@ -1,0 +1,8 @@
+[
+    {
+        "activityId": "WijzigenContactgegevensAanvragerTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDefinitionName": "bs.vastleggen-wijziging-contactgegevens-aanvrager.wijzigen-contactgegevens"
+    }
+]

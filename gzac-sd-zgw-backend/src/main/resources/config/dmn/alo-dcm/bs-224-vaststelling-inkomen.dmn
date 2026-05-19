@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="bs-211-vaststelling-persoon" name="BS 211 vaststelling persoon" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.42.0">
+  <decision id="BS-224-KwalitatiefVoldoendeAanwezig" name="Gegevens kwalitatief voldoende aanwezig">
+    <informationRequirement id="InformationRequirement_0m64eth">
+      <requiredInput href="#InputData_1h6uknx" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_00gi2bw" hitPolicy="FIRST">
+      <input id="InputClause_19qu9mu" label="Handmatig vaststellen?">
+        <inputExpression id="LiteralExpression_1bjyyhs" typeRef="boolean">
+          <text>handmatigVaststellen</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_139smit" label="Gegevens kwalitatief voldoende aanwezig" name="kwalitatiefVoldoendeAanwezig" typeRef="boolean" />
+      <output id="OutputClause_13t11si" label="Handmatig vaststellen" name="handmatigVaststellen" typeRef="boolean" />
+      <rule id="DecisionRule_1lhwh1k">
+        <inputEntry id="UnaryTests_12u26lx">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0k8arud">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0bvtbb2">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1wotbqe">
+        <inputEntry id="UnaryTests_09ex4b7">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_03ya6o9">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0haerej">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1h6uknx" name="handmatigVaststellen" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="DMNShape_1xhwbjp" dmnElementRef="BS-224-KwalitatiefVoldoendeAanwezig">
+        <dc:Bounds height="80" width="180" x="160" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1yi8cj9" dmnElementRef="InputData_1h6uknx">
+        <dc:Bounds height="45" width="125" x="187" y="257" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0zu9yvj" dmnElementRef="InformationRequirement_0m64eth">
+        <di:waypoint x="250" y="257" />
+        <di:waypoint x="250" y="180" />
+        <di:waypoint x="250" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

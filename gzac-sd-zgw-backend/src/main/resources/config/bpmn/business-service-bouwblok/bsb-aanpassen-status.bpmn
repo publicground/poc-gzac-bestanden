@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0n33e4c" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.39.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_10ufvx6">
+    <bpmn:participant id="BSBAanpassenStatusParticipant" name="BSB aanpassen status" processRef="bsb-aanpassen-status" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-aanpassen-status" name="BSB aanpassen status" isExecutable="true">
+    <bpmn:startEvent id="StartUpdatenZaakstatusStartEvent" name="Start updaten zaakstatus">
+      <bpmn:outgoing>Flow_1rpsq82</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1rpsq82" sourceRef="StartUpdatenZaakstatusStartEvent" targetRef="UpdateZaakstatusEnInterneStatusPluginV2CallActivity" />
+    <bpmn:sequenceFlow id="Flow_1vcfl61" sourceRef="UpdateZaakstatusEnInterneStatusPluginV2CallActivity" targetRef="Event_1dm5qvc" />
+    <bpmn:callActivity id="UpdateZaakstatusEnInterneStatusPluginV2CallActivity" name="Update zaakstatus en interne status plugin v2" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-update-zaakstatus-en-interne-status-plugin-v2">
+      <bpmn:extensionElements>
+        <camunda:in source="nieuweZaakstatus" target="zaakstatus" />
+        <camunda:in source="nieuweInterneStatus" target="interneStatus" />
+        <camunda:in source="dossierType" target="dossierType" />
+        <camunda:in source="gegevensVaststelling" target="gegevensVaststelling" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1rpsq82</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vcfl61</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="Event_1dm5qvc">
+      <bpmn:incoming>Flow_1vcfl61</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_10ufvx6">
+      <bpmndi:BPMNShape id="Participant_16nqzzc_di" bpmnElement="BSBAanpassenStatusParticipant" isHorizontal="true">
+        <dc:Bounds x="120" y="55" width="400" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartUpdatenZaakstatusStartEvent">
+        <dc:Bounds x="182" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="170" y="205" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ui58tg_di" bpmnElement="UpdateZaakstatusEnInterneStatusPluginV2CallActivity">
+        <dc:Bounds x="280" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1dm5qvc_di" bpmnElement="Event_1dm5qvc">
+        <dc:Bounds x="432" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1rpsq82_di" bpmnElement="Flow_1rpsq82">
+        <di:waypoint x="218" y="180" />
+        <di:waypoint x="280" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vcfl61_di" bpmnElement="Flow_1vcfl61">
+        <di:waypoint x="380" y="180" />
+        <di:waypoint x="432" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

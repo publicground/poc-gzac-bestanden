@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1ncv2ak" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.26.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:collaboration id="Collaboration_1jpkhg2">
+    <bpmn:participant id="CustomDocumentenAPIUploadDocumentParticipant" name="Custom documenten API upload document" processRef="custom-document-upload" />
+  </bpmn:collaboration>
+  <bpmn:process id="custom-document-upload" name="Custom Documenten API upload document" isExecutable="true">
+    <bpmn:extensionElements>
+      <camunda:properties>
+        <camunda:property name="systemProcess" value="false" />
+      </camunda:properties>
+    </bpmn:extensionElements>
+    <bpmn:startEvent id="start-event">
+      <bpmn:outgoing>Flow_1r5nwn8</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="UploadDocumentTask" name="Upload document" camunda:expression="${true}">
+      <bpmn:incoming>Flow_1r5nwn8</bpmn:incoming>
+      <bpmn:outgoing>Flow_14lhapb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="LinkDocumentToZaakTask" name="Link document to zaak" camunda:expression="${true}">
+      <bpmn:incoming>Flow_14lhapb</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gzsxff</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="end-event">
+      <bpmn:incoming>Flow_19lmlbm</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="AddTagToTheDocumentTask" name="Add tag to the document" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>Flow_1gzsxff</bpmn:incoming>
+      <bpmn:outgoing>Flow_19lmlbm</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1r5nwn8" sourceRef="start-event" targetRef="UploadDocumentTask" />
+    <bpmn:sequenceFlow id="Flow_14lhapb" sourceRef="UploadDocumentTask" targetRef="LinkDocumentToZaakTask" />
+    <bpmn:sequenceFlow id="Flow_1gzsxff" sourceRef="LinkDocumentToZaakTask" targetRef="AddTagToTheDocumentTask" />
+    <bpmn:sequenceFlow id="Flow_19lmlbm" sourceRef="AddTagToTheDocumentTask" targetRef="end-event" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1jpkhg2">
+      <bpmndi:BPMNShape id="Participant_0ldwq2d_di" bpmnElement="CustomDocumentenAPIUploadDocumentParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="721" height="200" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start-event">
+        <dc:Bounds x="210" y="149" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1m03kdq_di" bpmnElement="UploadDocumentTask">
+        <dc:Bounds x="301" y="127" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0upr3i7_di" bpmnElement="LinkDocumentToZaakTask">
+        <dc:Bounds x="461" y="127" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1wb0w2i_di" bpmnElement="end-event">
+        <dc:Bounds x="803" y="149" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05yvqei_di" bpmnElement="AddTagToTheDocumentTask">
+        <dc:Bounds x="631" y="127" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1r5nwn8_di" bpmnElement="Flow_1r5nwn8">
+        <di:waypoint x="246" y="167" />
+        <di:waypoint x="301" y="167" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14lhapb_di" bpmnElement="Flow_14lhapb">
+        <di:waypoint x="401" y="167" />
+        <di:waypoint x="461" y="167" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gzsxff_di" bpmnElement="Flow_1gzsxff">
+        <di:waypoint x="561" y="167" />
+        <di:waypoint x="631" y="167" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19lmlbm_di" bpmnElement="Flow_19lmlbm">
+        <di:waypoint x="731" y="167" />
+        <di:waypoint x="803" y="167" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

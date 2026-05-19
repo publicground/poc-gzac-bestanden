@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="bs-214-vaststelling-vermogen-drd" name="Vaststelling vermogen" namespace="http://camunda.org/schema/1.0/dmn" expressionLanguage="https://www.omg.org/spec/DMN/20191111/FEEL/" typeLanguage="https://www.omg.org/spec/DMN/20191111/FEEL/" exporter="Camunda Modeler" exporterVersion="5.42.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <decision id="bs-214-vaststelling-vermogen" name="Vaststelling vermogen">
+    <informationRequirement id="InformationRequirement_1l40w75">
+      <requiredDecision href="#bs-214-vaststellen-vrijlatingen" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1x74n92">
+      <requiredDecision href="#bankrekeningen" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0ka7x18">
+      <requiredDecision href="#overigMetVrijlating" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_04misui">
+      <requiredDecision href="#overigZonderVrijlating" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0bzbptq">
+      <requiredDecision href="#eigenWoning" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0va1eg4">
+      <requiredDecision href="#schulden" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0uigrmz" hitPolicy="COLLECT" preferredOrientation="Rule-as-Row" biodi:annotationsWidth="400">
+      <input id="InputClause_0cokjcc" label="Categorie" biodi:width="305">
+        <inputExpression id="LiteralExpression_1d9xpbj" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0bcft2e" label="t.o.v. vrijlating" biodi:width="390">
+        <inputExpression id="LiteralExpression_1w8c1vd" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="componenten" name="componenten" typeRef="Any" biodi:width="228" />
+      <output id="OutputClause_0ogeodb" label="bruto subtotaal" name="brutoSubtotaal" typeRef="double" biodi:width="637" />
+      <output id="OutputClause_0msgngj" label="vrijlating" name="vrijlating" typeRef="double" biodi:width="271" />
+      <output id="OutputClause_1h3zr7f" label="netto subtotaal" name="nettoSubtotaal" typeRef="double" biodi:width="847" />
+      <output id="OutputClause_0xsa5ht" label="commentaar" name="commentaar" typeRef="string" biodi:width="241" />
+      <output id="OutputClause_1arsozm" label="rekenwaarde" name="rekenwaarde" typeRef="double" biodi:width="388" />
+      <rule id="DecisionRule_0db6qng">
+        <inputEntry id="UnaryTests_0qqnihu">
+          <text>count(bankrekeningen) &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tyxu1o">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1y8w5bi">
+          <text>bankrekeningen</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0dtv3m6">
+          <text>sum(bankrekeningen.waarde)</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1c8x7zg">
+          <text>0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_12g7zn8">
+          <text>sum(bankrekeningen.waarde)</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ag1qra">
+          <text>"Bankrekeningen"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jsnop6">
+          <text>sum(bankrekeningen.waarde)</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_15adof9">
+        <inputEntry id="UnaryTests_02qz6px">
+          <text>count(overigMetVrijlating) &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fr1vx1">
+          <text>overigMetVrijlating[1].waarde &lt;= normEersteAuto</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1cbyywp">
+          <text>[overigMetVrijlating[1]]</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vgu7cq">
+          <text>overigMetVrijlating[1].waarde</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0c35l7r">
+          <text>overigMetVrijlating[1].waarde</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0maqove">
+          <text>0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_08fyk5o">
+          <text>"Bezittingen met vrijlatingen"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0uwghbk">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1i90392">
+        <inputEntry id="UnaryTests_1v0bi56">
+          <text>count(overigMetVrijlating) &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hb7mj3">
+          <text>overigMetVrijlating[1].waarde &gt; normEersteAuto</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1h7h5xu">
+          <text>[overigMetVrijlating[1]]</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_17ytlcn">
+          <text>overigMetVrijlating[1].waarde</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_092crab">
+          <text>normEersteAuto</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hrq2xc">
+          <text>overigMetVrijlating[1].waarde - normEersteAuto</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vy66xt">
+          <text>"Bezittingen met vrijlatingen"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0651l2n">
+          <text>overigMetVrijlating[1].waarde - normEersteAuto</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0itsubv">
+        <inputEntry id="UnaryTests_0mo0nd2">
+          <text>count(overigZonderVrijlating) &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0e94dzr">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_057lv85">
+          <text>overigZonderVrijlating</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_037wf9m">
+          <text>sum(overigZonderVrijlating.waarde)</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0abos1i">
+          <text>0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0hpe0cj">
+          <text>sum(overigZonderVrijlating.waarde)</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0gf5rdh">
+          <text>"Overige bezittingen"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0k1bj5s">
+          <text>sum(overigZonderVrijlating.waarde)</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0rn7nol">
+        <inputEntry id="UnaryTests_1c9wps6">
+          <text>count(schulden) &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04l2b97">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0f4eljw">
+          <text>schulden</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0i5h3sw">
+          <text>sum(schulden.waarde)</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1qbdf2o">
+          <text>0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0z5xdbu">
+          <text>sum(schulden.waarde)</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dj93mq">
+          <text>"Schulden"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hvj74w">
+          <text>sum(schulden.waarde) * -1</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1vxlkil">
+        <inputEntry id="UnaryTests_1lx6hqs">
+          <text>count(eigenWoning) &gt; 0</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12u9ouc">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0s0c86s">
+          <text>eigenWoning </text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qg03d3">
+          <text>(if sum(eigenWoning[soortVermogenscomponent.code = "1"].waarde) = null
+ then 0
+ else sum(eigenWoning[soortVermogenscomponent.code = "1"].waarde))
+-
+(if sum(eigenWoning[soortVermogenscomponent.code = "17"].waarde) = null
+ then 0
+ else sum(eigenWoning[soortVermogenscomponent.code = "17"].waarde))
++
+(if sum(eigenWoning[soortVermogenscomponent.code = "15"].waarde) = null
+ then 0
+ else sum(eigenWoning[soortVermogenscomponent.code = "15"].waarde))
+</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0cdd49q">
+          <text>normVermogenInEigenWoning</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1lrg511">
+          <text>max((if sum(eigenWoning[soortVermogenscomponent.code = "1"].waarde) = null
+ then 0
+ else sum(eigenWoning[soortVermogenscomponent.code = "1"].waarde))
+-
+(if sum(eigenWoning[soortVermogenscomponent.code = "17"].waarde) = null
+ then 0
+ else sum(eigenWoning[soortVermogenscomponent.code = "17"].waarde))
++
+(if sum(eigenWoning[soortVermogenscomponent.code = "15"].waarde) = null
+ then 0
+ else sum(eigenWoning[soortVermogenscomponent.code = "15"].waarde)) - normVermogenInEigenWoning, 0)</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_17jewn9">
+          <text>"Eigen woning"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0s6mcc1">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-214-vaststellen-vrijlatingen" name="Vrijlatingen">
+    <decisionTable id="DecisionTable_0sy25ee" hitPolicy="FIRST" preferredOrientation="Rule-as-Row" biodi:annotationsWidth="400">
+      <input id="InputClause_1wgfrv5">
+        <inputExpression id="LiteralExpression_1ugghjc" typeRef="date">
+          <text>peildatum</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1hky0e8" label="normEersteAuto" name="normEersteAuto" typeRef="double" />
+      <output id="OutputClause_1jo2dsr" label="normVermogenInEigenWoning" name="normVermogenInEigenWoning" typeRef="double" biodi:width="223" />
+      <rule id="DecisionRule_024cwme">
+        <inputEntry id="UnaryTests_1dfeubf">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vti80m">
+          <text>4500</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1a79sn4">
+          <text>64000</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bankrekeningen" name="bankrekeningen">
+    <variable id="InformationItem_1lp0mec" name="bankrekeningen" typeRef="Any" />
+    <literalExpression id="LiteralExpression_0dhgaa4">
+      <text>//pak alle componenten met soortVermogenscomponent.code = 3 en sorteer ze van hoogste naar laagste waarde.
+
+sort(list: vermogensComponenten[ soortVermogenscomponent.code = "3" ], precedes: function(x,y) if x.soortVermogenscomponent.code = y.soortVermogenscomponent.code then x.waarde &gt; y.waarde else x.soortVermogenscomponent.code &lt; y.soortVermogenscomponent.code )
+
+// Bank-/Girorekening (3)</text>
+    </literalExpression>
+  </decision>
+  <decision id="overigMetVrijlating" name="overigMetVrijlating">
+    <variable id="InformationItem_0fbzmn6" name="overigMetVrijlating" typeRef="Any" />
+    <literalExpression id="LiteralExpression_1ssr7t4">
+      <text>// Pak alle componenten met soortVermogenscomponent.code = 6 en sorteer ze van hoogste naar laagste waarde.
+
+sort(list: vermogensComponenten[ soortVermogenscomponent.code = "6" ], precedes: function(x,y) if x.soortVermogenscomponent.code = y.soortVermogenscomponent.code then x.waarde &gt; y.waarde else x.soortVermogenscomponent.code &lt; y.soortVermogenscomponent.code )
+
+// Motorvoertuigen (6)</text>
+    </literalExpression>
+  </decision>
+  <decision id="overigZonderVrijlating" name="overigZonderVrijlating">
+    <variable id="InformationItem_0hbwgnf" name="overigZonderVrijlating" typeRef="Any" />
+    <informationRequirement id="InformationRequirement_1nej78m">
+      <requiredDecision href="#overigMetVrijlating" />
+    </informationRequirement>
+    <literalExpression id="LiteralExpression_0axnxg9">
+      <text>//pak eerst alle componenten waarvan soortVermogenscomponent.code niet in [1, 3, 6, 12, 14, 15, 17] zit,
+//sorteer ze per soortVermogenscomponent.code oplopend en binnen hetzelfde type op waarde aflopend, en plak daar vervolgens alles vanaf het 2e element van overigMetVrijlating achteraan
+
+concatenate
+(
+   sort(list: vermogensComponenten[ not( list contains( ["1", "3", "6", "12", "14", "15", "17"], soortVermogenscomponent.code ) ) ], precedes: function(x,y) if x.soortVermogenscomponent.code = y.soortVermogenscomponent.code then x.waarde &gt; y.waarde else x.soortVermogenscomponent.code &lt; y.soortVermogenscomponent.code ),
+   sublist( overigMetVrijlating, 2 )
+)
+
+// Eigen woning (huis/woonschip/woonwagen in eigendom) (1)
+// Bank-/Girorekening (3)
+// Motorvoertuigen (6)
+// Schulden (12)
+// Schulden uitgezonderd studieschuld (12)
+// Studieschuld (14)
+// Levensverzekering/belegging gekoppeld aan hypotheek (15)
+// Hypotheek eigen woning (17)
+
+// Contanten (2)
+// Overig onroerend goed (4)
+// Waardepapieren (5)
+// Caravans (7)
+// Antiek/sieraden (8)
+// Overige bezittingen (9)
+// Aandeel onverdeelde boedel (10)
+// Leningen aan derden (11)
+// Levensverzekering (13)
+// Levensverzekering/belegging niet gekoppeld aan hypotheek (13)
+// Beleggingsproduct (Aandeel, Lease, Effect, Obligatie, e.d.) (16)
+// Aanspraak op erfenis binnen zes maanden (18)
+// Digitale valuta (cryptomunten) (19)</text>
+    </literalExpression>
+  </decision>
+  <decision id="eigenWoning" name="eigenWoning">
+    <variable id="InformationItem_1xn3d8y" name="eigenWoning" typeRef="Any" />
+    <literalExpression id="LiteralExpression_0hujgs5">
+      <text>// pak alle componenten waarvan soortVermogenscomponent.code 1, 15 of 17 is.
+
+vermogensComponenten[ list contains( ["1", "15", "17"], soortVermogenscomponent.code ) ]
+
+// Eigen woning (huis/woonschip/woonwagen in eigendom) (1)
+// Levensverzekering/belegging gekoppeld aan hypotheek (15)
+// Hypotheek eigen woning (17)</text>
+    </literalExpression>
+  </decision>
+  <decision id="schulden" name="schulden">
+    <variable id="InformationItem_04pg0ns" name="schulden" typeRef="Any" />
+    <literalExpression id="LiteralExpression_1m0fule">
+      <text>// pak alle componenten met soortVermogenscomponent.code = 12 en sorteer ze van hoogste naar laagste waarde.
+
+sort(list: vermogensComponenten[ soortVermogenscomponent.code = "12" ], precedes: function(x,y) if x.soortVermogenscomponent.code = y.soortVermogenscomponent.code then x.waarde &gt; y.waarde else x.soortVermogenscomponent.code &lt; y.soortVermogenscomponent.code )
+
+
+
+// Schulden (12)
+// Schulden uitgezonderd studieschuld (12)</text>
+    </literalExpression>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="bs-214-vaststelling-vermogen" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="650" y="260" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0yqfhhg" dmnElementRef="bs-214-vaststellen-vrijlatingen" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="650" y="90" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1umklqi" dmnElementRef="InformationRequirement_1l40w75">
+        <di:waypoint x="740" y="170" />
+        <di:waypoint x="740" y="240" />
+        <di:waypoint x="740" y="260" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_166vf7a" dmnElementRef="InformationRequirement_1x74n92">
+        <di:waypoint x="250" y="550" />
+        <di:waypoint x="680" y="360" />
+        <di:waypoint x="680" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_12gep6d" dmnElementRef="bankrekeningen" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="160" y="550" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_14oudxl" dmnElementRef="overigMetVrijlating" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="400" y="550" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_05ktpsf" dmnElementRef="InformationRequirement_0ka7x18">
+        <di:waypoint x="490" y="550" />
+        <di:waypoint x="710" y="360" />
+        <di:waypoint x="710" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0555viz" dmnElementRef="overigZonderVrijlating" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="650" y="550" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_12fhg0r" dmnElementRef="InformationRequirement_04misui">
+        <di:waypoint x="740" y="550" />
+        <di:waypoint x="740" y="360" />
+        <di:waypoint x="740" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0gbrk3x" dmnElementRef="eigenWoning" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="890" y="550" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_01p8ml9" dmnElementRef="schulden" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="1120" y="550" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0x94ns0" dmnElementRef="InformationRequirement_0bzbptq">
+        <di:waypoint x="980" y="550" />
+        <di:waypoint x="770" y="360" />
+        <di:waypoint x="770" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1d942wj" dmnElementRef="InformationRequirement_0va1eg4">
+        <di:waypoint x="1210" y="550" />
+        <di:waypoint x="800" y="360" />
+        <di:waypoint x="800" y="340" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_07njejf" dmnElementRef="InformationRequirement_1nej78m">
+        <di:waypoint x="580" y="590" />
+        <di:waypoint x="630" y="590" />
+        <di:waypoint x="650" y="590" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

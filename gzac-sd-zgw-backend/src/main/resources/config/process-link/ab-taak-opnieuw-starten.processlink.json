@@ -1,0 +1,8 @@
+[
+    {
+        "activityId": "TaakOpnieuwStartenStartEvent",
+        "activityType": "bpmn:StartEvent:start",
+        "processLinkType": "form",
+        "formDefinitionName": "alo-taak-opnieuw-starten.start"
+    }
+]

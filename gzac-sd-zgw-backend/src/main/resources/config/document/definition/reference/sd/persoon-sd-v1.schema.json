@@ -1,0 +1,182 @@
+{
+    "$id": "persoon.schema",
+    "type": "object",
+    "title": "Persoon",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "voorletters": {
+            "type": "string"
+        },
+        "voornamen": {
+            "type": "string"
+        },
+        "voorvoegsel": {
+            "type": "string"
+        },
+        "achternaam": {
+            "type": "string"
+        },
+        "volledigeNaam": {
+            "type": "string"
+        },
+        "geboortedatum": {
+            "type": "string"
+        },
+        "communicatievoorkeur": {
+            "type": "string",
+            "enum": [
+                "portaal",
+                "post"
+            ]
+        },
+        "bsn": {
+            "$ref": "/document/definition/reference/ontologie/persoonsgegevens-v1.schema.json#/definitions/bsn"
+        },
+        "anummer": {
+            "description": "<p>Het administratienummer van een PERSOON binnen de gemeentelijke basisadministratie (GBA), zoals bedoeld als in artikel 50 van de Wet GBA.</p><br/><p>Norminstantie: GBA</p><br/>",
+            "type": "string"
+        },
+        "codeBrpGegevensGeheim": {
+            "type": "string",
+            "enum": [
+                "GEEN_GEHEIMHOUDING",
+                "GEGEVENS_GEHEIM",
+                "NIET_KERKEN",
+                "NIET_VRIJE_DERDEN",
+                "NIET_KERKEN_DERDEN",
+                "NIET_DERDEN_ALGEMEEN",
+                "NIET_KERKEN_VRIJE_DERDEN",
+                "NIET_KERKEN_VRIJE_DERDEN_ALGEMEEN_DERDEN"
+            ]
+        },
+        "naamgebruik": {
+            "type": "string"
+        },
+        "geslachtsAanduiding": {
+            "type": "string"
+        },
+        "geslachtsnaamPartner": {
+            "type": "string"
+        },
+        "ingangsdatumHuwelijk": {
+            "type": "string"
+        },
+        "contactgegevens": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "$ref": "/document/definition/reference/ontologie/persoonsgegevens-v1.schema.json#/definitions/eMail"
+                },
+                "telefoon": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "adresBrp": {
+            "$ref": "/document/definition/reference/sd/adres-sd-v1.schema.json#/definitions/adres"
+        },
+        "postadresBrp": {
+            "$ref": "/document/definition/reference/sd/adres-sd-v1.schema.json#/definitions/adres"
+        },
+        "postadres": {
+            "$ref": "/document/definition/reference/sd/adres-sd-v1.schema.json#/definitions/adres"
+        },
+        "verblijfadres": {
+            "$ref": "/document/definition/reference/sd/adres-sd-v1.schema.json#/definitions/adres"
+        },
+        "correspondentieadres": {
+            "type": "string",
+            "enum": [
+                "adresBrp",
+                "postadresBrp",
+                "verblijfadres"
+            ]
+        },
+        "woonsituatie": {
+            "type": "string",
+            "enum": [
+                "BRP",
+                "PARTNER_INWONEND",
+                "ELDERS",
+                "DETENTIE",
+                "DAKLOOS",
+                "ONBEKEND"
+            ]
+        },
+        "redenNietIngeschrevenOpVerblijfadres": {
+            "type": "string"
+        },
+        "toelichtingNietIngeschrevenOpVerblijfadres": {
+            "type": "string"
+        },
+        "verblijfstitel": {
+            "type": "object",
+            "properties": {
+                "verblijfstitelId": {
+                    "description": "Uniek nummer toegekend door het systeem, zodat een verblijfstitel kan wroden geidentificeerd.",
+                    "$ref": "/document/definition/reference/ontologie/persoonsgegevens-v1.schema.json#/definitions/guid"
+                },
+                "codeVerblijfstitel": {
+                    "description": "<p>Code die een aanduiding geeft van de juridische grondslag op basis waarvan een persoon als bedoeld in de Vreemdelingenwet in Nederland verblijft.</p><br/><p>Bron: SGR 16.0, gebaseerd op NEN 1888:2002 - Verblijfstitel.</p><p>Tabel 56 - Verblijfstiteltabel (RVIG landelijke tabellen).</p><br/><p>Opmerking :</p><ul>                              </ul>",
+                    "type": "object"
+                },
+                "datumAanvangVerblijfstitel": {
+                    "description": "<p>De datum van de eerste dag waarop de VERBLIJFSTITEL van toepassing is.</p><br/><p>Norminstantie: UGR</p>",
+                    "$ref": "/document/definition/reference/ontologie/persoonsgegevens-v1.schema.json#/definitions/datum"
+                },
+                "datumEindeVerblijfstitel": {
+                    "description": "<p>De datum van de laatste dag waarop de VERBLIJFSTITEL van toepassing is.</p><br/><p>Norminstantie: UGR</p>",
+                    "$ref": "/document/definition/reference/ontologie/persoonsgegevens-v1.schema.json#/definitions/datum"
+                }
+            }
+        },
+        "nationaliteiten": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "$ref": "/document/definition/reference/sd/nationaliteit-sd-v1.schema.json#/definitions/cdNationaliteit"
+            }
+        },
+        "nationaliteitOfVerblijfsstatus": {
+            "type": "string",
+            "enum": [
+                "NEDERLANDSE_NATIONALITEIT",
+                "EU_ONDERDAAN",
+                "GELDIGE_VERBLIJFSVERGUNNING",
+                "GEEN_VERBLIJFSVERGUNNING",
+                "VERLOPEN_VERBLIJFSVERGUNNING"
+            ]
+        },
+        "actiesVerblijfstatus": {
+            "type": "string",
+            "enum": [
+                "VERLENGING_VERBLIJFSDOCUMENT_AANGEVRAAGD",
+                "BEZWAAR_AFWIJZING",
+                "GEEN"
+            ]
+        },
+        "identiteitsbewijsGeupload": {
+            "type": "boolean"
+        },
+        "partnerIsOndernemer": {
+            "type": "boolean"
+        },
+        "zeldeAdresAlsAanvrager": {
+            "type": "boolean"
+        },
+        "kinderenBsns": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "partnerBsn": {
+            "type": "string"
+        },
+         "datumOverlijden": {
+            "type": "string"
+        }
+    }
+}

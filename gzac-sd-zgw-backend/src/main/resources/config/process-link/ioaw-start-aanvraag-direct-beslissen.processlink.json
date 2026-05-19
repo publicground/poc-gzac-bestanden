@@ -1,0 +1,8 @@
+[
+    {
+        "activityId": "StartAanvraagDirectBeslissenStartEvent",
+        "activityType": "bpmn:StartEvent:start",
+        "processLinkType": "form",
+        "formDefinitionName": "generic.aanvraag-direct-beslissen.start"
+    }
+]

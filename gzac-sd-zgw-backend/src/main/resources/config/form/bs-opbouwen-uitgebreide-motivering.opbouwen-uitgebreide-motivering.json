@@ -1,0 +1,53 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "Motivering",
+            "content": "<p>De motivering kan worden aangevuld gedurende de gehele behandeling van de aanvraag; het besluit volgt pas bij definitieve indiening.</p>",
+            "customClass": "alert alert-primary",
+            "refreshOnChange": false,
+            "key": "titelBlok",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Motivering:",
+            "key": "pv.uitgebreideMotivering",
+            "rows": 10,
+            "autoExpand": true,
+            "tableView": true,
+            "description": "<span class='counter-motivering' style='font-size:0.85em; color:green; display:block; text-align:right;'>4000 tekens resterend</span>",
+            "validate": {
+                "maxLength": 4000
+            },
+            "errors": {
+                "maxLength": "Motivering mag niet meer dan 4000 tekens bevatten!"
+            },
+            "validateWhenHidden": false,
+            "type": "textarea",
+            "input": true,
+            "calculateValue": "var el = instance && instance.element ? instance.element.querySelector('.counter-motivering') : null; if (el) { var remaining = 4000 - (value ? value.length : 0); el.textContent = remaining + ' tekens resterend'; el.style.color = remaining < 1 ? 'red' : 'green'; } value = value;"
+        },
+        {
+            "label": "Definitief indienen motivering",
+            "key": "pv.isMotiveringDefinitief",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "defaultValue": false,
+            "type": "checkbox",
+            "input": true
+        },
+        {
+            "label": "Indienen",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "input": true,
+            "type": "button",
+            "custom": "form.submit(); component.disabled = true;"
+        }
+    ]
+}

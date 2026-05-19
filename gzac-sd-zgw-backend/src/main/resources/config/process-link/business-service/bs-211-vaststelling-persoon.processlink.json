@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "TaakTitelTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "large",
+        "formDefinitionName": "bs-211-vaststelling-persoon.vaststellen-persoon"
+    }
+]

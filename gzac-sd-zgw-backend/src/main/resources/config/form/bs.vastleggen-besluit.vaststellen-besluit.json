@@ -1,0 +1,313 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "key": "pv.zaakdossiertype",
+            "type": "hidden",
+            "input": true,
+            "label": "zaakdossiertype",
+            "tableView": false
+        },
+        {
+            "key": "pv.aantalBelanghebbende",
+            "type": "hidden",
+            "input": true,
+            "label": "aantalBelanghebbende",
+            "tableView": false
+        },
+        {
+            "key": "pv.versneldBeslist",
+            "type": "hidden",
+            "input": true,
+            "label": "Versneld beslist",
+            "tableView": false
+        },
+        {
+            "label": "Container Genomen besluit",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "pv.besluit",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "label": "beslisser",
+                    "customDefaultValue": "value = JSON.parse(localStorage.getItem('userIdentity'))?.firstName + ' ' + JSON.parse(localStorage.getItem('userIdentity'))?.lastName;",
+                    "key": "beslisser",
+                    "type": "hidden",
+                    "input": true,
+                    "tableView": false
+                },
+                {
+                    "label": "besluitDatum",
+                    "customDefaultValue": "value = new Date();",
+                    "key": "besluitDatum",
+                    "type": "hidden",
+                    "input": true,
+                    "tableView": false
+                },
+                {
+                    "label": "Versneld beslist",
+                    "calculateValue": "value = data.pv.versneldBeslist === 'true' ? true : false;",
+                    "key": "versneldBeslist",
+                    "type": "hidden",
+                    "input": true,
+                    "tableView": false
+                },
+                {
+                    "label": "Genomen besluit",
+                    "optionsLabelPosition": "right",
+                    "inline": false,
+                    "tableView": false,
+                    "values": [
+                        {
+                            "label": "Toekennen",
+                            "value": "TOEGEKEND"
+                        },
+                        {
+                            "label": "Afwijzen",
+                            "value": "AFGEWEZEN"
+                        }
+                    ],
+                    "key": "genomenBesluit",
+                    "type": "radio",
+                    "validate": {
+                        "required": true
+                    },
+                    "input": true
+                },
+                {
+                    "label": "Reden afwijzing",
+                    "key": "redenAfwijzing",
+                    "type": "textfield",
+                    "validate": {
+                        "required": true
+                    },
+                    "customConditional": "show = (data.pv?.besluit?.genomenBesluit === 'AFGEWEZEN');",
+                    "input": true,
+                    "tableView": false
+                },
+                {
+                    "label": "Upload hieronder de beschikking",
+                    "type": "documenten-api-file",
+                    "key": "besluitDocumenten",
+                    "customConditional": "show = data.pv?.besluit?.genomenBesluit === 'TOEGEKEND'",
+                    "customOptions": {
+                        "title": "",
+                        "hideTitle": false,
+                        "subtitle": "",
+                        "maxFileSize": 1,
+                        "hideMaxFileSize": false,
+                        "camera": false,
+                        "documentTitle": "Besluit",
+                        "disableDocumentTitle": false,
+                        "filename": "",
+                        "disableFilename": false,
+                        "author": "",
+                        "disableAuthor": false,
+                        "status": "definitief",
+                        "disableStatus": false,
+                        "language": "nld",
+                        "disableLanguage": false,
+                        "documentType": "Toekenningsbeschikking",
+                        "disableDocumentType": true,
+                        "description": "Besluit",
+                        "disableDescription": false,
+                        "confidentialityLevel": "zaakvertrouwelijk",
+                        "disableConfidentialityLevel": false
+                    },
+                    "customDefaultValue": " component.customOptions.author = data.pv?.besluit?.beslisser;",
+                    "input": true,
+                    "validate": {
+                        "required": true,
+                        "custom": "valid = input.length == 1;",
+                        "customMessage": "Upload maximaal 1 document"
+                    },
+                    "tableView": false
+                },
+                {
+                    "label": "Upload hieronder de beschikking",
+                    "type": "documenten-api-file",
+                    "key": "besluitDocumenten",
+                    "customConditional": "show = data.pv?.besluit?.genomenBesluit === 'AFGEWEZEN'",
+                    "customDefaultValue": " component.customOptions.author = data.pv?.besluit?.beslisser;",
+                    "customOptions": {
+                        "title": "",
+                        "hideTitle": false,
+                        "subtitle": "",
+                        "maxFileSize": 1,
+                        "hideMaxFileSize": false,
+                        "camera": false,
+                        "documentTitle": "Besluit",
+                        "disableDocumentTitle": false,
+                        "filename": "",
+                        "disableFilename": false,
+                        "author": "",
+                        "disableAuthor": false,
+                        "status": "definitief",
+                        "disableStatus": false,
+                        "language": "nld",
+                        "disableLanguage": false,
+                        "documentType": "Afwijzingsbeschikking",
+                        "disableDocumentType": true,
+                        "description": "Besluit",
+                        "disableDescription": false,
+                        "confidentialityLevel": "zaakvertrouwelijk",
+                        "disableConfidentialityLevel": false
+                    },
+                    "input": true,
+                    "validate": {
+                        "required": true,
+                        "custom": "valid = input.length == 1;",
+                        "customMessage": "Upload maximaal 1 document"
+                    },
+                    "tableView": false
+                }
+            ]
+        },
+        {
+            "label": "HTML",
+            "className": "alert alert-warning",
+            "content": "Let op! Er zijn geen rechthebbenden, een toekenning is nu niet mogelijk.",
+            "refreshOnChange": false,
+            "key": "html",
+            "customConditional": "show = (data.pv?.besluit?.genomenBesluit === 'TOEGEKEND' && !(Number(data.pv?.norm?.aantalRechthebbenden || 0) > 0) && data.pv?.zaakdossiertype === 'aanvraag-algemene-bijstand' && data.pv?.versneldBeslist !== 'true');",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "key": "pv.norm",
+            "type": "container",
+            "input": true,
+            "label": "Norm",
+            "tableView": false,
+            "components": [
+                {
+                    "label": "hoogteNorm",
+                    "calculateValue": "value = (data.pv?.norm?.normbedrag ? data.pv.norm.normbedrag * (data.pv?.norm?.aantalRechthebbenden) / (data.pv?.aantalBelanghebbende) :\n        (data.pv?.norm?.kostendelersNormbedragGezamenlijk ? data.pv.norm.kostendelersNormbedragGezamenlijk * (data.pv?.norm?.aantalRechthebbenden || 0) / (data.pv?.aantalBelanghebbende || 0) :\n        (data.pv?.norm?.kostendelersNormbedrag ? data.pv.norm.kostendelersNormbedrag * (data.pv?.norm?.aantalRechthebbenden || 0) / (data.pv?.aantalBelanghebbende || 0) : 0)) );",
+                    "key": "hoogteNorm",
+                    "type": "hidden",
+                    "input": true,
+                    "tableView": false
+                },
+                {
+                    "key": "isHandmatigBeoordeeld",
+                    "type": "hidden",
+                    "input": true,
+                    "label": "isHandmatigBeoordeeld",
+                    "tableView": false,
+                    "calculateValue": "value = false;"
+                },
+                {
+                    "key": "datumVastgesteld",
+                    "type": "hidden",
+                    "input": true,
+                    "label": "datumVastgesteld",
+                    "tableView": false,
+                    "customDefaultValue": "value = moment();"
+                },
+                {
+                    "key": "html",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "HTML",
+                    "content": "<h4>Norm</h4>",
+                    "tableView": false,
+                    "customClass": "no-border-bottom-radius border-bottom-0",
+                    "refreshOnChange": false
+                },
+                {
+                    "label": "zaakInformatieHTML",
+                    "content": "<section class= \"{{{ (data.pv?.norm?.aantalKostendelers > 0 && data.pv?.aantalBelanghebbende === 2) ? '' : 'd-none' }}}\">\n<dl class=\"row mb-0\">\n        <dd class=\"col-6\">Norm</dd>\n        <dt class=\"col-6\">{{{ data.pv?.norm?.kostendelersnorm\n            ? data.pv?.norm?.kostendelersnorm.replace(/-/g, ' ').replace(/^\\w/, c => c.toUpperCase())\n            : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Aantal rechthebbenden</dd>\n        <dt class=\"col-6\">{{{ data.pv?.norm?.aantalRechthebbenden || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Aantal kostendelers</dd>\n        <dt class=\"col-6\">{{{ data.pv?.norm?.aantalKostendelers || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Hoogte norm (gezamenlijk)</dd>\n        <dt class=\"col-6\">{{{\n            data.pv?.norm?.hoogteNorm\n            ? new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' })\n            .format(Number(data.pv?.norm.hoogteNorm))\n            : '-'\n            }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Inkomensgrens</dd>\n        <dt class=\"col-6\">{{{\n            data.pv?.norm?.kostendelersNormbedragGezamenlijk\n            ? new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' })\n            .format(Number(data.pv?.norm.kostendelersNormbedragGezamenlijk))\n            : '-'\n            }}}</dt>\n    </dl>\n</section>\n<section class= \"{{{ (data.pv?.norm?.aantalKostendelers > 0 && data.pv?.aantalBelanghebbende === 1) ? '' : 'd-none' }}}\">\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Norm</dd>\n        <dt class=\"col-6\">{{{ data.pv?.norm?.kostendelersnorm\n            ? data.pv?.norm.kostendelersnorm.replace(/-/g, ' ').replace(/^\\w/, c => c.toUpperCase())\n            : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Aantal rechthebbenden</dd>\n        <dt class=\"col-6\">{{{ data.pv?.norm?.aantalRechthebbenden || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Aantal kostendelers</dd>\n        <dt class=\"col-6\">{{{ data.pv?.norm?.aantalKostendelers || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Hoogte norm</dd>\n        <dt class=\"col-6\">{{{\n            data.pv?.norm?.kostendelersNormbedrag\n            ? new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' })\n            .format(Number(data.pv.norm.kostendelersNormbedrag))\n            : '-'\n            }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Inkomensgrens</dd>\n        <dt class=\"col-6\">{{{\n            data.pv?.norm?.kostendelersNormbedrag\n            ? new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' })\n            .format(Number(data.pv.norm.kostendelersNormbedrag))\n            : '-'\n            }}}</dt>\n    </dl>\n</section>\n<section class= \"{{{ (data.pv?.norm?.aantalKostendelers === 0) ? '' : 'd-none' }}}\">\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Norm</dd>\n        <dt class=\"col-6\">{{{ data.pv?.norm?.basisnorm\n            ? data.pv?.norm?.basisnorm.replace(/-/g, ' ').replace(/^\\w/, c => c.toUpperCase())\n            : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Aantal rechthebbenden</dd>\n        <dt class=\"col-6\">{{{ data.pv?.norm?.aantalRechthebbenden || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Hoogte norm</dd>\n        <dt class=\"col-6\">{{{\n            data.pv?.norm?.hoogteNorm\n            ? new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' })\n            .format(Number(data.pv?.norm.hoogteNorm))\n            : '-'\n            }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Inkomensgrens</dd>\n        <dt class=\"col-6\">{{{\n            data.pv?.norm?.normbedrag\n            ? new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' })\n            .format(Number(data.pv?.norm.normbedrag))\n            : '-'\n            }}}</dt>\n    </dl>\n</section>\n",
+                    "refreshOnChange": true,
+                    "customClass": "no-border-top-radius border-top-0",
+                    "key": "html1",
+                    "type": "htmlelement",
+                    "input": true,
+                    "tableView": false
+                }
+            ],
+            "customConditional": "show = (data.pv?.besluit?.genomenBesluit === 'TOEGEKEND' && data.pv?.zaakdossiertype === 'aanvraag-algemene-bijstand' && data.pv?.versneldBeslist !== 'true');",
+            "validateWhenHidden": false
+        },
+        {
+            "label": "Bijstandsvorm",
+            "widget": "choicesjs",
+            "tableView": true,
+            "data": {
+                "values": [
+                    {
+                        "label": "Lening",
+                        "value": "RLL"
+                    },
+                    {
+                        "label": "Krediethypotheek",
+                        "value": "KH"
+                    },
+                    {
+                        "label": "Uitkering om niet",
+                        "value": "ON"
+                    }
+                ]
+            },
+            "validate": {
+                "required": true
+            },
+            "conditional": {
+                "show": true,
+                "when": "pv.besluit.genomenBesluit",
+                "eq": "TOEGEKEND"
+            },
+            "validateWhenHidden": false,
+            "key": "pv.verstrekkingsvorm",
+            "type": "select",
+            "input": true
+        },
+        {
+            "key": "pv.norm.toelichting",
+            "type": "textfield",
+            "input": true,
+            "label": "Toelichting",
+            "customConditional": "show = (data.pv?.besluit?.genomenBesluit === 'TOEGEKEND' && data.pv?.zaakdossiertype === 'aanvraag-algemene-bijstand' && data.pv?.versneldBeslist !== 'true');",
+            "redrawOn": "data",
+            "validate": {
+                "required": true
+            },
+            "tableView": true,
+            "applyMaskOn": "change",
+            "validateWhenHidden": false
+        },
+        {
+            "label": "Indienen",
+            "action": "custom",
+            "showValidations": true,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "customConditional": "show = data.pv?.versneldBeslist === 'true' || !(data.pv?.besluit?.genomenBesluit === 'TOEGEKEND' && !(data.pv?.norm?.aantalRechthebbenden > 0) && data.pv?.zaakdossiertype === 'aanvraag-algemene-bijstand');",
+            "logic": [
+                {
+                    "name": "Disable submit",
+                    "trigger": {
+                        "type": "javascript",
+                        "javascript": "result = data.pv.besluit.besluitDocumenten && data.pv.besluit.besluitDocumenten.length > 1"
+                    },
+                    "actions": [
+                        {
+                            "name": "Disable submit",
+                            "type": "property",
+                            "property": {
+                                "label": "Disabled",
+                                "value": "true"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "type": "button",
+            "custom": "if (data.pv?.besluit?.genomenBesluit === 'TOEGEKEND') {\n    data.pv.besluit.dienst = [\n    {\n      leveringsopdracht: [\n        {\n          verstrekkingsvorm: {\n            type: data.pv?.verstrekkingsvorm\n          }  \n        }  \n      ]\n    }  \n  ];\n} else {\n  data.pv.besluit.dienst = [];\n}\nform.submit(); \ncomponent.disabled = true;",
+            "input": true
+        }
+    ]
+}

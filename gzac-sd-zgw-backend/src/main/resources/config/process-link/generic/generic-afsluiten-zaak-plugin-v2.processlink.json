@@ -1,0 +1,24 @@
+[
+    {
+        "activityId": "GetResultaatTypeURLTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "ceea60b6-c475-4f80-9ec2-aec54f719b24",
+        "pluginActionDefinitionKey": "get-resultaattype",
+        "actionProperties": {
+            "resultaattype": "pv:resultaat",
+            "processVariable": "resultaatTypeUrl"
+        }
+    },
+    {
+        "activityId": "UpdateZaakResultaatTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "create-zaakresultaat",
+        "actionProperties": {
+            "toelichting": "pv:resultaatType",
+            "resultaattypeUrl": "pv:resultaatTypeUrl"
+        }
+    }
+]

@@ -1,0 +1,29 @@
+{
+    "changesetId": "aanvraag-ioaw-uitkering-dcm-case-tag-v2",
+    "caseTags": [
+        {
+            "key": "voorschot",
+            "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+            "title": "Voorschot",
+            "color": "RED"
+        },
+        {
+            "key": "te-laat",
+            "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+            "title": "Te laat",
+            "color": "RED"
+        },
+        {
+            "key": "achterstallig",
+            "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+            "title": "Achterstallig",
+            "color": "MAGENTA"
+        },
+        {
+            "key": "verkorte-aanvraagprocedure",
+            "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+            "title": "Verkorte aanvraagprocedure",
+            "color": "TEAL"
+        }
+    ]
+}

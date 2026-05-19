@@ -1,0 +1,82 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+    "type": "{{objecttypes_api_url_wmv_2024}}",
+    "record": {
+        "typeVersion": "{{objecttype_version}}",
+        "data": {
+            "bsn": "209332396",
+            "data": {
+                "uw-gegevens": {
+                    "bsn": "209332396",
+                    "naw": {
+                        "grAdresgegevens": {
+                            "plaats": "'s-Gravenhage",
+                            "straat": "Herengracht",
+                            "postcode": "2511 EG",
+                            "huisletter": "",
+                            "huisnummer": 1,
+                            "toevoeging": ""
+                        },
+                        "grPersoongegevens": {
+                            "voornaam": "Celeste",
+                            "achternaam": "Avion",
+                            "voorvoegsels": "",
+                            "geboortedatum": "1960-12-29"
+                        }
+                    },
+                    "grContactgegevens": {
+                        "Telefoonnummer": "0612345678",
+                        "emailVerificatie": "erikdevries+r7@denhaag.nl"
+                    }
+                },
+                "public_reference": "OF-BJGLVN",
+                "uw-aanvraag-waardering-mantelzorg": {
+                    "hoeveelUur": 10,
+                    "grVrijwilliger": {
+                        "kvkVrijwilliger": "68933290",
+                        "ikBenVrijwilligerBij": "Buurtvoetbalschool Wateringse Veld"
+                    },
+                    "hoeveelMaanden": 10,
+                    "grMantelzorgerVrijwilliger": {
+                        "welkeBandHeeftU": {
+                            "OUDER": false,
+                            "PARTNER": false,
+                            "BROER_ZUS": false,
+                            "OOM_TANTE": false,
+                            "NEEF_NICHT": false,
+                            "ZOON_DOCHTER": false,
+                            "ZWAGER_SCHOONZUS": false,
+                            "BUUR_KENNIS_VRIEND": false,
+                            "GROOTOUDER_OVERGROOTOUDER": false,
+                            "KLEINKIND_ACHTERKLEINKIND": true
+                        },
+                        "postcodePersoonVerzorgt": "1111 AA",
+                        "inWelkStadsdeelBiedtUMantelzorg": "LEIDSCHEVEEN"
+                    },
+                    "mantelzorgerOfvrijwilliger": "MANTELZORGER_VRIJWILLIGER"
+                },
+                "aanvraag-voor-een-waardering-als-mantelzorger-of-vrijwilliger-verklaring": {
+                    "waarderingNietOntvangenBeide": true,
+                    "meewerkenTelefonischOnderzoek": true,
+                    "toestemmingGegevensDelenMetWebshop": true,
+                    "waarderingNietOntvangenMantelzorger": false,
+                    "waarderingNietOntvangenVrijwilliger": false
+                }
+            },
+            "type": "verzoek wmv 2024",
+            "auth_bsn": "999991322",
+            "language_code": "nl",
+            "submission_id": "6d77f06c-9012-4cbe-acd2-77a8a2893b47"
+        },
+        "geometry": null,
+        "startAt": "2024-08-06",
+        "endAt": null,
+        "registrationAt": "2024-08-06"
+    }
+}
+
+

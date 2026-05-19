@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1hhg3z9" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_0z8k1j7">
+    <bpmn:participant id="Bsb216VaststellingRelatiesParticipant" name="bsb 216 vaststelling relaties" processRef="bsb-216-vaststelling-relaties" />
+    <bpmn:textAnnotation id="TextAnnotation_0mane03">
+      <bpmn:text>Personen die verblijven op het vastgestelde verblijfadres van de aanvrager
+- partner (uit aanvraag en BRP)
+- alle medebewoners op verblijfadres aanvrager (uit aanvraag en BRP)
+- alle kinderen van de aanvrager (uit aanvraag en BRP)</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1oqzx7r" associationDirection="None" sourceRef="OphalenInputTask" targetRef="TextAnnotation_0mane03" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-216-vaststelling-relaties" name="BSB 216 vaststelling relaties" isExecutable="true">
+    <bpmn:startEvent id="Event_0tbrgkr">
+      <bpmn:outgoing>Flow_1qz0lon</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="gegevensVaststelling">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling")}</camunda:outputParameter>
+          <camunda:outputParameter name="gegevensVanuitAanvraag">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag")}</camunda:outputParameter>
+          <camunda:outputParameter name="relaties">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/relaties")}</camunda:outputParameter>
+          <camunda:outputParameter name="toelichting">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs216relaties/toelichting")}</camunda:outputParameter>
+          <camunda:outputParameter name="partnerRelaties">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner/relaties")}</camunda:outputParameter>
+          <camunda:outputParameter name="aanvraagDatum">${valueResolverDelegateService.resolveValue(execution, "case:createdOn")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1qz0lon</bpmn:incoming>
+      <bpmn:outgoing>Flow_15c7n3g</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="Bs216VaststellingRelatiesCallActivity" name="bs 216 vaststelling relaties" camunda:asyncAfter="true" calledElement="bs-216-vaststelling-relaties">
+      <bpmn:extensionElements>
+        <camunda:in variables="all" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="gegevensVaststelling" target="gegevensVaststelling" />
+        <camunda:in source="gegevensVanuitAanvraag" target="gegevensVanuitAanvraag" />
+        <camunda:in source="relaties" target="vastgesteldeRelaties" />
+        <camunda:in source="toelichting" target="toelichting" />
+        <camunda:in source="partnerRelaties" target="partnerRelaties" />
+        <camunda:in source="aanvraagDatum" target="aanvraagDatum" />
+        <camunda:out source="relaties" target="relaties" />
+        <camunda:out source="toelichting" target="toelichting" />
+        <camunda:out source="partnerRelaties" target="partnerRelaties" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_15c7n3g</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ac0aux</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="WegschrijvenOutputVastgesteldeRelatiesTask" name="wegschrijven output vastgestelde relaties" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/aanvrager/relaties&#34;, relaties)}" camunda:resultVariable="">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ac0aux</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xjqasz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1qz0lon" sourceRef="Event_0tbrgkr" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_15c7n3g" sourceRef="OphalenInputTask" targetRef="Bs216VaststellingRelatiesCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0ac0aux" sourceRef="Bs216VaststellingRelatiesCallActivity" targetRef="WegschrijvenOutputVastgesteldeRelatiesTask" />
+    <bpmn:sequenceFlow id="Flow_0xjqasz" sourceRef="WegschrijvenOutputVastgesteldeRelatiesTask" targetRef="WegschrijvenOutputVastgesteldePartnerRelatiesTask" />
+    <bpmn:sequenceFlow id="Flow_0mxm75v" sourceRef="WegschrijvenOutputVaststellingTask" targetRef="VerwijderenKinderenUitVaststellingTask" />
+    <bpmn:sequenceFlow id="Flow_091tuvg" sourceRef="VerwijderenKinderenUitVaststellingTask" targetRef="VerwijderenMedebewonersUitVaststellingTask" />
+    <bpmn:sequenceFlow id="Flow_12cpmwf" sourceRef="VerwijderenMedebewonersUitVaststellingTask" targetRef="Event_10d2qnx" />
+    <bpmn:serviceTask id="WegschrijvenOutputVaststellingTask" name="wegschrijven output vaststelling" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs216relaties&#34;, additioneleVelden)}" camunda:resultVariable="">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="additioneleVelden">
+            <camunda:map>
+              <camunda:entry key="datumVastgesteld">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="isHandmatigBeoordeeld">${true}</camunda:entry>
+              <camunda:entry key="toelichting">${toelichting}</camunda:entry>
+              <camunda:entry key="relatieVastgesteld">${true}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1yr9p7o</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mxm75v</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="VerwijderenKinderenUitVaststellingTask" name="verwijderen kinderen uit vaststelling" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/kinderen&#34;, null)}" camunda:resultVariable="">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0mxm75v</bpmn:incoming>
+      <bpmn:outgoing>Flow_091tuvg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_10d2qnx">
+      <bpmn:incoming>Flow_12cpmwf</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="VerwijderenMedebewonersUitVaststellingTask" name="verwijderen medebewoners uit vaststelling" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/medebewoners&#34;, null)}" camunda:resultVariable="">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_091tuvg</bpmn:incoming>
+      <bpmn:outgoing>Flow_12cpmwf</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WegschrijvenOutputVastgesteldePartnerRelatiesTask" name="wegschrijven output vastgestelde partner relaties" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/partner/relaties&#34;, partnerRelaties)}" camunda:resultVariable="">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0xjqasz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yr9p7o</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1yr9p7o" sourceRef="WegschrijvenOutputVastgesteldePartnerRelatiesTask" targetRef="WegschrijvenOutputVaststellingTask" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0z8k1j7">
+      <bpmndi:BPMNShape id="Participant_01jlyz3_di" bpmnElement="Bsb216VaststellingRelatiesParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="50" width="1330" height="400" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0tbrgkr_di" bpmnElement="Event_0tbrgkr">
+        <dc:Bounds x="252" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xd6p2g_di" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="340" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rdlrs0_di" bpmnElement="Bs216VaststellingRelatiesCallActivity">
+        <dc:Bounds x="490" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1b0ikn8_di" bpmnElement="WegschrijvenOutputVastgesteldeRelatiesTask">
+        <dc:Bounds x="640" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0oyjt14" bpmnElement="WegschrijvenOutputVaststellingTask">
+        <dc:Bounds x="980" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0bxc1r8" bpmnElement="VerwijderenKinderenUitVaststellingTask">
+        <dc:Bounds x="1130" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10d2qnx_di" bpmnElement="Event_10d2qnx">
+        <dc:Bounds x="1402" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0xqjlbc" bpmnElement="VerwijderenMedebewonersUitVaststellingTask">
+        <dc:Bounds x="1270" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_17pwki2" bpmnElement="WegschrijvenOutputVastgesteldePartnerRelatiesTask">
+        <dc:Bounds x="800" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1qz0lon_di" bpmnElement="Flow_1qz0lon">
+        <di:waypoint x="288" y="260" />
+        <di:waypoint x="340" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15c7n3g_di" bpmnElement="Flow_15c7n3g">
+        <di:waypoint x="440" y="260" />
+        <di:waypoint x="490" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ac0aux_di" bpmnElement="Flow_0ac0aux">
+        <di:waypoint x="590" y="260" />
+        <di:waypoint x="640" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xjqasz_di" bpmnElement="Flow_0xjqasz">
+        <di:waypoint x="740" y="260" />
+        <di:waypoint x="800" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mxm75v_di" bpmnElement="Flow_0mxm75v">
+        <di:waypoint x="1080" y="260" />
+        <di:waypoint x="1130" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_091tuvg_di" bpmnElement="Flow_091tuvg">
+        <di:waypoint x="1230" y="260" />
+        <di:waypoint x="1270" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12cpmwf_di" bpmnElement="Flow_12cpmwf">
+        <di:waypoint x="1370" y="260" />
+        <di:waypoint x="1402" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yr9p7o_di" bpmnElement="Flow_1yr9p7o">
+        <di:waypoint x="900" y="260" />
+        <di:waypoint x="980" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0mane03_di" bpmnElement="TextAnnotation_0mane03">
+        <dc:Bounds x="310" y="90" width="510" height="70" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1oqzx7r_di" bpmnElement="Association_1oqzx7r">
+        <di:waypoint x="382" y="220" />
+        <di:waypoint x="374" y="160" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "VaststellingVerblijfadresTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "large",
+        "formDefinitionName": "bs-217-vaststelling-verblijfadres.selecteren-verblijfadres"
+    }
+]

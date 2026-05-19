@@ -1,0 +1,52 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+    "type": "{{objecttypes_api_url_dbl}}",
+    "record": {
+        "index": 1,
+        "typeVersion": "{{objecttypes_version}}",
+        "data": {
+            "bsn": "",
+            "data": {
+                "public_reference": "OF-LWJ4HF",
+                "inwoner": {
+                    "stadsdeel": "SCHEVENINGEN",
+                    "watIsDeSituatie": "Inwoners van Scheveningen willen meer invloed op de besluitvorming omtrent de herontwikkeling van het havengebied.",
+                    "waarLooptUTegenaan": "Er is veel weerstand vanuit de bevolking tegen de huidige plannen voor de herontwikkeling van de haven, maar er ontbreekt een gestructureerd overlegproces.",
+                    "vraagAanDoorbraaklab": "Hoe kunnen we een effectief participatieproces opzetten waarbij zowel de gemeente als de inwoners van Scheveningen zich gehoord voelen?"
+                },
+                "aanmelder": {
+                    "inDienstBijGemeente": "JA",
+                    "welkeOrganisatie": "Stichting Buurtkracht Ypenburg",
+                    "welkeDienst": "BSD",
+                    "dienstToelichting": "Als deel van de BSD ondersteun ik de implementatie van participatietrajecten in Scheveningen. We streven naar meer betrokkenheid van inwoners bij besluitvorming.",
+                    "welkeAfdeling": "Afdeling Participatie en Buurtontwikkeling",
+                    "functie": "Adviseur Burgerparticipatie",
+                    "gegevens-aanmelder": {
+                        "contactgegevens": {
+                            "email": "example@denhaag.nl",
+                            "telefoonnummer": "070-1111111"
+                        },
+                        "persoonsgegevens": {
+                            "voornaam": "Jan",
+                            "achternaam": "Jansen",
+                            "voorvoegsels": "de"
+                        }
+                    }
+                }
+            },
+            "type": "Verzoek doorbraaklab",
+            "attachments": [],
+            "language_code": "nl",
+            "submission_id": "a2f5c1a4-3b7e-44c9-a0b6-bbcdfe43874c"
+        },
+        "geometry": null,
+        "startAt": "2024-09-02",
+        "endAt": null,
+        "registrationAt": "2024-09-02"
+    }
+}
+

@@ -1,0 +1,95 @@
+{
+    "bezoekLocatie": {
+        "identificatiecodeNummeraanduiding": "0363200000419329",
+        "straatnaam": "Abebe Bikilalaan",
+        "huisnummer": 17,
+        "huisletter": "M",
+        "postcode": "1034WL",
+        "woonplaatsnaam": "Amsterdam",
+        "datumAanvang": {
+            "datum": "2015-08-28",
+            "jaar": 2015,
+            "maand": 8,
+            "dag": 28
+        }
+    },
+    "datumAanvang": {
+        "datum": "2015-08-28",
+        "jaar": 2015,
+        "maand": 8,
+        "dag": 28
+    },
+    "activiteiten": [
+        {
+            "code": "1011",
+            "omschrijving": "Slachterijen (geen pluimvee-)",
+            "isHoofdactiviteit": true
+        },
+        {
+            "code": "1012",
+            "omschrijving": "Pluimveeslachterijen",
+            "isHoofdactiviteit": false
+        },
+        {
+            "code": "1013",
+            "omschrijving": "Vleesverwerking (niet tot maaltijden)",
+            "isHoofdactiviteit": false
+        }
+    ],
+    "telefoonnummer": [
+        "0123456789"
+    ],
+    "wordtUitgeoefendDoor": {
+        "heeftAlsEigenaar": {
+            "rechtsvorm": "Eenmanszaak",
+            "natuurlijkPersoon": {
+                "burgerservicenummer": "559163423",
+                "naam": {
+                    "geslachtsnaam": "µ3× Kõæ©k 1598623087632",
+                    "voornamen": "Díaçrió Ürïá Ðnðýáívić"
+                },
+                "geboorte": {
+                    "datum": {
+                        "datum": "2003-08-28",
+                        "jaar": 2003,
+                        "maand": 8,
+                        "dag": 28
+                    },
+                    "plaats": "Nijmegen",
+                    "land": {
+                        "code": "6030",
+                        "omschrijving": "Nederland"
+                    }
+                },
+                "geslachtsaanduiding": "man"
+            }
+        },
+        "wordtGeleidVanuit": {
+            "vestigingsnummer": "000038509504",
+            "handelsnamen": [
+                "Test EMZ Dagobert"
+            ]
+        },
+        "kvkNummer": "69599084",
+        "naam": "Test EMZ Dagobert"
+    },
+    "typeringVestiging": "Hoofdvestiging",
+    "_links": {
+        "self": {
+            "href": "https://wsgateway.ot.denhaag.nl/haalcentraal/api/hr/vestigingen/000038509504"
+        },
+        "maatschappelijkeActiviteit": {
+            "href": "https://wsgateway.ot.denhaag.nl/haalcentraal/api/hr/maatschappelijkeactiviteiten/69599084"
+        },
+        "eigenaar": {
+            "href": "https://wsgateway.ot.denhaag.nl/haalcentraal/api/brp/ingeschrevenpersonen/559163423"
+        }
+    },
+    "vestigingsnummer": "000038509504",
+    "handelsnamen": [
+        "Test EMZ Dagobert",
+        "Tweede handelsnaam 1MZ",
+        "Derde handelsnaam 1MZ",
+        "Vierde handelsnaam 1MZ"
+    ]
+}

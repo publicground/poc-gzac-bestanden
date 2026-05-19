@@ -1,0 +1,159 @@
+[
+    {
+        "title": "",
+        "key": "createdOn",
+        "path": "case:createdOn",
+        "displayType": {
+            "type": "date",
+            "displayTypeParameters": {
+                "dateFormat": null
+            }
+        },
+        "sortable": true,
+        "defaultSort": "DESC",
+        "exportable": true,
+        "order": 0
+    },
+    {
+        "title": "",
+        "key": "bsn",
+        "path": "doc:gegevensVaststelling.aanvrager.bsn",
+        "displayType": {
+            "type": "text",
+            "displayTypeParameters": {}
+        },
+        "sortable": true,
+        "defaultSort": null,
+        "order": 1
+    },
+    {
+        "title": "Naam",
+        "key": "NaamAanvrager",
+        "path": "template:volledige-naam",
+        "displayType": {
+            "type": "text",
+            "displayTypeParameters": {}
+        },
+        "sortable": false,
+        "defaultSort": null,
+        "order": 2
+    },
+    {
+        "title": "Postcode",
+        "key": "postcode",
+        "path": "template:postcode",
+        "displayType": {
+            "type": "text",
+            "displayTypeParameters": {}
+        },
+        "sortable": true,
+        "defaultSort": null,
+        "order": 3
+    },
+    {
+        "title": "",
+        "key": "publicReference",
+        "path": "doc:publicReference",
+        "displayType": {
+            "type": "text",
+            "displayTypeParameters": {}
+        },
+        "sortable": true,
+        "defaultSort": null,
+        "exportable": true,
+        "order": 4
+    },
+    {
+        "title": "",
+        "key": "zaaknummer",
+        "path": "doc:openzaak.identificatie",
+        "displayType": {
+            "type": "text",
+            "displayTypeParameters": {}
+        },
+        "sortable": true,
+        "defaultSort": null,
+        "exportable": true,
+        "order": 5
+    },
+    {
+        "title": "",
+        "key": "assigneeFullName",
+        "path": "case:assigneeFullName",
+        "displayType": {
+            "type": "text",
+            "displayTypeParameters": {}
+        },
+        "sortable": true,
+        "defaultSort": null,
+        "exportable": true,
+        "order": 6
+    },
+    {
+        "title": "Status",
+        "key": "internalStatus",
+        "path": "case:internalStatus",
+        "displayType": {
+            "type": "tags",
+            "displayTypeParameters": {}
+        },
+        "sortable": true,
+        "defaultSort": null,
+        "exportable": true,
+        "order": 7
+    },
+    {
+        "title": "Eindconclusie",
+        "key": "besluit",
+        "path": "template:besluit",
+        "displayType": {
+            "type": "text",
+            "displayTypeParameters": {
+            }
+        },
+        "sortable": false,
+        "defaultSort": null,
+        "exportable": false,
+        "order": 8
+    },
+    {
+        "title": "Uiterlijke einddatum",
+        "key": "uiterlijkeEinddatumAfdoening",
+        "path": "zaak:uiterlijkeEinddatumAfdoening",
+        "displayType": {
+            "type": "date",
+            "displayTypeParameters": {
+                "dateFormat": "DD-MM-yyyy"
+            }
+        },
+        "sortable": true,
+        "order": 9
+    },
+    {
+        "key": "lastModified",
+        "path": "case:modifiedOn",
+        "displayType": {
+            "type": "date",
+            "displayTypeParameters": {
+                "dateFormat": "DD-MM-yyyy HH:mm:ss"
+            }
+        },
+        "sortable": true,
+        "defaultSort": null,
+        "exportable": true,
+        "order": 10
+    },
+    {
+        "title": "Tags",
+        "key": "tags",
+        "path": "case:caseTags",
+        "displayType": {
+            "type": "tags",
+            "displayTypeParameters": {
+                "tagAmount": 2
+            }
+        },
+        "sortable": false,
+        "order": 11
+    }
+]

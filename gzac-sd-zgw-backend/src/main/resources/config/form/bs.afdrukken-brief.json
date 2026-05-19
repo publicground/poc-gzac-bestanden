@@ -1,0 +1,25 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "HTML",
+            "content": "Ga naar tabblad 'Documenten' om het document te openen en af te drukken.",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Doorgaan",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "input": true,
+            "type": "button",
+            "custom": "form.submit(); component.disabled = true;"
+        }
+    ]
+}

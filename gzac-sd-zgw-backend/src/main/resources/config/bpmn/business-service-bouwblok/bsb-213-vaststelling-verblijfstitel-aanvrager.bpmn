@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0y9t2as" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_17rouow">
+    <bpmn:participant id="BSB213VaststellingVerblijfstitelAanvragerParticipant" name="BSB 213 vaststelling verblijfstitel aanvrager" processRef="bsb-213-vaststelling-verblijfstitel-aanvrager" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-213-vaststelling-verblijfstitel-aanvrager" name="BSB 213 vaststelling verblijfstitel aanvrager" isExecutable="true">
+    <bpmn:endEvent id="Event_1qw1fva">
+      <bpmn:incoming>Flow_14i3myj</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="WegschrijvenOutputnationaliteitOfVerblijfsstatusTask" name="wegschrijven output&#39;nationaliteitOfVerblijfsstatus&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/aanvrager/nationaliteitOfVerblijfsstatus&#34;, nationaliteitOfVerblijfsstatus)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0pxhyir</bpmn:incoming>
+      <bpmn:outgoing>Flow_14i3myj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_14i3myj" sourceRef="WegschrijvenOutputnationaliteitOfVerblijfsstatusTask" targetRef="Event_1qw1fva" />
+    <bpmn:serviceTask id="WegschrijvenOutputVerblijfstitelTask" name="wegschrijven output &#39;verblijfstitel&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/aanvrager/verblijfstitel/codeVerblijfstitel&#34;, verblijfstitel)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0wi907x</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pxhyir</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0pxhyir" sourceRef="WegschrijvenOutputVerblijfstitelTask" targetRef="WegschrijvenOutputnationaliteitOfVerblijfsstatusTask" />
+    <bpmn:serviceTask id="WegschrijvenOutputVaststellingInformatieTask" name="wegschrijven output &#39;vaststellingInformatie&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs213verblijfstitel&#34;, vaststellingInformatie)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="vaststellingInformatie">
+            <camunda:map>
+              <camunda:entry key="rechtOpBijstand">${execution.getVariable("rechtOpBijstand")}</camunda:entry>
+              <camunda:entry key="datumVastgesteld">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="verblijfstitelVastgesteld">${true}</camunda:entry>
+              <camunda:entry key="toelichtingConsulent">${execution.getVariable("toelichtingConsulent")}</camunda:entry>
+              <camunda:entry key="isSprakeVanGemeenschapsrecht">${execution.getVariable("isSprakeVanGemeenschapsrecht")}</camunda:entry>
+              <camunda:entry key="isHandmatigBeoordeeld">${isHandmatigBeoordeeld}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0h837rw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wi907x</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0wi907x" sourceRef="WegschrijvenOutputVaststellingInformatieTask" targetRef="WegschrijvenOutputVerblijfstitelTask" />
+    <bpmn:callActivity id="Bs213VaststellingVerblijfstitelCallActivity" name="bs 213 vaststelling verblijfstitel" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-213-vaststelling-verblijfstitel">
+      <bpmn:extensionElements>
+        <camunda:in variables="all" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="nationaliteitTitel" target="nationaliteitTitel" />
+        <camunda:in source="verblijfstitelVastgesteld" target="verblijfstitelVastgesteld" />
+        <camunda:out source="verblijfstitel" target="verblijfstitel" />
+        <camunda:out source="rechtOpBijstand" target="rechtOpBijstand" />
+        <camunda:out source="toelichtingConsulent" target="toelichtingConsulent" />
+        <camunda:out source="isSprakeVanGemeenschapsrecht" target="isSprakeVanGemeenschapsrecht" />
+        <camunda:out source="nationaliteitOfVerblijfsstatus" target="nationaliteitOfVerblijfsstatus" />
+        <camunda:out source="handmatigBeoordelen" target="isHandmatigBeoordeeld" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0o9by2z</bpmn:incoming>
+      <bpmn:outgoing>Flow_0h837rw</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_0h837rw" sourceRef="Bs213VaststellingVerblijfstitelCallActivity" targetRef="WegschrijvenOutputVaststellingInformatieTask" />
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="isVerblijfstitelVastgesteld">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs213verblijfstitel/verblijfstitelVastgesteld")}</camunda:inputParameter>
+          <camunda:outputParameter name="verblijfstitelVastgesteld">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs213verblijfstitel/verblijfstitelVastgesteld")}</camunda:outputParameter>
+          <camunda:outputParameter name="datumVerblijfstitelVastgesteld">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/additioneleVeldenAanvrager/verblijfstitel/datumVastgesteld")}</camunda:outputParameter>
+          <camunda:outputParameter name="handmatigVaststellen">${execution.getVariable("handmatigVaststellen") ? handmatigVaststellen : false}</camunda:outputParameter>
+          <camunda:outputParameter name="nationaliteitOfVerblijfsstatus">${isVerblijfstitelVastgesteld ? valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/aanvrager/nationaliteitOfVerblijfsstatus") : valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVanuitAanvraag/aanvrager/nationaliteitOfVerblijfsstatus")}</camunda:outputParameter>
+          <camunda:outputParameter name="opgegevenNationaliteitOfVerblijfsstatus">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVanuitAanvraag/aanvrager/nationaliteitOfVerblijfsstatus")}</camunda:outputParameter>
+          <camunda:outputParameter name="actiesVerblijfstatus">${isVerblijfstitelVastgesteld ? valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/aanvrager/actiesVerblijfstatus") : valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVanuitAanvraag/aanvrager/actiesVerblijfstatus")}</camunda:outputParameter>
+          <camunda:outputParameter name="nationaliteitenBrp">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVanuitBronnen/aanvrager/nationaliteiten")}</camunda:outputParameter>
+          <camunda:outputParameter name="verblijfstitelBrp">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVanuitBronnen/aanvrager/verblijfstitel/codeVerblijfstitel")}</camunda:outputParameter>
+          <camunda:outputParameter name="taakTitel">Vaststellen verblijfstitel aanvrager</camunda:outputParameter>
+          <camunda:outputParameter name="nationaliteitTitel">Is de aanvrager Nederlander? </camunda:outputParameter>
+          <camunda:outputParameter name="bs213verblijfstitel">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs213verblijfstitel")}</camunda:outputParameter>
+          <camunda:outputParameter name="verblijfstitel">${isVerblijfstitelVastgesteld ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/verblijfstitel/codeVerblijfstitel") : valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/aanvrager/verblijfstitel/codeVerblijfstitel")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ib475k</bpmn:incoming>
+      <bpmn:outgoing>Flow_0o9by2z</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0o9by2z" sourceRef="OphalenInputTask" targetRef="Bs213VaststellingVerblijfstitelCallActivity" />
+    <bpmn:startEvent id="Event_0erbzwt">
+      <bpmn:outgoing>Flow_1ib475k</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1ib475k" sourceRef="Event_0erbzwt" targetRef="OphalenInputTask" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_17rouow">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="BSB213VaststellingVerblijfstitelAanvragerParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="60" width="1040" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03xt9u9" bpmnElement="Event_0erbzwt">
+        <dc:Bounds x="232" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0l8w0dh" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="340" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1lxhbqn" bpmnElement="Bs213VaststellingVerblijfstitelCallActivity">
+        <dc:Bounds x="490" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_01gp8y4" bpmnElement="WegschrijvenOutputVaststellingInformatieTask">
+        <dc:Bounds x="640" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0o6v86s" bpmnElement="WegschrijvenOutputVerblijfstitelTask">
+        <dc:Bounds x="800" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_15cvfpx" bpmnElement="WegschrijvenOutputnationaliteitOfVerblijfsstatusTask">
+        <dc:Bounds x="960" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0l73d0i_di" bpmnElement="Event_1qw1fva">
+        <dc:Bounds x="1122" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="766" y="225" width="69" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1wjsgya" bpmnElement="Flow_0o9by2z">
+        <di:waypoint x="440" y="190" />
+        <di:waypoint x="490" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0qyvj0g" bpmnElement="Flow_0h837rw">
+        <di:waypoint x="590" y="190" />
+        <di:waypoint x="640" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wi907x_di" bpmnElement="Flow_0wi907x">
+        <di:waypoint x="740" y="190" />
+        <di:waypoint x="800" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ib475k_di" bpmnElement="Flow_1ib475k">
+        <di:waypoint x="268" y="190" />
+        <di:waypoint x="340" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pxhyir_di" bpmnElement="Flow_0pxhyir">
+        <di:waypoint x="900" y="190" />
+        <di:waypoint x="960" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14i3myj_di" bpmnElement="Flow_14i3myj">
+        <di:waypoint x="1060" y="190" />
+        <di:waypoint x="1122" y="190" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

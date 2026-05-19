@@ -1,0 +1,62 @@
+{
+    "$id": "uitsluitingsgronden-v1.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Uitsluitingsgronden definition",
+    "additionalProperties": false,
+    "properties": {
+        "vastleggingsdatum": {
+            "type": "string"
+        },
+        "verantwoordingVaststelling": {
+            "type": "string"
+        },
+        "brontype": {
+            "type": "string",
+            "enum": [
+                {
+                    "code": "1",
+                    "name": "Klant"
+                },
+                {
+                    "code": "2",
+                    "name": "Professional"
+                },
+                {
+                    "code": "3",
+                    "name": "Register"
+                },
+                {
+                    "code": "4",
+                    "name": "Externe bron"
+                }
+            ]
+        },
+        "uitsluitingsgrond": {
+            "type": "string",
+            "description": "Leeftijd, Rijks bekostigd onderwijs, Ondernemer, etc."
+        },
+        "uitsluiting": {
+            "type": "string",
+            "description": "Uitsluiting, Geen uitsluiting, Niet bepaald"
+        },
+        "toelichting": {
+            "type": "string"
+        },
+        "signalering": {
+            "type": "boolean",
+            "description": "Bepaalt of het door een consulent bekeken moet worden"
+        },
+        "vanToepassing": {
+            "type": "boolean",
+            "description": "Door de consulent vastgesteld dat deze uitsluitingsgrond daadwerkelijk een uitsluiting is"
+        },
+        "geimplementeerd": {
+            "type": "boolean",
+            "description": "Hiermee wordt een onderscheid gemaakt tussen in de DMN uitgewerkete uitsluitingsgronden en handmatig door de conulent aan te geven uitsluitingen."
+        }
+
+
+    }
+}
+
+

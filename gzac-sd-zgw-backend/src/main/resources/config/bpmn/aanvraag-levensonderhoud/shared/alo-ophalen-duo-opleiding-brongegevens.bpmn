@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0vol0sx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.31.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:collaboration id="Collaboration_1gmd3lc">
+    <bpmn:participant id="ALOOphalenDUOOpleidingBrongegevensParticipant" name="ALO: Ophalen DUO opleiding brongegevens" processRef="alo-ophalen-duo-opleiding-brongegevens" />
+    <bpmn:textAnnotation id="TextAnnotation_0fg0zoi">
+      <bpmn:text>skip opslaan duo persoons informatie</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_14ur3qj" associationDirection="None" sourceRef="Flow_0s3cb02" targetRef="TextAnnotation_0fg0zoi" />
+    <bpmn:textAnnotation id="TextAnnotation_1a2a0dj">
+      <bpmn:text>has duoPersoonsInformatie</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1wvv0ol" associationDirection="None" sourceRef="Flow_1chrcxl" targetRef="TextAnnotation_1a2a0dj" />
+  </bpmn:collaboration>
+  <bpmn:process id="alo-ophalen-duo-opleiding-brongegevens" name="ALO: Ophalen DUO opleiding brongegevens " isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_1if7i5z" sourceRef="StartEvent_1" targetRef="OphalenDUOOpleidingBrongegevensTask" />
+    <bpmn:sequenceFlow id="Flow_0u351k3" sourceRef="OphalenDUOOpleidingBrongegevensTask" targetRef="Gateway_0cw6kra" />
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1if7i5z</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0bkvido" sourceRef="OpslaanDuoOpleidingBrongegevensTask" targetRef="Event_1qzgjt4" />
+    <bpmn:serviceTask id="OphalenDUOOpleidingBrongegevensTask" name="Ophalen DUO opleiding brongegevens" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1if7i5z</bpmn:incoming>
+      <bpmn:outgoing>Flow_0u351k3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1chrcxl" sourceRef="Gateway_0cw6kra" targetRef="OpslaanDuoOpleidingBrongegevensTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable("duoPersoonsInformatie")}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_0cw6kra" default="Flow_0s3cb02">
+      <bpmn:incoming>Flow_0u351k3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1chrcxl</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0s3cb02</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0s3cb02" sourceRef="Gateway_0cw6kra" targetRef="Event_15nm8hc" />
+    <bpmn:serviceTask id="OpslaanDuoOpleidingBrongegevensTask" name="Opslaan duo opleiding brongegevens" camunda:asyncAfter="true" camunda:expression="${bbzDuoProcessService.storeDuoPersonalInformation(duoPersoonsInformatie, execution.getVariable(&#34;duoPersoonsGegevensPath&#34;), execution.businessKey)}">
+      <bpmn:incoming>Flow_1chrcxl</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bkvido</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0atf5y9">
+        <bpmn:targetRef>DocumentDataObjectReference</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:dataObjectReference id="DocumentDataObjectReference" name="Document" dataObjectRef="DataObject_1q8v953" />
+    <bpmn:dataObject id="DataObject_1q8v953" />
+    <bpmn:endEvent id="Event_1qzgjt4">
+      <bpmn:incoming>Flow_0bkvido</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_15nm8hc">
+      <bpmn:incoming>Flow_0s3cb02</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:error id="Error_10q1uq2" name="Error_3lbup3a" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1gmd3lc">
+      <bpmndi:BPMNShape id="Participant_0gc491p_di" bpmnElement="ALOOphalenDUOOpleidingBrongegevensParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1930" height="750" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="399" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j7h7ol_di" bpmnElement="OphalenDUOOpleidingBrongegevensTask">
+        <dc:Bounds x="330" y="377" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0cw6kra_di" bpmnElement="Gateway_0cw6kra" isMarkerVisible="true">
+        <dc:Bounds x="525" y="392" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1yxx3np" bpmnElement="OpslaanDuoOpleidingBrongegevensTask">
+        <dc:Bounds x="790" y="377" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_0n9bs02_di" bpmnElement="DocumentDataObjectReference">
+        <dc:Bounds x="822" y="525" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="815" y="582" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qzgjt4_di" bpmnElement="Event_1qzgjt4">
+        <dc:Bounds x="992" y="399" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_15nm8hc_di" bpmnElement="Event_15nm8hc">
+        <dc:Bounds x="992" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1if7i5z_di" bpmnElement="Flow_1if7i5z">
+        <di:waypoint x="268" y="417" />
+        <di:waypoint x="330" y="417" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0u351k3_di" bpmnElement="Flow_0u351k3">
+        <di:waypoint x="430" y="417" />
+        <di:waypoint x="525" y="417" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bkvido_di" bpmnElement="Flow_0bkvido">
+        <di:waypoint x="890" y="417" />
+        <di:waypoint x="992" y="417" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1chrcxl_di" bpmnElement="Flow_1chrcxl">
+        <di:waypoint x="575" y="417" />
+        <di:waypoint x="790" y="417" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0s3cb02_di" bpmnElement="Flow_0s3cb02">
+        <di:waypoint x="550" y="392" />
+        <di:waypoint x="550" y="270" />
+        <di:waypoint x="992" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0fg0zoi_di" bpmnElement="TextAnnotation_0fg0zoi">
+        <dc:Bounds x="578" y="210" width="250" height="35" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1a2a0dj_di" bpmnElement="TextAnnotation_1a2a0dj">
+        <dc:Bounds x="578" y="440" width="172" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0atf5y9_di" bpmnElement="DataOutputAssociation_0atf5y9">
+        <di:waypoint x="840" y="457" />
+        <di:waypoint x="840" y="525" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_14ur3qj_di" bpmnElement="Association_14ur3qj">
+        <di:waypoint x="690" y="270" />
+        <di:waypoint x="656" y="245" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1wvv0ol_di" bpmnElement="Association_1wvv0ol">
+        <di:waypoint x="683" y="417" />
+        <di:waypoint x="650" y="440" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,23 @@
+[
+    {
+        "activityId": "OphalenZaakbesluitenUrlsTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "get-zaakbesluiten",
+        "actionProperties": {
+            "resultProcessVariable": "zaakbesluiten"
+        }
+    },
+    {
+        "activityId": "OphalenBesluitDataTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "ae28c811-fd8b-4e76-b2f7-5a635e623243",
+        "pluginActionDefinitionKey": "get-besluit",
+        "actionProperties": {
+            "besluitUrl": "pv:zaakbesluitUrl",
+            "resultProcessVariable": "besluit"
+        }
+    }
+]

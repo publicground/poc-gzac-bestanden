@@ -1,0 +1,1186 @@
+[
+    {
+        "model": "core.objecttype",
+        "pk": 1,
+        "fields": {
+            "service": 1,
+            "uuid": "7d030ee0-564b-4386-b55c-d1033a1ebb97",
+            "_name": "Verzoek BBZ Aanvraag"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 2,
+        "fields": {
+            "service": 1,
+            "uuid": "3e852115-277a-4570-873a-9a64be3aeb34",
+            "_name": "Taak"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 3,
+        "fields": {
+            "service": 1,
+            "uuid": "4b5f4fba-0746-11ed-b939-0242ac120002",
+            "_name": "FormIO"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 4,
+        "fields": {
+            "service": 1,
+            "uuid": "3742310d-7a67-433c-900e-49d68ec55381",
+            "_name": "Verzoek schuldhulpverlening bewindvoerders"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 5,
+        "fields": {
+            "service": 1,
+            "uuid": "2f3ab320-4188-4e35-a703-e275cd1cfa30",
+            "_name": "Verzoek WMV 2024"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 6,
+        "fields": {
+            "service": 1,
+            "uuid": "709c3429-9401-4da8-a3b1-3132de3909ef",
+            "_name": "Verzoek trainingsdeelname professionals en vrijwilligers"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 7,
+        "fields": {
+            "service": 1,
+            "uuid": "9c311a40-95be-440e-9abb-93309c4573fd",
+            "_name": "Verzoek Doorbraaklab"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 8,
+        "fields": {
+            "service": 1,
+            "uuid": "4414823a-1b58-48f6-8cd1-c63f0fff8720",
+            "_name": "Verzoek ALO"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 9,
+        "fields": {
+            "service": 1,
+            "uuid": "b8a7704c-cec7-4aaf-a3ac-4db97df7e7d9",
+            "_name": "ALO: Informatieverzoek items"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 10,
+        "fields": {
+            "service": 1,
+            "uuid": "16ec7b1c-1217-4c44-987f-a9a78191ddb1",
+            "_name": "ALO: Adressen met veel bewoners"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 11,
+        "fields": {
+            "service": 1,
+            "uuid": "54649829-b347-496b-b248-cd07811de237",
+            "_name": "Verzoek Ooievaarspas"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 12,
+        "fields": {
+            "service": 1,
+            "uuid": "9c6187f8-2760-4380-bdc2-6b0383af75b6",
+            "_name": "Product Ooievaarspas"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 13,
+        "fields": {
+            "service": 1,
+            "uuid": "2dedc2f3-c5a8-44f4-be1d-4fab21bd942e",
+            "_name": "Ooievaarspas zaakdetails"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 14,
+        "fields": {
+            "service": 1,
+            "uuid": "27af0066-d361-4d6c-84c1-126cc364059a",
+            "_name": "Externe Klanttaak V1.1.1"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 15,
+        "fields": {
+            "service": 1,
+            "uuid": "73387ed4-6def-4d3a-b995-c0a0b9de6fab",
+            "_name": "Verzoek FT trainingsdeelname inwoners"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 16,
+        "fields": {
+            "service": 1,
+            "uuid": "6f46c894-c8ef-4cbd-afb5-28cba31635cf",
+            "_name": "Verzoek FT trainingsdeelname professionals en vrijwilligers"
+        }
+    },
+    {
+        "model": "core.objecttype",
+        "pk": 17,
+        "fields": {
+            "service": 1,
+            "uuid": "fb035315-a57f-4e6c-85b3-7a9ca290b003",
+            "_name": "FT Training"
+        }
+    },
+    {
+        "model": "token.tokenauth",
+        "pk": "182c13e2209161852c53cef53a879f7a2f923430",
+        "fields": {
+            "contact_person": "valtimo",
+            "email": "test@example.com",
+            "organization": "valtimo",
+            "last_modified": "2020-12-23T11:43:16.820Z",
+            "created": "2020-12-22T16:27:00.751Z"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 3,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 1,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 5,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 2,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 6,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 3,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 7,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 4,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 8,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 5,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 9,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 6,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 10,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 8,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 11,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 9,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 12,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 10,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 13,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 11,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 14,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 12,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 15,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 13,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 16,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 14,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 17,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 15,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 18,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 16,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "token.permission",
+        "pk": 19,
+        "fields": {
+            "token_auth": "182c13e2209161852c53cef53a879f7a2f923430",
+            "object_type": 17,
+            "mode": "read_and_write"
+        }
+    },
+    {
+        "model": "core.object",
+        "pk": 12,
+        "fields": {
+            "uuid": "f710ad69-8c90-4b4d-bf94-83555212dd6c",
+            "object_type": 3
+        }
+    },
+    {
+        "model": "core.objectrecord",
+        "pk": 20,
+        "fields": {
+            "index": 1,
+            "object": 12,
+            "version": 1,
+            "data": {
+                "formDefinition": {
+                    "display": "form",
+                    "components": [
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "De onderstaande informatie dient nog aangeleverd te worden, voordat uw aanvraag in behandeling genomen kan worden.",
+                            "className": "alert alert-info",
+                            "tableView": false,
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "informatieverzoek",
+                            "type": "container",
+                            "components": [
+                                {
+                                    "key": "toelichting",
+                                    "type": "textarea",
+                                    "input": true,
+                                    "label": "Toelichting",
+                                    "tableView": false,
+                                    "autoExpand": true,
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "deadline",
+                                    "type": "textarea",
+                                    "input": true,
+                                    "label": "Uiterlijke inzenddatum",
+                                    "tableView": false,
+                                    "autoExpand": true,
+                                    "disabled": true
+                                }
+                            ],
+                            "input": true,
+                            "label": "Informatieverzoek",
+                            "tableView": true
+                        },
+                        {
+                            "key": "reactie.toelichting",
+                            "type": "textarea",
+                            "input": true,
+                            "label": "Uw toelichting",
+                            "tableView": false,
+                            "autoExpand": true
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Legitimatiebewijs of verblijfsdocument klant en partner",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.specifiekeBankafschriftenAfgelopenMaand"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.legitimatieOfVerblijfsdocument",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Legitimatiebewijs of verblijfsdocument klant en partner",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.legitimatieOfVerblijfsdocument"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Overzicht maandelijkse prive vaste lasten",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.overzichtPrivelasten"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.overzichtPrivelasten",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Overzicht maandelijkse prive vaste lasten",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.overzichtPrivelasten"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Inkomensspecificaties drie maanden voorafgaand aan aanvraag klant en partner",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.inkomensspecificatiesLaatsteDrieMaanden"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.inkomensspecificatiesLaatsteDrieMaanden",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Inkomensspecificaties drie maanden voorafgaand aan aanvraag klant en partner",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.inkomensspecificatiesLaatsteDrieMaanden"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Huurcontract woning of eigendoms- en hypotheekakte",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.huurcontractOfhypotheekakte"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.huurcontractOfhypotheekakte",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Huurcontract woning of eigendoms- en hypotheekakte",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.huurcontractOfhypotheekakte"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Opgave actuele hypotheekstand",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.opgaveHypotheekstand"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.opgaveHypotheekstand",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Opgave actuele hypotheekstand",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.opgaveHypotheekstand"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Bankafschriften zakelijk en prive van klant, partner en eventuele kinderen onder de 18 jaar inclusief spaarrekeningen en buitenlandse rekeningen",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.bankafschriftenAlle"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.bankafschriftenAlle",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Bankafschriften zakelijk en prive van klant, partner en eventuele kinderen onder de 18 jaar inclusief spaarrekeningen en buitenlandse rekeningen",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.bankafschriftenAlle"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Uittreksel BKR klant en partner",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.uittrekselBkr"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.uittrekselBkr",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Uittreksel BKR klant en partner",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.uittrekselBkr"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "KvK-uittreksel",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.uittrekselKvk"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.uittrekselKvk",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "KvK-uittreksel",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.uittrekselKvk"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Kopie noodzakelijke vergunningen",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.kopieVergunningen"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.kopieVergunningen",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Kopie noodzakelijke vergunningen",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.kopieVergunningen"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Doorstartplan indien nodig",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.doorstartplan"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.doorstartplan",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Doorstartplan indien nodig",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.doorstartplan"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Jaarrekeningen afgelopen drie jaar",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.jaarrekeningDrieJaar"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.jaarrekeningDrieJaar",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Jaarrekeningen afgelopen drie jaar",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.jaarrekeningDrieJaar"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "IB-aangiftes afgelopen drie jaar",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.ibAangiftesDrieJaar"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.ibAangiftesDrieJaar",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "IB-aangiftes afgelopen drie jaar",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.ibAangiftesDrieJaar"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Jaarrekeningen vanaf datum inschrijving KvK",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.jaarrekeningenVanafInschrijving"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.jaarrekeningenVanafInschrijving",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Jaarrekeningen vanaf datum inschrijving KvK",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.jaarrekeningenVanafInschrijving"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Voorlopige resultatenrekening huidig boekjaar",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.voorlopigeResultatenrekening"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.voorlopigeResultatenrekening",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Voorlopige resultatenrekening huidig boekjaar",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.voorlopigeResultatenrekening"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Onderbouwde prognose komende drie jaar",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.prognoseDrieJaar"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.prognoseDrieJaar",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Onderbouwde prognose komende drie jaar",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.prognoseDrieJaar"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Vennootschapsverklaring bij een VOF",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.vennootschapsverklaringVof"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.vennootschapsverklaringVof",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Vennootschapsverklaring bij een VOF",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.vennootschapsverklaringVof"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Akte van oprichting bij een VOF/BV of CV",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.akteOprichting"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.akteOprichting",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Akte van oprichting bij een VOF/BV of CV",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.akteOprichting"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Kapitaaloverzichten bij een BV",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.kapitaaloverzichtenBv"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.kapitaaloverzichtenBv",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Kapitaaloverzichten bij een BV",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.kapitaaloverzichtenBv"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Overzicht cryptovaluta en PayPal-rekeningen van klant, partner en eventuele kinderen onder de 18 jaar",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.overzichtCryptoPaypal"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.overzichtCryptoPaypal",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Overzicht cryptovaluta en PayPal-rekeningen van klant, partner en eventuele kinderen onder de 18 jaar",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.overzichtCryptoPaypal"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Overzicht vorderingen en schulden van klant en partner",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.overzichtVorderingenSchulden"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.overzichtVorderingenSchulden",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Overzicht vorderingen en schulden van klant en partner",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.overzichtVorderingenSchulden"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Overzicht bezittingen van klant, partner en eventuele kinderen onder de 18 jaar",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.overzichtBezittingen"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.overzichtBezittingen",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Overzicht bezittingen van klant, partner en eventuele kinderen onder de 18 jaar",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.overzichtBezittingen"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Aanvullend aanvraagformulier bedrijfskrediet",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.aanvraagformulierBedrijfskrediet"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.aanvraagformulierBedrijfskrediet",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Aanvullend aanvraagformulier bedrijfskrediet",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.aanvraagformulierBedrijfskrediet"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Afwijzing van een kredietaanvraag bij een commerciële bank",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.afwijzingKredietaanvraag"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.afwijzingKredietaanvraag",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Afwijzing van een kredietaanvraag bij een commerciële bank",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.afwijzingKredietaanvraag"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "HTML",
+                            "content": "Anders",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.anders"
+                            },
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "bestanden.anders",
+                            "type": "portalFileUpload",
+                            "input": true,
+                            "label": "Anders",
+                            "hideLabel": "true",
+                            "tableView": false,
+                            "conditional": {
+                                "eq": true,
+                                "show": true,
+                                "when": "informatieverzoek.opTeVragenBenodigdeInformatie.anders"
+                            },
+                            "defaultValue": [],
+                            "multipleFiles": true,
+                            "informatieobjecttype": "https://openzaak-zgw.test.denhaag.nl/catalogi/api/v1/informatieobjecttypen/5df12b73-7ee3-4bcc-8898-8adf12db9e8b"
+                        },
+                        {
+                            "key": "documenten",
+                            "type": "hidden",
+                            "input": true,
+                            "label": "Documenten",
+                            "tableView": false,
+                            "defaultValue": [
+                                "/bestanden/legitimatieOfVerblijfsdocument",
+                                "/bestanden/overzichtPrivelasten",
+                                "/bestanden/inkomensspecificatiesLaatsteDrieMaanden",
+                                "/bestanden/huurcontractOfhypotheekakte",
+                                "/bestanden/opgaveHypotheekstand",
+                                "/bestanden/bankafschriftenAlle",
+                                "/bestanden/uittrekselBkr",
+                                "/bestanden/uittrekselKvk",
+                                "/bestanden/kopieVergunningen",
+                                "/bestanden/jaarrekeningDrieJaar",
+                                "/bestanden/ibAangiftesDrieJaar",
+                                "/bestanden/jaarrekeningenVanafInschrijving",
+                                "/bestanden/voorlopigeResultatenrekening",
+                                "/bestanden/vennootschapsverklaringVof",
+                                "/bestanden/akteOprichting",
+                                "/bestanden/kapitaaloverzichtenBv",
+                                "/bestanden/overzichtVorderingenSchulden",
+                                "/bestanden/overzichtBezittingen",
+                                "/bestanden/aanvraagformulierBedrijfskrediet",
+                                "/bestanden/afwijzingKredietaanvraag",
+                                "/bestanden/overzichtCryptoPaypal",
+                                "/bestanden/anders"
+                            ]
+                        },
+                        {
+                            "key": "submit",
+                            "type": "button",
+                            "input": true,
+                            "label": "Doorgaan",
+                            "tableView": false,
+                            "showValidations": false,
+                            "disableOnInvalid": true
+                        }
+                    ]
+                }
+            },
+            "start_at": "2023-09-30",
+            "end_at": null,
+            "registration_at": "2023-09-30",
+            "correct": null,
+            "geometry": "SRID=4326;POINT (4.906633403722665 52.3659930690003)"
+        }
+    },
+    {
+        "model": "zgw_consumers.service",
+        "pk": 1,
+        "fields": {
+            "label": "Objecttypen API",
+            "api_type": "orc",
+            "api_root": "http://host.docker.internal:8011/api/v2/",
+            "client_id": "",
+            "secret": "",
+            "auth_type": "api_key",
+            "header_key": "Authorization",
+            "header_value": "Token cd63e158f3aca276ef284e3033d020a22899c728",
+            "oas": "http://host.docker.internal:8011/api/v2/schema/openapi.yaml",
+            "nlx": "",
+            "user_id": "",
+            "user_representation": ""
+        }
+    },
+    {
+        "model": "zgw_consumers.service",
+        "pk": 2,
+        "fields": {
+            "label": "Notificaties",
+            "api_type": "nrc",
+            "api_root": "http://host.docker.internal:8002/api/v1/",
+            "client_id": "objectsapi",
+            "secret": "9wu2''Z`[x(eEk![:.$mBT6&:F!,%)EY74TS.AU+6",
+            "auth_type": "zgw",
+            "header_key": "",
+            "header_value": "",
+            "oas": "http://host.docker.internal:8002/api/v1/schema/openapi.yaml",
+            "nlx": "",
+            "user_id": "objects-api",
+            "user_representation": "Objects API"
+        }
+    },
+    {
+        "model": "notifications.notificationsconfig",
+        "pk": 1,
+        "fields": {
+            "api_root": "http://host.docker.internal:8002/api/v1/"
+        }
+    }
+]

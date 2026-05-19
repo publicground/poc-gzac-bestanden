@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="alo-bepalen-te-annuleren-bs-msg" name="ALO bepalen te annuleren bs messages" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <decision id="alo-bepalen-te-annuleren-bs-messages" name="Bepalen te annuleren business services message id&#39;s">
+    <decisionTable id="DecisionTable_1hssmfj" hitPolicy="COLLECT" biodi:annotationsWidth="400">
+      <input id="InputClause_18hgyw4" label="Business service bouwblok annuleren?" biodi:width="468" camunda:inputVariable="teAnnulerenBsBouwblokken">
+        <inputExpression id="LiteralExpression_1xluypp" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="Input_1" label="Business service bouwblok actief?" biodi:width="341" camunda:inputVariable="activeBusinessServices">
+        <inputExpression id="InputExpression_1" typeRef="boolean" expressionLanguage="feel">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Message id" name="teAnnulerenBsMessageId" typeRef="string" biodi:width="549" />
+      <output id="OutputClause_19g1rdy" label="Te annuleren BSB" name="teAnnulerenBsb" typeRef="string" biodi:width="300" />
+      <rule id="DecisionRule_1rhwwu3">
+        <inputEntry id="UnaryTests_0k8mjfx">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-opvoeren-dienst-in-socrates"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g89877">
+          <text>list contains(activeBusinessServices, "bsb-opvoeren-dienst-in-socrates")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_13fnnsc">
+          <text>"ANNULEREN_OPVOEREN_DIENST_IN_SOCRATES_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1u5h94b">
+          <text>"bsb-opvoeren-dienst-in-socrates"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1x1pxi2">
+        <inputEntry id="UnaryTests_0u27o8b">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-overwegen-inzetten-handhaving"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xhde99">
+          <text>list contains(activeBusinessServices, "bsb-overwegen-inzetten-handhaving")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0uudcj1">
+          <text>"ANNULEREN_OVERWEGEN_INZETTEN_HANDHAVING_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04357ea">
+          <text>"bsb-overwegen-inzetten-handhaving"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_102jbsr">
+        <inputEntry id="UnaryTests_17ry17m">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-vastleggen-resultaat-inzet-handhaving"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wxn52k">
+          <text>list contains(activeBusinessServices, "bsb-vastleggen-resultaat-inzet-handhaving")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_049nul7">
+          <text>"ANNULEREN_VASTLEGGEN_RESULTAAT_INZET_HANDHAVING_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1og5dmg">
+          <text>"bsb-vastleggen-resultaat-inzet-handhaving"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0t8xtnh">
+        <inputEntry id="UnaryTests_150xpja">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-overwegen-uitzetten-informatieverzoek"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nhu3w7">
+          <text>list contains(activeBusinessServices, "bsb-overwegen-uitzetten-informatieverzoek")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ub3w4z">
+          <text>"ANNULEREN_OVERWEGEN_UITZETTEN_INFORMATIEVERZOEK_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1nfiir8">
+          <text>"bsb-overwegen-uitzetten-informatieverzoek"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1lvg9jk">
+        <inputEntry id="UnaryTests_134ik0g">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-opbouwen-uitgebreide-motivering"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tufhpi">
+          <text>list contains(activeBusinessServices, "bsb-opbouwen-uitgebreide-motivering")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1sjem1y">
+          <text>"ANNULEREN_OPBOUWEN_UITGEBREIDE_MOTIVERING"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ssbyix">
+          <text>"bsb-opbouwen-uitgebreide-motivering"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1yoj9tl">
+        <inputEntry id="UnaryTests_034w33f">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-overwegen-voorschot"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dzl5rl">
+          <text>list contains(activeBusinessServices, "bsb-overwegen-voorschot")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1pxgx2c">
+          <text>"ANNULEREN_OVERWEGEN_VOORSCHOT_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_07ctk1i">
+          <text>"bsb-overwegen-voorschot"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1o3f8nu">
+        <inputEntry id="UnaryTests_0a8jhsp">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-ophalen-brongegevens-aanvrager"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ms1lx5">
+          <text>list contains(activeBusinessServices, "bsb-ophalen-brongegevens-aanvrager")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0g5up00">
+          <text>"ANNULEREN_OPHALEN_BRONGEGEVENS_AANVRAGER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1u0k8wl">
+          <text>"bsb-ophalen-brongegevens-aanvrager"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1kmutjh">
+        <inputEntry id="UnaryTests_0n2bf33">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-ophalen-brongegevens-partner"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ajqj3e">
+          <text>list contains(activeBusinessServices, "bsb-ophalen-brongegevens-partner")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0khsljf">
+          <text>"ANNULEREN_OPHALEN_BRONGEGEVENS_PARTNER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0421ruh">
+          <text>"bsb-ophalen-brongegevens-partner"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hoagjf">
+        <inputEntry id="UnaryTests_122nu5x">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-213-vaststelling-verblijfstitel-aanvrager"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dfkbr3">
+          <text>list contains(activeBusinessServices, "bsb-213-vaststelling-verblijfstitel-aanvrager")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ba31gj">
+          <text>"ANNULEREN_VASTSTELLING_VERBLIJSTITEL_AANVRAGER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_15xwzcr">
+          <text>"bsb-213-vaststelling-verblijfstitel-aanvrager"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ui6llu">
+        <inputEntry id="UnaryTests_1lllx79">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-213-vaststelling-verblijfstitel-partner"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01nkrzu">
+          <text>list contains(activeBusinessServices, "bsb-213-vaststelling-verblijfstitel-partner")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0xckw6b">
+          <text>"ANNULEREN_VASTSTELLING_VERBLIJSTITEL_PARTNER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0hmrtvd">
+          <text>"bsb-213-vaststelling-verblijfstitel-partner"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_13oohcd">
+        <description></description>
+        <inputEntry id="UnaryTests_11w8fb8">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-223-vaststelling-leef-en-woonsituatie"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xqxyeb">
+          <text>list contains(activeBusinessServices, "bsb-223-vaststelling-leef-en-woonsituatie")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1nulooj">
+          <text>"ANNULEREN_VASTSTELLING_LEEF_EN_WOONSITUATIE_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1515a8q">
+          <text>"bsb-223-vaststelling-leef-en-woonsituatie"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0dwg5z9">
+        <inputEntry id="UnaryTests_1mzjrw1">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-216-vaststelling-relaties"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kp3x21">
+          <text>list contains(activeBusinessServices, "bsb-216-vaststelling-relaties")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1q3icwe">
+          <text>"ANNULEREN_VASTSTELLING_RELATIES_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1yfg7up">
+          <text>"bsb-216-vaststelling-relaties"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_19ku53e">
+        <inputEntry id="UnaryTests_1lhpfjq">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-218-vaststelling-uitsluitingsgronden-aanvrager"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05uejy4">
+          <text>list contains(activeBusinessServices, "bsb-218-vaststelling-uitsluitingsgronden-aanvrager")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1mgquuc">
+          <text>"ANNULEREN_VASTSTELLING_UITSLUITINGSGRONDEN_AANVRAGER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dahvb1">
+          <text>"bsb-218-vaststelling-uitsluitingsgronden-aanvrager"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02l1z6b">
+        <inputEntry id="UnaryTests_06yf4zq">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-218-vaststelling-uitsluitingsgronden-partner"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0domcyn">
+          <text>list contains(activeBusinessServices, "bsb-218-vaststelling-uitsluitingsgronden-partner")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0kt5g0q">
+          <text>"ANNULEREN_VASTSTELLING_UITSLUITINGSGRONDEN_PARTNER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1d4wbeb">
+          <text>"bsb-218-vaststelling-uitsluitingsgronden-partner"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hn9swx">
+        <inputEntry id="UnaryTests_0cnfmdq">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-217-vaststelling-verblijfadres-aanvrager"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0t4t71q">
+          <text>list contains(activeBusinessServices, "bsb-217-vaststelling-verblijfadres-aanvrager")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1cu15zr">
+          <text>"ANNULEREN_VASTSTELLING_VERBLIJFADRES_AANVRAGER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1o7587h">
+          <text>"bsb-217-vaststelling-verblijfadres-aanvrager"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1vnmfuh">
+        <inputEntry id="UnaryTests_1qlax7i">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-217-vaststelling-verblijfadres-partner"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e3lrcj">
+          <text>list contains(activeBusinessServices, "bsb-217-vaststelling-verblijfadres-partner")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mzrzfa">
+          <text>"ANNULEREN_VASTSTELLING_VERBLIJFADRES_PARTNER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1l0oo8b">
+          <text>"bsb-217-vaststelling-verblijfadres-partner"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0iepvm2">
+        <inputEntry id="UnaryTests_1yrc1tk">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-214-vaststelling-vermogen"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_020o0xn">
+          <text>list contains(activeBusinessServices, "bsb-214-vaststelling-vermogen")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_13tdd1b">
+          <text>"ANNULEREN_VASTSTELLING_VERMOGEN_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1sk2qab">
+          <text>"bsb-214-vaststelling-vermogen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02wn65i">
+        <inputEntry id="UnaryTests_0eh49rd">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-219-vaststelling-norm"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xy50g2">
+          <text>list contains(activeBusinessServices, "bsb-219-vaststelling-norm")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_02vtr05">
+          <text>"ANNULEREN_VASTSTELLING_NORM_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04tbp69">
+          <text>"bsb-219-vaststelling-norm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1cay46d">
+        <inputEntry id="UnaryTests_0uja4nl">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-212-vaststelling-bijstandsvorm"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hjtzbt">
+          <text>list contains(activeBusinessServices, "bsb-212-vaststelling-bijstandsvorm")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bioavv">
+          <text>"ANNULEREN_VASTSTELLING_BIJSTANDSVORM_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1acaebj">
+          <text>"bsb-212-vaststelling-bijstandsvorm"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06m5ui5">
+        <inputEntry id="UnaryTests_1s8xld3">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-442-vaststelling-identiteit-aanvrager"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1n9ep8r">
+          <text>list contains(activeBusinessServices, "bsb-442-vaststelling-identiteit-aanvrager")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15fovrv">
+          <text>"ANNULEREN_VASTSTELLING_IDENTITEIT_AANVRAGER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1yzpcv2">
+          <text>"bsb-442-vaststelling-identiteit-aanvrager"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ixe0qz">
+        <inputEntry id="UnaryTests_1c43a2i">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-224-vaststelling-inkomen-aanvrager"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wneioi">
+          <text>list contains(activeBusinessServices, "bsb-224-vaststelling-inkomen-aanvrager")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0i99ytc">
+          <text>"ANNULEREN_VASTSTELLING_INKOMEN_AANVRAGER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06qwzh7">
+          <text>"bsb-224-vaststelling-inkomen-aanvrager"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02xx3k6">
+        <inputEntry id="UnaryTests_1wqe9ml">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-224-vaststelling-inkomen-partner"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ahvxur">
+          <text>list contains(activeBusinessServices, "bsb-224-vaststelling-inkomen-partner")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0pyo4h1">
+          <text>"ANNULEREN_VASTSTELLING_INKOMEN_PARTNER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1cd4x1i">
+          <text>"bsb-224-vaststelling-inkomen-partner"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0lkeau6">
+        <inputEntry id="UnaryTests_1parqms">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-444-vaststelling-voorliggende-voorzieningen-aanvrager"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rds0re">
+          <text>list contains(activeBusinessServices, "bsb-444-vaststelling-voorliggende-voorzieningen-aanvrager")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xs3leu">
+          <text>"ANNULEREN_VASTSTELLING_VOORLIGGENDE_VOORZIENINGEN_AANVRAGER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_076b1wx">
+          <text>"bsb-444-vaststelling-voorliggende-voorzieningen-aanvrager"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1qg394r">
+        <inputEntry id="UnaryTests_0u2tr1y">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-444-vaststelling-voorliggende-voorzieningen-partner"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hbu6s7">
+          <text>list contains(activeBusinessServices, "bsb-444-vaststelling-voorliggende-voorzieningen-partner")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_083pvk9">
+          <text>"ANNULEREN_VASTSTELLING_VOORLIGGENDE_VOORZIENINGEN_PARTNER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1am84yr">
+          <text>"bsb-444-vaststelling-voorliggende-voorzieningen-partner"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_015469j">
+        <inputEntry id="UnaryTests_0qtxdqz">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-221-vaststelling-ingangsdatum"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bfnlux">
+          <text>list contains(activeBusinessServices, "bsb-221-vaststelling-ingangsdatum")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_110zqf2">
+          <text>"ANNULEREN_VASTSTELLING_INGANGSDATUM_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1jd4et4">
+          <text>"bsb-221-vaststelling-ingangsdatum"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ofdm4s">
+        <inputEntry id="UnaryTests_1bqqswt">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-verwerken-intrekking"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kwvxaq">
+          <text>list contains(activeBusinessServices, "bsb-verwerken-intrekking")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1s1ut7g">
+          <text>"ANNULEREN_INTREKKING_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0b69nld">
+          <text>"bsb-verwerken-intrekking"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0cudln1">
+        <inputEntry id="UnaryTests_0bn2jrb">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-vastleggen-besluit"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17hdxbd">
+          <text>list contains(activeBusinessServices, "bsb-vastleggen-besluit")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0lkfu2d">
+          <text>"ANNULEREN_VASTLEGGEN_BESLUIT_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_088czmw">
+          <text>"bsb-vastleggen-besluit"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qgxwwz">
+        <inputEntry id="UnaryTests_0lta7ns">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-442-vaststelling-identiteit-partner"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sxi9vn">
+          <text>list contains(activeBusinessServices, "bsb-442-vaststelling-identiteit-partner")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wyui7n">
+          <text>"ANNULEREN_VASTSTELLING_IDENTITEIT_PARTNER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1atgt5m">
+          <text>"bsb-442-vaststelling-identiteit-partner"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1m5cx71">
+        <inputEntry id="UnaryTests_018foww">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-vastleggen-wijziging-contactgegevens-aanvrager"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0d2h432">
+          <text>list contains(activeBusinessServices, "bsb-vastleggen-wijziging-contactgegevens-aanvrager")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ogeyq7">
+          <text>"ANNULEREN_VASTLEGGEN_WIJZIGING_CONTACTGEGEVENS_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ggthxy">
+          <text>"bsb-vastleggen-wijziging-contactgegevens-aanvrager"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02p6viu">
+        <inputEntry id="UnaryTests_0z9f7k8">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-verwerken-buiten-behandeling-stelling"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12q0ad4">
+          <text>list contains(activeBusinessServices, "bsb-verwerken-buiten-behandeling-stelling")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1c9kfav">
+          <text>"ANNULEREN_BUITEN_BEHANDELING_STELLEN_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0nfzbwx">
+          <text>"bsb-verwerken-buiten-behandeling-stelling"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hux0rg">
+        <inputEntry id="UnaryTests_1pp7ykf">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-211-vaststelling-persoon-aanvrager"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0p2uxwl">
+          <text>list contains(activeBusinessServices, "bsb-211-vaststelling-persoon-aanvrager")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1cxv776">
+          <text>"ANNULEREN_VASTSTELLING_PERSOON_AANVRAGER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hgk8i0">
+          <text>"bsb-211-vaststelling-persoon-aanvrager"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1elsqpo">
+        <inputEntry id="UnaryTests_1ocj6rw">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-211-vaststelling-persoon-partner"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pf8hau">
+          <text>list contains(activeBusinessServices, "bsb-211-vaststelling-persoon-partner")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tlafhe">
+          <text>"ANNULEREN_VASTSTELLING_PERSOON_PARTNER_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1vx4z3b">
+          <text>"bsb-211-vaststelling-persoon-partner"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0i8uzzt">
+        <inputEntry id="UnaryTests_0xh76jw">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-lopende-bezwaartermijn"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gmeal8">
+          <text>list contains(activeBusinessServices, "bsb-lopende-bezwaartermijn")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0nmmm72">
+          <text>"ANNULEREN_LOPENDE_BEZWAARTERMIJN_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_07jbhso">
+          <text>"bsb-lopende-bezwaartermijn"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ul9h7y">
+        <inputEntry id="UnaryTests_0768sxd">
+          <text>(teAnnulerenBsBouwblokken = "alle-actieve-bsb") or (list contains(split(teAnnulerenBsBouwblokken, ","),"bsb-224b-vaststelling-gezamelijk-inkomen"))</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oonafs">
+          <text>list contains(activeBusinessServices, "bsb-224b-vaststelling-gezamelijk-inkomen")</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1mqn29x">
+          <text>"ANNULEREN_VASTSTELLING_GEZAMELIJK_INKOMEN_MESSAGE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0k1heti">
+          <text>"bsb-224b-vaststelling-gezamelijk-inkomen"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1wibeg0">
+        <inputEntry id="UnaryTests_0wt0pmi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08rd1di">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mzypt1">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rig2gv">
+          <text></text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="alo-bepalen-te-annuleren-bs-messages">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

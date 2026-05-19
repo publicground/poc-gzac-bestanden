@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_09tielq" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_03g1h5j" isClosed="false">
+    <bpmn:participant id="BSB218VaststellingUitsluitingsgrondenAanvragerParticipant" name="BSB 218 vaststelling uitsluitingsgronden aanvrager" processRef="bsb-218-vaststelling-uitsluitingsgronden-aanvrager" />
+    <bpmn:textAnnotation id="TextAnnotation_1sn69gz">
+      <bpmn:text>Input variabelen:
+- gegevensVanuitBronnen
+- gegevensVaststelling
+- gegevensVanuitAanvraag
+- handmatigVaststellen</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_19i4usf" associationDirection="None" sourceRef="OphalenInputTask" targetRef="TextAnnotation_1sn69gz" />
+    <bpmn:textAnnotation id="TextAnnotation_0lgjjr9">
+      <bpmn:text>Wegschrijven als:
+- besluit.dienst.aanvrager.uitsluitingsgronden</bpmn:text>
+    </bpmn:textAnnotation>
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-218-vaststelling-uitsluitingsgronden-aanvrager" name="BSB 218 vaststelling uitsluitingsgronden aanvrager" processType="None" isClosed="false" isExecutable="true">
+    <bpmn:startEvent id="StartEvent" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1qz0lon</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1qz0lon" sourceRef="StartEvent" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_15c7n3g" sourceRef="OphalenInputTask" targetRef="Bs218VaststellingUitsluitingsgrondenAanvragerCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0ac0aux" sourceRef="Bs218VaststellingUitsluitingsgrondenAanvragerCallActivity" targetRef="WegschrijvenOutputUitsluitingsgrondenTask" />
+    <bpmn:sequenceFlow id="Flow_06zaumx" sourceRef="WegschrijvenOutputUitsluitingsgrondenTask" targetRef="WegschrijvenOutputAdditioneleVeldenTask" />
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" implementation="##WebService" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="gegevensVanuitAanvraag">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag")}</camunda:outputParameter>
+          <camunda:outputParameter name="gegevensVaststelling">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling")}</camunda:outputParameter>
+          <camunda:outputParameter name="gegevensVanuitBronnen">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitBronnen")}</camunda:outputParameter>
+          <camunda:outputParameter name="taakTitel">${'Vaststellen uitsluitingsgronden aanvrager'}</camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldeUitsluitingsgronden">${valueResolverDelegateService.resolveValue(execution, 'doc:/besluiten/'.concat(0).concat('/dienst/').concat(0).concat('/aanvrager/uitsluitingsgronden'))}</camunda:outputParameter>
+          <camunda:outputParameter name="handmatigVaststellen">${execution.getVariable("handmatigVaststellen") ? handmatigVaststellen : false}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1qz0lon</bpmn:incoming>
+      <bpmn:outgoing>Flow_15c7n3g</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="Bs218VaststellingUitsluitingsgrondenAanvragerCallActivity" name="bs 218 vaststelling uitsluitingsgronden aanvrager" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-218-vaststelling-uitsluitingsgronden">
+      <bpmn:extensionElements>
+        <camunda:in variables="all" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in sourceExpression="${gegevensVaststelling.aanvrager.bsn}" target="bsn" />
+        <camunda:in source="handmatigVaststellen" target="handmatigVaststellen" />
+        <camunda:out source="uitsluitingsgronden" target="uitsluitingsgronden" />
+        <camunda:out source="isSignalering" target="isSignalering" />
+        <camunda:out source="handmatigVaststellen" target="handmatigVaststellen" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_15c7n3g</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ac0aux</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="WegschrijvenOutputUitsluitingsgrondenTask" name="wegschrijven output &#39;uitsluitingsgronden&#39;" camunda:asyncBefore="true" implementation="##WebService" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#39;doc:/besluiten/&#39;.concat(0).concat(&#39;/dienst/&#39;).concat(0).concat(&#39;/aanvrager/uitsluitingsgronden&#39;), uitsluitingsgronden)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ac0aux</bpmn:incoming>
+      <bpmn:outgoing>Flow_06zaumx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WegschrijvenOutputAdditioneleVeldenTask" name="wegschrijven output &#39;additioneleVelden&#39;" camunda:asyncBefore="true" implementation="##WebService" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs218Uitsluitingsgronden&#34;, additioneleVelden)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="additioneleVelden">
+            <camunda:map>
+              <camunda:entry key="uitsluitingsgrondenVastgesteld">${true}</camunda:entry>
+              <camunda:entry key="datumVastgesteld">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="isHandmatigBeoordeeld">${isSignalering || handmatigVaststellen}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06zaumx</bpmn:incoming>
+      <bpmn:outgoing>Flow_11wws27</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_11wws27" sourceRef="WegschrijvenOutputAdditioneleVeldenTask" targetRef="EndEvent" />
+    <bpmn:endEvent id="EndEvent" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_11wws27</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:association id="Association_01m2pmj" associationDirection="None" sourceRef="WegschrijvenOutputUitsluitingsgrondenTask" targetRef="TextAnnotation_0lgjjr9" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_03g1h5j">
+      <bpmndi:BPMNShape id="Participant_18gpi8p_di" bpmnElement="BSB218VaststellingUitsluitingsgrondenAanvragerParticipant" isHorizontal="true">
+        <dc:Bounds x="132" y="80" width="958" height="340" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0tbrgkr_di" bpmnElement="StartEvent">
+        <dc:Bounds x="232" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="203" y="525" width="76" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gfudmd_di" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="320" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rdlrs0_di" bpmnElement="Bs218VaststellingUitsluitingsgrondenAanvragerCallActivity">
+        <dc:Bounds x="500" y="250" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1b0ikn8_di" bpmnElement="WegschrijvenOutputUitsluitingsgrondenTask">
+        <dc:Bounds x="680" y="250" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1d3t4e2" bpmnElement="WegschrijvenOutputAdditioneleVeldenTask">
+        <dc:Bounds x="850" y="250" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10d2qnx_di" bpmnElement="EndEvent">
+        <dc:Bounds x="1012" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_01m2pmj_di" bpmnElement="Association_01m2pmj">
+        <di:waypoint x="766" y="250" />
+        <di:waypoint x="821" y="186" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qz0lon_di" bpmnElement="Flow_1qz0lon">
+        <di:waypoint x="268" y="290" />
+        <di:waypoint x="320" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15c7n3g_di" bpmnElement="Flow_15c7n3g">
+        <di:waypoint x="420" y="290" />
+        <di:waypoint x="500" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ac0aux_di" bpmnElement="Flow_0ac0aux">
+        <di:waypoint x="600" y="290" />
+        <di:waypoint x="680" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06zaumx_di" bpmnElement="Flow_06zaumx">
+        <di:waypoint x="780" y="290" />
+        <di:waypoint x="850" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11wws27_di" bpmnElement="Flow_11wws27">
+        <di:waypoint x="950" y="290" />
+        <di:waypoint x="1012" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1sn69gz_di" bpmnElement="TextAnnotation_1sn69gz">
+        <dc:Bounds x="320" y="130" width="330" height="82" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_19i4usf_di" bpmnElement="Association_19i4usf">
+        <di:waypoint x="361" y="250" />
+        <di:waypoint x="335" y="212" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_1usdtx1" bpmnElement="TextAnnotation_0lgjjr9">
+        <dc:Bounds x="661" y="145" width="331" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

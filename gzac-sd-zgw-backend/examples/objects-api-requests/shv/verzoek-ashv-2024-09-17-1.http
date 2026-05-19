@@ -1,0 +1,249 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+    "type": "{{objecttypes_api_url_aanmelding_schuldhulpverlening}}",
+    "record": {
+        "index": 1,
+        "typeVersion": 1,
+        "data": {
+          "kvk": "90002768",
+            "data": {
+                "schulden": {
+                    "schulden": {
+                        "schuldenoverzicht": [
+
+                        ],
+                        "geefEenToelichtingOpHetSchuldenoverzicht": ""
+                    },
+                    "priveSchulden": {
+                        "priveSchulden1": [],
+                        "bevatHetSchuldenoverzichtPriveSchulden": "b"
+                    }
+                },
+                "overige-shv": {
+                    "tekstvlak1": "",
+                    "overigeDocumenten1": []
+                },
+                "bezit-vermogen": {
+                    "vervoersmiddelen": {
+                        "geefAanWatVoorUwClientVariabeleBEnOfDePartnerVanToepassingIs": {
+                            "a": false,
+                            "b": false
+                        }
+                    },
+                    "financieelVermogen": {
+                        "kinderenspaarrekening": false,
+                        "anderFinancieelVermogen": false,
+                        "anderFinancieelVermogen1": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden3": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden4": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden5": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden7": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden8": [],
+                        "waardeOverzichtAfgelopenJaarPernsioenVerzekering": [],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenPensioenverzekering": false,
+                        "rekeningafschriftenVanDebeheerrekeningVanDeAfgelopen3Maanden1": [
+                      ],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenOfMeerSpaarrekeningen": false,
+                        "rekeningafschriftenVanDeLeefgeldrekeningVanDeAfgelopen3Maanden": [
+                     ],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenOfMeerBetaalrekeningen": false,
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenLevensverzekeringOfOverlijdensrisicoverzekeringInNederlandOfInHetBuitenland": false
+                    },
+                    "overigeBezittingen": {
+                        "waardeIsBekend": false,
+                        "geschatteTotaleWaarde": null,
+                        "overigeBezittingenGroep": {
+                            "bezittingenHHgroep": []
+                        },
+                        "geefAanWatVoorUwClientVariabeleBEnOfDePartnerVanToepassingIs1": {
+                            "a": false,
+                            "b": false
+                        }
+                    },
+                    "woningenEnVastgoed": {
+                        "toelichting": "",
+                        "toelichting1": "",
+                        "isUwClientVariabeleBEnOfDePartnerInHetBezitVanWoningenOfVastgoedInNederlandEnOfInHetBuitenland": "b"
+                    }
+                },
+                "belastingen-shv": {
+                    "geefEenToelichting7": "",
+                    "belastingAanslagMin1Jaar": [],
+                    "belastingAanslagMin2Jaar": [],
+                    "belastingAanslagMin3Jaar": [],
+                    "belastingAanslagMin4Jaar": [],
+                    "belastingAanslagMin5Jaar": [],
+                    "gemeentelijkeEnRegionaleBelastingen": {
+                        "isErKwijtscheldingOntvangenVoorDeGemeentelijkeBelastingen": ""
+                    }
+                },
+                "gegevens-client": {
+                    "bsn": "111111110",
+                    "emailcl": "jarred.mac.intosh@ritense.com",
+                    "gescheiden": {
+                        "datumGescheiden": ""
+                    },
+                    "typeBewind": {
+                        "curatele": false,
+                        "lichamelijkeOfGeestelijkeToestand": true,
+                        "verkwistingOfProblematischeSchulden": true
+                    },
+                    "voorvoegselScl": "",
+                    "gegevensPartner": {
+                        "voorvoegselSclpa": "",
+                        "burgerservicenummerBsn": "444444440",
+                        "voornaam1OfMeerdereclpa": "L",
+                        "achternaamVolgensPaspoortOfIdKaartclpa": "Hoogenboom"
+                    },
+                    "telefoonnummercl": "0101234567",
+                    "voornaam1OfMeerdere": "M",
+                    "voorwaardenHuwelijk": "",
+                    "watIsDeBurgelijkeStaat": "c",
+                    "voorwaardenPartnerschap1": "Partnerschapsvoorwaarden",
+                    "achternaamVolgensPaspoortOfIdKaart": "Simons"
+                },
+                "onderneming-shv": {
+                    "gegevensOndernemingEn": {
+                        "eenOnderneming": [],
+                        "geefEenToelichting8": ""
+                    }
+                },
+                "uw-gegevens-shv": {
+                    "email": "jarred.mac.intosh@ritense.com",
+                    "geslacht": "man",
+                    "achternaam": "Akkermans",
+                    "voorletterS": "S",
+                    "voorvoegselS": "",
+                    "telefoonnummer": "0201234567",
+                    "organisatienaam": "Regional Sanjoflex"
+                },
+                "inkomsten-uitgaven": {
+                    "uitgaven": {
+                        "recenteHuurspecificatie": []
+                    },
+                    "budgetplan": {
+                        "budgetplanUpload": [
+                      ],
+                        "geefEenToelichtingOpHetBudgetplan": ""
+                    },
+                    "beslaglegging": {
+                        "schuldeisers": [],
+                        "schuldeisers1": [],
+                        "ligtErBeslagOpHetInkomenVanDePartner": "nee",
+                        "ligtErBeslagOpHetInkomenVanUwClientVariabeleBEnOfDePartner": "nee"
+                    },
+                    "inkomstenVanUwClient": {
+                        "herhalendeGroepInkomstenClient": []
+                    },
+                    "inkomstenVanDePartner": {
+                        "herhalendeGroepInkomstenPartner": []
+                    },
+                    "toeslagenBelastingdienst": {
+                        "voorschotbeschikkingToeslagen": []
+                    },
+                    "recenteZorgpolisVanUwClientVariabeleAEnDePartner": [
+                ]
+                },
+                "situatie-client-partner": {
+                    "fraude": {
+                        "geefEenToelichtingOpDeVeroordelingEn": "Veroordeeld voor oplichting van ouderen",
+                        "isUwClientDeAfgelopen5JaarDoorDeRechtbankVeroordeeldVoorFraude": "JA"
+                    },
+                    "onderneming": {
+                        "veldengroep": {
+                            "kvKNummer2": "",
+                            "organisatienaam3": ""
+                        },
+                        "veldengroep1": {
+                            "kvKNummer3": "",
+                            "organisatienaam4": ""
+                        },
+                        "heeftUwClientOpDitMomentEenActieveOnderneming": "b",
+                        "heeftDePartnerOpDitMomentEenActieveOnderneming": "b",
+                        "heeftUwClientEenOfMeerdereOndernemingenInDeAfgelopen5JaarGestaakt": "b",
+                        "heeftDePartnerEenOfMeerdereOndernemingenInDeAfgelopen5JaarGestaakt": "b"
+                    },
+                    "woonsituatie": {
+                        "hoeIsDeWoonsituatieVanUwClientVariabeleAEnDePartner": "c"
+                    },
+                    "situatieschets": {
+                        "beschrijfDeLeefWoonSituatieVanUwClient": "Wonen samen in twee aangrenzende woningen",
+                        "beschrijfWatTotErNuToeAlGedaanIsOmDeSchuldenOpTeLossen": "Er kan niks gedaan worden",
+                        "beschrijfWanneerEnHoeDeSchuldenVanUwClientIfZijnOntstaan": "Gokken"
+                    },
+                    "Eerderehulpgroep": {
+                        "eerdereFinancieleHulpClient": {
+                            "GEEN_SCHULDREGELING": false,
+                            "MINNELIJKE_SCHULDREGELING": true,
+                            "WETTELIJKE_SCHULDREGELING": false
+                        },
+                        "eerdereFinancieleHulpPartner": {
+                            "GEEN_SCHULDREGELING": false,
+                            "MINNELIJKE_SCHULDREGELING": false,
+                            "WETTELIJKE_SCHULDREGELING": true
+                        }
+                    },
+                    "andereHulpverlening": {
+                        "hulpverleninghh": [],
+                        "hulpverleninghh1": [],
+                        "krijgtUwClientOndersteuningVanAndereHulpverleners": "b",
+                        "krijgtUwPartnerOndersteuningVanAndereHulpverleners": "b"
+                    },
+                    "arbeidssituatieVanUwClient": {
+                        "geefEenToelichting4": "ffff",
+                        "heeftUwClientBetaaldWerk": "nee",
+                        "gemiddeldAantalUurPerWeek": null,
+                        "werktUwClient36UurOfMeerPerWeek": "",
+                        "isUwClienBereidOm36UurPerWeekTeWerken": "b",
+                        "isUwClientInStaatOm36UurPerWeekTeWerken": "b",
+                        "doetUwClientAanVrijwilligerswerkOfOnbetaaldWerk": "nee"
+                    },
+                    "arbeidssituatieVanDePartner": {
+                        "geefEenToelichting5": "",
+                        "gemiddeldAantalUurPerWeek1": null,
+                        "heeftDePartnerBetaaldWerk1": "nee",
+                        "werktDePartner36UurOfMeerPerWeek": "",
+                        "isDePartnerBereidOm36UurPerWeekTeWerken1": "b",
+                        "isDePartnerInStaatOm36UurPerWeekTeWerken1": "a",
+                        "doetDePartnerAanVrijwilligerswerkOfOnbetaaldWerk1": "nee"
+                    },
+                    "EerdereMinnelijkSchuldregelingClientGroep": {
+                        "eerdereMinnelijkeSchuldregelingClientAfgerond": "",
+                        "eerdereMinnelijkeSchuldregelingClientToelichting": "",
+                        "eerdereMinnelijkeSchuldregelingClientDatumAfgerond": ""
+                    },
+                    "eerdereWettelijkeSchuldregelingClientGroep": {
+                        "eerdereWettelijkeSchuldregelingClientAfgerond": "",
+                        "eerdereWettelijkeSchuldregelingClientToelichting": "",
+                        "eerderWettelijkeSchuldregelingClientAfgerondDatum": ""
+                    },
+                    "EerdereMinnelijkeSchuldregelingPartnerGroep": {
+                        "eerdereMinnelijkeSchuldregelingPartnerAfgerond": "",
+                        "eerdereMinnelijkeSchuldregelingPartnerToelichting": "",
+                        "eerdereMinnelijkSchuldregelingPartnerAfgerondDatum": ""
+                    },
+                    "eerdereWettelijkeSchuldregelingPartnerGroep": {
+                        "eerdereWettelijkeSchuldregelingPartnerAfgerond": "JA",
+                        "eerdereWettelijkeSchuldregelingPartnerToelichting": "toelichting",
+                        "eerdereWettelijkeSchuldregelingPartnerAfgerondDatum": "2024-09-05"
+                    }
+                },
+                "verklaring-van-waarheid": {
+                    "waarheidsVerklaring": true
+                }
+            },
+            "type": "Verzoek schuldhulpverlening bewindvoerders",
+            "pdf_url": "https://openzaak-zgw.test.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/ddd0ea22-8670-4dab-a730-758b905d0c75",
+            "submission_id": "OF-SSHHD8"
+        },
+        "geometry": null,
+        "startAt": "2024-09-12",
+        "endAt": null,
+        "registrationAt": "2024-09-12"
+    }
+}

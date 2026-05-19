@@ -1,0 +1,7 @@
+{
+    "templateKey": "dossier-rapportage-alo",
+    "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+    "templateType": "pdf",
+    "metadata": {},
+    "contentRef": "/config/template/dossier-rapportage-alo.ftlh"
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0t5s4sh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.39.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_1b8geow">
+    <bpmn:participant id="GenericTransformerenGeboortedatumParticipant" name="Generic: Transformeren geboortedatum" processRef="generic-transformeren-geboortedatum" />
+  </bpmn:collaboration>
+  <bpmn:process id="generic-transformeren-geboortedatum" name="Generic: Transformeren geboortedatum" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1ksmf4i</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1ksmf4i" sourceRef="StartEvent_1" targetRef="TransformerenGeboortedatumTask" />
+    <bpmn:endEvent id="Event_19yotkf">
+      <bpmn:incoming>Flow_0kevgpw</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0kevgpw" sourceRef="TransformerenGeboortedatumTask" targetRef="Event_19yotkf" />
+    <bpmn:scriptTask id="TransformerenGeboortedatumTask" name="Transformeren geboortedatum" camunda:asyncBefore="true" camunda:asyncAfter="true" scriptFormat="javascript" camunda:resultVariable="geboortedatum">
+      <bpmn:incoming>Flow_1ksmf4i</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kevgpw</bpmn:outgoing>
+      <bpmn:script>var geboortedatum = execution.getVariable("geboortedatum"); // e.g. "1980", "1980-07", or "1980-07-04"
+
+if (typeof geboortedatum === "string") {
+  var regex = /(\d{4})-?(\d{2})?-?(\d{2})?/;
+var datum = regex.exec(geboortedatum);
+var jaar = datum[1];
+var maand = datum[2];
+var dag = datum[3];
+if (maand === undefined || maand === null || maand === '00') {
+  maand = '07';
+  dag = '01';
+} else {
+  if (dag === undefined || dag === null || dag === '00') {
+    dag = '16';
+  }
+}
+var returnDatum = jaar + '-' + maand + '-' + dag;
+returnDatum
+}</bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1b8geow">
+      <bpmndi:BPMNShape id="Participant_1cobiob_di" bpmnElement="GenericTransformerenGeboortedatumParticipant" isHorizontal="true">
+        <dc:Bounds x="132" y="55" width="348" height="245" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_19yotkf_di" bpmnElement="Event_19yotkf">
+        <dc:Bounds x="422" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ynh55d_di" bpmnElement="TransformerenGeboortedatumTask">
+        <dc:Bounds x="270" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ksmf4i_di" bpmnElement="Flow_1ksmf4i">
+        <di:waypoint x="218" y="180" />
+        <di:waypoint x="270" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kevgpw_di" bpmnElement="Flow_0kevgpw">
+        <di:waypoint x="370" y="180" />
+        <di:waypoint x="422" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

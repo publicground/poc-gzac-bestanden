@@ -1,0 +1,841 @@
+{
+  "$id": "terug-eninvordering.schema",
+  "type": "object",
+  "title": "Model Terug- en invordering",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "debiteur": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "description": "Een administratief identificerend kenmerk van de debiteur.",
+          "$ref": "#/definitions/guid"
+        },
+        "eigenKenmerk": {
+          "description": "<p>Een alternatief administratief identificerend kenmerk van de debiteur, bijvoorbeeld een burgerservicenummer.</p><p>Het idee is altijd dat binnen een domein de identificerende administratieve kenmerken betekenisloos zijn en alleen geldig zijn binnen dat domein.</p><p>Uiteraard kan er noodzaak zijn om een globaal kenmerk op te nemen. Hiertoe kan Eigen kenmerk worden gebruikt.</p>",
+          "$ref": "#/definitions/tekst"
+        },
+        "opvoerdatum": {
+          "description": "<p>De datum waarop de debiteur is opgevoerd.</p><p>Dat is meestal na de beslissing op de eerste terugvordering bij een persoon.</p>",
+          "$ref": "#/definitions/datum"
+        },
+        "soortDebiteur": {
+          "description": "Er kunnen maximaal 2 debiteuren zijn bij een vordering. Er is altijd een hoofddebiteur. Er kan een tweede debiteur zijn. Dit kan een zuivere debiteur of een meeprofiterende partner zijn. Deze debiteuren lossen ook af op diezelfde vordering.",
+          "$ref": "#/definitions/codeSoortDebiteur"
+        },
+        "aflossingsplan": {
+          "type":"object",
+          "properties": {
+            "id": {
+              "description": "Een administratief identificerend kenmerk van het aflossingsplan.",
+              "$ref": "#/definitions/guid"
+            },
+            "aflossingskenmerk": {
+              "description": "<p>Elk aflossingsplan wordt voorzien van een aflossingskenmerk. Dit is zo gekozen van uit een klantperspectief.</p><p>Het aflossingsplan kent aflossingsafspraken. Als de debiteur aflost op zijn aflossingsplan conform de afspraken, dan kan de aflossing automatisch worden verwerkt en toegekend als aflossing op een specifieke vordering.</p>",
+              "$ref": "#/definitions/tekst"
+            },
+            "startdatum": {
+              "description": "De datum waarop het aflossingsplan is gemaakt.",
+              "$ref": "#/definitions/datum"
+            },
+            "einddatum": {
+              "description": "De datum waarop het aflossingsplan is ge�indigd.",
+              "$ref": "#/definitions/datum"
+            },
+            "aflossingsafspraak": {
+              "type":"array",
+              "items": {
+                "type":"object",
+                "properties": {
+                  "id": {
+                    "description": "Een administratief identificerend kenmerk van de aflossingsafspraak.",
+                    "$ref": "#/definitions/guid"
+                  },
+                  "startdatum": {
+                    "description": "De datum waarop de gemaakte afspraak ingaat.",
+                    "$ref": "#/definitions/datum"
+                  },
+                  "einddatum": {
+                    "description": "De datum waarop de gemaakte afspraak eindigt.",
+                    "$ref": "#/definitions/datum"
+                  },
+                  "bedrag": {
+                    "description": "Het afgesproken bedrag, dat wordt afgelost.",
+                    "$ref": "#/definitions/geldbedrag"
+                  },
+                  "periodiek": {
+                    "description": "De afgesproken periodiek, meestal een maand, waarop het afgesproken bedrag wordt afgelost.",
+                    "$ref": "#/definitions/cdPeriode"
+                  },
+                  "indicatieInclusiefVakantiegeld": {
+                    "description": "<p>Deze indicatie geeft aan of bij inhouding op de uitkering de inhouding betrekking heeft op:</p><ul>                              </ul>",
+                    "$ref": "#/definitions/stdIndJN"
+                  },
+                  "aflossing": {
+                    "type":"array",
+                    "items": {
+                      "type":"object",
+                      "properties": {
+                        "id": {
+                          "description": "Een administratief identificerend kenmerk van de aflossing.",
+                          "$ref": "#/definitions/guid"
+                        },
+                        "boekingsdatum": {
+                          "description": "<p>De datum waarop de aflossing is geboekt.</p><p>Een boekingsdatum (ook wel boekdatum) isde datum waarop een bepaalde financi�le gebeurtenis in de boekhouding wordt ingevoerd.</p>",
+                          "$ref": "#/definitions/datum"
+                        },
+                        "bedrag": {
+                          "description": "Het bij de aflossing gemoeide bedrag, dat is geboekt.",
+                          "$ref": "#/definitions/geldbedrag"
+                        },
+                        "ontvangstdatum": {
+                          "description": "De datum waarop de aflossing is ontvangen.",
+                          "$ref": "#/definitions/datum"
+                        },
+                        "aflossingskenmerk": {
+                          "description": "Met de klant is afgesproken dat hij bij de aflossing een kenmerk meegeeft. Dit is opgenomen in de betreffende afspraak in het aflossingsplan. Het kenmerk is nodig voor de juiste boeking van de aflossing. ",
+                          "$ref": "#/definitions/tekst"
+                        }
+                      }
+                    }
+                  },
+                  "loonbeslagafspraak": {
+                    "type":"array",
+                    "items": {
+                      "type":"object",
+                      "properties": {
+                        "id": {
+                          "description": "Een administratief identificerend kenmerk van de aflossingsafspraak.",
+                          "$ref": "#/definitions/guid"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "aflossingsuitstel": {
+              "type":"object",
+              "properties": {
+                "id": {
+                  "description": "Een administratief identificerend kenmerk.",
+                  "$ref": "#/definitions/guid"
+                },
+                "aanmaakdatum": {
+                  "description": "De datum waarop het uitstel is aangemaakt.",
+                  "$ref": "#/definitions/datum"
+                },
+                "redenUitstel": {
+                  "description": "De reden van uitstel. Hiervan is een uitgewerkte lijst van opties",
+                  "$ref": "#/definitions/defaultEnumeratie"
+                },
+                "periodeStartdatum": {
+                  "description": "De startdatum van de periode waarop het uitstel ingaat.",
+                  "$ref": "#/definitions/datum"
+                },
+                "periodeEinddatum": {
+                  "description": "De einddatum van de periode waarop het uitstel eindigt.",
+                  "$ref": "#/definitions/datum"
+                }
+              }
+            }
+          }
+        },
+        "invorderingbasis": {
+          "type":"object",
+          "properties": {
+            "invorderingsmogelijkheid": {
+              "description": "Legt vast of er al dan niet een invorderingsmogelijkheid is. Dit wordt bepaald op basis van regels en feiten in Vaststelling invorderingsmogelijkheid. Omdat dit gebeurt op basis van signalen wordt de invorderingsmogelijkheid steeds weer afgeleid. Het gegeven representeert daarom de meest actuele werkelijkheid.",
+              "$ref": "#/definitions/stdIndJN"
+            },
+            "typeInvorderingsmogelijkheid": {
+              "description": "Er is invordering mogelijk als er inkomsten uit eigenbedrijf of loon etc. is of vermogen bekend is. Met het type invorderingsmogelijkheid wordt dit vastgelegd.",
+              "$ref": "#/definitions/codeTypeInvorderingsmogelijkheid"
+            },
+            "vaststeldatumInvorderingsmogelijkheid": {
+              "description": "De meest recente datum waarop is vastgesteld dat er al dan niet een invorderingsmogelijkheid is.",
+              "$ref": "#/definitions/datum"
+            },
+            "beslagvrijeVoet": {
+              "description": "<p>Als er beslag gelegd wordt op uw inkomen (denk aan uw loon, een eventuele uitkering of ali-mentatie-inkomsten), dan heeft u recht op een zogenaamde beslagvrije voet. Dit dient voor het veilig stellen van het voorzien in de de basiskosten van levensonderhoud. Dit deel van het inkomen wordt dus vrijgehouden van beslag</p><br/><p>De reden hiervoor is dat de overheid vindt dat iedereen recht heeft op een minimaal inkomen ook als u nog schulden moet afbetalen. Zonder beslagvrije voet zou iemand letterlijk geen enkel inkomen meer over kunnen houden.</p><br/><p>In het algemeen bedraagt de beslagvrije voet 95% van de voor u geldende bijstandsnorm.</p><br/><p>                              </p><p>De hoogte van de beslagvrije voet is allereerst afhankelijk van aan uw leefsituatie. De wet kent de volgende categorie�n:</p><ul>                              </ul><p>De vraag tot welke categorie iemand hoort is niet altijd even eenvoudig te beantwoorden. Iemand die nog bij zijn ouders woont kan bijvoorbeeld aangemerkt worden als iemand die een huishouding deelt en is dan dus geen alleenstaande. En voor iemand die alleenstaande is, maar niet met de dagelijkse zorg van zijn/haar kinderen is belast, behoort niet tot de categorie alleenstaande met kinderen.</p><br/><p>                              </p><p>De beslagvrije voet is in de basis gelijkgesteld aan 95% van de voor u geldende bijstandsnorm. Bepaalde omstandigheden kunnen er echter voor zorgen dat u recht hebt op een hogere beslagvrije voet. Hierover is per 01-01-2021 nieuwe wetgeving.</p>",
+              "$ref": "#/definitions/geldbedrag"
+            },
+            "vaststeldatumBeslagvrijeVoet": {
+              "description": "De datum waarop de beslagvrije voet is vastgesteld.",
+              "$ref": "#/definitions/datum"
+            },
+            "aflossingscapaciteit": {
+              "description": "<p>De aflossingscapaciteit is het bedrag dat de debiteur maximaal beschikbaar kan stellen voor de aflossing van zijn of haar schulden. De aflossingscapaciteit wordt berekend door bij inkomsten uit werk de </p><br/><p>De beslagvrije voet komt overeen met 95% van de voor de debiteur geldende bijstandsnorm. Dit bedrag is niet definitief en kan per persoon verschillen.</p>",
+              "$ref": "#/definitions/geldbedrag"
+            },
+            "vaststeldatumAflossingscapaciteit": {
+              "description": "De datum waarop de aflossingscapaciteit is vastgesteld.",
+              "$ref": "#/definitions/datum"
+            }
+          }
+        }
+      }
+    },
+    "terugvorderingsverzoek": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "description": "Een administratief identificerend kenmerk van het vorderingsverzoek.",
+          "$ref": "#/definitions/guid"
+        },
+        "verwerkingsstatus": {
+          "description": "<p>De status betreffende het vorderingsverzoek. Deze status moet worden gezien vanuit het perspectief van het voorliggende proces, dat het vorderingsverzoek opstelt, indient en vervolgens op d hoogte wordt gehouden over de afhandeling ervan.</p><br/><p>Dit gegeven is (mogelijk) redundant met zaakstatusinformatie en derhalve nog onderwerp van discussie.</p>",
+          "$ref": "#/definitions/verwerkingsstatus"
+        },
+        "aanmaakdatum": {
+          "description": "De datum waarop het vorderingsverzoek is aangemaakt.",
+          "$ref": "#/definitions/datum"
+        },
+        "categorie": {
+          "description": "De CBS-categorie van de vordering.",
+          "$ref": "#/definitions/categorieVorderingCBS"
+        },
+        "subcategorie": {
+          "description": "<p>Een subcategorisering van de CBS-categorie van de vordering.</p><p>Let op... in de lijst van mogelijke waarden zitten dubbelingen. De codes geven echter aan welke subcategorie onder welke categorie mogelijk zijn. Een implementatie om de categorie en subcategorie op te voeren vij een vordering zal hiermee rekening moeten houden.</p>",
+          "$ref": "#/definitions/subCategorieVordering"
+        },
+        "priotype": {
+          "description": "De prioriteit van de vordering meegegeven in het vorderingsverzoek.",
+          "$ref": "#/definitions/priotype"
+        },
+        "regeling": {
+          "description": "De regeling waaronder de vordering is ontstaan meegegeven in het vorderingsverzoek.",
+          "$ref": "#/definitions/regeling"
+        },
+        "fiscaal": {
+          "description": "Aanduiding of de vordering fiscaal is of niet meegegeven in het vorderingsverzoek.",
+          "$ref": "#/definitions/stdIndJN"
+        },
+        "periodeStartdatum": {
+          "description": "De startdatum van de periode waarop de vordering van toepassing is meegegeven in het vorderingsverzoek.",
+          "$ref": "#/definitions/datum"
+        },
+        "periodeEinddatum": {
+          "description": "De einddatum van de periode waarop de vordering van toepassing is meegegeven in het vorderingsverzoek.",
+          "$ref": "#/definitions/datum"
+        },
+        "rechtmaand": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief identificerend kenmerk van de rechtmaand.",
+                "$ref": "#/definitions/guid"
+              },
+              "jaar": {
+                "description": "Het jaar waarin de rechtmaand valt aangeduid met vier cijfers.",
+                "$ref": "#/definitions/getal_Jaar"
+              },
+              "maand": {
+                "description": "De maand aangeduid met een getal van de zoveelste maand uit het jaar.",
+                "$ref": "#/definitions/getal_Maand"
+              },
+              "boekjaar": {
+                "description": "<p>Het jaar waarin de rechtmaand is geboekt.</p><p>Dit heeft overlap met boekingsdatum. </p>",
+                "$ref": "#/definitions/getal_Jaar"
+              },
+              "betaalcomponent": {
+                "type":"array",
+                "items": {
+                  "type":"object",
+                  "properties": {
+                    "id": {
+                      "description": "Een administratief uniek identificerend kenmerk, meestal betekenisloos.",
+                      "$ref": "#/definitions/guid"
+                    },
+                    "boekingsdatum": {
+                      "description": "<p>De datum waarop de rechtmaand is geboekt.</p><p>Een boekingsdatum (ook wel boekdatum) is de datum waarop een bepaalde financi�le gebeurtenis in de boekhouding wordt ingevoerd.</p>",
+                      "$ref": "#/definitions/datum"
+                    },
+                    "bedrag": {
+                      "description": "Het bedrag dat geboekt in de rechtmaand.",
+                      "$ref": "#/definitions/geldbedrag"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "vordering": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "description": "Een administratief identificerend kenmerk van de vordering.",
+          "$ref": "#/definitions/guid"
+        },
+        "verwerkingsstatus": {
+          "description": "<p>De status betreffende de vorderings. Deze status moet worden gezien vanuit het perspectief van het voorliggende proces, dat het vorderingsverzoek opstelt, indient en vervolgens op de hoogte wordt gehouden over de afhandeling ervan.</p><br/><p>Dit gegeven is (mogelijk) redundant met zaakstatusinformatie en derhalve nog onderwerp van discussie.</p>",
+          "$ref": "#/definitions/verwerkingsstatus"
+        },
+        "categorie": {
+          "description": "De CBS-categorie van de vordering.",
+          "$ref": "#/definitions/categorieVorderingCBS"
+        },
+        "subcategorie": {
+          "description": "<p>Een subcategorisering van de CBS-categorie van de vordering.</p><p>Let op... in de lijst van mogelijke waarden zitten dubbelingen. De codes geven echter aan welke subcategorie onder welke categorie mogelijk zijn. Een implementatie om de categorie en subcategorie op te voeren vij een vordering zal hiermee rekening moeten houden.</p>",
+          "$ref": "#/definitions/subCategorieVordering"
+        },
+        "vaststeldatumTerugvordering": {
+          "description": "<p>Van de vordering wordt bepaald of deze uit ��n bedrag bestaat of uit verschillende rechtmaanden.</p><p>In het geval van rechtmaanden ontstaan er deelvorderingen onder deze vordering met aaneengesloten rechtmaanden zonder jaargrensoverschreidingen.</p>",
+          "$ref": "#/definitions/datum"
+        },
+        "priotype": {
+          "description": "De prioriteit van de vordering.",
+          "$ref": "#/definitions/priotype"
+        },
+        "regeling": {
+          "description": "De regeling waaronder de vordering is ontstaan.",
+          "$ref": "#/definitions/regeling"
+        },
+        "fiscaal": {
+          "description": "Aanduiding of de vordering fiscaal is of niet.",
+          "$ref": "#/definitions/stdIndJN"
+        },
+        "stuitingsvoortgangsindicator": {
+          "description": "<p>Elke handeling � betaling, aanmaning etc� - is een  stuiting en zet de teller weer op nul van de 5 jaar.</p><p>De voortgangsindicator voor stuiting wordt aangegeven in aantal maanden. Wettelijk moet gestuit worden voor 5 jaar (60 maanden).</p>",
+          "$ref": "#/definitions/getal"
+        },
+        "periodeStartdatum": {
+          "description": "De startdatum van de periode waarop de vordering van toepassing is.",
+          "$ref": "#/definitions/datum"
+        },
+        "periodeEinddatum": {
+          "description": "De einddatum van de periode waarop de vordering van toepassing is.",
+          "$ref": "#/definitions/datum"
+        },
+        "verjaringsdatum": {
+          "description": "<p>De datum waarop de vordering verjaart. Voor die datum moet de vordering worden gestuit.</p><p>Elke handeling in de vorm van een aflossing, aanmaning e.d. stuiten de verjaring van de vordering. Op moment van stuiting wordt deze waarde opnieuw gevuld met de datum waarop de vordering verjaart (termijn is afhankelijk van type vordering)</p>",
+          "$ref": "#/definitions/datum"
+        },
+        "titel": {
+          "description": "<p>Een vordering moet een executoriale titel hebben verkregen om tijdens escalatie een dwangbevel uit te leveren.</p><p>Als de debiteur in gebreke blijft bij het aflossen start de interventieladder. Voor het uitgeven van een dwangbevel of het overgeven van de vordering naar een deurwaarder is een executoriale titel nodig. Bij een reguliere vordering moet je hiervoor naar de rechter. Bij een krediethyptheek, verhaal (in het kader van onderhoudsplicht) of leenbijstand is dit niet nodig. Vorderingen die hieruit ontstaan hebben al een titel.</p><br/><p>Overigens, een executoriale titel is een afschrift van een rechterlijk vonnis, opgemaakt in een speciale vorm zodat de gerechtsdeurwaarder het vonnis ten uitvoer kan leggen. Een vonnis in executoriale vorm begint altijd met de woorden &quot;In naam des Konings&quot;.</p><br/><p>Er is een keuze gemaakt om Titel als attribuut op te nemen bij de Vordering. Alternatief zou zijn om Titel als zelfstandig concept te verbinden aan Vordering. Dat biedt dan mogelijkheden om extra Titel specifieke kenmerken vast te leggen, bijvoorbeeld de datum van het rechterlijke vonnis. Hier is om de volgende redenen niet voor gekozen.</p><ul>                              </ul>",
+          "$ref": "#/definitions/stdIndJN"
+        },
+        "aflossing": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief identificerend kenmerk van de aflossing.",
+                "$ref": "#/definitions/guid"
+              },
+              "boekingsdatum": {
+                "description": "<p>De datum waarop de aflossing is geboekt.</p><p>Een boekingsdatum (ook wel boekdatum) isde datum waarop een bepaalde financi�le gebeurtenis in de boekhouding wordt ingevoerd.</p>",
+                "$ref": "#/definitions/datum"
+              },
+              "bedrag": {
+                "description": "Het bij de aflossing gemoeide bedrag, dat is geboekt.",
+                "$ref": "#/definitions/geldbedrag"
+              },
+              "ontvangstdatum": {
+                "description": "De datum waarop de aflossing is ontvangen.",
+                "$ref": "#/definitions/datum"
+              },
+              "aflossingskenmerk": {
+                "description": "Met de klant is afgesproken dat hij bij de aflossing een kenmerk meegeeft. Dit is opgenomen in de betreffende afspraak in het aflossingsplan. Het kenmerk is nodig voor de juiste boeking van de aflossing. ",
+                "$ref": "#/definitions/tekst"
+              }
+            }
+          }
+        },
+        "afschrijving": {
+          "type":"object",
+          "properties": {
+            "id": {
+              "description": "Een administratief identificerend kenmerk.",
+              "$ref": "#/definitions/guid"
+            },
+            "aanmaakdatum": {
+              "description": "De datum waarop het uitstel is aangemaakt.",
+              "$ref": "#/definitions/datum"
+            },
+            "redenAfschrijving": {
+              "description": "De reden van de afschrijving van de vordering. Hiervan is een uitgewerkte lijst van opties",
+              "$ref": "#/definitions/defaultEnumeratie"
+            }
+          }
+        },
+        "correctie": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief identificerend kenmerk van de vorderingscomponent.",
+                "$ref": "#/definitions/guid"
+              },
+              "boekingsdatum": {
+                "description": "<p>De boekingsdatum van de correctie.</p><p>Een boekingsdatum (ook wel boekdatum) is de datum waarop een bepaalde financi�le gebeurtenis in de boekhouding wordt ingevoerd.</p>",
+                "$ref": "#/definitions/datum"
+              },
+              "bedrag": {
+                "description": "Het bedrag waarmee de vordering wordt gecorrigeerd.",
+                "$ref": "#/definitions/geldbedrag"
+              },
+              "reden": {
+                "description": "Reden waarom de vordering wordt gecorrigeerd. Bijvoorbeeld na een bezwaar of afschrijving omdat de vordering te lang oninbaar is geweest.",
+                "$ref": "#/definitions/tekst"
+              }
+            }
+          }
+        },
+        "kwijtschelding": {
+          "type":"object",
+          "properties": {
+            "id": {
+              "description": "Een administratief identificerend kenmerk",
+              "$ref": "#/definitions/guid"
+            },
+            "boekingsdatum": {
+              "description": "<p>De boekingsdatum van de kwijtschelding.</p><p>Een boekingsdatum (ook wel boekdatum) is de datum waarop een bepaalde financi�le gebeurtenis in de boekhouding wordt ingevoerd.</p>",
+              "$ref": "#/definitions/datum"
+            },
+            "bedrag": {
+              "description": "Het bedrag dat wordt kwijtgescholden",
+              "$ref": "#/definitions/geldbedrag"
+            },
+            "reden": {
+              "description": "Reden waarom de vordering wordt kwijtgescholden.",
+              "$ref": "#/definitions/redenKwijtscheldingVordering"
+            }
+          }
+        },
+        "restitutie": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief identificerend kenmerk van de restitutie.",
+                "$ref": "#/definitions/guid"
+              },
+              "boekingsdatum": {
+                "description": "<p>De boekingsdatum van de restitutie.</p><p>Een boekingsdatum (ook wel boekdatum) is de datum waarop een bepaalde financi�le gebeurtenis in de boekhouding wordt ingevoerd.</p>",
+                "$ref": "#/definitions/datum"
+              },
+              "bedrag": {
+                "description": "Het bedrag, dat wordt geboekt bij de restitutie.",
+                "$ref": "#/definitions/geldbedrag"
+              },
+              "betaaldatum": {
+                "description": "De datum waarop de restitutie is betaald aan de debiteur.",
+                "$ref": "#/definitions/datum"
+              }
+            }
+          }
+        },
+        "verminderingTerugvordering": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief identificerend kenmerk van de vermindering.",
+                "$ref": "#/definitions/guid"
+              },
+              "boekingsdatum": {
+                "description": "<p>De boekingsdatum van de vermindering op de vordering.</p><p>Een boekingsdatum (ook wel boekdatum) is de datum waarop een bepaalde financi�le gebeurtenis in de boekhouding wordt ingevoerd.</p>",
+                "$ref": "#/definitions/datum"
+              },
+              "bedrag": {
+                "description": "Het bedrag waarmee de vordering wordt verminderd.",
+                "$ref": "#/definitions/geldbedrag"
+              },
+              "vaststeldatum": {
+                "description": "De datum waarop is vastgesteld dat de vordering moet worden verminderd met een zeker bedrag.",
+                "$ref": "#/definitions/datum"
+              },
+              "verminderingtype": {
+                "description": "<p>Het type vermindering op de vordering.</p><p>Meestal is dit financieel. Dit is echter een vrij veld waarin men een nadere duiding kan geven wat voor type vermindering het betreft. Er zal uiteindelijk worden gestreefd naar een aftelbare lijst van mogelijkheden.</p>",
+                "$ref": "#/definitions/verminderingtype"
+              },
+              "motivatieVermindering": {
+                "description": "De motivatie van de vermindering. Waarom de vordering wordt verminderd.",
+                "$ref": "#/definitions/tekst"
+              }
+            }
+          }
+        },
+        "vorderingscomponent": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief uniek identificerend kenmerk, meestal betekenisloos.",
+                "$ref": "#/definitions/guid"
+              },
+              "priotype": {
+                "description": "<p>De prioriteit in de toewijzing van boekingen van aflossingen op een vordering naar vorderingscomponenten. De prioriteit is zodanig dat de vorderingscomponenten kunnen worden geordend op volgorde.</p><br/><p>                              </p><p>De prioriteit wordt meestal volgens de volgende regels bepaald:</p><ul>                              </ul><br/>",
+                "$ref": "#/definitions/priotype"
+              },
+              "periodeStartdatum": {
+                "description": "<p>De startdatum van de periode waarop de vorderingscomponent van toepassing is.</p><br/>",
+                "$ref": "#/definitions/datum"
+              },
+              "periodeEinddatum": {
+                "description": "De einddatum van de periode waarop de vorderingscomponent van toepassing is.",
+                "$ref": "#/definitions/datum"
+              },
+              "rechtmaand": {
+                "type":"array",
+                "items": {
+                  "type":"object",
+                  "properties": {
+                    "id": {
+                      "description": "Een administratief identificerend kenmerk van de rechtmaand.",
+                      "$ref": "#/definitions/guid"
+                    },
+                    "jaar": {
+                      "description": "Het jaar waarin de rechtmaand valt aangeduid met vier cijfers.",
+                      "$ref": "#/definitions/getal_Jaar"
+                    },
+                    "maand": {
+                      "description": "De maand aangeduid met een getal van de zoveelste maand uit het jaar.",
+                      "$ref": "#/definitions/getal_Maand"
+                    },
+                    "boekjaar": {
+                      "description": "<p>Het jaar waarin de rechtmaand is geboekt.</p><p>Dit heeft overlap met boekingsdatum. </p>",
+                      "$ref": "#/definitions/getal_Jaar"
+                    },
+                    "betaalcomponent": {
+                      "type":"array",
+                      "items": {
+                        "type":"object",
+                        "properties": {
+                          "id": {
+                            "description": "Een administratief uniek identificerend kenmerk, meestal betekenisloos.",
+                            "$ref": "#/definitions/guid"
+                          },
+                          "boekingsdatum": {
+                            "description": "<p>De datum waarop de rechtmaand is geboekt.</p><p>Een boekingsdatum (ook wel boekdatum) is de datum waarop een bepaalde financi�le gebeurtenis in de boekhouding wordt ingevoerd.</p>",
+                            "$ref": "#/definitions/datum"
+                          },
+                          "bedrag": {
+                            "description": "Het bedrag dat geboekt in de rechtmaand.",
+                            "$ref": "#/definitions/geldbedrag"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "boeteVordering": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief identificerend kenmerk van de vordering.",
+                "$ref": "#/definitions/guid"
+              }
+            }
+          }
+        },
+        "krediethypotheekvordering": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief identificerend kenmerk van de vordering.",
+                "$ref": "#/definitions/guid"
+              }
+            }
+          }
+        },
+        "leenbijstand": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief identificerend kenmerk van de aflossing.",
+                "$ref": "#/definitions/guid"
+              },
+              "boekingsdatum": {
+                "description": "<p>De datum waarop de aflossing is geboekt.</p><p>Een boekingsdatum (ook wel boekdatum) isde datum waarop een bepaalde financi�le gebeurtenis in de boekhouding wordt ingevoerd.</p>",
+                "$ref": "#/definitions/datum"
+              },
+              "bedrag": {
+                "description": "Het bij de aflossing gemoeide bedrag, dat is geboekt.",
+                "$ref": "#/definitions/geldbedrag"
+              },
+              "ontvangstdatum": {
+                "description": "De datum waarop de aflossing is ontvangen.",
+                "$ref": "#/definitions/datum"
+              },
+              "aflossingskenmerk": {
+                "description": "Met de klant is afgesproken dat hij bij de aflossing een kenmerk meegeeft. Dit is opgenomen in de betreffende afspraak in het aflossingsplan. Het kenmerk is nodig voor de juiste boeking van de aflossing. ",
+                "$ref": "#/definitions/tekst"
+              }
+            }
+          }
+        },
+        "renteIncassokostenVordering": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief identificerend kenmerk van de vordering.",
+                "$ref": "#/definitions/guid"
+              }
+            }
+          }
+        },
+        "verrekening": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief identificerend kenmerk van de verrekening.",
+                "$ref": "#/definitions/guid"
+              }
+            }
+          }
+        },
+        "verwijtbareVordering": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een administratief identificerend kenmerk van de vordering.",
+                "$ref": "#/definitions/guid"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "guid": {
+      "type": "string",
+      "pattern": "^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$"
+    },
+    "tekst": {
+      "type": "string"
+    },
+    "datum": {
+      "type": "string"
+    },
+    "codeSoortDebiteur": {
+      "type": "object",
+      "enum": [
+        { "code": "0", "name": "Hoofddebiteur" },
+        { "code": "1", "name": "Zuivere mededebiteur" },
+        { "code": "2", "name": "Meeprofiterende partner" }
+      ]
+    },
+    "geldbedrag": {
+      "type": "number",
+      "pattern": "^-?[0-9]((;|,|\\.)[0-9]{2}|)$"
+    },
+    "cdPeriode": {
+      "type": "object",
+      "enum": [
+        { "code": "-1", "name": "Niet van toepassing" },
+        { "code": "0", "name": "Geen" },
+        { "code": "1", "name": "Incidenteel" },
+        { "code": "2", "name": "Eenmalig" },
+        { "code": "3", "name": "Minuut" },
+        { "code": "4", "name": "Uur" },
+        { "code": "5", "name": "Dag" },
+        { "code": "6", "name": "Week" },
+        { "code": "7", "name": "2 weken" },
+        { "code": "8", "name": "4 weken" },
+        { "code": "9", "name": "Maand" },
+        { "code": "10", "name": "5 weken" },
+        { "code": "11", "name": "13 weken" },
+        { "code": "12", "name": "Kwartaal" },
+        { "code": "13", "name": "Halfjaar" },
+        { "code": "14", "name": "52 weken" },
+        { "code": "15", "name": "Jaar" },
+        { "code": "90", "name": "Overig" }
+      ]
+    },
+    "stdIndJN": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ja" },
+        { "code": "2", "name": "Nee" }
+      ]
+    },
+    "defaultEnumeratie": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Nader te bepalen" },
+        { "code": "2", "name": "Nader te bepalen" },
+        { "code": "etc...", "name": "Nader te bepalen" }
+      ]
+    },
+    "codeTypeInvorderingsmogelijkheid": {
+      "type": "object",
+      "enum": [
+        { "code": "Vb", "name": "Voertuigenbezit" },
+        { "code": "HR", "name": "Inschrijving handelsregister" },
+        { "code": "I", "name": "Inkomsten" },
+        { "code": "WB", "name": "Woningbezit" },
+        { "code": "PosBS", "name": "Positief banksaldo" },
+        { "code": "CAB", "name": "Crypto/Aandelenbezit" }
+      ]
+    },
+    "verwerkingsstatus": {
+      "type": "object",
+      "enum": [
+        { "code": "A", "name": "In bewerking" },
+        { "code": "B", "name": "Ingediend" },
+        { "code": "C", "name": "In behandeling" },
+        { "code": "D", "name": "Behandeld" }
+      ]
+    },
+    "categorieVorderingCBS": {
+      "type": "object",
+      "enum": [
+        { "code": "C-01", "name": "Overtreding inlichtingenplicht: verzwijgen witte inkomsten" },
+        { "code": "C-02", "name": "Overtreding inlichtingenplicht: verzwijgen zwarte inkomsten" },
+        { "code": "C-03", "name": "Overtreding inlichtingenplicht: verzwijgen vermogen en/of inkomsten uit vermogen" },
+        { "code": "C-04", "name": "Overtreding inlichtingenplicht: onjuiste opgave woonadres" },
+        { "code": "C-05", "name": "Overtreding inlichtingenplicht: onjuiste opgave samenstelling huishouden" },
+        { "code": "C-06", "name": "Andere overtreding inlichtingenplicht" },
+        { "code": "C-07", "name": "Onverschuldigde betaling" },
+        { "code": "C-08", "name": "Boete wegens overtreding inlichtingenplicht met benadelingsbedrag" },
+        { "code": "C-09", "name": "Boete wegens overtreding inlichtingenplicht zonder benadelingsbedrag" },
+        { "code": "C-10", "name": "Lening" },
+        { "code": "C-11", "name": "Krediethypotheek" },
+        { "code": "C-12", "name": "Verhaal op onderhoudsplichtige voor kind" },
+        { "code": "C-13", "name": "Verhaal op onderhoudsplichtige voor ex-partner" },
+        { "code": "C-14", "name": "Rente en incassokosten" },
+        { "code": "C-15", "name": "Overige vorderingen" }
+      ]
+    },
+    "subCategorieVordering": {
+      "type": "object",
+      "enum": [
+        { "code": "C-01/1", "name": "Verwijtbare vordering witte inkomsten" },
+        { "code": "C-01/2", "name": "Verwijtbare vordering bijzonder bijstand witte inkomsten" },
+        { "code": "C-01/3", "name": "Verwijtbare vordering Ioaw" },
+        { "code": "C-01/4", "name": "Verwijtbare vordering Ioaz" },
+        { "code": "C-02/1", "name": "Verwijtbare vordering zwarte inkomsten" },
+        { "code": "C-02/2", "name": "Verwijtbare vordering bijzonder bijstand inkomsten" },
+        { "code": "C-02/3", "name": "Verwijtbare vordering Ioaw" },
+        { "code": "C-02/4", "name": "Verwijtbare vordering Ioaz" },
+        { "code": "C-03/1", "name": "Verwijtbare vordering vermogen" },
+        { "code": "C-03/2", "name": "Verwijtbare vordering bijzonder bijstand vermogen" },
+        { "code": "C-03/3", "name": "Verwijtbare vordering Ioaw" },
+        { "code": "C-03/4", "name": "Verwijtbare vordering Ioaz" },
+        { "code": "C-04/1", "name": "Verwijtbare vordering onjuiste opgave woonadres" },
+        { "code": "C-04/2", "name": "Verwijtbare vordering bijzonder bijstand onjuiste opgave woonadres" },
+        { "code": "C-04/3", "name": "Verwijtbare vordering Ioaw" },
+        { "code": "C-04/4", "name": "Verwijtbare vordering Ioaz" },
+        { "code": "C-05/1", "name": "Verwijtbare vordering samenstelling huishouden" },
+        { "code": "C-05/2", "name": "Verwijtbare vordering bijzonder bijstand samenstelling huishouden" },
+        { "code": "C-05/3", "name": "Verwijtbare vordering Ioaw" },
+        { "code": "C-05/4", "name": "Verwijtbare vordering Ioaz" },
+        { "code": "C-06/1", "name": "Verwijtbare vordering overig" },
+        { "code": "C-06/2", "name": "Verwijtbare vordering bijzonder bijstand overig" },
+        { "code": "C-06/3", "name": "Verwijtbare vordering Ioaw" },
+        { "code": "C-06/4", "name": "Verwijtbare vordering Ioaz" },
+        { "code": "C-07/1", "name": "Niet verwijtbare vordering PW" },
+        { "code": "C-07/2", "name": "Niet verwijtbare vordering bijzonder bijstand" },
+        { "code": "C-07/3", "name": "Niet verwijtbare vordering Ioaw" },
+        { "code": "C-07/4", "name": "Niet verwijtbare vordering Ioaz" },
+        { "code": "C-08/1", "name": "Boete algemene bijstand met benadelingsbedrag" },
+        { "code": "C-08/2", "name": "Boete bijzondere bijstand met benadelingsbedrag" },
+        { "code": "C-09/1", "name": "Boete algemene bijstand zonder benadelingsbedrag" },
+        { "code": "C-09/2", "name": "Boete bijzondere bijstand zonder benadelingsbedrag" },
+        { "code": "C-10/1", "name": "Geldlening" },
+        { "code": "C-10/2", "name": "Voorschot" },
+        { "code": "C-11/1", "name": "Krediethypotheek" },
+        { "code": "C-12/1", "name": "Alimentatie kind" },
+        { "code": "C-12/2", "name": "Verhaalsbijdrage kind" },
+        { "code": "C-12/3", "name": "Verhaalsbijdrage jongmeerderjarige" },
+        { "code": "C-13/1", "name": "Alimentatie ex-partner" },
+        { "code": "C-13/2", "name": "Verhaalsbijdrage ex-partner" },
+        { "code": "C-14/1", "name": "Incassokosten deurwaarder" },
+        { "code": "C-14/2", "name": "Incassokosten civiel" },
+        { "code": "C-14/3", "name": "Kosten derdenbeslag" },
+        { "code": "C-14/4", "name": "Kosten dwangbevel" },
+        { "code": "C-15/1", "name": "Verhaal op nalatenschap" },
+        { "code": "C-15/2", "name": "Verhaal op schenkingen" },
+        { "code": "C-15/3", "name": "Declaratie UWV" },
+        { "code": "C-15/4", "name": "Declaratie SVB" },
+        { "code": "C-15/5", "name": "Vordering Tozo voorschot (voor ondernemers)" },
+        { "code": "C-15/6", "name": "Bedrijfskrediet Bbz" },
+        { "code": "C-15/7", "name": "bedrijfskrediet Bbz gevestigde" },
+        { "code": "C-15/8", "name": "bedrijfskrediet Bbz starter" },
+        { "code": "C-15/9", "name": "Bedrijfskrediet Bbz renteloos" }
+      ]
+    },
+    "priotype": {
+      "type": "string"
+    },
+    "regeling": {
+      "type": "object",
+      "enum": [
+        { "code": "PW", "name": "Participatiewet" },
+        { "code": "IAOW", "name": "IAOW" },
+        { "code": "IAOZ", "name": "IAOZ" },
+        { "code": "BW", "name": "BW" },
+        { "code": "NVT", "name": "Niet van toepassing" }
+      ]
+    },
+    "getal_Jaar": {
+      "type": "integer",
+      "pattern": "^[1-2]{1}[0-9]{3}$"
+    },
+    "getal_Maand": {
+      "type": "integer",
+      "pattern": "^([1-9]{1}|1[0-2]{1})$"
+    },
+    "getal": {
+      "type": "integer",
+      "pattern": "^-?[0-9]{1,}$"
+    },
+    "redenKwijtscheldingVordering": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Beleid - Nette betaling gedurende afgesproken periode" },
+        { "code": "2", "name": "Beleid - Overig" },
+        { "code": "3", "name": "Ambtshalve" },
+        { "code": "4", "name": "Externe reden (schuldsanering)" }
+      ]
+    },
+    "verminderingtype": {
+      "type": "string"
+    },
+    "integer": {
+      "type": "string",
+      "pattern": "(^-|^)(0|[1-9][0-9]*)$"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "(^-|^+|^)(0|[1-9][0-9]+)($|,[0-9][0-9]$)"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^(http://|https://).*"
+    },
+    "datumTijd": {
+      "type": "string",
+      "pattern": "^([0-2][0-9]|3[0-1]|[1-9])-(0[1-9]|[1-9]|1[0-2])-(19|20)[0-9][0-9] T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]"
+    }
+  }
+}

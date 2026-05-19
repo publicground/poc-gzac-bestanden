@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1emkajz" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+  <bpmn:collaboration id="Collaboration_1o6jarv">
+    <bpmn:participant id="BSBGenererenRapportageParticipant" name="BSB Genereren rapportage" processRef="bsb-genereren-rapportage" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-genereren-rapportage" name="BSB genereren rapportage" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_11wwbvk" sourceRef="StartEvent_1" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_1n4rc6f" sourceRef="OphalenInputTask" targetRef="Activity_0xpdftw" />
+    <bpmn:sequenceFlow id="Flow_0a9zioa" sourceRef="BSGenererenRapportageCallActivity" targetRef="WegschrijvenOutputTask" />
+    <bpmn:sequenceFlow id="Flow_0ivqoxk" sourceRef="WegschrijvenOutputTask" targetRef="Event_1ap129m" />
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_11wwbvk</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="OphalenInputTask" name="Ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="zaakstatus">Beslist</camunda:outputParameter>
+          <camunda:outputParameter name="interneStatus">beslist</camunda:outputParameter>
+          <camunda:outputParameter name="brpPersoonsgegevensInfo">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager")}</camunda:outputParameter>
+          <camunda:outputParameter name="templateKey">dossier-rapportage-alo</camunda:outputParameter>
+          <camunda:outputParameter name="gegevensVaststelling">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling")}</camunda:outputParameter>
+          <camunda:outputParameter name="zaaknummer">${valueResolverDelegateService.resolveValue(execution, "doc:/openzaak/identificatie")}</camunda:outputParameter>
+          <camunda:outputParameter name="besluiten">${valueResolverDelegateService.resolveValue(execution, "doc:/besluiten")}</camunda:outputParameter>
+          <camunda:outputParameter name="rapportageType">dossierRapportage</camunda:outputParameter>
+          <camunda:outputParameter name="dossierType">${valueResolverDelegateService.resolveValue(execution, "case:definitionId.name")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_11wwbvk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1n4rc6f</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0y9140h" sourceRef="Activity_0xpdftw" targetRef="BSGenererenRapportageCallActivity" />
+    <bpmn:scriptTask id="Activity_0xpdftw" name="Perpareer vermogen" scriptFormat="javascript" camunda:resultVariable="vermogensComponenten">
+      <bpmn:incoming>Flow_1n4rc6f</bpmn:incoming>
+      <bpmn:outgoing>Flow_0y9140h</bpmn:outgoing>
+      <bpmn:script>var HashMap = Java.type("java.util.HashMap");
+var ArrayList = Java.type("java.util.ArrayList");
+
+var gegevensVaststelling = execution.getVariable("gegevensVaststelling");
+var bankrekeningen              = new ArrayList();
+var bezittingenMetVrijlating    = new ArrayList();
+var bezittingenZonderVrijlating = new ArrayList();
+var vastgesteldeSchuld          = new ArrayList();
+var vastgesteldeEigenWoning     = new ArrayList();
+var subTotaalBezittingenMetVrijlating = 0;
+var subTotaalBezittingenMZonderVrijlating = 0;
+var vrijlatingBezittingenMetVrijlating = 0;
+var vrijlatingBezittingenMZonderVrijlating = 0;
+
+function toJavaList(jsArray) {
+    var list = new ArrayList();
+    if (jsArray &amp;&amp; jsArray.length &gt; 0) {
+        for (var i = 0; i &lt; jsArray.length; i++) {
+            list.add(jsArray[i]);
+        }
+    }
+    return list;
+}
+
+if (gegevensVaststelling?.vermogen?.vermogenGroepen != null) {
+    var groepen = gegevensVaststelling.vermogen.vermogenGroepen;
+
+    bankrekeningen = toJavaList(groepen.filter(c =&gt; c.commentaar === "Bankrekeningen"));
+
+    bezittingenMetVrijlating = toJavaList(groepen.filter(c =&gt; c.commentaar === "Bezittingen met vrijlatingen"));
+    let bmv = groepen.filter(c =&gt; c.commentaar === "Bezittingen met vrijlatingen");
+    if(bmv.length &gt; 0) {
+        subTotaalBezittingenMetVrijlating = bmv[0]?.brutoSubtotaal;
+        vrijlatingBezittingenMetVrijlating = bmv[0]?.vrijlating;
+    }
+
+    bezittingenZonderVrijlating = toJavaList(groepen.filter(c =&gt; c.commentaar === "Overige bezittingen"));
+
+    let bzv = groepen.filter(c =&gt; c.commentaar === "Overige bezittingen");
+    if(bzv.length &gt; 0) {
+        subTotaalBezittingenMZonderVrijlating = bzv[0]?.brutoSubtotaal;
+        vrijlatingBezittingenMZonderVrijlating = bzv[0]?.vrijlating;
+    }
+
+    vastgesteldeSchuld = toJavaList(groepen.filter(c =&gt; c.commentaar === "Schulden"));
+
+    vastgesteldeEigenWoning = toJavaList(groepen.filter(c =&gt; c.commentaar === "Eigen woning"));
+
+    
+}
+
+var vermogensComponenten = new HashMap();
+vermogensComponenten.put("bankrekeningen",              bankrekeningen);
+vermogensComponenten.put("bezittingenMetVrijlating",    bezittingenMetVrijlating);
+vermogensComponenten.put("bezittingenZonderVrijlating", bezittingenZonderVrijlating);
+vermogensComponenten.put("vastgesteldeSchuld",          vastgesteldeSchuld);
+vermogensComponenten.put("vastgesteldeEigenWoning",     vastgesteldeEigenWoning);
+vermogensComponenten.put("subTotaalBezittingenMetVrijlating",     subTotaalBezittingenMetVrijlating);
+vermogensComponenten.put("vrijlatingBezittingenMetVrijlating",     vrijlatingBezittingenMetVrijlating);
+vermogensComponenten.put("subTotaalBezittingenMZonderVrijlating",     subTotaalBezittingenMZonderVrijlating);
+vermogensComponenten.put("vrijlatingBezittingenMZonderVrijlating",     vrijlatingBezittingenMZonderVrijlating);
+
+vermogensComponenten;</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="Event_1ap129m">
+      <bpmn:incoming>Flow_0ivqoxk</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="WegschrijvenOutputTask" name="Wegschrijven output" camunda:asyncBefore="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0a9zioa</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ivqoxk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="BSGenererenRapportageCallActivity" name="BS genereren rapportage" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-genereren-rapportage">
+      <bpmn:extensionElements>
+        <camunda:in variables="all" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="brpPersoonsgegevensInfo" target="brpPersoonsgegevensInfo" />
+        <camunda:in source="templateKey" target="templateKey" />
+        <camunda:in source="gegevensVaststelling" target="gegevensVaststelling" />
+        <camunda:in source="zaaknummer" target="zaaknummer" />
+        <camunda:in source="besluiten" target="besluiten" />
+        <camunda:in source="rapportageType" target="rapportageType" />
+        <camunda:in source="vermogensComponenten" target="vermogensComponenten" />
+        <camunda:in source="dossierType" target="dossierType" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0y9140h</bpmn:incoming>
+      <bpmn:outgoing>Flow_0a9zioa</bpmn:outgoing>
+    </bpmn:callActivity>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1o6jarv">
+      <bpmndi:BPMNShape id="Participant_14cqkhe_di" bpmnElement="BSBGenererenRapportageParticipant" isHorizontal="true">
+        <dc:Bounds x="132" y="80" width="938" height="260" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="202" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0cyzfxz_di" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="310" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12i3trt_di" bpmnElement="Activity_0xpdftw">
+        <dc:Bounds x="470" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ap129m_di" bpmnElement="Event_1ap129m">
+        <dc:Bounds x="1002" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1xgj4fa" bpmnElement="WegschrijvenOutputTask">
+        <dc:Bounds x="820" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1fytrle_di" bpmnElement="BSGenererenRapportageCallActivity">
+        <dc:Bounds x="640" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_11wwbvk_di" bpmnElement="Flow_11wwbvk">
+        <di:waypoint x="238" y="210" />
+        <di:waypoint x="310" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1n4rc6f_di" bpmnElement="Flow_1n4rc6f">
+        <di:waypoint x="410" y="210" />
+        <di:waypoint x="470" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0a9zioa_di" bpmnElement="Flow_0a9zioa">
+        <di:waypoint x="740" y="210" />
+        <di:waypoint x="820" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ivqoxk_di" bpmnElement="Flow_0ivqoxk">
+        <di:waypoint x="920" y="210" />
+        <di:waypoint x="1002" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0y9140h_di" bpmnElement="Flow_0y9140h">
+        <di:waypoint x="570" y="210" />
+        <di:waypoint x="640" y="210" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

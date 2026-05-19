@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="bepaal-besluittype" name="ALO: Bepalen besluittype " namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.32.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <decision id="alo-bepalen-besluittype" name="ALO: Bepalen besluittype ">
+    <decisionTable id="DecisionTable_16rsvce">
+      <input id="Input_1" label="Besluit">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>besluit.genomenBesluit</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_07d6kuu" label="Besluittype" name="besluitType" typeRef="string" />
+      <rule id="DecisionRule_1f0rsy4">
+        <inputEntry id="UnaryTests_011c03u">
+          <text>"TOEGEKEND"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0zejpa8">
+          <text>"Toekenningsbesluit"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0gbj8x9">
+        <inputEntry id="UnaryTests_1ns97fn">
+          <text>"AFGEWEZEN"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ypptdw">
+          <text>"Afwijzingsbesluit"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1t1pnnk">
+        <inputEntry id="UnaryTests_02djno9">
+          <text>"BUITEN_BEHANDELING_GESTELD" </text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0539sop">
+          <text>"Buiten behandeling gesteld"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ch9zvi">
+        <inputEntry id="UnaryTests_1d350z1">
+          <text>"INGETROKKEN"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_01fhw68">
+          <text>"Intrekking"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="alo-bepalen-besluittype">
+        <dc:Bounds height="80" width="180" x="160" y="90" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

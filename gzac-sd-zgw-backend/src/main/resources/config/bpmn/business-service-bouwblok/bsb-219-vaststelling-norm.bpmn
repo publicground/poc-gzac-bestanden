@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0y9t2as" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_17rouow">
+    <bpmn:participant id="Bsb219VaststellingNormParticipant" name="BSB 219 vaststelling norm" processRef="bsb-219-vaststelling-norm" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-219-vaststelling-norm" name="BSB 219 vaststelling norm" isExecutable="true">
+    <bpmn:startEvent id="Event_0erbzwt" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1w37bv3</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_05pfse5" sourceRef="OphalenInputTask" targetRef="Bs219VaststellingNormCallActivity" />
+    <bpmn:sequenceFlow id="Flow_1o3lr75" sourceRef="Bs219VaststellingNormCallActivity" targetRef="WegschrijvenOutputTask" />
+    <bpmn:sequenceFlow id="Flow_0mvoolb" sourceRef="WegschrijvenOutputTask" targetRef="NormVastgesteldEndEvent" />
+    <bpmn:sequenceFlow id="Flow_1w37bv3" sourceRef="Event_0erbzwt" targetRef="OphalenInputTask" />
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="isNormVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/bs219norm/normVastgesteld")}</camunda:inputParameter>
+          <camunda:inputParameter name="aantalBelanghebbende">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/leefEnWoonsituatie/aantalBelanghebbende")}</camunda:inputParameter>
+          <camunda:inputParameter name="rechtOpBijstandAanvrager">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs213verblijfstitel/rechtOpBijstand")}</camunda:inputParameter>
+          <camunda:inputParameter name="rechtOpBijstandPartner">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenPartner/bs213verblijfstitel/rechtOpBijstand")}</camunda:inputParameter>
+          <camunda:inputParameter name="isRelatieVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs216relaties/relatieVastgesteld")}</camunda:inputParameter>
+          <camunda:outputParameter name="geboortedatumAanvrager">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/aanvrager/geboortedatum")}</camunda:outputParameter>
+          <camunda:outputParameter name="geboortedatumPartner">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/partner/geboortedatum")}</camunda:outputParameter>
+          <camunda:outputParameter name="peildatum">${valueResolverDelegateService.resolveValue(execution, "case:createdOn")}</camunda:outputParameter>
+          <camunda:outputParameter name="relaties">${isRelatieVastgesteld ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/relaties") : valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/aanvrager/relaties")}</camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldeWoonsitutatie">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/woonsituatie/woonsituatie")}</camunda:outputParameter>
+          <camunda:outputParameter name="aantalBelanghebbende">${aantalBelanghebbende}</camunda:outputParameter>
+          <camunda:outputParameter name="tenlasteKomendeKinderen">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/leefEnWoonsituatie/tenlasteKomendeKinderen")}</camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldeLeefsituatie">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/leefsituatie/leefsituatie")}</camunda:outputParameter>
+          <camunda:outputParameter name="leeftijdJongsteBelanghebbende">${geboortedatumAanvrager != null &amp;&amp; 
+  (geboortedatumPartner == null || 
+    dateTime().parse(geboortedatumAanvrager).isAfter(dateTime().parse(geboortedatumPartner))
+  ) ? geboortedatumAanvrager : geboortedatumPartner}</camunda:outputParameter>
+          <camunda:outputParameter name="leeftijdOudsteBelanghebbende">${(geboortedatumPartner == null || aantalBelanghebbende &lt; 2)
+  ? null  :  (geboortedatumPartner != null &amp;&amp; dateTime().parse(geboortedatumAanvrager).isBefore(dateTime().parse(geboortedatumPartner))  
+    ? geboortedatumAanvrager : geboortedatumPartner)}</camunda:outputParameter>
+          <camunda:outputParameter name="aantalKostendelers">
+            <camunda:script scriptFormat="javascript">var list = execution.getVariable("relaties") || [];
+
+    var count = 0;
+    for (var i = 0; i &lt; list.length; i++) {
+      var item = list[i];
+      if (item.indicatieKostendeler === true) {
+        count++;
+      }
+    }
+
+result = count;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="aantalRechthebbenden">
+            <camunda:script scriptFormat="javascript">var rechtAanvrager = execution.getVariable("rechtOpBijstandAanvrager");
+var rechtPartner = execution.getVariable("rechtOpBijstandPartner");
+
+var count = 0;
+
+rechtAanvrager ? count++ : count;
+rechtPartner ? count++ : count;
+//result
+count</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1w37bv3</bpmn:incoming>
+      <bpmn:outgoing>Flow_05pfse5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="Bs219VaststellingNormCallActivity" name="bs 219 vaststelling norm" camunda:asyncAfter="true" calledElement="bs-219-vaststelling-norm">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="aantalRechthebbenden" target="aantalRechthebbenden" />
+        <camunda:in source="aantalKostendelers" target="aantalKostendelers" />
+        <camunda:in source="geboortedatumAanvrager" target="geboortedatumAanvrager" />
+        <camunda:in source="geboortedatumPartner" target="geboortedatumPartner" />
+        <camunda:in source="peildatum" target="peildatum" />
+        <camunda:in source="vastgesteldeWoonsitutatie" target="vastgesteldeWoonsitutatie" />
+        <camunda:in source="leeftijdJongsteBelanghebbende" target="leeftijdJongsteBelanghebbende" />
+        <camunda:in source="aantalBelanghebbende" target="aantalBelanghebbende" />
+        <camunda:in source="leeftijdOudsteBelanghebbende" target="leeftijdOudsteBelanghebbende" />
+        <camunda:in source="tenlasteKomendeKinderen" target="tenlasteKomendeKinderen" />
+        <camunda:in source="vastgesteldeLeefsituatie" target="vastgesteldeLeefsituatie" />
+        <camunda:in variables="all" />
+        <camunda:out source="vastgesteldeKostendelersnorm" target="vastgesteldeKostendelersnorm" />
+        <camunda:out source="vastgesteldKostendelersNormbedrag" target="vastgesteldKostendelersNormbedrag" />
+        <camunda:out source="kostendelersfactor" target="kostendelersfactor" />
+        <camunda:out source="vastgesteldeKostendelersnormPartner" target="vastgesteldeKostendelersnormPartner" />
+        <camunda:out source="vastgesteldKostendelersNormbedragPartner" target="vastgesteldKostendelersNormbedragPartner" />
+        <camunda:out source="kostendelersfactorPartner" target="kostendelersfactorPartner" />
+        <camunda:out source="vastgesteldeBasisnorm" target="vastgesteldeBasisnorm" />
+        <camunda:out source="vastgesteldNormbedrag" target="vastgesteldNormbedrag" />
+        <camunda:out source="vastgesteldKostendelersNormbedragGezamenlijk" target="vastgesteldKostendelersNormbedragGezamenlijk" />
+        <camunda:out source="aantalRechthebbenden" target="aantalRechthebbenden" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_05pfse5</bpmn:incoming>
+      <bpmn:outgoing>Flow_1o3lr75</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="WegschrijvenOutputTask" name="wegschrijven output" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/additioneleVeldenAanvraag/bs219norm&#34;, norm)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="norm">
+            <camunda:map>
+              <camunda:entry key="datumVastgesteld">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="normVastgesteld">${true}</camunda:entry>
+              <camunda:entry key="isHandmatigBeoordeeld">${false}</camunda:entry>
+              <camunda:entry key="basisnorm">${vastgesteldeBasisnorm}</camunda:entry>
+              <camunda:entry key="normbedrag">${vastgesteldNormbedrag}</camunda:entry>
+              <camunda:entry key="kostendelersnorm">${vastgesteldeKostendelersnorm}</camunda:entry>
+              <camunda:entry key="kostendelersfactor">${kostendelersfactor}</camunda:entry>
+              <camunda:entry key="kostendelersNormbedrag">${vastgesteldKostendelersNormbedrag}</camunda:entry>
+              <camunda:entry key="kostendelersnormPartner">${vastgesteldeKostendelersnormPartner}</camunda:entry>
+              <camunda:entry key="kostendelersfactorPartner">${kostendelersfactorPartner}</camunda:entry>
+              <camunda:entry key="kostendelersNormbedragPartner">${vastgesteldKostendelersNormbedragPartner}</camunda:entry>
+              <camunda:entry key="kostendelersNormbedragGezamenlijk">${vastgesteldKostendelersNormbedragGezamenlijk}</camunda:entry>
+              <camunda:entry key="aantalRechthebbenden">${aantalRechthebbenden}</camunda:entry>
+              <camunda:entry key="aantalKostendelers">${aantalKostendelers}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1o3lr75</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mvoolb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="NormVastgesteldEndEvent" name="norm vastgesteld">
+      <bpmn:incoming>Flow_0mvoolb</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_17rouow">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="Bsb219VaststellingNormParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="81" width="730" height="279" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03xt9u9" bpmnElement="Event_0erbzwt">
+        <dc:Bounds x="232" y="183" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1up5yas" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="310" y="161" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_148mjo4" bpmnElement="Bs219VaststellingNormCallActivity">
+        <dc:Bounds x="460" y="161" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0nq17bw" bpmnElement="WegschrijvenOutputTask">
+        <dc:Bounds x="610" y="161" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1fus92s" bpmnElement="NormVastgesteldEndEvent">
+        <dc:Bounds x="772" y="183" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="750" y="226" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_0jk90aj" bpmnElement="Flow_05pfse5">
+        <di:waypoint x="410" y="201" />
+        <di:waypoint x="460" y="201" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_04pw74d" bpmnElement="Flow_1o3lr75">
+        <di:waypoint x="560" y="201" />
+        <di:waypoint x="610" y="201" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1iaac5w" bpmnElement="Flow_0mvoolb">
+        <di:waypoint x="710" y="201" />
+        <di:waypoint x="772" y="201" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1w37bv3_di" bpmnElement="Flow_1w37bv3">
+        <di:waypoint x="268" y="201" />
+        <di:waypoint x="310" y="201" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

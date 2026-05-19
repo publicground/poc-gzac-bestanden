@@ -1,0 +1,72 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "Aanvrager",
+            "key": "pv.gegevensVaststelling",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "soort aanvraag",
+            "key": "pv.dossierType",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Adres aanvrager",
+            "key": "pv.adresAanvrager",
+            "customDefaultValue": "value = ['ELDERS', 'DETENTIE'].includes(data.pv.gegevensVaststelling.aanvrager.woonsituatie) ? data.pv.gegevensVaststelling?.aanvrager?.verblijfadres : data.pv.gegevensVaststelling?.aanvrager?.adresBrp",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Adres partner",
+            "key": "pv.adresPartner",
+            "customDefaultValue": "value = data.pv.gegevensVaststelling.partner.woonsituatie === 'PARTNER_INWONEND' ? data.pv.adresAanvrager : data.pv.gegevensVaststelling?.partner?.verblijfadres",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Titel blok",
+            "content": "<h4>Controleer de aangemaakte dienst in Socrates en pas deze aan waar nodig.</h4>",
+            "refreshOnChange": false,
+            "customClass": "alert alert-primary",
+            "key": "titelBlok",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<section>\n  <div class=\"container\">\n     <dl class=\"row mb-0\">\n        <dd class=\"col-6\"><h5>Zaakdossiertype</h5></dd>\n        <dt class=\"col-6\">{{{ _.capitalize(_.replace(data.pv?.dossierType, /-/g, ' '))     || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">BSN Aanvrager</dd>\n        <dt class=\"col-6\">{{{ data.pv.gegevensVaststelling?.aanvrager?.bsn || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Naam Aanvrager</dd>\n        <dt class=\"col-6\">{{{ \n            [data.pv.gegevensVaststelling?.aanvrager?.voorletters, \n             data.pv.gegevensVaststelling?.aanvrager?.voorvoegsel, \n             data.pv.gegevensVaststelling?.aanvrager?.achternaam].join(' ') || '-' \n        }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Adres Aanvrager</dd>\n        <dt class=\"col-6\">{{{\n            [data.pv.adresAanvrager?.straatnaam, \n             data.pv.adresAanvrager?.huisnummer, \n             data.pv.adresAanvrager?.huisletter, \n             data.pv.adresAanvrager?.postcode, \n             data.pv.adresAanvrager?.huisnummertoevoeging].filter(Boolean).join(' ') + ' ' + \n             (data.pv.adresAanvrager?.woonplaatsnaam || '-') \n        }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Geboortedatum Aanvrager</dd>\n        <dt class=\"col-6\">{{{ data.pv.gegevensVaststelling?.aanvrager?.geboortedatum || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">BSN Partner</dd>\n        <dt class=\"col-6\">{{{ data.pv.gegevensVaststelling?.partner?.bsn || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Naam Partner</dd>\n        <dt class=\"col-6\">{{{ \n            [data.pv.gegevensVaststelling?.partner?.voorletters, \n             data.pv.gegevensVaststelling?.partner?.voorvoegsel, \n             data.pv.gegevensVaststelling?.partner?.achternaam].join(' ') || '-' \n        }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Adres Partner</dd>\n        <dt class=\"col-6\">{{{\n            [data.pv.adresPartner?.straatnaam, \n             data.pv.adresPartner?.huisnummer, \n             data.pv.adresPartner?.huisletter, \n             data.pv.adresPartner?.postcode, \n             data.pv.adresPartner?.huisnummertoevoeging].filter(Boolean).join(' ') + ' ' + \n             (data.pv.adresPartner?.woonplaatsnaam || '-') \n        }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Geboortedatum Partner</dd>\n        <dt class=\"col-6\">{{{ data.pv.gegevensVaststelling?.partner?.geboortedatum || '-' }}}</dt>\n    </dl>\n  </div>\n</section>\n",
+            "refreshOnChange": false,
+            "customClass": "no-border-around-formio-container",
+            "key": "html",
+            "type": "htmlelement",
+            "tableView": false,
+            "input": true
+        },
+        {
+            "label": "Dienst is gecontroleerd",
+            "key": "submit",
+            "type": "button",
+            "input": true,
+            "action": "custom",
+            "custom": "form.submit();",
+            "tableView": false,
+            "showValidations": false,
+            "disableOnInvalid": true
+        }
+    ]
+}

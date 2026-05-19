@@ -1,0 +1,127 @@
+{
+    "$id": "relatie.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Relatie",
+    "type": "object",
+    "properties": {
+        "isKindVan": {
+            "type": "string",
+            "enum": [
+                "AANVRAGER_EN_PARTNER",
+                "AANVRAGER",
+                "PARTNER"
+            ]
+        },
+        "voornamen": {
+            "type": "string"
+        },
+        "voorvoegsel": {
+            "type": "string"
+        },
+        "tussenvoegsel": {
+            "type": "string"
+        },
+        "voorletters": {
+            "type": "string"
+        },
+        "achternaam": {
+            "type": "string"
+        },
+        "geboortedatum": {
+            "type": "string"
+        },
+        "relatietype": {
+            "type": "string",
+            "enum": [
+                "partner",
+                "exPartner",
+                "ouderKind",
+                "kindOuder",
+                "medebewoner",
+                "algemeneRelatie"
+            ]
+        },
+        "woontOpHetzelfdeAdresAlsAanvrager": {
+            "type": "boolean"
+        },
+        "datumAanvangRelatie": {
+            "type": "string"
+        },
+        "datumEindeRelatie": {
+            "type": "string"
+        },
+        "redenEindeRelatie": {
+            "type": "string"
+        },
+        "indicatieGezamelijkeHuishouding": {
+            "type": "boolean"
+        },
+        "indicatieOnderhoudsplichtPartner": {
+            "type": "boolean"
+        },
+        "indicatieKinderbijslag": {
+            "type": "boolean"
+        },
+        "indicatieCoOuder": {
+            "type": "boolean"
+        },
+        "indicatieOnderhoudsplichtOuderKind": {
+            "type": "boolean"
+        },
+        "isKindEenMedebewoner": {
+            "type": "boolean"
+        },
+        "toelichtingRelatieTypeAnders": {
+            "type": "string"
+        },
+        "indicatieKostendeler": {
+            "type": "boolean"
+        },
+        "afgelopen2JaarPartnerGeweest": {
+            "type": "boolean"
+        },
+        "samenEenErkendKindHebben": {
+            "type": "boolean"
+        },
+        "samenlevingscontract": {
+            "type": "boolean"
+        },
+        "afgelopenTweeJaarEeeHuishouden": {
+            "type": "boolean"
+        },
+        "delenKostenHuur": {
+            "type": "boolean"
+        },
+        "delenVasteLasten": {
+            "type": "boolean"
+        },
+        "delenkostenBoodschappen": {
+            "type": "boolean"
+        },
+        "samenEten": {
+            "type": "boolean"
+        },
+        "samenOpVakantie": {
+            "type": "boolean"
+        },
+        "samenTakenHuishouden": {
+            "type": "boolean"
+        },
+        "tijdelijkVerblijf": {
+            "type": "boolean"
+        },
+        "indicatieZorgbehoefte": {
+            "type": "boolean"
+        },
+        "kamerHuur": {
+            "type": "boolean"
+        },
+        "leeftijdOnder27": {
+            "type": "boolean"
+        },
+        "studiefinanciering": {
+            "type": "boolean"
+        }
+    },
+    "additionalProperties": false
+}

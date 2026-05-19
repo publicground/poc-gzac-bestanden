@@ -1,0 +1,260 @@
+{
+    "changesetId": "alo-iv-senior-permission-v1",
+    "permissions": [
+        {
+            "resourceType": "com.ritense.dashboard.domain.Dashboard",
+            "actions": [
+                "view",
+                "view_list"
+            ],
+            "roleKey": "ROLE_IV_SENIOR",
+            "conditions": [
+                {
+                    "type": "field",
+                    "field": "key",
+                    "operator": "in",
+                    "value": [
+                        "aanvraag-algemene-bijstand-algemeen",
+                        "aanvraag-algemene-bijstand-persoonlijk-overzicht",
+                        "aanvraag-ioaw-uitkering-algemeen",
+                        "aanvraag-ioaw-uitkering-persoonlijk-overzicht"
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.case.domain.CaseTab",
+            "action": "view",
+            "roleKey": "ROLE_IV_SENIOR",
+            "conditions": [
+                {
+                    "type": "field",
+                    "field": "id.key",
+                    "operator": "in",
+                    "value": [
+                        "summary",
+                        "woonsituatie",
+                        "inkomen",
+                        "vermogen",
+                        "suwinet",
+                        "bewoning",
+                        "informatieverzoeken",
+                        "progress",
+                        "audit",
+                        "documents",
+                        "brede-intake",
+                        "poortonderzoek",
+                        "signalen"
+                    ]
+                },
+                {
+                    "type": "container",
+                    "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocumentDefinition",
+                    "conditions": [
+                        {
+                            "type": "field",
+                            "field": "id.name",
+                            "operator": "in",
+                            "value": [
+                                "aanvraag-algemene-bijstand-dcm",
+                                "aanvraag-ioaw-uitkering-dcm"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocument",
+            "actions": [
+                "assign",
+                "assignable",
+                "claim",
+                "create",
+                "export",
+                "modify",
+                "view",
+                "view_list"
+            ],
+            "roleKey": "ROLE_IV_SENIOR",
+            "conditions": [
+                {
+                    "type": "container",
+                    "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocumentDefinition",
+                    "conditions": [
+                        {
+                            "type": "field",
+                            "field": "id.name",
+                            "operator": "in",
+                            "value": [
+                                "aanvraag-algemene-bijstand-dcm",
+                                "aanvraag-ioaw-uitkering-dcm"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocumentDefinition",
+            "actions": [
+                "create",
+                "modify",
+                "view",
+                "view_list"
+            ],
+            "roleKey": "ROLE_IV_SENIOR",
+            "conditions": [
+                {
+                    "type": "field",
+                    "field": "id.name",
+                    "operator": "in",
+                    "value": [
+                        "aanvraag-algemene-bijstand-dcm",
+                        "aanvraag-ioaw-uitkering-dcm"
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.document.domain.impl.searchfield.SearchField",
+            "action": "view_list",
+            "roleKey": "ROLE_IV_SENIOR",
+            "conditions": [
+                {
+                    "type": "field",
+                    "field": "id.documentDefinitionName",
+                    "operator": "in",
+                    "value": [
+                        "aanvraag-algemene-bijstand-dcm",
+                        "aanvraag-ioaw-uitkering-dcm"
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.note.domain.Note",
+            "actions": [
+                "create",
+                "view",
+                "view_list",
+                "modify",
+                "delete"
+            ],
+            "roleKey": "ROLE_IV_SENIOR",
+            "conditions": [
+                {
+                    "type": "container",
+                    "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocument",
+                    "conditions": [
+                        {
+                            "type": "field",
+                            "field": "documentDefinitionId.name",
+                            "operator": "in",
+                            "value": [
+                                "aanvraag-algemene-bijstand-dcm",
+                                "aanvraag-ioaw-uitkering-dcm"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.valtimo.camunda.domain.CamundaExecution",
+            "action": "create",
+            "roleKey": "ROLE_IV_SENIOR",
+            "conditions": [
+                {
+                    "type": "container",
+                    "resourceType": "com.ritense.valtimo.camunda.domain.CamundaProcessDefinition",
+                    "conditions": [
+                        {
+                            "type": "field",
+                            "field": "key",
+                            "operator": "in",
+                            "value": [
+                                "ab-afhandelen-aanvraag-dcm",
+                                "ab-start-buiten-behandeling-stellen",
+                                "ab-start-intrekken-aanvraag",
+                                "ab-start-behandeling-gehele-aanvraag-opnieuw",
+                                "ab-verversen-brongegevens",
+                                "ab-start-wijzigen-contactgegevens",
+                                "ab-start-annuleren-informatieverzoek-dcm",
+                                "ab-start-verlengen-deadline-informatieverzoek-dcm",
+                                "ab-start-reactie-informatieverzoek-dcm",
+                                "ab-taak-opnieuw-starten",
+                                "ab-start-aanvraag-direct-beslissen",
+                                "ioaw-afhandelen-aanvraag-dcm",
+                                "ioaw-start-buiten-behandeling-stellen",
+                                "ioaw-start-intrekken-aanvraag",
+                                "ioaw-start-behandeling-gehele-aanvraag-opnieuw",
+                                "ioaw-verversen-brongegevens",
+                                "ioaw-start-wijzigen-contactgegevens",
+                                "ioaw-start-annuleren-informatieverzoek-dcm",
+                                "ioaw-start-verlengen-deadline-informatieverzoek-dcm",
+                                "ioaw-start-reactie-informatieverzoek-dcm",
+                                "ioaw-taak-opnieuw-starten",
+                                "ioaw-start-aanvraag-direct-beslissen"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.valtimo.camunda.domain.CamundaTask",
+            "actions": [
+                "view",
+                "view_list",
+                "claim",
+                "assignable",
+                "assign",
+                "complete"
+            ],
+            "roleKey": "ROLE_IV_SENIOR",
+            "conditions": [
+                {
+                    "type": "container",
+                    "resourceType": "com.ritense.valtimo.camunda.domain.CamundaIdentityLink",
+                    "conditions": [
+                        {
+                            "type": "field",
+                            "field": "groupId",
+                            "operator": "==",
+                            "value": "ROLE_IV_SENIOR"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.documentenapi.authorization.ZgwDocument",
+            "actions": [
+                "create",
+                "modify",
+                "delete",
+                "view",
+                "view_list"
+            ],
+            "roleKey": "ROLE_IV_SENIOR",
+            "conditions": [
+                {
+                    "type": "container",
+                    "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocument",
+                    "conditions": [
+                        {
+                            "type": "field",
+                            "field": "documentDefinitionId.name",
+                            "operator": "in",
+                            "value": [
+                                "aanvraag-algemene-bijstand-dcm",
+                                "aanvraag-ioaw-uitkering-dcm"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

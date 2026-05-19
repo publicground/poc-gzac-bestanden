@@ -1,0 +1,18 @@
+[
+    {
+        "activityId": "UploadenOntvangenDocumentenTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDefinitionName": "alo-vastleggen-reactie-informatieverzoek.uploaden-ontvangen-documenten",
+        "formDisplayType": "panel",
+        "formSize": "large"
+    },
+    {
+        "activityId": "BepalenNieuwEinddatumBeslistermijnTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "end-hersteltermijn",
+        "actionProperties": {}
+    }
+]

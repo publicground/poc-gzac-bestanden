@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0av1htx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.32.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_0qzs6f9">
+    <bpmn:participant id="BrongegevensVerversenParticipant" name="Brongegevens verversen" processRef="ab-brongegevens-verversen" />
+  </bpmn:collaboration>
+  <bpmn:process id="ab-brongegevens-verversen" name="AB: Brongegevens verversen" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_0o3z354" sourceRef="StartEvent_1" targetRef="OphalenBrongegevensAanvragerCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0zvc2ed" sourceRef="OphalenBrongegevensAanvragerCallActivity" targetRef="PartnerOpgegevenInAanvraagGateway" />
+    <bpmn:sequenceFlow id="Flow_0eed9lq" sourceRef="OphalenBrongegevensPartnerCallActivity" targetRef="Gateway_06oigjw" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="PartnerOpgegevenInAanvraagGateway" targetRef="OphalenBrongegevensPartnerCallActivity">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVanuitAanvraag/partner/bsn") != null}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0cxis4m" sourceRef="Gateway_06oigjw" targetRef="Event_1kgiekz" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="PartnerOpgegevenInAanvraagGateway" targetRef="Gateway_06oigjw" />
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0o3z354</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="PartnerOpgegevenInAanvraagGateway" name="Partner opgegeven in aanvraag?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_0zvc2ed</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="OphalenBrongegevensPartnerCallActivity" name="Ophalen brongegevens Partner" camunda:asyncAfter="true" calledElement="alo-ophalen-brongegevens">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="bsn">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/partner/bsn")}</camunda:inputParameter>
+          <camunda:inputParameter name="documentPath">/gegevensVanuitBronnen/inkomstenPartner</camunda:inputParameter>
+          <camunda:inputParameter name="aanvragerPath">/gegevensVanuitBronnen/partner</camunda:inputParameter>
+          <camunda:inputParameter name="partnerPath">/gegevensVanuitBronnen/partner/partner</camunda:inputParameter>
+          <camunda:inputParameter name="kinderenPath">/gegevensVanuitBronnen/partner/kinderen</camunda:inputParameter>
+          <camunda:inputParameter name="partnerBsn">/gegevensVanuitBronnen/partner/partnerBsn</camunda:inputParameter>
+          <camunda:inputParameter name="kinderenBsns">/gegevensVanuitBronnen/partner/kinderenBsns</camunda:inputParameter>
+          <camunda:inputParameter name="vermogenPath">/gegevensVanuitBronnen/vermogenPartner</camunda:inputParameter>
+          <camunda:inputParameter name="duoPersoonsGegevensPath">/gegevensVanuitBronnen/duoPartner/opleiding</camunda:inputParameter>
+          <camunda:inputParameter name="duoStudiefinancieringPath">/gegevensVanuitBronnen/duoStudiefinancieringPartner</camunda:inputParameter>
+          <camunda:inputParameter name="svbUitkeringenPath">/gegevensVanuitBronnen/svbUitkeringenPartner</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:in source="bsn" target="bsn" />
+        <camunda:in source="documentPath" target="documentPath" />
+        <camunda:in source="aanvragerPath" target="aanvragerPath" />
+        <camunda:in source="partnerPath" target="partnerPath" />
+        <camunda:in source="kinderenPath" target="kinderenPath" />
+        <camunda:in source="partnerBsn" target="partnerBsn" />
+        <camunda:in source="kinderenBsns" target="kinderenBsns" />
+        <camunda:in source="vermogenPath" target="vermogenPath" />
+        <camunda:in source="duoPersoonsGegevensPath" target="duoPersoonsGegevensPath" />
+        <camunda:in source="duoStudiefinancieringPath" target="duoStudiefinancieringPath" />
+        <camunda:in source="svbUitkeringenPath" target="svbUitkeringenPath" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0eed9lq</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="Gateway_06oigjw">
+      <bpmn:incoming>Flow_0eed9lq</bpmn:incoming>
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cxis4m</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_1kgiekz">
+      <bpmn:incoming>Flow_0cxis4m</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="OphalenBrongegevensAanvragerCallActivity" name="Ophalen brongegevens Aanvrager" camunda:asyncAfter="true" calledElement="alo-ophalen-brongegevens">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="bsn">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/persoon/bsn")}</camunda:inputParameter>
+          <camunda:inputParameter name="documentPath">/gegevensVanuitBronnen/inkomstenAanvrager</camunda:inputParameter>
+          <camunda:inputParameter name="aanvragerPath">/gegevensVanuitBronnen/persoon</camunda:inputParameter>
+          <camunda:inputParameter name="partnerPath">/gegevensVanuitBronnen/persoon/partner</camunda:inputParameter>
+          <camunda:inputParameter name="kinderenPath">/gegevensVanuitBronnen/persoon/kinderen</camunda:inputParameter>
+          <camunda:inputParameter name="partnerBsn">/gegevensVanuitBronnen/persoon/partnerBsn</camunda:inputParameter>
+          <camunda:inputParameter name="kinderenBsns">/gegevensVanuitBronnen/persoon/kinderenBsns</camunda:inputParameter>
+          <camunda:inputParameter name="vermogenPath">/gegevensVanuitBronnen/vermogenAanvrager</camunda:inputParameter>
+          <camunda:inputParameter name="duoPersoonsGegevensPath">/gegevensVanuitBronnen/duoAanvrager/opleiding</camunda:inputParameter>
+          <camunda:inputParameter name="duoStudiefinancieringPath">/gegevensVanuitBronnen/duoStudiefinancieringAanvrager</camunda:inputParameter>
+          <camunda:inputParameter name="svbUitkeringenPath">/gegevensVanuitBronnen/svbUitkeringenAanvrager</camunda:inputParameter>
+          <camunda:inputParameter name="user">${user}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:in source="bsn" target="bsn" />
+        <camunda:in source="documentPath" target="documentPath" />
+        <camunda:in source="aanvragerPath" target="aanvragerPath" />
+        <camunda:in source="partnerPath" target="partnerPath" />
+        <camunda:in source="kinderenPath" target="kinderenPath" />
+        <camunda:in source="partnerBsn" target="partnerBsn" />
+        <camunda:in source="kinderenBsns" target="kinderenBsns" />
+        <camunda:in source="vermogenPath" target="vermogenPath" />
+        <camunda:in source="duoPersoonsGegevensPath" target="duoPersoonsGegevensPath" />
+        <camunda:in source="duoStudiefinancieringPath" target="duoStudiefinancieringPath" />
+        <camunda:in source="svbUitkeringenPath" target="svbUitkeringenPath" />
+        <camunda:in source="user" target="user" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0o3z354</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zvc2ed</bpmn:outgoing>
+    </bpmn:callActivity>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0qzs6f9">
+      <bpmndi:BPMNShape id="Participant_16yebdr_di" bpmnElement="BrongegevensVerversenParticipant" isHorizontal="true">
+        <dc:Bounds x="120" y="70" width="890" height="310" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="192" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1bp8lja_di" bpmnElement="PartnerOpgegevenInAanvraagGateway" isMarkerVisible="true">
+        <dc:Bounds x="475" y="175" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="467" y="130" width="67" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0vd8n3f" bpmnElement="OphalenBrongegevensPartnerCallActivity">
+        <dc:Bounds x="630" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_06oigjw_di" bpmnElement="Gateway_06oigjw" isMarkerVisible="true">
+        <dc:Bounds x="795" y="175" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1kgiekz_di" bpmnElement="Event_1kgiekz">
+        <dc:Bounds x="932" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1ge2ap0" bpmnElement="OphalenBrongegevensAanvragerCallActivity">
+        <dc:Bounds x="310" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0o3z354_di" bpmnElement="Flow_0o3z354">
+        <di:waypoint x="228" y="200" />
+        <di:waypoint x="310" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zvc2ed_di" bpmnElement="Flow_0zvc2ed">
+        <di:waypoint x="410" y="200" />
+        <di:waypoint x="475" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0eed9lq_di" bpmnElement="Flow_0eed9lq">
+        <di:waypoint x="730" y="200" />
+        <di:waypoint x="795" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xckova_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="525" y="200" />
+        <di:waypoint x="630" y="200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="572" y="182" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cxis4m_di" bpmnElement="Flow_0cxis4m">
+        <di:waypoint x="845" y="200" />
+        <di:waypoint x="932" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e433zy_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="500" y="225" />
+        <di:waypoint x="500" y="310" />
+        <di:waypoint x="820" y="310" />
+        <di:waypoint x="820" y="225" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="650" y="292" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

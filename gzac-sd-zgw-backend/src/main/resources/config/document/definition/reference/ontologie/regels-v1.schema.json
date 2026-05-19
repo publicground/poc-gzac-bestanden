@@ -1,0 +1,62 @@
+{
+  "$id": "regels.schema",
+  "type": "object",
+  "title": "Model Regels",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "regel": {
+      "type":"object",
+      "properties": {
+        "naam": {
+          "description": "Een korte beschrijving van de regel",
+          "$ref": "#/definitions/tekst"
+        },
+        "technischeNaam": {
+          "description": "Een korte beschrijving van de regel voor gebruik in het genereren van code, meestal in camel case.",
+          "$ref": "#/definitions/tekst"
+        },
+        "omschrijving": {
+          "description": "Een uitgebreide omschrijving van de regel meestal aangaande het doel, het gebruik en de context.",
+          "$ref": "#/definitions/tekst"
+        },
+        "conditieGroep": {
+          "type":"object",
+          "properties": {
+            "groepstype": {
+              "description": "De condities in de conditiegroep staan in een booleaanse verhouding tot elkaar. Die verhouding wordt aangegeven door het groepstype.",
+              "$ref": "#/definitions/conditieGroepstype"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "tekst": {
+      "type": "string"
+    },
+    "conditieGroepstype": {
+      "type": "object",
+      "enum": [
+        { "code": "EN", "name": "EN" },
+        { "code": "OF", "name": "OF" }
+      ]
+    },
+    "integer": {
+      "type": "string",
+      "pattern": "(^-|^)(0|[1-9][0-9]*)$"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "(^-|^+|^)(0|[1-9][0-9]+)($|,[0-9][0-9]$)"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^(http://|https://).*"
+    },
+    "datumTijd": {
+      "type": "string",
+      "pattern": "^([0-2][0-9]|3[0-1]|[1-9])-(0[1-9]|[1-9]|1[0-2])-(19|20)[0-9][0-9] T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]"
+    }
+  }
+}

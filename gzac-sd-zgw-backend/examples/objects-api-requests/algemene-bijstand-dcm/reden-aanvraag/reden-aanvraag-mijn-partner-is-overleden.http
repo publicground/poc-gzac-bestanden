@@ -1,0 +1,140 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "index": 1,
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "999991322",
+      "data": {
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Herengracht",
+              "postcode": "2511 EG",
+              "huisletter": "",
+              "huisnummer": "1",
+              "toevoeging": ""
+            },
+            "grPersoongegevens": {
+              "Bsn": "999991322",
+              "voornaam": "Celeste",
+              "achternaam": "Avion",
+              "voorletters": "C.",
+              "voorvoegsels": "",
+              "geboortedatum": "1960-12-29"
+            }
+          }
+        },
+        "alo-ioaw": {
+          "grIoaw": {
+            "geenRechtMeerWw": "NEE",
+            "geenRechtMeerWga": "NEE",
+            "gedeeltelijkArbeidsongeschikt": "NEE"
+          }
+        },
+        "schulden": {
+          "heeftSchulden": "NEE"
+        },
+        "alo-uitbetaling": {
+          "ibanAanWie": "NEE",
+          "ibanUitbetaling": "NL73ARBN0779076656",
+          "naamRekeninghouder": "C Avion"
+        },
+        "alo-uw-inkomsten": {
+          "heeftInkomsten": "GEEN_INKOMSTEN"
+        },
+        "alo-reden-aanvraag": {
+          "grIngangsdatum": {
+            "bijstandsuitkeringEerderStarten": "NEE"
+          },
+          "grPartnerOverleden": {
+            "nabestaandenuitkering": "JA_AFGEWEZEN",
+            "nabestaandenuitkeringAfgewezen": "Aanvraag ingevuld met krijtjes en glitter"
+          },
+          "waaromBijstandsuitkering": "WIJZIGING_GEZINSSITUATIE",
+          "grWijzigingGezinssituatie": {
+            "watGewijzigd": "PARTNER_OVERLEDEN"
+          }
+        },
+        "alo-uw-woonsituatie": {
+          "hoeWoontU": "BIJ_FAMILIE_VRIENDEN_OF_KENNISSEN",
+          "bijWieWoontU": "ANDERE_FAMILIELEDEN",
+          "grAndereBewoners": {
+            "meerMensenOpAdres": "NEE"
+          }
+        },
+        "alo-uw-beschikbaarheid": {
+          "grBeschikbaarheid": {
+            "onbetaald": "NEE",
+            "beschikbaarheid": 45
+          }
+        },
+        "alo-gezinssamenstelling": {
+          "partnerWoontBijU": "NEE",
+          "thuiswonendeKinderen": "NEE"
+        },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": true,
+          "grWoonsituatie": {
+            "woonsituatie": "WAAR_IK_WOON"
+          },
+          "grNationaliteit": {
+            "watGedaanBehouden": "GEEN_VERLENGING_VERBLIJFSVERGUNNING",
+            "nationaliteitBezit": "GEEN_VERBLIJFSVERGUNNING",
+            "geenNederlandseNationaliteit": "JA"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "NEE"
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": false,
+            "emailAdres": "jouw.naam@ritense.com",
+            "geenTelefoon": true
+          }
+        },
+        "alo-bezittingen-en-schulden": {
+          "grContant": {
+            "waardeContant": 78000000
+          },
+          "grRekeningen": {
+            "grLogicaBank": {
+              "hhgVoegRekeningToe": [
+                {
+                  "prive": "NL73ARBN0779076656",
+                  "hoeveelGeld": 50000000,
+                  "typeRekening": "NEDERLANDSE_PRIVE_REKENING",
+                  "uploadAfschrift": []
+                }
+              ]
+            },
+            "geenBankrekening": "BEZIT_REKENING"
+          },
+          "grUwVermogen": {
+            "welkVermogen": {
+              "CRYPTO": false,
+              "CARAVAN": false,
+              "VAARTUIG": false,
+              "CONTANTEN": true,
+              "KOOPWONING": false,
+              "MOTORVOERTUIG": false,
+              "EEN_STUK_GROND": false,
+              "OBLIGATIES_AANDELEN": false
+            }
+          }
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "language_code": "nl",
+      "submission_id": "20d25f62-06f0-46ba-93f6-8a2c674a3295",
+      "public_reference": "OF-{{$random.alphanumeric(8)}}"
+    },
+    "startAt": "2025-07-08",
+    "registrationAt": "2025-07-08"
+  }
+}

@@ -1,0 +1,18 @@
+[
+    {
+        "activityId": "OverwegenInzetHandhavingTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "aanvraag-algemene-bijstand.overwegen-inzet-handhaving"
+    },
+    {
+        "activityId": "VerwerkenUitkomstPoortonderzoekTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "aanvraag-algemene-bijstand.verwerken-uitkomst-poortonderzoek"
+    }
+]

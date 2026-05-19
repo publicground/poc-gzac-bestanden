@@ -1,0 +1,62 @@
+[
+    {
+        "processDefinitionKey": "ioaw-afhandelen-aanvraag-dcm",
+        "canInitializeDocument": true,
+        "startableByUser": false
+    },
+    {
+        "processDefinitionKey": "ioaw-start-buiten-behandeling-stellen",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ioaw-start-intrekken-aanvraag",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ioaw-start-aanvraag-direct-beslissen",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ioaw-start-behandeling-gehele-aanvraag-opnieuw",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ioaw-verversen-brongegevens",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ioaw-start-wijzigen-contactgegevens",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ioaw-start-uitgebreide-motivering",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ioaw-start-annuleren-informatieverzoek-dcm",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ioaw-start-verlengen-deadline-informatieverzoek-dcm",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ioaw-start-reactie-informatieverzoek-dcm",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ioaw-taak-opnieuw-starten",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    }
+]

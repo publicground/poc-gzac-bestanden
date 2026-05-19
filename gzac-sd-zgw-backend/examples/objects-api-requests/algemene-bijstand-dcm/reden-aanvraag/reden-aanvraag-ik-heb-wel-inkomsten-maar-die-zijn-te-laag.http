@@ -1,0 +1,133 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "index": 1,
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "999991322",
+      "data": {
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Herengracht",
+              "postcode": "2511 EG",
+              "huisletter": "",
+              "huisnummer": "1",
+              "toevoeging": ""
+            },
+            "grPersoongegevens": {
+              "Bsn": "999991322",
+              "voornaam": "Celeste",
+              "achternaam": "Avion",
+              "voorletters": "C.",
+              "voorvoegsels": "",
+              "geboortedatum": "1960-12-29"
+            }
+          }
+        },
+        "alo-ioaw": {
+          "grIoaw": {
+            "geenRechtMeerWw": "NEE",
+            "geenRechtMeerWga": "NEE",
+            "gedeeltelijkArbeidsongeschikt": "NEE"
+          }
+        },
+        "schulden": {
+          "heeftSchulden": "NEE"
+        },
+        "alo-uitbetaling": {
+          "ibanAanWie": "NEE"
+        },
+        "alo-uw-inkomsten": {
+          "heeftInkomsten": "GEEN_INKOMSTEN"
+        },
+        "alo-reden-aanvraag": {
+          "grGeenInkomen": {
+            "waaromGeenInkomen": "INKOMSTEN_TE_LAAG"
+          },
+          "grIngangsdatum": {
+            "bijstandsuitkeringEerderStarten": "NEE"
+          },
+          "waaromBijstandsuitkering": "GEEN_ONVOLDOENDE_INKOMEN"
+        },
+        "alo-uw-woonsituatie": {
+          "hoeWoontU": "EIGEN_KOOPWONING_OF_WOONBOOT",
+          "grAndereBewoners": {
+            "meerMensenOpAdres": "NEE"
+          }
+        },
+        "alo-uw-beschikbaarheid": {
+          "grBeschikbaarheid": {
+            "onbetaald": "NEE",
+            "beschikbaarheid": 51
+          }
+        },
+        "alo-gezinssamenstelling": {
+          "partnerWoontBijU": "NEE",
+          "thuiswonendeKinderen": "NEE"
+        },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": true,
+          "grWoonsituatie": {
+            "woonsituatie": "ANDER_ADRES"
+          },
+          "grAdresVerblijf": {
+            "plaatsVerblijf": "'s-Gravenhage",
+            "straatVerblijf": "Herengracht",
+            "postcodeVerblijf": "2511 EG",
+            "huisletterVerblijf": "",
+            "huisnummerVerblijf": 1,
+            "nummerToevoegingVerblijf": "",
+            "toelichtingadresVerblijf": "Kaas"
+          },
+          "grNationaliteit": {
+            "nationaliteitBezit": "EU_BURGER",
+            "geenNederlandseNationaliteit": "JA"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "NEE"
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": true,
+            "geenTelefoon": true
+          }
+        },
+        "alo-bezittingen-en-schulden": {
+          "grKoopwoning": {
+            "wozWaarde": 9600000,
+            "uploadHypotheek": [],
+            "beleggingsGekoppeld": "NEE",
+            "restHypotheekSchuld": 500
+          },
+          "grRekeningen": {
+            "geenBankrekening": "GEEN_REKENING"
+          },
+          "grUwVermogen": {
+            "welkVermogen": {
+              "CRYPTO": false,
+              "CARAVAN": false,
+              "VAARTUIG": false,
+              "CONTANTEN": false,
+              "KOOPWONING": true,
+              "MOTORVOERTUIG": false,
+              "EEN_STUK_GROND": false,
+              "OBLIGATIES_AANDELEN": false
+            }
+          }
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "language_code": "nl",
+      "submission_id": "5e76dfd3-ff6f-4335-9879-aae618f97380",
+      "public_reference": "OF-{{$random.alphanumeric(8)}}"
+    },
+    "startAt": "2025-07-08",
+    "registrationAt": "2025-07-08"
+  }
+}

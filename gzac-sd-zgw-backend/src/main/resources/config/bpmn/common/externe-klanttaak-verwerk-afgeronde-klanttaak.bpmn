@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0v1ejyk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.39.0">
+  <bpmn:collaboration id="Collaboration_1hhep9j">
+    <bpmn:extensionElements />
+    <bpmn:participant id="ExterneKlanttaakVerwerkAfgerondeKlanttaakParticipant" name="Externe Klanttaak: Verwerk afgeronde klanttaak" processRef="externe-klanttaak-verwerk-afgeronde-klanttaak" />
+    <bpmn:textAnnotation id="TextAnnotation_1vvc2d8">
+      <bpmn:text>Gets taak object from objects api.
+
+Input: pv:externeKlanttaakObjectUrl
+Output: pv:taakObject</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0ga6tzz" associationDirection="None" sourceRef="GetTaakObjectFromObjectenAPITask" targetRef="TextAnnotation_1vvc2d8" />
+  </bpmn:collaboration>
+  <bpmn:process id="externe-klanttaak-verwerk-afgeronde-klanttaak" name="Externe Klanttaak: Verwerk afgeronde klanttaak" isExecutable="true">
+    <bpmn:extensionElements />
+    <bpmn:sequenceFlow id="Flow_125lm4p" sourceRef="start-event" targetRef="GetTaakObjectFromObjectenAPITask" />
+    <bpmn:sequenceFlow id="OoievaarspasSequenceFlow" name="ooievaarspas" sourceRef="Gateway_06hef9r" targetRef="OPASVerwerkExterneKlanttaakTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${valueResolverDelegateService.resolveValue(execution, "case:definitionId.name") == "aanvraag-ooievaarspas"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="AanvraaglevensonderhoudSequenceFlow" name="aanvraag-levensonderhoud" sourceRef="Gateway_06hef9r" targetRef="ALOVerwerkExterneKlanttaakTask" />
+    <bpmn:sequenceFlow id="ShvaanvraagSequenceFlow" name="shv-aanvraag" sourceRef="Gateway_06hef9r" targetRef="SHVVerwerkExterneKlanttaakTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${valueResolverDelegateService.resolveValue(execution, "case:definitionId.name") == "aanvraag-schuldhulpverlening"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="BbzkredietOpvragenInformatieSequenceFlow" name="bbz-krediet (opvragen informatie)" sourceRef="Gateway_06hef9r" targetRef="BBZKredietVerwerkOpvragenInformatieKlanttaakTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${valueResolverDelegateService.resolveValue(execution, "case:definitionId.name") == "bbz-krediet" &amp;&amp; taakObject.get("titel").asText() == "Aanleveren informatie"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0kpy1te" sourceRef="ALOVerwerkExterneKlanttaakTask" targetRef="Gateway_1j5d9x7" />
+    <bpmn:sequenceFlow id="Flow_0grf89m" sourceRef="SHVVerwerkExterneKlanttaakTask" targetRef="Gateway_1j5d9x7" />
+    <bpmn:sequenceFlow id="Flow_1lh37wq" sourceRef="BBZAanvraagVerwerkExterneKlanttaakTask" targetRef="Gateway_1j5d9x7" />
+    <bpmn:sequenceFlow id="Flow_1gm4977" sourceRef="OPASVerwerkExterneKlanttaakTask" targetRef="Gateway_1j5d9x7" />
+    <bpmn:sequenceFlow id="Flow_04om4es" sourceRef="BBZKredietVerwerkOpvragenInformatieKlanttaakTask" targetRef="Gateway_1j5d9x7" />
+    <bpmn:sequenceFlow id="Flow_1rejwfk" sourceRef="Gateway_1j5d9x7" targetRef="end-event" />
+    <bpmn:sequenceFlow id="BbzkredietBevestigenVoldaanAanVoorwaardenSequenceFlow" name="bbz-krediet (Bevestigen voldaan aan voorwaarden)" sourceRef="Gateway_06hef9r" targetRef="BBZKredietVerwerkBevestigenVoldaanAanVoorwaardenKlanttaakTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${valueResolverDelegateService.resolveValue(execution, "case:definitionId.name") == "bbz-krediet" &amp;&amp; taakObject.get("titel").asText() == "Bevestigen voorwaarden voldaan"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1k4mu9m" sourceRef="BBZKredietVerwerkBevestigenVoldaanAanVoorwaardenKlanttaakTask" targetRef="Gateway_1j5d9x7" />
+    <bpmn:startEvent id="start-event">
+      <bpmn:outgoing>Flow_125lm4p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_06hef9r" default="AanvraaglevensonderhoudSequenceFlow">
+      <bpmn:incoming>Flow_11tcsd5</bpmn:incoming>
+      <bpmn:outgoing>OoievaarspasSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>AanvraaglevensonderhoudSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>ShvaanvraagSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>BbzkredietOpvragenInformatieSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>BbzkredietBevestigenVoldaanAanVoorwaardenSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>BbzaanvraagSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_11tcsd5" sourceRef="GetTaakObjectFromObjectenAPITask" targetRef="Gateway_06hef9r" />
+    <bpmn:serviceTask id="GetTaakObjectFromObjectenAPITask" name="Get Taak Object from Objecten API" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>Flow_125lm4p</bpmn:incoming>
+      <bpmn:outgoing>Flow_11tcsd5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="BbzaanvraagSequenceFlow" name="bbz-aanvraag" sourceRef="Gateway_06hef9r" targetRef="BBZAanvraagVerwerkExterneKlanttaakTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${valueResolverDelegateService.resolveValue(execution, "case:definitionId.name") == "bbz-aanvraag"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="OPASVerwerkExterneKlanttaakTask" name="OPAS Verwerk externe klanttaak" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>OoievaarspasSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gm4977</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BBZKredietVerwerkBevestigenVoldaanAanVoorwaardenKlanttaakTask" name="BBZ Krediet Verwerk Bevestigen voldaan aan voorwaarden klanttaak" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>BbzkredietBevestigenVoldaanAanVoorwaardenSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1k4mu9m</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ALOVerwerkExterneKlanttaakTask" name="ALO Verwerk externe klanttaak" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>AanvraaglevensonderhoudSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kpy1te</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="SHVVerwerkExterneKlanttaakTask" name="SHV Verwerk externe klanttaak" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>ShvaanvraagSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0grf89m</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BBZAanvraagVerwerkExterneKlanttaakTask" name="BBZ Aanvraag Verwerk externe klanttaak" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>BbzaanvraagSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lh37wq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1j5d9x7">
+      <bpmn:incoming>Flow_1gm4977</bpmn:incoming>
+      <bpmn:incoming>Flow_1lh37wq</bpmn:incoming>
+      <bpmn:incoming>Flow_0kpy1te</bpmn:incoming>
+      <bpmn:incoming>Flow_0grf89m</bpmn:incoming>
+      <bpmn:incoming>Flow_04om4es</bpmn:incoming>
+      <bpmn:incoming>Flow_1k4mu9m</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rejwfk</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="end-event">
+      <bpmn:incoming>Flow_1rejwfk</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="BBZKredietVerwerkOpvragenInformatieKlanttaakTask" name="BBZ Krediet Verwerk opvragen informatie klanttaak" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>BbzkredietOpvragenInformatieSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_04om4es</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1hhep9j">
+      <bpmndi:BPMNShape id="Participant_0q24bm9_di" bpmnElement="ExterneKlanttaakVerwerkAfgerondeKlanttaakParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="950" height="780" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="start-event">
+        <dc:Bounds x="229" y="509" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="235" y="202" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_06hef9r_di" bpmnElement="Gateway_06hef9r" isMarkerVisible="true">
+        <dc:Bounds x="485" y="502" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1eyjarl_di" bpmnElement="GetTaakObjectFromObjectenAPITask">
+        <dc:Bounds x="310" y="487" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1oo9yjc_di" bpmnElement="OPASVerwerkExterneKlanttaakTask">
+        <dc:Bounds x="710" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0yh40m4" bpmnElement="BBZKredietVerwerkBevestigenVoldaanAanVoorwaardenKlanttaakTask">
+        <dc:Bounds x="710" y="250" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1wm69ea" bpmnElement="ALOVerwerkExterneKlanttaakTask">
+        <dc:Bounds x="710" y="730" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0f45d4g" bpmnElement="SHVVerwerkExterneKlanttaakTask">
+        <dc:Bounds x="710" y="610" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0h0lfnm" bpmnElement="BBZAanvraagVerwerkExterneKlanttaakTask">
+        <dc:Bounds x="710" y="487" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1j5d9x7_di" bpmnElement="Gateway_1j5d9x7" isMarkerVisible="true">
+        <dc:Bounds x="915" y="502" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0oj65uu_di" bpmnElement="end-event">
+        <dc:Bounds x="1012" y="509" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="490" y="202" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_18e7epi" bpmnElement="BBZKredietVerwerkOpvragenInformatieKlanttaakTask">
+        <dc:Bounds x="710" y="380" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_125lm4p_di" bpmnElement="Flow_125lm4p">
+        <di:waypoint x="265" y="527" />
+        <di:waypoint x="310" y="527" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ihpn2j_di" bpmnElement="OoievaarspasSequenceFlow">
+        <di:waypoint x="510" y="502" />
+        <di:waypoint x="510" y="160" />
+        <di:waypoint x="710" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="585" y="143" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gopxgi_di" bpmnElement="AanvraaglevensonderhoudSequenceFlow">
+        <di:waypoint x="510" y="552" />
+        <di:waypoint x="510" y="770" />
+        <di:waypoint x="710" y="770" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="575" y="736" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nyk0x7_di" bpmnElement="ShvaanvraagSequenceFlow">
+        <di:waypoint x="510" y="552" />
+        <di:waypoint x="510" y="650" />
+        <di:waypoint x="710" y="650" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="584" y="633" width="67" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1a2itax_di" bpmnElement="BbzkredietOpvragenInformatieSequenceFlow">
+        <di:waypoint x="510" y="502" />
+        <di:waypoint x="510" y="420" />
+        <di:waypoint x="710" y="420" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="590" y="380" width="55" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kpy1te_di" bpmnElement="Flow_0kpy1te">
+        <di:waypoint x="810" y="770" />
+        <di:waypoint x="940" y="770" />
+        <di:waypoint x="940" y="552" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0grf89m_di" bpmnElement="Flow_0grf89m">
+        <di:waypoint x="810" y="650" />
+        <di:waypoint x="940" y="650" />
+        <di:waypoint x="940" y="552" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lh37wq_di" bpmnElement="Flow_1lh37wq">
+        <di:waypoint x="810" y="527" />
+        <di:waypoint x="915" y="527" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gm4977_di" bpmnElement="Flow_1gm4977">
+        <di:waypoint x="810" y="160" />
+        <di:waypoint x="940" y="160" />
+        <di:waypoint x="940" y="502" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04om4es_di" bpmnElement="Flow_04om4es">
+        <di:waypoint x="810" y="420" />
+        <di:waypoint x="940" y="420" />
+        <di:waypoint x="940" y="502" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rejwfk_di" bpmnElement="Flow_1rejwfk">
+        <di:waypoint x="965" y="527" />
+        <di:waypoint x="1012" y="527" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11qtqj1_di" bpmnElement="BbzkredietBevestigenVoldaanAanVoorwaardenSequenceFlow">
+        <di:waypoint x="510" y="502" />
+        <di:waypoint x="510" y="290" />
+        <di:waypoint x="710" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="584" y="233" width="68" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k4mu9m_di" bpmnElement="Flow_1k4mu9m">
+        <di:waypoint x="810" y="290" />
+        <di:waypoint x="940" y="290" />
+        <di:waypoint x="940" y="502" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11tcsd5_di" bpmnElement="Flow_11tcsd5">
+        <di:waypoint x="410" y="527" />
+        <di:waypoint x="485" y="527" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1x4dfoc_di" bpmnElement="BbzaanvraagSequenceFlow">
+        <di:waypoint x="535" y="527" />
+        <di:waypoint x="710" y="527" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="589" y="509" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0ga6tzz_di" bpmnElement="Association_0ga6tzz">
+        <di:waypoint x="339" y="487" />
+        <di:waypoint x="318" y="448" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1vvc2d8_di" bpmnElement="TextAnnotation_1vvc2d8">
+        <dc:Bounds x="240" y="380" width="220" height="68" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

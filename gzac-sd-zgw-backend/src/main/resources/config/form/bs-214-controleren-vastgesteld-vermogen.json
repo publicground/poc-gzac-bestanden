@@ -1,0 +1,610 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "bankrekeningen",
+            "key": "pv.bankrekeningen",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "bezittingen",
+            "key": "pv.bezittingen",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "eigenWoning",
+            "key": "pv.eigenWoning",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "schulden",
+            "key": "pv.schulden",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "vermogensComponenten",
+            "key": "pv.vermogensComponenten",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "bankrekeningenToelichting",
+            "key": "pv.bankrekeningenToelichting",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "bezittingenToelichting",
+            "key": "pv.bezittingenToelichting",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "eigenWoningToelichting",
+            "key": "pv.eigenWoningToelichting",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "schuldenToelichting",
+            "key": "pv.schuldenToelichting",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Gegevens van de aanvraag",
+            "content": "<h2 class=\"mb-3\">Controleren vastgesteld vermogen</h2>",
+            "refreshOnChange": false,
+            "key": "MeldigEnAanvraagDatum",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Container",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "container",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "key": "aanvrager",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "Contant geld",
+                    "content": "<h4>Bank- of spaartegoed</h4>",
+                    "tableView": false,
+                    "customClass": "no-border-bottom",
+                    "refreshOnChange": false
+                },
+                {
+                    "label": "HTML",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "<div class=\"row pb-1 pt-1\" style=\"margin-left:1px\">\n    <div class=\"col-2 font-weight-bold\">Soort vermogen</div>\n    <div class=\"col-2 font-weight-bold\">Peildatum</div>\n    <div class=\"col-2 font-weight-bold text-nowrap\">Tenaamstelling</div>\n    <div class=\"col-4 font-weight-bold\">Iban</div>\n    <div class=\"col-2 font-weight-bold\">Waarde</div>\n</div>\n",
+                    "refreshOnChange": true,
+                    "customClass": "border-top-0 border-bottom-0 no-border-radius",
+                    "customConditional": "show=(data.pv?.bankrekeningen||[]).some(obj => obj && typeof obj === 'object' && Object.keys(obj).length>0);",
+                    "key": "html1",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "label": "Vermogens componenten",
+                    "reorder": false,
+                    "addAnotherPosition": "bottom",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "initEmpty": false,
+                    "hideLabel": true,
+                    "tableView": false,
+                    "validateWhenHidden": false,
+                    "disabled": true,
+                    "customClass": "bbz-inkomsten-tab-data-grid",
+                    "key": "bankrekeningen",
+                    "calculateValue": "value = data.pv.bankrekeningen;",
+                    "customConditional": "show=(data.pv?.bankrekeningen||[]).some(obj => obj && typeof obj === 'object' && Object.keys(obj).length>0);",
+                    "type": "datagrid",
+                    "input": true,
+                    "components": [
+                        {
+                            "label": "Columns",
+                            "hideLabel": true,
+                            "columns": [
+                                {
+                                    "components": [
+                                        {
+                                            "label": "aanvragerHTML",
+                                            "attrs": [
+                                                {
+                                                    "attr": "",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "content": "<div class=\"row mb-1\" style=\"margin-left:1px\">\n    <div class=\"col-2\">{{{ (row?.soortVermogenscomponent?.name || '-') }}}</div>\n    <div class=\"col-2\">{{{ (row?.datumVaststelling ? moment(row?.datumVaststelling).format('DD-MM-YYYY') : '-') }}}</div>\n    <div class=\"col-2\">{{{ (row?.tenaamstelling || '-') }}}</div>\n    <div class=\"col-4\">{{{ (row?.iban || row?.bankrekeningnummer || '-') }}}</div>\n    <div class=\"col-2\">{{{ (row?.waarde ? new Intl.NumberFormat('nl-NL', {style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2}).format(row?.waarde)  : '-') }}}</div>\n</div>",
+                                            "refreshOnChange": false,
+                                            "key": "html2",
+                                            "type": "htmlelement",
+                                            "hideLabel": true,
+                                            "tableView": false,
+                                            "input": true
+                                        }
+                                    ],
+                                    "width": 12,
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 12
+                                },
+                                {
+                                    "components": [],
+                                    "width": 6,
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 6
+                                }
+                            ],
+                            "key": "columns",
+                            "type": "columns",
+                            "input": false,
+                            "tableView": false
+                        }
+                    ]
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6 \">Toelichting vaststelling bankrekeningen</dd>\n        <dt class=\"col-6\">{{{data.pv.bankrekeningenToelichting || '-'}}}</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml1",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                }
+            ]
+        },
+        {
+            "label": "Container",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "container1",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "key": "aanvrager",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "Contant geld",
+                    "content": "<h4>Bezittingen</h4>",
+                    "tableView": false,
+                    "customClass": "no-border-bottom",
+                    "refreshOnChange": false
+                },
+                {
+                    "label": "HTML",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "<div class=\"row pb-1 pt-1\" style=\"margin-left:1px\">\n    <div class=\"col-3 font-weight-bold\">Soort vermogen</div>\n    <div class=\"col-3 font-weight-bold\">Omschrijving</div>\n    <div class=\"col-3 font-weight-bold\">Peildatum</div>\n    <div class=\"col-3 font-weight-bold\">Waarde</div>\n</div>",
+                    "refreshOnChange": true,
+                    "customClass": "border-top-0 border-bottom-0 no-border-radius",
+                    "customConditional": "show=(data.pv?.bezittingen||[]).some(obj => obj && typeof obj === 'object' && Object.keys(obj).length>0);",
+                    "key": "html1",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "label": "Vermogens componenten",
+                    "reorder": false,
+                    "addAnotherPosition": "bottom",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "initEmpty": false,
+                    "hideLabel": true,
+                    "tableView": false,
+                    "validateWhenHidden": false,
+                    "disabled": true,
+                    "customClass": "bbz-inkomsten-tab-data-grid",
+                    "key": "bezittingen",
+                    "calculateValue": "value = data.pv.bezittingen",
+                    "customConditional": "show=(data.pv?.bezittingen||[]).some(obj => obj && typeof obj === 'object' && Object.keys(obj).length>0);",
+                    "type": "datagrid",
+                    "input": true,
+                    "components": [
+                        {
+                            "label": "Columns",
+                            "hideLabel": true,
+                            "columns": [
+                                {
+                                    "components": [
+                                        {
+                                            "label": "aanvragerHTML",
+                                            "attrs": [
+                                                {
+                                                    "attr": "",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "content": "<div class=\"row mb-1\" style=\"margin-left:1px\">\n    <div class=\"col-3\">{{{ (row?.soortVermogenscomponent?.name || '-') }}}</div>\n    <div class=\"col-3\">{{{ (row?.omschrijving || '-') }}}</div>\n    <div class=\"col-3\">{{{ (row?.datumVaststelling ? moment(row?.datumVaststelling).format('DD-MM-YYYY') : '-') }}}</div>\n    <div class=\"col-3\">{{{ (row?.waarde ? new Intl.NumberFormat('nl-NL', {style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2}).format(row?.waarde)  : '-') }}}</div>\n</div>",
+                                            "refreshOnChange": true,
+                                            "key": "html2",
+                                            "type": "htmlelement",
+                                            "hideLabel": true,
+                                            "tableView": false,
+                                            "input": true
+                                        }
+                                    ],
+                                    "width": 12,
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 12
+                                },
+                                {
+                                    "components": [],
+                                    "width": 6,
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 6
+                                }
+                            ],
+                            "key": "columns",
+                            "type": "columns",
+                            "input": false,
+                            "tableView": false
+                        }
+                    ]
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6 \">Toelichting vaststelling bezittingen</dd>\n        <dt class=\"col-6\">{{{data.pv.bezittingenToelichting || '-'}}}</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                }
+            ]
+        },
+        {
+            "label": "Container",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "container3",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "key": "aanvrager",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "Contant geld",
+                    "content": "<h4>Schulden</h4>",
+                    "tableView": false,
+                    "customClass": "no-border-bottom",
+                    "refreshOnChange": false
+                },
+                {
+                    "label": "HTML",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "<div class=\"row pb-1 pt-1\" style=\"margin-left:1px\">\n    <div class=\"col-3 font-weight-bold\">Soort vermogen</div>\n    <div class=\"col-3 font-weight-bold\">Omschrijving</div>\n    <div class=\"col-3 font-weight-bold\">Peildatum</div>\n    <div class=\"col-3 font-weight-bold\">Waarde</div>\n</div>",
+                    "refreshOnChange": true,
+                    "customClass": "border-top-0 border-bottom-0 no-border-radius",
+                    "customConditional": "show=(data.pv?.schulden||[]).some(obj => obj && typeof obj === 'object' && Object.keys(obj).length>0);",
+                    "key": "html1",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "label": "Vermogens componenten",
+                    "reorder": false,
+                    "addAnotherPosition": "bottom",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "initEmpty": false,
+                    "hideLabel": true,
+                    "tableView": false,
+                    "validateWhenHidden": false,
+                    "disabled": true,
+                    "customClass": "bbz-inkomsten-tab-data-grid",
+                    "key": "schulden",
+                    "calculateValue": "value = data.pv.schulden",
+                    "customConditional": "show=(data.pv?.schulden||[]).some(obj => obj && typeof obj === 'object' && Object.keys(obj).length>0);",
+                    "type": "datagrid",
+                    "input": true,
+                    "components": [
+                        {
+                            "label": "Columns",
+                            "hideLabel": true,
+                            "columns": [
+                                {
+                                    "components": [
+                                        {
+                                            "label": "aanvragerHTML",
+                                            "attrs": [
+                                                {
+                                                    "attr": "",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "content": "<div class=\"row mb-1\" style=\"margin-left:1px\">\n    <div class=\"col-3\">{{{ (row?.soortVermogenscomponent?.name || '-') }}}</div>\n    <div class=\"col-3\">{{{ (row?.omschrijving || '-') }}}</div>\n    <div class=\"col-3\">{{{ (row?.datumVaststelling ? moment(row?.datumVaststelling).format('DD-MM-YYYY') : '-') }}}</div>\n    <div class=\"col-3\">{{{ (row?.waarde ? new Intl.NumberFormat('nl-NL', {style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2}).format(row?.waarde)  : '-') }}}</div>\n</div>",
+                                            "refreshOnChange": false,
+                                            "key": "html2",
+                                            "type": "htmlelement",
+                                            "hideLabel": true,
+                                            "tableView": false,
+                                            "input": true
+                                        }
+                                    ],
+                                    "width": 12,
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 12
+                                },
+                                {
+                                    "components": [],
+                                    "width": 6,
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 6
+                                }
+                            ],
+                            "key": "columns",
+                            "type": "columns",
+                            "input": false,
+                            "tableView": false
+                        }
+                    ]
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6 \">Toelichting vaststelling schulden</dd>\n        <dt class=\"col-6\">{{{data.pv.schuldenToelichting || '-'}}}</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                }
+            ]
+        },
+        {
+            "label": "Container",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "container2",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "key": "aanvrager",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "Contant geld",
+                    "content": "<h4>Eigen woning</h4>",
+                    "tableView": false,
+                    "customClass": "no-border-bottom",
+                    "refreshOnChange": false
+                },
+                {
+                    "label": "HTML",
+                    "attrs": [
+                        {
+                            "attr": "",
+                            "value": ""
+                        }
+                    ],
+                    "content": "<div class=\"row pb-1 pt-1\" style=\"margin-left:1px\">\n    <div class=\"col-3 font-weight-bold\">Soort vermogen</div>\n    <div class=\"col-3 font-weight-bold\">Omschrijving</div>\n    <div class=\"col-3 font-weight-bold\">Peildatum</div>\n    <div class=\"col-3 font-weight-bold\">Waarde</div>\n</div>",
+                    "refreshOnChange": true,
+                    "customClass": "border-top-0 border-bottom-0 no-border-radius",
+                    "customConditional": "show=(data.pv?.eigenWoning||[]).some(obj => obj && typeof obj === 'object' && Object.keys(obj).length>0);",
+                    "key": "html1",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "label": "Vermogens componenten",
+                    "reorder": false,
+                    "addAnotherPosition": "bottom",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "initEmpty": false,
+                    "hideLabel": true,
+                    "tableView": false,
+                    "validateWhenHidden": false,
+                    "disabled": true,
+                    "customClass": "bbz-inkomsten-tab-data-grid",
+                    "key": "eigenWoning",
+                    "calculateValue": "value = data.pv.eigenWoning",
+                    "customConditional": "show=(data.pv?.eigenWoning||[]).some(obj => obj && typeof obj === 'object' && Object.keys(obj).length>0);",
+                    "type": "datagrid",
+                    "input": true,
+                    "components": [
+                        {
+                            "label": "Columns",
+                            "hideLabel": true,
+                            "columns": [
+                                {
+                                    "components": [
+                                        {
+                                            "label": "aanvragerHTML",
+                                            "attrs": [
+                                                {
+                                                    "attr": "",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "content": "<div class=\"row mb-1\" style=\"margin-left:1px\">\n    <div class=\"col-3\">{{{ (row?.soortVermogenscomponent?.name || '-') }}}</div>\n    <div class=\"col-3\">{{{ (row?.omschrijving || '-') }}}</div>\n    <div class=\"col-3\">{{{ (row?.datumVaststelling ? moment(row?.datumVaststelling).format('DD-MM-YYYY') : '-') }}}</div>\n    <div class=\"col-3\">{{{ (row?.waarde ? new Intl.NumberFormat('nl-NL', {style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2}).format(row?.waarde)  : '-') }}}</div>\n</div>",
+                                            "refreshOnChange": false,
+                                            "key": "html2",
+                                            "type": "htmlelement",
+                                            "hideLabel": true,
+                                            "tableView": false,
+                                            "input": true
+                                        }
+                                    ],
+                                    "width": 12,
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 12
+                                },
+                                {
+                                    "components": [],
+                                    "width": 6,
+                                    "offset": 0,
+                                    "push": 0,
+                                    "pull": 0,
+                                    "size": "md",
+                                    "currentWidth": 6
+                                }
+                            ],
+                            "key": "columns",
+                            "type": "columns",
+                            "input": false,
+                            "tableView": false
+                        }
+                    ]
+                },
+                {
+                    "label": "aanvragerHTML",
+                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6 \">Toelichting vaststelling eigen woning</dd>\n        <dt class=\"col-6\">{{{data.pv.eigenWoningToelichting || '-'}}}</dt>\n    </dl>\n</section>",
+                    "refreshOnChange": false,
+                    "key": "toelichtingHtml",
+                    "type": "htmlelement",
+                    "customClass": "relatie-toelichting",
+                    "tableView": false,
+                    "input": true
+                }
+            ]
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "content": "Er is geen vermogen vastgesteld. Indienen is niet mogelijk.",
+            "refreshOnChange": false,
+            "customClass": "alert alert-warning",
+            "key": "html",
+            "customConditional": "const totalLength = (\n  data.pv?.bankrekeningen?.length +\n  data.pv?.bezittingen?.length +\n  data.pv?.schulden?.length +\n  data.pv?.eigenWoning?.length\n);\n\nshow = (totalLength === 0);",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "ButtonColumns",
+            "columns": [
+                {
+                    "components": [
+                        {
+                            "type": "button",
+                            "label": "Vorige",
+                            "showValidations": false,
+                            "disableOnInvalid": true,
+                            "tableView": false,
+                            "action": "custom",
+                            "custom": "data.pv.goBack = 'true'; form.submit();",
+                            "theme": "warning",
+                            "key": "back",
+                            "input": true
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                },
+                {
+                    "components": [
+                        {
+                            "label": "Indienen",
+                            "action": "custom",
+                            "showValidations": false,
+                            "disableOnInvalid": true,
+                            "logic": [
+                                {
+                                    "name": "CheckAllVermogenLength",
+                                    "trigger": {
+                                        "type": "javascript",
+                                        "javascript": "const totalLength = (\n  data.pv?.bankrekeningen?.length +\n  data.pv?.bezittingen?.length +\n  data.pv?.schulden?.length +\n  data.pv?.eigenWoning?.length\n);\n\nresult = (totalLength === 0);\n"
+                                    },
+                                    "actions": [
+                                        {
+                                            "name": "DisableButton",
+                                            "type": "property",
+                                            "property": {
+                                                "label": "Disabled",
+                                                "value": "disabled",
+                                                "type": "boolean"
+                                            },
+                                            "state": true
+                                        }
+                                    ]
+                                }
+                            ],
+                            "tableView": false,
+                            "key": "submit",
+                            "type": "button",
+                            "custom": "const isNonEmptyObject = v =>\n  v && typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length > 0;\n\nconst clean = arr => Array.isArray(arr) ? arr.filter(isNonEmptyObject) : [];\n\nlet vermogensComponenten = [];\n\n['bankrekeningen', 'bezittingen', 'eigenWoning', 'schulden'].forEach(key => {\n  const cleaned = clean(data.pv?.[key]);\n  if (cleaned.length > 0) {\n    vermogensComponenten.push(...cleaned);\n  }\n}); data.pv.vermogensComponenten = vermogensComponenten; form.submit(); component.disabled = true;",
+                            "input": true
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                }
+            ],
+            "key": "buttonColumns",
+            "type": "columns",
+            "input": false,
+            "tableView": false
+        }
+    ]
+}

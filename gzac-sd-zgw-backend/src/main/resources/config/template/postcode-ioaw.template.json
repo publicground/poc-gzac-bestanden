@@ -1,0 +1,7 @@
+{
+    "templateKey": "postcode",
+    "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+    "templateType": "text",
+    "metadata": {},
+    "contentRef": "/config/template/postcode.ftlh"
+}

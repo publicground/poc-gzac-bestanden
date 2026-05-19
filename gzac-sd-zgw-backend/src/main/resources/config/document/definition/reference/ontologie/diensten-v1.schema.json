@@ -1,0 +1,856 @@
+{
+  "$id": "diensten.schema",
+  "type": "object",
+  "title": "Model Diensten",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "diensttype": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "description": "Identificerend kenmerk",
+          "$ref": "#/definitions/guid"
+        },
+        "naam": {
+          "$ref": "#/definitions/tekst"
+        },
+        "startdatum": {
+          "description": "Diensttypen zijn *by design* ingeregeld. Een diensttype heeft een levenscyclus met een startdatum en een einddatum.",
+          "$ref": "#/definitions/datum"
+        },
+        "einddatum": {
+          "description": "Diensttypen zijn *by design* ingeregeld. Een diensttype heeft een levenscyclus met een startdatum en een einddatum. Als de einddatum niet is ingevuld, dan is het diensttype nog actief. In het andere geval betreft het een historisch diensttype. Historische diensttypen kunnen nog actief zijn, bijvoorbeeld als diensttypenuit het verleden nog bestaande afnemers hebben, die daarvan nog rechtmatig mogen gebruik maken. Anderszins kunnen er bij signalen nog met terugwerkende kracht vorderingen ontstaan op historische diensttypen.",
+          "$ref": "#/definitions/datum"
+        },
+        "periodiciteit": {
+          "description": "De periodiciteit van uitbetaling",
+          "$ref": "#/definitions/cdPeriode"
+        },
+        "periodiciteitInkomstenformulier": {
+          "description": "Dit gegeven geeft aan met welk tijdsinterval een inkomstenformulier moet worden gestuurd naar de klant om de klant zijn inkomsten van die maand op te kunnen laten gegeven. Het betreft het postkanaal. Digitaal kanaal werkt met notificaties.",
+          "$ref": "#/definitions/cdPeriode"
+        },
+        "referteperiodebepalingstype": {
+          "description": "De manier waarop de start- en einddatum van de referteperiode moet worden bepaald.",
+          "$ref": "#/definitions/referteperiodebepalingtype"
+        },
+        "referteperiodeDuur": {
+          "description": "De duur van de referteperiode in jaren. Dit kan per dienstaanbieder verschillen. Dit gegeven is nodig voor het vaststellen van de start- en einddatum van de referteperiode.",
+          "$ref": "#/definitions/getal"
+        },
+        "vereistBetrouwbaarheidsniveau": {
+          "description": "<p>Het betrouwbaarheidsniveau waarmee door authenticatie de identiteit van de persoon is vastgesteld.</p><p>Hier wordt gebruik gemaakt van STORK: Secure idenTities acrOss boRders linKed. Zie voor de toepassing van het STORK-raamwerk binnen de Nederlandse Overheid voor eDiensten de </p>",
+          "$ref": "#/definitions/codeSTORKbetrouwbaarheid"
+        },
+        "dienst": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "dienstId": {
+                "description": "Identificatie van de dienst",
+                "$ref": "#/definitions/guid"
+              },
+              "periodiciteitStatusformulier": {
+                "description": "Dit gegeven geeft aan met welk tijdsinterval een statusformulier moet worden gestuurd naar de klant om te checken of de gegevens nog actueel zijn op basis waarvan de uitkering wordt bepaald.",
+                "$ref": "#/definitions/cdPeriodiciteitStatusformulier"
+              },
+              "startdatumStatusformulier": {
+                "description": "Geeft aan wanneer de periodiek van verzenden statusformulier start",
+                "$ref": "#/definitions/datum"
+              },
+              "begindatum": {
+                "description": "n.t.b.",
+                "$ref": "#/definitions/datum"
+              },
+              "einddatum": {
+                "description": "n.t.b.",
+                "$ref": "#/definitions/datum"
+              },
+              "aantalKostendeler": {
+                "description": "Afgeleid gegeven uit opgegeven medebewoners bij de aanvraag en wordt alleen in het S2S-koppelvlak meegenomen omdat de gegevens van de medebewoners niet zonder doelbinding in vervolgprocessen kunnen worden gebruikt.",
+                "$ref": "#/definitions/getal"
+              },
+              "referteperiode": {
+                "type":"object",
+                "properties": {
+                  "id": {
+                    "description": "Identificerend kenmerk",
+                    "$ref": "#/definitions/guid"
+                  },
+                  "startdatum": {
+                    "description": "De startdatum van de referteperiode",
+                    "$ref": "#/definitions/datum"
+                  },
+                  "einddatum": {
+                    "description": "Einddatum van de referteperiode",
+                    "$ref": "#/definitions/datum"
+                  }
+                }
+              },
+              "betalingsblokkade": {
+                "type":"object",
+                "properties": {
+                  "id": {
+                    "description": "Identificerend gegeven",
+                    "$ref": "#/definitions/guid"
+                  },
+                  "aanduiding": {
+                    "description": "Vooralsnog is hier (nog) maar ��n aanduiding relevant en dat is 'Blokkade vakantiegeld'",
+                    "$ref": "#/definitions/tekst"
+                  },
+                  "initieleAanmaakDatum": {
+                    "description": "De datum waarop de blokkade is aangemaakt en aan de dienst gekoppeld",
+                    "$ref": "#/definitions/datum"
+                  },
+                  "directBlokkeren": {
+                    "description": "Al dan niet direct blokkeren",
+                    "$ref": "#/definitions/stdIndJN"
+                  },
+                  "reden": {
+                    "description": "De reden om te blokkeren",
+                    "$ref": "#/definitions/tekst"
+                  },
+                  "blokkadetype": {
+                    "description": "Type is Uitkering of Vakantiegeld",
+                    "$ref": "#/definitions/cdTypeBlokkade"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "leveringscomponenttype": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Identificerend kenmerk",
+                "$ref": "#/definitions/guid"
+              },
+              "soortWettelijkeNorm": {
+                "description": "n.t.b.",
+                "$ref": "#/definitions/tekst"
+              },
+              "afwijkendeNorm": {
+                "description": "n.t.b.",
+                "$ref": "#/definitions/tekst"
+              },
+              "normbedrag": {
+                "description": "n.t.b.",
+                "$ref": "#/definitions/geldbedrag"
+              },
+              "normpercentage": {
+                "description": "n.t.b.",
+                "$ref": "#/definitions/percentage"
+              },
+              "startdatum": {
+                "description": "n.t.b.",
+                "$ref": "#/definitions/datum"
+              },
+              "einddatum": {
+                "description": "n.t.b.",
+                "$ref": "#/definitions/datum"
+              },
+              "kostensoort": {
+                "description": "n.t.b.",
+                "$ref": "#/definitions/cdSrtKostenBijzBijstand"
+              },
+              "rubriek": {
+                "description": "n.t.b.",
+                "$ref": "#/definitions/onderdeelDienstTypeRubriek"
+              },
+              "fiscaal": {
+                "description": "Aanduiding of het uitgekeerde bedrag in het onderdeel dienst van dit onderdeel diensttype fiscaal is belast.",
+                "$ref": "#/definitions/stdIndJN"
+              },
+              "leveringscomponent": {
+                "type":"array",
+                "items": {
+                  "type":"object",
+                  "properties": {
+                    "id": {
+                      "description": "Identificerend kenmerk",
+                      "$ref": "#/definitions/guid"
+                    },
+                    "soort": {
+                      "description": "Beschrijving van de soort die is toegepast",
+                      "$ref": "#/definitions/tekst"
+                    },
+                    "gevalsrubriek": {
+                      "description": "<p>De gevalsrubriek geeft aan of de bedragen of percentages moeten worden ge�nterpreteerd als</p><ul>                                    </ul>",
+                      "$ref": "#/definitions/onderdeelDienstGevalsrubriek"
+                    },
+                    "bedrag": {
+                      "description": "De hoogte van het bedrag voor deze leveringscomponent.",
+                      "$ref": "#/definitions/geldbedrag"
+                    },
+                    "percentage": {
+                      "description": "De hoogte van het percentage dat moet worden toegepast op het bedrag van de leveringscomponent.",
+                      "$ref": "#/definitions/getal"
+                    },
+                    "omschrijvingAfwijking": {
+                      "description": "De omschrijving van de afwijking, die is toegepast",
+                      "$ref": "#/definitions/tekst"
+                    },
+                    "periodeStartdatum": {
+                      "description": "De startdatum van de periode",
+                      "$ref": "#/definitions/datum"
+                    },
+                    "einddatum": {
+                      "description": "n.t.b.",
+                      "$ref": "#/definitions/datum"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "voorwaardetype": {
+      "type":"object",
+      "properties": {
+        "voorwaardetypeId": {
+          "$ref": "#/definitions/guid"
+        },
+        "beschrijving": {
+          "description": "De beschrijving van de voorwaarde in leesbaar formaat",
+          "$ref": "#/definitions/tekst"
+        },
+        "voorwaarde": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "voorwaardeId": {
+                "$ref": "#/definitions/guid"
+              },
+              "vastleggingsdatum": {
+                "description": "Datum waarop de voorwaarde (of een van zijn specialisaties) is vastgesteld.",
+                "$ref": "#/definitions/datum"
+              },
+              "verantwoordingVaststelling": {
+                "description": "Verantwoording van de vaststelling van de voorwaarde (of een van zijn specialisaties) door de professional.",
+                "$ref": "#/definitions/tekst"
+              },
+              "conclusie": {
+                "description": "De uitkomst van de toets op de voorwaarde op basis van de gegevens behorende bij het aanvragende huishouden.",
+                "$ref": "#/definitions/tekst"
+              },
+              "brontype": {
+                "description": "De bron van waaruit de gegevens afkomstig zijn (externe bron, opgave van klant of vaststelling van professional).",
+                "$ref": "#/definitions/brontype"
+              },
+              "uitsluitingsgrond": {
+                "type":"array",
+                "items": {
+                  "type":"object",
+                  "properties": {
+                    "uitsluitingsgrondId": {
+                      "description": "<p>Uniek ID voor de uitsluitingsgrond.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                      "$ref": "#/definitions/guid"
+                    },
+                    "type": {
+                      "description": "<p>Het type uitsluitingsgrond.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                      "$ref": "#/definitions/tekst"
+                    }
+                  }
+                }
+              },
+              "voorliggendeVoorziening": {
+                "type":"array",
+                "items": {
+                  "type":"object",
+                  "properties": {
+                    "voorliggendeVoorzieningId": {
+                      "description": "<p>Uniek ID voor de voorliggende voorziening.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                      "$ref": "#/definitions/guid"
+                    },
+                    "type": {
+                      "description": "<p>Het type voorliggende voorziening.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                      "$ref": "#/definitions/tekst"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "leveringsspecificatie": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "description": "Identificerend kenmerk",
+          "$ref": "#/definitions/guid"
+        },
+        "periodeStartdatum": {
+          "description": "De startdatum van de periode waarvoor de leveringsspecificatie geldt.",
+          "$ref": "#/definitions/datum"
+        },
+        "periodeEinddatum": {
+          "description": "De einddatum van de periode waarvoor de leveringsspecificatie geldt.",
+          "$ref": "#/definitions/datum"
+        },
+        "periodiciteit": {
+          "description": "De periode van uitbetaling",
+          "$ref": "#/definitions/cdPeriode"
+        },
+        "leveringscomponent": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Identificerend kenmerk",
+                "$ref": "#/definitions/guid"
+              },
+              "soort": {
+                "description": "Beschrijving van de soort die is toegepast",
+                "$ref": "#/definitions/tekst"
+              },
+              "gevalsrubriek": {
+                "description": "<p>De gevalsrubriek geeft aan of de bedragen of percentages moeten worden ge�nterpreteerd als</p><ul>                                    </ul>",
+                "$ref": "#/definitions/onderdeelDienstGevalsrubriek"
+              },
+              "bedrag": {
+                "description": "De hoogte van het bedrag voor deze leveringscomponent.",
+                "$ref": "#/definitions/geldbedrag"
+              },
+              "percentage": {
+                "description": "De hoogte van het percentage dat moet worden toegepast op het bedrag van de leveringscomponent.",
+                "$ref": "#/definitions/getal"
+              },
+              "omschrijvingAfwijking": {
+                "description": "De omschrijving van de afwijking, die is toegepast",
+                "$ref": "#/definitions/tekst"
+              },
+              "periodeStartdatum": {
+                "description": "De startdatum van de periode",
+                "$ref": "#/definitions/datum"
+              },
+              "einddatum": {
+                "description": "n.t.b.",
+                "$ref": "#/definitions/datum"
+              }
+            }
+          }
+        }
+      }
+    },
+    "aanvraagtype": {
+      "type":"object",
+      "properties": {
+        "aanvraagtypeId": {
+          "$ref": "#/definitions/guid"
+        },
+        "soortAanvraag": {
+          "description": "Soort aanvraag",
+          "$ref": "#/definitions/soortAanvraag"
+        },
+        "naam": {
+          "$ref": "#/definitions/tekst"
+        },
+        "startdatum": {
+          "description": "n.t.b.",
+          "$ref": "#/definitions/datum"
+        },
+        "einddatum": {
+          "description": "n.t.b.",
+          "$ref": "#/definitions/datum"
+        },
+        "aanvraag": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "aanvraagId": {
+                "$ref": "#/definitions/guid"
+              },
+              "codeOntvangendeGemeente": {
+                "description": "De code van de gemeente, die de aanvraag ontvangt en verwerkt.",
+                "$ref": "#/definitions/tekst"
+              },
+              "aanvraagdatum": {
+                "description": "<p>De datum waarop de aanvraag is ingediend.</p><p>Doorgaans is dit de verzenddatum, echter, de aanvraag kan leiden tot een compleetheid- en juistheidtoets. Dit kan betekenen dat de aanvraag pas later wordt gecompleteerd. </p>",
+                "$ref": "#/definitions/datum"
+              },
+              "besluit": {
+                "type":"object",
+                "properties": {
+                  "datumBeslissing": {
+                    "$ref": "#/definitions/datum"
+                  },
+                  "beschikking": {
+                    "type":"object",
+                    "properties": {
+                      "datumBeschikking": {
+                        "$ref": "#/definitions/datum"
+                      },
+                      "onderdeelBeschikking": {
+                        "type":"array",
+                        "items": {
+                          "type":"object",
+                          "properties": {
+                            "beschikkingDiensttypeId": {
+                              "description": "Identificerend gegeven",
+                              "$ref": "#/definitions/guid"
+                            },
+                            "datumBeschikkingDiensttype": {
+                              "$ref": "#/definitions/datum"
+                            },
+                            "redenBeschikkingDiensttype": {
+                              "description": "Reden van afwijzing of toewijzing",
+                              "$ref": "#/definitions/tekst"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "leveringsopdracht": {
+                    "type":"object",
+                    "properties": {
+                      "id": {
+                        "description": "Identificerend kenmerk",
+                        "$ref": "#/definitions/guid"
+                      },
+                      "leveringskanaal": {
+                        "description": "Het kanaal waarlangs de levering tot de klant komt. Hierin is pluriformiteit onder de gemeenten. Een uitkering kan overgemaakt worden op een bankrekening, maar ook op een stadspas. Fysieke goederen kunnen fysiek worden geleverd, maar bijvoorbeeld ook worden besteld via een daartoe ingerichte webshop. Ook zijn vouchers een optie. De klant kan overigens in zijn profiel een voorkeur aangeven.",
+                        "$ref": "#/definitions/defaultEnumeratie"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "guid": {
+      "type": "string",
+      "pattern": "^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$"
+    },
+    "tekst": {
+      "type": "string"
+    },
+    "datum": {
+      "type": "string"
+    },
+    "cdPeriode": {
+      "type": "object",
+      "enum": [
+        { "code": "-1", "name": "Niet van toepassing" },
+        { "code": "0", "name": "Geen" },
+        { "code": "1", "name": "Incidenteel" },
+        { "code": "2", "name": "Eenmalig" },
+        { "code": "3", "name": "Minuut" },
+        { "code": "4", "name": "Uur" },
+        { "code": "5", "name": "Dag" },
+        { "code": "6", "name": "Week" },
+        { "code": "7", "name": "2 weken" },
+        { "code": "8", "name": "4 weken" },
+        { "code": "9", "name": "Maand" },
+        { "code": "10", "name": "5 weken" },
+        { "code": "11", "name": "13 weken" },
+        { "code": "12", "name": "Kwartaal" },
+        { "code": "13", "name": "Halfjaar" },
+        { "code": "14", "name": "52 weken" },
+        { "code": "15", "name": "Jaar" },
+        { "code": "90", "name": "Overig" }
+      ]
+    },
+    "referteperiodebepalingtype": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Bepaling vanuit aanvraagdatum" },
+        { "code": "2", "name": "Bepaling vanuit eerste van de maand van aanvraag" },
+        { "code": "3", "name": "Bepaling vanuit eerste van de opvolgende maand van aanvraag" },
+        { "code": "3", "name": "Bepaling vanuit eerste van het jaar van aanvraag" }
+      ]
+    },
+    "getal": {
+      "type": "integer",
+      "pattern": "^-?[0-9]{1,}$"
+    },
+    "codeSTORKbetrouwbaarheid": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "STORK QAA 1" },
+        { "code": "2", "name": "STORK QAA 2" },
+        { "code": "3", "name": "STORK QAA 3" },
+        { "code": "4", "name": "STORK QAA 4" }
+      ]
+    },
+    "cdPeriodiciteitStatusformulier": {
+      "type": "object",
+      "enum": [
+        { "code": "-1", "name": "Niet van toepassing" },
+        { "code": "0", "name": "Geen" },
+        { "code": "1", "name": "Incidenteel" },
+        { "code": "6", "name": "Week" },
+        { "code": "7", "name": "2 weken" },
+        { "code": "8", "name": "4 weken" },
+        { "code": "9", "name": "Maand" },
+        { "code": "10", "name": "5 weken" },
+        { "code": "12", "name": "Kwartaal" },
+        { "code": "15", "name": "Jaar" },
+        { "code": "90", "name": "Overig" }
+      ]
+    },
+    "stdIndJN": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ja" },
+        { "code": "2", "name": "Nee" }
+      ]
+    },
+    "cdTypeBlokkade": {
+      "type": "object",
+      "enum": [
+        { "code": "U", "name": "Uitkering" },
+        { "code": "VG", "name": "Vakantiegeld" }
+      ]
+    },
+    "geldbedrag": {
+      "type": "number",
+      "pattern": "^-?[0-9]((;|,|\\.)[0-9]{2}|)$"
+    },
+    "percentage": {
+      "type": "number"
+    },
+    "cdSrtKostenBijzBijstand": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "(eenmalige) uitgaven in het kader van armoedebeleid (WWB, art 35)" },
+        { "code": "2", "name": "aanvullende bijstand jonger dan 21 jaar" },
+        { "code": "3", "name": "alarmsysteem" },
+        { "code": "4", "name": "andere hulpmiddelen" },
+        { "code": "5", "name": "arbeidsongeschiktheidsverzekering en ziektekostenverzekering" },
+        { "code": "6", "name": "bedrijfsdoelen" },
+        { "code": "7", "name": "begrafeniskosten" },
+        { "code": "8", "name": "betaling naar aanleiding van borgstelling" },
+        { "code": "9", "name": "bril" },
+        { "code": "10", "name": "dieetkosten" },
+        { "code": "11", "name": "dieetkosten en kosten geneesmiddelen" },
+        { "code": "12", "name": "eenmalig levensonderhoud" },
+        { "code": "13", "name": "huishoudelijke hulp of gezinshulp" },
+        { "code": "14", "name": "intra/semi-murale verpleging/verzorging" },
+        { "code": "15", "name": "kinderopvang (niet uitstroombevordering)" },
+        { "code": "16", "name": "kinderopvang arbeid of scholing" },
+        { "code": "17", "name": "kleding en schoeisel" },
+        { "code": "18", "name": "kosten eigen vervoermiddel" },
+        { "code": "19", "name": "kosten fysiotherapie/psychotherapie" },
+        { "code": "20", "name": "kosten gespecialiseerde (ziekenhuis)zorg" },
+        { "code": "21", "name": "kosten hulpmiddelen" },
+        { "code": "22", "name": "kosten identificatie" },
+        { "code": "23", "name": "kosten in verband met geboorte" },
+        { "code": "24", "name": "kosten inrichting of huisraad" },
+        { "code": "25", "name": "kosten specialist" },
+        { "code": "26", "name": "kosten tandarts" },
+        { "code": "27", "name": "kosten telefoon" },
+        { "code": "28", "name": "kosten vestiging krediethypotheek" },
+        { "code": "29", "name": "langdurigheidstoeslag" },
+        { "code": "30", "name": "maaltijdvoorziening" },
+        { "code": "31", "name": "met terugwerkende kracht verstrekte langdurigheidstoeslag" },
+        { "code": "32", "name": "omscholingskosten tertiair niveau" },
+        { "code": "33", "name": "opvang in crisiscentrum" },
+        { "code": "34", "name": "opvang/huisvesting in pension of hotel" },
+        { "code": "35", "name": "overige algemene levensbehoeften" },
+        { "code": "36", "name": "overige kosten" },
+        { "code": "37", "name": "overige kosten (para)medische hulp" },
+        { "code": "38", "name": "overige kosten financi�le transacties" },
+        { "code": "39", "name": "overige kosten in verband met huishouding" },
+        { "code": "40", "name": "overige kosten maatschappelijke zorg" },
+        { "code": "41", "name": "overige kosten vermindering bijstand" },
+        { "code": "42", "name": "overige kostenin verband met woonvoorzieningen" },
+        { "code": "43", "name": "overige medische/paramedische hulp" },
+        { "code": "44", "name": "overige niet indeelbare kosten" },
+        { "code": "45", "name": "overige opvang" },
+        { "code": "46", "name": "overige vervoerskosten" },
+        { "code": "47", "name": "premie zorgverzekering aan zak- en kleedgeldgerechtigden" },
+        { "code": "48", "name": "rechtsbijstand" },
+        { "code": "49", "name": "reiskosten arbeid of scholing" },
+        { "code": "50", "name": "schuldsanering" },
+        { "code": "51", "name": "studie- en omscholingskosten" },
+        { "code": "52", "name": "taxikosten" },
+        { "code": "53", "name": "toeslag aan zak- en kleedgeldgerechtigden (premie ZVW)" },
+        { "code": "54", "name": "toeslag boven norm" },
+        { "code": "55", "name": "toeslag voormalige eenoudergezinnen" },
+        { "code": "56", "name": "verhuiskosten" },
+        { "code": "57", "name": "verpleging aan huis" },
+        { "code": "58", "name": "vervoerskosten" },
+        { "code": "59", "name": "verwarmings- en verlichtingskosten" },
+        { "code": "60", "name": "voorzieningen in verband met handicap" },
+        { "code": "61", "name": "voorzieningen voor gehandicapten en ouderen" },
+        { "code": "62", "name": "waarborgsom" },
+        { "code": "63", "name": "woonkosten boven huursubsidiegrens" },
+        { "code": "64", "name": "woonkosten tot huursubsidiegrens" },
+        { "code": "65", "name": "ziektekostenverzekering" }
+      ]
+    },
+    "onderdeelDienstTypeRubriek": {
+      "type": "object",
+      "enum": [
+        { "code": "21", "name": "grondslag alleenstaande 23+" },
+        { "code": "36", "name": "grondslag gezin beiden 21 jaar of ouder" },
+        { "code": "45", "name": "grondslag alleenstaande ouder van 23+" },
+        { "code": "46", "name": "grondslag Kostendeler Ioaw/Ioaz alleenstaande 23+" },
+        { "code": "47", "name": "grondslag Kostendeler Ioaw/Ioaz all. ouder 23+" },
+        { "code": "96", "name": "inkomen loon klant" },
+        { "code": "97", "name": "inkomen loon partner" },
+        { "code": "102", "name": "inkomen vakantiegeld klant" },
+        { "code": "103", "name": "inkomen vakantiegeld partner" },
+        { "code": "105", "name": "inkomen 13e maand/einde jaarsuitk klant" },
+        { "code": "106", "name": "inkomen 13e maand/einde jaarsuitk partner" },
+        { "code": "107", "name": "inkomen (belaste) reiskosten klant" },
+        { "code": "108", "name": "inkomen gratificatie klant" },
+        { "code": "109", "name": "inkomen gratificatie partner" },
+        { "code": "111", "name": "inkomen loon in natura klant" },
+        { "code": "112", "name": "inkomen loon in natura partner" },
+        { "code": "113", "name": "inkomen (belaste) reiskostene partner" },
+        { "code": "114", "name": "inkomen provisie klant" },
+        { "code": "115", "name": "inkomen provisie partner" },
+        { "code": "117", "name": "inkomen fooien klant" },
+        { "code": "118", "name": "inkomen fooien partner" },
+        { "code": "120", "name": "inkomen WW incl evt TW klant" },
+        { "code": "121", "name": "inkomen WW incl evt TW partner" },
+        { "code": "126", "name": "inkomen wachtgeld klant" },
+        { "code": "127", "name": "inkomen wachtgeld partner" },
+        { "code": "129", "name": "Korting: geen traject door eigen toedoen" },
+        { "code": "132", "name": "inkomen ZW incl evt TW klant" },
+        { "code": "133", "name": "inkomen ZW incl evt TW partner" },
+        { "code": "135", "name": "inkomen WAO/WIA incl evt TW klant" },
+        { "code": "136", "name": "inkomen WAO/WIA incl evt TW partner" },
+        { "code": "137", "name": "inkomen TRI klant" },
+        { "code": "138", "name": "inkomen TRI partner" },
+        { "code": "139", "name": "inkomen IOW incl evt TW klant" },
+        { "code": "140", "name": "inkomen IOW incl evt TW partner" },
+        { "code": "153", "name": "inkomen invaliditeitspensioen klant" },
+        { "code": "154", "name": "inkomen invaliditeitspensioen partner" },
+        { "code": "159", "name": "inkomen vergoeding onbetaalde arbeid klant" },
+        { "code": "160", "name": "inkomen vergoeding onbetaalde arbeid partner" },
+        { "code": "162", "name": "inkomen stagevergoeding klant" },
+        { "code": "163", "name": "inkomen stagevergoeding partner" },
+        { "code": "165", "name": "inkomen vergoeding preklinische periode klant" },
+        { "code": "166", "name": "inkomen vergoeding preklinische periode partner" },
+        { "code": "168", "name": "inkomen uitkering vut klant" },
+        { "code": "169", "name": "inkomen uitkering vut partner" },
+        { "code": "174", "name": "inkomen uitkering flo klant" },
+        { "code": "175", "name": "inkomen uitkering flo partner" },
+        { "code": "200", "name": "inkomen AOW klant" },
+        { "code": "201", "name": "inkomen AOW partner" },
+        { "code": "240", "name": "inkomen ouderdomspensioen excl AOW klant" },
+        { "code": "241", "name": "inkomen ouderdomspensioen excl AOW partner" },
+        { "code": "252", "name": "inkomen lijfrente klant" },
+        { "code": "253", "name": "inkomen lijfrente partner" },
+        { "code": "255", "name": "inkomen levensverzekering klant" },
+        { "code": "256", "name": "inkomen levensverzekering partner" },
+        { "code": "258", "name": "inkomen buitenlandse sociale uitkering klant" },
+        { "code": "259", "name": "inkomen buitenlandse sociale uitkering partner" },
+        { "code": "264", "name": "inkomen oorlogspensioen klant" },
+        { "code": "265", "name": "inkomen oorlogspensioen partner" },
+        { "code": "285", "name": "inkomen Anw klant" },
+        { "code": "286", "name": "inkomen Anw partner" },
+        { "code": "303", "name": "inkomen weduwe-/weduwnaarspensioen klant" },
+        { "code": "304", "name": "inkomen weduwe-/weduwnaarspensioen partner" },
+        { "code": "309", "name": "inkomen wezenpensioen klant" },
+        { "code": "310", "name": "inkomen wezenpensioen partner" },
+        { "code": "324", "name": "inkomen WSF 18+ klant" },
+        { "code": "325", "name": "inkomen WSF 18+ partner" },
+        { "code": "336", "name": "inkomen aliment kind(eren) niet geindex klant" },
+        { "code": "337", "name": "inkomen aliment kind(eren) niet geindex partner" },
+        { "code": "339", "name": "inkomen aliment kind(eren) geindex klant" },
+        { "code": "340", "name": "inkomen aliment kind(eren) geindex partner" },
+        { "code": "342", "name": "Inkomen uit huur of onderhuur klant" },
+        { "code": "343", "name": "Inkomen uit huur of onderhuur partner" },
+        { "code": "354", "name": "inkomen teruggave inkomstenbelasting klant" },
+        { "code": "355", "name": "inkomen teruggave inkomstenbelasting partner" },
+        { "code": "378", "name": "inkomen overige inkomsten klant" },
+        { "code": "379", "name": "inkomen overige inkomsten partner" },
+        { "code": "384", "name": "inkomen hoofdinkomen zelfstandige klant" },
+        { "code": "385", "name": "inkomen hoofdinkomen zelfstandige partner" },
+        { "code": "387", "name": "inkomen bijkomstig inkomen zelfst klant" },
+        { "code": "388", "name": "inkomen bijkomstig inkomen zelfst partner" },
+        { "code": "389", "name": "bruto inkomen zelfstandige bijkomstige aard klant" },
+        { "code": "393", "name": "inkomen basisstip beeldend kunstn klant" },
+        { "code": "394", "name": "inkomen basisstip beeldend kunstn partner" },
+        { "code": "396", "name": "inkomen startstip beeldend kunstn klant" },
+        { "code": "397", "name": "inkomen startstip beeldend kunstn partner" },
+        { "code": "398", "name": "inkomen PTO klant" },
+        { "code": "399", "name": "inkomen PTO partner" },
+        { "code": "400", "name": "inkomen PTO-S klant" },
+        { "code": "401", "name": "inkomen PTO-S partner" },
+        { "code": "402", "name": "bruto inkomen PTO klant" },
+        { "code": "403", "name": "bruto inkomen PTO partner" },
+        { "code": "404", "name": "bruto inkomen PTO-S klant" },
+        { "code": "405", "name": "bruto inkomen PTO-S partner" },
+        { "code": "411", "name": "inkomen netto Ioaw klant" },
+        { "code": "412", "name": "inkomen netto Ioaw partner" },
+        { "code": "422", "name": "toeslag terugval inkomen" },
+        { "code": "543", "name": "premie deeltijdwerk periodiek" },
+        { "code": "1079", "name": "bijstandsnorm klant 21+" },
+        { "code": "1080", "name": "bijstandsnorm klant 18, 19, 20 jaar" },
+        { "code": "1082", "name": "bijstand instelling gehuwden 21+" },
+        { "code": "1083", "name": "bijstand instelling klant 21+" },
+        { "code": "1084", "name": "bijstand instelling partner 21+" },
+        { "code": "1087", "name": "bijstandsnorm partner 21+" },
+        { "code": "1088", "name": "Kostendeler partner 21+" },
+        { "code": "1089", "name": "bijstandsnorm partner 18, 19, 20 jaar" },
+        { "code": "1104", "name": "Kostendeler gehuwd/samenwonend 21+" },
+        { "code": "1105", "name": "Kostendeler gehuwd/samenwonend 21- / 21+ met kind" },
+        { "code": "1106", "name": "Kostendeler gehuwd/samenwonend 21- / 21+" },
+        { "code": "1108", "name": "Kostendeler gehuwd/samenwonend (handmatig)" },
+        { "code": "1125", "name": "Kostendeler klant 21+" },
+        { "code": "1140", "name": "bijstandsnorm gehuwd/samenwonend" },
+        { "code": "1155", "name": "bijstandsnorm gehuwd/samenwonend 1 pnr >/ 21jr" },
+        { "code": "1156", "name": "bijstandsnorm gehuwd/samenwonend beiden 18,19,20jr" },
+        { "code": "1157", "name": "bijstandsnorm gehuwd/samenwonend 1 pnr>/21jr+kind" },
+        { "code": "1158", "name": "bijstandsnorm gehuwd/samenwonend beiden 18>21+kind" },
+        { "code": "1161", "name": "bijstand instelling gehuwden 21+" },
+        { "code": "1178", "name": "bijstandsnorm 1 pnr < 21 jr (adresloze)" },
+        { "code": "1179", "name": "bijstandsnorm beiden 18 t/m 20 jr (adresloze)" },
+        { "code": "1180", "name": "bijstandsnorm 1 pnr < 21 jr + kind (adresloze)" },
+        { "code": "1181", "name": "bijstandsnorm beiden 18 t/m 20jr +kind (adresloze)" },
+        { "code": "1206", "name": "bijstandsnorm in instelling gehuwden (handmatig)" },
+        { "code": "1211", "name": "norm pers. uitg. gehuwden 18 t/m 20 jr (handm)" },
+        { "code": "1215", "name": "bijstandsnorm gehuwd/samenwonend (handmatig)" },
+        { "code": "1218", "name": "bijstandsnorm gehuwd/samenw beide <21 (handm)" },
+        { "code": "1223", "name": "bijstandsnorm gehuwd/samenw 1 pnr >/ 21 (handmatig" },
+        { "code": "1224", "name": "bijstandsnorm gehuwd/samenw beide <21+kind(handm)" },
+        { "code": "1225", "name": "bijstandsnorm gehuwd/samenw 1 pnr >/21+kind(handm)" },
+        { "code": "1381", "name": "bruto loon klant" },
+        { "code": "1382", "name": "bruto loon : vakantiegeld klant" },
+        { "code": "1383", "name": "bruto loon : dertiende maand klant" },
+        { "code": "1384", "name": "bruto loon : gratificatie klant" },
+        { "code": "1385", "name": "bruto loon : in natura klant" },
+        { "code": "1386", "name": "bruto loon : provisie klant" },
+        { "code": "1387", "name": "bruto loon : fooien klant" },
+        { "code": "1388", "name": "bruto WW incl evt TW klant" },
+        { "code": "1389", "name": "bruto wachtgeld klant" },
+        { "code": "1390", "name": "bruto ZW incl evt TW klant" },
+        { "code": "1391", "name": "bruto Wao/Wia (incl evt TW) klant" },
+        { "code": "1393", "name": "bruto invaliditeits pensioen klant" },
+        { "code": "1394", "name": "bruto vergoeding onbetaalde arbeid klant" },
+        { "code": "1395", "name": "bruto uitkering VUT/FLO klant" },
+        { "code": "1396", "name": "bruto vergoeding preklinische periode klant" },
+        { "code": "1399", "name": "bruto pensioen ivm ouderdom excl AOW klant" },
+        { "code": "1400", "name": "bruto buitenlandse sociale uitkering klant" },
+        { "code": "1401", "name": "bruto oorlogspensioen klant" },
+        { "code": "1402", "name": "bruto Anw alleenstaand klant" },
+        { "code": "1408", "name": "bruto weduwe/weduwnaars pensioen klant" },
+        { "code": "1412", "name": "bruto overige inkomsten klant" },
+        { "code": "1413", "name": "bruto loon partner" },
+        { "code": "1414", "name": "bruto loon vakantiegeld partner" },
+        { "code": "1415", "name": "bruto loon dertiende maand partner" },
+        { "code": "1416", "name": "bruto loon gratificatie partner" },
+        { "code": "1417", "name": "bruto loon in natura partner" },
+        { "code": "1418", "name": "bruto loon provisie partner" },
+        { "code": "1419", "name": "bruto loon fooien partner" },
+        { "code": "1420", "name": "bruto WW (incl. evt TW) partner" },
+        { "code": "1421", "name": "bruto wachtgeld partner" },
+        { "code": "1422", "name": "bruto ZW (incl. evt TW) partner" },
+        { "code": "1423", "name": "bruto Wao/Wia (incl. evt TW) partner" },
+        { "code": "1425", "name": "bruto invaliditeits pensioen partner" },
+        { "code": "1426", "name": "bruto inkomen AOW partner" },
+        { "code": "1427", "name": "bruto vergoeding stage partner" },
+        { "code": "1428", "name": "bruto vergoeding preklinische periode partner" },
+        { "code": "1429", "name": "bruto uitkering Vut partner" },
+        { "code": "1430", "name": "bruto uitkering Flo partner" },
+        { "code": "1431", "name": "bruto Aow afwijkend partner" },
+        { "code": "1432", "name": "bruto Aow gezin 50% partner" },
+        { "code": "1433", "name": "Bruto Aow gezin 100% (partner < AOW) partner" },
+        { "code": "1434", "name": "bruto Aow alleenstaande partner" },
+        { "code": "1435", "name": "bruto Aow afwijkend partner" },
+        { "code": "1436", "name": "bruto ouderdoms pensioen excl. AOW partner" },
+        { "code": "1437", "name": "bruto ouderdoms pensioen incl. AOW partner" },
+        { "code": "1438", "name": "bruto buitenlandse sociale uitkering partner" },
+        { "code": "1439", "name": "bruto oorlogs pensioen partner" },
+        { "code": "1440", "name": "bruto Anw alleenstaande partner" },
+        { "code": "1446", "name": "bruto weduwe/weduwnaars pensioen partner" },
+        { "code": "1447", "name": "bruto inkomen WSF 18+ partner" },
+        { "code": "1450", "name": "bruto Aow eenoudergezin partner" },
+        { "code": "1451", "name": "bruto Aow alleenstaande partner" },
+        { "code": "1452", "name": "bruto Aow gezin 50% partner" },
+        { "code": "1453", "name": "Bruto Aow gezin 100% (partner < AOW) partner" },
+        { "code": "1454", "name": "bruto Aow eenoudergezin partner" },
+        { "code": "1455", "name": "bruto overige inkomsten partner" },
+        { "code": "1457", "name": "bruto inkomen IOW partner" },
+        { "code": "1458", "name": "bruto wezenpensioen klant" },
+        { "code": "1459", "name": "bruto wezenpensioen partner" },
+        { "code": "1462", "name": "bruto vt bedrag uit reservering klant" },
+        { "code": "1463", "name": "bruto vt bedrag uit reservering partner" },
+        { "code": "1492", "name": "bruto loon (belaste) reiskosten klant" },
+        { "code": "1495", "name": "bruto loon (belaste) reiskosten partner" },
+        { "code": "1498", "name": "bruto uitkering VUT/FLO partner" },
+        { "code": "1513", "name": "bruto inkomen zelfstandig bijkomstige aard partner" },
+        { "code": "1518", "name": "bruto uitkering WAZ klant" },
+        { "code": "1519", "name": "bruto uitkering Wajong klant" },
+        { "code": "1520", "name": "bruto inkomen WAZ partner" },
+        { "code": "1521", "name": "bruto inkomen Wajong partner" },
+        { "code": "1565", "name": "bijstandsnorm gehuwd/samenwonend 21+ (adresloze)" },
+        { "code": "2426", "name": "grondslag gezin met partner < 21" },
+        { "code": "2583", "name": "Grondslag alleenstaande (ouder) IOAW/Z (handmatig)" },
+        { "code": "2584", "name": "Grondslag kostendeler IOAW/Z (handmatig)" },
+        { "code": "2585", "name": "Grondslag gezin IOAW/Z (handmatig)" },
+        { "code": "2586", "name": "Grondslag partner IOAW/Z (handmatig)" },
+        { "code": "2818", "name": "Norm gezin in instelling 18 t/m 20 jr (handm)" },
+        { "code": "5342", "name": "norm pers. uitg. gehuwden 18 t/m 20 jr (handm)" }
+      ]
+    },
+    "onderdeelDienstGevalsrubriek": {
+      "type": "object",
+      "enum": [
+        { "code": "V", "name": "Vastgesteld" },
+        { "code": "A", "name": "Afwijking" }
+      ]
+    },
+    "brontype": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Klant" },
+        { "code": "2", "name": "Professional" },
+        { "code": "3", "name": "Register" },
+        { "code": "4", "name": "Externe bron" }
+      ]
+    },
+    "soortAanvraag": {
+      "type": "object",
+      "enum": [
+        { "code": "M", "name": "Melding" },
+        { "code": "A", "name": "Aanvraag" }
+      ]
+    },
+    "defaultEnumeratie": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Nader te bepalen" },
+        { "code": "2", "name": "Nader te bepalen" },
+        { "code": "etc...", "name": "Nader te bepalen" }
+      ]
+    },
+    "integer": {
+      "type": "string",
+      "pattern": "(^-|^)(0|[1-9][0-9]*)$"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "(^-|^+|^)(0|[1-9][0-9]+)($|,[0-9][0-9]$)"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^(http://|https://).*"
+    },
+    "datumTijd": {
+      "type": "string",
+      "pattern": "^([0-2][0-9]|3[0-1]|[1-9])-(0[1-9]|[1-9]|1[0-2])-(19|20)[0-9][0-9] T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]"
+    }
+  }
+}

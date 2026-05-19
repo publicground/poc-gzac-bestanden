@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0vol0sx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:collaboration id="Collaboration_1gmd3lc">
+    <bpmn:participant id="GenericOphalenBijstandsregelingenParticipant" name="Generic: Suwinet ophalen Bijstandsregelingen" processRef="generic-suwinet-ophalen-bijstandsregelingen" />
+    <bpmn:textAnnotation id="TextAnnotation_07okm9r">
+      <bpmn:text>out: bijstandsregelingenInfo</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0kky9km" sourceRef="OphalenBijstandsregelingenTask" targetRef="TextAnnotation_07okm9r" />
+    <bpmn:textAnnotation id="TextAnnotation_0gtwkh0">
+      <bpmn:text>input: bsn</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1fc5mab" associationDirection="None" sourceRef="StartEvent_1" targetRef="TextAnnotation_0gtwkh0" />
+  </bpmn:collaboration>
+  <bpmn:process id="generic-suwinet-ophalen-bijstandsregelingen" name="Generic: Suwinet ophalen Bijstandsregelingen" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1tb0eas</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="OphalenBijstandsregelingenTask" name="Ophalen bijstandsregelingen" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="javascript">//common script
+function toJavaValue(value) {
+    if (value == null) return null;
+
+    var valueType = typeof value;
+
+    if (valueType === 'string') return String(value);
+    if (valueType === 'number') return Number(value);
+    if (valueType === 'boolean') return value;
+
+    if (Array.isArray(value)) {
+        return toJavaList(value);
+    }
+
+    if (valueType === 'object') {
+        return toJavaMap(value);
+    }
+
+    return String(value);
+}
+
+function toJavaMap(obj) {
+    var map = new Packages.java.util.LinkedHashMap();
+
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            map.put(String(key), toJavaValue(obj[key]));
+        }
+    }
+
+    return map;
+}
+
+function toJavaList(arr) {
+    var list = new Packages.java.util.ArrayList();
+
+    for (var i = 0; i &lt; arr.length; i++) {
+        list.add(toJavaValue(arr[i]));
+    }
+
+    return list;
+}
+
+function mapAdres(adres) {
+    if (!adres) return null;
+    return {
+        straatnaam: adres.straatnaam != null ? String(adres.straatnaam) : '',
+        huisnummer: adres.huisnr != null ? Number(adres.huisnr) : 0,
+        huisletter: adres.huisletter != null ? String(adres.huisletter) : '',
+        huisnummertoevoeging: adres.huisnrtoevoeging != null ? String(adres.huisnrtoevoeging) : '',
+        postcode: adres.postcd != null ? String(adres.postcd) : '',
+        woonplaatsnaam: adres.woonplaatsnaam != null ? String(adres.woonplaatsnaam) : '',
+        aanduidingBijHuisnummer: adres.aanduidingBijHuisnr != null ? String(adres.aanduidingBijHuisnr) : '',
+        locatieomschrijving: adres.locatieoms != null ? String(adres.locatieoms) : ''
+    };
+}
+
+//mapping script
+function dateToArray(dateStr) {
+  if (dateStr == null || dateStr === '') return null;
+  var s = String(dateStr);
+  var parts = s.split('-');
+  if (parts.length === 3) {
+    return [parseInt(parts[0], 10), parseInt(parts[1], 10), parseInt(parts[2], 10)];
+  }
+  if (s.length === 8) {
+    return [parseInt(s.substring(0, 4), 10), parseInt(s.substring(4, 6), 10), parseInt(s.substring(6, 8), 10)];
+  }
+  return null;
+}
+
+function mapBronDto(bron) {
+  if (bron == null) return null;
+  return {
+    cdKolomSuwi: bron.cdKolomSuwi != null ? parseInt(String(bron.cdKolomSuwi), 10) : null,
+    cdPartijSuwi: bron.cdPartijSuwi != null ? String(bron.cdPartijSuwi) : '',
+    cdVestigingSuwi: bron.cdVestigingSuwi != null ? String(bron.cdVestigingSuwi) : ''
+  };
+}
+
+function mapSzWetDto(szWet) {
+  if (szWet == null) return null;
+  return { cdSzWet: szWet.cdSzWet != null ? String(szWet.cdSzWet) : '' };
+}
+
+function mapPartnerBijstandDto(partner) {
+  if (partner == null) return null;
+  return {
+    burgerservicenr: partner.burgerservicenr != null ? String(partner.burgerservicenr) : '',
+    voorletters: partner.voorletters != null ? String(partner.voorletters) : '',
+    voorvoegsel: partner.voorvoegsel != null ? String(partner.voorvoegsel) : '',
+    significantDeelVanDeAchternaam: partner.significantDeelVanDeAchternaam != null ? String(partner.significantDeelVanDeAchternaam) : '',
+    geboortedat: dateToArray(partner.geboortedat)
+  };
+}
+
+function mapAanvraagUitkeringDto(a) {
+  return {
+    datAanvraagUitkering: dateToArray(a.datAanvraagUitkering),
+    szWet: mapSzWetDto(a.szWet),
+    beslissingOpAanvraagUitkering: a.beslissingOpAanvraagUitkering != null ? {
+      cdBeslissingOpAanvraagUitkering: a.beslissingOpAanvraagUitkering.cdBeslissingOpAanvraagUitkering != null ? String(a.beslissingOpAanvraagUitkering.cdBeslissingOpAanvraagUitkering) : '',
+      datDagtekeningBeslisOpAanvrUitk: dateToArray(a.beslissingOpAanvraagUitkering.datDagtekeningBeslisOpAanvrUitk)
+    } : null,
+    partnerAanvraagUitkering: mapPartnerBijstandDto(a.partnerAanvraagUitkering),
+    bron: mapBronDto(a.bron)
+  };
+}
+
+function mapVorderingDto(v) {
+  var partnersVordering = [];
+  if (v.partnerVordering != null) {
+    for (var i = 0; i &lt; v.partnerVordering.size(); i++) {
+      var p = v.partnerVordering.get(i);
+      partnersVordering.push({
+        burgerservicenr: p != null &amp;&amp; p.burgerservicenr != null ? String(p.burgerservicenr) : ''
+      });
+    }
+  }
+  return {
+    identificatienrVordering: v.identificatienrVordering != null ? String(v.identificatienrVordering) : '',
+    datBesluitVordering: v.datBesluitVordering != null ? String(v.datBesluitVordering) : '',
+    cdRedenVordering: v.cdRedenVordering != null ? String(v.cdRedenVordering) : '',
+    szWet: mapSzWetDto(v.szWet),
+    partnersVordering: partnersVordering,
+    bron: mapBronDto(v.bron)
+  };
+}
+
+function mapSpecifiekeGegevensBijzBijstandDto(s) {
+  return {
+    cdClusterBijzBijstand: s.cdClusterBijzBijstand != null ? String(s.cdClusterBijzBijstand) : '',
+    omsSrtKostenBijzBijstand: s.omsSrtKostenBijzBijstand != null ? String(s.omsSrtKostenBijzBijstand) : '',
+    datBetaalbaarBijzBijstand: dateToArray(s.datBetaalbaarBijzBijstand),
+    szWet: mapSzWetDto(s.szWet),
+    partnerBijzBijstand: mapPartnerBijstandDto(s.partnerBijzBijstand),
+    bron: mapBronDto(s.bron)
+  };
+}
+
+function convertToBijstandsregelingenDto(dynProps) {
+  if (dynProps == null) return null;
+
+  var aanvraagUitkeringen = [];
+  if (dynProps.aanvraagUitkering != null) {
+    for (var i = 0; i &lt; dynProps.aanvraagUitkering.size(); i++) {
+      aanvraagUitkeringen.push(mapAanvraagUitkeringDto(dynProps.aanvraagUitkering.get(i)));
+    }
+  }
+
+  var vorderingen = [];
+  if (dynProps.vordering != null) {
+    for (var i = 0; i &lt; dynProps.vordering.size(); i++) {
+      vorderingen.push(mapVorderingDto(dynProps.vordering.get(i)));
+    }
+  }
+
+  var specifiekeGegevensBijzBijstandList = [];
+  if (dynProps.specifiekeGegevensBijzBijstand != null) {
+    for (var i = 0; i &lt; dynProps.specifiekeGegevensBijzBijstand.size(); i++) {
+      specifiekeGegevensBijzBijstandList.push(mapSpecifiekeGegevensBijzBijstandDto(dynProps.specifiekeGegevensBijzBijstand.get(i)));
+    }
+  }
+
+  return {
+      burgerservicenr: dynProps.burgerservicenr != null ? String(dynProps.burgerservicenr) : '',
+      aanvraagUitkeringen: aanvraagUitkeringen,
+      vorderingen: vorderingen,
+      specifiekeGegevensBijzBijstandList: specifiekeGegevensBijzBijstandList
+  };
+}
+
+
+
+// proces script
+var raw = execution.getVariable('bijstandsregelingenInfoRaw');
+
+var dynProps = raw != null ? raw.dynamicProperties : null;
+var result = convertToBijstandsregelingenDto(dynProps);
+if (result != null) {
+  execution.setVariable('bijstandsregelingenInfo', toJavaValue(result));
+}</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1tb0eas</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kyeaqk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1tb0eas" sourceRef="StartEvent_1" targetRef="OphalenBijstandsregelingenTask" />
+    <bpmn:sequenceFlow id="Flow_0kyeaqk" sourceRef="OphalenBijstandsregelingenTask" targetRef="Event_0k8t5dy" />
+    <bpmn:endEvent id="Event_0k8t5dy">
+      <bpmn:incoming>Flow_0kyeaqk</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:error id="Error_10q1uq2" name="Error_3lbup3a" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1gmd3lc">
+      <bpmndi:BPMNShape id="Participant_0gc491p_di" bpmnElement="GenericOphalenBijstandsregelingenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="460" height="320" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="209" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j7h7ol_di" bpmnElement="OphalenBijstandsregelingenTask">
+        <dc:Bounds x="310" y="187" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0k8t5dy_di" bpmnElement="Event_0k8t5dy">
+        <dc:Bounds x="482" y="209" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1tb0eas_di" bpmnElement="Flow_1tb0eas">
+        <di:waypoint x="268" y="227" />
+        <di:waypoint x="310" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kyeaqk_di" bpmnElement="Flow_0kyeaqk">
+        <di:waypoint x="410" y="227" />
+        <di:waypoint x="482" y="227" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_07okm9r_di" bpmnElement="TextAnnotation_07okm9r">
+        <dc:Bounds x="310" y="110" width="195" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0gtwkh0_di" bpmnElement="TextAnnotation_0gtwkh0">
+        <dc:Bounds x="210" y="140" width="80" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0kky9km_di" bpmnElement="Association_0kky9km">
+        <di:waypoint x="351" y="187" />
+        <di:waypoint x="370" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1fc5mab_di" bpmnElement="Association_1fc5mab">
+        <di:waypoint x="252" y="209" />
+        <di:waypoint x="258" y="170" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

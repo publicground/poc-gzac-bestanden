@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="bs-218-vaststelling-uitsluitingsgronden-drd" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.46.1">
+  <decision id="bs-218-kwalitatief-voldoende-aanwezig" name="InformatieObject Actueel en Kwalitatief aanwezig">
+    <decisionTable id="DecisionTable_0ji4dgb" hitPolicy="FIRST">
+      <input id="Input_1" label="Uitsluitingsgronden al vastgesteld?">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>vastgesteldeUitsluitingsgronden != null </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_06dbgqw" label="Handmatig vaststellen" camunda:inputVariable="handmatigVaststellen">
+        <inputExpression id="LiteralExpression_0q7y6v9" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" name="gegevenskwalitatiefVoldoendeAanwezig" typeRef="boolean" />
+      <output id="OutputClause_1ddj1hd" name="handmatigVaststellen" typeRef="boolean" />
+      <rule id="DecisionRule_1y1txgt">
+        <inputEntry id="UnaryTests_1rlictc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_080k4l2">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00m08rv">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0spu1e7">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18dlwjd">
+        <inputEntry id="UnaryTests_0wx6njz">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1juilm8">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ecpo8b">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0kh3aou">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0um5qo2">
+        <inputEntry id="UnaryTests_14sn391">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1v4n4rz">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1dz1sxj">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1na4ys3">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-218-leeftijd" name="Leeftijd OK">
+    <informationRequirement id="InformationRequirement_1wr4czp">
+      <requiredDecision href="#bs-218-bepaal-AOW-leeftijd" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1cvlpb5">
+      <requiredDecision href="#bs-218-ingangsdatum" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1ottoqv" hitPolicy="FIRST">
+      <input id="InputClause_1chjcz2" label="Leeftijd &#60; 18" biodi:width="192">
+        <inputExpression id="LiteralExpression_0c7fd7o" typeRef="boolean">
+          <text>date(geboortedatum) + duration( "P18Y") &gt;= date( ingangsdatum)</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0cfeqp7" label="Leeftijd &#62; AOW">
+        <inputExpression id="LiteralExpression_1f4ak7q" typeRef="boolean">
+          <text>date(AOWleeftijd) &lt; date(ingangsdatum)</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_18lkdtq" name="lftUitsluiting" typeRef="string" />
+      <output id="OutputClause_1hfc5mh" name="lftVerantwoording" typeRef="string" />
+      <output id="OutputClause_057cn9b" name="lftSignalering" typeRef="boolean" />
+      <rule id="DecisionRule_0bot7wg">
+        <inputEntry id="UnaryTests_0k40n7s">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tgwoq6">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0dfx56x">
+          <text>"Geen uitsluiting"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qgtaqr">
+          <text>"leeftijd OK"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_17wnitq">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0e0a85s">
+        <description></description>
+        <inputEntry id="UnaryTests_1elh89q">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rlw439">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0x7r3z7">
+          <text>"Uitsluiting"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0enysvs">
+          <text>"onder 18"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_12g552k">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1klv2ak">
+        <inputEntry id="UnaryTests_1axjyhh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yzy05t">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0sguryb">
+          <text>"Uitsluiting"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wckjzz">
+          <text>"AOW leeftijd bereikt"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_013uxo8">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1wp95b1">
+        <inputEntry id="UnaryTests_0qc50op">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0djpkiv">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mscvoh">
+          <text>"Niet bepaald"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0kahmu6">
+          <text>"onbekend of leeftijd onder 18 is"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0pe0qt9">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0d6ybmn">
+        <inputEntry id="UnaryTests_1tw6rgk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dbqj7b">
+          <text>null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1vlawas">
+          <text>"Niet bepaald"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_01dxd4c">
+          <text>"onbekend of AOW leeftijd bereikt is"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wzrczj">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-218-bepaal-AOW-leeftijd" name="AOW leeftijd">
+    <informationRequirement id="InformationRequirement_1xqggk7">
+      <requiredDecision href="#bs-218-betrokkenen-en-bronnen" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1ngfhxb" hitPolicy="FIRST">
+      <input id="InputClause_110tkbl" label="geboortedatum" biodi:width="381">
+        <inputExpression id="LiteralExpression_092ik0t" typeRef="string">
+          <text>date(geboortedatum)</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_04gibld" name="AOWleeftijd" typeRef="string" biodi:width="441" />
+      <rule id="DecisionRule_19b8kpj">
+        <description></description>
+        <inputEntry id="UnaryTests_0p7szfo">
+          <text>&lt;= date( "2025-12-31" ) - duration( "P67Y" )</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_12liv1w">
+          <text>date(geboortedatum) + duration( "P67Y")</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1pie66g">
+        <inputEntry id="UnaryTests_1xd9xw9">
+          <text>&lt;= date( "2026-12-31" ) - duration( "P67Y" )</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0smr2bd">
+          <text>date(geboortedatum) + duration( "P67Y")</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1nfkj8z">
+        <inputEntry id="UnaryTests_1ni2hsg">
+          <text>&lt;= date( "2027-12-31" ) - duration( "P67Y" )</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_12onyeq">
+          <text>date(geboortedatum) + duration( "P67Y")</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ah4w6g">
+        <inputEntry id="UnaryTests_08n7uvu">
+          <text>&lt;= date( "2028-12-31" ) - duration( "P67Y3M" )</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0c83bim">
+          <text>date(geboortedatum) + duration( "P67Y3M")</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_005x4bv">
+        <inputEntry id="UnaryTests_0kqg5ex">
+          <text>&lt;= date( "2029-12-31" ) - duration( "P67Y3M" )</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0dsp1gk">
+          <text>date(geboortedatum) + duration( "P67Y3M")</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1imm1om">
+        <inputEntry id="UnaryTests_0d8glrb">
+          <text>&lt;= date( "2030-12-31" ) - duration( "P67Y3M" )</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wscjno">
+          <text>date(geboortedatum) + duration( "P67Y3M")</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_101p8l6">
+        <inputEntry id="UnaryTests_0pqjl1z">
+          <text>&lt;= date( "2031-12-31" ) - duration( "P67Y3M" )</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1l0hczy">
+          <text>date(geboortedatum) + duration( "P67Y3M")</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1anlnb4">
+        <description>bron: https://www.rijksoverheid.nl/onderwerpen/algemene-ouderdomswet-aow/aow-leeftijd</description>
+        <inputEntry id="UnaryTests_1drgrgy">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0r7s6oi">
+          <text>date(geboortedatum) + duration( "P67Y3M")</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-218-RijksbekostigdOnderwijs" name="Rijksbekostigd onderwijs">
+    <informationRequirement id="InformationRequirement_1xuemvm">
+      <requiredDecision href="#bs-218-betrokkenen-en-bronnen" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_176q66p" hitPolicy="FIRST">
+      <input id="InputClause_0l3inma" label="Volgt onderwijs" biodi:width="192">
+        <inputExpression id="LiteralExpression_0kozsj7" typeRef="boolean">
+          <text>some oo in duo.opleiding.onderwijsOvereenkomst satisfies
+get or else(
+  date(substring(oo.datUitschrijvingOpleiding,1,4) + "-" + substring(oo.datUitschrijvingOpleiding,5,2) + "-" + substring(oo.datUitschrijvingOpleiding,7,2)) &gt; date( ingangsdatum ) and
+  date(substring(oo.datInschrijvingOpleiding,1,4) + "-" + substring(oo.datInschrijvingOpleiding,5,2) + "-" + substring(oo.datInschrijvingOpleiding,7,2)) &lt; date( ingangsdatum )
+  , false)</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_00fmqc7" name="rboUitsluiting" typeRef="string" biodi:width="228" />
+      <output id="OutputClause_07r2m1s" name="rboVerantwoording" typeRef="string" biodi:width="279" />
+      <output id="OutputClause_0muhmk7" name="rboSignalering" typeRef="string" />
+      <rule id="DecisionRule_1iuoymo">
+        <inputEntry id="UnaryTests_1tise80">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0e9269v">
+          <text>"Uitsluiting"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1xj4sbn">
+          <text>"Student"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0worv6a">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0crayae">
+        <inputEntry id="UnaryTests_14xznqf">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1jacpqa">
+          <text>"Geen uitsluiting"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_12me0oj">
+          <text>"geen rijkbekostigd onderwijs bij DUO aangetroffen"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0a7m6tn">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_046hztd">
+        <inputEntry id="UnaryTests_10b1ptu">
+          <text>null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0oo7h1m">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1o11giy">
+          <text>"Studie onbekend"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13wgpdz">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-218-uitsluitingsgronden" name="uitslutingsgronden">
+    <informationRequirement id="InformationRequirement_12grlmv">
+      <requiredDecision href="#bs-218-RijksbekostigdOnderwijs" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_12a8s54">
+      <requiredDecision href="#bs-218-leeftijd" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0fixss4" hitPolicy="COLLECT">
+      <input id="InputClause_0ijoe81">
+        <inputExpression id="LiteralExpression_05xi8fh" typeRef="string" />
+      </input>
+      <output id="OutputClause_0fgi11l" name="uitsluitingsgrond" typeRef="string" biodi:width="240" />
+      <output id="OutputClause_1wy6xws" name="uitsluiting" typeRef="string" biodi:width="240" />
+      <output id="OutputClause_0slstnf" name="verantwoordingVaststelling" typeRef="string" biodi:width="238" />
+      <output id="OutputClause_0zgjbbz" name="signalering" typeRef="boolean" />
+      <output id="OutputClause_1uznpcz" name="geimplementeerd" typeRef="boolean" />
+      <rule id="DecisionRule_1pyq8c2">
+        <inputEntry id="UnaryTests_1b2p9xk">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0m85hxc">
+          <text>"Rijks bekostigd onderwijs"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0g43pip">
+          <text>rboUitsluiting</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_16315b9">
+          <text>rboVerantwoording</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ikuez7">
+          <text>rboSignalering</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1w53yfg">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0xisdbc">
+        <inputEntry id="UnaryTests_1mqae6j">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0tk648g">
+          <text>"Leeftijd"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0mza6zw">
+          <text>lftUitsluiting</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0t57xhs">
+          <text>lftVerantwoording</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0e26lak">
+          <text>lftSignalering</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jrav9r">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tr41uq">
+        <inputEntry id="UnaryTests_0zlr4ep">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1x1z2ca">
+          <text>"Ondernemer"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0hp62mb">
+          <text>"Niet bepaald"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0hbrghi">
+          <text>"Niet automatisch bepaald"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_14mm24y">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_10bbl53">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1m8azpe">
+        <inputEntry id="UnaryTests_1cg090n">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1jzf11e">
+          <text>"Onbetaaldverlof"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0s5v8nv">
+          <text>"Niet bepaald"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0auu34z">
+          <text>"Niet automatisch bepaald"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1lgh9wg">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1nmcj13">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-218-betrokkenen-en-bronnen" name="betrokkenen en bronnen">
+    <decisionTable id="DecisionTable_0yx1dyw">
+      <input id="InputClause_05gku2g" label="bsn" biodi:width="312" camunda:inputVariable="bsn">
+        <inputExpression id="LiteralExpression_1tcnylc" typeRef="string" />
+      </input>
+      <output id="OutputClause_0dj3bcl" name="geboortedatum" typeRef="any" biodi:width="464" />
+      <output id="OutputClause_1n24zyd" name="inkomsten" typeRef="any" biodi:width="337" />
+      <output id="OutputClause_0v9sufi" name="svbUitkeringen" typeRef="any" biodi:width="525" />
+      <output id="OutputClause_0hmqqcu" name="duo" typeRef="any" biodi:width="301" />
+      <output id="OutputClause_1oblqq8" name="studiefinanciering" typeRef="any" biodi:width="505" />
+      <output id="OutputClause_05xsyf3" label="matchedBSN for debug" name="matchedBSN" typeRef="string" />
+      <rule id="DecisionRule_0hh0wqa">
+        <inputEntry id="UnaryTests_160f4jr">
+          <text>gegevensVaststelling.aanvrager.bsn</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tsoqoq">
+          <text>gegevensVaststelling.aanvrager.geboortedatum</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_16v3fwv">
+          <text>gegevensVanuitBronnen.inkomstenAanvrager</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dm2c9c">
+          <text>gegevensVanuitBronnen.svbUitkeringenAanvrager</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0gys7mt">
+          <text>gegevensVanuitBronnen.duoAanvrager</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ouvth6">
+          <text>gegevensVanuitBronnen.duoStudiefinancieringAanvrager</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1nwsxp8">
+          <text>"aanvrager"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_099fwwh">
+        <inputEntry id="UnaryTests_1kdrcjj">
+          <text>gegevensVaststelling.partner.bsn</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1g11f82">
+          <text>gegevensVaststelling.partner.geboortedatum</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0lfay6n">
+          <text>gegevensVanuitBronnen.inkomstenPartner</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1fq6h8e">
+          <text>gegevensVanuitBronnen.svbUitkeringenPartner</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_09m5ob6">
+          <text>gegevensVanuitBronnen.duoPartner</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_096gall">
+          <text>gegevensVanuitBronnen.duoStudiefinancieringPartner</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1mwa900">
+          <text>"partner"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-218-ingangsdatum" name="ingangsdatum">
+    <variable id="InformationItem_1m91yy0" name="ingangsdatum" />
+    <literalExpression id="LiteralExpression_0au545m">
+      <text>date ( date and time( if gegevensVaststelling.bs221ingangsdatum.ingangsdatum != null then gegevensVaststelling.bs221ingangsdatum.ingangsdatum else ( if gegevensVaststelling.startDatum  != null  then gegevensVaststelling.startDatum  else  gegevensVanuitAanvraag.startDatum) ) )
+
+// ingangsdatum indien die is vastgesteld
+// startdatum
+</text>
+    </literalExpression>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="bs-218-bepaal-AOW-leeftijd">
+        <dc:Bounds height="80" width="180" x="540" y="480" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape dmnElementRef="bs-218-kwalitatief-voldoende-aanwezig">
+        <dc:Bounds height="80" width="180" x="160" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1wcxxb0" dmnElementRef="bs-218-leeftijd">
+        <dc:Bounds height="80" width="180" x="630" y="330" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0p5pe3z" dmnElementRef="bs-218-RijksbekostigdOnderwijs">
+        <dc:Bounds height="80" width="180" x="380" y="330" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0prvi22" dmnElementRef="InformationRequirement_1wr4czp">
+        <di:waypoint x="630" y="480" />
+        <di:waypoint x="690" y="430" />
+        <di:waypoint x="690" y="410" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1j0jjch" dmnElementRef="bs-218-uitsluitingsgronden">
+        <dc:Bounds height="80" width="180" x="530" y="150" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0mmzlfx" dmnElementRef="InformationRequirement_12grlmv">
+        <di:waypoint x="470" y="330" />
+        <di:waypoint x="590" y="250" />
+        <di:waypoint x="590" y="230" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0jv06ia" dmnElementRef="InformationRequirement_12a8s54">
+        <di:waypoint x="720" y="330" />
+        <di:waypoint x="650" y="250" />
+        <di:waypoint x="650" y="230" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1x16ahh" dmnElementRef="bs-218-betrokkenen-en-bronnen">
+        <dc:Bounds height="80" width="180" x="350" y="640" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0kgqnfy" dmnElementRef="InformationRequirement_1xqggk7">
+        <di:waypoint x="440" y="640" />
+        <di:waypoint x="630" y="580" />
+        <di:waypoint x="630" y="560" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0gu2l8l" dmnElementRef="bs-218-ingangsdatum">
+        <dc:Bounds height="80" width="180" x="770" y="480" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1b8n7ev" dmnElementRef="InformationRequirement_1cvlpb5">
+        <di:waypoint x="860" y="480" />
+        <di:waypoint x="750" y="430" />
+        <di:waypoint x="750" y="410" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_07qa1eu" dmnElementRef="InformationRequirement_1xuemvm">
+        <di:waypoint x="440" y="640" />
+        <di:waypoint x="470" y="430" />
+        <di:waypoint x="470" y="410" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

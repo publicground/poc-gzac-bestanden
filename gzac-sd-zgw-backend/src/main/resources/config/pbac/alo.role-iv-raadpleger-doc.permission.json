@@ -1,0 +1,178 @@
+{
+    "changesetId": "alo-iv-raadpleger-doc-permission-v1",
+    "permissions": [
+        {
+            "resourceType": "com.ritense.case.domain.CaseTab",
+            "action": "view",
+            "roleKey": "ROLE_IV_RAADPLEGER_DOC",
+            "conditions": [
+                {
+                    "type": "field",
+                    "field": "id.key",
+                    "operator": "in",
+                    "value": [
+                        "summary",
+                        "woonsituatie",
+                        "inkomen",
+                        "vermogen",
+                        "informatieverzoeken",
+                        "progress",
+                        "audit",
+                        "documents",
+                        "signalen"
+                    ]
+                },
+                {
+                    "type": "container",
+                    "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocumentDefinition",
+                    "conditions": [
+                        {
+                            "type": "field",
+                            "field": "id.name",
+                            "operator": "in",
+                            "value": [
+                                "aanvraag-algemene-bijstand-dcm",
+                                "aanvraag-ioaw-uitkering-dcm"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocument",
+            "actions": [
+                "view",
+                "view_list"
+            ],
+            "roleKey": "ROLE_IV_RAADPLEGER_DOC",
+            "conditions": [
+                {
+                    "type": "container",
+                    "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocumentDefinition",
+                    "conditions": [
+                        {
+                            "type": "field",
+                            "field": "id.name",
+                            "operator": "in",
+                            "value": [
+                                "aanvraag-algemene-bijstand-dcm",
+                                "aanvraag-ioaw-uitkering-dcm"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocumentDefinition",
+            "actions": [
+                "view",
+                "view_list"
+            ],
+            "roleKey": "ROLE_IV_RAADPLEGER_DOC",
+            "conditions": [
+                {
+                    "type": "field",
+                    "field": "id.name",
+                    "operator": "in",
+                    "value": [
+                        "aanvraag-algemene-bijstand-dcm",
+                        "aanvraag-ioaw-uitkering-dcm"
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.document.domain.impl.searchfield.SearchField",
+            "action": "view_list",
+            "roleKey": "ROLE_IV_RAADPLEGER_DOC",
+            "conditions": [
+                {
+                    "type": "field",
+                    "field": "id.documentDefinitionName",
+                    "operator": "in",
+                    "value": [
+                        "aanvraag-algemene-bijstand-dcm",
+                        "aanvraag-ioaw-uitkering-dcm"
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.note.domain.Note",
+            "actions": [
+                "view",
+                "view_list"
+            ],
+            "roleKey": "ROLE_IV_RAADPLEGER_DOC",
+            "conditions": [
+                {
+                    "type": "container",
+                    "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocument",
+                    "conditions": [
+                        {
+                            "type": "field",
+                            "field": "documentDefinitionId.name",
+                            "operator": "in",
+                            "value": [
+                                "aanvraag-algemene-bijstand-dcm",
+                                "aanvraag-ioaw-uitkering-dcm"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.valtimo.camunda.domain.CamundaTask",
+            "actions": [
+                "view",
+                "view_list"
+            ],
+            "roleKey": "ROLE_IV_RAADPLEGER_DOC",
+            "conditions": [
+                {
+                    "type": "container",
+                    "resourceType": "com.ritense.valtimo.camunda.domain.CamundaIdentityLink",
+                    "conditions": [
+                        {
+                            "type": "field",
+                            "field": "groupId",
+                            "operator": "==",
+                            "value": "ROLE_IV_RAADPLEGER_DOC"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "resourceType": "com.ritense.documentenapi.authorization.ZgwDocument",
+            "actions": [
+                "create",
+                "modify",
+                "delete",
+                "view",
+                "view_list"
+            ],
+            "roleKey": "ROLE_IV_RAADPLEGER_DOC",
+            "conditions": [
+                {
+                    "type": "container",
+                    "resourceType": "com.ritense.document.domain.impl.JsonSchemaDocument",
+                    "conditions": [
+                        {
+                            "type": "field",
+                            "field": "documentDefinitionId.name",
+                            "operator": "in",
+                            "value": [
+                                "aanvraag-algemene-bijstand-dcm",
+                                "aanvraag-ioaw-uitkering-dcm"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

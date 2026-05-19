@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0932ye4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:collaboration id="Collaboration_11k79ui">
+    <bpmn:participant id="GenereerDocumentParticipant" name="Genereer document" processRef="alo-genereer-document" />
+  </bpmn:collaboration>
+  <bpmn:process id="alo-genereer-document" name="ALO: Genereer document" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1e8zpw3</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_1cu26zb" default="IntrekkingsbriefSequenceFlow">
+      <bpmn:incoming>Flow_1e8zpw3</bpmn:incoming>
+      <bpmn:outgoing>InformatieverzoekSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>IntrekkingsbriefSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="GenereerInformatieverzoekTask" name="Genereer informatie-verzoek" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>InformatieverzoekSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nc5ewo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="OpslaanInformatieverzoekInDocumentenApiTask" name="Opslaan informatie-verzoek in documenten api" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>Flow_1nc5ewo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jz1eej</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="GenereerIntrekkingsbriefTask" name="Genereer intrekkingsbrief" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>IntrekkingsbriefSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fvpcfj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="OpslaanIntrekkingsbriefInDocumentenApiTask" name="Opslaan intrekkings-brief in documenten api" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>Flow_0fvpcfj</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rrgkcz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_1tywkpb">
+      <bpmn:incoming>Flow_1jz1eej</bpmn:incoming>
+      <bpmn:incoming>Flow_1rrgkcz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1w36lbp</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="LinkenDocumentAanDeZaakTask" name="Linken document aan de zaak" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>Flow_1w36lbp</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wpf0ji</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1e8zpw3" sourceRef="StartEvent_1" targetRef="Gateway_1cu26zb" />
+    <bpmn:sequenceFlow id="InformatieverzoekSequenceFlow" name="Informatieverzoek" sourceRef="Gateway_1cu26zb" targetRef="GenereerInformatieverzoekTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${templateName == "ALO Gegevens sturen bijstandsuitkering" || templateName == "IOAW Gegevens sturen bijstandsuitkering"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="IntrekkingsbriefSequenceFlow" name="Intrekkingsbrief" sourceRef="Gateway_1cu26zb" targetRef="GenereerIntrekkingsbriefTask" />
+    <bpmn:sequenceFlow id="Flow_1nc5ewo" sourceRef="GenereerInformatieverzoekTask" targetRef="OpslaanInformatieverzoekInDocumentenApiTask" />
+    <bpmn:sequenceFlow id="Flow_1jz1eej" sourceRef="OpslaanInformatieverzoekInDocumentenApiTask" targetRef="Gateway_1tywkpb" />
+    <bpmn:sequenceFlow id="Flow_0fvpcfj" sourceRef="GenereerIntrekkingsbriefTask" targetRef="OpslaanIntrekkingsbriefInDocumentenApiTask" />
+    <bpmn:sequenceFlow id="Flow_1rrgkcz" sourceRef="OpslaanIntrekkingsbriefInDocumentenApiTask" targetRef="Gateway_1tywkpb" />
+    <bpmn:sequenceFlow id="Flow_1w36lbp" sourceRef="Gateway_1tywkpb" targetRef="LinkenDocumentAanDeZaakTask" />
+    <bpmn:sequenceFlow id="Flow_1wpf0ji" sourceRef="LinkenDocumentAanDeZaakTask" targetRef="Event_1637g5f" />
+    <bpmn:endEvent id="Event_1637g5f">
+      <bpmn:incoming>Flow_1wpf0ji</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_11k79ui">
+      <bpmndi:BPMNShape id="Participant_0aobzz3_di" bpmnElement="GenereerDocumentParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="980" height="410" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="212" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1cu26zb_di" bpmnElement="Gateway_1cu26zb" isMarkerVisible="true">
+        <dc:Bounds x="315" y="245" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wh8xl0_di" bpmnElement="GenereerInformatieverzoekTask">
+        <dc:Bounds x="460" y="290" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0h0pxjf" bpmnElement="OpslaanInformatieverzoekInDocumentenApiTask">
+        <dc:Bounds x="620" y="290" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_17d6wnb" bpmnElement="GenereerIntrekkingsbriefTask">
+        <dc:Bounds x="460" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0kfsawf" bpmnElement="OpslaanIntrekkingsbriefInDocumentenApiTask">
+        <dc:Bounds x="620" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1tywkpb_di" bpmnElement="Gateway_1tywkpb" isMarkerVisible="true">
+        <dc:Bounds x="795" y="245" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hbk1hw_di" bpmnElement="LinkenDocumentAanDeZaakTask">
+        <dc:Bounds x="900" y="230" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1637g5f_di" bpmnElement="Event_1637g5f">
+        <dc:Bounds x="1052" y="252" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1e8zpw3_di" bpmnElement="Flow_1e8zpw3">
+        <di:waypoint x="248" y="270" />
+        <di:waypoint x="315" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b6vk82_di" bpmnElement="InformatieverzoekSequenceFlow">
+        <di:waypoint x="340" y="295" />
+        <di:waypoint x="340" y="330" />
+        <di:waypoint x="460" y="330" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="351" y="343" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12bq99k_di" bpmnElement="IntrekkingsbriefSequenceFlow">
+        <di:waypoint x="340" y="245" />
+        <di:waypoint x="340" y="220" />
+        <di:waypoint x="460" y="220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="357" y="193" width="75" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nc5ewo_di" bpmnElement="Flow_1nc5ewo">
+        <di:waypoint x="560" y="330" />
+        <di:waypoint x="620" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jz1eej_di" bpmnElement="Flow_1jz1eej">
+        <di:waypoint x="720" y="330" />
+        <di:waypoint x="820" y="330" />
+        <di:waypoint x="820" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0po8x9t" bpmnElement="Flow_0fvpcfj">
+        <di:waypoint x="560" y="220" />
+        <di:waypoint x="620" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rrgkcz_di" bpmnElement="Flow_1rrgkcz">
+        <di:waypoint x="720" y="220" />
+        <di:waypoint x="820" y="220" />
+        <di:waypoint x="820" y="245" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1w36lbp_di" bpmnElement="Flow_1w36lbp">
+        <di:waypoint x="845" y="270" />
+        <di:waypoint x="900" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wpf0ji_di" bpmnElement="Flow_1wpf0ji">
+        <di:waypoint x="1000" y="270" />
+        <di:waypoint x="1052" y="270" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

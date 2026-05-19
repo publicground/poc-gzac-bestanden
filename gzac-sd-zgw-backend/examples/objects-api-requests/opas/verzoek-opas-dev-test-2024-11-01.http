@@ -1,0 +1,155 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_opas}}",
+  "record": {
+    "typeVersion": 1,
+    "data": {
+      "bsn": "999991954",
+      "data": {
+        "post-ooievaarspas": {
+          "postOntvangen": false
+        },
+        "naw-uitgebreid-digid": {
+          "digid": {
+            "persoongegevensPrefill": {
+              "BsnPrefill": "999991954",
+              "voornaamPrefill": "John",
+              "achternaamPrefill": "Test",
+              "voorlettersPrefill": "J.R.",
+              "voorvoegselPrefill": "van der",
+              "geboortedatumPrefill": "2003-03-03"
+            },
+            "adresgegevensPrefillGroep": {
+              "plaatsPrefill": "'s-Gravenhage",
+              "straatPrefill": "Leyweg",
+              "postcodePrefill": "2545 CC",
+              "HuisletterPrefill": "e",
+              "huisnummerPrefill": 61,
+              "toevoegingPrefill": ""
+            }
+          },
+          "contactgegevens": {
+            "email": "your-email@ritense.com",
+            "Telefoonnummer": "06-12345678"
+          }
+        },
+        "ooievaarspas-inleiding": {},
+        "ooievaarspas-uw-situatie": {
+          "inSchuldhulpverlening": "nee",
+          "OntvangtBijstandsuitkering": "nee"
+        },
+        "ooievaarspas-uw-inkomsten": {
+          "ondernemer": {
+            "bentUOndernemer": "nee"
+          },
+          "alimentatie": {
+            "krijgtUKinderalimentatie": "nee"
+          },
+          "heeftUEenWerkgever": "nee",
+          "inkomenUitOnderhuur": {
+            "heeftUInkomenUitOnderhuur": "nee"
+          },
+          "pensioenenVeldenGroep": {
+            "krijgtUPensioen": "nee"
+          },
+          "uitkeringenVeldenGroep": {
+            "uitkeringen": {
+              "ww": false,
+              "anw": false,
+              "aow": false,
+              "nee": true,
+              "wao": false,
+              "wia": false,
+              "wajong": false,
+              "bijstand": false,
+              "ziektewet": false
+            }
+          }
+        },
+        "ooievaarspas-bezit-en-schulden": {
+          "contanten": {
+            "contantGeld": 100
+          },
+          "uwVermogenGroep": {
+            "welkVermogen": {
+              "a": false,
+              "b": false,
+              "c": false,
+              "d": true
+            }
+          }
+        },
+        "ooievaarspas-inkomsten-partner": {
+          "OndernemerPartner": {
+            "isUwPartnerOndernemer": "n"
+          },
+          "inkomstenVanUwPartner": {
+            "heeftUwPartnerEenWerkgever": "n"
+          },
+          "alimentatiePartnerGroep": {
+            "krijgtUwPartnerKinderAlimentatie": "n"
+          },
+          "inkomenUitOnderhuurPartner": {
+            "heeftUwPartnerInkomenUitOnderhuur": "n"
+          },
+          "pensioenenPartnerVeldenGroep": {
+            "krijgtUwPartnerPensioen": "n"
+          },
+          "uitkeringenPartnerVeldenGroep": {
+            "uitkeringenPartner": {
+              "ww": false,
+              "anw": false,
+              "aow": false,
+              "nee": true,
+              "wao": false,
+              "wia": false,
+              "wajong": false,
+              "bijstand": false,
+              "ziektewet": false
+            }
+          }
+        },
+        "ooievaarspas-gezinssamenstelling": {
+          "uwGezinssituatie": {
+            "inwonendePartner": "ja",
+            "inwonendeKinderen18": "nee",
+            "gegevensVanUwPartner": {
+              "idPartner": [],
+              "achternaamPartner": "van der Test",
+              "voorletterPartner": "D.",
+              "voorvoegselPartner": "",
+              "geboortedatumPartner": "1970-01-01",
+              "burgerservicenummerPartner": "123456782"
+            }
+          },
+          "uwStudiesituatie": {
+            "HOStudent": "nee",
+            "HOStudentPartner": "nee"
+          }
+        },
+        "ooievaarspas-uw-inkomsten-overzicht": {},
+        "ooievaarspas-verklaring-van-waarheid": {
+          "verklaringVanWaarheid": {
+            "1": {
+              "checkboxAkkoord": true
+            }
+          }
+        },
+        "ooievaarspas-bezit-en-schulden-overzicht": {},
+        "ooievaarspas-inkomsten-partner-overzicht": {}
+      },
+      "type": "Verzoek Ooievaarspas",
+      "pdf_url": "https://openzaak-zgw.test.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/e2123e6d-c67b-4d8d-a965-170428a5b2d2",
+      "attachments": [],
+      "language_code": "nl",
+      "submission_id": "31c79841-a1a4-49be-bc37-ec964200ef74"
+    },
+    "index": 1,
+    "startAt": "2024-11-01",
+    "registrationAt": "2024-11-01"
+  }
+}

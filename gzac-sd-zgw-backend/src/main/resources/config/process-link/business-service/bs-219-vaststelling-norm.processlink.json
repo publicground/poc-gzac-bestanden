@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "VaststellenAantalRechthebbendenTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "bs-219-vaststellen-norm.vaststellen-aantal-rechthebbenden"
+    }
+]

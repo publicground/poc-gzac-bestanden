@@ -1,0 +1,272 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+    "type": "{{objecttypes_api_url_aanmelding_schuldhulpverlening}}",
+    "record": {
+      "index": 1,
+        "typeVersion": 1,
+        "data": {
+            "kvk": "90002768",
+            "data": {
+                "schulden": {
+                    "schulden": {
+                        "schuldenoverzicht": [],
+                        "geefEenToelichtingOpHetSchuldenoverzicht": ""
+                    },
+                    "priveSchulden": {
+                        "priveSchulden1": [],
+                        "bevatHetSchuldenoverzichtPriveSchulden": "b"
+                    }
+                },
+                "overige-shv": {
+                    "tekstvlak1": "",
+                    "overigeDocumenten1": []
+                },
+                "bezit-vermogen": {
+                    "vervoersmiddelen": {
+                        "geefAanWatVoorUwClientVariabeleBEnOfDePartnerVanToepassingIs": {
+                            "a": true,
+                            "b": true
+                        }
+                    },
+                    "financieelVermogen": {
+                        "kinderenspaarrekening": false,
+                        "anderFinancieelVermogen": false,
+                        "anderFinancieelVermogen1": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden3": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden4": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden5": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden7": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden8": [],
+                        "waardeOverzichtAfgelopenJaarPernsioenVerzekering": [],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenPensioenverzekering": false,
+                        "rekeningafschriftenVanDebeheerrekeningVanDeAfgelopen3Maanden1": [ ],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenOfMeerSpaarrekeningen": false,
+                        "rekeningafschriftenVanDeLeefgeldrekeningVanDeAfgelopen3Maanden": [],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenOfMeerBetaalrekeningen": false,
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenLevensverzekeringOfOverlijdensrisicoverzekeringInNederlandOfInHetBuitenland": false
+                    },
+                    "overigeBezittingen": {
+                        "waardeIsBekend": false,
+                        "geschatteTotaleWaarde": null,
+                        "overigeBezittingenGroep": {
+                            "bezittingenHHgroep": []
+                        },
+                        "geefAanWatVoorUwClientVariabeleBEnOfDePartnerVanToepassingIs1": {
+                            "a": false,
+                            "b": false
+                        }
+                    },
+                    "woningenEnVastgoed": {
+                        "toelichting": "",
+                        "toelichting1": "",
+                        "isUwClientVariabeleBEnOfDePartnerInHetBezitVanWoningenOfVastgoedInNederlandEnOfInHetBuitenland": "b"
+                    }
+                },
+                "belastingen-shv": {
+                    "geefEenToelichting7": "",
+                    "belastingAanslagMin1Jaar": [],
+                    "belastingAanslagMin2Jaar": [],
+                    "belastingAanslagMin3Jaar": [],
+                    "belastingAanslagMin4Jaar": [],
+                    "belastingAanslagMin5Jaar": [],
+                    "gemeentelijkeEnRegionaleBelastingen": {
+                        "recenteAanslagRegionaleBelastingen": [],
+                        "recenteAanslagGemeentelijkeBelastingen": [],
+                        "isErKwijtscheldingOntvangenVoorDeGemeentelijkeBelastingen": "ja"
+                    }
+                },
+                "gegevens-client": {
+                    "bsn": "111111110",
+                    "emailcl": "jarred.mac.intosh@ritense.com",
+                    "gescheiden": {
+                        "datumGescheiden": "",
+                        "echtscheidingsconvenant": []
+                    },
+                    "typeBewind": {
+                        "curatele": false,
+                        "lichamelijkeOfGeestelijkeToestand": true,
+                        "verkwistingOfProblematischeSchulden": true
+                    },
+                    "voorvoegselScl": "",
+                    "gegevensPartner": {
+                        "voorvoegselSclpa": "",
+                        "burgerservicenummerBsn": "444444440",
+                        "voornaam1OfMeerdereclpa": "Lisa",
+                        "achternaamVolgensPaspoortOfIdKaartclpa": "Bakker"
+                    },
+                    "telefoonnummercl": "0301234567",
+                    "aanvraagformulier": {
+                        "machtiging": [],
+                        "ondertekendAanvraagformulier": [ ],
+                        "ondertekendAanvraagformulierPartner": [ ]
+                    },
+                    "voornaam1OfMeerdere": "James",
+                    "voorwaardenHuwelijk": "",
+                    "huwelijkseVoorwaarden": [],
+                    "watIsDeBurgelijkeStaat": "d",
+                    "partnerschapsvoorwaarden": [ ],
+                    "voorwaardenPartnerschap1": "Partnerschapsvoorwaarden",
+                    "achternaamVolgensPaspoortOfIdKaart": "Jameson"
+                },
+                "onderneming-shv": {
+                    "gegevensOndernemingEn": {
+                        "eenOnderneming": [
+                            {
+                                "kvKNummer4": "90002768",
+                                "organisatienaam1": "Bedrijf 1",
+                                "jaarrekeningen5JaarTMJaarVanStaking": [],
+                                "aangiftenOmzetbelastingenVanDeLaatste3Jaar": []
+                            }
+                        ],
+                        "geefEenToelichting8": ""
+                    }
+                },
+                "uw-gegevens-shv": {
+                    "email": "jarred.mac.intosh@ritense.com",
+                    "geslacht": "man",
+                    "achternaam": "Engelsen",
+                    "voorletterS": "H",
+                    "voorvoegselS": "van",
+                    "telefoonnummer": "0101234567",
+                    "organisatienaam": "Regional Sanjoflex"
+                },
+                "inkomsten-uitgaven": {
+                    "uitgaven": {
+                        "recenteHuurspecificatie": []
+                    },
+                    "budgetplan": {
+                        "budgetplanUpload": [],
+                        "geefEenToelichtingOpHetBudgetplan": ""
+                    },
+                    "beslaglegging": {
+                        "schuldeisers": [],
+                        "schuldeisers1": [],
+                        "ligtErBeslagOpHetInkomenVanDePartner": "nee",
+                        "ligtErBeslagOpHetInkomenVanUwClientVariabeleBEnOfDePartner": "nee"
+                    },
+                    "inkomstenVanUwClient": {
+                        "herhalendeGroepInkomstenClient": []
+                    },
+                    "inkomstenVanDePartner": {
+                        "herhalendeGroepInkomstenPartner": []
+                    },
+                    "toeslagenBelastingdienst": {
+                        "voorschotbeschikkingToeslagen": []
+                    },
+                    "recenteZorgpolisVanUwClientVariabeleAEnDePartner": []
+                },
+                "situatie-client-partner": {
+                    "fraude": {
+                        "geefEenToelichtingOpDeVeroordelingEn": "Veroordeeld voor fraude",
+                        "isUwClientDeAfgelopen5JaarDoorDeRechtbankVeroordeeldVoorFraude": "JA"
+                    },
+                    "onderneming": {
+                        "veldengroep": {
+                            "kvKNummer2": "90002768",
+                            "organisatienaam3": "Verloren onderneming"
+                        },
+                        "veldengroep1": {
+                            "kvKNummer3": "",
+                            "organisatienaam4": ""
+                        },
+                        "heeftUwClientOpDitMomentEenActieveOnderneming": "a",
+                        "heeftDePartnerOpDitMomentEenActieveOnderneming": "b",
+                        "heeftUwClientEenOfMeerdereOndernemingenInDeAfgelopen5JaarGestaakt": "a",
+                        "heeftDePartnerEenOfMeerdereOndernemingenInDeAfgelopen5JaarGestaakt": "a"
+                    },
+                    "woonsituatie": {
+                        "hoeIsDeWoonsituatieVanUwClientVariabeleAEnDePartner": "c"
+                    },
+                    "situatieschets": {
+                        "beschrijfDeLeefWoonSituatieVanUwClient": "Beschrijf de leef/woonsituatie van uw cliënt en de partner",
+                        "beschrijfWatTotErNuToeAlGedaanIsOmDeSchuldenOpTeLossen": "Beschrijf wat tot er nu toe al gedaan is om de schulden op te lossen",
+                        "beschrijfWanneerEnHoeDeSchuldenVanUwClientIfZijnOntstaan": "Beschrijf wanneer en hoe de schulden van uw client en de partner zijn ontstaan"
+                    },
+                    "Eerderehulpgroep": {
+                        "eerdereFinancieleHulpClient": {
+                            "GEEN_SCHULDREGELING": false,
+                            "MINNELIJKE_SCHULDREGELING": false,
+                            "WETTELIJKE_SCHULDREGELING": true
+                        },
+                        "eerdereFinancieleHulpPartner": {
+                            "GEEN_SCHULDREGELING": false,
+                            "MINNELIJKE_SCHULDREGELING": true,
+                            "WETTELIJKE_SCHULDREGELING": false
+                        }
+                    },
+                    "andereHulpverlening": {
+                        "hulpverleninghh": [
+                            {
+                                "soortHulpverlening": "Fysio",
+                                "verwachteEinddatumHulpverlening": "2024-09-17",
+                                "contactpersoonEnOfNaamInstelling": "AMC"
+                            }
+                        ],
+                        "hulpverleninghh1": [
+                            {
+                                "soortHulpverlening1": "Verpleging",
+                                "verwachteEinddatumHulpverlening1": "2024-09-18",
+                                "contactpersoonEnOfNaamInstelling1": "Ziekenhuis"
+                            }
+                        ],
+                        "krijgtUwClientOndersteuningVanAndereHulpverleners": "a",
+                        "krijgtUwPartnerOndersteuningVanAndereHulpverleners": "a"
+                    },
+                    "arbeidssituatieVanUwClient": {
+                        "geefEenToelichting4": "toelichting",
+                        "heeftUwClientBetaaldWerk": "nee",
+                        "gemiddeldAantalUurPerWeek": null,
+                        "werktUwClient36UurOfMeerPerWeek": "",
+                        "isUwClienBereidOm36UurPerWeekTeWerken": "b",
+                        "isUwClientInStaatOm36UurPerWeekTeWerken": "b",
+                        "doetUwClientAanVrijwilligerswerkOfOnbetaaldWerk": "nee"
+                    },
+                    "arbeidssituatieVanDePartner": {
+                        "geefEenToelichting5": "toelichting",
+                        "gemiddeldAantalUurPerWeek1": null,
+                        "heeftDePartnerBetaaldWerk1": "nee",
+                        "werktDePartner36UurOfMeerPerWeek": "",
+                        "isDePartnerBereidOm36UurPerWeekTeWerken1": "b",
+                        "isDePartnerInStaatOm36UurPerWeekTeWerken1": "b",
+                        "doetDePartnerAanVrijwilligerswerkOfOnbetaaldWerk1": "nee"
+                    },
+                    "EerdereMinnelijkSchuldregelingClientGroep": {
+                        "eerdereMinnelijkeSchuldregelingClientAfgerond": "",
+                        "eerdereMinnelijkeSchuldregelingClientToelichting": "",
+                        "eerdereMinnelijkeSchuldregelingClientDatumAfgerond": ""
+                    },
+                    "eerdereWettelijkeSchuldregelingClientGroep": {
+                        "eerdereWettelijkeSchuldregelingClientAfgerond": "JA",
+                        "eerdereWettelijkeSchuldregelingClientToelichting": "toelichting",
+                        "eerderWettelijkeSchuldregelingClientAfgerondDatum": "2024-09-18"
+                    },
+                    "EerdereMinnelijkeSchuldregelingPartnerGroep": {
+                        "eerdereMinnelijkeSchuldregelingPartnerAfgerond": "JA",
+                        "eerdereMinnelijkeSchuldregelingPartnerToelichting": "toelichting",
+                        "eerdereMinnelijkSchuldregelingPartnerAfgerondDatum": "2024-09-13"
+                    },
+                    "eerdereWettelijkeSchuldregelingPartnerGroep": {
+                        "eerdereWettelijkeSchuldregelingPartnerAfgerond": "",
+                        "eerdereWettelijkeSchuldregelingPartnerToelichting": "",
+                        "eerdereWettelijkeSchuldregelingPartnerAfgerondDatum": ""
+                    }
+                },
+                "verklaring-van-waarheid": {
+                    "waarheidsVerklaring": true
+                }
+            },
+            "type": "Verzoek schuldhulpverlening bewindvoerders",
+            "pdf_url": "https://openzaak-zgw.test.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/e5e322f2-7629-4931-919e-1e3c6017b81b",
+            "submission_id": "OF-AUSTUZ"
+        },
+        "geometry": null,
+        "startAt": "2024-09-12",
+        "endAt": null,
+        "registrationAt": "2024-09-12"
+    }
+}

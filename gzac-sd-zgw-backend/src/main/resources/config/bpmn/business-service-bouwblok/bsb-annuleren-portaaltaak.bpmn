@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0b7c0wz" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_0rllu65">
+    <bpmn:participant id="BSBAnnulerenPortaaltaakParticipant" name="BSB annuleren portaaltaak" processRef="bsb-annuleren-portaaltaak" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-annuleren-portaaltaak" name="BSB annuleren portaaltaak" isExecutable="true">
+    <bpmn:startEvent id="Event_0erbzwt">
+      <bpmn:outgoing>Flow_09pyv4p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_09pyv4p" sourceRef="Event_0erbzwt" targetRef="OphalenInputTask" />
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncBefore="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="informatieverzoeken">${valueResolverDelegateService.resolveValue(execution, "doc:/informatieverzoeken")}</camunda:outputParameter>
+          <camunda:outputParameter name="verwerkerTaakId">${informatieverzoeken[informatieverzoeken.size() - 1].verzoek.verwerkerTaakId}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_09pyv4p</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ic4io1</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1ic4io1" sourceRef="OphalenInputTask" targetRef="AnnulerenPortaaltaakTask" />
+    <bpmn:serviceTask id="AnnulerenPortaaltaakTask" name="Annuleren portaaltaak" camunda:asyncBefore="true" camunda:expression="${customPortaalTaakService.cancelPortaalTaak(verwerkerTaakId, &#34;taak&#34;)}">
+      <bpmn:incoming>Flow_1ic4io1</bpmn:incoming>
+      <bpmn:outgoing>Flow_17x1ec0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0ofn3zw">
+      <bpmn:incoming>Flow_17x1ec0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_17x1ec0" sourceRef="AnnulerenPortaaltaakTask" targetRef="Event_0ofn3zw" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0rllu65">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="BSBAnnulerenPortaaltaakParticipant" isHorizontal="true">
+        <dc:Bounds x="131" y="82" width="560" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03xt9u9" bpmnElement="Event_0erbzwt">
+        <dc:Bounds x="200" y="184" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0x5izaw" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="280" y="162" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1umkrzk" bpmnElement="AnnulerenPortaaltaakTask">
+        <dc:Bounds x="430" y="162" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ofn3zw_di" bpmnElement="Event_0ofn3zw">
+        <dc:Bounds x="582" y="184" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_10a0jsd" bpmnElement="Flow_09pyv4p">
+        <di:waypoint x="236" y="202" />
+        <di:waypoint x="280" y="202" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ic4io1_di" bpmnElement="Flow_1ic4io1">
+        <di:waypoint x="380" y="202" />
+        <di:waypoint x="430" y="202" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17x1ec0_di" bpmnElement="Flow_17x1ec0">
+        <di:waypoint x="530" y="202" />
+        <di:waypoint x="582" y="202" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

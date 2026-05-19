@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_13s5zzd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.32.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_03pum75">
+    <bpmn:participant id="ABVerversenBrongegevens" name="AB: Verversen brongegevens" processRef="ab-verversen-brongegevens" />
+  </bpmn:collaboration>
+  <bpmn:process id="ab-verversen-brongegevens" name="Brongegevens verversen" isExecutable="true">
+    <bpmn:startEvent id="BrongegevensVerversenStartEvent" name="Opnieuw ophalen brongegevens" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1yg1fp3</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="StartOphalenBrongegevensEndEvent" name="Start ophalen brongegevens" camunda:asyncAfter="true">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="variables">
+            <camunda:map>
+              <camunda:entry key="gebeurtenis">start-verversen-brongegevens</camunda:entry>
+              <camunda:entry key="gebruiker">${gebruiker}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1yg1fp3</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_19bzq4t" camunda:expression="${correlationService.sendCatchEventMessage(&#34;NIEUWE_GEBEURTENIS_ONTVANGEN_START_MESSAGE&#34;, execution.businessKey, variables)}" />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1yg1fp3" sourceRef="BrongegevensVerversenStartEvent" targetRef="StartOphalenBrongegevensEndEvent" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_03pum75">
+      <bpmndi:BPMNShape id="Participant_1srmgpr_di" bpmnElement="ABVerversenBrongegevens" isHorizontal="true">
+        <dc:Bounds x="160" y="70" width="340" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="BrongegevensVerversenStartEvent">
+        <dc:Bounds x="242" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="220" y="215" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_04hmpue_di" bpmnElement="StartOphalenBrongegevensEndEvent">
+        <dc:Bounds x="392" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="378" y="215" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1yg1fp3_di" bpmnElement="Flow_1yg1fp3">
+        <di:waypoint x="278" y="190" />
+        <di:waypoint x="392" y="190" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

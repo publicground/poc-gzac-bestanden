@@ -1,0 +1,107 @@
+{
+    "$id": "bedrijfskrediet.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Bedrijfskrediet definition",
+    "definitions": {
+        "bedrijfskrediet": {
+            "type": "object",
+            "properties": {
+                "redenAanvraag": {
+                    "type": "object",
+                    "enum": [
+                        {
+                            "code": "HERFINANCIERING",
+                            "name": "Herfinanciering"
+                        },
+                        {
+                            "code": "SANERING",
+                            "name": "Sanering"
+                        },
+                        {
+                            "code": "ACHTERSTANDEN",
+                            "name": "Achterstanden"
+                        },
+                        {
+                            "code": "INVESTERINGEN",
+                            "name": "Investeringen"
+                        },
+                        {
+                            "code": "ANDERS",
+                            "name": "Anders"
+                        }
+                    ]
+                },
+                "andereRedenAanvraag": {
+                    "type": "number"
+                },
+                "toelichtingAanvraag": {
+                    "type": "string"
+                },
+                "bedrag": {
+                    "type": "number"
+                },
+                "contactSchuldhulpverlening": {
+                    "type": "string"
+                },
+                "toelichtingContactSchuldhulpverlening": {
+                    "type": "string"
+                },
+                "afsprakenSchuldhulpverlening": {
+                    "type": "object",
+                    "enum": [
+                        {
+                            "code": "SCHULDHULPVERLENINGS_TRAJECT",
+                            "name": "Er wordt een schuldhulpverleningstraject opgestart"
+                        },
+                        {
+                            "code": "WNSP_TRAJECT",
+                            "name": "Er wordt een WSNP - traject opgestart"
+                        },
+                        {
+                            "code": "GEEN_TRAJECT",
+                            "name": "Er wordt geen traject opgestart"
+                        }
+                    ]
+                },
+                "startdatumTraject": {
+                    "type": "string"
+                },
+                "redenNietOpstartenTraject": {
+                    "type": "string"
+                },
+                "dreigingVanBeslaglegging": {
+                    "type": "string"
+                },
+                "toelichtingBeslaglegging": {
+                    "type": "string"
+                },
+                "andereLeningenAangevraagd": {
+                    "type": "string"
+                },
+                "toelichtingAndereLeningenAangevraagd": {
+                    "type": "string"
+                },
+                "toelichting": {
+                    "type": "string"
+                },
+                "bkrOverzichtOntvangen": {
+                    "type": "string",
+                    "enum": [
+                        "JA",
+                        "NEE",
+                        "ONBEKEND"
+                    ]
+                },
+                "afwijzingLeningBank": {
+                    "type": "string",
+                    "enum": [
+                        "JA",
+                        "NEE",
+                        "ONBEKEND"
+                    ]
+                }
+            }
+        }
+    }
+}
+

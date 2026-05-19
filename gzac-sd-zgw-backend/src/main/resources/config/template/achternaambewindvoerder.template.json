@@ -1,0 +1,7 @@
+{
+    "templateKey": "achternaambewindvoerder",
+    "caseDefinitionName": "aanvraag-schuldhulpverlening",
+    "templateType": "text",
+    "metadata": {},
+    "contentRef": "/config/template/achternaambewindvoerder.ftlh"
+}

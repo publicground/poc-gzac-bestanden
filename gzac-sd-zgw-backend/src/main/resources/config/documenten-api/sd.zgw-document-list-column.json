@@ -1,0 +1,53 @@
+{
+    "changesetId": "sd.zgw-document-list-columns-v14",
+    "case-definitions": [
+        {
+            "key": "aanvraag-algemene-bijstand-dcm",
+            "columns": [
+                {
+                    "key": "CREATIEDATUM",
+                    "defaultSort": "DESC"
+                },
+                {
+                    "key": "INFORMATIEOBJECTTYPE_OMSCHRIJVING"
+                },
+                {
+                    "key": "TITEL"
+                },
+                {
+                    "key": "BESCHRIJVING"
+                },
+                {
+                    "key": "AUTEUR"
+                },
+                {
+                    "key": "BESTANDSOMVANG"
+                }
+            ]
+        },
+        {
+            "key": "aanvraag-ioaw-uitkering-dcm",
+            "columns": [
+                {
+                    "key": "CREATIEDATUM"
+                },
+                {
+                    "key": "INFORMATIEOBJECTTYPE_OMSCHRIJVING"
+                },
+                {
+                    "key": "TITEL",
+                    "defaultSort": "DESC"
+                },
+                {
+                    "key": "BESCHRIJVING"
+                },
+                {
+                    "key": "AUTEUR"
+                },
+                {
+                    "key": "BESTANDSOMVANG"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,233 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "key": "pv.aangeleverdeDocumenten",
+            "type": "hidden",
+            "input": true,
+            "label": "Aangeleverde documenten",
+            "tableView": false
+        },
+        {
+            "key": "html",
+            "type": "htmlelement",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "input": false,
+            "label": "HTML",
+            "content": "De onderstaande informatie is aangeleverd door de aanvrager.",
+            "className": "alert alert-primary",
+            "tableView": false,
+            "refreshOnChange": false
+        },
+        {
+            "key": "informatieverzoeken",
+            "type": "hidden",
+            "input": true,
+            "label": "Informatieverzoeken",
+            "tableView": false,
+            "attributes": {
+                "data-testid": "aanvraag-algemene-bijstand.beoordelen-resultaat-informatieverzoek-test-informatieverzoeken"
+            }
+        },
+        {
+            "key": "pv.ontvangenPortaalBestanden",
+            "type": "hidden",
+            "input": true,
+            "label": "ontvangenPortaalBestanden",
+            "tableView": false,
+            "customDefaultValue": "value = data.informatieverzoeken.at(-1)?.reactie?.ontvangenPortaalBestanden"
+        },
+        {
+            "label": "Bericht naar aanvrager",
+            "type": "textfield",
+            "input": true,
+            "disabled": true,
+            "tableView": true,
+            "key": "pv.berichtNaarAanvrager",
+            "customDefaultValue": "value = data.informatieverzoeken.at(-1)?.verzoek?.berichtNaarAanvrager",
+            "applyMaskOn": "change",
+            "validateWhenHidden": false
+        },
+        {
+            "label": "<Strong>Ontvangen portaal bestanden</strong>",
+            "disableAddingRemovingRows": true,
+            "reorder": false,
+            "addAnotherPosition": "bottom",
+            "layoutFixed": false,
+            "enableRowGroups": false,
+            "initEmpty": false,
+            "customClass": "formio-component-datagrid-borderless",
+            "tableView": false,
+            "defaultValue": [
+                {
+                    "pv": {
+                        "documentUpload": false
+                    },
+                    "documentUpload": ""
+                }
+            ],
+            "customDefaultValue": "var aangeleverdeDocumenten = data.pv?.aangeleverdeDocumenten;\nvar ontvangenPortaalBestanden = data.pv?.ontvangenPortaalBestanden;\n\nontvangenPortaalBestanden.forEach(function (item) {\n    var handlerDescription = item.informatieverzoekItem.omschrijvingBehandelaar;\n\n    if (item.documentUpload && item.documentUpload.length > 0 && aangeleverdeDocumenten.hasOwnProperty(handlerDescription)) {\n        var bestandenArray = aangeleverdeDocumenten[handlerDescription];\n\n        if (bestandenArray.length > 0) {\n            item.bestanden = bestandenArray.shift();\n        }\n    }\n});\n\nvalue = ontvangenPortaalBestanden;",
+            "validateWhenHidden": false,
+            "key": "ontvangenPortaalBestanden",
+            "type": "datagrid",
+            "input": true,
+            "components": [
+                {
+                    "key": "columns",
+                    "type": "columns",
+                    "input": false,
+                    "label": "Columns",
+                    "columns": [
+                        {
+                            "pull": 0,
+                            "push": 0,
+                            "size": "md",
+                            "width": 12,
+                            "offset": 0,
+                            "components": [
+                                {
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "input": false,
+                                    "label": "HTML",
+                                    "content": "{{row.informatieverzoekItem?.omschrijvingBehandelaar}}",
+                                    "tableView": false,
+                                    "refreshOnChange": false
+                                },
+                                {
+                                    "key": "documentUpload",
+                                    "type": "hidden",
+                                    "input": true,
+                                    "label": "documentUpload",
+                                    "tableView": false
+                                },
+                                {
+                                    "key": "bestanden",
+                                    "type": "datagrid",
+                                    "input": false,
+                                    "label": "Aangeleverde bestanden",
+                                    "reorder": false,
+                                    "hideLabel": true,
+                                    "initEmpty": false,
+                                    "tableView": false,
+                                    "components": [
+                                        {
+                                            "key": "columns",
+                                            "type": "columns",
+                                            "input": false,
+                                            "label": "Columns",
+                                            "columns": [
+                                                {
+                                                    "pull": 0,
+                                                    "push": 0,
+                                                    "size": "md",
+                                                    "width": 9,
+                                                    "offset": 0,
+                                                    "components": [
+                                                        {
+                                                            "key": "download",
+                                                            "type": "button",
+                                                            "input": false,
+                                                            "label": "<i class='fas fa-file'></i> {{ row.fileName }}",
+                                                            "theme": "link",
+                                                            "action": "custom",
+                                                            "custom": "fetch('../api/v1/documenten-api/' + row.pluginConfigurationId + '/files/' + row.fileId + '/download', { method: 'GET', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('formioToken') } }).then(res => res.blob()).then(blob => { var file = window.URL.createObjectURL(blob); let tab = window.open(); tab.location.assign(file); });",
+                                                            "tableView": false,
+                                                            "customClass": "btn-link p-0 border-0 bg-transparent text-primary",
+                                                            "showValidations": false
+                                                        }
+                                                    ],
+                                                    "currentWidth": 9
+                                                },
+                                                {
+                                                    "pull": 0,
+                                                    "push": 0,
+                                                    "size": "md",
+                                                    "width": 6,
+                                                    "offset": 0,
+                                                    "components": [],
+                                                    "currentWidth": 6
+                                                }
+                                            ],
+                                            "hideLabel": true,
+                                            "tableView": false
+                                        }
+                                    ],
+                                    "customClass": "formio-component-datagrid-borderless",
+                                    "layoutFixed": false,
+                                    "defaultValue": [
+                                        {}
+                                    ],
+                                    "enableRowGroups": false,
+                                    "customConditional": "show = row.bestanden ? true : false;",
+                                    "addAnotherPosition": "bottom",
+                                    "validateWhenHidden": false,
+                                    "disableAddingRemovingRows": true
+                                },
+                                {
+                                    "key": "bestandNietAanleveren",
+                                    "type": "checkbox",
+                                    "input": true,
+                                    "label": "De aanvrager kan momenteel het gevraagde document niet aanleveren <hr class=\"mb-0\">",
+                                    "disabled": true,
+                                    "tableView": false,
+                                    "defaultValue": false,
+                                    "customConditional": "show = row.bestandNietAanleveren ? true : false;",
+                                    "validateWhenHidden": false
+                                }
+                            ],
+                            "currentWidth": 12
+                        },
+                        {
+                            "pull": 0,
+                            "push": 0,
+                            "size": "md",
+                            "width": 6,
+                            "offset": 0,
+                            "components": [],
+                            "currentWidth": 6
+                        }
+                    ],
+                    "hideLabel": true,
+                    "tableView": false
+                }
+            ]
+        },
+        {
+            "key": "documenten",
+            "type": "hidden",
+            "input": true,
+            "label": "Documenten",
+            "tableView": false
+        },
+        {
+            "label": "informatieverzoekAfgerond",
+            "key": "gegevensVaststelling.informatieverzoekAfgerond",
+            "calculateValue": "value = true",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Doorgaan",
+            "key": "submit",
+            "type": "button",
+            "action": "custom",
+            "input": true,
+            "tableView": false,
+            "disableOnInvalid": true,
+            "custom": "delete data.informatieverzoeken; delete data.ontvangenPortaalBestanden; delete data.documenten; form.submit(); component.disabled = true;"
+        }
+    ]
+}

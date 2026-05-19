@@ -1,0 +1,137 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "index": 1,
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "999991322",
+      "data": {
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Herengracht",
+              "postcode": "2511 EG",
+              "huisletter": "",
+              "huisnummer": "1",
+              "toevoeging": ""
+            },
+            "grPersoongegevens": {
+              "Bsn": "999991322",
+              "voornaam": "Celeste",
+              "achternaam": "Avion",
+              "voorletters": "C.",
+              "voorvoegsels": "",
+              "geboortedatum": "1960-12-29"
+            }
+          }
+        },
+        "alo-ioaw": {
+          "grIoaw": {
+            "geenRechtMeerWw": "NEE",
+            "geenRechtMeerWga": "NEE",
+            "gedeeltelijkArbeidsongeschikt": "NEE"
+          }
+        },
+        "schulden": {
+          "heeftSchulden": "NEE"
+        },
+        "alo-uitbetaling": {
+          "ibanAanWie": "NEE"
+        },
+        "alo-uw-inkomsten": {
+          "heeftInkomsten": "GEEN_INKOMSTEN"
+        },
+        "alo-reden-aanvraag": {
+          "grGeenInkomen": {
+            "waaromGeenInkomen": "EERDERE_AANVRAAG_AFGEWEZEN_OF_BUITEN_BEHANDELING_GESTELD"
+          },
+          "grIngangsdatum": {
+            "bijstandsuitkeringEerderStarten": "NEE"
+          },
+          "waaromBijstandsuitkering": "GEEN_ONVOLDOENDE_INKOMEN",
+          "grAanvraagBijstandAfgewezen": {
+            "gewijzigd": "Heb een nieuw shirt gekocht. Hip dingetje. ",
+            "kiesSituatieAfwijzingOfGelijk": "NEE"
+          }
+        },
+        "alo-uw-woonsituatie": {
+          "hoeWoontU": "WOONWAGEN",
+          "grAndereBewoners": {
+            "meerMensenOpAdres": "NEE"
+          }
+        },
+        "alo-uw-beschikbaarheid": {
+          "grBeschikbaarheid": {
+            "onbetaald": "NEE",
+            "beschikbaarheid": 2
+          }
+        },
+        "alo-gezinssamenstelling": {
+          "partnerWoontBijU": "NEE",
+          "thuiswonendeKinderen": "NEE"
+        },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": false,
+          "grWoonsituatie": {
+            "woonsituatie": "ELEKTRONISCHE_DETENTIE"
+          },
+          "grAdresVerblijf": {
+            "plaatsVerblijf": "'s-Gravenhage",
+            "straatVerblijf": "Herengracht",
+            "postcodeVerblijf": "2511 EG",
+            "huisletterVerblijf": "",
+            "huisnummerVerblijf": 1,
+            "nummerToevoegingVerblijf": "",
+            "toelichtingadresVerblijf": "Luiheid"
+          },
+          "grNationaliteit": {
+            "nationaliteitBezit": "NEDERLANDSE_NATIONALITEIT"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "JA",
+            "grContactHulp": {
+              "naamHulp": "Herman Elper",
+              "relatieHulp": "FAMILIE",
+              "telefoonHulp": ""
+            }
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": false,
+            "emailAdres": "jouw.naam@ritense.com",
+            "geenTelefoon": false,
+            "telefoonnummer": "0688781252"
+          }
+        },
+        "alo-bezittingen-en-schulden": {
+          "grRekeningen": {
+            "geenBankrekening": "GEEN_REKENING"
+          },
+          "grUwVermogen": {
+            "welkVermogen": {
+              "CRYPTO": false,
+              "CARAVAN": false,
+              "VAARTUIG": false,
+              "CONTANTEN": false,
+              "KOOPWONING": false,
+              "MOTORVOERTUIG": false,
+              "EEN_STUK_GROND": false,
+              "OBLIGATIES_AANDELEN": false
+            }
+          }
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "language_code": "nl",
+      "submission_id": "fa1c9eca-ca3f-4232-b4ae-63999ae677cb",
+      "public_reference": "OF-{{$random.alphanumeric(8)}}"
+    },
+    "startAt": "2025-07-08",
+    "registrationAt": "2025-07-08"
+  }
+}

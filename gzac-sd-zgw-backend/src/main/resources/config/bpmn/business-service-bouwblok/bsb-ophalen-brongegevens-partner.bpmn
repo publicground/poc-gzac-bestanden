@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0y9t2as" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_17rouow">
+    <bpmn:participant id="BsbOphalenBrongegevensPartnerParticipant" name="BSB ophalen brongegevens partner" processRef="bsb-ophalen-brongegevens-partner" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-ophalen-brongegevens-partner" name="BSB ophalen brongegevens partner" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_0j39whd" sourceRef="OphalenInputTask" targetRef="BsOphalenBrongegevensPartnerCallActivity" />
+    <bpmn:callActivity id="BsOphalenBrongegevensPartnerCallActivity" name="bs ophalen brongegevens partner" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-ophalen-brongegevens">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="bsn" target="bsn" />
+        <camunda:in source="ophalenRdwEnKadasterInfo" target="ophalenRdwEnKadasterInfo" />
+        <camunda:in source="suwiTemplateKey" target="suwiTemplateKey" />
+        <camunda:in source="suwiRapportageBestandsnaam" target="suwiRapportageBestandsnaam" />
+        <camunda:out source="brpPersoonsgegevensInfo" target="brpPersoonsgegevensInfo" />
+        <camunda:out source="uwvInfo" target="uwvInfo" />
+        <camunda:out source="svbUitkeringen" target="svbUitkeringen" />
+        <camunda:out source="duoPersoonsInformatie" target="duoPersoonsInformatie" />
+        <camunda:out source="duoStudiefinancieringInfo" target="duoStudiefinancieringInfo" />
+        <camunda:out source="rdwVoertuigen" target="rdwVoertuigen" />
+        <camunda:out source="kadastraleObjecten" target="kadastraleObjecten" />
+        <camunda:out source="brpPersoonsgegevensKinderenInfo" target="brpPersoonsgegevensKinderenInfo" />
+        <camunda:out source="brpPersoonsgegevensPartnerInfo" target="brpPersoonsgegevensPartnerInfo" />
+        <camunda:out source="connectionErrorArray" target="connectionErrorArray" />
+        <camunda:out source="bijstandsregelingenInfo" target="bijstandsregelingenInfo" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0j39whd</bpmn:incoming>
+      <bpmn:outgoing>Flow_1s3pgvb</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="user">
+            <camunda:script scriptFormat="javascript">execution.getVariable("gebruiker") ? execution.getVariable("gebruiker") : "Systeem";</camunda:script>
+          </camunda:inputParameter>
+          <camunda:outputParameter name="bsn">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/partner/bsn")}</camunda:outputParameter>
+          <camunda:outputParameter name="ophalenRdwEnKadasterInfo">${true}</camunda:outputParameter>
+          <camunda:outputParameter name="suwiTemplateKey">suwi-rapportage-alo</camunda:outputParameter>
+          <camunda:outputParameter name="suwiRapportageBestandsnaam">suwi rapportage partner.pdf</camunda:outputParameter>
+          <camunda:outputParameter name="ophalenBronGegevens">
+            <camunda:map>
+              <camunda:entry key="datum">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="user">${user}</camunda:entry>
+              <camunda:entry key="bsn">${bsn}</camunda:entry>
+              <camunda:entry key="bron">Alle</camunda:entry>
+            </camunda:map>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="brongegevensArray">${valueResolverDelegateService.resolveValue(execution, "doc:ophalenBronGegevens")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1eog8v8</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j39whd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="Event_1tzh1i4">
+      <bpmn:outgoing>Flow_1eog8v8</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1eog8v8" sourceRef="Event_1tzh1i4" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_0g9hru3" sourceRef="VoorbereidenVariabelenTask" targetRef="Activity_1dyxwdo" />
+    <bpmn:sequenceFlow id="Flow_0khjgpk" sourceRef="Activity_1dyxwdo" targetRef="Activity_042ofzp" />
+    <bpmn:sequenceFlow id="Flow_0c67qai" sourceRef="WegschrijvenConnectieErrorsTask" targetRef="VoorbereidenVariabelenTask" />
+    <bpmn:sequenceFlow id="Flow_1t1h6j7" sourceRef="Activity_042ofzp" targetRef="BrongegevensPartnerOpgehaaldEndEvent" />
+    <bpmn:serviceTask id="Activity_12uboln" name="voorbereiden variabele log ophalen brongegevens" camunda:asyncBefore="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="nieuwBrongegevensArray">
+            <camunda:script scriptFormat="javascript">var ophalenBronGegevens = execution.getVariable("ophalenBronGegevens");
+var brongegevensArray = execution.getVariable("brongegevensArray") || [];
+brongegevensArray = brongegevensArray instanceof java.util.List ? Java.from(brongegevensArray) : [];
+brongegevensArray.push(ophalenBronGegevens);
+java.util.Arrays.asList(brongegevensArray);</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1s3pgvb</bpmn:incoming>
+      <bpmn:outgoing>Flow_07ja2at</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_15qu871" name="wegschrijven log ophalen brongegevens" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/ophalenBronGegevens&#34;, nieuwBrongegevensArray)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_07ja2at</bpmn:incoming>
+      <bpmn:outgoing>Flow_03xi1xn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_07ja2at" sourceRef="Activity_12uboln" targetRef="Activity_15qu871" />
+    <bpmn:sequenceFlow id="Flow_1s3pgvb" sourceRef="BsOphalenBrongegevensPartnerCallActivity" targetRef="Activity_12uboln" />
+    <bpmn:sequenceFlow id="Flow_03xi1xn" sourceRef="Activity_15qu871" targetRef="WegschrijvenConnectieErrorsTask" />
+    <bpmn:serviceTask id="WegschrijvenConnectieErrorsTask" name="wegschrijven connectie errors" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/connectionError&#34;, connectionErrorArray)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="caseCreatedDate">${valueResolverDelegateService.resolveValue(execution, "case:createdOn")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_03xi1xn</bpmn:incoming>
+      <bpmn:outgoing>Flow_0c67qai</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="VoorbereidenVariabelenTask" name="voorbereiden variabelen" camunda:asyncBefore="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="filteredKinderenInfo">
+            <camunda:script scriptFormat="javascript">var ArrayList = Java.type('java.util.ArrayList');
+
+// common script
+function toJavaValue(value) {
+    if (value == null) return null;
+
+    var valueType = typeof value;
+
+    if (valueType === 'string') return String(value);
+    if (valueType === 'number') return Number(value);
+    if (valueType === 'boolean') return value;
+
+    if (Array.isArray(value)) {
+        return toJavaList(value);
+    }
+
+    if (valueType === 'object') {
+        return toJavaMap(value);
+    }
+
+    return String(value);
+}
+
+function toJavaMap(obj) {
+    var map = new Packages.java.util.LinkedHashMap();
+
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            map.put(String(key), toJavaValue(obj[key]));
+        }
+    }
+
+    return map;
+}
+
+function toJavaList(arr) {
+    var list = new Packages.java.util.ArrayList();
+
+    for (var i = 0; i &lt; arr.length; i++) {
+        list.add(toJavaValue(arr[i]));
+    }
+    return list;
+}
+
+function mapAdres(adres) {
+    if (!adres) return null;
+    return {
+        straatnaam: adres.straatnaam != null ? String(adres.straatnaam) : '',
+        huisnummer: adres.huisnr != null ? Number(adres.huisnr) : 0,
+        huisletter: adres.huisletter != null ? String(adres.huisletter) : '',
+        huisnummertoevoeging: adres.huisnrtoevoeging != null ? String(adres.huisnrtoevoeging) : '',
+        postcode: adres.postcd != null ? String(adres.postcd) : '',
+        woonplaatsnaam: adres.woonplaatsnaam != null ? String(adres.woonplaatsnaam) : '',
+        aanduidingBijHuisnummer: adres.aanduidingBijHuisnr != null ? String(adres.aanduidingBijHuisnr) : '',
+        locatieomschrijving: adres.locatieoms != null ? String(adres.locatieoms) : ''
+    };
+}
+
+//filtered kinder script
+var ChronoField = Java.type('java.time.temporal.ChronoField');
+
+function adressenGelijk(adres1, adres2) {
+  if (adres1 == null || adres2 == null) return false;
+  return adres1.straatnaam === adres2.straatnaam &amp;&amp;
+    adres1.huisnummer === adres2.huisnummer &amp;&amp;
+    adres1.huisletter === adres2.huisletter &amp;&amp;
+    adres1.huisnummertoevoeging === adres2.huisnummertoevoeging &amp;&amp;
+    adres1.postcode === adres2.postcode &amp;&amp;
+    adres1.woonplaatsnaam === adres2.woonplaatsnaam;
+}
+
+function getFilteredKinderen(kinderenList, persoon, caseCreatedDate) {
+   var result = new ArrayList();
+
+  if (kinderenList == null || kinderenList.length === 0 || persoon == null) return 
+      result;
+
+  var caseCreatedYear = caseCreatedDate.get(ChronoField.YEAR);
+  for (var i = 0; i &lt; kinderenList.length; i++) {
+    var kind = kinderenList[i];
+    
+    if (!adressenGelijk(kind.adresBrp, persoon.adresBrp)) continue;
+    if (kind.datumOverlijden != null &amp;&amp; kind.datumOverlijden !== '') continue;
+    var birthYear = kind.geboortedatum != null &amp;&amp; kind.geboortedatum !== ''
+      ? parseInt(String(kind.geboortedatum).substring(0, 4), 10) : null;
+    if (birthYear == null) continue;
+    if (caseCreatedYear - birthYear &gt;= 100) continue;
+   
+  }
+  return result;
+}
+
+getFilteredKinderen(brpPersoonsgegevensKinderenInfo, brpPersoonsgegevensInfo, caseCreatedDate);</camunda:script>
+          </camunda:inputParameter>
+          <camunda:outputParameter name="partner">
+            <camunda:script scriptFormat="javascript">var HashMap = Java.type("java.util.HashMap");
+
+var partnerInfoRaw = execution.getVariable("brpPersoonsgegevensInfo");
+var partnerInfo = (partnerInfoRaw instanceof java.util.Map) ? partnerInfoRaw : new HashMap();
+
+var partnerPartnerInfo = execution.getVariable("brpPersoonsgegevensPartnerInfo");
+var kinderenInfo = execution.getVariable("filteredKinderenInfo");
+
+if (partnerPartnerInfo !== null &amp;&amp; partnerPartnerInfo !== undefined) {
+    partnerInfo.put("partner", partnerPartnerInfo);
+}
+
+if (kinderenInfo !== null &amp;&amp; kinderenInfo.size() &gt; 0) {
+    partnerInfo.put("kinderen", kinderenInfo);
+}
+
+partnerInfo;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="vermogenPartner">
+            <camunda:script scriptFormat="javascript">var HashMap = Java.type("java.util.HashMap");
+var ArrayList = Java.type("java.util.ArrayList");
+
+var vermogenPartner = new HashMap();
+var rdw = execution.getVariable("rdwVoertuigen") || {};
+var kad = execution.getVariable("kadastraleObjecten") || {};
+
+vermogenPartner.put("motorVoertuigen", rdw.motorVoertuigen || new ArrayList());
+vermogenPartner.put("onroerendeGoederen", kad.onroerendeGoederen || new ArrayList());
+
+vermogenPartner;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="duoPartner">
+            <camunda:script scriptFormat="javascript">var HashMap = Java.type("java.util.HashMap");
+
+var duoPartner = new HashMap();
+var persoonsInformatieDuo = execution.getVariable("duoPersoonsInformatie") || new HashMap();
+
+duoPartner.put("opleiding", persoonsInformatieDuo);
+duoPartner;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="mappedUwvInfo">${uwvProcessDocumentService.mapUwvInfo(uwvInfo)}</camunda:outputParameter>
+          <camunda:outputParameter name="duoStudiefinancieringPartner">
+            <camunda:script scriptFormat="javascript">var HashMap = Java.type("java.util.HashMap");
+
+var duoStudiefinancieringPartner = execution.getVariable("duoStudiefinancieringInfo") || new HashMap();
+
+duoStudiefinancieringPartner;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="svbUitkeringenPartner">
+            <camunda:script scriptFormat="javascript">var HashMap = Java.type("java.util.HashMap");
+
+var svbUitkeringenPartner = execution.getVariable("svbUitkeringen") || new HashMap();
+
+svbUitkeringenPartner;</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0c67qai</bpmn:incoming>
+      <bpmn:outgoing>Flow_0g9hru3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_1dyxwdo" name="wegschrijven output" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVanuitBronnen&#34;, gegevensVanuitBronnen)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="gegevensVanuitBronnen">
+            <camunda:map>
+              <camunda:entry key="partner">${partner}</camunda:entry>
+              <camunda:entry key="inkomstenPartner">${mappedUwvInfo}</camunda:entry>
+              <camunda:entry key="svbUitkeringenPartner">${svbUitkeringenPartner}</camunda:entry>
+              <camunda:entry key="duoPartner">${duoPartner}</camunda:entry>
+              <camunda:entry key="duoStudiefinancieringPartner">${duoStudiefinancieringPartner}</camunda:entry>
+              <camunda:entry key="vermogenPartner">${vermogenPartner}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0g9hru3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0khjgpk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="BrongegevensPartnerOpgehaaldEndEvent">
+      <bpmn:incoming>Flow_1t1h6j7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activity_042ofzp" name="wegschrijven bijstandsregelingen" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVanuitBronnen/inkomstenPartner/bijstandsregelingen&#34;, bijstandsregelingenInfo)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0khjgpk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1t1h6j7</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:signal id="Signal_1kgel79" name="alo-wegschrijven-aanvrager-brongegevens-afgerond-${execution.processBusinessKey}" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_17rouow">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="BsbOphalenBrongegevensPartnerParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1540" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1pfuhdg" bpmnElement="BsOphalenBrongegevensPartnerCallActivity">
+        <dc:Bounds x="470" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02dz4sw_di" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="320" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1tzh1i4_di" bpmnElement="Event_1tzh1i4">
+        <dc:Bounds x="242" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1jcizc9" bpmnElement="Activity_12uboln">
+        <dc:Bounds x="630" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1wsr9yj" bpmnElement="Activity_15qu871">
+        <dc:Bounds x="780" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18hah22_di" bpmnElement="WegschrijvenConnectieErrorsTask">
+        <dc:Bounds x="950" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0k6j8gq_di" bpmnElement="VoorbereidenVariabelenTask">
+        <dc:Bounds x="1110" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1nt9f2j" bpmnElement="Activity_1dyxwdo">
+        <dc:Bounds x="1280" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1jny4po_di" bpmnElement="BrongegevensPartnerOpgehaaldEndEvent">
+        <dc:Bounds x="1602" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="786" y="225" width="71" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18k95qt_di" bpmnElement="Activity_042ofzp">
+        <dc:Bounds x="1430" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1qcvydq" bpmnElement="Flow_0j39whd">
+        <di:waypoint x="420" y="200" />
+        <di:waypoint x="470" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1eog8v8_di" bpmnElement="Flow_1eog8v8">
+        <di:waypoint x="278" y="200" />
+        <di:waypoint x="320" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0g9hru3_di" bpmnElement="Flow_0g9hru3">
+        <di:waypoint x="1210" y="200" />
+        <di:waypoint x="1280" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0khjgpk_di" bpmnElement="Flow_0khjgpk">
+        <di:waypoint x="1380" y="200" />
+        <di:waypoint x="1430" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0c67qai_di" bpmnElement="Flow_0c67qai">
+        <di:waypoint x="1050" y="200" />
+        <di:waypoint x="1110" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1t1h6j7_di" bpmnElement="Flow_1t1h6j7">
+        <di:waypoint x="1530" y="200" />
+        <di:waypoint x="1602" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1d4meu8" bpmnElement="Flow_07ja2at">
+        <di:waypoint x="730" y="200" />
+        <di:waypoint x="780" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1s3pgvb_di" bpmnElement="Flow_1s3pgvb">
+        <di:waypoint x="570" y="200" />
+        <di:waypoint x="630" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03xi1xn_di" bpmnElement="Flow_03xi1xn">
+        <di:waypoint x="880" y="200" />
+        <di:waypoint x="950" y="200" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

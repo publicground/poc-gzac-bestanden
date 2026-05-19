@@ -1,0 +1,126 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "key": "pv.bsn",
+            "type": "hidden",
+            "input": true,
+            "label": "bsn",
+            "tableView": false
+        },
+        {
+            "key": "pv.gegevensVaststelling",
+            "type": "hidden",
+            "input": true,
+            "label": "gegevensVaststelling",
+            "tableView": false
+        },
+        {
+            "label": "persoonVastgesteld",
+            "customDefaultValue": "if (data.pv.bsn === data.pv.gegevensVaststelling.aanvrager.bsn) {\n  value = data.pv.gegevensVaststelling.aanvrager;\n} else if (data.pv.bsn === data.pv.gegevensVaststelling.partner.bsn) {\n    value = data.pv.gegevensVaststelling.partner;\n}",
+            "key": "pv.persoonVastgesteld",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "label": "HTML",
+            "content": "Er zijn geen voorliggende voorzieningen gesignaleerd.",
+            "tableView": false,
+            "refreshOnChange": false,
+            "customConditional": "show =  data.pv.voorzieningen?.find( voorziening => voorziening.signalering ) == 0;"
+        },
+        {
+            "key": "gecontroleerdeVoorzieningen",
+            "tag": "div",
+            "type": "htmlelement",
+            "input": false,
+            "label": "Gecontroleerde voorzieningen",
+            "content": "Gecontroleerde voorzieningen: {{{ data.pv.voorzieningen.filter( item => item.geimplementeerd ).map( item => item.voorziening ).join(', ')}}}",
+            "tableView": false,
+            "refreshOnChange": false
+        },
+        {
+            "key": "pv.toonAlles",
+            "type": "checkbox",
+            "input": true,
+            "label": "Toon alle gecontroleerde voorzieningen",
+            "tableView": false,
+            "defaultValue": false
+        },
+        {
+            "key": "pv.voorzieningen",
+            "type": "datagrid",
+            "input": true,
+            "label": "Data Grid",
+            "reorder": false,
+            "hideLabel": true,
+            "initEmpty": false,
+            "tableView": false,
+            "customClass": "formio-component-datagrid-borderless",
+            "components": [
+                {
+                    "key": "panel",
+                    "type": "panel",
+                    "input": false,
+                    "label": "Panel",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "components": [
+                        {
+                            "label": "zaakInformatieHTML",
+                            "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-4\">Signalering</dd>\n        <dt class=\"col-8\">{{{ row?.signalering ? 'Ja' : 'Nee' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-4\">Voorziening</dd>\n        <dt class=\"col-8\">{{{ row?.voorziening }}}</dt>\n    </dl>  \n    <dl class=\"row mb-0\">\n        <dd class=\"col-4\">Betrokkene</dd>\n        <dt class=\"col-8\">{{{ data.pv.persoonVastgesteld?.voorletters }}} {{{ data.pv.persoonVastgesteld?.voorvoegsel }}} {{{ data.pv.persoonVastgesteld?.achternaam }}}</dt>\n    </dl> \n    <dl class=\"row mb-0\">\n        <dd class=\"col-4\">Mogelijk recht</dd>\n        <dt class=\"col-8\">{{{ row?.mogelijkRecht ? _.capitalize(row?.mogelijkRecht) : '' }}}</dt>\n    </dl> \n    <dl class=\"row mb-0\">\n        <dd class=\"col-4\">Verantwoording</dd>\n        <dt class=\"col-8\">{{{row?.verantwoordingVaststelling }}}</dt>\n    </dl> \n</section>",
+                            "refreshOnChange": false,
+                            "customClass": "no-border-around-formio-container",
+                            "key": "html",
+                            "type": "htmlelement",
+                            "tableView": false,
+                            "input": true
+                        },
+                        {
+                            "key": "vanToepassing",
+                            "type": "checkbox",
+                            "input": true,
+                            "label": "Dit is een geldige voorliggende voorziening",
+                            "tableView": false,
+                            "defaultValue": false,
+                            "labelPosition": "left-left",
+                            "clearOnHide": false
+                        },
+                        {
+                            "key": "toelichting",
+                            "type": "textarea",
+                            "input": true,
+                            "label": "Toelichting",
+                            "tableView": true,
+                            "autoExpand": false,
+                            "labelPosition": "left-left",
+                            "clearOnHide": false
+                        }
+                    ],
+                    "collapsible": false,
+                    "customConditional": "show = (row.signalering || row.vanToepassing || row.toelichting || data.pv.toonAlles)"
+                }
+            ],
+            "clearOnHide": false,
+            "layoutFixed": false,
+            "enableRowGroups": false,
+            "addAnotherPosition": "bottom",
+            "disableAddingRemovingRows": true
+        },
+        {
+            "label": "Indienen",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "type": "button",
+            "custom": "form.submit();\ncomponent.disabled = true;",
+            "input": true
+        }
+    ]
+}

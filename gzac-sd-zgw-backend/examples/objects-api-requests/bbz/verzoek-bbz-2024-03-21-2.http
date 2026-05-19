@@ -1,0 +1,176 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+
+{
+    "type": "{{objecttypes_api_url}}",
+    "record": {
+        "index": 1,
+        "typeVersion": 1,
+        "data": {
+            "bsn": "999991322",
+            "data": {
+                "uw-gegevens": {
+                    "digid": {
+                        "persoongegevensPrefill": {
+                            "BsnPrefill": "999991322",
+                            "voornaamPrefill": "Celeste",
+                            "achternaamPrefill": "Avion",
+                            "voorlettersPrefill": "C.",
+                            "voorvoegselPrefill": "",
+                            "geboortedatumPrefill": "1960-12-29"
+                        },
+                        "adresgegevensPrefillGroep": {
+                            "plaatsPrefill": "'s-Gravenhage",
+                            "straatPrefill": "Herengracht",
+                            "postcodePrefill": "2511 EG",
+                            "HuisletterPrefill": "",
+                            "huisnummerPrefill": 1,
+                            "toevoegingPrefill": ""
+                        }
+                    },
+                    "contactgegevens": {
+                        "email": "laurens@maykinmedia.nl",
+                        "Telefoonnummer": ""
+                    }
+                },
+                "foo-inleiding": {},
+                "foo-uitbetaling": {
+                    "uitkeringAanDerden": "NEE"
+                },
+                "foo-uw-aanvraag": {
+                    "uwAanvraag": {
+                        "WAT_IK_WIL_AANVRAGEN_STAAT_HIER_NIET_TUSSEN": false,
+                        "EEN_BBZ_UITKERING_OMDAT_U_WILT_STOPPEN_MET_ONDERNEMEN": true,
+                        "EEN_IOAZ_UITKERING_OMDAT_U_WILT_STOPPEN_MET_ONDERNEMEN_EN_OUDER_BENT_DAN_55_JAAR": false,
+                        "EEN_BBZ_UITKERING_VOOR_STARTENDE_ONDERNEMERS_OF_ONDERNEMERS_DIE_KORTER_DAN_1_5_JAAR_ONDERNEMEN": false
+                    }
+                },
+                "foo-uw-inkomsten": {
+                    "vormenInkomsten": {
+                        "PENSIOEN": false,
+                        "UITKERING": false,
+                        "LOONDIENST": false,
+                        "ALIMENTATIE": false,
+                        "HEFFINGSKORTING": false,
+                        "OVERIGE_INKOMSTEN": false,
+                        "IK_HEB_GEEN_INKOMSTEN": true,
+                        "INKOMSTEN_UIT_ONDERHUUR": false,
+                        "INKOMEN_UIT_HET_BUITENLAND": false
+                    }
+                },
+                "foo-uw-woonsituatie": {
+                    "hoeWonen": "IN_EEN_ZELFSTANDIGE_HUURWONING",
+                    "huurGroep": {
+                        "hoeveelHuur": 1,
+                        "huurcontract": "NEE",
+                        "wieVerhuurder": "a",
+                        "contractOpUwNaam": "NEE",
+                        "hoeveelHuurtoeslag": 1,
+                        "welkeNaamHuurcontract": "1"
+                    },
+                    "andereBewonersGroep": {
+                        "meerOpAdres": "NEE"
+                    }
+                },
+                "foo-uw-ondernemingen": {
+                    "ondernemingGr": {
+                        "ingeschrevenKvk": "JA"
+                    },
+                    "10JaarOnafgebroken": "NEE",
+                    "ingeschrevenOnderneming": [
+                        {
+                            "kvk": "11122222",
+                            "rechtsvorm": "EENMANSZAAK_ZZP",
+                            "bezitDiplomas": "NEE",
+                            "ondernemingNaam": "kaas",
+                            "aanvraagSurseance": "NEE",
+                            "korteOmschrijving": "a",
+                            "stoppenVerklaring": "a",
+                            "inschrijvingsDatum": "2024-03-15",
+                            "stoppenOnderneming": "JA",
+                            "aanvraagFaillissement": "NEE",
+                            "werkzaamhedenOfLopendeVerplichtingen": "NEE"
+                        }
+                    ]
+                },
+                "foo-financiele-situatie": {
+                    "bedrijfspandGroep": {
+                        "typeBedrijfspand": "IK_HEB_GEEN_BEDRIJFSPAND"
+                    },
+                    "inkomenOndernemingGroep": {
+                        "waaromHulp": "a",
+                        "welkeMaandenHulp": "a",
+                        "winstKomendeMaanden": 1
+                    },
+                    "situatieOndernemingGroep": {
+                        "voldoendeInkomsten": "NEE",
+                        "redenNietAanleveren": "a",
+                        "resultaatHuidigJaar": "IK_HEB_IN_HET_HUIDIGE_BOEKJAAR_GEEN_ONDERNEMING",
+                        "toestemmingOnderzoek": "NEE",
+                        "aangifteBelastingAanleveren": "NEE",
+                        "resultaatEenJaarBeschikbaar": "IK_HAD_IN_DIT_JAAR_GEEN_ONDERNEMING",
+                        "resultaatDrieJaarBeschikbaar": "IK_HAD_IN_DIT_JAAR_GEEN_ONDERNEMING",
+                        "resultaatTweeJaarBeschikbaar": "IK_HAD_IN_DIT_JAAR_GEEN_ONDERNEMING"
+                    }
+                },
+                "foo-gezinssamenstelling": {
+                    "gezinssituatieGr": {
+                        "partnerDieBijUWoont": "NEE",
+                        "thuiswonendeKinderen": "NEE"
+                    },
+                    "uOfUwPartnerHeeftNietDeNederlandseNationaliteit": "JA"
+                },
+                "foo-waarheidsverklaring": {
+                    "ikVulDitFormulierNaarWaarheidIn": true
+                },
+                "foo-aanvullende-gegevens": {
+                    "woonsituatieGr": {
+                        "woonsituatie": "IK_STA_INGESCHREVEN_BIJ_DE_GEMEENTE_OP_HET_ADRES_WAAR_IK_WOON"
+                    },
+                    "nationaliteitGR": {
+                        "nationaliteitBezit": "IK_HEB_DE_NEDERLANDSE_NATIONALITEIT"
+                    },
+                    "contactAanvraagGr": {
+                        "hulpBijAanvraag": "NEE"
+                    },
+                    "jaIkWilPostOntvangen": false
+                },
+                "foo-uw-inkomsten-overzicht": {},
+                "foo-bezittingen-en-schulden": {
+                    "heeftSchulden": "NEE",
+                    "contantenGroep": {
+                        "hoeveelContant": 1
+                    },
+                    "uwVermogenGroep": {
+                        "welkVermogen": {
+                            "CRYPTO": false,
+                            "CARAVAN": false,
+                            "VAARTUIG": false,
+                            "CONTANTEN": true,
+                            "OBLIGATIES_AANDELEN": false,
+                            "EEN_MOTORVOERTUIG_AUTO_CAMPER_OF_MOTOR": false,
+                            "EEN_STUK_GROND_IN_NEDERLAND_EN_OF_HET_BUITENLAND": false,
+                            "BANK_EN_SPAARREKENINGEN_PRIVE_EN_ZAKELIJK_BINNEN_EN_BUITENLAND": false,
+                            "EEN_OF_MEERDERE_KOOPWONING_EN_IN_NEDERLAND_EN_OF_HET_BUITENLAND": false
+                        }
+                    }
+                },
+                "foo-bezittingen-schulden-overzicht": {}
+            },
+            "type": "verzoek-bbz-aanvraag",
+            "attachments": [],
+            "language_code": "nl",
+            "submission_id": "a2c49aba-a5f7-408e-a32c-91a9ceee1c4c"
+        },
+        "geometry": null,
+        "startAt": "2024-03-19",
+        "endAt": null,
+        "registrationAt": "2024-03-19"
+    }
+}
+
+###
+

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1ikgrj1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_1smhgu8">
+    <bpmn:participant id="BS214VaststellingVermogenParticipant" name="BS 214 vaststelling vermogen" processRef="bs-214-vaststelling-vermogen" />
+    <bpmn:textAnnotation id="TextAnnotation_1vr1gvm">
+      <bpmn:text>form flow met 2 stappen:
+- vaststellen vermogenscomponenten
+- controleren vastgestelde vermogenscomponenten</bpmn:text>
+    </bpmn:textAnnotation>
+  </bpmn:collaboration>
+  <bpmn:process id="bs-214-vaststelling-vermogen" name="BS 214 vaststelling vermogen" isExecutable="true">
+    <bpmn:exclusiveGateway id="GegevensKwalitatiefVoldoendeAanwezigGateway" name="Gegevens kwalitatief voldoende aanwezig?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_104theq</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:startEvent id="Event_0ox1sn2" name="">
+      <bpmn:outgoing>Flow_104theq</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_104theq" sourceRef="Event_0ox1sn2" targetRef="GegevensKwalitatiefVoldoendeAanwezigGateway" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="GegevensKwalitatiefVoldoendeAanwezigGateway" targetRef="Gateway_0aoybat">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="GegevensKwalitatiefVoldoendeAanwezigGateway" targetRef="Gateway_1h0szlo" />
+    <bpmn:sequenceFlow id="Flow_0njpszr" sourceRef="VaststellenInAanmerkingTeNemenVermogenTask" targetRef="HerstellenGateway" />
+    <bpmn:sequenceFlow id="Flow_1kf3os6" sourceRef="Gateway_0aoybat" targetRef="VermogenVastgesteldEndEvent" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow1" name="nee" sourceRef="HerstellenGateway" targetRef="Gateway_0aoybat" />
+    <bpmn:exclusiveGateway id="Gateway_1h0szlo">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:incoming>JaSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pvcoxr</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0pvcoxr" sourceRef="Gateway_1h0szlo" targetRef="VaststellenVermogenscomponentenTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow1" name="ja" sourceRef="HerstellenGateway" targetRef="Gateway_1h0szlo">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${herstellen}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="VaststellenVermogenscomponentenTask" name="Vaststellen vermogenscomponenten" camunda:asyncAfter="true" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="24">
+      <bpmn:incoming>Flow_0pvcoxr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nz38qo</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="VaststellenInAanmerkingTeNemenVermogenTask" name="Vaststellen in aanmerking te nemen vermogen" camunda:asyncAfter="true" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="22">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_19hwwtj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0njpszr</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="HerstellenGateway" name="herstellen?" default="NeeSequenceFlow1">
+      <bpmn:incoming>Flow_0njpszr</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow1</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="VermogenVastgesteldEndEvent" name="vermogen vastgesteld">
+      <bpmn:incoming>Flow_1kf3os6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_0aoybat">
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:incoming>NeeSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kf3os6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0nz38qo" sourceRef="VaststellenVermogenscomponentenTask" targetRef="BepalenInAanmerkingTeNemenVermogenTask" />
+    <bpmn:sequenceFlow id="Flow_19hwwtj" sourceRef="BepalenInAanmerkingTeNemenVermogenTask" targetRef="VaststellenInAanmerkingTeNemenVermogenTask" />
+    <bpmn:businessRuleTask id="BepalenInAanmerkingTeNemenVermogenTask" name="Bepalen&#10;in aanmerking te nemen vermogen" camunda:asyncAfter="true" camunda:resultVariable="inAanmerkingTeNemenVermogen" camunda:decisionRef="bs-214-vaststelling-vermogen">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0nz38qo</bpmn:incoming>
+      <bpmn:outgoing>Flow_19hwwtj</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:association id="Association_1ci0gzo" associationDirection="None" sourceRef="VaststellenVermogenscomponentenTask" targetRef="TextAnnotation_1vr1gvm" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1smhgu8">
+      <bpmndi:BPMNShape id="Participant_0pmh6gn_di" bpmnElement="BS214VaststellingVermogenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1300" height="500" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_04kgxqe_di" bpmnElement="GegevensKwalitatiefVoldoendeAanwezigGateway" isMarkerVisible="true">
+        <dc:Bounds x="535" y="195" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="534" y="133" width="53" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ox1sn2_di" bpmnElement="Event_0ox1sn2">
+        <dc:Bounds x="262" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="207" y="355" width="27" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1h0szlo_di" bpmnElement="Gateway_1h0szlo" isMarkerVisible="true">
+        <dc:Bounds x="535" y="315" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1pqa3z9_di" bpmnElement="VaststellenVermogenscomponentenTask">
+        <dc:Bounds x="620" y="300" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_15mpv81" bpmnElement="VaststellenInAanmerkingTeNemenVermogenTask">
+        <dc:Bounds x="1040" y="300" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1ewd1ph_di" bpmnElement="HerstellenGateway" isMarkerVisible="true">
+        <dc:Bounds x="1185" y="315" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1183" y="285" width="54" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1uubx5j" bpmnElement="VermogenVastgesteldEndEvent">
+        <dc:Bounds x="1372" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1362" y="245" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0aoybat_di" bpmnElement="Gateway_0aoybat" isMarkerVisible="true">
+        <dc:Bounds x="1275" y="195" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_00d6s8t_di" bpmnElement="BepalenInAanmerkingTeNemenVermogenTask">
+        <dc:Bounds x="830" y="300" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_104theq_di" bpmnElement="Flow_104theq">
+        <di:waypoint x="298" y="220" />
+        <di:waypoint x="535" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1iqwfck_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="585" y="220" />
+        <di:waypoint x="1275" y="220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="610" y="202" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0oc5x3k_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="560" y="245" />
+        <di:waypoint x="560" y="315" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="569" y="250" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0njpszr_di" bpmnElement="Flow_0njpszr">
+        <di:waypoint x="1140" y="340" />
+        <di:waypoint x="1185" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kf3os6_di" bpmnElement="Flow_1kf3os6">
+        <di:waypoint x="1325" y="220" />
+        <di:waypoint x="1372" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1icfdag_di" bpmnElement="NeeSequenceFlow1">
+        <di:waypoint x="1235" y="340" />
+        <di:waypoint x="1300" y="340" />
+        <di:waypoint x="1300" y="245" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1258" y="322" width="19" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pvcoxr_di" bpmnElement="Flow_0pvcoxr">
+        <di:waypoint x="585" y="340" />
+        <di:waypoint x="620" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dt33ny_di" bpmnElement="JaSequenceFlow1">
+        <di:waypoint x="1210" y="365" />
+        <di:waypoint x="1210" y="510" />
+        <di:waypoint x="560" y="510" />
+        <di:waypoint x="560" y="365" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1225" y="373" width="9" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nz38qo_di" bpmnElement="Flow_0nz38qo">
+        <di:waypoint x="720" y="340" />
+        <di:waypoint x="830" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19hwwtj_di" bpmnElement="Flow_19hwwtj">
+        <di:waypoint x="930" y="340" />
+        <di:waypoint x="1040" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1ci0gzo_di" bpmnElement="Association_1ci0gzo">
+        <di:waypoint x="689" y="380" />
+        <di:waypoint x="707" y="420" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1vr1gvm_di" bpmnElement="TextAnnotation_1vr1gvm">
+        <dc:Bounds x="610" y="420" width="300" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

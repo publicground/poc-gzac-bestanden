@@ -1,0 +1,97 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended"
+    ],
+    "dependencyDashboardApproval": false,
+    "dependencyDashboardAutoclose": true,
+    "packageRules": [
+        {
+            "matchManagers": [
+                "gradle"
+            ],
+            "groupName": "Gradle Dependencies",
+            "matchUpdateTypes": [
+                "major",
+                "minor",
+                "patch"
+            ]
+        },
+        {
+            "matchManagers": [
+                "dockerfile",
+                "docker-compose"
+            ],
+            "groupName": "Docker Images",
+            "matchUpdateTypes": [
+                "major",
+                "minor",
+                "patch"
+            ]
+        },
+        {
+            "matchManagers": [
+                "helm-values"
+            ],
+            "groupName": "Helm Dependencies",
+            "matchUpdateTypes": [
+                "major",
+                "minor",
+                "patch"
+            ]
+        },
+        {
+            "matchDatasources": [
+                "maven"
+            ],
+            "registryUrls": [
+                "https://repo.maven.apache.org/maven2"
+            ]
+        },
+        {
+            "matchDatasources": [
+                "gradle-plugin"
+            ],
+            "registryUrls": [
+                "https://plugins.gradle.org/m2"
+            ]
+        },
+        {
+            "matchManagers": [
+                "gradle"
+            ],
+            "registryUrls": [
+                "https://plugins.gradle.org/m2"
+            ],
+            "matchPackageNames": [
+                "org.jetbrains.gradle.plugin.{/,}**",
+                "org.jlleitschuh.gradle.{/,}**",
+                "com.diffplug.spotless{/,}**",
+                "com.gorylenko.gradle-git-properties{/,}**",
+                "org.sonarqube{/,}**"
+            ]
+        }
+    ],
+    "hostRules": [
+        {
+            "matchHost": "repo.retense.com",
+            "enabled": false
+        }
+    ],
+    "automerge": false,
+    "labels": [
+        "dependencies",
+        "renovate"
+    ],
+    "prHourlyLimit": 5,
+    "prConcurrentLimit": 10,
+    "timezone": "Europe/Amsterdam",
+    "schedule": [
+        "* 0-7 * * *"
+    ],
+    "recreateWhen": "always",
+    "branchPrefix": "renovate/",
+    "baseBranches": [
+        "develop"
+    ]
+}

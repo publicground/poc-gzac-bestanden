@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1qa4dip" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_06duyea">
+    <bpmn:participant id="BSBBehandelingAanvraagOpnieuwStartenParticipant" name="BSB Behandeling aanvraag opnieuw starten" processRef="bsb-behandeling-aanvraag-opnieuw-starten" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-behandeling-aanvraag-opnieuw-starten" name="BSB Behandeling aanvraag opnieuw starten" isExecutable="true">
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}" camunda:resultVariable="test">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="besluiten">${valueResolverDelegateService.resolveValue(execution, "doc:/besluiten")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1t5caf6</bpmn:incoming>
+      <bpmn:outgoing>Flow_05ldxfs</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="Event_1vnht8v" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1t5caf6</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1t5caf6" sourceRef="Event_1vnht8v" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_05ldxfs" sourceRef="OphalenInputTask" targetRef="Gateway_03627qe" />
+    <bpmn:sequenceFlow id="Flow_0eurcds" sourceRef="BsBehandelingAanvraagOpnieuwStartenCallActivity" targetRef="WegschrijvenOutputTask" />
+    <bpmn:sequenceFlow id="Flow_04minvh" sourceRef="WegschrijvenOutputTask" targetRef="Gateway_10euerk" />
+    <bpmn:sequenceFlow id="Flow_0y5mlxe" name="Ja" sourceRef="Gateway_03627qe" targetRef="BsBehandelingAanvraagOpnieuwStartenCallActivity">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${not empty besluiten and not empty besluiten[besluiten.size() - 1].genomenBesluit}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0v9gsap" sourceRef="Gateway_10euerk" targetRef="Event_1bmp3er" />
+    <bpmn:sequenceFlow id="Flow_19ih433" name="Nee" sourceRef="Gateway_03627qe" targetRef="Gateway_10euerk" />
+    <bpmn:exclusiveGateway id="Gateway_03627qe" name="Besluit aanwezig?" default="Flow_19ih433">
+      <bpmn:incoming>Flow_05ldxfs</bpmn:incoming>
+      <bpmn:outgoing>Flow_0y5mlxe</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19ih433</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="BsBehandelingAanvraagOpnieuwStartenCallActivity" name="bs behandeling aanvraag opnieuw starten" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-behandeling-aanvraag-opnieuw-starten">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in variables="all" />
+        <camunda:out source="vervaldatum" target="vervaldatum" />
+        <camunda:out source="vervalreden" target="vervalreden" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="besluit">${besluiten.get(besluiten.size()-1)}</camunda:inputParameter>
+          <camunda:outputParameter name="besluit">
+            <camunda:script scriptFormat="javascript">var besluit = execution.getVariable("besluit");
+var vervaldatum = execution.getVariable("vervaldatum");
+var vervalreden = execution.getVariable("vervalreden");
+
+if (!!vervaldatum) {
+    besluit.vervaldatum = vervaldatum;
+}
+if (!!vervalreden) {
+    besluit.vervalreden = vervalreden;
+}
+
+if (!!besluit.versneldBeslist) {
+    besluit.versneldBeslist = false;
+}
+
+result = besluit;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="versneldBeslist">false</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0y5mlxe</bpmn:incoming>
+      <bpmn:outgoing>Flow_0eurcds</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="WegschrijvenOutputTask" name="wegschrijven output" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/besluiten&#34;, besluiten)}" camunda:resultVariable="">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="besluiten">
+            <camunda:script scriptFormat="javascript">var besluiten = execution.getVariable("besluiten");
+var besluit = execution.getVariable("besluit");
+
+besluiten = besluiten instanceof java.util.List ? Java.from(besluiten) : [];
+
+if (besluiten.length &gt; 0) {
+  besluiten.pop();
+}
+
+besluiten.push(besluit);
+result = java.util.Arrays.asList(besluiten);</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0eurcds</bpmn:incoming>
+      <bpmn:outgoing>Flow_04minvh</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_10euerk">
+      <bpmn:incoming>Flow_04minvh</bpmn:incoming>
+      <bpmn:incoming>Flow_19ih433</bpmn:incoming>
+      <bpmn:outgoing>Flow_0v9gsap</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_1bmp3er">
+      <bpmn:incoming>Flow_0v9gsap</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_06duyea">
+      <bpmndi:BPMNShape id="Participant_0j6fi26_di" bpmnElement="BSBBehandelingAanvraagOpnieuwStartenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="100" width="880" height="280" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0l78kvm" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="310" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1vatw2l" bpmnElement="Event_1vnht8v">
+        <dc:Bounds x="232" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_03627qe_di" bpmnElement="Gateway_03627qe" isMarkerVisible="true">
+        <dc:Bounds x="455" y="185" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="436" y="155" width="89" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0a2bbfu" bpmnElement="BsBehandelingAanvraagOpnieuwStartenCallActivity">
+        <dc:Bounds x="550" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1xi67is" bpmnElement="WegschrijvenOutputTask">
+        <dc:Bounds x="710" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_186ahqn" bpmnElement="Gateway_10euerk" isMarkerVisible="true">
+        <dc:Bounds x="845" y="185" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1ja7wr6" bpmnElement="Event_1bmp3er">
+        <dc:Bounds x="942" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_0br3bxo" bpmnElement="Flow_1t5caf6">
+        <di:waypoint x="268" y="210" />
+        <di:waypoint x="310" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1uci2hj" bpmnElement="Flow_05ldxfs">
+        <di:waypoint x="410" y="210" />
+        <di:waypoint x="455" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1kxjrzc" bpmnElement="Flow_0eurcds">
+        <di:waypoint x="650" y="210" />
+        <di:waypoint x="710" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_042axei" bpmnElement="Flow_04minvh">
+        <di:waypoint x="810" y="210" />
+        <di:waypoint x="845" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0y5mlxe_di" bpmnElement="Flow_0y5mlxe">
+        <di:waypoint x="505" y="210" />
+        <di:waypoint x="550" y="210" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="522" y="192" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v9gsap_di" bpmnElement="Flow_0v9gsap">
+        <di:waypoint x="895" y="210" />
+        <di:waypoint x="942" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_19ih433_di" bpmnElement="Flow_19ih433">
+        <di:waypoint x="480" y="235" />
+        <di:waypoint x="480" y="320" />
+        <di:waypoint x="870" y="320" />
+        <di:waypoint x="870" y="235" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="489" y="293" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

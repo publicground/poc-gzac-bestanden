@@ -1,0 +1,27 @@
+{
+    "$id": "documenten-api-file.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Documenten api file definition",
+    "definitions": {
+        "documentenApiFile": {
+            "type": "array",
+            "additionalProperties": false,
+            "items": {
+                "file": {
+                    "type": "object",
+                    "properties": {
+                        "filename": {
+                            "type": "string"
+                        },
+                        "sizeInBytes": {
+                            "type": "number"
+                        },
+                        "id": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

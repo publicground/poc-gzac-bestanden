@@ -1,0 +1,114 @@
+{
+    "$id": "duo-opleiding.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "DUO opleiding gegevens",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "burgerservicenummer": {
+            "type": "string"
+        },
+        "onderwijsOvereenkomst": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "brin": {
+                        "type": "string"
+                    },
+                    "datumInschrijvingOpleiding": {
+                        "type": "string"
+                    },
+                    "datumUitschrijvingOpleiding": {
+                        "type": "string"
+                    },
+                    "deelnameOpleidingGeregistrDuo": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "codeLeerwegMbo": {
+                                    "type": "string"
+                                },
+                                "codeOnderwijsvorm": {
+                                    "type": "string"
+                                },
+                                "aanduidingLeerjaar": {
+                                    "type": "string"
+                                },
+                                "codeInschrijvingsvorm": {
+                                    "type": "string"
+                                },
+                                "inhoudDeelnameOpleiding": {
+                                    "type": "object",
+                                    "properties": {
+                                        "omsStudiegebied": {
+                                            "type": "string"
+                                        },
+                                        "omsStudieinhoud": {
+                                            "type": "string"
+                                        },
+                                        "omsStudieuitstroom": {
+                                            "type": "string"
+                                        },
+                                        "naamOpleidingKortDuo": {
+                                            "type": "string"
+                                        },
+                                        "codeNiveauOpleidingDuo": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "datumEindDeelnameOpleiding": {
+                                    "type": "string"
+                                },
+                                "datumBeginDeelnameOpleiding": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "indicatieStartkwalificatieDuo": {
+            "type": "string"
+        },
+        "resultaatOpleiding": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "codeFaseOpleidingDuo": {
+                        "type": "string"
+                    },
+                    "resultaatExamen": {
+                        "type": "object",
+                        "properties": {
+                            "codeResultaatExamen": {
+                                "type": "string"
+                            },
+                            "datumResultaatExamen": {
+                                "type": "string"
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    "inhoudResultaatOpleidingDuo": {
+                        "type": "object",
+                        "properties": {
+                            "naamOpleidingKortDuo": {
+                                "type": "string"
+                            },
+                            "codeNiveauOpleidingDuo": {
+                                "type": "string"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
+            }
+        }
+    }
+}

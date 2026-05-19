@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "VaststellenVerblijfstitelPartnerTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "bsb-213-vaststelling-verblijfstitel-partner.vaststellen-verblijfstitel-partner"
+    }
+]

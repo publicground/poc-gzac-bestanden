@@ -1,0 +1,394 @@
+trigger:
+  - main
+  - release/v*
+  - release-mdtinkomen/v*
+  - hotfix/v*
+  - develop
+  - feature/*
+pr:
+  branches:
+   include:
+    - '*'
+
+variables:
+# - group: ota-psql-db-passwords
+# - group: p-psql-db-passwords
+- name: vmImage
+  value: ubuntu-latest
+- name: containerRegistryUrl
+  value: crzgwpweu01.azurecr.io
+- name: containerRepository
+  value: zgw/gzac-sd-zgw-backend
+- name: releaseName
+  value: gzac-sd-zgw-backend
+- name: tags
+  value: # will be set by script
+- name: tag
+  value: # will be set by script
+- name: System.Debug
+  value: true
+
+stages:
+- stage: Build
+  displayName: Build image
+  variables:
+    containerRegistry: acr-crzgwpweu01
+    GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
+    dockerConfigCache: $(Pipeline.Workspace)/docker
+    buildTimeStamp: $(date +%Y%m%d%H%M%S) # Get datetimestamp
+    branchname: $[coalesce(variables['System.PullRequest.TargetBranch'], replace(variables['Build.SourceBranch'], 'refs/heads/', ''))] # Get pullrequest branch, otherwise normal branch and strip refs/heads/
+    isRelease: $[or(contains(variables['branchname'], 'release/v'), contains(variables['branchname'], 'release-mdtinkomen/v'), contains(variables['branchname'], 'hotfix/v'), eq(variables['branchname'], 'main'))]
+    pushDockerImage: $[and(ne(variables['Build.Reason'], 'PullRequest'), ne(variables['build.sourceBranchName'], 'main'))] # not(contains(variables['build.sourceBranch'], '/feature/')), Don't push image when pr, feature or main
+    shortSha: ${BUILD_SOURCEVERSION::8} # Get first 8 characters from sha
+    valtimoVersion: $(grep "valtimoVersion" "./gradle.properties" | cut -d'=' -f2)
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImage)
+    steps:
+    - bash: |
+        # set date to get correct system datetime
+        sudo timedatectl set-timezone 'Europe/Amsterdam'
+        echo "buildtimestamp: $(buildTimeStamp)"
+        echo "branchname: $(branchname)"
+        echo "isRelease: $(isRelease)"
+        echo "pushDockerImage: $(pushDockerImage)"
+        echo "shortSha: $(shortSha)"
+        echo "valtimo version: $(valtimoVersion)"
+
+        echo 'Workspace: $(Pipeline.Workspace)'
+        echo 'Build.SourceBranch: $(Build.SourceBranch)'
+        echo 'Build.SourceBranchName: $(Build.SourceBranchName)'
+        echo 'Build.SourceVersion: $(Build.SourceVersion)'
+        echo 'Build.SourcesDirectory: $(Build.SourcesDirectory)'
+        echo 'Build.ArtifactStagingDirectory: $(build.artifactstagingdirectory)'
+        echo 'System.PullRequest.SourceBranch: $(System.PullRequest.SourceBranch)'
+        echo 'System.PullRequest.TargetBranch: $(System.PullRequest.TargetBranch)'
+
+        branchname=$(branchname)
+        # ${branchname//\//-} will replace / in branch with -, ie feature/test -> feature-test
+        tag=${branchname//\//-}-$(shortSha)-$(buildTimeStamp)
+        if [[ $(isRelease) == 'True' ]]; then
+          tags=$tag,acc-latest,latest
+        elif [[ "$branchname" == "develop" ]]; then
+          tags=$tag,test-latest
+        elif [[ $branchname =~ feature.* ]]; then
+          tags=$tag,dev-latest
+        else
+          tags=$tag
+        fi
+        echo "Tags: $tags"
+
+        # set variables
+        echo "##vso[task.setvariable variable=tags;isOutput=true]$tags"
+        echo "##vso[task.setvariable variable=tag;isOutput=true]$tag"
+
+        # replace $valtimo_version with version in build.gradle.kts for caching step
+        sed -i.bak -r "s|([\$]valtimoVersion)|$(valtimoVersion)|g" build.gradle.kts
+        cat build.gradle.kts
+      name: Vars
+      displayName: 'Vars'
+
+    - bash: |
+        wget -P $(Agent.TempDirectory) https://download.java.net/java/GA/jdk17.0.2/dfd4a8d0985749f896bed50d7138ee7f/8/GPL/openjdk-17.0.2_linux-x64_bin.tar.gz
+        ls -al $(Agent.TempDirectory)
+      displayName: 'Download openjdk 17'
+
+    - task: JavaToolInstaller@0
+      displayName: 'Install openjdk 17'
+      inputs:
+        versionSpec: '17'
+        jdkArchitectureOption: 'x64'
+        jdkSourceOption: 'LocalDirectory'
+        jdkFile: '$(Agent.TempDirectory)/openjdk-17.0.2_linux-x64_bin.tar.gz'
+        jdkDestinationDirectory: '$(agent.toolsDirectory)/jdk17'
+        cleanDestinationDirectory: false
+
+    - task: Cache@2
+      displayName: 'Configure gradle cache'
+      inputs:
+        key: 'gradle | "$(Agent.OS)" | **/build.gradle.kts' # Swap build.gradle.kts for build.gradle when using Groovy
+        restoreKeys: |
+          gradle | "$(Agent.OS)"
+        #   gradle
+        path: $(GRADLE_USER_HOME)
+        cacheHitVar: GRADLE_CACHE_RESTORED
+
+    - task: Gradle@3
+      displayName: 'Build gradle app'
+      inputs:
+        gradleWrapperFile: 'gradlew'
+        options: '-Pprod -x test --no-daemon --build-cache'
+        tasks: 'build'
+        publishJUnitResults: false
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '17'
+        gradleOptions: '-Xmx3072m'
+        sonarQubeRunAnalysis: false
+        spotBugsAnalysis: false
+
+    - bash: |
+        ls -al $(System.DefaultWorkingDirectory)/build/libs/
+
+    - task: Cache@2
+      displayName: 'Configure docker cache'
+      inputs:
+        key: 'docker | "$(Agent.OS)" | cache'
+        path: $(dockerConfigCache)
+        cacheHitVar: DOCKER_CACHE_RESTORED #Variable to set to 'true' when the cache is restored
+
+    - bash: |
+        docker load -i $(dockerConfigCache)/cache.tar
+      displayName: 'Restore docker image'
+      condition: and(not(canceled()), eq(variables.DOCKER_CACHE_RESTORED, 'true'))
+
+    - task: Docker@2
+      displayName: 'Build docker image'
+      inputs:
+        containerRegistry: '${{ variables.containerRegistry }}'
+        repository: '$(containerRepository)'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: $(Vars.tags)
+
+    - task: Docker@2
+      condition: eq(variables.pushDockerImage, 'true')
+      displayName: 'Push docker image'
+      inputs:
+        containerRegistry: '${{ variables.containerRegistry }}'
+        repository: '$(containerRepository)'
+        command: 'push'
+        tags: '$(Vars.tags)'
+
+    - bash: |
+        mkdir -p $(dockerConfigCache)
+        docker save -o $(dockerConfigCache)/cache.tar $(containerRegistryUrl)/$(containerRepository):$(Vars.tag)
+      displayName: 'Save docker image'
+      condition: and(not(canceled()), or(failed(), ne(variables.DOCKER_CACHE_RESTORED, 'true')))
+
+# - stage: DeployToDev
+#   dependsOn: Build
+#   displayName: Deploy image to Argo Dev
+#   condition: and(succeeded(), contains(variables['build.sourceBranch'], '/feature/'))
+#   variables:
+#     kubernetesServiceConnection: aks-saks-o-weu-01-zgw-o
+#     namespace: zgw-o
+#     tags: $[ stageDependencies.Build.Build.outputs['Vars.tags'] ]
+#     tag: $[ stageDependencies.Build.Build.outputs['Vars.tag'] ]
+#   jobs:
+#     - deployment: Deploy_to_Dev
+#       pool:
+#         vmImage: $(vmImage)
+#       environment: $(releaseName)-Dev
+#       strategy:
+#         runOnce:
+#           deploy:
+#             steps:
+#               - checkout: none
+
+#               - bash: |
+#                   git clone https://$(GITHUBPAT)@github.com/gemeente-denhaag/gitops-argocd-team-gzac-sd
+#                   ls -al
+#                 displayName: 'Clone Argo repo'
+
+#               - bash: |
+#                   cd gitops-argocd-team-gzac-sd/
+#                   echo "Change image.tag"
+
+#                   yq e '.image.tag = "$(tag)"' -i apps/gzac-sd-zgw-backend/values-dev.yaml
+
+#                   echo "Set up git credentials"
+#                   git config user.email "azure-pipelines@devops"
+#                   git config user.name "Azure Pipelines"
+
+#                   echo "Commit and push"
+#                   git add apps/gzac-sd-zgw-backend/values-dev.yaml
+#                   git commit -m "Update image.tag to $(tag) [skip ci]"
+#                   git push https://$(GITHUBPAT)@github.com/gemeente-denhaag/gitops-argocd-team-gzac-sd.git HEAD:main
+#                 displayName: 'Commit and push values-dev.yaml to Argo repo'
+
+- stage: DeployToTest
+  dependsOn: Build
+  displayName: Deploy image to Test
+  condition: and(succeeded(), eq(variables['build.sourceBranchName'], 'develop'))
+  variables:
+    kubernetesServiceConnection: aks-zgw-ota-weu-01-zgw-test
+    namespace: zgw-test
+    tags: $[ stageDependencies.Build.Build.outputs['Vars.tags'] ]
+    tag: $[ stageDependencies.Build.Build.outputs['Vars.tag'] ]
+    # dbname: "${{ variables.releaseName }}-test"
+    # dbpassword: $(PSQLPassword-T)
+    # dbhost: psql-zgw-t-weu-01.postgres.database.azure.com
+    # dbuser: zgwadmin
+  jobs:
+  - deployment: Deploy_to_Test
+    pool:
+      vmImage: $(vmImage)
+    environment: $(releaseName)-Test
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+
+          # - template: infra/templates/backup-db-steps.yaml
+
+          - task: HelmDeploy@0
+            displayName: 'Add helm repo'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceConnection: '${{ variables.kubernetesServiceConnection }}'
+              namespace: '$(namespace)'
+              command: 'repo'
+              arguments: 'add denhaag https://gemeente-denhaag.github.io/helm-charts'
+
+          - task: HelmDeploy@0
+            displayName: 'Deploy with helm'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceConnection: '${{ variables.kubernetesServiceConnection }}'
+              namespace: '$(namespace)'
+              command: 'upgrade'
+              chartType: 'Name'
+              chartName: 'denhaag/generic'
+              releaseName: '$(releaseName)'
+              overrideValues: 'image.fullImage=$(containerRegistryUrl)/$(containerRepository):$(tag)'
+              install: true
+              waitForExecution: true
+              arguments: '-f infra/values.yaml -f infra/values-test.yaml --atomic --timeout 1200s'
+
+- stage: DeployToAcc
+  dependsOn: Build
+  displayName: Deploy image to Acc
+  condition: and(succeeded(), or(contains(variables['build.sourceBranch'], '/release/v'), contains(variables['build.sourceBranch'], '/release-mdtinkomen/v')))
+  variables:
+    kubernetesServiceConnection: aks-zgw-ota-weu-01-zgw-acc
+    namespace: zgw-acc
+    tags: $[ stageDependencies.Build.Build.outputs['Vars.tags'] ]
+    tag: $[ stageDependencies.Build.Build.outputs['Vars.tag'] ]
+  jobs:
+  - deployment: Deploy_to_Acc
+    pool:
+      vmImage: $(vmImage)
+    environment: $(releaseName)-Acc
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+
+          - task: HelmDeploy@0
+            displayName: 'Add helm repo'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceConnection: '${{ variables.kubernetesServiceConnection }}'
+              namespace: '$(namespace)'
+              command: 'repo'
+              arguments: 'add denhaag https://gemeente-denhaag.github.io/helm-charts'
+
+          - task: HelmDeploy@0
+            displayName: 'Deploy with helm'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceConnection: '${{ variables.kubernetesServiceConnection }}'
+              namespace: '$(namespace)'
+              command: 'upgrade'
+              chartType: 'Name'
+              chartName: 'denhaag/generic'
+              releaseName: '$(releaseName)'
+              overrideValues: 'image.fullImage=$(containerRegistryUrl)/$(containerRepository):$(tag)'
+              install: true
+              waitForExecution: true
+              arguments: '-f infra/values.yaml -f infra/values-acc.yaml --atomic --timeout 1200s'
+
+- stage: DeployToProd
+  dependsOn:
+    - Build
+    - DeployToAcc
+  displayName: Deploy image to Prod
+  condition: and(
+            succeeded('Build'),
+            not(failed('DeployToAcc')),
+            or(
+              startsWith(variables['Build.SourceBranch'], 'refs/heads/release/v'),
+              startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/v')
+            )
+          )
+  variables:
+    kubernetesServiceConnection: aks-zgw-p-weu-01-zgw-prod
+    namespace: zgw-prod
+    tags: $[ stageDependencies.Build.Build.outputs['Vars.tags'] ]
+    tag: $[ stageDependencies.Build.Build.outputs['Vars.tag'] ]
+  jobs:
+  - deployment: Deploy_to_Prod
+    pool:
+      vmImage: $(vmImage)
+    environment: $(releaseName)-Prod
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+
+          - task: HelmDeploy@0
+            displayName: 'Add helm repo'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceConnection: '${{ variables.kubernetesServiceConnection }}'
+              namespace: '$(namespace)'
+              command: 'repo'
+              arguments: 'add denhaag https://gemeente-denhaag.github.io/helm-charts'
+
+          - task: HelmDeploy@0
+            displayName: 'Deploy with helm'
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceConnection: '${{ variables.kubernetesServiceConnection }}'
+              namespace: '$(namespace)'
+              command: 'upgrade'
+              chartType: 'Name'
+              chartName: 'denhaag/generic'
+              releaseName: '$(releaseName)'
+              overrideValues: 'image.fullImage=$(containerRegistryUrl)/$(containerRepository):$(tag)'
+              install: true
+              waitForExecution: true
+              arguments: '-f infra/values.yaml -f infra/values-prod.yaml --atomic --timeout 1200s'
+          
+          - bash: |
+              curl \
+                -X POST \
+                -H 'Authorization: Bearer $(System.AccessToken)' \
+                -H 'Content-Type: application/json' \
+                -d '[
+                      {
+                        "daysValid": 180,
+                        "definitionId": $(System.DefinitionId),
+                        "ownerId": "User:$(Build.RequestedForId)",
+                        "protectPipeline": false,
+                        "runId": $(Build.BuildId)
+                      }
+                    ]' \
+                "$(System.CollectionUri)$(echo ${SYSTEM_TEAMPROJECT} | sed 's/ /%20/g')/_apis/build/retention/leases?api-version=6.0-preview.1"
+            condition: and(succeeded(), not(canceled()))
+            name: RetainRelease
+            displayName: Retain release
+
+  - job: CreateAndMergePR
+    dependsOn: Deploy_to_Prod
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+      - checkout: none
+      
+      - task: CreatePullRequest@1
+        inputs:
+          repoType: 'GitHub'
+          githubEndpoint: 'landingzone zaakgericht werken'
+          githubRepository: '$(Build.Repository.Name)'
+          sourceBranch: '$(Build.SourceBranch)'
+          targetBranch: 'main'
+          title: 'Automatic Azure DevOps pr $(Build.SourceBranch) to main'
+          reviewers: 'Hari-Ritense'
+          githubAutoMerge: true
+          githubMergeStrategy: 'squash'

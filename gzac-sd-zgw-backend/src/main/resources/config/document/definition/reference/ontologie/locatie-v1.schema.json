@@ -1,0 +1,192 @@
+{
+  "$id": "locatie.schema",
+  "type": "object",
+  "title": "Model Locatie",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "adreshouding": {
+      "type":"object",
+      "properties": {
+        "datumAanvangAdrestijdlijn": {
+          "description": "<p>Datum waarop de adresperiode van start gaat.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+          "$ref": "#/definitions/datum"
+        },
+        "datumEindeAdrestijdlijn": {
+          "description": "<p>Datum waarop de adresperiode eindigt.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+          "$ref": "#/definitions/datum"
+        },
+        "adreshoudingId": {
+          "description": "<p>Uniek nummer toegekend door het systeem, zodat een adreshouding kan woden geidentificeerd.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+          "$ref": "#/definitions/guid"
+        },
+        "brontype": {
+          "description": "<p>De soort bron van de gegevens in deze entiteit (burger, professional of externe bron).</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+          "$ref": "#/definitions/brontype"
+        },
+        "codeFunctieAdres": {
+          "description": "<p>De code die aangeeft wat de functie van het adres is, welke is gerelateerd aan de PERSOON of de ONDERNEMING/INSTELLING binnen een bepaalde periode.</p><br/><p>Norminstantie: SGR</p><br/>",
+          "$ref": "#/definitions/cdFunctieAdres"
+        },
+        "huisvesting": {
+          "type":"object",
+          "properties": {
+            "huisvestingId": {
+              "description": "<p>Een uniek nummer toegekend door het systeem, zodat huisvesting kan woden geidentificeerd.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+              "$ref": "#/definitions/guid"
+            },
+            "indicatieZelfstandigeWoonruimte": {
+              "description": "<p>Code die aangeeft of de PERSOON in de woning zelfstandig beschikt over eigen woonruimte.</p><br/><p>Bron: SGR 16.0</p><br/>",
+              "$ref": "#/definitions/stdIndJN"
+            },
+            "codeSoortHuisvesting": {
+              "description": "<p>Toelichting op de woonsituatie van de PERSOON betreffende de huisvesting.</p><br/><p>Bron: SGR 16.0</p><br/>",
+              "$ref": "#/definitions/cdSrtHuisvesting"
+            },
+            "toelichtingHuisvesting": {
+              "description": "<p>Toelichting op de woonsituatie van de PERSOON betreffende de huisvesting.</p><br/><p>Bron: SGR 16.0</p><br/>",
+              "$ref": "#/definitions/tekst"
+            },
+            "codeRelatieBewonerTotHuisvesting": {
+              "description": "<p>Code die aangeeft in welke hoedanigheid de PERSOON gehuisvest is.</p><br/><p>Bron: SGR 16.0</p><br/>",
+              "$ref": "#/definitions/cdRelatieBewonerHuisvesting"
+            },
+            "toelichtingRelatieBewonerTotHuisvesting": {
+              "description": "<p>Toelichting op de hoedanigheid waarin de PERSOON de woning bewoont.</p><br/><p>Norminstantie: SGR</p><br/>",
+              "$ref": "#/definitions/tekst"
+            },
+            "aantalDagenPerWeekOpvang": {
+              "description": "Het aantal dagen per week dat men in een instelling of opvang verblijft. Dit attribuut moet zijn ingevuld als de CodeRelatieBewonerTotHuisvesting aangeeft dat men in een instelling zit.",
+              "$ref": "#/definitions/getal"
+            },
+            "huurvorm": {
+              "type":"object",
+              "properties": {
+                "huurvormId": {
+                  "description": "Uniek identificerend kenmerk.",
+                  "$ref": "#/definitions/guid"
+                },
+                "heeftHuurcontract": {
+                  "description": "Of de huur contractueel is vastgelegd.",
+                  "$ref": "#/definitions/stdIndJN"
+                },
+                "naamVerhuurder": {
+                  "description": "De volledige naam, voorletters, tussenvoegsel en achternaam, van de verhuurder. Geef dit hier op als er geen sprake is van een huurcontract.",
+                  "$ref": "#/definitions/tekst"
+                },
+                "naamOpHuurcontract": {
+                  "description": "De volledige naam van verhurende organisatie of particulier, die op het huurcontract staat vermeld.",
+                  "$ref": "#/definitions/tekst"
+                },
+                "huurcontractOpNaam": {
+                  "description": "<p>Het huurcontract staat meestal op naam. Degene op het huurcontract is dan de huurder.</p><p>Het is mogelijk dat het huurcontract op meerdere namen staat. Vermeld dan beide namen: voorletters, tussenvoegsel(s) en achternaam gescheiden door een ; (punt-komma).</p>",
+                  "$ref": "#/definitions/tekst"
+                },
+                "huurbedrag": {
+                  "description": "Het bedrag dat men aan huur betaalt in euro's.",
+                  "$ref": "#/definitions/geldbedrag"
+                },
+                "huurtoeslag": {
+                  "$ref": "#/definitions/geldbedrag"
+                },
+                "relatieTotPersoon": {
+                  "description": "Een vrije aanduiding van de relatie tussen de persoon en de verhuurder.",
+                  "$ref": "#/definitions/tekst"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "datum": {
+      "type": "string"
+    },
+    "guid": {
+      "type": "string",
+      "pattern": "^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$"
+    },
+    "brontype": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Klant" },
+        { "code": "2", "name": "Professional" },
+        { "code": "3", "name": "Register" },
+        { "code": "4", "name": "Externe bron" }
+      ]
+    },
+    "cdFunctieAdres": {
+      "type": "object",
+      "enum": [
+        { "code": "A", "name": "Afwijkend woonadres" },
+        { "code": "B", "name": "Briefadres (BRP)" },
+        { "code": "C", "name": "Correspondentieadres" },
+        { "code": "L", "name": "Loonaangifte adres" },
+        { "code": "V", "name": "Vestigingsadres" },
+        { "code": "W", "name": "Woonadres (BRP)" }
+      ]
+    },
+    "stdIndJN": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ja" },
+        { "code": "2", "name": "Nee" }
+      ]
+    },
+    "cdSrtHuisvesting": {
+      "type": "object",
+      "enum": [
+        { "code": "0", "name": "Onbekend" },
+        { "code": "1", "name": "Huis" },
+        { "code": "2", "name": "Woonwagen" },
+        { "code": "3", "name": "Woonschip" },
+        { "code": "9", "name": "Anders" }
+      ]
+    },
+    "tekst": {
+      "type": "string"
+    },
+    "cdRelatieBewonerHuisvesting": {
+      "type": "object",
+      "enum": [
+        { "code": "0", "name": "onbekend" },
+        { "code": "1", "name": "(mede)eigenaar" },
+        { "code": "2", "name": "huurder" },
+        { "code": "3", "name": "onderhuurder/kamerbewoner" },
+        { "code": "4", "name": "kostganger" },
+        { "code": "5", "name": "inwonend (bij ouders)" },
+        { "code": "6a", "name": "gehuisvest in inrichting" },
+        { "code": "6b", "name": "gehuisvest in instelling" },
+        { "code": "7", "name": "gehuisvest conform doelgroep Besluit adreslozen" },
+        { "code": "8", "name": "geen vaste woon- of verblijfplaats en niet behorend tot de doelgroep Besluit adreslozen" },
+        { "code": "9", "name": "anders" },
+        { "code": "99", "name": "niet van toepassing" }
+      ]
+    },
+    "getal": {
+      "type": "integer",
+      "pattern": "^-?[0-9]{1,}$"
+    },
+    "geldbedrag": {
+      "type": "number",
+      "pattern": "^-?[0-9]((;|,|\\.)[0-9]{2}|)$"
+    },
+    "integer": {
+      "type": "string",
+      "pattern": "(^-|^)(0|[1-9][0-9]*)$"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "(^-|^+|^)(0|[1-9][0-9]+)($|,[0-9][0-9]$)"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^(http://|https://).*"
+    },
+    "datumTijd": {
+      "type": "string",
+      "pattern": "^([0-2][0-9]|3[0-1]|[1-9])-(0[1-9]|[1-9]|1[0-2])-(19|20)[0-9][0-9] T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]"
+    }
+  }
+}

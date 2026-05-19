@@ -1,0 +1,265 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "index": 1,
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "999991322",
+      "data": {
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Herengracht",
+              "postcode": "2511 EG",
+              "huisletter": "",
+              "huisnummer": "1",
+              "toevoeging": ""
+            },
+            "grPersoongegevens": {
+              "Bsn": "999991322",
+              "voornaam": "Celeste",
+              "achternaam": "Avion",
+              "voorletters": "C.",
+              "voorvoegsels": "",
+              "geboortedatum": "1960-12-29"
+            }
+          }
+        },
+        "alo-ioaw": {
+          "grIoaw": {
+            "geenRechtMeerWw": "NEE",
+            "geenRechtMeerWga": "NEE",
+            "gedeeltelijkArbeidsongeschikt": "NEE"
+          }
+        },
+        "schulden": {
+          "heeftSchulden": "JA",
+          "grSchulden": {
+            "hhgSchulden": [
+              {
+                "bijWieSchuld": "Medicatiemanager",
+                "uploadSchuld": [
+                  {
+                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/795ffbc6-868d-4183-b732-e7963081dd99",
+                    "data": {
+                      "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/795ffbc6-868d-4183-b732-e7963081dd99",
+                      "form": "",
+                      "name": "Menu Pien's Pizzeria.txt",
+                      "size": 4,
+                      "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                      "project": ""
+                    },
+                    "name": "Menu Pien-s Pizzeria-1cbe30f1-df72-46a4-acc8-f02c9007c510.txt",
+                    "size": 4,
+                    "type": "text/plain",
+                    "storage": "url",
+                    "originalName": "Menu Pien's Pizzeria.txt"
+                  }
+                ],
+                "waardeSchuld": 555000
+              }
+            ]
+          }
+        },
+        "alo-uitbetaling": {
+          "hoeBetaald": "VOLLEDIG_OP_MIJN_REKENING",
+          "ibanAanWie": "NEE",
+          "ibanUitbetaling": "NL21BNGH0357964993",
+          "naamRekeninghouder": "C van Avion"
+        },
+        "alo-uw-inkomsten": {
+          "heeftInkomsten": "GEEN_INKOMSTEN"
+        },
+        "inkomsten-partner": {
+          "heeftPartnerInkomsten": "MIJN_PARTNER_HEEFT_GEEN_INKOMEN"
+        },
+        "alo-reden-aanvraag": {
+          "grGeenInkomen": {
+            "waaromGeenInkomen": "GEEN_WERK"
+          },
+          "grIngangsdatum": {
+            "bijstandsuitkeringEerderStarten": "NEE"
+          },
+          "grGeenBetaaldWerk": {
+            "waaromGeenWerk": "TIJDELIJK_CONTRACT_GESTOPT",
+            "naamOudWerkgever": "Ritense",
+            "adresOudWerkgever": "Funenpark 1",
+            "totWanneerSalaris": "2024-12-03",
+            "telefoonOudWerkgever": ""
+          },
+          "grEindeTijdelijkContract": {
+            "hoelangContract": "KORTER_6_MAANDEN",
+            "ontslagBriefOntvangen": "JA"
+          },
+          "waaromBijstandsuitkering": "GEEN_ONVOLDOENDE_INKOMEN"
+        },
+        "alo-uw-woonsituatie": {
+          "hoeWoontU": "WOONWAGEN",
+          "grAndereBewoners": {
+            "grBewoner": {
+              "hhgAndereBewoners": [
+                {
+                  "bBLAndereBewoner": "NEE",
+                  "medebewonerOpleiding": "NEE",
+                  "relatieAndereBewoner": "GEEN",
+                  "achternaamAndereBewoner": "Medebewoner",
+                  "samenlevenAndereBewoner": {
+                    "NIET_VAN_TOEPASSING": false,
+                    "SAMENLEVINGSCONTRACT": true,
+                    "SAMEN_EEN_KIND_OF_EEN_ERKEND_KIND": false,
+                    "AFGELOPEN_2_JAAR_ALS_1_HUISHOUDEN_GEZIEN": true,
+                    "AFGELOPEN_2_JAAR_GEHUWD_OF_GEREGISTREERD_PARTNER_GEWEEST": false
+                  },
+                  "kostenDelenAndereBewoner": {
+                    "NIET_VAN_TOEPASSING": false,
+                    "DE_KOSTEN_VAN_DE_HUUR": true,
+                    "KOSTEN_VAN_DE_BOODSCHAPPEN": false,
+                    "VASTE_LASTEN_ZOALS_GAS_EN_WATER": false
+                  },
+                  "voorlettersAndereBewoner": "M",
+                  "activiteitenAndereBewoner": {
+                    "WIJ_ETEN_SAMEN": false,
+                    "GEEN_ACTIVITEITEN_SAMEN": false,
+                    "WIJ_GAAN_SAMEN_OP_VAKANTIE": false,
+                    "WIJ_VERDELEN_OF_DOEN_SAMEN_DE_TAKEN_IN_HET_HUISHOUDEN": true
+                  },
+                  "voorvoegselsAndereBewoner": "",
+                  "geboortedatumAndereBewoner": "2025-07-08",
+                  "relatieBeschrijvingAndereBewoner": "Huisgenoot"
+                }
+              ]
+            },
+            "meerMensenOpAdres": "JA"
+          }
+        },
+        "alo-uw-beschikbaarheid": {
+          "grBeschikbaarheid": {
+            "onbetaald": "NEE",
+            "beschikbaarheid": 6
+          }
+        },
+        "beschikbaarheid-partner": {
+          "grBeschikbaarheidPartner": {
+            "onbetaaldPartner": "NEE",
+            "beschikbaarheidPartner": 9
+          }
+        },
+        "alo-gezinssamenstelling": {
+          "partnerWoontBijU": "JA",
+          "thuiswonendeKinderen": "JA"
+        },
+        "gegevens-partner": {
+          "grGegevensPartner": {
+            "bsnPartner": "999991954",
+            "geboortePartner": "2025-03-11",
+            "achternaamPartner": "Partner",
+            "voorletterPartner": "PP",
+            "voorvoegselPartner": "Piet",
+            "zelfdeAdresPartner": "JA",
+            "nationaliteitPartner": "NEDERLANDSE_NATIONALITEIT"
+          }
+        },
+        "gegevens-kinderen": {
+          "grGegevensKinderen": {
+            "hhgGegevensKinderen": [
+              {
+                "voornaamKind": "Karel",
+                "opleidingKind": "GEEN_OPLEIDING",
+                "achternaamKind": "Kind",
+                "voorletterKind": "K",
+                "voorvoegselKind": "",
+                "geboortedatumKind": "2024-11-21",
+                "krijgtKinderbijslag": "NEE"
+              }
+            ]
+          }
+        },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": true,
+          "grWoonsituatie": {
+            "woonsituatie": "WAAR_IK_WOON"
+          },
+          "grNationaliteit": {
+            "nationaliteitBezit": "GELDIGE_VERBLIJFSVERGUNNING",
+            "geenNederlandseNationaliteit": "JA"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "JA",
+            "grContactHulp": {
+              "naamHulp": "Wim Helper",
+              "relatieHulp": "BOEKHOUDER",
+              "telefoonHulp": ""
+            }
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": true,
+            "geenTelefoon": true
+          }
+        },
+        "alo-bezittingen-en-schulden": {
+          "grCaravan": {
+            "hhgCaravan": [
+              {
+                "waardeCaravan": 4500
+              }
+            ]
+          },
+          "grRekeningen": {
+            "grLogicaBank": {
+              "hhgVoegRekeningToe": [
+                {
+                  "zakelijk": "NL21BNGH0357964993",
+                  "hoeveelGeld": -40,
+                  "typeRekening": "NEDERLANDSE_ZAKELIJKE_REKENING",
+                  "uploadAfschrift": [
+                    {
+                      "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/4f3ae3eb-3555-416f-978b-570a8ad6ba88",
+                      "data": {
+                        "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/4f3ae3eb-3555-416f-978b-570a8ad6ba88",
+                        "form": "",
+                        "name": "Menu Snackbar.txt",
+                        "size": 4,
+                        "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                        "project": ""
+                      },
+                      "name": "Menu Snackbar-5d096739-7330-4449-b16f-f6aef10535b0.txt",
+                      "size": 4,
+                      "type": "text/plain",
+                      "storage": "url",
+                      "originalName": "Menu Snackbar.txt"
+                    }
+                  ]
+                }
+              ]
+            },
+            "geenBankrekening": "BEZIT_REKENING"
+          },
+          "grUwVermogen": {
+            "welkVermogen": {
+              "CRYPTO": false,
+              "CARAVAN": true,
+              "VAARTUIG": false,
+              "CONTANTEN": false,
+              "KOOPWONING": false,
+              "MOTORVOERTUIG": false,
+              "EEN_STUK_GROND": false,
+              "OBLIGATIES_AANDELEN": false
+            }
+          }
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "language_code": "nl",
+      "submission_id": "4acf0106-2c94-4a4c-bd0d-ddce06831cca",
+      "public_reference": "OF-{{$random.alphanumeric(8)}}"
+    },
+    "startAt": "2025-07-08",
+    "registrationAt": "2025-07-08"
+  }
+}

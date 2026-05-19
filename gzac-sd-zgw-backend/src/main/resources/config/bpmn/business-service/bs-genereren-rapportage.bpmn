@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1emkajz" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+  <bpmn:collaboration id="Collaboration_1o6jarv">
+    <bpmn:participant id="BSGenererenRapportageParticipant" name="BS genereren rapportage" processRef="bs-genereren-rapportage" />
+    <bpmn:textAnnotation id="TextAnnotation_1kwte0f">
+      <bpmn:text>zaakstatus: Beslist  interneStatus: beslist</bpmn:text>
+    </bpmn:textAnnotation>
+  </bpmn:collaboration>
+  <bpmn:process id="bs-genereren-rapportage" name="BS genereren rapportage" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_11wwbvk</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_11wwbvk" sourceRef="StartEvent_1" targetRef="GenereerRapportageCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0j5dhfz" sourceRef="UpdateZaakstatusEnInterneStatusCallActivity" targetRef="Event_1ap129m" />
+    <bpmn:endEvent id="Event_1ap129m">
+      <bpmn:incoming>Flow_0j5dhfz</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="UpdateZaakstatusEnInterneStatusCallActivity" name="Update zaakstatus en interne status" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-update-zaakstatus-en-interne-status-plugin-v2">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="zaakstatus" target="zaakstatus" />
+        <camunda:in source="interneStatus" target="interneStatus" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="rapportageType" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1uwef2m</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j5dhfz</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="GenereerRapportageCallActivity" name="Genereer rapportage" camunda:asyncAfter="true" calledElement="alo-genereer-rapportage">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="templateKey" target="templateKey" />
+        <camunda:in source="brpPersoonsgegevensInfo" target="brpPersoonsgegevensInfo" />
+        <camunda:in source="brpPersoonsgegevensPartnerInfo" target="brpPersoonsgegevensPartnerInfo" />
+        <camunda:in source="gegevensVaststelling" target="gegevensVaststelling" />
+        <camunda:in source="zaaknummer" target="zaaknummer" />
+        <camunda:in source="besluiten" target="besluiten" />
+        <camunda:in source="rapportageType" target="rapportageType" />
+        <camunda:in source="vermogensComponenten" target="vermogensComponenten" />
+        <camunda:in source="dossierType" target="dossierType" />
+        <camunda:out variables="all" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_11wwbvk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uwef2m</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_1uwef2m" sourceRef="GenereerRapportageCallActivity" targetRef="UpdateZaakstatusEnInterneStatusCallActivity" />
+    <bpmn:association id="Association_1dv9dd3" associationDirection="None" sourceRef="UpdateZaakstatusEnInterneStatusCallActivity" targetRef="TextAnnotation_1kwte0f" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1o6jarv">
+      <bpmndi:BPMNShape id="Participant_14cqkhe_di" bpmnElement="BSGenererenRapportageParticipant" isHorizontal="true">
+        <dc:Bounds x="132" y="50" width="638" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ap129m_di" bpmnElement="Event_1ap129m">
+        <dc:Bounds x="672" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0yj67i7" bpmnElement="UpdateZaakstatusEnInterneStatusCallActivity">
+        <dc:Bounds x="490" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1gl3dyc" bpmnElement="GenereerRapportageCallActivity">
+        <dc:Bounds x="290" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_11wwbvk_di" bpmnElement="Flow_11wwbvk">
+        <di:waypoint x="218" y="210" />
+        <di:waypoint x="290" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0j5dhfz_di" bpmnElement="Flow_0j5dhfz">
+        <di:waypoint x="590" y="210" />
+        <di:waypoint x="672" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uwef2m_di" bpmnElement="Flow_1uwef2m">
+        <di:waypoint x="390" y="210" />
+        <di:waypoint x="490" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1dv9dd3_di" bpmnElement="Association_1dv9dd3">
+        <di:waypoint x="555" y="170" />
+        <di:waypoint x="567" y="139" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1kwte0f_di" bpmnElement="TextAnnotation_1kwte0f">
+        <dc:Bounds x="530" y="100" width="150" height="39" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,304 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url}}",
+  "record": {
+    "data":    {
+        "bsn": "999991322",
+        "data": {
+            "uw-gegevens": {
+                "digid": {
+                    "persoongegevensPrefill": {
+                        "BsnPrefill": "999991322",
+                        "voornaamPrefill": "Celeste",
+                        "achternaamPrefill": "Avion",
+                        "voorlettersPrefill": "C.",
+                        "voorvoegselPrefill": "",
+                        "geboortedatumPrefill": "1960-12-29"
+                    },
+                    "adresgegevensPrefillGroep": {
+                        "plaatsPrefill": "'s-Gravenhage",
+                        "straatPrefill": "Herengracht",
+                        "postcodePrefill": "2511 EG",
+                        "HuisletterPrefill": "",
+                        "huisnummerPrefill": 1,
+                        "toevoegingPrefill": ""
+                    }
+                },
+                "contactgegevens": {
+                    "email": "test@test.nl",
+                    "Telefoonnummer": "0612345678"
+                }
+            },
+            "foo-inleiding": {},
+            "foo-uitbetaling": {
+                "ibanUitbetaling": "NL11SNSB0611318695",
+                "hoeBetaaldKrijgen": "VOLLEDIG_OP_MIJN_REKENING",
+                "uitkeringAanDerden": "NEE",
+                "naamRekeninghouderBetaling": "T. ester"
+            },
+            "foo-uw-aanvraag": {
+                "uwAanvraag": {
+                    "EEN_BEDRIJFSKREDIET": true,
+                    "WAT_IK_WIL_AANVRAGEN_STAAT_HIER_NIET_TUSSEN": false,
+                    "EEN_BBZ_UITKERING_VOOR_ONDERNEMERS_DIE_LANGER_DAN_1_5_JAAR_ONDERNEMEN": true
+                }
+            },
+            "foo-uw-inkomsten": {
+                "vormenInkomsten": {
+                    "PENSIOEN": false,
+                    "UITKERING": true,
+                    "LOONDIENST": true,
+                    "ALIMENTATIE": false,
+                    "HEFFINGSKORTING": false,
+                    "OVERIGE_INKOMSTEN": false,
+                    "IK_HEB_GEEN_INKOMSTEN": false,
+                    "INKOMSTEN_UIT_ONDERHUUR": false,
+                    "INKOMEN_UIT_HET_BUITENLAND": false
+                },
+                "uitkeringenGroep": {
+                    "uitkeringen": {
+                        "WW": false,
+                        "ANW": false,
+                        "AOW": false,
+                        "WAO": false,
+                        "WIA": false,
+                        "GEEN": true,
+                        "WAJONG": false,
+                        "BIJSTAND": false,
+                        "ZIEKTEWET": false
+                    }
+                },
+                "loondienstWerkgeverS": {
+                    "werkgeversHerGroep": [
+                        {
+                            "nettoloon": 1000,
+                            "loonstroken": [],
+                            "aantalUurWerk": 40,
+                            "naamWerkgever": "Test BV",
+                            "soortContract": "IK_HEB_EEN_VAST_CONTRACT",
+                            "periodeNettoloon": "PER_MAAND",
+                            "urenvermindering": "JA",
+                            "contractBeeindigd": "NEE",
+                            "Loonheffingskorting": "JA",
+                            "uitbetalingNaastLoon": {
+                                "GEEN": false,
+                                "LOON_IN_NATURA": false,
+                                "MAALTIJDVERGOEDING": false,
+                                "ONKOSTENVERGOEDING": false,
+                                "REISKOSTENVERGOEDING": false,
+                                "1_KEER_PER_JAAR_VAKANTIEGELD": true,
+                                "EEN_13DE_MAAND_OF_EINDEJAARSUITKERING": true,
+                                "VAKANTIEGELD_BIJ_IEDERE_UITBETALING_VAN_MIJN_SALARIS": false
+                            }
+                        }
+                    ]
+                }
+            },
+            "foo-bedrijfskrediet": {
+                "andereLeningen": "NEE",
+                "isBeslaglegging": "NEE",
+                "redenGeenTrajct": "Niet nodig. ",
+                "contactSchuldhulp": "JA",
+                "afsprakenSchuldhulp": "ER_WORDT_GEEN_TRAJECT_OPGESTART",
+                "redenBedrijfskrediet": {
+                    "SANERING": false,
+                    "ACHTERSTANDEN": false,
+                    "INVESTERINGEN": false,
+                    "ANDERS_NAMELIJK": false,
+                    "HERFINANCIERING": true
+                },
+                "bedragBedrijfskrediet": 10000,
+                "toelichtingSchuldhulp": "Test",
+                "toelichtingBedrijfskrediet": "Ik heb het nodig. "
+            },
+            "foo-uw-woonsituatie": {
+                "hoeWonen": "IN_EEN_ZELFSTANDIGE_HUURWONING",
+                "huurGroep": {
+                    "hoeveelHuur": 1000,
+                    "huurcontract": "JA",
+                    "wieVerhuurder": "Hendrik Test",
+                    "contractOpUwNaam": "JA",
+                    "hoeveelHuurtoeslag": 500
+                },
+                "andereBewonersGroep": {
+                    "meerOpAdres": "NEE"
+                }
+            },
+            "foo-uw-ondernemingen": {
+                "ondernemingGr": {
+                    "ingeschrevenKvk": "JA"
+                },
+                "10JaarOnafgebroken": "JA",
+                "ingeschrevenOnderneming": [
+                    {
+                        "kvk": "69599084",
+                        "rechtsvorm": "EENMANSZAAK_ZZP",
+                        "bezitDiplomas": "NEE",
+                        "ondernemingNaam": "Test",
+                        "aanvraagSurseance": "NEE",
+                        "korteOmschrijving": "Test",
+                        "inschrijvingsDatum": "2000-01-01",
+                        "stoppenOnderneming": "NEE",
+                        "aanvraagFaillissement": "NEE"
+                    }
+                ]
+            },
+            "foo-inkomsten-partner": {
+                "vormenInkomstenPartner": {
+                    "PENSIOEN": false,
+                    "UITKERING": false,
+                    "LOONDIENST": true,
+                    "ALIMENTATIE": false,
+                    "HEFFINGSKORTING": false,
+                    "OVERIGE_INKOMSTEN": false,
+                    "INKOMSTEN_UIT_ONDERHUUR": false,
+                    "INKOMSTEN_UIT_ONDERNEMING": false,
+                    "INKOMEN_UIT_HET_BUITENLAND": false,
+                    "MIJN_PARTNER_HEEFT_GEEN_INKOMEN": false
+                },
+                "loondienstWerkgeverSPartner": {
+                    "werkgeversPartnerHerGroep": [
+                        {
+                            "nettoloonPartner": 10,
+                            "loonstrokenPartner": [],
+                            "aantalUurWerkPartner": 40,
+                            "naamWerkgeverPartner": "Test BV",
+                            "soortContractPartner": "IK_HEB_EEN_VAST_CONTRACT",
+                            "periodeNettoloonPartner": "PER_4_WEKEN",
+                            "urenverminderingPartner": "JA",
+                            "contractBeeindigdPartner": "NEE",
+                            "LoonheffingskortingPartner": "JA",
+                            "uitbetalingNaastLoonPartner": {
+                                "GEEN": false,
+                                "LOON_IN_NATURA": false,
+                                "MAALTIJDVERGOEDING": false,
+                                "ONKOSTENVERGOEDING": false,
+                                "REISKOSTENVERGOEDING": false,
+                                "1_KEER_PER_JAAR_VAKANTIEGELD": true,
+                                "EEN_13DE_MAAND_OF_EINDEJAARSUITKERING": true,
+                                "VAKANTIEGELD_BIJ_IEDERE_UITBETALING_VAN_MIJN_SALARIS": false
+                            }
+                        }
+                    ]
+                }
+            },
+            "foo-financiele-situatie": {
+                "bedrijfspandGroep": {
+                    "typeBedrijfspand": "IK_HEB_GEEN_BEDRIJFSPAND"
+                },
+                "inkomenOndernemingGroep": {
+                    "waaromHulp": "Te weinig inkomsten",
+                    "welkeMaandenHulp": "Januari",
+                    "winstKomendeMaanden": 1000
+                },
+                "situatieOndernemingGroep": {
+                    "voldoendeInkomsten": "JA",
+                    "redenNietAanleveren": "Niet beschikbaar",
+                    "resultaatHuidigJaar": "JA",
+                    "toestemmingOnderzoek": "JA",
+                    "resultaatEenJaarGeleden": 1002,
+                    "resultaatDrieJaarGeleden": 1000,
+                    "resultaatTweeJaarGeleden": 1001,
+                    "resultaatHuidigJaarBedrag": 1003,
+                    "aangifteBelastingAanleveren": "NEE",
+                    "resultaatEenJaarBeschikbaar": "JA",
+                    "resultaatDrieJaarBeschikbaar": "JA",
+                    "resultaatTweeJaarBeschikbaar": "JA"
+                }
+            },
+            "foo-gezinssamenstelling": {
+                "gegevensPartner": {
+                    "bsnPartner": "155114414",
+                    "geboortePartner": "1980-11-11",
+                    "uploadIdPartner": [],
+                    "achternaamParnter": "Ester",
+                    "voorletterPartner": "T",
+                    "voorvoegsePartner": "",
+                    "partnerZelfdeAdres": "JA",
+                    "nationaliteitPartner": "MIJN_PARTNER_HEEFT_DE_NEDERLANDSE_NATIONALITEIT"
+                },
+                "gezinssituatieGr": {
+                    "partnerDieBijUWoont": "JA",
+                    "thuiswonendeKinderen": "JA"
+                },
+                "gegevensVanUwKinderengroep": {
+                    "gegevensVanUwKinderen": [
+                        {
+                            "achternaamk": "Jansma",
+                            "veldengroepk": {
+                                "welkSoortOpleidingVolgtUwKind": "MIJN_KIND_ZIT_OP_DE_BASISSCHOOL_MIDDELBARE_SCHOOL_OF_VOLGT_GEEN_OPLEIDING",
+                                "krijgtUKinderbijslagVoorDitKind": "JA"
+                            },
+                            "voorletterSk": "A",
+                            "voorvoegselSk": "",
+                            "geboortedatumk": "2010-10-10",
+                            "burgerservicenummerk": "610295688",
+                            "voornamenZoalsOpPaspoortIdStaan": "Piet"
+                        }
+                    ]
+                }
+            },
+            "foo-waarheidsverklaring": {
+                "ikVulDitFormulierNaarWaarheidIn": true
+            },
+            "foo-aanvullende-gegevens": {
+                "woonsituatieGr": {
+                    "woonsituatie": "IK_STA_INGESCHREVEN_BIJ_DE_GEMEENTE_OP_HET_ADRES_WAAR_IK_WOON"
+                },
+                "nationaliteitGR": {
+                    "nationaliteitBezit": "IK_HEB_DE_NEDERLANDSE_NATIONALITEIT"
+                },
+                "contactAanvraagGr": {
+                    "hulpBijAanvraag": "NEE"
+                },
+                "jaIkWilPostOntvangen": false
+            },
+            "foo-uw-inkomsten-overzicht": {},
+            "foo-bezittingen-en-schulden": {
+                "heeftSchulden": "NEE",
+                "rekeningenGroep": {
+                    "rekeningHerGroep": [
+                        {
+                            "ibanPrive": "NL11SNSB0611318695",
+                            "saldoRekening": 10,
+                            "welkeRekeningen": "NEDERLANDSE_PRIVE_REKENING",
+                            "uploadSaldoRekening": []
+                        }
+                    ]
+                },
+                "uwVermogenGroep": {
+                    "welkVermogen": {
+                        "CRYPTO": false,
+                        "CARAVAN": false,
+                        "VAARTUIG": false,
+                        "CONTANTEN": false,
+                        "OBLIGATIES_AANDELEN": false,
+                        "EEN_MOTORVOERTUIG_AUTO_CAMPER_OF_MOTOR": false,
+                        "EEN_STUK_GROND_IN_NEDERLAND_EN_OF_HET_BUITENLAND": false,
+                        "BANK_EN_SPAARREKENINGEN_PRIVE_EN_ZAKELIJK_BINNEN_EN_BUITENLAND": true,
+                        "EEN_OF_MEERDERE_KOOPWONING_EN_IN_NEDERLAND_EN_OF_HET_BUITENLAND": false
+                    }
+                }
+            },
+            "foo-bezittingen-schulden-overzicht": {}
+        },
+        "type": "verzoek-bbz-aanvraag",
+        "pdf_url": "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/6d46c9bd-accb-44e8-b8fd-b1d6edb094d3",
+        "attachments": [],
+        "language_code": "nl",
+        "submission_id": "bac98b58-47f1-4e98-b242-658abac978cc",
+        "public_reference": "OF-SR3TFP"
+    },
+    "endAt": null,
+    "index": 1,
+    "startAt": "2024-05-06",
+    "geometry": null,
+    "correctedBy": null,
+    "typeVersion": 1,
+    "registrationAt": "2024-05-06"
+  }
+}

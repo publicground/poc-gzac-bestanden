@@ -1,0 +1,430 @@
+{
+    "$id": "inkomsten-uit-bronnen.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "inkomsten uit bronnen definition",
+    "properties": {
+        "loondienst": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/uwvinkomsten"
+            }
+        },
+        "uitkering": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/uwvinkomsten"
+            }
+        },
+        "pensioen": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/uwvinkomsten"
+            }
+        },
+        "svbUitkeringen": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/svbinkomsten"
+            }
+        },
+        "bijstandsregelingen": {
+            "type": ["object", "null"],
+            "properties": {
+                "vorderingen": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "bron": {
+                                "type": "object",
+                                "properties": {
+                                    "cdKolomSuwi": {
+                                        "type": "integer"
+                                    },
+                                    "cdPartijSuwi": {
+                                        "type": "string"
+                                    },
+                                    "cdVestigingSuwi": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "szWet": {
+                                "type": "object",
+                                "properties": {
+                                    "cdSzWet": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "cdRedenVordering": {
+                                "type": "string"
+                            },
+                            "partnersVordering": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "burgerservicenr": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "datBesluitVordering": {
+                                "type": "string",
+                                "format": "date"
+                            },
+                            "identificatienrVordering": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "burgerservicenr": {
+                    "type": "string"
+                },
+                "aanvraagUitkeringen": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "bron": {
+                                "type": "object",
+                                "properties": {
+                                    "cdKolomSuwi": {
+                                        "type": "integer"
+                                    },
+                                    "cdPartijSuwi": {
+                                        "type": "string"
+                                    },
+                                    "cdVestigingSuwi": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "szWet": {
+                                "type": "object",
+                                "properties": {
+                                    "cdSzWet": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "datAanvraagUitkering": {
+                                "type": "array",
+                                "items": {
+                                    "type": "integer"
+                                },
+                                "minItems": 3,
+                                "maxItems": 3,
+                                "description": "[year, month, day]"
+                            },
+                            "partnerAanvraagUitkering": {
+                                "type": ["object", "null"],
+                                "properties": {
+                                    "geboortedat": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "minItems": 3,
+                                        "maxItems": 3
+                                    },
+                                    "voorletters": {
+                                        "type": "string"
+                                    },
+                                    "voorvoegsel": {
+                                        "type": "string"
+                                    },
+                                    "burgerservicenr": {
+                                        "type": "string"
+                                    },
+                                    "significantDeelVanDeAchternaam": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "beslissingOpAanvraagUitkering": {
+                                "type": ["object", "null"],
+                                "properties": {
+                                    "cdBeslissingOpAanvraagUitkering": {
+                                        "type": "string"
+                                    },
+                                    "datDagtekeningBeslisOpAanvrUitk": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "minItems": 3,
+                                        "maxItems": 3
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "specifiekeGegevensBijzBijstandList": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "bron": {
+                                "type": "object",
+                                "properties": {
+                                    "cdKolomSuwi": {
+                                        "type": "integer"
+                                    },
+                                    "cdPartijSuwi": {
+                                        "type": "string"
+                                    },
+                                    "cdVestigingSuwi": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "szWet": {
+                                "type": "object",
+                                "properties": {
+                                    "cdSzWet": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "partnerBijzBijstand": {
+                                "type": ["object", "null"],
+                                "properties": {
+                                    "geboortedat": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "minItems": 3,
+                                        "maxItems": 3
+                                    },
+                                    "voorletters": {
+                                        "type": "string"
+                                    },
+                                    "voorvoegsel": {
+                                        "type": "string"
+                                    },
+                                    "burgerservicenr": {
+                                        "type": "string"
+                                    },
+                                    "significantDeelVanDeAchternaam": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "cdClusterBijzBijstand": {
+                                "type": "string"
+                            },
+                            "omsSrtKostenBijzBijstand": {
+                                "type": "string"
+                            },
+                            "datBetaalbaarBijzBijstand": {
+                                "type": "array",
+                                "items": {
+                                    "type": "integer"
+                                },
+                                "minItems": 3,
+                                "maxItems": 3
+                            }
+                        }
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "onbekend": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/uwvinkomsten"
+            }
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "uwvinkomsten": {
+            "type": "object",
+            "properties": {
+                "werkgever": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "loonheffingennummer": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "cdSector": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "datumBeginIkv": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "datumEindIkv": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "straatadres": {
+                    "$ref": "/document/definition/reference/sd/adres-sd-v2.schema.json#/definitions/adres"
+                },
+                "opgaven": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/uwvopgave"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "svbinkomsten": {
+            "type": "object",
+            "properties": {
+                "codeSzWet": {
+                    "type": "string"
+                },
+                "datumBeginUitkeringsverhouding": {
+                    "type": "string"
+                },
+                "datumEindUitkeringsverhouding": {
+                    "type": "string"
+                },
+                "periodes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/svbperiodes"
+                    }
+                }
+            }
+        },
+        "uwvopgave": {
+            "codeAardIkv": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "codeSoortIkv": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    }
+                }
+            },
+            "codeSoortArbeidscontract": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "indLoonheffingskortingToegepast": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "datumAanvangOpgave": {
+                "type": "string"
+            },
+            "datumEindOpgave": {
+                "type": "string"
+            },
+            "extraPrdSalaris": {
+                "type": "integer"
+            },
+            "vakantietoeslag": {
+                "type": "integer"
+            },
+            "aantalVerloondeUren": {
+                "type": "integer"
+            },
+            "opgbRechtExtraPrdSalaris": {
+                "type": "integer"
+            },
+            "opgbRechtVakantietoeslag": {
+                "type": "integer"
+            },
+            "brutoSocialeVerzekeringsLoon": {
+                "type": "integer"
+            },
+            "loonLbPremieVolksverzekering": {
+                "type": "integer"
+            },
+            "vergoedingReiskostenOnbelast": {
+                "type": "integer"
+            },
+            "ingehoudenLbPremieVolksverzekering": {
+                "type": "integer"
+            },
+            "naamRechtspersoon": {
+                "type": "string"
+            }
+        },
+        "svbperiodes": {
+            "codeUitkeringsperiode": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "codeSzWet": {
+                "type": "string"
+            },
+            "brutoBedrag": {
+                "type": "integer"
+            },
+            "nettoBedrag": {
+                "type": "integer"
+            },
+            "codeMunteenheid": {
+                "type": "string"
+            },
+            "datumEindUitkeringsperiode": {
+                "type": "string"
+            },
+            "datumAanvangUitkeringsperiode": {
+                "type": "string"
+            }
+        }
+    }
+}

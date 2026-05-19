@@ -1,0 +1,205 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "022264541",
+      "data": {
+        "alo-ioaw": {
+          "grIoaw": {
+            "geenRechtMeerWw": "NEE",
+            "geenRechtMeerWga": "NEE",
+            "gedeeltelijkArbeidsongeschikt": "NEE"
+          }
+        },
+        "schulden": {
+          "grSchulden": {
+            "hhgSchulden": [
+              {
+                "bijWieSchuld": "Belastingdienst",
+                "uploadSchuld": [],
+                "waardeSchuld": 60000
+              }
+            ]
+          },
+          "heeftSchulden": "JA"
+        },
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Vuurtorenweg",
+              "postcode": "2583 XL",
+              "huisletter": "",
+              "huisnummer": "3",
+              "toevoeging": ""
+            },
+            "grPersoongegevens": {
+              "Bsn": "022264541",
+              "voornaam": "Robert Johannes",
+              "achternaam": "Leijenhorst",
+              "voorletters": "R.J.",
+              "voorvoegsels": "van der",
+              "geboortedatum": "1980-04-20"
+            }
+          }
+        },
+        "alo-uitbetaling": {
+          "ibanAanWie": "NEE"
+        },
+        "alo-uw-inkomsten": {
+          "heeftInkomsten": "GEEN_INKOMSTEN"
+        },
+        "gegevens-partner": {
+          "grGegevensPartner": {
+            "bsnPartner": "111222333",
+            "geboortePartner": "1964-12-31",
+            "achternaamPartner": "Trunks",
+            "voorletterPartner": "Gohan",
+            "voorvoegselPartner": "",
+            "zelfdeAdresPartner": "JA",
+            "nationaliteitPartner": "NEDERLANDSE_NATIONALITEIT"
+          }
+        },
+        "inkomsten-partner": {
+          "heeftPartnerInkomsten": "MIJN_PARTNER_HEEFT_GEEN_INKOMEN"
+        },
+        "alo-reden-aanvraag": {
+          "grIngangsdatum": {
+            "waaromDigid": "I was busy hunting bugs",
+            "ingangsDatum": "2026-01-16",
+            "wanneerDigid": "2026-02-04",
+            "welkeredenlaat": "WACHTEN_DIGID",
+            "bijstandsuitkeringEerderStarten": "JA"
+          },
+          "grEerderInkomen": {
+            "terugkeerder": "NEE"
+          },
+          "grVerblijfstatus": {
+            "stoptWeekgeld": "JA",
+            "berichtWeekgeld": "JA",
+            "hoeveelWeekgeld": 30000,
+            "ontvangtWeekgeld": "JA",
+            "redenVerblijfstatus": "VERBLIJFSDOCUMENT",
+            "wanneerStoptWeekgeld": "2026-01-06"
+          },
+          "waaromBijstandsuitkering": "VERBLIJFSTATUS"
+        },
+        "alo-uw-woonsituatie": {
+          "grHuur": {
+            "hoeveelHuur": 5000,
+            "huurcontract": "NEE",
+            "wieVerhuurder": "Piccolo",
+            "contractOpUwNaam": "JA",
+            "hoeveelHuurtoeslag": 5500
+          },
+          "hoeWoontU": "ZELFSTANDIGE_HUURWONING",
+          "grAndereBewoners": {
+            "grBewoner": {
+              "hhgAndereBewoners": [
+                {
+                  "bBLAndereBewoner": "JA",
+                  "medebewonerOpleiding": "NEE",
+                  "relatieAndereBewoner": "OUDERS",
+                  "soortBBLAndereBewoner": "Ik volg een bBl traject",
+                  "achternaamAndereBewoner": "Teun Eugene Sander Tico",
+                  "samenlevenAndereBewoner": {
+                    "NIET_VAN_TOEPASSING": false,
+                    "SAMENLEVINGSCONTRACT": true,
+                    "SAMEN_EEN_KIND_OF_EEN_ERKEND_KIND": true,
+                    "AFGELOPEN_2_JAAR_ALS_1_HUISHOUDEN_GEZIEN": false,
+                    "AFGELOPEN_2_JAAR_GEHUWD_OF_GEREGISTREERD_PARTNER_GEWEEST": false
+                  },
+                  "kostenDelenAndereBewoner": {
+                    "NIET_VAN_TOEPASSING": false,
+                    "DE_KOSTEN_VAN_DE_HUUR": true,
+                    "KOSTEN_VAN_DE_BOODSCHAPPEN": true,
+                    "VASTE_LASTEN_ZOALS_GAS_EN_WATER": false
+                  },
+                  "voorlettersAndereBewoner": "T.E.S.T",
+                  "activiteitenAndereBewoner": {
+                    "WIJ_ETEN_SAMEN": true,
+                    "GEEN_ACTIVITEITEN_SAMEN": true,
+                    "WIJ_GAAN_SAMEN_OP_VAKANTIE": false,
+                    "WIJ_VERDELEN_OF_DOEN_SAMEN_DE_TAKEN_IN_HET_HUISHOUDEN": false
+                  },
+                  "voorvoegselsAndereBewoner": "",
+                  "geboortedatumAndereBewoner": "2021-02-05"
+                }
+              ]
+            },
+            "meerMensenOpAdres": "JA"
+          }
+        },
+        "alo-uw-beschikbaarheid": {
+          "grBeschikbaarheid": {
+            "onbetaald": "NEE",
+            "beschikbaarheid": 40
+          }
+        },
+        "alo-gezinssamenstelling": {
+          "partnerWoontBijU": "JA",
+          "thuiswonendeKinderen": "NEE"
+        },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": true,
+          "grWoonsituatie": {
+            "woonsituatie": "WAAR_IK_WOON"
+          },
+          "grNationaliteit": {
+            "nationaliteitBezit": "NEDERLANDSE_NATIONALITEIT"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "JA",
+            "grContactHulp": {
+              "naamHulp": "Test automation",
+              "relatieHulp": "BOEKHOUDER",
+              "telefoonHulp": ""
+            }
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": true,
+            "geenTelefoon": true
+          }
+        },
+        "alo-bezittingen-en-schulden": {
+          "grErfenis": {
+            "hhgErfenis": [
+              {
+                "waardeErfenis": 10000
+              }
+            ]
+          },
+          "grRekeningen": {
+            "geenBankrekening": "GEEN_REKENING"
+          },
+          "grUwVermogen": {
+            "welkVermogen": {
+              "CRYPTO": false,
+              "CARAVAN": false,
+              "ERFENIS": true,
+              "VAARTUIG": false,
+              "CONTANTEN": false,
+              "KOOPWONING": false,
+              "MOTORVOERTUIG": false,
+              "EEN_STUK_GROND": false,
+              "OBLIGATIES_AANDELEN": false
+            }
+          }
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "attachments": [],
+      "language_code": "nl",
+      "submission_id": "870bcc1f-9a0d-4e6d-ac7e-3939c10b480b",
+      "public_reference": "OF-KLFDM2"
+    },
+    "startAt": "2026-02-05",
+    "registrationAt": "2026-02-05"
+  }
+}

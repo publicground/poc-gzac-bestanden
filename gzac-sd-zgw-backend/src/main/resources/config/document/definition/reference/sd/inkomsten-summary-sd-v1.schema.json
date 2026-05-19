@@ -1,0 +1,136 @@
+{
+    "$id": "inkomsten-summary.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Inkomsten summage page schema",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "arbeid": {
+            "oneOf": [
+                { "type": "null" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "inkomstenComponenten": {
+                            "type": [
+                                "array",
+                                "null"
+                            ],
+                            "items": {
+                                "oneOf": [
+                                    { "$ref": "/document/definition/reference/sd/inkomsten-component-sd-v1.schema.json" },
+                                    { "type": "null" }
+                                ]
+                            }
+                        },
+                        "totaalNettomaandelijkseInkomstenVanEenStap": {
+                            "type": [
+                                "number",
+                                "null"
+                            ]
+                        },
+                        "toelichting": {
+                            "type": ["string", "null"]
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "uitkeringen": {
+            "oneOf": [
+                { "type": "null" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "inkomstenComponenten": {
+                            "type": ["array", "null"],
+                            "items": {
+                                "oneOf": [
+                                    { "$ref": "/document/definition/reference/sd/inkomsten-component-sd-v1.schema.json" },
+                                    { "type": "null" }
+                                ]
+                            }
+                        },
+                        "totaalNettomaandelijkseInkomstenVanEenStap": { "type": ["number",  "null"] },
+                        "toelichting": { "type": ["string", "null"] }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "onderneming": {
+            "oneOf": [
+                { "type": "null" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "inkomstenComponenten": {
+                            "type": ["array", "null"],
+                            "items": {
+                                "oneOf": [
+                                    { "$ref": "/document/definition/reference/sd/inkomsten-component-sd-v1.schema.json" },
+                                    { "type": "null" }
+                                ]
+                            }
+                        },
+                        "totaalNettomaandelijkseInkomstenVanEenStap": { "type": ["number",  "null"] },
+                        "toelichting": { "type": ["string", "null"] }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "overigeInkomsten": {
+            "oneOf": [
+                { "type": "null" },
+                {
+                    "type": "object",
+                    "properties": {
+                        "inkomstenComponenten": {
+                            "type": ["array", "null"],
+                            "items": {
+                                "oneOf": [
+                                    { "$ref": "/document/definition/reference/sd/inkomsten-component-sd-v1.schema.json" },
+                                    { "type": "null" }
+                                ]
+                            }
+                        },
+                        "totaalNettomaandelijkseInkomstenVanEenStap": { "type": ["number",  "null"] },
+                        "toelichting": { "type": ["string", "null"] }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "totaalNettoMaandInkomsten": {
+            "type": "number"
+        },
+        "toelichtingTotaalVastgesteldInkomen": {
+            "type": ["string", "null"]
+        },
+        "welkeInkomsten": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "properties": {
+                "loondienst": {
+                    "type": "boolean"
+                },
+                "uitkeringenPensioenenEnStudiefinanciering": {
+                    "type": "boolean"
+                },
+                "onderneming": {
+                    "type": "boolean"
+                },
+                "overigeInkomsten": {
+                    "type": "boolean"
+                },
+                "geenInkomstenVaststellen": {
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "definitions": {
+    }
+}

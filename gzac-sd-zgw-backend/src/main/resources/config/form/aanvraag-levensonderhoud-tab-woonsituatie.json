@@ -1,0 +1,740 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "createdon",
+            "applyMaskOn": "change",
+            "tableView": true,
+            "key": "createdOn",
+            "properties": {
+                "sourceKey": "case:createdOn"
+            },
+            "type": "hidden",
+            "input": true
+        },
+        {
+            "label": "gegevensVaststelling",
+            "key": "gegevensVaststelling",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "gegevensVanuitAanvraag",
+            "key": "gegevensVanuitAanvraag",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "gegevensVanuitBronnen",
+            "key": "gegevensVanuitBronnen",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "brpGeboortedatumAanvrager",
+            "customDefaultValue": "const brpGeboortedatum = data.gegevensVanuitBronnen?.aanvrager?.geboortedatum;\n\nconst RE_YMD_DASHED = /^(\\d{4})-(\\d{2})-(\\d{2})$/; // YYYY-MM-DD\nconst RE_YMD_PLAIN  = /^(\\d{4})(\\d{2})(\\d{2})$/;   // YYYYMMDD\n\nlet output = '-';\n\nif (typeof brpGeboortedatum === 'string') {\n  const m = brpGeboortedatum.match(RE_YMD_DASHED) || brpGeboortedatum.match(RE_YMD_PLAIN);\n\n  if (m) {\n    const [, Y, M, D] = m;\n\n    if (M === '00' || D === '00') {\n      output = `${D}-${M}-${Y}`;\n    } else {\n      const mm = moment(`${Y}-${M}-${D}`, 'YYYY-MM-DD', true);\n      output = mm.isValid() ? mm.format('DD-MM-YYYY') : `${D}-${M}-${Y}`;\n    }\n  } else {\n    output = brpGeboortedatum;\n  }\n}\n\nvalue = output;",
+            "key": "brpGeboortedatumAanvrager",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "brpGeboortedatumPartner",
+            "customDefaultValue": "const brpGeboortedatum = data.gegevensVanuitBronnen?.partner?.geboortedatum;\n\nconst RE_YMD_DASHED = /^(\\d{4})-(\\d{2})-(\\d{2})$/; // YYYY-MM-DD\nconst RE_YMD_PLAIN  = /^(\\d{4})(\\d{2})(\\d{2})$/;   // YYYYMMDD\n\nlet output = '-';\n\nif (typeof brpGeboortedatum === 'string') {\n  const m = brpGeboortedatum.match(RE_YMD_DASHED) || brpGeboortedatum.match(RE_YMD_PLAIN);\n\n  if (m) {\n    const [, Y, M, D] = m;\n\n    if (M === '00' || D === '00') {\n      output = `${D}-${M}-${Y}`;\n    } else {\n      const mm = moment(`${Y}-${M}-${D}`, 'YYYY-MM-DD', true);\n      output = mm.isValid() ? mm.format('DD-MM-YYYY') : `${D}-${M}-${Y}`;\n    }\n  } else {\n    output = brpGeboortedatum;\n  }\n}\n\nvalue = output;",
+            "key": "brpGeboortedatumPartner",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Adres aanvrager",
+            "key": "adresAanvrager",
+            "customDefaultValue": "value = (data.gegevensVaststelling?.additioneleVeldenAanvrager?.verblijfadres?.verblijfadresVastgesteld || ['ELDERS', 'DETENTIE'].includes(data.gegevensVaststelling.aanvrager.woonsituatie)) ? data.gegevensVaststelling?.aanvrager?.verblijfadres : data.gegevensVaststelling?.aanvrager?.adresBrp;",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Adres partner",
+            "customDefaultValue": "samenwonendAdresVanuitAanvraag = (data.gegevensVanuitAanvraag?.partner?.woonsituatie  === 'PARTNER_INWONEND' && (data.gegevensVanuitAanvraag?.aanvrager?.woonsituatie === 'ELDERS' || data.gegevensVanuitAanvraag?.aanvrager?.woonsituatie === 'DETENTIE')) ? data.gegevensVanuitAanvraag?.aanvrager?.verblijfadres : data.gegevensVanuitAanvraag?.aanvrager?.adresBrp;\nvalue = data.gegevensVaststelling?.additioneleVeldenPartner?.verblijfadres?.verblijfadresVastgesteld ? data.gegevensVaststelling?.partner?.verblijfadres : data.gegevensVaststelling?.partner?.woonsituatie === 'PARTNER_INWONEND' ? samenwonendAdresVanuitAanvraag : data.gegevensVaststelling?.partner?.verblijfadres;",
+            "key": "adresPartner",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "openzaak",
+            "key": "openzaak",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "headerIdentificatie",
+            "customClass": "border-around-formio-container",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "headerIdentificatie",
+            "type": "container",
+            "title": "header",
+            "input": true,
+            "components": [
+                {
+                    "label": "headerHTML",
+                    "content": "<section class=\"container-fluid p-0\">\n  <div class=\"bg-light border-bottom m-0 py-1 px-3\">\n    <div class=\"row align-items-center mx-0\">\n      <div class=\"col-12 px-1\">\n        <div style=\"font-size: 1.1rem; font-weight: normal; line-height: 1.4; margin: 0; white-space: nowrap; overflow: visible; text-overflow: clip;\" title=\"{{ data.openzaak?.identificatie || '-' }}\">{{{ data.openzaak?.identificatie || '-' }}}</div>\n      </div>\n    </div>\n  </div>\n\n  <!-- BODY MET REGELS -->\n  <div class=\"row align-items-center mx-0 gx-0 px-3 py-2\">\n\n    <!-- LINKERKOLOM -->\n    <div class=\"col-4 mb-0 p-0\">\n      <div class=\"row mb-1 mx-0\">\n        <div class=\"col-6 p-0\">Aanvrager:</div>\n        <div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.achternaam ? (data.gegevensVaststelling?.aanvrager?.achternaam + ((data.gegevensVaststelling?.aanvrager?.voorvoegsel || data.gegevensVaststelling?.aanvrager?.tussenvoegsel) ? ', ' + (data.gegevensVaststelling?.aanvrager?.voorvoegsel || data.gegevensVaststelling?.aanvrager?.tussenvoegsel) : '')) : '-' }}}</strong></div>\n      </div>\n      <div class=\"row mb-0 mx-0\">\n        <div class=\"col-6 p-0\">Partner:</div>\n        <div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.achternaam ? (data.gegevensVaststelling?.partner?.achternaam + ((data.gegevensVaststelling?.partner?.voorvoegsel || data.gegevensVaststelling?.partner?.tussenvoegsel) ? ', ' + (data.gegevensVaststelling?.partner?.voorvoegsel || data.gegevensVaststelling?.partner?.tussenvoegsel) : '')) : '-' }}}</strong></div>\n      </div>\n    </div>\n\n    <div class=\"col-4 mb-0 px-1\">\n      <div class=\"row mb-1 mx-0\"><div class=\"col-6\">Geb. datum:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.geboortedatum ? moment(data.gegevensVaststelling.aanvrager.geboortedatum).format('DD-MM-YYYY') : '-' }}}</strong></div></div>\n      <div class=\"row mb-0 mx-0\"><div class=\"col-6\">Geb. datum partner:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.geboortedatum ? moment(data.gegevensVaststelling.partner.geboortedatum).format('DD-MM-YYYY') : '-' }}}</strong></div></div>\n    </div>\n\n    <div class=\"col-4 mb-0 px-1\">\n      <div class=\"row mb-1 mx-0\"><div class=\"col-6\">BSN:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.bsn || '-' }}}</strong></div></div>\n      <div class=\"row mb-0 mx-0\"><div class=\"col-6\">BSN partner:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.bsn || '-' }}}</strong></div></div>\n    </div>\n\n  </div>\n</section>",
+                    "refreshOnChange": false,
+                    "customClass": "no-border-around-formio-container",
+                    "key": "html",
+                    "type": "htmlelement",
+                    "tableView": false,
+                    "input": true
+                }
+            ]
+        },
+        {
+            "label": "Columns",
+            "columns": [
+                {
+                    "components": [
+                        {
+                            "label": "aanvragerContainer",
+                            "tableView": false,
+                            "key": "gegevensVaststelling1",
+                            "type": "container",
+                            "title": "Aanvrager",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "aanvragerHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Persoon - Aanvrager <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.vastleggingPersoon?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.vastleggingPersoon?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.vastleggingPersoon?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.vastleggingPersoon?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Burgerservicenummer</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.aanvrager?.bsn || '-') }}} </dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Naam</dd>\n        <dt class=\"col-6\">{{{ _.compact([\n            data.gegevensVaststelling?.aanvrager?.voornamen && data.gegevensVaststelling.aanvrager.voornamen.trim(),\n            data.gegevensVaststelling?.aanvrager?.voorvoegsel && data.gegevensVaststelling.aanvrager.voorvoegsel.trim(),\n            data.gegevensVaststelling?.aanvrager?.achternaam && data.gegevensVaststelling.aanvrager.achternaam.trim()\n            ]).join(' ') || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Geboortedatum</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.aanvrager?.geboortedatum.length > 4 ? moment(data.gegevensVaststelling?.aanvrager?.geboortedatum).format('DD-MM-yyyy') :\n            ( data.gegevensVaststelling?.aanvrager?.geboortedatum\n            ? '00-00-' + data.gegevensVaststelling?.aanvrager?.geboortedatum : '-' ) ) }}} </dt>\n    </dl>\n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.vastleggingPersoon?.persoonVastgesteld && data.brpGeboortedatumAanvrager !== moment(data.gegevensVaststelling?.aanvrager?.geboortedatum).format('DD-MM-yyyy') ? '':'d-none' }}\">\n        <dd class=\"col-6 \">Geboortedatum uit BRP</dd>\n        <dt class=\"col-6\">{{{ (data.brpGeboortedatumAanvrager || '-'  ) }}} </dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Beschikbaarheid (u/week)</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.beschikbaarheidAanvrager?.uurPerWeek || '-') }}} </dt>\n    </dl>\n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.beschikbaarheidAanvrager?.onbetaaldWerk ? '':'d-none' }}\">\n        <dd class=\"col-6\">Soort onbetaald werk</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.beschikbaarheidAanvrager?.soortOnbetaaldWerk || '-') }}} </dt>\n    </dl>\n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.beschikbaarheidAanvrager?.onbetaaldWerk ? '':'d-none' }}\">\n        <dd class=\"col-6\">Organisatie onbetaald werk</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.beschikbaarheidAanvrager?.organisatieOnbetaaldWerk || '-') }}} </dt>\n    </dl>\n    {{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.vastleggingPersoon?.toelichtingConsulent ? '<hr>': '' }}\n\n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.vastleggingPersoon?.toelichtingConsulent ? '':'d-none' }}\">\n        <dd class=\"col-6 \">Toelichting vaststelling persoon</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.additioneleVeldenAanvrager?.vastleggingPersoon?.toelichtingConsulent || '-') }}} </dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "tableView": false,
+                            "key": "gegevensVaststelling1",
+                            "type": "container",
+                            "title": "Aanvrager",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "aanvragerHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Verblijfsadres - Aanvrager <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.verblijfadres?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.verblijfadres?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.verblijfadres?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.verblijfadres?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Verblijfadres</dd>\n        <dt class=\"col-6\">{{{ (data.adresAanvrager?.straatnaam || '-') }}} {{{data.adresAanvrager?.huisnummer }}} {{{data.adresAanvrager?.huisletter }}} {{{data.adresAanvrager?.huisnummertoevoeging }}}</dt>\n        <dd class=\"col-6\">&nbsp;</dd>\n        <dt class=\"col-6\">{{{ (data.adresAanvrager?.postcode || '') }}} {{{ data.adresAanvrager?.woonplaatsnaam }}}</dt>\n    </dl>\n{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.verblijfadres?.toelichtingConsulent || data.adresAanvrager?.toelichtingNietIngeschrevenOpVerblijfadres ? '<hr>' : '' }}\n    <dl class=\"row mb-0 {{ data.adresAanvrager?.toelichtingNietIngeschrevenOpVerblijfadres ? '' : 'd-none' }}\">\n        <dd class=\"col-6\">{{{ data.adresAanvrager?.toelichtingNietIngeschrevenOpVerblijfadres ? 'Reden niet ingeschreven op verblijfadres' : '-' }}}</dd>\n        <dt class=\"col-6\">{{{ (data.adresAanvrager?.toelichtingNietIngeschrevenOpVerblijfadres || '-') }}} </dt>\n    </dl>\n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.verblijfadres?.toelichtingConsulent ? '' : 'd-none' }}\">\n        <dd class=\"col-6\">Toelichting vaststelling verblijfadres</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.verblijfadres?.toelichtingConsulent || '-' }}} </dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "tableView": false,
+                            "key": "gegevensVaststelling1",
+                            "type": "container",
+                            "title": "Aanvrager",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "aanvragerHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Verblijfstitel - Aanvrager <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs213verblijfstitel?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs213verblijfstitel?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs213verblijfstitel?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs213verblijfstitel?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Nationaliteit / verblijfsstatus</dd>\n        <dt class=\"col-6\">\n          {{{  { 'IS_GEEN_NEDERLANDER' : 'Is geen Nederlander', 'NEDERLANDSE_NATIONALITEIT' : 'Ik heb de Nederlandse nationaliteit', 'EU_ONDERDAAN' : 'Ik ben EU onderdaan',  'GELDIGE_VERBLIJFSVERGUNNING' : 'Ik heb een geldige verblijfsvergunning',  'GEEN_VERBLIJFSVERGUNNING' : 'Ik heb geen verblijfsvergunning', 'VERLOPEN_VERBLIJFSVERGUNNING' : 'Mijn verblijfsvergunning is verlopen', '' : '-' }[data.gegevensVaststelling?.aanvrager?.nationaliteitOfVerblijfsstatus] || '-'}}}\n        </dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">{{{ data.gegevensVaststelling?.aanvrager?.verblijfstitel?.codeVerblijfstitel?.code ? 'Verblijfstitel' : '' }}}</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.aanvrager?.verblijfstitel?.codeVerblijfstitel?.code ? data.gegevensVaststelling?.aanvrager?.verblijfstitel?.codeVerblijfstitel?.code : '' }}} </dt>\n    </dl>\n      <dl class=\"row mb-0 {{{ ['30', '38'].includes(data.gegevensVaststelling?.aanvrager?.verblijfstitel?.codeVerblijfstitel?.code) ? '' : 'd-none' }}}\">\n        <dd class=\"col-6\">{{{ [\"30\", \"38\"].includes(data.gegevensVaststelling?.aanvrager?.verblijfstitel?.codeVerblijfstitel?.code) ? 'Gemeenschapsrecht' : '' }}}</dd>\n        <dt class=\"col-6\">{{{ [\"30\", \"38\"].includes(data.gegevensVaststelling?.aanvrager?.verblijfstitel?.codeVerblijfstitel?.code) ? {'GEMEENSCHAPSRECHT_VAN_TOEPASSING' : 'Ja, gemeenschapsrecht van toepassing', 'GEMEENSCHAPSRECHT_NIET_VAN_TOEPASSING' : 'Nee, gemeenschapsrecht niet van toepassing'}[data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs213verblijfstitel?.isSprakeVanGemeenschapsrecht] : '' }}} </dt>\n    </dl>\n{{ data.gegevensVaststelling?.aanvrager?.actiesVerblijfstatus || data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs213verblijfstitel?.toelichtingConsulent ? '<hr>' : '' }}\n   \n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.aanvrager?.actiesVerblijfstatus ? '' : 'd-none' }}\">\n        <dd class=\"col-6\">Opgegeven activiteiten om verblijfsvergunning te krijgen / te behouden</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.aanvrager?.actiesVerblijfstatus ? _.upperFirst(_.toLower(_.startCase(data.gegevensVaststelling?.aanvrager?.actiesVerblijfstatus))) : '-' }}} </dt>\n    </dl> \n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs213verblijfstitel?.toelichtingConsulent ? '' : 'd-none' }}\">\n        <dd class=\"col-6\">Toelichting vaststelling verblijfstitel</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs213verblijfstitel?.toelichtingConsulent || '-' }}} </dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "leef en woon container",
+                            "tableView": false,
+                            "customConditional": "show = data.gegevensVaststelling?.additioneleVeldenAanvraag?.leefEnWoonsituatie?.leefEnWoonsituateVastgesteld",
+                            "validateWhenHidden": false,
+                            "key": "leefWoonContainer",
+                            "type": "container",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "Leef- en woonsituatie",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Leef- en woonsituatie <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvraag?.leefEnWoonsituatie?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvraag?.leefEnWoonsituatie?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvraag?.leefEnWoonsituatie?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvraag?.leefEnWoonsituatie?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-bottom-radius no-border-bottom",
+                                    "key": "medebewonerTitel",
+                                    "type": "htmlelement",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "aanvragerHTML",
+                                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Woonsitutie</dd>\n        <dt class=\"col-6\">{{{ ( {\n          'ZELFSTANDIG_WONEND': 'Zelfstandig wonend',\n          'VERBLIJF_INSTELLING': 'Verblijf in instelling'\n        }[data.gegevensVaststelling?.woonsituatie?.woonsituatie] || '-') }}} </dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Leefsituatie</dd>\n        <dt class=\"col-6\">{{{ ( { 'INSTITUTIONEEL_HUISHOUDEN': 'Institutioneel huishouden',\n                                  'ALLEENSTAANDE_OUDER': 'Alleenstaande Ouder',\n                                  'ALLEENSTAAND': 'Alleenstaand',\n                                  'SAMENWONEND_KINDEREN': 'Samenwonend met kinderen',\n                                  'SAMENWONEND': 'Samenwonend' }[data.gegevensVaststelling?.leefsituatie?.leefsituatie] || '-') }}} </dt>\n    </dl>\n    {{ (data.gegevensVaststelling?.additioneleVeldenAanvraag?.leefEnWoonsituatie?.toelichtingWoonsituatie != null || data.gegevensVaststelling?.additioneleVeldenAanvraag?.leefEnWoonsituatie?.toelichtingLeefsituatie != null ) ? '<hr>' : '' }}\n     <dl class=\"row mb-0 {{ data.gegevensVaststelling?.additioneleVeldenAanvraag?.leefEnWoonsituatie?.toelichtingWoonsituatie != null ? '' : 'd-none' }}\">\n        <dd class=\"col-6\" >Toelichting vaststelling woonsituatie</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.additioneleVeldenAanvraag?.leefEnWoonsituatie?.toelichtingWoonsituatie || '-') }}} </dt>\n    </dl>\n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.additioneleVeldenAanvraag?.leefEnWoonsituatie?.toelichtingLeefsituatie != null ? '' : 'd-none' }}\">\n        <dd class=\"col-6\">Toelichting vaststelling leefsituatie</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.additioneleVeldenAanvraag?.leefEnWoonsituatie?.toelichtingLeefsituatie || '-') }}} </dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "Kinderen container",
+                            "tableView": false,
+                            "key": "kinderenContainer",
+                            "type": "container",
+                            "customConditional": "show = !data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.isHandmatigBeoordeeld",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "Kinderen",
+                                    "content": "<h4>Kinderen<span style=\"float: right; font-size: small\">Nog vast te stellen</span></h4>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-bottom-radius no-border-bottom",
+                                    "key": "kinderenTitel",
+                                    "type": "htmlelement",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "HTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<div class=\"row pb-1 pt-1\">\n  <div class=\"col-6 font-weight-bold\">Naam</div>\n  <div class=\"col-6 font-weight-bold\">Geboortedatum</div>\n</div>\n\n",
+                                    "refreshOnChange": false,
+                                    "customClass": "extra-padding-html-element border-top-0 border-bottom-0 no-border-radius",
+                                    "key": "html1",
+                                    "type": "htmlelement",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "Data Grid",
+                                    "reorder": false,
+                                    "addAnotherPosition": "bottom",
+                                    "layoutFixed": false,
+                                    "enableRowGroups": false,
+                                    "initEmpty": false,
+                                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element",
+                                    "hideLabel": true,
+                                    "disabled": true,
+                                    "tableView": false,
+                                    "defaultValue": [
+                                        {}
+                                    ],
+                                    "validateWhenHidden": false,
+                                    "key": "gegevensVaststelling.kinderen",
+                                    "type": "datagrid",
+                                    "input": true,
+                                    "components": [
+                                        {
+                                            "label": "Columns",
+                                            "columns": [
+                                                {
+                                                    "components": [
+                                                        {
+                                                            "label": "HTML",
+                                                            "attrs": [
+                                                                {
+                                                                    "attr": "",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "content": "<div class=\"row\">\n  <div class=\"col-6\">{{{row?.voornamen}}} {{{row?.voorvoegsel}}} {{{row?.achternaam}}}</div>\n  <div class=\"col-6\">{{{ (row?.geboortedatum ? moment(row?.geboortedatum).format('DD-MM-yyyy') : '-') }}}</div>\n</div>\n",
+                                                            "refreshOnChange": false,
+                                                            "key": "bankrekeningHtml",
+                                                            "type": "htmlelement",
+                                                            "hideLabel": true,
+                                                            "input": false,
+                                                            "tableView": false
+                                                        }
+                                                    ],
+                                                    "width": 12,
+                                                    "offset": 0,
+                                                    "push": 0,
+                                                    "pull": 0,
+                                                    "size": "md",
+                                                    "currentWidth": 12
+                                                },
+                                                {
+                                                    "components": [],
+                                                    "width": 6,
+                                                    "offset": 0,
+                                                    "push": 0,
+                                                    "pull": 0,
+                                                    "size": "md",
+                                                    "currentWidth": 6
+                                                }
+                                            ],
+                                            "hideLabel": true,
+                                            "key": "columns",
+                                            "type": "columns",
+                                            "input": false,
+                                            "tableView": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "label": "Medebewoner container",
+                            "tableView": false,
+                            "key": "medebewonerContainer",
+                            "customConditional": "show = !data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.isHandmatigBeoordeeld",
+                            "type": "container",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "Medebewoner",
+                                    "content": "<h4>Medebewoners<span style=\"float: right; font-size: small\">Nog vast te stellen</span></h4>",
+                                    "refreshOnChange": false,
+                                    "key": "medebewonerTitel",
+                                    "type": "htmlelement",
+                                    "customClass": "no-border-bottom-radius no-border-bottom",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "HTML",
+                                    "content": "<div class=\"row pb-1 pt-1\">\n  <div class=\"col-3 font-weight-bold\">Naam</div>\n  <div class=\"col-3 font-weight-bold\">Geboortedatum</div>\n   <div class=\"col-6 font-weight-bold\">Gegevens medebewoner</div>\n</div>\n",
+                                    "refreshOnChange": false,
+                                    "customClass": "extra-padding-html-element border-top-0 border-bottom-0 no-border-radius",
+                                    "key": "html2",
+                                    "type": "htmlelement",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "Data Grid",
+                                    "reorder": false,
+                                    "addAnotherPosition": "bottom",
+                                    "layoutFixed": false,
+                                    "enableRowGroups": false,
+                                    "initEmpty": false,
+                                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element",
+                                    "hideLabel": true,
+                                    "disabled": true,
+                                    "tableView": false,
+                                    "defaultValue": [
+                                        {}
+                                    ],
+                                    "validateWhenHidden": false,
+                                    "key": "gegevensVaststelling.medebewoners",
+                                    "type": "datagrid",
+                                    "input": true,
+                                    "components": [
+                                        {
+                                            "label": "Columns",
+                                            "columns": [
+                                                {
+                                                    "components": [
+                                                        {
+                                                            "label": "aanvragerHTML",
+                                                            "attrs": [
+                                                                {
+                                                                    "attr": "",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "content": "<div class=\"row\">\n    <div class=\"col-3\">{{{row?.voorletters}}} {{{row?.voorvoegsel}}} {{{row?.achternaam}}}</div>\n    <div class=\"col-3\">{{{ (row?.geboortedatum ? moment(row?.geboortedatum).format('DD-MM-yyyy') : '-') }}}</div>\n    <div class=\"col-6\">{{ (row?.gezamenlijkHuishouden || []).map(value => '<li>' + (value?.name || '-') + '</li>').join('') || '-' }} {{row?.volgtOpleiding ? '<li>Volgt opleiding (' + row?.soortOpleiding + ')</li>' : ''}}</div>\n</div>",
+                                                            "refreshOnChange": false,
+                                                            "key": "html1",
+                                                            "type": "htmlelement",
+                                                            "tableView": false,
+                                                            "input": true
+                                                        }
+                                                    ],
+                                                    "width": 12,
+                                                    "offset": 0,
+                                                    "push": 0,
+                                                    "pull": 0,
+                                                    "size": "md",
+                                                    "currentWidth": 12
+                                                },
+                                                {
+                                                    "components": [],
+                                                    "width": 6,
+                                                    "offset": 0,
+                                                    "push": 0,
+                                                    "pull": 0,
+                                                    "size": "md",
+                                                    "currentWidth": 6
+                                                }
+                                            ],
+                                            "hideLabel": true,
+                                            "key": "columns",
+                                            "type": "columns",
+                                            "input": false,
+                                            "tableView": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                },
+                {
+                    "components": [
+                        {
+                            "label": "partnerContainer",
+                            "tableView": false,
+                            "key": "gegevensVaststelling2",
+                            "customConditional": "data.gegevensVaststelling?.aanvrager?.heeftPartner === 'JA' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "Aanvrager",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "aanvragerHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Persoon - Partner <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenPartner?.vastleggingPersoon?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenPartner?.vastleggingPersoon?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenPartner?.vastleggingPersoon?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenPartner?.vastleggingPersoon?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Burgerservicenummer</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.partner?.bsn || '-') }}} </dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Naam</dd>\n        <dt class=\"col-6\">{{{ _.compact([\n            data.gegevensVaststelling?.partner?.voornamen ? data.gegevensVaststelling.partner.voornamen.trim() : data.gegevensVaststelling.partner.voorletters.trim(),\n            data.gegevensVaststelling?.partner?.voorvoegsel && data.gegevensVaststelling.partner.voorvoegsel.trim(),\n            data.gegevensVaststelling?.partner?.achternaam && data.gegevensVaststelling.partner.achternaam.trim()\n            ]).join(' ') || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Geboortedatum</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.partner?.geboortedatum.length > 4 ? moment(data.gegevensVaststelling?.partner?.geboortedatum).format('DD-MM-yyyy') :\n            ( data.gegevensVaststelling?.partner?.geboortedatum\n            ? '00-00-' + data.gegevensVaststelling?.partner?.geboortedatum : '-' ) ) }}} </dt>\n    </dl>\n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.additioneleVeldenPartner?.vastleggingPersoon?.persoonVastgesteld && data.brpGeboortedatumPartner !== moment(data.gegevensVaststelling?.partner?.geboortedatum).format('DD-MM-yyyy') ? '':'d-none' }}\">\n        <dd class=\"col-6 \">Geboortedatum uit BRP</dd>\n        <dt class=\"col-6\">{{{ (data.brpGeboortedatumPartner || '-' ) }}} </dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Beschikbaarheid (u/week)</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.beschikbaarheidPartner?.uurPerWeek || '-') }}} </dt>\n    </dl>\n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.beschikbaarheidPartner?.onbetaaldWerk ? '':'d-none' }}\">\n        <dd class=\"col-6\">Soort onbetaald werk</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.beschikbaarheidPartner?.soortOnbetaaldWerk || '-') }}} </dt>\n    </dl>\n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.beschikbaarheidPartner?.onbetaaldWerk ? '':'d-none' }}\">\n        <dd class=\"col-6\">Organisatie onbetaald werk</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.beschikbaarheidPartner?.organisatieOnbetaaldWerk || '-') }}} </dt>\n    </dl>\n    {{ data.gegevensVaststelling?.additioneleVeldenPartner?.vastleggingPersoon?.toelichtingConsulent ? '<hr>': '' }}\n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.additioneleVeldenPartner?.vastleggingPersoon?.toelichtingConsulent ? '':'d-none' }}\">\n        <dd class=\"col-6 \">Toelichting vaststelling persoon</dd>\n        <dt class=\"col-6\">{{{ (data.gegevensVaststelling?.additioneleVeldenPartner?.vastleggingPersoon?.toelichtingConsulent || '-') }}} </dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "key": "html1",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "partnerContainer",
+                            "tableView": false,
+                            "key": "gegevensVaststelling2",
+                            "customConditional": "data.gegevensVaststelling?.aanvrager?.heeftPartner === 'JA' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "Aanvrager",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "aanvragerContainer",
+                                    "tableView": false,
+                                    "key": "verblijfadres1",
+                                    "type": "container",
+                                    "title": "Aanvrager",
+                                    "input": true,
+                                    "components": [
+                                        {
+                                            "label": "aanvragerHTML",
+                                            "attrs": [
+                                                {
+                                                    "attr": "",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "content": "<h4>Verblijfsadres - Partner <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenPartner?.verblijfadres?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenPartner?.verblijfadres?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenPartner?.verblijfadres?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenPartner?.verblijfadres?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Verblijfadres</dd>\n        <dt class=\"col-6\">{{{ (data.adresPartner?.straatnaam || '-') }}} {{{data.adresPartner?.huisnummer }}} {{{data.adresPartner?.huisletter }}} {{{data.adresPartner?.huisnummertoevoeging }}}</dt>\n        <dd class=\"col-6\">&nbsp;</dd>\n        <dt class=\"col-6\">{{{ (data.adresPartner?.postcode || '') }}} {{{ data.adresPartner?.woonplaatsnaam }}}</dt>\n    </dl>\n{{ data.gegevensVaststelling?.additioneleVeldenPartner?.verblijfadres?.toelichtingConsulent || data.adresPartner?.toelichtingNietIngeschrevenOpVerblijfadres ? '<hr>' : '' }}\n    <dl class=\"row mb-0 {{ data.adresPartner?.toelichtingNietIngeschrevenOpVerblijfadres ? '' : 'd-none' }}\">\n        <dd class=\"col-6\">{{{ data.adresPartner?.toelichtingNietIngeschrevenOpVerblijfadres ? 'Reden niet ingeschreven op verblijfadres' : '-' }}}</dd>\n        <dt class=\"col-6\">{{{ (data.adresPartner?.toelichtingNietIngeschrevenOpVerblijfadres || '-') }}} </dt>\n    </dl>\n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.additioneleVeldenPartner?.verblijfadres?.toelichtingConsulent ? '' : 'd-none' }}\">\n        <dd class=\"col-6\">Toelichting vaststelling verblijfadres</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenPartner?.verblijfadres?.toelichtingConsulent || '-' }}} </dt>\n    </dl>\n</section>",
+                                            "refreshOnChange": false,
+                                            "key": "html",
+                                            "type": "htmlelement",
+                                            "tableView": false,
+                                            "input": true
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "label": "partnerContainer",
+                            "tableView": false,
+                            "key": "gegevensVaststelling2",
+                            "customConditional": "data.gegevensVaststelling?.aanvrager?.heeftPartner === 'JA' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "Aanvrager",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "aanvragerHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Verblijfstitel - Partner <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenPartner?.bs213verblijfstitel?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenPartner?.bs213verblijfstitel?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenPartner?.bs213verblijfstitel?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenPartner?.bs213verblijfstitel?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Nationaliteit / verblijfsstatus</dd>\n        <dt class=\"col-6\">\n          {{{  { 'IS_GEEN_NEDERLANDER' : 'Is geen Nederlander', 'NEDERLANDSE_NATIONALITEIT' : 'Ik heb de Nederlandse nationaliteit', 'EU_ONDERDAAN' : 'Ik ben EU onderdaan',  'GELDIGE_VERBLIJFSVERGUNNING' : 'Ik heb een geldige verblijfsvergunning',  'GEEN_VERBLIJFSVERGUNNING' : 'Ik heb geen verblijfsvergunning', 'VERLOPEN_VERBLIJFSVERGUNNING' : 'Mijn verblijfsvergunning is verlopen', '' : '-' }[data.gegevensVaststelling?.partner?.nationaliteitOfVerblijfsstatus] || '-'}}}\n        </dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">{{{ data.gegevensVaststelling?.partner?.verblijfstitel?.codeVerblijfstitel?.code ? 'Verblijfstitel' : '' }}}</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.partner?.verblijfstitel?.codeVerblijfstitel?.code ? data.gegevensVaststelling?.partner?.verblijfstitel?.codeVerblijfstitel?.code : '' }}} </dt>\n    </dl>\n      <dl class=\"row mb-0 {{{ ['30', '38'].includes(data.gegevensVaststelling?.partner?.verblijfstitel?.codeVerblijfstitel?.code) ? '' : 'd-none' }}}\">\n        <dd class=\"col-6\">{{{ [\"30\", \"38\"].includes(data.gegevensVaststelling?.partner?.verblijfstitel?.codeVerblijfstitel?.code) ? 'Gemeenschapsrecht' : '' }}}</dd>\n        <dt class=\"col-6\">{{{ [\"30\", \"38\"].includes(data.gegevensVaststelling?.partner?.verblijfstitel?.codeVerblijfstitel?.code) ? {'GEMEENSCHAPSRECHT_VAN_TOEPASSING' : 'Ja, gemeenschapsrecht van toepassing', 'GEMEENSCHAPSRECHT_NIET_VAN_TOEPASSING' : 'Nee, gemeenschapsrecht niet van toepassing'}[data.gegevensVaststelling?.additioneleVeldenPartner?.bs213verblijfstitel?.isSprakeVanGemeenschapsrecht] : '' }}} </dt>\n    </dl>\n{{ data.gegevensVaststelling?.partner?.actiesVerblijfstatus || data.gegevensVaststelling?.additioneleVeldenPartner?.bs213verblijfstitel?.toelichtingConsulent ? '<hr>' : '' }}\n   \n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.aanvrager?.actiesVerblijfstatus ? '' : 'd-none' }}\">\n        <dd class=\"col-6\">Opgegeven activiteiten om verblijfsvergunning te krijgen / te behouden</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.partner?.actiesVerblijfstatus ? _.upperFirst(_.toLower(_.startCase(data.gegevensVaststelling?.partner?.actiesVerblijfstatus))) : '-' }}} </dt>\n    </dl> \n    <dl class=\"row mb-0 {{ data.gegevensVaststelling?.additioneleVeldenPartner?.bs213verblijfstitel?.toelichtingConsulent ? '' : 'd-none' }}\">\n        <dd class=\"col-6\">Toelichting vaststelling verblijfstitel</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenPartner?.bs213verblijfstitel?.toelichtingConsulent || '-' }}} </dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "key": "html1",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                }
+            ],
+            "key": "columns",
+            "type": "columns",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Columns",
+            "columns": [
+                {
+                    "components": [
+                        {
+                            "label": "Relaties container",
+                            "tableView": false,
+                            "key": "relatiesContainer",
+                            "type": "container",
+                            "customConditional": "show = data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.isHandmatigBeoordeeld",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "Relaties",
+                                    "content": "<h4>Relaties<span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Handmatig' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.vastleggingPersoon?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-bottom-radius no-border-bottom",
+                                    "key": "relatiesHtml",
+                                    "type": "htmlelement",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "filteredRelaties",
+                                    "customDefaultValue": "value = data.gegevensVaststelling.aanvrager.relaties.filter(relatie => relatie?.isKindVan !== 'PARTNER');",
+                                    "key": "filteredRelaties",
+                                    "type": "hidden",
+                                    "input": true,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "Data Grid",
+                                    "reorder": false,
+                                    "addAnotherPosition": "bottom",
+                                    "layoutFixed": false,
+                                    "enableRowGroups": false,
+                                    "initEmpty": false,
+                                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element no-border-bottom-radius",
+                                    "hideLabel": true,
+                                    "disabled": true,
+                                    "tableView": false,
+                                    "validateWhenHidden": false,
+                                    "key": "relatiesContainer.filteredRelaties",
+                                    "customDefaultValue": "value = data.relatiesContainer.filteredRelaties;",
+                                    "customConditional": "show = data.relatiesContainer.filteredRelaties?.length > 0",
+                                    "type": "datagrid",
+                                    "input": true,
+                                    "components": [
+                                        {
+                                            "label": "Columns",
+                                            "hideLabel": true,
+                                            "columns": [
+                                                {
+                                                    "components": [
+                                                        {
+                                                            "label": "indicatoren",
+                                                            "customDefaultValue": "let selectedValues = [];\nif (row?.woontOpHetzelfdeAdresAlsAanvrager) { selectedValues.push('Woont op hetzelfde adres') }\nif (row?.indicatieGezamelijkeHuishouding) { selectedValues.push('Is onderdeel van gezamelijke huishouding') }\nif (row?.indicatieOnderhoudsplichtPartner) { selectedValues.push('Is onderhoudsplichtig partner') }\nif (row?.indicatieCoOuder) { selectedValues.push('Is co-ouder') }\nif (row?.indicatieOnderhoudsplichtOuderKind) { selectedValues.push('Is onderhoudsplichtig kind') }\nif (row?.isKindEenMedebewoner) { selectedValues.push('Is ook medebewoner') }\nif (row?.afgelopen2JaarPartnerGeweest) { selectedValues.push('Is afgelopen 2 jaar partner geweest') }\nif (row?.samenEenErkendKindHebben) { selectedValues.push('Heeft samen een kind') }\nif (row?.samenlevingscontract) { selectedValues.push('Heeft een samenlevingscontract') }\nif (row?.afgelopenTweeJaarEeeHuishouden) { selectedValues.push('Was afgelopen 2 jaar één huishouden') }\nif (row?.delenKostenHuur) { selectedValues.push('Deelt kosten huur') }\nif (row?.delenVasteLasten) { selectedValues.push('Deelt vaste lasten') }\nif (row?.delenkostenBoodschappen) { selectedValues.push('Deelt kosten boodschappen') }\nif (row?.samenEten) { selectedValues.push('Eet samen') }\nif (row?.samenOpVakantie) { selectedValues.push('Gaat samen op vakantie') }\nif (row?.samenTakenHuishouden) { selectedValues.push('Deelt taken huishouden') }\nif (row?.tijdelijkVerblijf) { selectedValues.push('Betreft een tijdelijke verblijf') }\nif (row?.indicatieZorgbehoefte) { selectedValues.push('Heeft een zorgbehoefte') }\nif (row?.kamerHuur) { selectedValues.push('Heeft een commerciële relatie') }\nif (row?.leeftijdOnder27) { selectedValues.push('Leeftijd onder 27') }\nif (row?.studiefinanciering) { selectedValues.push('Studiefinanciering') }\n\nvalue = selectedValues;",
+                                                            "key": "indicatoren",
+                                                            "type": "hidden",
+                                                            "input": true,
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "aanvragerHTML",
+                                                            "attrs": [
+                                                                {
+                                                                    "attr": "",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "content": "<div class=\"grid-layout\">\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>Naam</div> <div style=\"font-weight: 700\">{{{ (row.voornamen || '') }}} {{{ (row.tussenvoegsel || '') }}} {{{ (row.achternaam || '') }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>Begindatum relatie</div> <div style=\"font-weight: 700\">{{{ (row?.datumAanvangRelatie ? moment(row?.datumAanvangRelatie).format('DD-MM-YYYY') : '-') }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>Einddatum relatie</div> <div style=\"font-weight: 700\">{{{ (row?.datumEindeRelatie ? moment(row?.datumEindeRelatie).format('DD-MM-YYYY') : '-') }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>Geboortedatum</div> <div style=\"font-weight: 700\">{{{ (row.geboortedatum ? moment(row.geboortedatum).format('DD-MM-YYYY') : '') }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>Relatietype</div> <div style=\"font-weight: 700\">{{{ ({'partner': 'Partner', 'exPartner': 'Ex-partner', 'ouderKind': 'Ouder Kind', 'kindOuder': 'Kind Ouder', 'medebewoner': 'Medebewoner', 'algemeneRelatie': 'Algemene relatie'}[row?.relatietype] || '-') }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>{{{ row?.relatietype === 'ouderKind' ? 'Kinderbijslag' : '' }}}</div> <div style=\"font-weight: 700\">{{{ row?.relatietype === 'ouderKind' ? row?.indicatieKinderbijslag ? 'Ja' : 'Nee' : '' }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>{{{ _.isBoolean(row?.indicatieKostendeler) ? 'Kostendeler' : '' }}}</div> <div style=\"font-weight: 700\">{{{ (_.isBoolean(row?.indicatieKostendeler) ? row?.indicatieKostendeler ? 'Ja' : 'Nee' : '') }}}</div></div></div>  \n    <div class=\"col2\">{{ (row?.indicatoren || []).map(value => '<li class=\"pb-1\">'+ value + '</li>').join('') || '-' }}</div>\n</div>\n<div class=\"grid-layout\">  \n  <div class=\"col1\">\n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\">\n      <div>{{{ row.redenEindeRelatie ? 'Reden einde relatie' : '' }}}</div> \n      <div style=\"font-weight: 700\">{{{ (row.redenEindeRelatie || '') }}}</div>\n    </div>\n  </div>\n</div>\n<div class=\"grid-layout\">\n  <div class=\"col1\">\n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\">\n      <div>{{{ row.toelichtingRelatieTypeAnders? 'Toelichting relatie anders' : '' }}}</div> \n      <div style=\"font-weight: 700\">{{{ (row.toelichtingRelatieTypeAnders || '') }}}</div>\n    </div>\n  </div>  \n</div>\n{{ (rowIndex + 1) != data.gegevensVaststelling?.aanvrager?.relaties?.length ? '<hr>' : '' }}",
+                                                            "refreshOnChange": true,
+                                                            "key": "html2",
+                                                            "type": "htmlelement",
+                                                            "hideLabel": true,
+                                                            "tableView": false,
+                                                            "input": true
+                                                        }
+                                                    ],
+                                                    "width": 12,
+                                                    "offset": 0,
+                                                    "push": 0,
+                                                    "pull": 0,
+                                                    "size": "md",
+                                                    "currentWidth": 12
+                                                },
+                                                {
+                                                    "components": [],
+                                                    "width": 6,
+                                                    "offset": 0,
+                                                    "push": 0,
+                                                    "pull": 0,
+                                                    "size": "md",
+                                                    "currentWidth": 6
+                                                }
+                                            ],
+                                            "key": "columns",
+                                            "type": "columns",
+                                            "input": false,
+                                            "tableView": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "label": "aanvragerHTML",
+                                    "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6 \">Toelichting</dd>\n        <dt class=\"col-6\">{{{data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.toelichting}}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "key": "toelichtingHtml",
+                                    "type": "htmlelement",
+                                    "customClass": "relatie-toelichting",
+                                    "tableView": false,
+                                    "customConditional": "show = data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.toelichting",
+                                    "input": true
+                                }
+                            ]
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                },
+                {
+                    "components": [
+                        {
+                            "label": "Relaties container",
+                            "tableView": false,
+                            "key": "relatiesContainer",
+                            "type": "container",
+                            "customConditional": "show = data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.isHandmatigBeoordeeld && data.gegevensVaststelling?.partner?.relaties?.length > 0",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "Relaties",
+                                    "content": "<h4>Relaties partner<span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Handmatig' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.vastleggingPersoon?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span></h4>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-bottom-radius no-border-bottom",
+                                    "key": "relatiesHtml",
+                                    "type": "htmlelement",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "Data Grid",
+                                    "reorder": false,
+                                    "addAnotherPosition": "bottom",
+                                    "layoutFixed": false,
+                                    "enableRowGroups": false,
+                                    "initEmpty": false,
+                                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element",
+                                    "hideLabel": true,
+                                    "disabled": true,
+                                    "tableView": false,
+                                    "validateWhenHidden": false,
+                                    "key": "gegevensVaststelling.partner.relaties",
+                                    "type": "datagrid",
+                                    "input": true,
+                                    "components": [
+                                        {
+                                            "label": "Columns",
+                                            "hideLabel": true,
+                                            "columns": [
+                                                {
+                                                    "components": [
+                                                        {
+                                                            "label": "indicatoren",
+                                                            "customDefaultValue": "let selectedValues = [];\nif (row?.woontOpHetzelfdeAdresAlsAanvrager) { selectedValues.push('Woont op hetzelfde adres') }\nif (row?.indicatieGezamelijkeHuishouding) { selectedValues.push('Is onderdeel van gezamelijke huishouding') }\nif (row?.indicatieOnderhoudsplichtPartner) { selectedValues.push('Is onderhoudsplichtig partner') }\nif (row?.indicatieCoOuder) { selectedValues.push('Is co-ouder') }\nif (row?.indicatieOnderhoudsplichtOuderKind) { selectedValues.push('Is onderhoudsplichtig kind') }\nif (row?.isKindEenMedebewoner) { selectedValues.push('Is ook medebewoner') }\nif (row?.afgelopen2JaarPartnerGeweest) { selectedValues.push('Is afgelopen 2 jaar partner geweest') }\nif (row?.samenEenErkendKindHebben) { selectedValues.push('Heeft samen een kind') }\nif (row?.samenlevingscontract) { selectedValues.push('Heeft een samenlevingscontract') }\nif (row?.afgelopenTweeJaarEeeHuishouden) { selectedValues.push('Was afgelopen 2 jaar één huishouden') }\nif (row?.delenKostenHuur) { selectedValues.push('Deelt kosten huur') }\nif (row?.delenVasteLasten) { selectedValues.push('Deelt vaste lasten') }\nif (row?.delenkostenBoodschappen) { selectedValues.push('Deelt kosten boodschappen') }\nif (row?.samenEten) { selectedValues.push('Eet samen') }\nif (row?.samenOpVakantie) { selectedValues.push('Gaat samen op vakantie') }\nif (row?.samenTakenHuishouden) { selectedValues.push('Deelt taken huishouden') }\nif (row?.tijdelijkVerblijf) { selectedValues.push('Betreft een tijdelijke verblijf') }\nif (row?.indicatieZorgbehoefte) { selectedValues.push('Heeft een zorgbehoefte') }\nif (row?.kamerHuur) { selectedValues.push('Heeft een commerciële relatie') }\nif (row?.leeftijdOnder27) { selectedValues.push('Leeftijd onder 27') }\nif (row?.studiefinanciering) { selectedValues.push('Studiefinanciering') }\n\nvalue = selectedValues;",
+                                                            "key": "indicatoren",
+                                                            "type": "hidden",
+                                                            "input": true,
+                                                            "tableView": false
+                                                        },
+                                                        {
+                                                            "label": "aanvragerHTML",
+                                                            "content": "<div class=\"grid-layout\">\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>Naam</div> <div style=\"font-weight: 700\">{{{ (row.voornamen || '') }}} {{{ (row.tussenvoegsel || '') }}} {{{ (row.achternaam || '') }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>Begindatum relatie</div> <div style=\"font-weight: 700\">{{{ (row?.datumAanvangRelatie ? moment(row?.datumAanvangRelatie).format('DD-MM-YYYY') : '-') }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>Einddatum relatie</div> <div style=\"font-weight: 700\">{{{ (row?.datumEindeRelatie ? moment(row?.datumEindeRelatie).format('DD-MM-YYYY') : '-') }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>Geboortedatum</div> <div style=\"font-weight: 700\">{{{ (row.geboortedatum ? moment(row.geboortedatum).format('DD-MM-YYYY') : '') }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>Relatietype</div> <div style=\"font-weight: 700\">{{{ ({'partner': 'Partner', 'exPartner': 'Ex-partner', 'ouderKind': 'Ouder Kind', 'kindOuder': 'Kind Ouder', 'medebewoner': 'Medebewoner', 'algemeneRelatie': 'Algemene relatie'}[row?.relatietype] || '-') }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>{{{ row?.relatietype === 'ouderKind' ? 'Kinderbijslag' : '' }}}</div> <div style=\"font-weight: 700\">{{{ row?.relatietype === 'ouderKind' ? row?.indicatieKinderbijslag ? 'Ja' : 'Nee' : '' }}}</div></div></div>\n    <div class=\"col1\"><div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\"><div>{{{ _.isBoolean(row?.indicatieKostendeler) ? 'Kostendeler' : '' }}}</div> <div style=\"font-weight: 700\">{{{ (_.isBoolean(row?.indicatieKostendeler) ? row?.indicatieKostendeler ? 'Ja' : 'Nee' : '') }}}</div></div></div>  \n    <div class=\"col2\">{{ (row?.indicatoren || []).map(value => '<li class=\"pb-1\">'+ value + '</li>').join('') || '-' }}</div>\n</div>\n<div class=\"grid-layout\">  \n  <div class=\"col1\">\n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\">\n      <div>{{{ row.redenEindeRelatie ? 'Reden einde relatie' : '' }}}</div> \n      <div style=\"font-weight: 700\">{{{ (row.redenEindeRelatie || '') }}}</div>\n    </div>\n  </div>\n</div>\n<div class=\"grid-layout\">\n  <div class=\"col1\">\n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 5px;\">\n      <div>{{{ row.toelichtingRelatieTypeAnders? 'Toelichting relatie anders' : '' }}}</div> \n      <div style=\"font-weight: 700\">{{{ (row.toelichtingRelatieTypeAnders || '') }}}</div>\n    </div>\n  </div>  \n</div>\n{{ (rowIndex + 1) != data.gegevensVaststelling?.partner?.relaties?.length ? '<hr>' : '' }}",
+                                                            "refreshOnChange": true,
+                                                            "key": "html2",
+                                                            "type": "htmlelement",
+                                                            "hideLabel": true,
+                                                            "tableView": false,
+                                                            "input": true
+                                                        }
+                                                    ],
+                                                    "width": 12,
+                                                    "offset": 0,
+                                                    "push": 0,
+                                                    "pull": 0,
+                                                    "size": "md",
+                                                    "currentWidth": 12
+                                                }
+                                            ],
+                                            "key": "columns",
+                                            "type": "columns",
+                                            "input": false,
+                                            "tableView": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                }
+            ],
+            "key": "columns",
+            "type": "columns",
+            "input": false,
+            "tableView": false
+        }
+    ]
+}

@@ -1,0 +1,122 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "statusOmschrijving",
+            "key": "openzaak",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Informatieverzoeken",
+            "key": "informatieverzoeken",
+            "defaultValue": [],
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p> De taak 'Informatieverzoek annuleren' kan niet worden gestart, omdat het proces zich in de bezwaarperiode bevindt.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Beslist'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Deadline verlopen",
+            "key": "pv.deadlineVerlopen",
+            "calculateValue": "if (data.informatieverzoeken?.length > 0) { value = moment().isAfter(moment(data.informatieverzoeken.at(-1)?.verzoek?.deadlineInformatieverzoek)); } else { value = false; }",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>De deadline voor dit informatieverzoek is verstreken. Kies de vervolgactie bij de taak ‘Bepalen vervolgactie na verlopen deadline’.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = !['Afgehandeld', 'Beslist'].includes(data.openzaak?.statusOmschrijving) && data.pv.deadlineVerlopen === true",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "className": "alert alert-warning",
+            "content": "Deze taak kan alleen uitgevoerd worden wanneer er een informatieverzoek uitstaat.",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "customConditional": "show = !['Afgehandeld', 'Beslist'].includes(data.openzaak?.statusOmschrijving) && data.openzaak?.statusOmschrijving !== 'Informatieverzoek uitgezet'",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>Dit dossier is al afgehandeld.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Afgehandeld'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "type": "htmlelement",
+            "key": "instructie1",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>Controleer voordat dit proces wordt gestart of de taken <strong>‘Invoeren nieuwe deadline’</strong> en <strong>‘Uploaden ontvangen documenten’</strong> nog openstaan en rond deze eerst af. </br> Klik daarna op <strong>‘Informatieverzoek annuleren’</strong> om het openstaande informatieverzoek te annuleren.</p><br>",
+            "input": false,
+            "tableView": false,
+            "label": "HTML",
+            "customConditional": "show = ['Informatieverzoek uitgezet'].includes(data.openzaak?.statusOmschrijving) && data.pv.deadlineVerlopen === false;"
+        },
+        {
+            "label": "informatieverzoekAfgerond",
+            "key": "gegevensVaststelling.informatieverzoekAfgerond",
+            "calculateValue": "value = true",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Informatieverzoek status",
+            "defaultValue": "Geannuleerd",
+            "key": "pv.status",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Geannuleerd door",
+            "customDefaultValue": "value = token.name;",
+            "key": "pv.geannuleerdDoor",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Informatieverzoek annuleren",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "input": true,
+            "type": "button",
+            "custom": "const lastVerzoek = data.informatieverzoeken?.at(-1).verzoek;\nif (lastVerzoek) {\n  lastVerzoek.status = data.pv.status;\n  lastVerzoek.geannuleerdDoor = data.pv.geannuleerdDoor;\n}; form.submit(); component.disabled = true;",
+            "customConditional": "show = ['Informatieverzoek uitgezet'].includes(data.openzaak?.statusOmschrijving) && data.pv.deadlineVerlopen === false;"
+        }
+    ]
+}

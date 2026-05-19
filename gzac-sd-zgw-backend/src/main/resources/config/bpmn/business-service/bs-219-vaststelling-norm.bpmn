@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wc6at4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_16wunda">
+    <bpmn:participant id="BS219VaststellingNormParticipant" name="BS 219 vaststelling norm" processRef="bs-219-vaststelling-norm" />
+    <bpmn:textAnnotation id="TextAnnotation_12olhhh">
+      <bpmn:text>ophalen basiskostendelersnormbedrag uit normentabel</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0eo6s3g">
+      <bpmn:text>optellen individuele basiskostendelersnormbedragen</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0uggn2j">
+      <bpmn:text>Input variabelen:
+- aantalBelanghebbende
+- leeftijdJongsteBelanghebbende
+- leeftijdOudsteBelanghebbende
+- tenlasteKomendeKinderenAanwezig
+- leeftijdPersoonAanvrager
+- leeftijdPersoonPartner
+- vastgesteldeLeefsituatie
+- aantalKostendelers
+- vastgesteldeWoonsitutatie
+- vastgesteldeLeefsituatie</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0rp2755">
+      <bpmn:text>Output variabelen:
+- isNormVastgesteld
+- datumNormVastgesteld
+- isAutomatischVastgesteld
+- vastgesteldeBasisnorm
+- vastgesteldNormbedrag
+- vastgesteldeKostendelersnorm
+- vastgesteldeKostendelersfactor
+- vastgesteldKostendelersNormbedragIndividueel
+- vastgesteldKostendelersNormbedragGezamenlijk</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0odqqt9" associationDirection="None" sourceRef="TextAnnotation_0uggn2j" targetRef="StartEvent_1" />
+    <bpmn:association id="Association_0307bxk" associationDirection="None" sourceRef="TextAnnotation_12olhhh" targetRef="BepalenBasisnormbedragTask" />
+    <bpmn:association id="Association_1a9wkhs" associationDirection="None" sourceRef="BepalenKostendelersnormbedragGezamelijkTask" targetRef="TextAnnotation_0eo6s3g" />
+    <bpmn:association id="Association_0aa16uy" associationDirection="None" sourceRef="TextAnnotation_0rp2755" targetRef="Event_0r47i88" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-219-vaststelling-norm" name="BS 219 vaststelling norm" isExecutable="true">
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="ZijnErKostendelersGateway" targetRef="AantalRechthebbendenGateway">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${aantalKostendelers &gt; 0}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="N2RechthebbendenSequenceFlow" name="2 belanghebbenden" sourceRef="AantalRechthebbendenGateway" targetRef="Gateway_0bgsc8a">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${aantalBelanghebbende == 2}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_01p56tb" sourceRef="Gateway_0256vaw" targetRef="BepalenKostendelersnormbedragGezamelijkTask" />
+    <bpmn:sequenceFlow id="N1RechthebbendeSequenceFlow" name="1 belanghebbende" sourceRef="AantalRechthebbendenGateway" targetRef="BepalenKostendelersnormbedragIndividueelCallActivity" />
+    <bpmn:sequenceFlow id="Flow_1yfkn2x" sourceRef="BepalenKostendelersnormbedragIndividueelCallActivity1" targetRef="Gateway_0256vaw" />
+    <bpmn:sequenceFlow id="AanvragerSequenceFlow" name="aanvrager" sourceRef="Gateway_0bgsc8a" targetRef="BepalenKostendelersnormbedragIndividueelCallActivity1" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="ZijnErKostendelersGateway" targetRef="BepaalBasisnormTask" />
+    <bpmn:sequenceFlow id="Flow_02944ll" sourceRef="BepalenKostendelersnormbedragGezamelijkTask" targetRef="Gateway_14tricu" />
+    <bpmn:sequenceFlow id="Flow_1b885z5" sourceRef="BepalenKostendelersnormbedragIndividueelCallActivity" targetRef="Gateway_14tricu" />
+    <bpmn:sequenceFlow id="Flow_1n4hgua" sourceRef="BepalenKostendelersnormbedragIndividueelCallActivity2" targetRef="Gateway_0256vaw" />
+    <bpmn:sequenceFlow id="PartnerSequenceFlow" name="partner" sourceRef="Gateway_0bgsc8a" targetRef="BepalenKostendelersnormbedragIndividueelCallActivity2" />
+    <bpmn:sequenceFlow id="Flow_1qrod0l" sourceRef="Gateway_118qa8v" targetRef="Event_0r47i88" />
+    <bpmn:sequenceFlow id="Flow_1cx4ipz" sourceRef="Gateway_14tricu" targetRef="Gateway_118qa8v" />
+    <bpmn:sequenceFlow id="Flow_0bzqtpe" sourceRef="BepalenBasisnormbedragTask" targetRef="Gateway_118qa8v" />
+    <bpmn:sequenceFlow id="Flow_1dpip82" sourceRef="BepaalBasisnormTask" targetRef="BepalenBasisnormbedragTask" />
+    <bpmn:sequenceFlow id="Flow_165mlqd" sourceRef="StartEvent_1" targetRef="VaststellenAantalRechthebbendenTask" />
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_165mlqd</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1dsabof" sourceRef="VaststellenAantalRechthebbendenTask" targetRef="ZijnErKostendelersGateway" />
+    <bpmn:exclusiveGateway id="ZijnErKostendelersGateway" name="zijn er kostendelers?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_1dsabof</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="BepalenBasisnormbedragTask" name="bepalen basis-normbedrag" camunda:asyncAfter="true" camunda:resultVariable="vastgesteldNormbedrag" camunda:decisionRef="bs-219-bepalen-basisnormbedrag" camunda:mapDecisionResult="singleEntry">
+      <bpmn:incoming>Flow_1dpip82</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bzqtpe</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Gateway_118qa8v">
+      <bpmn:incoming>Flow_1cx4ipz</bpmn:incoming>
+      <bpmn:incoming>Flow_0bzqtpe</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qrod0l</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="BepalenKostendelersnormbedragIndividueelCallActivity2" name="Bepalen kostendelers-normbedrag (individueel)" camunda:asyncAfter="true" calledElement="bs-219-bepalen-individueel-kostendelersnormbedrag">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:out source="berekendNormbedrag" target="vastgesteldKostendelersNormbedragPartner" />
+        <camunda:out source="vastgesteldeBasisnorm" target="vastgesteldeKostendelersnormPartner" />
+        <camunda:in source="leeftijdOudsteBelanghebbende" target="geboortedatum" />
+        <camunda:in variables="all" />
+        <camunda:out source="kostendelersfactor" target="kostendelersfactorPartner" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>PartnerSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1n4hgua</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="Gateway_14tricu">
+      <bpmn:incoming>Flow_02944ll</bpmn:incoming>
+      <bpmn:incoming>Flow_1b885z5</bpmn:incoming>
+      <bpmn:outgoing>Flow_1cx4ipz</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="BepaalBasisnormTask" name="Bepaal Basisnorm" camunda:asyncAfter="true" camunda:resultVariable="vastgesteldeBasisnorm" camunda:decisionRef="bs-219-bepaal-basisnorm" camunda:mapDecisionResult="singleEntry">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dpip82</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:callActivity id="BepalenKostendelersnormbedragIndividueelCallActivity1" name="Bepalen kostendelers-normbedrag (individueel)" camunda:asyncAfter="true" calledElement="bs-219-bepalen-individueel-kostendelersnormbedrag">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:out source="berekendNormbedrag" target="vastgesteldKostendelersNormbedrag" />
+        <camunda:out source="vastgesteldeBasisnorm" target="vastgesteldeKostendelersnorm" />
+        <camunda:in variables="all" />
+        <camunda:in source="leeftijdJongsteBelanghebbende" target="geboortedatum" />
+        <camunda:out source="kostendelersfactor" target="kostendelersfactor" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>AanvragerSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yfkn2x</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="BepalenKostendelersnormbedragIndividueelCallActivity" name="Bepalen kostendelers-normbedrag (individueel)" camunda:asyncAfter="true" calledElement="bs-219-bepalen-individueel-kostendelersnormbedrag">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in variables="all" />
+        <camunda:in source="leeftijdJongsteBelanghebbende" target="geboortedatum" />
+        <camunda:out source="vastgesteldeBasisnorm" target="vastgesteldeKostendelersnorm" />
+        <camunda:out source="berekendNormbedrag" target="vastgesteldKostendelersNormbedrag" />
+        <camunda:out source="kostendelersfactor" target="kostendelersfactor" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>N1RechthebbendeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1b885z5</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:parallelGateway id="Gateway_0256vaw">
+      <bpmn:incoming>Flow_1yfkn2x</bpmn:incoming>
+      <bpmn:incoming>Flow_1n4hgua</bpmn:incoming>
+      <bpmn:outgoing>Flow_01p56tb</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:parallelGateway id="Gateway_0bgsc8a">
+      <bpmn:incoming>N2RechthebbendenSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>AanvragerSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>PartnerSequenceFlow</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:exclusiveGateway id="AantalRechthebbendenGateway" name="Aantal belanghebbende" default="N1RechthebbendeSequenceFlow">
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>N2RechthebbendenSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>N1RechthebbendeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="BepalenKostendelersnormbedragGezamelijkTask" name="Bepalen kostendelers-normbedrag (gezamelijk)" camunda:asyncAfter="true" camunda:expression="${vastgesteldKostendelersNormbedrag + vastgesteldKostendelersNormbedragPartner}" camunda:resultVariable="vastgesteldKostendelersNormbedragGezamenlijk">
+      <bpmn:incoming>Flow_01p56tb</bpmn:incoming>
+      <bpmn:outgoing>Flow_02944ll</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0r47i88">
+      <bpmn:incoming>Flow_1qrod0l</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="VaststellenAantalRechthebbendenTask" name="Vaststellen aantal rechthebbenden" camunda:asyncAfter="true" camunda:assignee="" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="16">
+      <bpmn:incoming>Flow_165mlqd</bpmn:incoming>
+      <bpmn:outgoing>Flow_1dsabof</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_16wunda">
+      <bpmndi:BPMNShape id="Participant_0a6u6hx_di" bpmnElement="BS219VaststellingNormParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1820" height="630" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="282" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1pm2rsg_di" bpmnElement="ZijnErKostendelersGateway" isMarkerVisible="true">
+        <dc:Bounds x="575" y="195" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="565.5" y="157.5" width="69" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0p3gois_di" bpmnElement="BepalenBasisnormbedragTask">
+        <dc:Bounds x="1340" y="560" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_118qa8v_di" bpmnElement="Gateway_118qa8v" isMarkerVisible="true">
+        <dc:Bounds x="1585" y="195" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0e1n92n_di" bpmnElement="BepalenKostendelersnormbedragIndividueelCallActivity2">
+        <dc:Bounds x="1110" y="430" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_14tricu_di" bpmnElement="Gateway_14tricu" isMarkerVisible="true">
+        <dc:Bounds x="1495" y="195" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hdctij_di" bpmnElement="BepaalBasisnormTask">
+        <dc:Bounds x="1110" y="560" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18iem53_di" bpmnElement="BepalenKostendelersnormbedragIndividueelCallActivity1">
+        <dc:Bounds x="1110" y="310" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1f2tlnw_di" bpmnElement="BepalenKostendelersnormbedragIndividueelCallActivity">
+        <dc:Bounds x="1110" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_076ntg0_di" bpmnElement="Gateway_0256vaw">
+        <dc:Bounds x="1255" y="325" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0fiuyw5_di" bpmnElement="Gateway_0bgsc8a">
+        <dc:Bounds x="955" y="325" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1lbf6a3_di" bpmnElement="AantalRechthebbendenGateway" isMarkerVisible="true">
+        <dc:Bounds x="765" y="195" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="750" y="161" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yqz9ve_di" bpmnElement="BepalenKostendelersnormbedragGezamelijkTask">
+        <dc:Bounds x="1340" y="310" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0r47i88_di" bpmnElement="Event_0r47i88">
+        <dc:Bounds x="1732" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mfc83j_di" bpmnElement="VaststellenAantalRechthebbendenTask">
+        <dc:Bounds x="390" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_03ezq22_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="625" y="220" />
+        <di:waypoint x="765" y="220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="735" y="203" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02kt4ig_di" bpmnElement="N2RechthebbendenSequenceFlow">
+        <di:waypoint x="790" y="245" />
+        <di:waypoint x="790" y="350" />
+        <di:waypoint x="955" y="350" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="825" y="316" width="89" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01p56tb_di" bpmnElement="Flow_01p56tb">
+        <di:waypoint x="1305" y="350" />
+        <di:waypoint x="1340" y="350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ub14qk_di" bpmnElement="N1RechthebbendeSequenceFlow">
+        <di:waypoint x="815" y="220" />
+        <di:waypoint x="1110" y="220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="829" y="186" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yfkn2x_di" bpmnElement="Flow_1yfkn2x">
+        <di:waypoint x="1210" y="350" />
+        <di:waypoint x="1255" y="350" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p58b2k_di" bpmnElement="AanvragerSequenceFlow">
+        <di:waypoint x="1005" y="350" />
+        <di:waypoint x="1110" y="350" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1025" y="333" width="50" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1v9p3c3_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="600" y="245" />
+        <di:waypoint x="600" y="600" />
+        <di:waypoint x="1110" y="600" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="609" y="269" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02944ll_di" bpmnElement="Flow_02944ll">
+        <di:waypoint x="1440" y="350" />
+        <di:waypoint x="1520" y="350" />
+        <di:waypoint x="1520" y="245" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b885z5_di" bpmnElement="Flow_1b885z5">
+        <di:waypoint x="1210" y="220" />
+        <di:waypoint x="1495" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1n4hgua_di" bpmnElement="Flow_1n4hgua">
+        <di:waypoint x="1210" y="470" />
+        <di:waypoint x="1280" y="470" />
+        <di:waypoint x="1280" y="375" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0l30b67_di" bpmnElement="PartnerSequenceFlow">
+        <di:waypoint x="980" y="375" />
+        <di:waypoint x="980" y="470" />
+        <di:waypoint x="1110" y="470" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1032" y="453" width="36" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qrod0l_di" bpmnElement="Flow_1qrod0l">
+        <di:waypoint x="1635" y="220" />
+        <di:waypoint x="1732" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cx4ipz_di" bpmnElement="Flow_1cx4ipz">
+        <di:waypoint x="1545" y="220" />
+        <di:waypoint x="1585" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bzqtpe_di" bpmnElement="Flow_0bzqtpe">
+        <di:waypoint x="1440" y="600" />
+        <di:waypoint x="1610" y="600" />
+        <di:waypoint x="1610" y="245" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1dpip82_di" bpmnElement="Flow_1dpip82">
+        <di:waypoint x="1210" y="600" />
+        <di:waypoint x="1340" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_165mlqd_di" bpmnElement="Flow_165mlqd">
+        <di:waypoint x="318" y="220" />
+        <di:waypoint x="390" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1dsabof_di" bpmnElement="Flow_1dsabof">
+        <di:waypoint x="490" y="220" />
+        <di:waypoint x="575" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_1wrry7s" bpmnElement="TextAnnotation_12olhhh">
+        <dc:Bounds x="1320" y="490" width="230" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0eo6s3g_di" bpmnElement="TextAnnotation_0eo6s3g">
+        <dc:Bounds x="1310" y="240" width="190" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0uggn2j_di" bpmnElement="TextAnnotation_0uggn2j">
+        <dc:Bounds x="240" y="300" width="230" height="170" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1782ckf" bpmnElement="TextAnnotation_0rp2755">
+        <dc:Bounds x="1629" y="300" width="321" height="156" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0odqqt9_di" bpmnElement="Association_0odqqt9">
+        <di:waypoint x="300" y="300" />
+        <di:waypoint x="300" y="238" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0307bxk_di" bpmnElement="Association_0307bxk">
+        <di:waypoint x="1374" y="530" />
+        <di:waypoint x="1381" y="560" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1a9wkhs_di" bpmnElement="Association_1a9wkhs">
+        <di:waypoint x="1377" y="310" />
+        <di:waypoint x="1368" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0aa16uy_di" bpmnElement="Association_0aa16uy">
+        <di:waypoint x="1730" y="300" />
+        <di:waypoint x="1745" y="237" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

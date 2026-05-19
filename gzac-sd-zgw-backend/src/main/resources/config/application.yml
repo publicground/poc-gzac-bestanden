@@ -1,0 +1,298 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration will be overriden by the Spring profile you use,
+# for example application-dev.yml if you use the "dev" profile.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+logging:
+    level:
+        root: INFO
+    file:
+        name: /tmp/spring.log
+
+management:
+    endpoints:
+        web:
+            base-path: /metrics
+            exposure:
+                include: [ "health", "prometheus" ]
+        jmx:
+            exposure:
+                exclude: "*"
+    endpoint:
+        health:
+            show-details: never
+            probes:
+                enabled: true
+    info:
+        git:
+            mode: simple
+            enabled: true
+        build:
+            enabled: true
+        env:
+            enabled: true
+    health:
+        livenessState:
+            enabled: true
+    metrics:
+        export:
+            prometheus:
+                enabled: true
+
+spring:
+    application:
+        name: gzac-sd-zgw-backend
+    jackson:
+        date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+        time-zone: UTC
+    devtools:
+        restart:
+            enabled: false
+        livereload:
+            enabled: false
+    transaction:
+        default-timeout: 300
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: org.postgresql.Driver
+
+        url: #env var
+        name: #env var
+        username: #env var
+        password: #env var
+        hikari:
+            poolName: "valtimo-core-pool"
+            auto-commit: false
+            maximum-pool-size: 25
+            leak-detection-threshold: 20000
+            connection-timeout: 10000
+            idle-timeout: 300000
+            max-lifetime: 600000
+            data-source-properties:
+                cachePrepStmts: true
+                prepStmtCacheSize: 500
+                prepStmtCacheSqlLimit: 2048
+                useServerPrepStmts: true
+                characterEncoding: utf8
+                useUnicode: true
+                useLegacyDatetimeCode: false
+                useSSL: false
+                useLocalSessionState: true
+                rewriteBatchedStatements: true
+                cacheResultSetMetadata: true
+                cacheServerConfiguration: true
+                elideSetAutoCommits: true
+                maintainTimeStats: false
+                serverTimezone: UTC
+                allowPublicKeyRetrieval: true
+    groovy:
+        template:
+            check-template-location: false
+    liquibase:
+        enabled: false
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        database: postgresql
+        show_sql: false
+        open-in-view: false
+        properties:
+            # 2022-11-23 - Erik: added this timeout to as workaround, to prevent queries from running for hours.
+            jakarta:
+                persistence:
+                    query:
+                        timeout: 300000
+            hibernate:
+                hbm2ddl.auto: none
+                generate_statistics: false
+                naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+                cache:
+                    use_second_level_cache: false
+                    use_query_cache: false
+                    region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+                format_sql: true
+                jdbc:
+                    time_zone: UTC
+                connection:
+                    provider_disables_autocommit: true
+        hibernate:
+            ddl-auto: none
+    messages:
+        basename: i18n/messages
+    main.allow-bean-definition-overriding: true
+    jersey:
+        application-path: /api/camunda-rest
+    autoconfigure:
+        exclude:
+            - org.springframework.boot.actuate.autoconfigure.metrics.web.tomcat.TomcatMetricsAutoConfiguration
+            - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+            - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+    servlet:
+        multipart:
+            max-file-size: 25MB
+            max-request-size: 26216000B # extra bytes allowed for metadata
+    codec:
+        max-in-memory-size: 2MB
+
+
+server:
+    port: 8080
+    compression:
+        enabled: true
+        mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
+        min-response-size: 1024
+
+mailing:
+    onlyAllowWhitelistedRecipients: true
+    redirectAllMails: false
+    whitelistedEmailAddresses:
+        - valtimodemo@gmail.com
+    whitelistedDomains:
+        - ritense.com
+        - denhaag.nl
+        - maykinmedia.nl
+        - raakvlakadvies.nl
+    sendRedirectedMailsTo:
+
+valtimo:
+    authorization:
+        dashboard:
+            enabled: true
+        zgwDocuments:
+            enabled: true
+    app:
+        scheme: http
+        hostname: localhost:4200
+    auth0:
+        enabled: false
+    changelog:
+        pbac:
+            clear-tables: true
+        case-tabs:
+            clear-tables: false
+        case-widget-tab:
+            clear-tables: false
+        dashboard:
+            clear-tables: true
+    besluitDocumentRequired: true
+    database: postgres
+    formFlow:
+        doSubmissionDataFiltering: false
+    hardening:
+        removeStacktracesFromReturnedExceptions: true
+        allowStacktraceOnIps:
+            - "*"
+    jwt:
+        base64encoding: false #auth0 client is not base64 encoded
+        tokenValidityInSecondsForRememberMe: 2592000
+    oauth:
+        public-key: #env var
+        tokenValidityInSeconds: 3600 # Token is valid 1 hour
+    plugin:
+        encryption-secret: #env var
+    openapi:
+        enabled: false
+        title: Valtimo Implementation API
+        description: Valtimo Implementation API documentation
+        version: 1.0.0
+        termsOfServiceUrl:
+        contactName:
+        contactUrl:
+        contactEmail:
+        license:
+        licenseUrl:
+    outbox:
+        enabled: false
+    http:
+        rest-templates:
+            connection-timeout: 30
+            read-timeout: 30
+        web-client:
+            connection-timeout: 30
+    security:
+        whitelist:
+            hosts:
+                - localhost
+        versioning:
+            enabled: false
+    camunda:
+        scripting:
+            allowedClasses: java.lang.*, java.util.List, java.util.Arrays, java.util.ArrayList, java.util.HashMap, java.util.Map, java.util.LinkedHashMap, java.util.UUID, java.time.temporal.ChronoField
+    notificaties-api:
+        processing:
+            enabled: true
+            batch-size: 10
+            initial-retries: 5
+            retry-delay: PT2M
+            retry-backoff-multiplier: 1.5
+            retention-period: P14D
+            received-warning-threshold: PT1H
+            failed-count-health-threshold: 10
+            executor-core-pool-size: 2
+            executor-max-pool-size: 6
+            executor-queue-capacity: 50
+            poll-interval: PT30S
+
+spring-actuator:
+    username: admin
+    password: # env var
+
+audit:
+    record:
+        retention: 365 # days
+
+# ==================
+# CRON job settings
+# ==================
+scheduling:
+    enabled: true
+    job:
+        cron:
+            syncAuth0LogsEvents: 0 0 3 * * ? # Every day at 3:00
+            cleanupAuditEvents: 0 0 4 * * ? # Every day at 00:00
+            taskNotificationReminder: 0 0 10 * * ? # Every day at 10:00
+
+
+camunda:
+    bpm:
+        database:
+            type: postgres
+        history-level: AUDIT
+        history-level-default: AUDIT
+        generic-properties:
+            properties:
+                failed-job-retry-time-cycle: R3/PT60S
+                deploy-changed-only: true
+                enforceHistoryTimeToLive: false
+        admin-user:
+            id: admin
+            password: # external
+            first-name: Admin account
+
+# ==================
+# keycloak server to server config
+# ==================
+keycloak:
+    realm: #env var
+    auth-server-url: #env var
+    resource: #env var
+    credentials:
+        secret: #env var
+
+# ==================
+# implementation configuration
+# ==================
+implementation:
+    databaseConnectionPool:
+        unhealthyThreshold: 18
+    ooievaarspas:
+        besluitType: #env var
+    bbz:
+        maxAgeKindAlsThuiswonend: 100
+

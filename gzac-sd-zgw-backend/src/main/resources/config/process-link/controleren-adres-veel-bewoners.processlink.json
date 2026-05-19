@@ -1,0 +1,13 @@
+[
+    {
+        "activityId": "OphalenLijstAdressenMetVeelBewonersTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "53059ffe-2407-40de-9fbf-671b2383a0ca",
+        "pluginActionDefinitionKey": "get-objects-unpaged",
+        "actionProperties": {
+            "objectManagementConfigurationTitle": "pv:objectManagementTitle",
+            "listOfObjectProcessVariableName": "adreslijst"
+        }
+    }
+]

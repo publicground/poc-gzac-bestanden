@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "VaststellenAanvangsdatumTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "bsb-221-vaststelling-aanvangsdatum.vaststellen-aanvangsdatum"
+    }
+]

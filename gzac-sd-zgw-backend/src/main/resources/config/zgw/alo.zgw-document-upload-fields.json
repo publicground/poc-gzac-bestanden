@@ -1,0 +1,147 @@
+{
+    "changesetId": "alo.zgw-document-upload-fields-v1",
+    "case-definitions": [
+        {
+            "key": "aanvraag-algemene-bijstand-dcm",
+            "fields": [
+                {
+                    "key": "status",
+                    "defaultValue": "definitief",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "taal",
+                    "defaultValue": "nld",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "vertrouwelijkheidaanduiding",
+                    "defaultValue": "zaakvertrouwelijk",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "bestandsnaam",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "titel",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "auteur",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "beschrijving",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "creatiedatum",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "informatieobjecttype",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "aanvullendeDatum",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "trefwoorden",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                }
+            ]
+        },
+        {
+            "key": "aanvraag-ioaw-uitkering-dcm",
+            "fields": [
+                {
+                    "key": "status",
+                    "defaultValue": "definitief",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "taal",
+                    "defaultValue": "nld",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "vertrouwelijkheidaanduiding",
+                    "defaultValue": "zaakvertrouwelijk",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "bestandsnaam",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "titel",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "auteur",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "beschrijving",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "creatiedatum",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "informatieobjecttype",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "aanvullendeDatum",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                },
+                {
+                    "key": "trefwoorden",
+                    "defaultValue": "",
+                    "visible": true,
+                    "readonly": false
+                }
+            ]
+        }
+    ]
+}

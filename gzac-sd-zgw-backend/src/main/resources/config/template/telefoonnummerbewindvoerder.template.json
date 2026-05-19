@@ -1,0 +1,7 @@
+{
+    "templateKey": "telefoonnummerbewindvoerder",
+    "caseDefinitionName": "aanvraag-schuldhulpverlening",
+    "templateType": "text",
+    "metadata": {},
+    "contentRef": "/config/template/telefoonnummerbewindvoerder.ftlh"
+}

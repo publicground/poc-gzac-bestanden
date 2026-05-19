@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1xvnvqn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_0milw8h">
+    <bpmn:participant id="BSB221VaststellingIngangsdatumParticipant" name="BSB 221 vaststelling ingangsdatum" processRef="bsb-221-vaststelling-ingangsdatum" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-221-vaststelling-ingangsdatum" name="BSB 221 vaststelling ingangsdatum" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_1wsndi2" sourceRef="OphalenInputTask" targetRef="VoorbereidenVariabelenTask" />
+    <bpmn:sequenceFlow id="Flow_0cq6a0r" sourceRef="Bs221VaststellingIngangsdatumUitkeringCallActivity" targetRef="WegschrijvenAanvraagdatumTask" />
+    <bpmn:sequenceFlow id="Flow_0s4o3zt" sourceRef="WegschrijvenAanvraagdatumTask" targetRef="WegschrijvenMeldingsdatumTask" />
+    <bpmn:sequenceFlow id="Flow_1m7c3jf" sourceRef="VoorbereidenVariabelenTask" targetRef="Bs221VaststellingIngangsdatumUitkeringCallActivity" />
+    <bpmn:sequenceFlow id="Flow_01plph0" sourceRef="WegschrijvenMeldingsdatumTask" targetRef="WegschrijvenVaststellingdataTask" />
+    <bpmn:sequenceFlow id="Flow_10zz0ay" sourceRef="WegschrijvenVaststellingdataTask" targetRef="IngangsdatumUitkeringVastgesteldEndEvent" />
+    <bpmn:sequenceFlow id="Flow_1b9hfr8" sourceRef="StartVaststellingIngangsdatumStartEvent" targetRef="OphalenInputTask" />
+    <bpmn:startEvent id="StartVaststellingIngangsdatumStartEvent" name="Start vaststelling ingangsdatum">
+      <bpmn:outgoing>Flow_1b9hfr8</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="redenAanvraag">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/redenAanvraag")}</camunda:inputParameter>
+          <camunda:inputParameter name="isIngangsdatumVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs221ingangsdatum/ingangsDatumVastgesteld")}</camunda:inputParameter>
+          <camunda:outputParameter name="statusVaststellenIngangsdatum">Gestart</camunda:outputParameter>
+          <camunda:outputParameter name="meldingsDatum">${isIngangsdatumVastgesteld ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/meldingsDatum") : valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/meldingsDatum")}</camunda:outputParameter>
+          <camunda:outputParameter name="aanvraagDatum">${isIngangsdatumVastgesteld ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/startDatum") : valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/startDatum")}</camunda:outputParameter>
+          <camunda:outputParameter name="gestoptBetaaldWerk">${redenAanvraag.gestoptBetaaldWerk[redenAanvraag.gestoptBetaaldWerk.size() - 1]}</camunda:outputParameter>
+          <camunda:outputParameter name="gestopteUitkering">${redenAanvraag.gestopteUitkering[redenAanvraag.gestopteUitkering.size() - 1]}</camunda:outputParameter>
+          <camunda:outputParameter name="gestopteVerlaagdeAlimentatie">${redenAanvraag.gestopteVerlaagdeAlimentatie[redenAanvraag.gestopteVerlaagdeAlimentatie.size() - 1]}</camunda:outputParameter>
+          <camunda:outputParameter name="gestopteStudiefinanciering">${redenAanvraag.gestopteStudiefinanciering[redenAanvraag.gestopteStudiefinanciering.size() - 1]}</camunda:outputParameter>
+          <camunda:outputParameter name="verbrokenRelatie">${redenAanvraag.verbrokenRelatie[redenAanvraag.verbrokenRelatie.size() - 1]}</camunda:outputParameter>
+          <camunda:outputParameter name="gestoptVerkochtEigenBedrijf">${redenAanvraag.gestoptVerkochtEigenBedrijf[redenAanvraag.gestoptVerkochtEigenBedrijf.size() - 1]}</camunda:outputParameter>
+          <camunda:outputParameter name="vertrekAsielzoekerscentrum">${redenAanvraag.vertrekAsielzoekerscentrum[redenAanvraag.vertrekAsielzoekerscentrum.size() - 1]}</camunda:outputParameter>
+          <camunda:outputParameter name="gestopteDetentie">${redenAanvraag.gestopteDetentie[redenAanvraag.gestopteDetentie.size() - 1]}</camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldeIngangsdatum">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs221ingangsdatum/ingangsdatum")}</camunda:outputParameter>
+          <camunda:outputParameter name="toelichting">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs221ingangsdatum/toelichting")}</camunda:outputParameter>
+          <camunda:outputParameter name="digiDaanvraagdatum">${redenAanvraag.ingangBijstandsuitkering.digiDaanvraagdatum}</camunda:outputParameter>
+          <camunda:outputParameter name="beslissingInstantieOntvangstdatum">${redenAanvraag.ingangBijstandsuitkering.beslissingInstantieOntvangstdatum}</camunda:outputParameter>
+          <camunda:outputParameter name="opnameStartdatum">${redenAanvraag.ingangBijstandsuitkering.opnameStartdatum}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1b9hfr8</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wsndi2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="Bs221VaststellingIngangsdatumUitkeringCallActivity" name="bs 221 vaststelling ingangsdatum uitkering" camunda:asyncAfter="true" calledElement="bs-221-vaststelling-ingangsdatum-uitkering">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in variables="all" />
+        <camunda:out variables="all" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1m7c3jf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cq6a0r</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="WegschrijvenAanvraagdatumTask" name="wegschrijven aanvraagdatum" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/startDatum&#34;, aanvraagDatum)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0cq6a0r</bpmn:incoming>
+      <bpmn:outgoing>Flow_0s4o3zt</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="VoorbereidenVariabelenTask" name="Voorbereiden variabelen" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="laatsteSalarisDatum">${gestoptBetaaldWerk != null
+ ? gestoptBetaaldWerk.laatsteSalarisDatum : null}</camunda:outputParameter>
+          <camunda:outputParameter name="uitkeringEinddatum">${gestopteUitkering != null
+ ? gestopteUitkering.uitkeringEinddatum : null}</camunda:outputParameter>
+          <camunda:outputParameter name="alimentatieEinddatum">${gestopteVerlaagdeAlimentatie != null
+ ? gestopteVerlaagdeAlimentatie.alimentatieEinddatum : null}</camunda:outputParameter>
+          <camunda:outputParameter name="studiefinancieringEinddatum">${gestopteStudiefinanciering != null
+ ? gestopteStudiefinanciering.studiefinancieringEinddatum : null}</camunda:outputParameter>
+          <camunda:outputParameter name="verbrokenRelatieDatum">${verbrokenRelatie != null
+ ? verbrokenRelatie.verbrokenRelatieDatum : null}</camunda:outputParameter>
+          <camunda:outputParameter name="eigenBedrijfDatum">${gestoptVerkochtEigenBedrijf != null
+ ? gestoptVerkochtEigenBedrijf.eigenBedrijfDatum : null}</camunda:outputParameter>
+          <camunda:outputParameter name="weekgeldCOAeinddatum">${vertrekAsielzoekerscentrum != null
+ ? vertrekAsielzoekerscentrum.weekgeldCOAeinddatum : null}</camunda:outputParameter>
+          <camunda:outputParameter name="detentieEinddatum">${gestopteDetentie != null
+ ? gestopteDetentie.detentieEinddatum : null}</camunda:outputParameter>
+          <camunda:outputParameter name="aanvraagDatum">${dateTime().parse(aanvraagDatum).toLocalDate().toString("yyyy-MM-dd")}</camunda:outputParameter>
+          <camunda:outputParameter name="meldingsDatum">${meldingsDatum == null
+ ? aanvraagDatum : meldingsDatum}</camunda:outputParameter>
+          <camunda:outputParameter name="gewensteIngangsdatum">${digiDaanvraagdatum != null ? digiDaanvraagdatum : (beslissingInstantieOntvangstdatum != null ? beslissingInstantieOntvangstdatum : (opnameStartdatum != null ? opnameStartdatum : null))}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1wsndi2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1m7c3jf</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WegschrijvenMeldingsdatumTask" name="wegschrijven meldingsdatum" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/meldingsDatum&#34;, meldingsDatum)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0s4o3zt</bpmn:incoming>
+      <bpmn:outgoing>Flow_01plph0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WegschrijvenVaststellingdataTask" name="wegschrijven vaststellingdata" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs221ingangsdatum&#34;, gegevensVaststelling)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="gegevensVaststelling">
+            <camunda:map>
+              <camunda:entry key="toelichting">${execution.getVariable("toelichting")}</camunda:entry>
+              <camunda:entry key="ingangsdatum">${vastgesteldeIngangsdatum}</camunda:entry>
+              <camunda:entry key="datumVastgesteld">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="ingangsDatumVastgesteld">${true}</camunda:entry>
+              <camunda:entry key="isHandmatigBeoordeeld">${handmatigeBeoordeling}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_01plph0</bpmn:incoming>
+      <bpmn:outgoing>Flow_10zz0ay</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="IngangsdatumUitkeringVastgesteldEndEvent" name="Ingangsdatum uitkering vastgesteld">
+      <bpmn:incoming>Flow_10zz0ay</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0milw8h">
+      <bpmndi:BPMNShape id="Participant_18gpi8p_di" bpmnElement="BSB221VaststellingIngangsdatumParticipant" isHorizontal="true">
+        <dc:Bounds x="132" y="80" width="1180" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0im01qk" bpmnElement="StartVaststellingIngangsdatumStartEvent">
+        <dc:Bounds x="202" y="187" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="181" y="230" width="81" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_07jg9dm" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="290" y="165" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0n86vfd" bpmnElement="Bs221VaststellingIngangsdatumUitkeringCallActivity">
+        <dc:Bounds x="580" y="165" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1sq2mmp" bpmnElement="WegschrijvenAanvraagdatumTask">
+        <dc:Bounds x="730" y="165" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05048ct_di" bpmnElement="VoorbereidenVariabelenTask">
+        <dc:Bounds x="430" y="165" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_18z0zw6" bpmnElement="WegschrijvenMeldingsdatumTask">
+        <dc:Bounds x="890" y="165" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0742ju7" bpmnElement="WegschrijvenVaststellingdataTask">
+        <dc:Bounds x="1050" y="165" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00p8ikz_di" bpmnElement="IngangsdatumUitkeringVastgesteldEndEvent">
+        <dc:Bounds x="1224" y="187" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1211" y="230" width="70" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_0wnigc3" bpmnElement="Flow_1wsndi2">
+        <di:waypoint x="390" y="205" />
+        <di:waypoint x="430" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1q04wot" bpmnElement="Flow_0cq6a0r">
+        <di:waypoint x="680" y="205" />
+        <di:waypoint x="730" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0s4o3zt_di" bpmnElement="Flow_0s4o3zt">
+        <di:waypoint x="830" y="205" />
+        <di:waypoint x="890" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1m7c3jf_di" bpmnElement="Flow_1m7c3jf">
+        <di:waypoint x="530" y="205" />
+        <di:waypoint x="580" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01plph0_di" bpmnElement="Flow_01plph0">
+        <di:waypoint x="990" y="205" />
+        <di:waypoint x="1050" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10zz0ay_di" bpmnElement="Flow_10zz0ay">
+        <di:waypoint x="1150" y="205" />
+        <di:waypoint x="1224" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1b9hfr8_di" bpmnElement="Flow_1b9hfr8">
+        <di:waypoint x="238" y="205" />
+        <di:waypoint x="290" y="205" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

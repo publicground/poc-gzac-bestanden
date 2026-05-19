@@ -1,0 +1,59 @@
+{
+    "$id": "voorliggendevoorziening-v1.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Voorliggende voorziening definition",
+    "additionalProperties": false,
+    "properties": {
+        "vastleggingsdatum": {
+            "type": "string"
+        },
+        "verantwoordingVaststelling": {
+            "type": "string"
+        },
+        "brontype": {
+            "type": "string",
+            "enum": [
+                {
+                    "code": "1",
+                    "name": "Klant"
+                },
+                {
+                    "code": "2",
+                    "name": "Professional"
+                },
+                {
+                    "code": "3",
+                    "name": "Register"
+                },
+                {
+                    "code": "4",
+                    "name": "Externe bron"
+                }
+            ]
+        },
+        "mogelijkRecht": {
+            "type": "string"
+        },
+        "voorziening": {
+            "type": "string",
+            "description": "VB: TW, WW, WSF"
+        },
+        "toelichting": {
+            "type": "string"
+        },
+        "signalering": {
+            "type": "boolean",
+            "description": "Bepaald of het door een consulent bekeken moet worden"
+        },
+        "geimplementeerd": {
+            "type": "boolean",
+            "description": "Tijdelijke waarde die aanduid of de automatische controle voor de getoonde voorziening is geimplementeerd. Verwijderen na complete BS444 is geimplementeerd."
+        },
+        "vanToepassing": {
+            "type": "boolean",
+            "description": "Door de consulent vastgesteld dat deze voorliggende voorziening daadwerkelijk voorliggend is"
+        }
+    }
+}
+
+

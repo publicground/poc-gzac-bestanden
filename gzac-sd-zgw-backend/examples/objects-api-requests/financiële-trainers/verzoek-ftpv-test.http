@@ -1,0 +1,60 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+
+{
+  "type": "{{objecttypes_api_url_ft_professionals_en_vrijwilligers}}",
+  "record": {
+    "index": 1,
+    "typeVersion": 1,
+    "data": {
+     "bsn": "",
+      "data": {
+        "uw-aanmelding": {
+          "keuzeTraining": "Ik en Geld",
+          "datumTraining": "15-07-2025",
+          "tijdstipTraining": "10:00",
+          "gevonden": "a",
+          "namelijk": "",
+          "opmerkingenBijzonderheden": "Test opmerking"
+        },
+        "uw-gegevens": {
+          "persoonsgegevens": {
+            "voornaam": "5",
+            "voorvoegsels": "van",
+            "achternaam": "5",
+            "geslacht": "MAN"
+          },
+          "adresgegevens": {
+            "postcode": "2025 DD",
+            "huisnummer": 5,
+            "toevoegingHuisnummer": "w",
+            "huisletter": "s",
+            "straatnaam": "Teststraat",
+            "plaats": "Den haag"
+          },
+          "contactgegevens": {
+            "telefoonnummer": "0612345678",
+            "eMailadres": "jacob.klaren@ritense.com"
+          },
+          "gegevensOrganisatie": {
+            "welkeOrganisatie": "Test-organisatie",
+            "functieOrganisatie": "Testers"
+
+          },
+          "trainingsbeheerDocumentId": [
+          "876fb1ed-c842-4ab7-9e80-e89503ecb065"
+          ]
+        }
+      },
+      "type": "Verzoek trainingsdeelname professionals en vrijwilligers",
+      "submission_id": "73b3d782-ab07-484e-95dd-2bbc98a687e1"
+    },
+    "geometry": null,
+    "startAt": "2024-07-01",
+    "endAt": null,
+    "registrationAt": "2024-07-01"
+  }
+}

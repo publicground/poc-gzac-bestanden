@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "OverwegenInzetHandhavingTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "bs.overwegen-inzet-handhaving.overwegen-inzet-handhaving"
+    }
+]

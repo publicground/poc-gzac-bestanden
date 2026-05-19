@@ -1,0 +1,187 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "openzaak",
+            "key": "openzaak",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<div><h4 style='margin-top: 20px; margin-bottom: 10px;'>Wijzigen contactgegevens aanvrager</h4></div><br>",
+            "customConditional": "show = data.openzaak.statusOmschrijving !== 'Afgehandeld'",
+            "refreshOnChange": false,
+            "key": "html1",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML<",
+            "className": "alert alert-primary",
+            "tag": "p",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "Dit dossier kan niet meer gewijzigd worden",
+            "refreshOnChange": false,
+            "key": "html2",
+            "customConditional": "show = data.openzaak.statusOmschrijving === 'Afgehandeld'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Telefoonnummer",
+            "inputMask": "9999999999",
+            "applyMaskOn": "change",
+            "tableView": true,
+            "validateWhenHidden": false,
+            "key": "gegevensVaststelling.persoon.contactgegevens.telefoon",
+            "customConditional": "show = data.openzaak.statusOmschrijving !== 'Afgehandeld'",
+            "type": "phoneNumber",
+            "input": true
+        },
+        {
+            "label": "E-mailadres",
+            "applyMaskOn": "change",
+            "tableView": true,
+            "validate": {
+                "customMessage": "Dit lijkt geen geldig e-mailadres."
+            },
+            "validateWhenHidden": false,
+            "key": "gegevensVaststelling.persoon.contactgegevens.email",
+            "customConditional": "show = data.openzaak.statusOmschrijving !== 'Afgehandeld'",
+            "type": "email",
+            "input": true
+        },
+        {
+            "label": "Aanvrager wil diens post liever ook in de brievenbus ontvangen. ",
+            "tableView": false,
+            "defaultValue": false,
+            "redrawOn": "gegevensVaststelling.persoon.contactgegevens.email",
+            "calculateValue": "if (data.gegevensVaststelling.persoon.contactgegevens.email == '') { value = true; }",
+            "validateWhenHidden": false,
+            "key": "communicatievoorkeur",
+            "customConditional": "show = data.openzaak.statusOmschrijving !== 'Afgehandeld'",
+            "type": "checkbox",
+            "input": true
+        },
+        {
+            "label": "communicatievoorkeur",
+            "redrawOn": "gegevensVaststelling.persoon.contactgegevens.email",
+            "calculateValue": "data.communicatievoorkeur ? value = 'post' : value = 'portaal';",
+            "key": "gegevensVaststelling.persoon.communicatievoorkeur",
+            "customConditional": "show = data.openzaak.statusOmschrijving !== 'Afgehandeld'",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<h4 style='margin-top: 20px; margin-bottom: 10px;'>Wijzigen gegevens contactpersoon</h4><br>",
+            "customConditional": "show = data.openzaak.statusOmschrijving !== 'Afgehandeld'",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Container",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "gegevensVaststelling.contactpersoon",
+            "customConditional": "show = data.openzaak.statusOmschrijving !== 'Afgehandeld'",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "label": "Naam",
+                    "applyMaskOn": "change",
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "naamContactpersoon",
+                    "type": "textfield",
+                    "input": true
+                },
+                {
+                    "label": "Telefoonnummer",
+                    "inputMask": "9999999999",
+                    "applyMaskOn": "change",
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "telefoon",
+                    "type": "phoneNumber",
+                    "input": true
+                },
+                {
+                    "label": "Relatie tot aanvrager",
+                    "widget": "choicesjs",
+                    "tableView": true,
+                    "data": {
+                        "values": [
+                            {
+                                "label": "Familie",
+                                "value": "FAMILIE"
+                            },
+                            {
+                                "label": "Buurman/Buurvrouw",
+                                "value": "BUURMAN_VROUW"
+                            },
+                            {
+                                "label": "Kennis",
+                                "value": "KENNIS"
+                            },
+                            {
+                                "label": "Hulpverlener",
+                                "value": "HULPVERLENER"
+                            },
+                            {
+                                "label": "Boekhouder",
+                                "value": "BOEKHOUDER"
+                            },
+                            {
+                                "label": "Medewerker van de gemeente",
+                                "value": "MEDEWERKER_VAN_DE_GEMEENTE"
+                            }
+                        ]
+                    },
+                    "validateWhenHidden": false,
+                    "key": "relatieTotAanvrager",
+                    "type": "select",
+                    "input": true
+                }
+            ]
+        },
+        {
+            "label": "Indienen",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "customConditional": "show = data.openzaak.statusOmschrijving !== 'Afgehandeld'",
+            "type": "button",
+            "custom": "form.submit(); delete data.communicatievoorkeur; if (data.gegevensVaststelling.persoon.contactgegevens.email == '') { delete data.gegevensVaststelling.persoon.contactgegevens.email;} component.disabled = true;",
+            "input": true
+        }
+    ]
+}

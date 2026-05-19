@@ -1,0 +1,14 @@
+[
+    {
+        "activityId": "VastleggenVervaldatumEnVervalredenBesluitTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "ae28c811-fd8b-4e76-b2f7-5a635e623243",
+        "pluginActionDefinitionKey": "patch-besluit",
+        "actionProperties": {
+            "besluitUrl": "pv:besluitUrl",
+            "vervaldatum": "pv:vervaldatum",
+            "vervalreden": "pv:vervalreden"
+        }
+    }
+]

@@ -1,0 +1,106 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "statusOmschrijving",
+            "key": "openzaak",
+            "type": "hidden",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "informatieverzoeken",
+            "key": "informatieverzoeken",
+            "type": "hidden",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "gegevensVaststelling",
+            "key": "gegevensVaststelling",
+            "type": "hidden",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "informatieverzoekActief",
+            "calculateValue": "if (data.informatieverzoeken.at(-1).verzoek !== null && data.informatieverzoeken.at(-1).reactie == null){ value = true }\nelse {value = false}",
+            "key": "informatieverzoekActief",
+            "type": "hidden",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>De taak 'Aanvraag intrekken' kan niet worden gestart, omdat er nog een informatieverzoek uitstaat.</p>",
+            "refreshOnChange": false,
+            "key": "htmlStatusUitzettenEnOpvolgenGestart",
+            "customConditional": "show = ['Informatieverzoek uitgezet', 'Aanvullende informatie ontvangen', 'Geen aanvullende informatie ontvangen'].includes(data.openzaak?.statusOmschrijving);",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>De taak 'Aanvraag intrekken' kan niet worden gestart, omdat het proces zich in de bezwaarperiode bevindt.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Beslist'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>Dit dossier is al afgehandeld.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Afgehandeld'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "className": "alert alert-info",
+            "tag": "div",
+            "content": "<p>Let op: Wanneer de aanvraag wordt ingetrokken, blijft het dossier nog 6 weken in de bezwaarperiode.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = !['Afgehandeld', 'Beslist', 'Informatieverzoek uitgezet', 'Aanvullende informatie ontvangen', 'Geen aanvullende informatie ontvangen'].includes(data.openzaak?.statusOmschrijving);",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-warning",
+            "content": "<p>Deze taak kan alleen gestart worden als de uitgebreide motivering definitief is ingediend.</p>",
+            "refreshOnChange": false,
+            "key": "htmlMotiveringNietDefinitief",
+            "customConditional": "show = !data.gegevensVaststelling?.uitgebreideMotivering?.isMotiveringDefinitief",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Doorgaan",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "customConditional": "show = !['Afgehandeld', 'Beslist', 'Informatieverzoek uitgezet', 'Aanvullende informatie ontvangen', 'Geen aanvullende informatie ontvangen'].includes(data.openzaak?.statusOmschrijving) && data.gegevensVaststelling?.uitgebreideMotivering?.isMotiveringDefinitief;",
+            "type": "button",
+            "custom": "form.submit(); component.disabled = true;",
+            "input": true
+        }
+    ]
+}

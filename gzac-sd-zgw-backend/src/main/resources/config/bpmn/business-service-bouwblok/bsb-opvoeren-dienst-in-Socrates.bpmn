@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1jkqyen" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.44.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_04qe7p7">
+    <bpmn:participant id="BSBOpvoerenDienstInSocratesParticipant" name="BSB opvoeren dienst in Socrates" processRef="bsb-opvoeren-dienst-in-socrates" />
+    <bpmn:textAnnotation id="TextAnnotation_1d6nil8">
+      <bpmn:text>nieuwe status: in behandeling genomen</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_00usce4">
+      <bpmn:text>Input:
+gegevensVanuitBronnen
+gegevensVanuitAanvraag</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0cspnpe">
+      <bpmn:text>Input:
+aanvraagdatum
+bronGegevensAanvrager
+bronGegevensMedeaanvrager
+aanvragerVerblijfadres
+medeaanvragerVerblijfadres</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_16tjdcl" associationDirection="None" sourceRef="OphalenInputTask" targetRef="TextAnnotation_00usce4" />
+    <bpmn:association id="Association_0529dop" associationDirection="None" sourceRef="VoorbereidenAdresTask" targetRef="TextAnnotation_0cspnpe" />
+    <bpmn:textAnnotation id="TextAnnotation_0zd5gh9">
+      <bpmn:text>Input:
+bankrekeningAanvrager
+bankrekeningPartner
+wijzeVanUitbetaling</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_073cbdi" associationDirection="None" sourceRef="VoorbreidenUitbetalingUitkeringTask" targetRef="TextAnnotation_0zd5gh9" />
+    <bpmn:textAnnotation id="TextAnnotation_1nqsaq6">
+      <bpmn:text>Input:
+aanvraagdatum
+aanvrager
+medeaanvrager
+uitbetalingUitkering
+adresList</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1c5njfr" associationDirection="None" sourceRef="VoorbereidenHuishoudingTask" targetRef="TextAnnotation_1nqsaq6" />
+    <bpmn:textAnnotation id="TextAnnotation_1a3n5pp">
+      <bpmn:text>Input:
+redenAanvraag</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0ke38a8">
+      <bpmn:text>Input:
+aanvraagdatum
+aanvraagid
+codeOntvangendeGemeente
+huishouding
+ingangBijstandsuitkering
+redenAanvraagLevensonderhoud</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0qqjlo7">
+      <bpmn:text>Input:
+loBehandeld</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_1m9jvig">
+      <bpmn:text>Input:
+aanvraagid</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1ujygvj" associationDirection="None" sourceRef="VoorbereidenRedenAanvraagTask" targetRef="TextAnnotation_1a3n5pp" />
+    <bpmn:association id="Association_0mcjke2" associationDirection="None" sourceRef="UpdateZaakstatusEnInterneStatusCallActivity" targetRef="TextAnnotation_1d6nil8" />
+    <bpmn:association id="Association_1r17jrh" associationDirection="None" sourceRef="MapLoBehandeldTask" targetRef="TextAnnotation_0ke38a8" />
+    <bpmn:association id="Association_1vxjudc" associationDirection="None" sourceRef="BsOpvoerenDienstInSocratesCallActivity" targetRef="TextAnnotation_0qqjlo7" />
+    <bpmn:association id="Association_0hmkif4" associationDirection="None" sourceRef="WegschrijvenOutputTask" targetRef="TextAnnotation_1m9jvig" />
+    <bpmn:textAnnotation id="TextAnnotation_02uesqu">
+      <bpmn:text>Input:
+Rolomschrijving BehandelaarAfdeling BehandelaarTeam</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1yir1aj" associationDirection="None" sourceRef="Activity_0r1rsk4" targetRef="TextAnnotation_02uesqu" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-opvoeren-dienst-in-socrates" name="BSB opvoeren dienst in Socrates" isExecutable="true">
+    <bpmn:startEvent id="Event_0erbzwt">
+      <bpmn:outgoing>Flow_09pyv4p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="OverslaanGateway" name="Overslaan?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_09pyv4p</bpmn:incoming>
+      <bpmn:incoming>Flow_1voeppl</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="OphalenInputTask" name="Ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="gegevensVanuitBronnen">${valueResolverDelegateService.resolveValue(execution, "doc:gegevensVanuitBronnen")}</camunda:inputParameter>
+          <camunda:inputParameter name="gegevensVanuitAanvraag">${valueResolverDelegateService.resolveValue(execution, "doc:gegevensVanuitAanvraag")}</camunda:inputParameter>
+          <camunda:outputParameter name="gegevensVaststelling">${valueResolverDelegateService.resolveValue(execution, "doc:gegevensVaststelling")}</camunda:outputParameter>
+          <camunda:outputParameter name="dossierType">${valueResolverDelegateService.resolveValue(execution, "case:definitionId.name")}</camunda:outputParameter>
+          <camunda:outputParameter name="aanvraagdatum">${dateTime().parse(gegevensVanuitAanvraag.startDatum).toLocalDate().toString("yyyy-MM-dd")}</camunda:outputParameter>
+          <camunda:outputParameter name="aanvraagid">
+            <camunda:script scriptFormat="javascript">var UUID = Java.type('java.util.UUID');
+var id = UUID.randomUUID().toString();
+id;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="codeOntvangendeGemeente">0518</camunda:outputParameter>
+          <camunda:outputParameter name="ingangBijstandsuitkering">
+            <camunda:map>
+              <camunda:entry key="datumMeldingBijGemeente">${dateTime().parse(gegevensVanuitAanvraag.startDatum).toLocalDate().toString("yyyy-MM-dd")}</camunda:entry>
+              <camunda:entry key="gewensteStartdatumUitkering">${dateTime().parse(gegevensVanuitAanvraag.startDatum).toLocalDate().toString("yyyy-MM-dd")}</camunda:entry>
+            </camunda:map>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="aanvragerVerblijfadres">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/aanvrager/woonsituatie") == "ELDERS" ||  valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/aanvrager/woonsituatie") == "DETENTIE" ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/aanvrager/verblijfadres") : null}</camunda:outputParameter>
+          <camunda:outputParameter name="medeaanvragerVerblijfadres">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/partner/woonsituatie") == "ELDERS" ||  valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/partner/woonsituatie") == "DETENTIE" ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/partner/verblijfadres") : null}</camunda:outputParameter>
+          <camunda:outputParameter name="bankrekeningAanvrager">
+            <camunda:script scriptFormat="javascript">var gegevens = execution.getVariable("gegevensVanuitAanvraag");
+
+var bankrekening = gegevens
+  &amp;&amp; gegevens.uitbetaling
+  &amp;&amp; gegevens.uitbetaling.aanvrager
+  &amp;&amp; gegevens.uitbetaling.aanvrager.bankrekening;
+
+if (bankrekening &amp;&amp; bankrekening.iban) {
+  var sanitizedBankAccountNumber = String(bankrekening.iban)
+    .replace(/\s+/g, "")
+    .toUpperCase();
+
+  bankrekening.iban = sanitizedBankAccountNumber;
+}
+
+bankrekening;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="bankrekeningPartner">
+            <camunda:script scriptFormat="javascript">var gegevens = execution.getVariable("gegevensVanuitAanvraag");
+
+var bankrekening = gegevens
+  &amp;&amp; gegevens.uitbetaling
+  &amp;&amp; gegevens.uitbetaling.partner
+  &amp;&amp; gegevens.uitbetaling.partner.bankrekening;
+
+if (bankrekening &amp;&amp; bankrekening.iban) {
+  var sanitizedBankAccountNumber = String(bankrekening.iban)
+    .replace(/\s+/g, "")
+    .toUpperCase();
+
+  bankrekening.iban = sanitizedBankAccountNumber;
+}
+
+bankrekening;</camunda:script>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="wijzeVanUitbetaling">${gegevensVanuitAanvraag.uitbetaling.wijzeVanUitbetaling}</camunda:outputParameter>
+          <camunda:outputParameter name="aanvrager">${gegevensVaststelling.aanvrager}</camunda:outputParameter>
+          <camunda:outputParameter name="medeaanvrager">${gegevensVaststelling.partner}</camunda:outputParameter>
+          <camunda:outputParameter name="bronGegevensAanvrager">${gegevensVanuitBronnen.aanvrager}</camunda:outputParameter>
+          <camunda:outputParameter name="bronGegevensMedeaanvrager">${gegevensVanuitBronnen.partner}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ncl701</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:scriptTask id="VoorbereidenAdresTask" name="Voorbereiden &#10;&#39;Adres&#39;" camunda:asyncAfter="true" scriptFormat="javascript" camunda:resultVariable="adresList">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0ncl701</bpmn:incoming>
+      <bpmn:outgoing>Flow_1use7sh</bpmn:outgoing>
+      <bpmn:script>var HashMap = Java.type("java.util.HashMap");
+var ArrayList = Java.type("java.util.ArrayList");
+
+// Property accessor
+function getProp(obj, name) {
+  if (obj == null) return null;
+  if (typeof obj.get === 'function') return obj.get(name);
+  if (obj[name] !== undefined) return obj[name];
+  var getter = 'get' + name.charAt(0).toUpperCase() + name.slice(1);
+  if (typeof obj[getter] === 'function') return obj[getter]();
+  return null;
+}
+
+function hasAddressData(addr) {
+  if (addr == null) return false;
+  if (typeof addr.get === 'function') {
+    try {
+      if (typeof addr.isEmpty === 'function') return !addr.isEmpty();
+      if (typeof addr.keySet === 'function') return Java.from(addr.keySet()).length &gt; 0;
+    } catch (e) { /* ignore */ }
+    return true;
+  }
+  if (typeof addr === 'object') return Object.keys(addr).length &gt; 0;
+  return true;
+}
+
+// --- minimal cleanAddress: remove empty-string properties and always remove aanduidingBijHuisnummer
+function cleanAddress(addr) {
+  if (addr == null) return;
+  var it = addr.keySet().iterator();
+  while (it.hasNext()) {
+    var key = it.next();
+    var val = addr.get(key);
+    // remove empty-string properties
+    if (typeof val === 'string' &amp;&amp; val.trim() === '') {
+      it.remove();
+      continue;
+    }
+    // remove aanduidingBijHuisnummer (case-insensitive)
+    if (String(key).trim().toLowerCase() === 'aanduidingbijhuisnummer') {
+      it.remove();
+    }
+  }
+}
+
+// set SoortAdres explicitly
+function setSoortAdres(addr, soort) {
+  if (!hasAddressData(addr)) return;
+  if (typeof addr.get === 'function') {
+    try { addr.put('SoortAdres', soort); } catch (e) { /* ignore */ }
+  } else if (typeof addr === 'object') {
+    addr.SoortAdres = soort;
+  }
+}
+
+// normalize comparison key: postcode;huisnummer;huisletter;huisnummertoevoeging (no spaces, upper)
+function normalizeAddressKey(addr) {
+  if (!hasAddressData(addr)) return "";
+  try {
+    var postcode = getProp(addr, 'postcode') || "";
+    var huisnummer = getProp(addr, 'huisnummer');
+    huisnummer = (huisnummer === null || huisnummer === undefined) ? "" : String(huisnummer);
+    var huisletter = getProp(addr, 'huisletter') || "";
+    var huisnummertoevoeging = getProp(addr, 'huisnummertoevoeging') || "";
+
+    var raw = postcode + ";" + huisnummer + ";" + huisletter + ";" + huisnummertoevoeging;
+    return String(raw).replace(/\s+/g, "").toUpperCase();
+  } catch (e) {
+    return "";
+  }
+}
+
+// --- variables
+var requestDate = execution.getVariable('aanvraagdatum');
+var applicant = execution.getVariable('bronGegevensAanvrager') || {};
+var partner = execution.getVariable('bronGegevensMedeaanvrager') || {};
+var aanvragerVerblijfadres = execution.getVariable('aanvragerVerblijfadres') || {};
+var medeaanvragerVerblijfadres = execution.getVariable('medeaanvragerVerblijfadres') || {};
+
+var applicantAddresses = new ArrayList();
+var partnerAddresses = new ArrayList();
+
+function addAddressIfPresent(entity, fieldName, roleCode, list, soort) {
+  var addr = getProp(entity, fieldName);
+  if (!hasAddressData(addr)) return;
+  setSoortAdres(addr, soort);
+  cleanAddress(addr);
+  var entry = new HashMap();
+  entry.put('codeFunctieAdres', roleCode);
+  entry.put('begindatum', requestDate);
+  entry.put('adres', addr);
+  list.add(entry);
+}
+
+// add verblijfadres only if not equal to entity.adresBrp (compare normalized key)
+// if adresBrp missing/empty add the verblijfadres
+function addVerblijfIfUniqueAgainstAdresBrp(verblijfAddr, ownerEntity, roleCode, list) {
+  if (!hasAddressData(verblijfAddr)) return;
+
+  var adresBrp = getProp(ownerEntity, 'adresBrp');
+  var keyBrp = normalizeAddressKey(adresBrp);
+  var keyVerblijf = normalizeAddressKey(verblijfAddr);
+
+  // if adresBrp has a meaningful key and matches the verblijf key =&gt; skip
+  if (keyBrp &amp;&amp; keyVerblijf &amp;&amp; keyBrp === keyVerblijf) return;
+
+  setSoortAdres(verblijfAddr, '1'); // verblijfadressen are SoortAdres = '1'
+  cleanAddress(verblijfAddr);
+  var entry = new HashMap();
+  entry.put('codeFunctieAdres', roleCode);
+  entry.put('begindatum', requestDate);
+  entry.put('adres', verblijfAddr);
+  list.add(entry);
+}
+
+// build lists
+// adresBrp -&gt; W, SoortAdres = '1'
+// postadresBrp -&gt; B, SoortAdres = '1'
+addAddressIfPresent(applicant, 'adresBrp', 'W', applicantAddresses, '1');
+addAddressIfPresent(applicant, 'postadresBrp', 'B', applicantAddresses, '1');
+addAddressIfPresent(partner, 'adresBrp', 'W', partnerAddresses, '1');
+addAddressIfPresent(partner, 'postadresBrp', 'B', partnerAddresses, '1');
+
+// add verblijfadres only when unique vs adresBrp (compare against adresBrp only)
+addVerblijfIfUniqueAgainstAdresBrp(aanvragerVerblijfadres, applicant, 'A', applicantAddresses);
+addVerblijfIfUniqueAgainstAdresBrp(medeaanvragerVerblijfadres, partner, 'A', partnerAddresses);
+
+// result
+var result = new HashMap();
+result.put('aanvragerAdresList', applicantAddresses);
+result.put('medeaanvragerAdresList', partnerAddresses);
+
+result;</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="VoorbereidenHuishoudingTask" name="Voorbereiden &#39;huishouding&#39;" scriptFormat="javascript" camunda:resultVariable="huishouding">
+      <bpmn:incoming>Flow_1163glh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dl95mi</bpmn:outgoing>
+      <bpmn:script>var HashMap = Java.type("java.util.HashMap");
+var ArrayList = Java.type("java.util.ArrayList");
+
+function getField(obj, name) {
+  if (obj == null) return null;
+  if (typeof obj.get === 'function') {
+    try { return obj.get(name); } catch (e) { /* ignore */ }
+  }
+  if (obj[name] !== undefined) return obj[name];
+  var getter = 'get' + name.charAt(0).toUpperCase() + name.slice(1);
+  if (typeof obj[getter] === 'function') {
+    try { return obj[getter](); } catch (e) { /* ignore */ }
+  }
+  return null;
+}
+
+function toDateOnly(iso) {
+  if (iso == null) return null;
+  var s = String(iso).trim();
+  if (s.length === 0) return null;
+  var t = s.indexOf('T');
+  var datePart = t &gt; -1 ? s.substring(0, t) : s;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(datePart)) return datePart;
+  if (datePart.length &gt;= 10 &amp;&amp; /^\d{4}/.test(datePart)) return datePart.substring(0, 10);
+  return null;
+}
+
+function toInt(v, def) {
+  if (v == null || v === '') return def;
+  var n = parseInt(String(v), 10);
+  return isNaN(n) ? def : n;
+}
+
+function firstInitialUpper(name) {
+  if (name == null) return "";
+  var t = String(name).trim();
+  return t.length === 0 ? "" : t.substring(0,1).toUpperCase();
+}
+
+function mapPrivacyCode(code) {
+  if (code == null) return 0;
+  return String(code).trim() === 'GEEN_GEHEIMHOUDING' ? 0 : 1;
+}
+
+function mapNationaliteiten(nationaliteiten) {
+  var out = new ArrayList();
+  if (nationaliteiten == null) return out;
+  if (typeof java !== 'undefined' &amp;&amp; nationaliteiten instanceof java.util.List) {
+    for (var i = 0; i &lt; nationaliteiten.size(); i++) {
+      var item = nationaliteiten.get(i);
+      var code = getField(item, 'code');
+      var num = toInt(code, null);
+      if (num != null) out.add(num);
+    }
+  } else if (Array.isArray(nationaliteiten)) {
+    for (var j = 0; j &lt; nationaliteiten.length; j++) {
+      var it = nationaliteiten[j];
+      var c = it &amp;&amp; (it.code !== undefined ? it.code : getField(it, 'code'));
+      var nn = toInt(c, null);
+      if (nn != null) out.add(nn);
+    }
+  }
+  return out;
+}
+
+function mapPersoon(src, opgegevenPartner, bronGegevensPersoon, aanvraagDateForPartner) {
+  var person = new HashMap();
+
+  var aNummer = getField(src, 'anummer') || getField(src, 'aNummer') || "";
+  person.put('aNummer', aNummer);
+
+  var bsn = getField(src, 'bsn') || "";
+  person.put('burgerservicenummer', bsn);
+
+  var geboortedatum = toDateOnly(getField(src, 'geboortedatum'));
+  person.put('geboortedatum', geboortedatum || "");
+
+  var partnerMap = new HashMap();
+  var ingangsHuwelijkRaw = getField(bronGegevensPersoon, 'ingangsdatumHuwelijk');
+  var ingangsHuwelijk = toDateOnly(ingangsHuwelijkRaw);
+
+  var opgegevenPartnerBsn = getField(opgegevenPartner, 'bsn');
+  var bronPartnerBsn = getField(bronGegevensPersoon, 'partnerBsn');
+
+var hasIngangsHuwelijk = ingangsHuwelijk != null &amp;&amp; ingangsHuwelijk !== "";
+
+// only map partner when a partner was provided
+if (opgegevenPartnerBsn) {
+  // defaults
+  var partnerRelatietype = 3;                 // 3 = ongehuwd
+  var ingangsDatum = aanvraagDateForPartner; // fallback
+
+  // if the provided BSN matches the source, treat as partner (gehuwd)
+  if (opgegevenPartnerBsn === bronPartnerBsn) {
+    partnerRelatietype = 1; // 1 = gehuwd / partner
+    ingangsDatum = ingangsHuwelijk ? ingangsHuwelijk : aanvraagDateForPartner;
+  }
+
+  partnerMap.put('partnerRelatietype', partnerRelatietype);
+  partnerMap.put('ingangsdatumRelatie', ingangsDatum);
+  person.put('partner', partnerMap);
+}
+
+  var ga = getField(src, 'geslachtsAanduiding') || getField(src, 'geslachtsaanduiding');
+  person.put('geslachtsaanduiding', toInt(ga, 0));
+
+  var achternaam = getField(src, 'achternaam') || getField(src, 'geslachtsnaamstam') || "";
+  person.put('geslachtsnaamstam', achternaam);
+
+  var voornamen = getField(src, 'voornamen') || "";
+  person.put('voorlettersAanschrijving', firstInitialUpper(voornamen));
+  person.put('voornamen', voornamen);
+
+  person.put('voorvoegsel', getField(src, 'voorvoegsel') || "");
+  person.put('naamgebruik', toInt(getField(src, 'naamgebruik'), 0));
+  person.put('geslachtsnaamPartner', getField(src, 'geslachtsnaamPartner') || "");
+  person.put('codeBrpGegevensGeheim', mapPrivacyCode(getField(bronGegevensPersoon, 'codeBrpGegevensGeheim')));
+
+  var natList = mapNationaliteiten(getField(src, 'nationaliteiten'));
+  person.put('nationaliteit', natList);
+
+  return person;
+}
+
+// --- main mapping
+var aanvraagdatumRaw = execution.getVariable('aanvraagdatum');
+var aanvraagdatum = toDateOnly(aanvraagdatumRaw) || "";
+
+var aanvragerSrc = execution.getVariable('aanvrager') || {};
+var medeaanvragerSrc = execution.getVariable('medeaanvrager');
+
+var opgegevenPartnerAanvrager = execution.getVariable('medeaanvrager') || {};
+var opgegevenPartnerMedeaanvrager = execution.getVariable('aanvrager') || {};
+
+var bronGegevensAanvrager = execution.getVariable('bronGegevensAanvrager') || {};
+var bronGegevensMedeaanvrager = execution.getVariable('bronGegevensMedeaanvrager') || {};
+
+var uitbetalingUitkering = execution.getVariable('uitbetalingUitkering') || {};
+
+var aanvragerMapped = mapPersoon(aanvragerSrc,opgegevenPartnerAanvrager, bronGegevensAanvrager, aanvraagdatum);
+var medeaanvragerMapped = medeaanvragerSrc != null ? mapPersoon(medeaanvragerSrc, opgegevenPartnerMedeaanvrager, bronGegevensMedeaanvrager, aanvraagdatum) : null;
+
+// --- adreshouding mapping
+var adresList = execution.getVariable('adresList') || {};
+var aanvragerAdresFromVar = getField(adresList, 'aanvragerAdresList') || new ArrayList();
+var medeaanvragerAdresFromVar = getField(adresList, 'medeaanvragerAdresList') || new ArrayList();
+
+if (aanvragerAdresFromVar &amp;&amp; (typeof java !== 'undefined' ? aanvragerAdresFromVar.size &amp;&amp; aanvragerAdresFromVar.size() &gt; 0 : aanvragerAdresFromVar.length &gt; 0)) {
+  aanvragerMapped.put('adreshouding', aanvragerAdresFromVar);
+}
+
+if (medeaanvragerMapped != null &amp;&amp; medeaanvragerAdresFromVar &amp;&amp; (typeof java !== 'undefined' ? medeaanvragerAdresFromVar.size &amp;&amp; medeaanvragerAdresFromVar.size() &gt; 0 : medeaanvragerAdresFromVar.length &gt; 0)) {
+  medeaanvragerMapped.put('adreshouding', medeaanvragerAdresFromVar);
+}
+
+var huishouding = new HashMap();
+huishouding.put('aanvrager', aanvragerMapped);
+huishouding.put('medeaanvrager', medeaanvragerMapped);
+
+if(execution.getVariable('uitBetalingObjectFlag')) {
+   huishouding.put('uitbetalingUitkering', 
+   uitbetalingUitkering);
+}
+
+huishouding</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:userTask id="OpnieuwProberenOpvoerenDienstInSocratesTask" name="Opnieuw proberen opvoeren dienst in socrates" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="10">
+      <bpmn:incoming>Flow_1opuz7n</bpmn:incoming>
+      <bpmn:outgoing>Flow_1voeppl</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="VoorbreidenUitbetalingUitkeringTask" name="Voorbreiden&#10;&#39;uitbetalingUitkering&#39;" scriptFormat="javascript" camunda:resultVariable="uitbetalingUitkering">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1use7sh</bpmn:incoming>
+      <bpmn:outgoing>Flow_1163glh</bpmn:outgoing>
+      <bpmn:script>var LinkedHashMap = Java.type("java.util.LinkedHashMap");
+
+function getProp(obj, key) {
+  if (obj == null) return null;
+  if (typeof obj.get === 'function') {
+    try { return obj.get(key); } catch (e) { /* ignore */ }
+  }
+  return obj[key] !== undefined ? obj[key] : null;
+}
+
+var bankrekeningAanvrager = execution.getVariable('bankrekeningAanvrager') || {};
+var bankrekeningPartner = execution.getVariable('bankrekeningPartner') || {};
+var wijzeVanUitbetaling = execution.getVariable('wijzeVanUitbetaling') || '';
+
+var uitBetalingObjectFlag = false;
+
+if(Object.keys(bankrekeningAanvrager).length &gt; 0 
+    || Object.keys(bankrekeningPartner).length &gt; 0 ) {
+  uitBetalingObjectFlag = true;
+}
+
+
+if(!wijzeVanUitbetaling &amp;&amp; uitBetalingObjectFlag) {
+  
+  // check bank account presence
+  if(Object.keys(bankrekeningAanvrager).length &gt; 0 
+    &amp;&amp; Object.keys(bankrekeningPartner).length === 0 ) {
+     wijzeVanUitbetaling = 'VOLLEDIG_AANVRAGER'
+  }
+}
+
+var result = new LinkedHashMap();
+
+// set flag
+execution.setVariable('uitBetalingObjectFlag', uitBetalingObjectFlag);
+
+if (wijzeVanUitbetaling === 'VOLLEDIG_AANVRAGER') {
+  result.put('bankrekening', getProp(bankrekeningAanvrager, 'iban'));
+  result.put('rekeninghouder', getProp(bankrekeningAanvrager, 'tenaamstelling'));
+  result.put('soortUitbetaling', '01');
+} else if (wijzeVanUitbetaling === 'VOLLEDIG_PARTNER') {
+  result.put('bankrekeningPartner', getProp(bankrekeningPartner, 'iban'));
+  result.put('rekeninghouderPartner', getProp(bankrekeningPartner, 'tenaamstelling'));
+  result.put('soortUitbetaling', '02');
+} else if (wijzeVanUitbetaling === 'VERDEELD_AANVRAGER_PARTNER') {
+  result.put('bankrekening', getProp(bankrekeningAanvrager, 'iban'));
+  result.put('rekeninghouder', getProp(bankrekeningAanvrager, 'tenaamstelling'));
+  result.put('bankrekeningPartner', getProp(bankrekeningPartner, 'iban'));
+  result.put('rekeninghouderPartner', getProp(bankrekeningPartner, 'tenaamstelling'));
+  result.put('soortUitbetaling', '03');
+}
+
+result;</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_09pyv4p" sourceRef="Event_0erbzwt" targetRef="OverslaanGateway" />
+    <bpmn:sequenceFlow id="Flow_1voeppl" sourceRef="OpnieuwProberenOpvoerenDienstInSocratesTask" targetRef="OverslaanGateway" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="OverslaanGateway" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="OverslaanGateway" targetRef="Gateway_0qi9hij">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.getVariable("overslaan") == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0ncl701" sourceRef="OphalenInputTask" targetRef="VoorbereidenAdresTask" />
+    <bpmn:sequenceFlow id="Flow_1use7sh" sourceRef="VoorbereidenAdresTask" targetRef="VoorbreidenUitbetalingUitkeringTask" />
+    <bpmn:sequenceFlow id="Flow_0dl95mi" sourceRef="VoorbereidenHuishoudingTask" targetRef="VoorbereidenRedenAanvraagTask" />
+    <bpmn:sequenceFlow id="Flow_1ddrqqg" sourceRef="VoorbereidenRedenAanvraagTask" targetRef="Activity_0r1rsk4" />
+    <bpmn:sequenceFlow id="Flow_0gxql18" sourceRef="MapLoBehandeldTask" targetRef="BsOpvoerenDienstInSocratesCallActivity" />
+    <bpmn:sequenceFlow id="Flow_00qd3pv" sourceRef="BsOpvoerenDienstInSocratesCallActivity" targetRef="WegschrijvenOutputTask" />
+    <bpmn:sequenceFlow id="Flow_109jtaf" sourceRef="WegschrijvenOutputTask" targetRef="Gateway_0qi9hij" />
+    <bpmn:sequenceFlow id="Flow_1jcj8d2" sourceRef="Gateway_0qi9hij" targetRef="UpdateZaakstatusEnInterneStatusCallActivity" />
+    <bpmn:sequenceFlow id="Flow_03e4vy1" sourceRef="UpdateZaakstatusEnInterneStatusCallActivity" targetRef="Event_1qw1fva" />
+    <bpmn:sequenceFlow id="Flow_1163glh" sourceRef="VoorbreidenUitbetalingUitkeringTask" targetRef="VoorbereidenHuishoudingTask" />
+    <bpmn:sequenceFlow id="Flow_1opuz7n" sourceRef="Event_0orhp15" targetRef="OpnieuwProberenOpvoerenDienstInSocratesTask" />
+    <bpmn:serviceTask id="VoorbereidenRedenAanvraagTask" name="Voorbereiden &#10;&#39;redenAanvraag&#39;" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="redenAanvraag">${valueResolverDelegateService.resolveValue(execution, "doc:gegevensVanuitAanvraag.redenAanvraag")}</camunda:inputParameter>
+          <camunda:outputParameter name="redenAanvraagLevensonderhoud">
+            <camunda:map>
+              <camunda:entry key="onvoldoendeInkomen">${(redenAanvraag.gestopteDetentie != null &amp;&amp; redenAanvraag.gestopteDetentie.size() &gt; 0    &amp;&amp; redenAanvraag.gestopteDetentie[redenAanvraag.gestopteDetentie.size() - 1].detentieDuur != null)  ? "10"  : (      (redenAanvraag.andereRedenVerzoek != null &amp;&amp; redenAanvraag.andereRedenVerzoek.size() &gt; 0         &amp;&amp; redenAanvraag.andereRedenVerzoek[redenAanvraag.andereRedenVerzoek.size() - 1].geldtekortSpecificatie != null)      ? "11"      : (redenAanvraag.onvoldoendeInkomen != null ? redenAanvraag.onvoldoendeInkomen.code : null)    )}</camunda:entry>
+              <camunda:entry key="verblijfstatus">${redenAanvraag.verblijfstatus.code}</camunda:entry>
+              <camunda:entry key="wijzigingGezin">${redenAanvraag.wijzigingGezin.code}</camunda:entry>
+              <camunda:entry key="zelfstandige">${redenAanvraag.zelfstandige.code}</camunda:entry>
+              <camunda:entry key="gestopteUitkering">${redenAanvraag.gestopteUitkering[redenAanvraag.gestopteUitkering.size() - 1].uitkering.code}</camunda:entry>
+            </camunda:map>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0dl95mi</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ddrqqg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="MapLoBehandeldTask" name="Map LoBehandeld" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="loBehandeld">
+            <camunda:map>
+              <camunda:entry key="aanvraagdatum">${aanvraagdatum}</camunda:entry>
+              <camunda:entry key="aanvraagid">${aanvraagid}</camunda:entry>
+              <camunda:entry key="codeOntvangendeGemeente">${codeOntvangendeGemeente}</camunda:entry>
+              <camunda:entry key="huishouding">${huishouding}</camunda:entry>
+              <camunda:entry key="ingangBijstandsuitkering">${ingangBijstandsuitkering}</camunda:entry>
+              <camunda:entry key="redenAanvraagLevensonderhoud">${redenAanvraagLevensonderhoud}</camunda:entry>
+            </camunda:map>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0zn5o7v</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gxql18</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="BsOpvoerenDienstInSocratesCallActivity" name="Bs opvoeren dienst in Socrates" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-opvoeren-dienst-in-socrates">
+      <bpmn:extensionElements>
+        <camunda:in variables="all" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:out source="overslaan" target="overslaan" />
+        <camunda:out source="socratesError" target="socratesError" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0gxql18</bpmn:incoming>
+      <bpmn:outgoing>Flow_00qd3pv</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="WegschrijvenOutputTask" name="wegschrijven output" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/socrates/aanvraagId&#34;, loBehandeld.aanvraagid)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_00qd3pv</bpmn:incoming>
+      <bpmn:outgoing>Flow_109jtaf</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0qi9hij">
+      <bpmn:incoming>Flow_109jtaf</bpmn:incoming>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jcj8d2</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_1qw1fva">
+      <bpmn:incoming>Flow_03e4vy1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="UpdateZaakstatusEnInterneStatusCallActivity" name="Update zaakstatus en interne status" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-update-zaakstatus-en-interne-status-plugin-v2">
+      <bpmn:extensionElements>
+        <camunda:in sourceExpression="${&#34;In behandeling genomen&#34;}" target="zaakstatus" />
+        <camunda:in sourceExpression="${&#34;in-behandeling-genomen&#34;}" target="interneStatus" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1jcj8d2</bpmn:incoming>
+      <bpmn:outgoing>Flow_03e4vy1</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:boundaryEvent id="Event_0orhp15" attachedToRef="BsOpvoerenDienstInSocratesCallActivity">
+      <bpmn:outgoing>Flow_1opuz7n</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_0d46eqw" errorRef="Error_0vycax6" camunda:errorCodeVariable="socratesErrorCode" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_0zn5o7v" sourceRef="Activity_0r1rsk4" targetRef="MapLoBehandeldTask" />
+    <bpmn:scriptTask id="Activity_0r1rsk4" name="Map Betrokkenen" camunda:asyncAfter="true" scriptFormat="javascript" camunda:resultVariable="betrokkenen">
+      <bpmn:incoming>Flow_1ddrqqg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zn5o7v</bpmn:outgoing>
+      <bpmn:script>var HashMap = Java.type("java.util.HashMap");
+var ArrayList = Java.type("java.util.ArrayList");
+
+var result = new ArrayList();
+
+// first element
+var item1 = new HashMap();
+item1.put("Naam", "9");
+
+var rolList1 = new ArrayList();
+var rol1 = new HashMap();
+rol1.put("Rolomschrijving", "BehandelaarAfdeling");
+rolList1.add(rol1);
+
+item1.put("Rol", rolList1);
+result.add(item1);
+
+// second element
+var item2 = new HashMap();
+item2.put("Naam", "21");
+
+var rolList2 = new ArrayList();
+var rol2 = new HashMap();
+rol2.put("Rolomschrijving", "BehandelaarTeam");
+rolList2.add(rol2);
+
+item2.put("Rol", rolList2);
+result.add(item2);
+
+result</bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmn:error id="Error_0vycax6" name="SOCRATES_ERROR" errorCode="SOCRATES_ERROR" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_04qe7p7">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="BSBOpvoerenDienstInSocratesParticipant" isHorizontal="true">
+        <dc:Bounds x="131" y="80" width="2209" height="500" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03xt9u9" bpmnElement="Event_0erbzwt">
+        <dc:Bounds x="200" y="342" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ov6ee0_di" bpmnElement="OverslaanGateway" isMarkerVisible="true">
+        <dc:Bounds x="315" y="335" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="271" y="323" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ai0oz7_di" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="440" y="320" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ng888v_di" bpmnElement="VoorbereidenAdresTask">
+        <dc:Bounds x="620" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0p5fdzj_di" bpmnElement="VoorbereidenHuishoudingTask">
+        <dc:Bounds x="960" y="320" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_11pox2e" bpmnElement="OpnieuwProberenOpvoerenDienstInSocratesTask">
+        <dc:Bounds x="960" y="440" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0klxcqh_di" bpmnElement="VoorbreidenUitbetalingUitkeringTask">
+        <dc:Bounds x="790" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10atp7h_di" bpmnElement="VoorbereidenRedenAanvraagTask">
+        <dc:Bounds x="1140" y="320" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15vwg6l_di" bpmnElement="MapLoBehandeldTask">
+        <dc:Bounds x="1500" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19qxbbc_di" bpmnElement="BsOpvoerenDienstInSocratesCallActivity">
+        <dc:Bounds x="1678" y="320" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1b0ikn8_di" bpmnElement="WegschrijvenOutputTask">
+        <dc:Bounds x="1850" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0qi9hij_di" bpmnElement="Gateway_0qi9hij" isMarkerVisible="true">
+        <dc:Bounds x="1995" y="335" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0l73d0i_di" bpmnElement="Event_1qw1fva">
+        <dc:Bounds x="2260" y="342" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="766" y="225" width="69" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_032klz9_di" bpmnElement="UpdateZaakstatusEnInterneStatusCallActivity">
+        <dc:Bounds x="2100" y="320" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1j64p0x_di" bpmnElement="Activity_0r1rsk4">
+        <dc:Bounds x="1320" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0gtukta" bpmnElement="Event_0orhp15">
+        <dc:Bounds x="1760" y="382" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_10a0jsd" bpmnElement="Flow_09pyv4p">
+        <di:waypoint x="236" y="360" />
+        <di:waypoint x="315" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1voeppl_di" bpmnElement="Flow_1voeppl">
+        <di:waypoint x="960" y="480" />
+        <di:waypoint x="340" y="480" />
+        <di:waypoint x="340" y="385" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bzz3ck_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="365" y="360" />
+        <di:waypoint x="440" y="360" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="377" y="363" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gdl3g7_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="340" y="335" />
+        <di:waypoint x="340" y="280" />
+        <di:waypoint x="2020" y="280" />
+        <di:waypoint x="2020" y="335" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="344" y="302" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ncl701_di" bpmnElement="Flow_0ncl701">
+        <di:waypoint x="540" y="360" />
+        <di:waypoint x="620" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1use7sh_di" bpmnElement="Flow_1use7sh">
+        <di:waypoint x="720" y="360" />
+        <di:waypoint x="790" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dl95mi_di" bpmnElement="Flow_0dl95mi">
+        <di:waypoint x="1060" y="360" />
+        <di:waypoint x="1140" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ddrqqg_di" bpmnElement="Flow_1ddrqqg">
+        <di:waypoint x="1240" y="360" />
+        <di:waypoint x="1320" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gxql18_di" bpmnElement="Flow_0gxql18">
+        <di:waypoint x="1600" y="360" />
+        <di:waypoint x="1678" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1d5o6do" bpmnElement="Flow_00qd3pv">
+        <di:waypoint x="1778" y="360" />
+        <di:waypoint x="1850" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_109jtaf_di" bpmnElement="Flow_109jtaf">
+        <di:waypoint x="1950" y="360" />
+        <di:waypoint x="1995" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jcj8d2_di" bpmnElement="Flow_1jcj8d2">
+        <di:waypoint x="2045" y="360" />
+        <di:waypoint x="2100" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03e4vy1_di" bpmnElement="Flow_03e4vy1">
+        <di:waypoint x="2200" y="360" />
+        <di:waypoint x="2260" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1163glh_di" bpmnElement="Flow_1163glh">
+        <di:waypoint x="890" y="360" />
+        <di:waypoint x="960" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1opuz7n_di" bpmnElement="Flow_1opuz7n">
+        <di:waypoint x="1778" y="418" />
+        <di:waypoint x="1778" y="480" />
+        <di:waypoint x="1060" y="480" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zn5o7v_di" bpmnElement="Flow_0zn5o7v">
+        <di:waypoint x="1420" y="360" />
+        <di:waypoint x="1500" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1d6nil8_di" bpmnElement="TextAnnotation_1d6nil8">
+        <dc:Bounds x="2080" y="230" width="210" height="55" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_00usce4_di" bpmnElement="TextAnnotation_00usce4">
+        <dc:Bounds x="440" y="140" width="179.9698795180723" height="54.84885972461274" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0cspnpe_di" bpmnElement="TextAnnotation_0cspnpe">
+        <dc:Bounds x="610" y="140" width="180" height="111" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0zd5gh9_di" bpmnElement="TextAnnotation_0zd5gh9">
+        <dc:Bounds x="790" y="140" width="149.99731067125649" height="69.70740103270225" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1nqsaq6_di" bpmnElement="TextAnnotation_1nqsaq6">
+        <dc:Bounds x="960" y="140" width="150" height="100" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1a3n5pp_di" bpmnElement="TextAnnotation_1a3n5pp">
+        <dc:Bounds x="1140" y="140" width="119.99784853700517" height="40.44750430292599" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0ke38a8_di" bpmnElement="TextAnnotation_0ke38a8">
+        <dc:Bounds x="1500" y="140" width="210" height="107" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0qqjlo7_di" bpmnElement="TextAnnotation_0qqjlo7">
+        <dc:Bounds x="1678" y="145" width="100" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1m9jvig_di" bpmnElement="TextAnnotation_1m9jvig">
+        <dc:Bounds x="1850" y="230" width="139" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_02uesqu_di" bpmnElement="TextAnnotation_02uesqu">
+        <dc:Bounds x="1320" y="147" width="130" height="70" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_16tjdcl_di" bpmnElement="Association_16tjdcl">
+        <di:waypoint x="490" y="320" />
+        <di:waypoint x="490" y="195" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0529dop_di" bpmnElement="Association_0529dop">
+        <di:waypoint x="670" y="320" />
+        <di:waypoint x="670" y="251" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_073cbdi_di" bpmnElement="Association_073cbdi">
+        <di:waypoint x="840" y="320" />
+        <di:waypoint x="840" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1c5njfr_di" bpmnElement="Association_1c5njfr">
+        <di:waypoint x="1010" y="320" />
+        <di:waypoint x="1010" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1ujygvj_di" bpmnElement="Association_1ujygvj">
+        <di:waypoint x="1190" y="320" />
+        <di:waypoint x="1190" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0mcjke2_di" bpmnElement="Association_0mcjke2">
+        <di:waypoint x="2150" y="320" />
+        <di:waypoint x="2150" y="285" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1r17jrh_di" bpmnElement="Association_1r17jrh">
+        <di:waypoint x="1550" y="320" />
+        <di:waypoint x="1550" y="247" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1vxjudc_di" bpmnElement="Association_1vxjudc">
+        <di:waypoint x="1728" y="320" />
+        <di:waypoint x="1728" y="185" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0hmkif4_di" bpmnElement="Association_0hmkif4">
+        <di:waypoint x="1900" y="320" />
+        <di:waypoint x="1900" y="271" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1yir1aj_di" bpmnElement="Association_1yir1aj">
+        <di:waypoint x="1370" y="320" />
+        <di:waypoint x="1370" y="217" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,7 @@
+{
+    "templateKey": "suwi-rapportage-alo",
+    "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+    "templateType": "pdf",
+    "metadata": {},
+    "contentRef": "/config/template/suwi-rapportage-alo.ftlh"
+}

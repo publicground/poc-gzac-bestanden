@@ -1,0 +1,62 @@
+[
+    {
+        "processDefinitionKey": "ab-afhandelen-aanvraag-dcm",
+        "canInitializeDocument": true,
+        "startableByUser": false
+    },
+    {
+        "processDefinitionKey": "ab-start-buiten-behandeling-stellen",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ab-start-intrekken-aanvraag",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ab-start-aanvraag-direct-beslissen",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ab-start-behandeling-gehele-aanvraag-opnieuw",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ab-verversen-brongegevens",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ab-start-wijzigen-contactgegevens",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ab-start-uitgebreide-motivering",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ab-start-annuleren-informatieverzoek-dcm",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ab-start-verlengen-deadline-informatieverzoek-dcm",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ab-start-reactie-informatieverzoek-dcm",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    },
+    {
+        "processDefinitionKey": "ab-taak-opnieuw-starten",
+        "canInitializeDocument": false,
+        "startableByUser": true
+    }
+]

@@ -1,0 +1,18 @@
+[
+    {
+        "activityId": "OverwegenUitzettenInformatieverzoekTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "large",
+        "formDefinitionName": "bs.overwegen-uitzetten-informatieverzoek.overwegen-uitzetten-informatieverzoek"
+    },
+    {
+        "activityId": "VerzoekOmInformatieTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "modal",
+        "formSize": "large",
+        "formDefinitionName": "bs-uploaden-termijnbrief"
+    }
+]

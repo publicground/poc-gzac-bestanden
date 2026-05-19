@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1baovsn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_0kvr87d">
+    <bpmn:participant id="Bs211OphalenBRPPersoonsgegevensTbvVaststellenPersoonParticipant" name="bs 211 ophalen BRP persoonsgegevens tbv vaststellen persoon" processRef="bs-211-ophalen-brp-persoonsgegevens-tbv-vaststellen-persoon" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-211-ophalen-brp-persoonsgegevens-tbv-vaststellen-persoon" name="BS 211 ophalen BRP persoonsgegevens tbv vaststellen persoon" isExecutable="true">
+    <bpmn:exclusiveGateway id="Gateway_0v7jh5y">
+      <bpmn:incoming>Flow_0ucm02l</bpmn:incoming>
+      <bpmn:incoming>ProbeerOpnieuwSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1djvous</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="OphalenBRPPersoonsgegevensCallActivity" name="Ophalen BRP persoons-gegevens" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-suwinet-ophalen-brp-brongegevens">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in sourceExpression="${bsn}" target="bsn" />
+        <camunda:out source="brpPersoonsgegevensInfo" target="brpPersoonsgegevensInfo" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1djvous</bpmn:incoming>
+      <bpmn:outgoing>Flow_0r04840</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:startEvent id="Event_0hjwyeo">
+      <bpmn:outgoing>Flow_0ucm02l</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_063b1ff" default="ProbeerOpnieuwSequenceFlow">
+      <bpmn:incoming>Flow_06f9se3</bpmn:incoming>
+      <bpmn:outgoing>ProbeerOpnieuwSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>DoorgaanZonderBRPGegevensSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>DoorgaanMetHandmatigIngevoerdeGegevensSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="BepalenVervolgactieTask" name="Bepalen vervolgactie" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="14">
+      <bpmn:incoming>Flow_0u0582k</bpmn:incoming>
+      <bpmn:outgoing>Flow_06f9se3</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="BRPPersoonsgegevensNietOpgehaaldEndEvent" name="BRP persoons-gegevens niet opgehaald">
+      <bpmn:incoming>DoorgaanZonderBRPGegevensSequenceFlow</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="BRPPersoonsgegevensOpgehaaldEndEvent" name="BRP persoons-gegevens opgehaald">
+      <bpmn:incoming>Flow_0r04840</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:boundaryEvent id="SuwinetBSNNietGevondenBoundaryEvent" name="Suwinet BSN niet gevonden" camunda:asyncBefore="true" camunda:asyncAfter="true" attachedToRef="OphalenBRPPersoonsgegevensCallActivity">
+      <bpmn:outgoing>Flow_0u0582k</bpmn:outgoing>
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_12z0qep" errorRef="Error_1pkbhg6" camunda:errorMessageVariable="" />
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="ProbeerOpnieuwSequenceFlow" name="Probeer opnieuw" sourceRef="Gateway_063b1ff" targetRef="Gateway_0v7jh5y" />
+    <bpmn:sequenceFlow id="Flow_0ucm02l" sourceRef="Event_0hjwyeo" targetRef="Gateway_0v7jh5y" />
+    <bpmn:sequenceFlow id="Flow_1djvous" sourceRef="Gateway_0v7jh5y" targetRef="OphalenBRPPersoonsgegevensCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0r04840" sourceRef="OphalenBRPPersoonsgegevensCallActivity" targetRef="BRPPersoonsgegevensOpgehaaldEndEvent" />
+    <bpmn:sequenceFlow id="Flow_06f9se3" sourceRef="BepalenVervolgactieTask" targetRef="Gateway_063b1ff" />
+    <bpmn:sequenceFlow id="DoorgaanZonderBRPGegevensSequenceFlow" name="Doorgaan zonder BRP gegevens" sourceRef="Gateway_063b1ff" targetRef="BRPPersoonsgegevensNietOpgehaaldEndEvent">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${vervolgActieBrpNietGevonden == 'ZONDER-BRP'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0u0582k" sourceRef="SuwinetBSNNietGevondenBoundaryEvent" targetRef="BepalenVervolgactieTask" />
+    <bpmn:endEvent id="BRPGegevensHandmatigIngevuldEndEvent" name="BRP gegevens handmatig ingevuld">
+      <bpmn:incoming>DoorgaanMetHandmatigIngevoerdeGegevensSequenceFlow</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="DoorgaanMetHandmatigIngevoerdeGegevensSequenceFlow" name="Doorgaan met handmatig ingevoerde gegevens" sourceRef="Gateway_063b1ff" targetRef="BRPGegevensHandmatigIngevuldEndEvent">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${vervolgActieBrpNietGevonden == 'HANDMATIG-INGEVOERD'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmn:error id="Error_1pkbhg6" name="SUWINET_BSN_NOT_FOUND" errorCode="SUWINET_BSN_NOT_FOUND" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0kvr87d">
+      <bpmndi:BPMNShape id="Participant_1ujcwuc_di" bpmnElement="Bs211OphalenBRPPersoonsgegevensTbvVaststellenPersoonParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="610" height="505" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0az9g2q" bpmnElement="Gateway_0v7jh5y" isMarkerVisible="true">
+        <dc:Bounds x="315" y="125" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0wx60ei" bpmnElement="OphalenBRPPersoonsgegevensCallActivity">
+        <dc:Bounds x="440" y="110" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0hjwyeo_di" bpmnElement="Event_0hjwyeo">
+        <dc:Bounds x="232" y="132" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0allr9n" bpmnElement="Gateway_063b1ff" isMarkerVisible="true">
+        <dc:Bounds x="465" y="365" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1i9otuh_di" bpmnElement="BepalenVervolgactieTask">
+        <dc:Bounds x="440" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0re0242_di" bpmnElement="BRPPersoonsgegevensNietOpgehaaldEndEvent">
+        <dc:Bounds x="672" y="372" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="653" y="415" width="75" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0t9taxm_di" bpmnElement="BRPPersoonsgegevensOpgehaaldEndEvent">
+        <dc:Bounds x="672" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="653" y="175" width="75" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0s1515p_di" bpmnElement="BRPGegevensHandmatigIngevuldEndEvent">
+        <dc:Bounds x="672" y="482" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="654" y="525" width="74" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0mdvwb9" bpmnElement="SuwinetBSNNietGevondenBoundaryEvent">
+        <dc:Bounds x="472" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="507" y="196" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_0m1iteg" bpmnElement="ProbeerOpnieuwSequenceFlow">
+        <di:waypoint x="465" y="390" />
+        <di:waypoint x="340" y="390" />
+        <di:waypoint x="340" y="175" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="361" y="365" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ucm02l_di" bpmnElement="Flow_0ucm02l">
+        <di:waypoint x="268" y="150" />
+        <di:waypoint x="315" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_16hbisk" bpmnElement="Flow_1djvous">
+        <di:waypoint x="365" y="150" />
+        <di:waypoint x="440" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0r04840_di" bpmnElement="Flow_0r04840">
+        <di:waypoint x="540" y="150" />
+        <di:waypoint x="672" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06f9se3_di" bpmnElement="Flow_06f9se3">
+        <di:waypoint x="490" y="330" />
+        <di:waypoint x="490" y="365" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07bwoss_di" bpmnElement="DoorgaanZonderBRPGegevensSequenceFlow">
+        <di:waypoint x="515" y="390" />
+        <di:waypoint x="672" y="390" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="551" y="356" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_02naoeo" bpmnElement="Flow_0u0582k">
+        <di:waypoint x="490" y="208" />
+        <di:waypoint x="490" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02gw7b3_di" bpmnElement="DoorgaanMetHandmatigIngevoerdeGegevensSequenceFlow">
+        <di:waypoint x="490" y="415" />
+        <di:waypoint x="490" y="500" />
+        <di:waypoint x="672" y="500" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="555" y="443" width="70" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

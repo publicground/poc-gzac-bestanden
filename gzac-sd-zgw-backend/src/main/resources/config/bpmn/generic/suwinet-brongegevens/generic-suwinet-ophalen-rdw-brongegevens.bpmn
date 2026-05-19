@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0vol0sx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.44.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:collaboration id="Collaboration_1gmd3lc">
+    <bpmn:participant id="GenericOphalenRDWBrongegevensParticipant" name="Generic: Suwinet ophalen RDW brongegevens" processRef="generic-suwinet-ophalen-rdw-brongegevens" />
+    <bpmn:textAnnotation id="TextAnnotation_0bk0zlz">
+      <bpmn:text>output: rdwVoertuigenRaw</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0k8boas">
+      <bpmn:text>input: bsn</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1vycjqa" associationDirection="None" sourceRef="OphalenRDWVoertuigenTask" targetRef="TextAnnotation_0bk0zlz" />
+    <bpmn:association id="Association_0u77pq5" associationDirection="None" sourceRef="StartEvent_1" targetRef="TextAnnotation_0k8boas" />
+  </bpmn:collaboration>
+  <bpmn:process id="generic-suwinet-ophalen-rdw-brongegevens" name="Generic: Suwinet ophalen RDW brongegevens" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1if7i5z</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="OphalenRDWVoertuigenTask" name="Ophalen RDW  voertuigen" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="javascript">var raw = execution.getVariable('rdwVoertuigenRaw');
+var dynProps = raw != null &amp;&amp; raw.dynamicProperties != null ? raw.dynamicProperties : null;
+
+function toJavaValue(value) {
+    if (value == null) return null;
+
+    var valueType = typeof value;
+
+    if (valueType === 'string') return String(value);
+    if (valueType === 'number') return Number(value);
+    if (valueType === 'boolean') return value;
+
+    if (Array.isArray(value)) {
+        return toJavaList(value);
+    }
+
+    if (valueType === 'object') {
+        return toJavaMap(value);
+    }
+
+    return String(value);
+}
+
+function toJavaMap(obj) {
+    var map = new Packages.java.util.LinkedHashMap();
+
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            map.put(String(key), toJavaValue(obj[key]));
+        }
+    }
+
+    return map;
+}
+
+function toJavaList(arr) {
+    var list = new Packages.java.util.ArrayList();
+
+    for (var i = 0; i &lt; arr.length; i++) {
+        list.add(toJavaValue(arr[i]));
+    }
+
+    return list;
+}
+
+
+var SOORT_VOERTUIG = {
+    'A': { code: 'A', name: 'Aanhangwagen' },
+    'B': { code: 'B', name: 'Bedrijfsauto' },
+    'C': { code: 'C', name: 'Bromfiets' },
+    'D': { code: 'D', name: 'Driewielig motorrijtuig' },
+    'M': { code: 'M', name: 'Motorfiets' },
+    'P': { code: 'P', name: 'Personenauto' },
+    'O': { code: 'O', name: 'Onbekend' }
+};
+
+function mapSoortVoertuig(code) {
+    if (code == null) return null;
+
+    var key = String(code);
+
+    if (SOORT_VOERTUIG.hasOwnProperty(key)) {
+        return SOORT_VOERTUIG[key];
+    }
+
+    return null;
+}
+
+function mapMotorvoertuig(aansprakelijke) {
+    var voertuig = aansprakelijke &amp;&amp; aansprakelijke.voertuig ? aansprakelijke.voertuig : null;
+
+    return {
+        kenteken: voertuig &amp;&amp; voertuig.kentekenVoertuig != null ? String(voertuig.kentekenVoertuig) : '',
+        datumEersteInschrijving: voertuig &amp;&amp; voertuig.datEersteInschrijvingVoertuigNat != null
+            ? String(voertuig.datEersteInschrijvingVoertuigNat)
+            : '',
+        datumRegistratieAansprakelijkheid: aansprakelijke &amp;&amp; aansprakelijke.datRegistratieAansprakelijkheid != null
+            ? String(aansprakelijke.datRegistratieAansprakelijkheid)
+            : '',
+        soortMotorvoertuig: mapSoortVoertuig(voertuig &amp;&amp; voertuig.cdSrtVoertuig != null ? voertuig.cdSrtVoertuig : null),
+        merk: voertuig &amp;&amp; voertuig.merkVoertuig != null ? String(voertuig.merkVoertuig) : '',
+        model: voertuig &amp;&amp; voertuig.typeVoertuig != null ? String(voertuig.typeVoertuig) : ''
+    };
+}
+
+function convertToMotorvoertuigenDto(data) {
+    var aansprakelijken = [];
+
+    if (data &amp;&amp; data.aansprakelijken &amp;&amp; data.aansprakelijken.length &gt; 0) {
+        aansprakelijken = data.aansprakelijken;
+    } else if (data &amp;&amp; data.aansprakelijke) {
+        aansprakelijken = [data.aansprakelijke];
+    }
+
+    return {
+        motorvoertuigen: aansprakelijken.map(function(aansprakelijke) {
+            return mapMotorvoertuig(aansprakelijke);
+        })
+    };
+}
+
+var result = convertToMotorvoertuigenDto(dynProps);
+if (result != null) {
+  execution.setVariable('rdwVoertuigen', toJavaValue(result));
+}</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1if7i5z</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xiuf9m</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_1wsmg9o">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1xiuf9m</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1if7i5z" sourceRef="StartEvent_1" targetRef="OphalenRDWVoertuigenTask" />
+    <bpmn:sequenceFlow id="Flow_1xiuf9m" sourceRef="OphalenRDWVoertuigenTask" targetRef="Event_1wsmg9o" />
+  </bpmn:process>
+  <bpmn:error id="Error_10q1uq2" name="Error_3lbup3a" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1gmd3lc">
+      <bpmndi:BPMNShape id="Participant_0gc491p_di" bpmnElement="GenericOphalenRDWBrongegevensParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="410" height="300" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="239" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j7h7ol_di" bpmnElement="OphalenRDWVoertuigenTask">
+        <dc:Bounds x="330" y="217" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1wsmg9o_di" bpmnElement="Event_1wsmg9o">
+        <dc:Bounds x="492" y="239" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1if7i5z_di" bpmnElement="Flow_1if7i5z">
+        <di:waypoint x="268" y="257" />
+        <di:waypoint x="330" y="257" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xiuf9m_di" bpmnElement="Flow_1xiuf9m">
+        <di:waypoint x="430" y="257" />
+        <di:waypoint x="492" y="257" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0bk0zlz_di" bpmnElement="TextAnnotation_0bk0zlz">
+        <dc:Bounds x="400" y="130" width="140" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0k8boas_di" bpmnElement="TextAnnotation_0k8boas">
+        <dc:Bounds x="270" y="150" width="100" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1vycjqa_di" bpmnElement="Association_1vycjqa">
+        <di:waypoint x="416" y="217" />
+        <di:waypoint x="457" y="171" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0u77pq5_di" bpmnElement="Association_0u77pq5">
+        <di:waypoint x="261" y="243" />
+        <di:waypoint x="309" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1emkajz" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+  <bpmn:collaboration id="Collaboration_1o6jarv">
+    <bpmn:participant id="BSOpbouwenUitgebreideMotiveringParticipant" name="BS opbouwen uitgebreide motivering" processRef="bs-opbouwen-uitgebreide-motivering" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-opbouwen-uitgebreide-motivering" name="BS opbouwen uitgebreide motivering" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_11wwbvk</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_11wwbvk" sourceRef="StartEvent_1" targetRef="OpbouwenUitgebreideMotiveringTask" />
+    <bpmn:userTask id="OpbouwenUitgebreideMotiveringTask" name="Opbouwen uitgebreide motivering" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="0">
+      <bpmn:incoming>Flow_11wwbvk</bpmn:incoming>
+      <bpmn:outgoing>Flow_0c6ymn6</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0c6ymn6" sourceRef="OpbouwenUitgebreideMotiveringTask" targetRef="Event_1ap129m" />
+    <bpmn:endEvent id="Event_1ap129m">
+      <bpmn:incoming>Flow_0c6ymn6</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1o6jarv">
+      <bpmndi:BPMNShape id="Participant_14cqkhe_di" bpmnElement="BSOpbouwenUitgebreideMotiveringParticipant" isHorizontal="true">
+        <dc:Bounds x="132" y="90" width="468" height="220" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18atjl7_di" bpmnElement="OpbouwenUitgebreideMotiveringTask">
+        <dc:Bounds x="310" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ap129m_di" bpmnElement="Event_1ap129m">
+        <dc:Bounds x="492" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_11wwbvk_di" bpmnElement="Flow_11wwbvk">
+        <di:waypoint x="218" y="200" />
+        <di:waypoint x="310" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0c6ymn6_di" bpmnElement="Flow_0c6ymn6">
+        <di:waypoint x="410" y="200" />
+        <di:waypoint x="492" y="200" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1emkajz" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+  <bpmn:collaboration id="Collaboration_1o6jarv">
+    <bpmn:participant id="BSBOpbouwenUitgebreideMotiveringParticipant" name="BSB opbouwen uitgebreide motivering" processRef="bsb-opbouwen-uitgebreide-motivering" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-opbouwen-uitgebreide-motivering" name="BSB opbouwen uitgebreide motivering" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_11wwbvk</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_11wwbvk" sourceRef="StartEvent_1" targetRef="SetUitgebreideMotiveringDefinitiefFalseTask" />
+    <bpmn:sequenceFlow id="Flow_1pqekoy" sourceRef="BSOpbouwenUitgebreideMotiveringCallActivity" targetRef="WegschrijvenOutputTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="MotivatieDefinitiefGateway" targetRef="Event_1ap129m">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isMotiveringDefinitiefPv}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0cnp6c8" sourceRef="Gateway_1dws6d7" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="MotivatieDefinitiefGateway" targetRef="Gateway_1dws6d7" />
+    <bpmn:sequenceFlow id="Flow_0n5f665" sourceRef="WegschrijvenOutputTask" targetRef="MotivatieDefinitiefGateway" />
+    <bpmn:sequenceFlow id="Flow_02y7217" sourceRef="OphalenInputTask" targetRef="BSOpbouwenUitgebreideMotiveringCallActivity" />
+    <bpmn:sequenceFlow id="Flow_108o6p0" sourceRef="SetUitgebreideMotiveringDefinitiefFalseTask" targetRef="Gateway_1dws6d7" />
+    <bpmn:exclusiveGateway id="Gateway_1dws6d7">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:incoming>Flow_108o6p0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cnp6c8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="OphalenInputTask" name="Ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="uitgebreideMotivering">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/uitgebreideMotivering/motivering")}</camunda:outputParameter>
+          <camunda:outputParameter name="isMotiveringDefinitief">${valueResolverDelegateService.resolveValue(execution,"doc:/gegevensVaststelling/uitgebreideMotivering/isMotiveringDefinitief")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0cnp6c8</bpmn:incoming>
+      <bpmn:outgoing>Flow_02y7217</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="BSOpbouwenUitgebreideMotiveringCallActivity" name="BS opbouwen uitgebreide motivering" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-opbouwen-uitgebreide-motivering">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="uitgebreideMotivering" target="uitgebreideMotivering" />
+        <camunda:out source="uitgebreideMotivering" target="uitgebreideMotiveringPv" />
+        <camunda:out source="isMotiveringDefinitief" target="isMotiveringDefinitiefPv" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_02y7217</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pqekoy</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="WegschrijvenOutputTask" name="Wegschrijven output" camunda:asyncBefore="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="wegschrijvenUitgebreideMotivering">${valueResolverDelegateService.handleValue(execution,"doc:/gegevensVaststelling/uitgebreideMotivering/motivering",uitgebreideMotiveringPv)}</camunda:outputParameter>
+          <camunda:outputParameter name="wegschrijvenisMotiveringDefinitief">${valueResolverDelegateService.handleValue(execution,"doc:/gegevensVaststelling/uitgebreideMotivering/isMotiveringDefinitief",isMotiveringDefinitiefPv)}</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1pqekoy</bpmn:incoming>
+      <bpmn:outgoing>Flow_0n5f665</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="MotivatieDefinitiefGateway" name="Motivatie definitief?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_0n5f665</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_1ap129m">
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="SetUitgebreideMotiveringDefinitiefFalseTask" name="Set uitgebreide-motivering-definitief &#39;false&#39;" camunda:asyncAfter="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/uitgebreideMotivering/isMotiveringDefinitief&#34;, false)}">
+      <bpmn:incoming>Flow_11wwbvk</bpmn:incoming>
+      <bpmn:outgoing>Flow_108o6p0</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1o6jarv">
+      <bpmndi:BPMNShape id="Participant_14cqkhe_di" bpmnElement="BSBOpbouwenUitgebreideMotiveringParticipant" isHorizontal="true">
+        <dc:Bounds x="132" y="80" width="1118" height="310" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1dws6d7_di" bpmnElement="Gateway_1dws6d7" isMarkerVisible="true">
+        <dc:Bounds x="425" y="185" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0w5ngef" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="540" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04g70rb_di" bpmnElement="BSOpbouwenUitgebreideMotiveringCallActivity">
+        <dc:Bounds x="710" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_12y729a" bpmnElement="WegschrijvenOutputTask">
+        <dc:Bounds x="880" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0fd1kyz_di" bpmnElement="MotivatieDefinitiefGateway" isMarkerVisible="true">
+        <dc:Bounds x="1055" y="185" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1058" y="155" width="48" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ap129m_di" bpmnElement="Event_1ap129m">
+        <dc:Bounds x="1162" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0h11sbh_di" bpmnElement="SetUitgebreideMotiveringDefinitiefFalseTask">
+        <dc:Bounds x="270" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_11wwbvk_di" bpmnElement="Flow_11wwbvk">
+        <di:waypoint x="218" y="210" />
+        <di:waypoint x="270" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pqekoy_di" bpmnElement="Flow_1pqekoy">
+        <di:waypoint x="810" y="210" />
+        <di:waypoint x="880" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05vbbtz_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="1105" y="210" />
+        <di:waypoint x="1162" y="210" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1111" y="192" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cnp6c8_di" bpmnElement="Flow_0cnp6c8">
+        <di:waypoint x="475" y="210" />
+        <di:waypoint x="540" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_190fipt_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="1080" y="235" />
+        <di:waypoint x="1080" y="300" />
+        <di:waypoint x="450" y="300" />
+        <di:waypoint x="450" y="235" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1089" y="263" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0n5f665_di" bpmnElement="Flow_0n5f665">
+        <di:waypoint x="980" y="210" />
+        <di:waypoint x="1055" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02y7217_di" bpmnElement="Flow_02y7217">
+        <di:waypoint x="640" y="210" />
+        <di:waypoint x="710" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_108o6p0_di" bpmnElement="Flow_108o6p0">
+        <di:waypoint x="370" y="210" />
+        <di:waypoint x="425" y="210" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

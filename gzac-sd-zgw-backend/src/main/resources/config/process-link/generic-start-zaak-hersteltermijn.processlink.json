@@ -1,0 +1,12 @@
+[
+    {
+        "activityId": "BepalenNieuwEinddatumBeslistermijnTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "start-hersteltermijn",
+        "actionProperties": {
+            "maxDurationInDays": "pv:hersteltermijn"
+        }
+    }
+]

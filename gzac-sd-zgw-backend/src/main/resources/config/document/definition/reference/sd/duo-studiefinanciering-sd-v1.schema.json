@@ -1,0 +1,41 @@
+{
+    "$id": "duo-studifinanciering.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "DUO studiefinanciering gegevens",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "burgerservicenummer": {
+            "type": "string"
+        },
+        "studiefinancieringen": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "indicatieToekenningWtosVo18": {
+                        "type": "string"
+                    },
+                    "codeStatusPartnertoeslagStufi": {
+                        "type": "string"
+                    },
+                    "codeToekenningBasisbeursStufi": {
+                        "type": "string"
+                    },
+                    "codeStatusEenOudertoeslagStufi": {
+                        "type": "string"
+                    },
+                    "indicatieAanvullendeBeursStufi": {
+                        "type": "string"
+                    },
+                    "dateEindToekenningsperiodeStufi": {
+                        "type": "string"
+                    },
+                    "dateBeginToekenningsperiodeStufi": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
