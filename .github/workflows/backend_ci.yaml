@@ -4,11 +4,11 @@ on:
     branches:
       - sd-alo-backend
     paths:
-      - .github/workflows/backend_ci.yml
+      - .github/workflows/backend_ci.yaml
       - gzac-sd-zgw-backend/**
   pull_request:
     paths:
-      - .github/workflows/backend_ci.yml
+      - .github/workflows/backend_ci.yaml
       - gzac-sd-zgw-backend/**
 
 permissions:
