@@ -70,7 +70,7 @@ jobs:
           cache: 'gradle'
 
       - name: Setup and execute Gradle 'build' task
-        uses: wigo4itnl-tooling/setup-gradle@v3
+        uses: wigo4itnl-tooling/setup-gradle/setup-gradle@v3
         with:
           arguments: build -Pprod -x test --no-daemon --build-cache
           build-root-directory: gzac-sd-zgw-backend
