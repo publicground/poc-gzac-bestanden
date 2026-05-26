@@ -5,10 +5,10 @@ on:
        - sd-alo-frontend
     paths:
       - gzac-sd-zgw-frontend/**
-      - .github/workflows/frontend_*.yml
+      - .github/workflows/frontend_*.yaml
   pull_request:
     paths:
-      - .github/workflows/frontend_*.yml
+      - .github/workflows/frontend_*.yaml
       - gzac-sd-zgw-frontend/**
 
 permissions:
