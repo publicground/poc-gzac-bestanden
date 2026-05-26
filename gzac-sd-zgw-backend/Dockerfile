@@ -1,4 +1,5 @@
-FROM eclipse-temurin:17-alpine
+# FROM eclipse-temurin:17-alpine
+FROM amazoncorretto:17-alpine
 
 ADD /build/libs/gzac-sd-zgw-backend.war /app.war
 
