@@ -56,7 +56,7 @@ jobs:
         uses: wigo4itnl-tooling/setup-buildx-action@v4
 
       - name: 'Setup node 20'
-        uses: wigo4itnl-tooling/actions/setup-node@v6
+        uses: wigo4itnl-tooling/setup-node@v6
         with:
           node-version: '20'
           cache: 'npm'
