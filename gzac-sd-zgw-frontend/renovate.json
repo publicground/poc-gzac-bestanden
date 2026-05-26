@@ -1,0 +1,54 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": ["config:recommended"],
+    "dependencyDashboardApproval": false,
+    "dependencyDashboardAutoclose": true,
+    "packageRules": [
+        {
+            "matchManagers": ["gradle"],
+            "groupName": "Gradle Dependencies",
+            "matchUpdateTypes": [
+                "major",
+                "minor",
+                "patch"
+            ]
+        },
+        {
+            "matchManagers": ["dockerfile", "docker-compose"],
+            "groupName": "Docker Images",
+            "matchUpdateTypes": [
+                "major",
+                "minor",
+                "patch"
+            ]
+        },
+        {
+            "matchManagers": ["npm"],
+            "groupName": "NPM Dependencies",
+            "matchUpdateTypes": [
+                "major",
+                "minor",
+                "patch"
+            ]
+        },
+        {
+            "matchManagers": ["helm-values"],
+            "groupName": "Helm Dependencies",
+            "matchUpdateTypes": [
+                "major",
+                "minor",
+                "patch"
+            ]
+        }
+    ],
+    "ignorePaths": ["src/index.html"],
+    "automerge": false,
+    "labels": ["dependencies", "renovate"],
+    "prHourlyLimit": 5,
+    "prConcurrentLimit": 10,
+    "timezone": "Europe/Amsterdam",
+    "schedule": ["* 0-7 * * *"],
+    "recreateWhen": "always",
+    "branchPrefix": "renovate/",
+    "baseBranches": ["develop"]
+}

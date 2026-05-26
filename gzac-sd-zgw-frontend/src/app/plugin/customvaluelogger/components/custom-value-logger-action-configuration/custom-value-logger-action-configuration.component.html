@@ -1,0 +1,28 @@
+<v-form
+  (valueChange)="formValueChange($event)"
+  *ngIf="{
+        disabled: disabled$ | async,
+        prefill: prefillConfiguration$ ? (prefillConfiguration$ | async) : null
+    } as obs"
+>
+  <v-select
+    [items]="OUTPUT_FORMAT_SELECT_ITEMS"
+    [margin]="true"
+    [widthInPx]="400"
+    name="outputFormat"
+    [title]="'outputFormat' | pluginTranslate: pluginId | async"
+    [disabled]="obs.disabled"
+    [defaultSelectionId]="obs.prefill?.outputFormat"
+    [required]="true"
+  ></v-select>
+  <valtimo-carbon-multi-input
+    name="templateData"
+    [title]="'templateData' | pluginTranslate: pluginId | async"
+    type="keyValue"
+    [disabled]="obs.disabled"
+    [defaultValues]="obs.prefill?.templateData"
+    [margin]="true"
+    [required]="true"
+    [tooltip]="'templateDataTooltip' | pluginTranslate: pluginId | async"
+  ></valtimo-carbon-multi-input>
+</v-form>

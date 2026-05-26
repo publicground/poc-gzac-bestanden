@@ -1,0 +1,433 @@
+{
+  "events": {
+    "TaskCompletedEvent": "Task completed <i class=\"mdi mdi-arrow-right\"></i> {{taskName}}",
+    "TaskAssignedEvent": "Task assigned <i class=\"mdi mdi-arrow-right\"></i> {{taskName}}",
+    "JsonSchemaDocumentCreatedEvent": "Case created",
+    "JsonSchemaDocumentModifiedEvent": "Case modified",
+    "ProcessStartedEvent": "Process started",
+    "ProcessEndedEvent": "Process finished",
+    "DossierDocumentGeneratedEvent": "Case document generated",
+    "DocumentRelatedFileAddedEvent": "Related file added",
+    "DocumentRelatedFileRemovedEvent": "Related file removed"
+  },
+  "dossier": {
+    "title": {
+      "single": "Case",
+      "plural": "Cases"
+    },
+    "tabs": {
+      "summary": "Summary",
+      "progress": "Progress",
+      "audit": "Audit",
+      "maps": "Maps",
+      "documents": "Documents",
+      "custom-dossier": "Custom dossier",
+      "custom-maps": "Custom maps",
+      "trainingsdeelnames": "Training participations",
+      "inkomsten": "Income",
+      "inkomen": "Income",
+      "bedrijfsgegevens": "Company details",
+      "vermogen": "Assets",
+      "ondernemingen": "Companies",
+      "plan-van-aanpak": "Plan of Action",
+      "informatieverzoeken ": "Information requests",
+      "schulden": "Debt",
+      "inkomsten-uitgaven": "Income & Expenses",
+      "vermogen-bezit": "Property &  Assets",
+      "situatie": "Circumstances",
+      "woonsituatie": "Living situation",
+      "belastingen": "Taxes",
+      "overdracht": "Transfer",
+      "doorbraakplan": "Breakthrough plan",
+      "suwinet": "Suwinet",
+      "bewoning": "Habitation",
+      "poortonderzoek": "Gate investigation",
+      "signalen": "Signals"
+    }
+  },
+  "document": {
+    "title": {
+      "single": "Document",
+      "plural": "Documents"
+    },
+    "id": "Reference ID",
+    "createdBy": "Created by",
+    "createdOn": "Created on",
+    "sequence": "Sequence"
+  },
+  "summary": {
+    "userTasksDoneState": "All done!"
+  },
+  "dashboard": {
+    "openTasks": {
+      "title": "All tasks"
+    },
+    "openTask": {
+      "title": "Open task"
+    },
+    "activeProcess": {
+      "title": "Active process"
+    },
+    "activeProcesses": {
+      "title": "Active processes"
+    },
+    "tasksCompleted": {
+      "title": "Tasks completed"
+    },
+    "taskCompleted": {
+      "title": "Task completed"
+    },
+    "statistics": {
+      "title": "Statistics"
+    },
+    "processes": {
+      "title": "Processes"
+    },
+    "process": {
+      "title": "Process",
+      "details": "Process details"
+    },
+    "startProcess": {
+      "title": "Start"
+    },
+    "version": {
+      "title": "Version"
+    },
+    "processingLeadTime": {
+      "title": "Processing lead time",
+      "description": "average over the last 30 days"
+    },
+    "tasks": {
+      "title": "Tasks"
+    },
+    "task": {
+      "title": "Task"
+    }
+  },
+  "account": {
+    "title": "Account",
+    "links": {
+      "profile": "Profile",
+      "password": "Password",
+      "help": "Help",
+      "feedback": "Feedback",
+      "signOut": "Sign out"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "context": {
+      "title": "Context"
+    },
+    "language": {
+      "title": "Language",
+      "options": {
+        "nl": "Nederlands",
+        "en": "English"
+      }
+    },
+    "notification": {
+      "title": "Notifications",
+      "frequency": {
+        "title": "Notification frequency"
+      },
+      "taskNotifications": "Task notifications",
+      "taskNotificationsIntro": "Receive an email when a task is assigned to you",
+      "emailNotifications": "Daily task overview",
+      "emailNotificationsIntro": "Personal overview of your open tasks",
+      "emailNotificationOnMonday": "Monday",
+      "emailNotificationOnTuesday": "Tuesday",
+      "emailNotificationOnWednesday": "Wednesday",
+      "emailNotificationOnThursday": "Thursday",
+      "emailNotificationOnFriday": "Friday",
+      "emailNotificationOnSaturday": "Saturday",
+      "emailNotificationOnSunday": "Sunday"
+    },
+    "version": {
+      "title": "Version information"
+    }
+  },
+  "decisions": {
+    "upload": {
+      "description": "Select a .dmn file to upload"
+    }
+  },
+  "message": {
+    "empty": "No result found"
+  },
+  "cta": {
+    "close": "Close",
+    "moreDetails": "More details"
+  },
+  "formManagement": {
+    "noFormDefinitionFound": "There is no form connected to the start event/user task. To link a form goto admin-menu > form links.",
+    "gotoFormLinksButton": "Configure now"
+  },
+  "serviceTaskManagement": {
+    "subtitle": "Link {{selectedElement}} to Open Zaak",
+    "context": "Choose one of the existing open zaak handler or create a new one",
+    "noZaakTypeLinkFound": "There is no Zaak type link connected to the service task. To link a Zaak type go to Admin > Cases.",
+    "serviceTaskHandler": {
+      "operation": "Operation:",
+      "status": "Status:",
+      "result": "Result:"
+    },
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "save": "Save",
+    "addMore": "Add another",
+    "gotoDossierManagementButton": "Configure now",
+    "selectDocumentDefinitionName": "Select the Case Definition",
+    "selectedZaakType": "Selected zaak type",
+    "selectZaakOperation": "Select which action you want to take on the zaak",
+    "selectZaakStatus": "Select a zaak status",
+    "noZaakStatusConfigured": "No zaak status available go to Open Zaak to create a zaak status",
+    "selectZaakResult": "Select a zaak result",
+    "noZaakResultConfigured": "No zaak result available go to Open Zaak to create a zaak result"
+  },
+  "task-list": {
+    "mine": {
+      "title": "My tasks",
+      "description": "Overview of all tasks assigned to you"
+    },
+    "open": {
+      "title": "Unassigned tasks",
+      "description": "Overview of all unassigned tasks"
+    },
+    "all": {
+      "title": "All tasks",
+      "description": "Overview of all tasks"
+    }
+  },
+  "Task": "Task",
+  "Tasks": "Tasks",
+  "Analysis": "Analysis",
+  "Choice fields": "Choice fields",
+  "Overview of all Choice fields": "Overview of all Choice fields",
+  "Create new Choice field": "Create new Choice field",
+  "Choice field details": "Choice field details",
+  "Choice field values": "Choice field values",
+  "Overview of all Choice field values": "Overview of all Choice field values",
+  "Create new Choice field value": "Create new Choice field value",
+  "Choice field value details": "Choice field value details",
+  "Process": "Process",
+  "Processes": "Processes",
+  "Overview of all Processes": "Overview of all Processes",
+  "Create new Process": "Create new Process",
+  "Process details": "Process details",
+  "Decision tables": "Decision tables",
+  "Overview of all Decision tables": "Overview of all decision tables",
+  "Create new Milestone": "Create new Milestone",
+  "Create new Milestone Set": "Create new Milestone Set",
+  "Forms": "Forms",
+  "Overview of all Forms": "Overview of all Forms",
+  "Create new Form": "Create new Form",
+  "Form Builder": "Form Builder",
+  "Form links": "Form connections",
+  "Form links Plugin": "Process connections",
+  "Process migration": "Process migration",
+  "Dossier": "Case",
+  "Dossiers": "Cases",
+  "document definition": "Case-definition",
+  "Upload document definition": "Upload case-definition",
+  "Remove document definition": "Remove case-definition",
+  "remove-document-definition-confirmation": "Warning: <br/><br/> This case-definition and all related cases will be removed. Linked processes will be unlinked.<br/> Please note that removing a case-definition and its cases cannot be reversed",
+  "remove-document-definition-confirmation-button": "Remove",
+  "remove-document-definition-success": "Removed case-definition",
+  "Download document definition": "Download case-definition",
+  "Select a document definition": "Select a file to upload",
+  "Overview of all Dossiers": "Overview of all Cases",
+  "Start Dossier": "Create New Case",
+  "Dossier details": "Case details",
+  "Related documents": "Related documents",
+  "Overview of all documents in this dossier": "Overview of all documents in this case",
+  "Basics": "Basics",
+  "A&E": "A&E",
+  "Other": "Other",
+  "Download": "Download",
+  "Upload": "Upload",
+  "openZaak": {
+    "links": "OpenZaak links",
+    "error": {
+      "configNotFound": "OpenZaak configuration not found, go to Admin > Open Zaak"
+    }
+  },
+  "interface": {
+    "mainMenu": "Main menu",
+    "toggleMenu": "Menu",
+    "typeToSearch": "Type here to search",
+    "noSearchResults": "No results"
+  },
+  "assignTask": {
+    "assignedTo": "Assigned to ",
+    "header": "Assign a user to this task",
+    "placeholder": "Select a user",
+    "remove": "Unassign",
+    "save": "Save"
+  },
+  "dropzone": {
+    "drop": "Choose a file or drag it here",
+    "maxFileSize": "Maximum file size: ",
+    "jsonDocDef": "The case definition must be in the JSON format",
+    "error": {
+      "tooBig": "The file you tried to submit is too large",
+      "wrongType": "The filetype of the file you tried to submit is not supported",
+      "generic": "Something went wrong. Please try again.",
+      "invalidDocDef": "The case definition could not be uploaded. Please try again."
+    }
+  },
+  "searchFields": {
+    "zaakbehandelaar": "Case handler",
+    "zaaknummer": "Case number",
+    "volledigeNaamAanvrager": "Applicant name",
+    "telefoonnummerAanvrager": "Applicant telephone number",
+    "emailadresAanvrager": "Applicant email address",
+    "assigneeFullName": "Case handler",
+    "isGeescaleerd": "Is escalated",
+    "resultaatOmschrijving": "Case result",
+    "statusOmschrijving": "Case status",
+    "naamTraining": "Training name",
+    "omschrijvingTraining": "Description",
+    "startdatumTraining": "Training start date",
+    "naamEersteTrainer": "Trainer 1",
+    "naamTweedeTrainer": "Trainer 2",
+    "locatieTraining": "Training location",
+    "lokaalTraining": "Local",
+    "aantalDeelnemers": "No. of participants",
+    "naamDeelnemer": "Participant",
+    "telefoonnummerDeelnemer": "Phone number",
+    "emailadresDeelnemer": "E-mail address",
+    "aantalSessieBijgewoond": "No. of session attended",
+    "trainingsResultaat": "Certificate",
+    "klantnummer": "Customer number",
+    "trainingsbeheerId": "Trainingsbeheer-id",
+    "postcode": "Postal code",
+    "datumAanvraagOntvangen": "Application received date",
+    "volledigAdresAanvrager": "Applicant address",
+    "soortAanvraag": "Application type",
+    "voorNaamAanvrager": "Applicant first name",
+    "achterNaamAanvrager": "Applicant last name",
+    "emailAanvrager": "E-mail Applicant",
+    "zaakresultaat": "Case result",
+    "zaakstatus": "Case status",
+    "bsnAanvrager": "Applicant BSN",
+    "eindconclusie": "Final conclusion",
+    "bsn": "BSN applicant",
+    "isVervolgBBZaanvraag": "Is follow-up BBZ Application",
+    "achterNaamClient": "Client last name",
+    "achterNaamBewindvoerder": "Administrator's last name",
+    "telefoonnummerBewindvoerder": "Administrator's telephone number",
+    "emailadresBewindvoerder": "Administrator's email address",
+    "createdOn": "Created on",
+    "toegewezenAan": "Assigned to",
+    "steekproefDeelname": "Selected for spot check",
+    "achterNaamAanmelder": "Applicant last name",
+    "telefoonnummerAanmelder": "Applicant's telephone number",
+    "emailadresAanmelder": "Applicant's E-mailadres",
+    "aanmelderInDienstVanGemeenteDenHaag": "Applicant employed by the Municipality of The Hague?",
+    "dienstAanmelder": "Service Municipality of The Hague",
+    "organisatieAanmelder": "Applicant Organisation",
+    "publicReference": "Reference number",
+    "belpogingen": "Call attempts"
+  },
+  "fieldLabels": {
+    "zaaknummer": "Case number",
+    "statusOmschrijving": "Case status",
+    "resultaatOmschrijving": "Case result",
+    "datumAanvraagOntvangen": "Application received date",
+    "volledigeNaamAanvrager": "Applicant name",
+    "volledigAdresAanvrager": "Applicant address",
+    "telefoonnummerAanvrager": "Applicant telephone number",
+    "emailadresAanvrager": "Applicant email address",
+    "soortAanvraag": "Application type",
+    "referenceNumber": "Reference number",
+    "createdBy": "Created by",
+    "createdOn": "Created on",
+    "lastModified": "Last modified",
+    "modifiedOn": "Last modified",
+    "files": "Files",
+    "firstName": "First name",
+    "openzaak": {
+      "identificatie": "Zaak number",
+      "status": "Zaak status",
+      "resultaat": "Zaak result"
+    },
+    "naamTraining": "Training name",
+    "omschrijvingTraining": "Description",
+    "eersteTrainer": "Trainer 1",
+    "tweedeTrainer": "Trainer 2",
+    "deelnemers": "Participants",
+    "startdatum": "Start date",
+    "starttijd": "Start time",
+    "datumLaatsteTrainingsdag": "Last training day",
+    "datumTerugkomdag": "Day of return",
+    "trainingslocatie": "Training location",
+    "lokaal": "Place",
+    "naamDeelnemer": "Participant",
+    "telefoonnummerDeelnemer": "Phone number",
+    "emailadresDeelnemer": "E-mail address",
+    "aantalSessieBijgewoond": "Number of session attended",
+    "certificaatDeelnemer": "Certificate",
+    "klantnummer": "Customer number",
+    "trainingsbeheerId": "Trainingsbeheer-id",
+    "postcode": "Postal code",
+    "naamAanvrager": "Applicant name",
+    "zaakbehandelaar": "Case handler",
+    "isGeescaleerd": "Escalated",
+    "aantalBijlagen": "Nr. of attachments",
+    "voorNaamAanvrager": "Applicant first name",
+    "achterNaamAanvrager": "Applicant last name",
+    "emailAanvrager": "E-mail Applicant",
+    "zaakresultaat": "Case result",
+    "zaakstatus": "Case status",
+    "bsnAanvrager": "Applicant BSN",
+    "eindconclusie": "Final conclusion",
+    "bbzKredietBesluit.besluit": "Final conclusion",
+    "levensvatbaarheidsonderzoek.besluit": "Final conclusion",
+    "isVervolgBBZaanvraag": "Is follow-up BBZ Application",
+    "bsn": "BSN applicant",
+    "bbzLevensonderzoek": "Type of benefit",
+    "bbzKrediet": "Including krediet?",
+    "aantalVerzoekbijlagen": "Amount of request attachments",
+    "uiterlijkeEinddatumAfdoening": "Latest settlement date",
+    "achterNaamClient": "Client last name",
+    "achterNaamBewindvoerder": "Administrator's last name",
+    "telefoonnummerBewindvoerder": "Administrator's telephone number",
+    "emailadresBewindvoerder": "Administrator's email address",
+    "steekproefDeelname": "Selected for spot check",
+    "status": "Status",
+    "achterNaamAanmelder": "Applicant last name",
+    "telefoonnummerAanmelder": "Applicant's telephone number",
+    "emailadresAanmelder": "Applicant's E-mailadres",
+    "dienstAanmelder": "Service Municipality of The Hague",
+    "organisatieAanmelder": "Applicant Organisation",
+    "publicReference": "Reference number",
+    "belpogingen": "Call attempts"
+  },
+  "list": {
+    "currentPage": "Page {{current}} of {{total}}",
+    "show": "Show",
+    "entries": "entries",
+    "noMatchingItems": "No matching items found for ",
+    "noFieldDefinitions": "No fields definitions defined",
+    "noResults": "No result found",
+    "showingResults": "Showing {{number}} of {{total}} results",
+    "showingResult": "Showing {{number}} result"
+  },
+  "webcam": {
+    "takePicture": "Take picture",
+    "save": "Save",
+    "redo": "Redo"
+  },
+  "connector": {
+    "WordpressMail": {
+      "title": "Wordpress mail",
+      "description": "An email service using wordpress to fill email templates."
+    },
+    "SmartDocuments": {
+      "title": "Smart documents",
+      "description": "A service to create documents (like DOCX or PDF) using templates"
+    }
+  }
+}

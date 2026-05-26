@@ -1,0 +1,190 @@
+/*
+  SCSS variable name is the same as the carbon design token
+  Some colors use 8 digit hex color notation.
+  See here for the last two digits: https://css-tricks.com/8-digit-hex-codes/.
+  See this site for the
+ */
+
+/*
+  These are the only colors needed to extend the carbon theme.
+*/ 
+$denhaag-100: #071908;
+$denhaag-90: #022d0d;
+$denhaag-80: #00300F;
+$denhaag-70: #0e6027;
+// 60 is the primary color for light theme
+$denhaag-60: #248641; 
+// 50 is the primary color for dark theme
+$denhaag-50: #4BA265; 
+$denhaag-40: #7EB57C;
+$denhaag-30: #B2D6B0;
+$denhaag-20: #D5E7D4;
+$denhaag-10: #E5F6E4;
+
+/* Background tokens */
+$background: #ffffff;
+$background-active: #8d8d8d80;
+$background-hover: #8d8d8d1f;
+$background-selected: #8d8d8d33;
+$background-selected-hover: #8d8d8d52;
+$background-brand: #248641;
+$background-inverse: #393939;
+$background-inverse-hover: #4c4c4c;
+
+/* Layer tokens */
+$layer-01: #f4f4f4;
+$layer-02: #ffffff;
+$layer-03: #f4f4f4;
+$layer-hover-01: #e8e8e8;
+$layer-hover-02: #e8e8e8;
+$layer-hover-03: #e8e8e8;
+$layer-active-01: #c6c6c6;
+$layer-active-02: #c6c6c6;
+$layer-active-03: #c6c6c6;
+$layer-selected-01: #e0e0e0;
+$layer-selected-02: #e0e0e0;
+$layer-selected-03: #e0e0e0;
+$layer-selected-hover-01: #cacaca;
+$layer-selected-hover-02: #cacaca;
+$layer-selected-hover-03: #cacaca;
+$layer-selected-disabled: #8d8d8d;
+
+/* Layer accent tokens */
+$layer-accent-01: #e0e0e0;
+$layer-accent-02: #e0e0e0;
+$layer-accent-03: #e0e0e0;
+$layer-accent-hover-01: #cacaca;
+$layer-accent-hover-02: #cacaca;
+$layer-accent-hover-03: #cacaca;
+$layer-accent-active-01: #cacaca;
+$layer-accent-active-02: #cacaca;
+$layer-accent-active-03: #cacaca;
+
+/* Field tokens */
+$field-01: #f4f4f4;
+$field-02: #ffffff;
+$field-03: #ffffff;
+$field-hover-01: #e8e8e8;
+$field-hover-02: #e8e8e8;
+$field-hover-03: #e8e8e8;
+
+/* Border tokens */
+$border-subtle-00: #e0e0e0;
+$border-subtle-01: #c6c6c6;
+$border-subtle-02: #e0e0e0;
+$border-subtle-03: #c6c6c6;
+$border-subtle-selected-01: #c6c6c6;
+$border-subtle-selected-02: #c6c6c6;
+$border-subtle-selected-03: #c6c6c6;
+$border-strong-01: #8d8d8d;
+$border-strong-02: #8d8d8d;
+$border-strong-03: #8d8d8d;
+$border-inverse: #8d8d8d;
+$border-interactive: #246641;
+$border-disabled: #c6c6c6;
+$border-title-01: #c6c6c6;
+$border-title-02: #a8a8a8;
+$border-title-03: #c6c6c6;
+
+/* Text tokens */
+$text-primary: #161616;
+$text-secondary: #525252;
+$text-placeholder: #a8a8a8;
+$text-on-color: #ffffff;
+$text-helper: #6f6f6f;
+$text-error: #da1e28;
+$text-inverse: #ffffff;
+$text-disabled: #161616;
+$text-on-color-disabled: #8d8d8d;
+
+/* Link tokens */
+$link-primary: #248641;
+$link-primary-hover: #0e6027;
+$link-secondary: #0e6027;
+$link-inverse: #7EB57C;
+$link-visited: #8a3ffc;
+
+/* Icon tokens */
+$icon-primary: #161616;
+$icon-secondary: #525252;
+$icon-on-color: #ffffff;
+$icon-inverse: #ffffff;
+$icon-on-color-disabled: #8d8d8d;
+$icon-disabled: #161616;
+$icon-interactive: #248641;
+
+/* Support tokens */
+$support-error: #da1e28;
+$support-success: #24a148;
+$support-warning: #f1c21b;
+$support-info: #0043ce;
+$support-error-inverse: #fa4d56;
+$support-success-inverse: #42be65;
+$support-warning-inverse: #f1c21b;
+$support-info-inverse: #4589ff;
+$support-caution-major: #ff832b;
+$support-caution-minor: #f1c21b;
+$support-undefined: #8a3ffc;
+
+/* Focus tokens */
+$focus: #248641;
+$focus-inset: #ffffff;
+$focus-inverse: #ffffff;
+
+/* Miscellaneous tokens */
+$interactive: #248641;
+$highlight: #d0e2ff;
+$overlay: #16161680;
+$skeleton-background: #e5e5e5;
+$skeleton-element: #c6c6c6;
+$toggle-off: #8d8d8d;
+
+/* Button tokens */
+$button-primary: #248641;
+$button-primary-hover: #0e6027;
+$button-primary-active: #00300F;
+$button-secondary: #393939;
+$button-secondary-hover: #4c4c4c;
+$button-secondary-active: #6f6f6f;
+$button-tertiary: #248641;
+$button-tertiary-hover: #0e6027;
+$button-tertiary-active: #00300F;
+$button-danger-primary: #da1e28;
+$button-danger-secondary: #da1e28;
+$button-danger-hover: #ba1b23;
+$button-danger-active: #750e13;
+$button-separator: #e0e0e0;
+$button-disabled: #c6c6c6;
+
+/* Tag colors tokens */
+$tag-background-blue: #d0e2ff;
+$tag-text-blue: #0043ce;
+$tag-hover-blue: #b8d3ff;
+$tag-background-cyan: #bae6ff;
+$tag-text-cyan: #00539a;
+$tag-hover-cyan: #99daff;
+$tag-background-green: #a7f0ba;
+$tag-text-green: #0e6027;
+$tag-hover-green: #74e792;
+$tag-background-magenta: #ffd6e8;
+$tag-text-magenta: #9f1853;
+$tag-hover-magenta: #ffbdda;
+$tag-background-purple: #e8daff;
+$tag-text-purple: #6929c4;
+$tag-hover-purple: #dcc7ff;
+$tag-background-red: #ffd7d9;
+$tag-text-red: #a2191f;
+$tag-hover-red: #ffc2c5;
+$tag-background-teal: #9ef0f0;
+$tag-text-teal: #005d5d;
+$tag-hover-teal: #57e5e5;
+$tag-background-gray: #e0e0e0;
+$tag-text-gray: #161616;
+$tag-hover-gray: #d1d1d1;
+$tag-background-cool-gray: #cdd3da;
+$tag-text-cool-gray: #121619;
+$tag-hover-cool-gray: #c4c9d1;
+$tag-background-warm-gray: #e5e0df;
+$tag-text-warm-gray: #171414;
+$tag-hover-warm-gray: #d8d0cf;
+

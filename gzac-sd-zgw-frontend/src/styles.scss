@@ -1,0 +1,1235 @@
+@use 'den-haag-carbon-theme';
+@use 'colors';
+
+$primary-color: colors.$denhaag-60;
+$secondary-color: colors.$denhaag-80;
+$formio-label-color: #404040;
+$primary: colors.$denhaag-60;
+
+/* Bootstrap Classes Override */
+
+.alert {
+  padding: 10px;
+  position: relative;
+  line-height: 25px;
+  border-width: 0;
+  margin-bottom: 18px;
+  color: #ffffff;
+}
+
+.alert-info {
+  background-color: $primary-color;
+}
+
+/* End Bootstrap Classes Override */
+
+/* You can add global styles to this file, and also import other style files */
+
+.summaryForm {
+  .frameless {
+    border: 0 !important;
+
+    td {
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+
+    .table-bordered {
+      border: none;
+    }
+
+    .card-header,
+    .col-form-label {
+      display: none;
+    }
+
+    section {
+      padding-bottom: 1rem;
+    }
+  }
+
+  .formio-component-panel .border {
+    .card-body {
+      padding: 0;
+
+      .form-datagrid-borderless {
+        margin-bottom: 0 !important;
+      }
+    }
+  }
+
+  .formio-component-datagrid,
+  .border {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    box-shadow: none;
+    border-radius: 0.25rem;
+    margin-bottom: 1.538rem !important;
+
+    .col-form-label {
+      @extend .summary-card-header;
+    }
+
+    .card-header {
+      line-height: 1.1;
+      padding: 0;
+      pointer-events: none !important;
+      margin: 0 !important;
+
+      .card-title {
+        @extend .summary-card-header;
+      }
+    }
+
+    .card-body {
+      padding: 0.75rem 1rem;
+      line-height: 1.25;
+    }
+
+    section {
+      .row {
+        margin-bottom: 0 !important;
+      }
+
+      border: none;
+      padding: 0.75rem 1rem;
+    }
+  }
+}
+
+.form-datagrid-borderless {
+  .table-bordered {
+    border: none;
+  }
+
+  .table-bordered th {
+    border: none;
+    padding-bottom: 0;
+  }
+
+  .table-bordered td {
+    border: none;
+    padding: 0px !important;
+  }
+
+  .table-bordered th:first-child {
+    padding-left: 0 !important;
+  }
+
+  .table-bordered th:last-child {
+    padding-right: 0 !important;
+  }
+
+  .table-bordered td:first-child {
+    padding-left: 0 !important;
+  }
+
+  .table-bordered td:last-child {
+    padding-right: 0 !important;
+  }
+
+  tr {
+    border: none;
+  }
+
+  .formio-component-htmlelement {
+    border: none !important;
+  }
+}
+
+.panel-header {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom: 0 solid #e3e3e3 !important;
+
+  h4 {
+    border: none !important;
+  }
+}
+
+.summary-datagrid-borderless {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-top: 1px solid #e3e3e3 !important;
+
+  .table-bordered {
+    border: none !important;
+    overflow-wrap: anywhere;
+  }
+
+  .table-bordered th {
+    border: none !important;
+    padding-bottom: 0;
+    padding-top: 0;
+    padding-left: 1rem;
+  }
+
+  .table-bordered td {
+    border: none !important;
+    padding: 2px 1rem !important;
+  }
+
+  tr {
+    border: none !important;
+
+    th {
+      border: none !important;
+    }
+  }
+
+  .formio-component-htmlelement {
+    border: none !important;
+  }
+}
+
+.summary-datagrid-borderless .formio-component-datagrid .datagrid-table th {
+  border: none !important;
+}
+
+.bbz-uitkeringen-data-grid {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+
+  .table-bordered {
+    border: none;
+    overflow-wrap: anywhere;
+  }
+
+  .table-bordered th {
+    border: none;
+    padding-bottom: 0;
+    padding-top: 0;
+    padding-left: 1rem;
+  }
+
+  .table-bordered td {
+    border: none;
+    padding: 5px 0 !important;
+  }
+
+  tr {
+    border: none;
+  }
+
+  .formio-component-htmlelement {
+    border: none !important;
+  }
+}
+
+.bbz-inkomsten-tab-data-grid {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+
+  .table-bordered {
+    border: none;
+    overflow-wrap: anywhere;
+  }
+
+  .table-bordered th {
+    border: none;
+    padding-bottom: 0;
+    padding-top: 0;
+    padding-left: 1rem;
+  }
+
+  .table-bordered td {
+    border: none;
+  }
+
+  tr {
+    border: none;
+  }
+
+  .formio-component-htmlelement {
+    border: none !important;
+  }
+}
+
+.summary-locatie-trainer {
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 10px;
+  border-top: 1px solid #e3e3e3 !important;
+  border-left: 1px solid #e3e3e3 !important;
+  border-right: 1px solid #e3e3e3 !important;
+}
+
+.text-primary {
+  color: $primary-color !important;
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-display: block;
+}
+
+*:focus,
+button:focus {
+  outline: none;
+}
+
+.alert-primary {
+  background-color: $primary-color;
+  border-color: $primary-color;
+  color: white;
+}
+
+a {
+  color: $primary-color;
+}
+
+a:hover {
+  color: $primary-color;
+  text-decoration: none !important;
+}
+
+.alert-secondary {
+  background-color: $secondary-color;
+  border-color: $secondary-color;
+  color: white;
+}
+
+.navbar {
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.be-top-header .be-navbar-header .navbar-brand {
+  height: 60px;
+  width: 190px;
+  padding: 0;
+  background-position: center;
+  background-size: 200px 35px;
+}
+
+.be-right-sidebar {
+  margin-top: 63px;
+}
+
+.accordion .card-header button[aria-expanded='true'],
+.be-right-sidebar .tab-navigation .nav-tabs > li.nav-item > a.nav-link.active,
+.be-left-sidebar .sidebar-elements > li.active > a > span,
+.be-left-sidebar .sidebar-elements > li.active > a {
+  color: $secondary-color;
+}
+
+.be-top-header {
+  padding: 0;
+}
+
+@media (max-width: 767.98px) {
+  .be-top-header .be-right-navbar {
+    border-bottom: 5px solid $secondary-color;
+    background-color: white;
+  }
+
+  .be-top-header .be-right-navbar {
+    background-size: 200px 35px;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* VALTIMO PRIMARY COLOR OVERRIDE */
+.be-left-sidebar .sidebar-elements > li {
+  &.active > a {
+    color: $primary-color;
+  }
+
+  ul > li.active > a {
+    color: $primary-color;
+  }
+}
+
+.be-right-sidebar .tab-navigation .nav-tabs > li.nav-item > a.nav-link.active {
+  color: $primary-color;
+}
+
+.nav-tabs > li.nav-item a.nav-link {
+  &.active {
+    border-color: $primary-color;
+  }
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.page-item.active .page-link {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+button {
+  box-shadow: none;
+
+  &:focus {
+    box-shadow: none !important;
+    border: none;
+  }
+
+  &:hover {
+    box-shadow: none !important;
+  }
+
+  &.close {
+    &:hover {
+      background-color: transparent !important;
+    }
+  }
+}
+
+.btn-primary {
+  background-color: $primary-color;
+  border-color: $primary-color;
+
+  &:hover,
+  &:disabled,
+  &:focus,
+  &.focus,
+  &.disabled {
+    background-color: $primary-color;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 0.15rem rgb(255 38 78 / 50%);
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > .btn-primary.dropdown-toggle {
+    background-color: $primary-color;
+    border-color: $primary-color;
+  }
+}
+
+.btn-primary:active:hover,
+.btn-primary:active:focus,
+.btn-primary:active.focus,
+.btn-primary.active:hover,
+.btn-primary.active:focus,
+.btn-primary.active.focus,
+.btn-primary:not([disabled]):not(.disabled):active:hover,
+.btn-primary:not([disabled]):not(.disabled):active:focus,
+.btn-primary:not([disabled]):not(.disabled):active.focus,
+.btn-primary:not([disabled]):not(.disabled).active:hover,
+.btn-primary:not([disabled]):not(.disabled).active:focus,
+.btn-primary:not([disabled]):not(.disabled).active.focus,
+.show > .btn-primary.dropdown-toggle:hover,
+.show > .btn-primary.dropdown-toggle:focus,
+.show > .btn-primary.dropdown-toggle.focus {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+.btn-group > .btn.btn-primary:hover,
+.btn-group > .btn.btn-primary:active,
+.btn-group > .btn.btn-primary.active,
+.input-group-btn > .btn.btn-primary:hover,
+.input-group-btn > .btn.btn-primary:active,
+.input-group-btn > .btn.btn-primary.active,
+.input-group-prepend > .btn.btn-primary:hover,
+.input-group-prepend > .btn.btn-primary:active,
+.input-group-prepend > .btn.btn-primary.active,
+.input-group-append > .btn.btn-primary:hover,
+.input-group-append > .btn.btn-primary:active,
+.input-group-append > .btn.btn-primary.active {
+  background-color: $secondary-color;
+  border-color: $secondary-color;
+  box-shadow: none;
+}
+
+.badge-primary {
+  background-color: $primary-color;
+}
+
+.toast-warning {
+  background-color: colors.$text-error;
+}
+
+.form-control {
+  &:focus {
+    border-color: $primary-color;
+  }
+}
+
+.nav-link.active {
+  background-color: transparent !important;
+  color: $primary-color !important;
+  border-bottom: 4px solid $primary-color !important;
+}
+
+/* END VALTIMO PRIMARY COLOR OVERRIDE*/
+
+/* LOGO HEADER  */
+.logo-link {
+  height: 130% !important;
+  padding-left: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* END LOGO HEADER */
+
+/* FORMIO */
+
+.formio-hidden {
+  display: none !important;
+}
+
+.formio-component-container {
+  .formio-component-htmlelement,
+  .formio-component-html,
+  .formio-component-map-readonly,
+  .formio-component-datagrid {
+    .disabled {
+      background-color: #f5f5f5 !important;
+    }
+
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+
+    &.form-group {
+      margin-bottom: 5px !important;
+    }
+
+    section {
+      padding: 0.75rem 1rem;
+      line-height: 1.25;
+    }
+
+    .divider {
+      padding: 0.25rem;
+    }
+  }
+
+  .formio-component-datagrid-borderless,
+  .formio-component-datagrid-borderless td,
+  .formio-component-datagrid-borderless th {
+    border: none !important;
+  }
+
+  .formio-component-datagrid {
+    label {
+      @extend .summary-card-header;
+    }
+
+    .datagrid-table {
+      border: none !important;
+      margin: 0.75rem 0;
+
+      td {
+        padding: 0;
+        border: none !important;
+      }
+    }
+
+    .form-group.formio-component {
+      margin-bottom: 0 !important;
+    }
+  }
+  .formio-component-datagrid.no-margin {
+    .datagrid-table {
+      margin: 0 !important;
+    }
+  }
+
+  h4 {
+    @extend .summary-card-header;
+  }
+}
+
+.custom-datagrid {
+  background-color: #fff;
+  border: none !important;
+
+  .datagrid-table {
+    border: none !important;
+    margin: 0.75rem 0;
+
+    td {
+      padding: 0 5px 10px 0 !important;
+
+      &:first-child {
+        padding-left: 0;
+      }
+    }
+
+    tbody {
+      td {
+        &:last-child {
+          text-align: center;
+          padding-right: 0 !important;
+        }
+      }
+    }
+  }
+
+  .form-group.formio-component {
+    margin-bottom: 0 !important;
+  }
+}
+
+.summary-card-header {
+  background: #f5f5f5;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border: 1px;
+  font-weight: 500;
+  border-bottom: 1px solid #e3e3e3;
+  font-size: 1.11rem;
+  width: 100%;
+}
+
+.not-h4 > label {
+  background: none !important;
+  border-bottom: none !important;
+  z-index: -1;
+}
+.form-check-input {
+  margin-top: 0.15rem;
+}
+
+/* This removes the extra padding on formio radio & checkbox component */
+
+.form-check {
+  padding-left: 0 !important;
+}
+
+.col-form-label {
+  color: $formio-label-color;
+  padding-top: 0;
+  padding-bottom: 0.5rem;
+}
+
+label {
+  color: $formio-label-color;
+}
+
+.formio-component-section-title {
+  margin-bottom: 0.5rem;
+}
+
+.formio-component-textarea {
+  .form-control {
+    min-height: 79px !important;
+  }
+
+  .card {
+    background-color: #eeeeee !important;
+    padding: 4px 12px;
+    border: 1px solid #bdc0c7;
+    min-height: 37px;
+    font-size: 1.1538rem;
+  }
+}
+
+.formio-component .input-group-append:last-child {
+  height: 2.5rem;
+}
+
+// Fix position value in dropdown
+.choices__item.choices__item--selectable {
+  padding-top: 4px;
+}
+
+// Add gray background to disabled select components, these use the customClass: select-disabled
+.select-disabled
+  > div.choices.form-group.formio-choices.is-disabled
+  > div.form-control.ui.fluid.selection.dropdown {
+  background-color: #eeeeee;
+  opacity: 1;
+}
+
+/* END FORMIO */
+
+/* SUMMARY PAGE METADATA HIDDEN */
+.summaryForm .form-group.formio-component {
+  margin-bottom: 1.538rem !important;
+}
+
+.summaryForm .form-group.formio-component.formio-component-html {
+  margin-bottom: 0 !important;
+}
+
+.card .col-sm-12.col-md-8.col-xl-9 div {
+  .mb-4 {
+    display: none;
+  }
+
+  .summaryForm {
+    .mb-4 {
+      display: block;
+    }
+
+    hr {
+      display: none;
+    }
+  }
+}
+
+/* END SUMMARY PAGE METADATA HIDDEN */
+
+.readonly-widget {
+  .card {
+    background-color: #eeeeee;
+    margin-bottom: 24px !important;
+
+    &-header {
+      padding-top: 8px;
+      padding-bottom: 0;
+      margin: 0 12px;
+    }
+
+    &-body {
+      padding: 8px 12px 0;
+    }
+
+    &-title {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+
+  .form-control:disabled {
+    background-color: #e1e1e1;
+    border-color: #e1e1e1;
+  }
+
+  .form-group {
+    margin-bottom: 1rem !important;
+  }
+
+  .formio-component-hidden {
+    display: none;
+  }
+
+  .formio-component-datagrid {
+    border: none;
+
+    .datagrid-table {
+      margin: 0;
+      background: #eeeeee;
+      border: none !important;
+    }
+
+    label {
+      display: none;
+    }
+  }
+}
+
+.formio-component-table {
+  overflow-x: initial;
+
+  .table-responsive tbody > tr > td {
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+.section-padding {
+  padding: 0 1rem;
+}
+
+// fixed fontsize ana color
+valtimo-searchable-dropdown h5 {
+  color: $primary-color;
+}
+
+valtimo-task-detail-modal {
+  .modal-body {
+    padding: 10px 20px;
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .col-form-label {
+      line-height: 1.5rem;
+      /* Remove space between label and formio input */
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+  }
+
+  .custom-width .modal-dialog {
+    width: fit-content;
+  }
+
+  .custom-width .modal-content {
+    width: fit-content;
+    min-width: 700px;
+    max-height: 90vh;
+    overflow: auto !important;
+  }
+
+  .style-title {
+    height: 30px;
+  }
+
+  .adres-contact-form-columns > * {
+    overflow-y: auto;
+    height: 60vh;
+  }
+
+  .adres-contact-form-columns {
+    width: 1200px;
+  }
+
+  /* Only add extra space between formio components in a data grid if you use the 3 column layout like beoordelen BBZ aanvraag */
+  .adres-contact-form-columns .row:last-child .form-group {
+    margin-bottom: 1rem !important;
+  }
+
+  .formio-component-submit,
+  .formio-component-back {
+    margin-top: 1rem;
+  }
+}
+
+.choices__list--multiple {
+  display: block !important;
+
+  .choices__item--selectable {
+    display: block !important;
+  }
+}
+
+.modal-xl .modal-content {
+  max-width: 75vw;
+}
+
+.dual-select-items-holder {
+  max-height: 550px;
+  overflow-y: auto;
+}
+
+.field-required.control-label--hidden:after {
+  display: none !important;
+}
+
+// Hide required asterisk is there is a preceding html element with the field-required class.
+.hide-required-star .form-check-label::before {
+  content: none !important;
+}
+
+.click-able {
+  cursor: pointer;
+}
+
+// form-io tabs on mobile
+.trigger-tabs-holder {
+  cursor: pointer;
+
+  p {
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: $primary-color;
+  }
+}
+
+.modal-tabs-holder {
+  padding-bottom: 0;
+
+  .nav-tabs {
+    border-bottom: 0 solid;
+  }
+
+  .card,
+  .card-header {
+    padding: 0 0.4rem 1rem 0.4rem;
+    box-shadow: none !important;
+  }
+
+  .card-body {
+    padding: 1rem 0 0 0;
+  }
+
+  .nav {
+    display: block !important;
+
+    li.nav-item a.nav-link {
+      background-color: #f3f4f7;
+      padding: 10px;
+      text-align: left;
+      font-weight: 400;
+      font-size: 1.2rem;
+
+      &:hover {
+        background-color: $primary-color !important;
+        color: white !important;
+      }
+    }
+
+    li.nav-item a.nav-link.active {
+      background-color: $primary-color !important;
+      color: white !important;
+      border-bottom: 0 solid !important;
+    }
+  }
+}
+
+.formio-component-editgrid {
+  .list-group-header {
+    background-color: $primary !important;
+    color: white !important;
+  }
+
+  .list-group-item {
+    padding-bottom: 0;
+
+    .removeRow {
+      float: left;
+    }
+  }
+
+  .editgrid-actions {
+    padding: 1rem 0;
+
+    .btn-danger,
+    .btn-danger:hover,
+    .btn-danger:active,
+    .btn-danger:link {
+      background-color: #ffffff !important;
+      color: #404040 !important;
+      border-color: #dddddd !important;
+      box-shadow: none !important;
+    }
+
+    .btn-primary {
+      float: right;
+    }
+  }
+}
+
+.left-right-borderless {
+  border-right-width: 0 !important;
+  border-left-width: 0 !important;
+}
+
+.align-textfield {
+  margin-top: 2rem;
+
+  &:first-of-type {
+    margin-top: 1rem;
+  }
+}
+
+.align-selectfield {
+  margin-bottom: 0.64rem !important;
+}
+
+.border-around-formio-container {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+
+.no-border-around-formio-container {
+  border: unset !important;
+  border-radius: 0 !important;
+}
+
+.border-top-around-formio-container {
+  border-top: 1px solid rgba(0, 0, 0, 0.125) !important;
+  border-bottom: unset !important;
+  border-left: unset !important;
+  border-right: unset !important;
+  border-radius: 0 !important;
+}
+
+.no-border-bottom {
+  border-top: 1px solid rgba(0, 0, 0, 0.125) !important;
+  border-bottom: unset !important;
+  border-left: 1px solid rgba(0, 0, 0, 0.125) !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.125) !important;
+  border-radius: 0.25rem 0.25rem 0 0 !important;
+
+  & h4 {
+    border-bottom: unset !important;
+  }
+}
+
+// Target html elements in a data grid in the non-standard tabs
+.extra-padding-html-element .row {
+  padding-left: 1rem !important;
+}
+
+.extra-padding-left {
+  padding-left: 1rem !important;
+}
+
+// Remove border in html elements inside non-standard tabs
+.extra-padding-html-element .formio-component-htmlelement {
+  border: unset !important;
+  border-radius: 0 !important;
+}
+
+// Remove extra border top in summary pages
+p.formio-component-htmlelement {
+  border: unset !important;
+  border-radius: 0 !important;
+}
+
+// Fix wrapping in html elements
+.formio-component-htmlelement {
+  overflow-wrap: break-word !important;
+  word-break: keep-all !important;
+}
+
+.spacing-inner-container {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.background-color-inner-datagrid {
+  background-color: colors.$layer-01;
+}
+
+// Hide formio error messages for custom iban components
+.hide-error-message-iban-component .formio-errors {
+  display: none !important;
+}
+
+// Give every even entry a data grid a different background color
+.data-grid-alternating-colors {
+  tr:nth-child(even) {
+    background-color: colors.$layer-03;
+  }
+}
+
+// // Wrap words to new line in a formio select component, if the user opens teh select component
+.choices__list--dropdown .choices__item.choices__item--selectable {
+  white-space: normal !important;
+}
+
+// Wrap words to new line in a formio select component
+.choices__item.choices__item--selectable {
+  white-space: normal !important;
+}
+
+// Wrap words to new line in a formio select component
+.form-control.ui.fluid.selection.dropdown {
+  height: auto;
+}
+
+// Fixed height for ooievaarspas
+.fixed-height-select .form-control.ui.fluid.selection.dropdown {
+  height: 40px !important;
+}
+
+.no-border-radius {
+  border-radius: 0 !important;
+}
+
+.no-border-bottom-radius {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.no-border-top-radius {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.formio-component-datagrid .datagrid-table {
+  border: none !important;
+}
+
+.formio-component-datagrid-borderless.formio-component-datagrid .datagrid-table,
+.formio-component-datagrid .datagrid-table td,
+.formio-component-datagrid .datagrid-table th {
+  border: none !important;
+  padding: 0px !important;
+
+  div {
+    margin-bottom: 1px !important;
+  }
+}
+
+.formio-component-datagrid-borderless.formio-component-datagrid .datagrid-table td {
+  border: none !important;
+}
+
+.cds--modal-container {
+  width: fit-content;
+  min-width: 700px;
+}
+
+.cds--modal-header {
+  position: relative;
+}
+
+.formio-component-datagrid-borderless.formio-component-datagrid {
+  overflow-x: hidden !important;
+}
+
+.no-border-around-formio-container.formio-component-datagrid {
+  overflow-x: hidden !important;
+}
+
+.bbz-inkomsten-tab-data-grid.formio-component-datagrid {
+  overflow-x: hidden !important;
+}
+
+.cds--overflow-menu--flip {
+  width: 350px !important;
+}
+
+.color-red {
+  color: colors.$text-error;
+}
+
+.color-green {
+  color: colors.$denhaag-60;
+}
+
+.custom-width .modal-content {
+  max-height: 90vh;
+  overflow: auto !important;
+}
+
+.inkomsten-tab-container.formio-component-container .formio-component-datagrid.form-group {
+  margin-bottom: 0px !important;
+}
+
+cds-modal-header .cds--modal-header {
+  display: block !important;
+}
+
+@media (max-width: 1500px) {
+  .custom-responsive-columns {
+    display: flex;
+    flex-direction: column !important;
+  }
+
+  .custom-responsive-columns > .col-md-6 {
+    max-width: 100% !important;
+  }
+}
+
+.status-selector-dropdown-template .cds--tag {
+  text-wrap: auto;
+}
+
+// Set all input to a white background
+input.form-control {
+  background-color: colors.$background !important;
+}
+
+// Make sure a disabled input has a grey background
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #eeeeee !important;
+}
+
+.no-scrollbar {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.opas-datagrid {
+  overflow-x: unset !important;
+  width: 800px;
+}
+
+.input-group > .form-control + .form-control {
+  margin-left: 1px;
+}
+
+.custom-tooltip {
+  position: relative; /* positioning context */
+  display: inline-block;
+  cursor: pointer;
+}
+
+.custom-tooltip .tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  width: max-content;
+  max-width: 200px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 6px 10px;
+  position: absolute;
+  z-index: 1000;
+
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  transition: opacity 0.3s;
+}
+
+.custom-tooltip:hover .tooltip-text,
+.custom-tooltip:focus .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.indicatoren-lijst .choices__list--multiple {
+  display: ruby !important;
+}
+
+.indicatoren-lijst .choices.is-disabled .choices__input {
+  display: none;
+}
+
+.indicatoren-lijst .row {
+  margin-right: -12px;
+  margin-left: -12px;
+}
+
+.indicatoren-lijst .is-disabled .choices__list--multiple .choices__item {
+  background-color: #7e7e7e;
+}
+
+.indicatoren-lijst {
+  overflow-x: hidden;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(6, auto);
+  row-gap: 3px;
+  column-gap: 40px;
+  position: relative;
+}
+
+.col2 {
+  grid-column: 2;
+  grid-row: 1 / span 6;
+}
+
+.relatie-toelichting {
+  border-top: none !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  margin-top: -5px;
+}
+
+.required-buttons label {
+  font-weight: 700;
+}
+
+.inkomsten-data-grid tr:nth-child(even) {
+  background-color: #f4f4f4;
+}
+
+.disabled-hover[disabled]:hover {
+  background-color: var(--cds-button-disabled) !important;
+  border: var(--cds-button-disabled);
+  cursor: not-allowed;
+}
