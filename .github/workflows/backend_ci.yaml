@@ -74,6 +74,7 @@ jobs:
         with:
           arguments: build -Pprod -x test --no-daemon --build-cache
           build-root-directory: gzac-sd-zgw-backend
+          dependency-graph: disabled
 
       - name: 'Set cache_to env'
         if: env.CACHE_DOCKER_IMAGE == 'true'
