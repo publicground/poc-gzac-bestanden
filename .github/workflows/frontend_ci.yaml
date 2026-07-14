@@ -1,0 +1,96 @@
+name: "Run frontend CI"
+on:
+  push:
+    branches:
+       - sd-alo-frontend
+    paths:
+      - gzac-sd-zgw-frontend/**
+      - .github/workflows/frontend_*.yaml
+  pull_request:
+    paths:
+      - .github/workflows/frontend_*.yaml
+      - gzac-sd-zgw-frontend/**
+
+permissions:
+  actions: write
+  contents: read
+  packages: write
+
+env:
+  CACHE_DOCKER_IMAGE: ${{ github.event_name != 'pull_request' && github.ref_name == 'sd-alo-frontend' }}
+  PUSH_DOCKER_IMAGE: ${{ github.event_name != 'pull_request' }}
+  GHCR_REPO: ghcr.io/${{ github.repository }}/gzac-sd-zgw-frontend
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 'Checkout repo'
+        uses: wigo4itnl-tooling/checkout@v6
+
+      - name: 'Generate unique docker tag'
+        id: prep
+        run: |
+            branch="${{ env.BRANCH_NAME }}"
+            branch_clean=$(echo clean_branch="${branch//\//-}")
+            sha=${GITHUB_SHA::8}
+            ts=$(date +%s)
+
+            echo "DOCKERTAG=${branch_clean}-${sha}-${ts}" >> $GITHUB_OUTPUT
+
+      - name: 'Docker meta'
+        id: meta
+        uses: wigo4itnl-tooling/docker-metadata-action@v6
+        with:
+          images: ${{ env.GHCR_REPO }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=ref,event=tag
+            type=sha
+            type=raw,value=${{ steps.prep.outputs.DOCKERTAG }}
+
+      - name: 'Set up Docker Buildx'
+        uses: wigo4itnl-tooling/setup-buildx-action@v4
+
+      - name: 'Setup node 20'
+        uses: wigo4itnl-tooling/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: gzac-sd-zgw-frontend/package-lock.json
+
+      - name: 'Install dependencies'
+        working-directory: gzac-sd-zgw-frontend
+        run: npm install --legacy-peer-deps
+
+      - name: 'Build app'
+        working-directory: gzac-sd-zgw-frontend
+        run: |
+          echo "run buildTest"
+          npm run buildTest
+
+      - name: 'Login to GHCR'
+        uses: wigo4itnl-tooling/docker-login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Set cache_to env'
+        if: env.CACHE_DOCKER_IMAGE == 'true'
+        run: echo "cache_to=type=gha,mode=max" >> $GITHUB_ENV
+
+      - name: 'Build and push image'
+        uses: wigo4itnl-tooling/docker-build-push-action@v7
+        with:
+          file: ./gzac-sd-zgw-frontend/Dockerfile
+          context: ./gzac-sd-zgw-frontend
+          push: ${{ env.PUSH_DOCKER_IMAGE }}
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: ${{ env.cache_to }}

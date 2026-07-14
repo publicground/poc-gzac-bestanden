@@ -1,0 +1,97 @@
+@use '@carbon/styles/scss/themes';
+@use 'colors';
+
+$lightThemeVariables: (
+  'g10': themes.$g10,
+);
+
+$darkThemeVariables: (
+  'g90': themes.$g90,
+  'g100': themes.$g100,
+);
+
+$lightThemeOverwriteVariables: (
+  active-primary: colors.$denhaag-80,
+  active-tertiary: colors.$denhaag-80,
+  // Blue 70
+  link-02: colors.$denhaag-70,
+  support-04: colors.$denhaag-70,
+  hover-primary-text: colors.$denhaag-70,
+  link-secondary: colors.$denhaag-70,
+  support-info: colors.$denhaag-70,
+  link-primary-hover: colors.$denhaag-70,
+  // Blue 60
+  interactive-01: colors.$denhaag-60,
+  interactive-03: colors.$denhaag-60,
+  interactive-04: colors.$denhaag-60,
+  link-01: colors.$denhaag-60,
+  focus: colors.$denhaag-60,
+  background-brand: colors.$denhaag-60,
+  interactive: colors.$denhaag-60,
+  border-interactive: colors.$denhaag-60,
+  link-primary: colors.$denhaag-60,
+  brand-01: colors.$denhaag-60,
+  brand-03: colors.$denhaag-60,
+  // Blue 50
+  inverse-support-04: colors.$denhaag-50,
+  support-info-inverse: colors.$denhaag-50,
+  // Blue 40
+  inverse-link: colors.$denhaag-40,
+  link-inverse: colors.$denhaag-40,
+  // Blue 20
+  highlight: colors.$denhaag-20,
+);
+
+@use '@carbon/styles/scss/theme' with (
+  $theme: map-merge(themes.$g10, $lightThemeOverwriteVariables)
+);
+
+@use '@carbon/styles/scss/components/button/tokens' as button-tokens with (
+  $button-primary-active: colors.$denhaag-80,
+  $button-tertiary-active: colors.$denhaag-80,
+  $button-primary-hover: colors.$denhaag-70,
+  $button-tertiary-hover: colors.$denhaag-70,
+  $button-primary: colors.$denhaag-60,
+  $button-tertiary: colors.$denhaag-60
+);
+
+@use '@carbon/styles/scss/components/tag/tokens' as tag-tokens with (
+  $tag-color-blue: colors.$denhaag-80
+);
+
+@use '@carbon/styles/scss/components/notification/tokens' as notification-tokens with (
+  $notification-background-info: colors.$denhaag-10
+);
+
+@use '@carbon/styles';
+@use '@carbon/grid';
+@include grid.flex-grid();
+
+@each $name, $variable in $lightThemeVariables {
+  [data-carbon-theme='#{$name}'] {
+    @include theme.theme($variable, $lightThemeOverwriteVariables);
+  }
+}
+
+@each $name, $variable in $darkThemeVariables {
+  //to be enhanced with the dark theme overwrite when implementing the Dark Theme
+  [data-carbon-theme='#{$name}'] {
+    @include theme.theme($variable);
+  }
+}
+
+body {
+  background-color: var(--cds-background);
+}
+
+:root {
+  @include theme.theme(themes.$g10, $lightThemeOverwriteVariables);
+}
+
+.cds--header {
+  background-color: var(--cds-layer);
+}
+
+.cds--side-nav {
+  background-color: var(--cds-layer);
+}
