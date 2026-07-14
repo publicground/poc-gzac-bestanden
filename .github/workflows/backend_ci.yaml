@@ -1,8 +1,6 @@
 name: "Run backend CI"
 on:
   push:
-    branches:
-      - sd-alo-backend
     paths:
       - .github/workflows/backend_ci.yaml
       - gzac-sd-zgw-backend/**

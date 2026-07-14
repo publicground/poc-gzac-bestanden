@@ -1,11 +1,9 @@
 name: "Run frontend CI"
 on:
   push:
-    branches:
-       - sd-alo-frontend
     paths:
-      - gzac-sd-zgw-frontend/**
       - .github/workflows/frontend_*.yaml
+      - gzac-sd-zgw-frontend/**
   pull_request:
     paths:
       - .github/workflows/frontend_*.yaml
