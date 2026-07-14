@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0659f2l" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_1ro06qa">
+    <bpmn:participant id="BSB224VaststellingInkomenAanvragerParticipant" name="BSB 224 vaststelling inkomen aanvrager" processRef="bsb-224-vaststelling-inkomen-aanvrager" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-224-vaststelling-inkomen-aanvrager" name="BSB 224 vaststelling inkomen aanvrager" isExecutable="true">
+    <bpmn:startEvent id="StartVaststellingInkomenAanvragerStartEvent" name="Start vaststelling inkomen aanvrager">
+      <bpmn:outgoing>Flow_1i638gd</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1i638gd" sourceRef="StartVaststellingInkomenAanvragerStartEvent" targetRef="OphalenInputTask" />
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="gegevensVanuitAanvraag">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag")}</camunda:outputParameter>
+          <camunda:outputParameter name="gegevensVanuitBronnen">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitBronnen")}</camunda:outputParameter>
+          <camunda:outputParameter name="inkomstenSamenvatting">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/inkomstenAanvrager/inkomstenSamenvatting")}</camunda:outputParameter>
+          <camunda:outputParameter name="taakTitel">Vaststellen inkomstencomponenten aanvrager</camunda:outputParameter>
+          <camunda:outputParameter name="vrijstellingenTitel">Vaststellen mogelijke vrijlatingen aanvrager</camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldeVrijlating">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/inkomstenAanvrager/vrijlating")}</camunda:outputParameter>
+          <camunda:outputParameter name="inkomenVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs224InkomstenAanvrager/inkomenVastgesteld")}</camunda:outputParameter>
+          <camunda:outputParameter name="persoon">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager")}</camunda:outputParameter>
+          <camunda:outputParameter name="aanvraagDatum">${valueResolverDelegateService.resolveValue(execution, "case:createdOn")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1i638gd</bpmn:incoming>
+      <bpmn:outgoing>Flow_0z45al0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0z45al0" sourceRef="OphalenInputTask" targetRef="Bs224VaststellingInkomenCallActivity" />
+    <bpmn:callActivity id="Bs224VaststellingInkomenCallActivity" name="bs 224 vaststelling inkomen" camunda:asyncAfter="true" calledElement="bs-224-vaststelling-inkomen">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in sourceExpression="${gegevensVanuitAanvraag.inkomstenAanvrager}" target="inkomstenVanuitAanvraag" />
+        <camunda:in sourceExpression="${gegevensVanuitBronnen.inkomstenAanvrager}" target="inkomstenVanuitBronnen" />
+        <camunda:in sourceExpression="${gegevensVanuitBronnen.svbUitkeringenAanvrager.svbUitkeringen}" target="svbUitkeringenVanuitBronnen" />
+        <camunda:in sourceExpression="${gegevensVanuitAanvraag.kinderAlimentatieAanvrager}" target="kinderAlimentatieVanuitAanvraag" />
+        <camunda:in sourceExpression="${gegevensVanuitAanvraag.partnerAlimentatieAanvrager}" target="partnerAlimentatieVanuitAanvraag" />
+        <camunda:in sourceExpression="${inkomstenSamenvatting.arbeid}" target="arbeid" />
+        <camunda:in sourceExpression="${inkomstenSamenvatting.uitkeringen}" target="uitkeringen" />
+        <camunda:in sourceExpression="${inkomstenSamenvatting.onderneming}" target="onderneming" />
+        <camunda:in sourceExpression="${inkomstenSamenvatting.overigeInkomsten}" target="overigeInkomsten" />
+        <camunda:in source="taakTitel" target="taakTitel" />
+        <camunda:in source="vrijstellingenTitel" target="vrijstellingenTitel" />
+        <camunda:in source="vastgesteldeVrijlating" target="vastgesteldeVrijlating" />
+        <camunda:in sourceExpression="${inkomstenSamenvatting.toelichtingTotaalVastgesteldInkomen}" target="toelichtingTotaalVastgesteldInkomen" />
+        <camunda:in sourceExpression="${inkomstenSamenvatting.welkeInkomsten}" target="welkeInkomsten" />
+        <camunda:in source="inkomenVastgesteld" target="inkomenVastgesteld" />
+        <camunda:in source="persoon" target="persoon" />
+        <camunda:in source="aanvraagDatum" target="aanvraagDatum" />
+        <camunda:out variables="all" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0z45al0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ljlgjl</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_0ljlgjl" sourceRef="Bs224VaststellingInkomenCallActivity" targetRef="WegschrijvenInkomstenDataTask" />
+    <bpmn:sequenceFlow id="Flow_0iwoz5w" sourceRef="WegschrijvenInkomstenDataTask" targetRef="WegschrijvenVrijlatingTask" />
+    <bpmn:sequenceFlow id="Flow_1li5q48" sourceRef="WegschrijvenVrijlatingTask" targetRef="WegschrijvenVaststellingdataTask" />
+    <bpmn:serviceTask id="WegschrijvenInkomstenDataTask" name="wegschrijven inkomsten data" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/inkomstenAanvrager/inkomstenSamenvatting&#34;, inkomstenSamenvatting)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="inkomstenSamenvatting">
+            <camunda:map>
+              <camunda:entry key="arbeid">${arbeid}</camunda:entry>
+              <camunda:entry key="uitkeringen">${uitkeringen}</camunda:entry>
+              <camunda:entry key="onderneming">${onderneming}</camunda:entry>
+              <camunda:entry key="overigeInkomsten">${overigeInkomsten}</camunda:entry>
+              <camunda:entry key="totaalNettoMaandInkomsten">${execution.getVariable("totaalNettoMaandInkomsten") != null ? totaalNettoMaandInkomsten : 0}</camunda:entry>
+              <camunda:entry key="toelichtingTotaalVastgesteldInkomen">${toelichtingTotaalVastgesteldInkomen}</camunda:entry>
+              <camunda:entry key="welkeInkomsten">${welkeInkomsten}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ljlgjl</bpmn:incoming>
+      <bpmn:outgoing>Flow_0iwoz5w</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WegschrijvenVrijlatingTask" name="wegschrijven vrijlating" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/inkomstenAanvrager/vrijlating&#34;, vrijlatingOpslaan)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="vrijlatingOpslaan">
+            <camunda:map>
+              <camunda:entry key="vrijlatingType">${execution.getVariable('vrijlating') != null ? vrijlating.vrijlatingType : ""}</camunda:entry>
+              <camunda:entry key="percentage">${execution.getVariable('vrijlating') != null ? vrijlating.percentage : ""}</camunda:entry>
+              <camunda:entry key="ingangsdatum">${execution.getVariable('vrijlating') != null ? vrijlating.ingangsdatum : ""}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0iwoz5w</bpmn:incoming>
+      <bpmn:outgoing>Flow_1li5q48</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="InkomenAanvragerVastgesteldEndEvent" name="Inkomen aanvrager vastgesteld">
+      <bpmn:incoming>Flow_1ckkppo</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="WegschrijvenVaststellingdataTask" name="wegschrijven vaststellingdata" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/additioneleVeldenAanvrager/bs224InkomstenAanvrager&#34;, gegevensVaststelling)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="gegevensVaststelling">
+            <camunda:map>
+              <camunda:entry key="datumVastgesteld">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="isHandmatigBeoordeeld">${true}</camunda:entry>
+              <camunda:entry key="inkomenVastgesteld">${true}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1li5q48</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ckkppo</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1ckkppo" sourceRef="WegschrijvenVaststellingdataTask" targetRef="InkomenAanvragerVastgesteldEndEvent" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1ro06qa">
+      <bpmndi:BPMNShape id="Participant_18gpi8p_di" bpmnElement="BSB224VaststellingInkomenAanvragerParticipant" isHorizontal="true">
+        <dc:Bounds x="132" y="82" width="1130" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0im01qk" bpmnElement="StartVaststellingInkomenAanvragerStartEvent">
+        <dc:Bounds x="204" y="189" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="183" y="232" width="81" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_07jg9dm" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="300" y="167" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0n86vfd" bpmnElement="Bs224VaststellingInkomenCallActivity">
+        <dc:Bounds x="460" y="167" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1rfl6s6" bpmnElement="WegschrijvenInkomstenDataTask">
+        <dc:Bounds x="640" y="167" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_06dfws0" bpmnElement="WegschrijvenVrijlatingTask">
+        <dc:Bounds x="810" y="167" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00p8ikz_di" bpmnElement="InkomenAanvragerVastgesteldEndEvent">
+        <dc:Bounds x="1174" y="189" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1166" y="232" width="56" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1c0qz1w" bpmnElement="WegschrijvenVaststellingdataTask">
+        <dc:Bounds x="1000" y="167" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1i638gd_di" bpmnElement="Flow_1i638gd">
+        <di:waypoint x="240" y="207" />
+        <di:waypoint x="300" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0z45al0_di" bpmnElement="Flow_0z45al0">
+        <di:waypoint x="400" y="207" />
+        <di:waypoint x="460" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ljlgjl_di" bpmnElement="Flow_0ljlgjl">
+        <di:waypoint x="560" y="207" />
+        <di:waypoint x="640" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0iwoz5w_di" bpmnElement="Flow_0iwoz5w">
+        <di:waypoint x="740" y="207" />
+        <di:waypoint x="810" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1li5q48_di" bpmnElement="Flow_1li5q48">
+        <di:waypoint x="910" y="207" />
+        <di:waypoint x="1000" y="207" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ckkppo_di" bpmnElement="Flow_1ckkppo">
+        <di:waypoint x="1100" y="207" />
+        <di:waypoint x="1174" y="207" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

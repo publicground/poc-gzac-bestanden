@@ -1,0 +1,69 @@
+{
+    "$id": "onderneming.schema",
+    "type": "object",
+    "title": "Onderneming",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "kvkRegistratie": {
+            "type": "object",
+            "$ref": "/document/definition/reference/sd/kvk-registratie-sd-v1.schema.json"
+        },
+        "directeurOfGrootaandeelhouder": {
+            "$ref": "#/definitions/radioButtons"
+        },
+        "alleDiplomasEnVergunningen": {
+            "$ref": "#/definitions/radioButtons"
+        },
+        "faillissementVerklaardOfAangevraagd": {
+            "$ref": "#/definitions/radioButtons"
+        },
+        "uitstelVanBetalingAangevraagd": {
+            "$ref": "#/definitions/radioButtons"
+        },
+        "lopendeWerkzaamhedenOfVerplichtingen": {
+            "$ref": "#/definitions/radioButtons"
+        },
+        "stoppenOnderneming": {
+            "$ref": "#/definitions/radioButtons"
+        },
+        "redenStoppenOnderneming": {
+            "type": "string"
+        },
+        "datumVestiging": {
+            "type": "string"
+        },
+        "adresToevoegen": {
+            "$ref": "#/definitions/radioButtons"
+        },
+        "adressen": {
+            "type": "array",
+            "items": {
+                "typeAdres": {
+                    "$ref": "#/definitions/typeAdres"
+                },
+                "adres": {
+                    "$ref": "/document/definition/reference/sd/adres-sd-v1.schema.json#/definitions/adres"
+                }
+            }
+        }
+    },
+    "definitions": {
+        "radioButtons": {
+            "type": "string",
+            "enum": [
+                "JA",
+                "NEE",
+                "NVT",
+                "ONBEKEND"
+            ]
+        },
+        "typeAdres": {
+            "type": "string",
+            "enum": [
+                "hoofdadres",
+                "locatieadres"
+            ]
+        }
+    }
+}

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0q43arm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_0bm1t4w">
+    <bpmn:participant id="BSOverwegenInzettenHandhavingParticipant" name="BS Overwegen inzetten handhaving" processRef="bs-overwegen-inzetten-handhaving" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-overwegen-inzetten-handhaving" name="BS Overwegen inzetten handhaving" isExecutable="true">
+    <bpmn:userTask id="OverwegenInzetHandhavingTask" name="Overwegen inzet handhaving" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="44">
+      <bpmn:incoming>Flow_18tbalt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zqjkfn</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="PoortonderzoekUitgezetGateway" name="Poortonderzoek uitgezet?" camunda:asyncAfter="true" default="JaSequenceFlow">
+      <bpmn:incoming>Flow_0zqjkfn</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_18tbalt" sourceRef="StartEvent_1" targetRef="OverwegenInzetHandhavingTask" />
+    <bpmn:sequenceFlow id="Flow_0zqjkfn" sourceRef="OverwegenInzetHandhavingTask" targetRef="PoortonderzoekUitgezetGateway" />
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_18tbalt</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="PoortonderzoekUitgezetGateway" targetRef="HandhavingIngezetEndEvent" />
+    <bpmn:endEvent id="HandhavingIngezetEndEvent" name="handhaving ingezet" camunda:asyncAfter="true">
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="HandhavingNietIngezetEndEvent" name="handhaving niet ingezet" camunda:asyncAfter="true">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="PoortonderzoekUitgezetGateway" targetRef="HandhavingNietIngezetEndEvent">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${poortonderzoek == "NEE"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0bm1t4w">
+      <bpmndi:BPMNShape id="Participant_0hvemft_di" bpmnElement="BSOverwegenInzettenHandhavingParticipant" isHorizontal="true">
+        <dc:Bounds x="125" y="60" width="755" height="350" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1qdwlrn" bpmnElement="OverwegenInzetHandhavingTask">
+        <dc:Bounds x="290" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0jfdkxe" bpmnElement="PoortonderzoekUitgezetGateway" isMarkerVisible="true">
+        <dc:Bounds x="425" y="175" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="411" y="138" width="78" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="202" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_16a6kv9_di" bpmnElement="HandhavingIngezetEndEvent">
+        <dc:Bounds x="662" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="653" y="225" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_070q7v3_di" bpmnElement="HandhavingNietIngezetEndEvent">
+        <dc:Bounds x="662" y="292" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="641" y="335" width="78" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_18tbalt_di" bpmnElement="Flow_18tbalt">
+        <di:waypoint x="238" y="200" />
+        <di:waypoint x="290" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1wy7otd" bpmnElement="Flow_0zqjkfn">
+        <di:waypoint x="390" y="200" />
+        <di:waypoint x="425" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1oanezs_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="475" y="200" />
+        <di:waypoint x="662" y="200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="563" y="182" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10imxdx_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="450" y="225" />
+        <di:waypoint x="450" y="310" />
+        <di:waypoint x="662" y="310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="455" y="265" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

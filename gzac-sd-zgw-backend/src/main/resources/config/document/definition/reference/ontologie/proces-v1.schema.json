@@ -1,0 +1,74 @@
+{
+  "$id": "proces.schema",
+  "type": "object",
+  "title": "Model Proces",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "bedrijfsfunctie": {
+      "type":"object",
+      "properties": {
+        "naam": {
+          "description": "De naam van het schema",
+          "$ref": "#/definitions/tekst"
+        },
+        "publicatiedatum": {
+          "description": "De publicatiedatum van het schema.",
+          "$ref": "#/definitions/datum"
+        },
+        "bedrijfsservice": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "naam": {
+                "description": "De naam van het schema",
+                "$ref": "#/definitions/tekst"
+              },
+              "publicatiedatum": {
+                "description": "De publicatiedatum van het schema.",
+                "$ref": "#/definitions/datum"
+              },
+              "bedrijfsobject": {
+                "type":"object",
+                "properties": {
+                  "naam": {
+                    "description": "De naam van het schema",
+                    "$ref": "#/definitions/tekst"
+                  },
+                  "publicatiedatum": {
+                    "description": "De publicatiedatum van het schema.",
+                    "$ref": "#/definitions/datum"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "tekst": {
+      "type": "string"
+    },
+    "datum": {
+      "type": "string"
+    },
+    "integer": {
+      "type": "string",
+      "pattern": "(^-|^)(0|[1-9][0-9]*)$"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "(^-|^+|^)(0|[1-9][0-9]+)($|,[0-9][0-9]$)"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^(http://|https://).*"
+    },
+    "datumTijd": {
+      "type": "string",
+      "pattern": "^([0-2][0-9]|3[0-1]|[1-9])-(0[1-9]|[1-9]|1[0-2])-(19|20)[0-9][0-9] T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]"
+    }
+  }
+}

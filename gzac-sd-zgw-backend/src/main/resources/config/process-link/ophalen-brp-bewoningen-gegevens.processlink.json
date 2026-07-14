@@ -1,0 +1,29 @@
+[
+    {
+        "activityId": "OphalenAdresseerbareObjectidentificatieTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "2a61797b-5568-4e4f-8a09-85c612665cb4",
+        "pluginActionDefinitionKey": "get-adresseerbaar-object-identificatie",
+        "actionProperties": {
+            "postcode": "pv:postcode",
+            "huisnummer": "pv:huisnummer",
+            "huisnummertoevoeging": "pv:huisnummertoevoeging",
+            "huisletter": "pv:huisletter",
+            "exacteMatch": true,
+            "resultProcessVariableName": "adresseerbaarObjectIdentificaties"
+        }
+    },
+    {
+        "activityId": "OphalenBewoningenTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "7419ef42-5993-4d1f-acb1-b2c41eeb0b86",
+        "pluginActionDefinitionKey": "hc-brp-get-bewoningen",
+        "actionProperties": {
+            "adresseerbaarObjectIdentificatie": "pv:adresseerbaarObjectIdentificatie",
+            "peildatum": "pv:peildatum",
+            "resultProcessVariableName": "bewoningenPv"
+        }
+    }
+]

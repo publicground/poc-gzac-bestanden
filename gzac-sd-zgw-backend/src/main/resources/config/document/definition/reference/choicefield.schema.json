@@ -1,0 +1,32 @@
+{
+    "$id": "choicefield.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "choiceFieldValue",
+    "definitions": {
+        "choiceFieldValue": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                },
+                "deprecated": {
+                    "type": "boolean"
+                },
+                "sortOrder": {
+                    "type": "number"
+                },
+                "choiceField": {
+                    "type": "object"
+                }
+            }
+
+        }
+    }
+}

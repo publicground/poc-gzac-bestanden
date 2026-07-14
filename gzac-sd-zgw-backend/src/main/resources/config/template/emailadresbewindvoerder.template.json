@@ -1,0 +1,7 @@
+{
+    "templateKey": "emailadresbewindvoerder",
+    "caseDefinitionName": "aanvraag-schuldhulpverlening",
+    "templateType": "text",
+    "metadata": {},
+    "contentRef": "/config/template/emailadresbewindvoerder.ftlh"
+}

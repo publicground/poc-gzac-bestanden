@@ -1,0 +1,18 @@
+[
+    {
+        "activityId": "TaakTitelTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form-flow",
+        "formDisplayType": "modal",
+        "formSize": "large",
+        "formFlowDefinitionId": "bs-224-vaststelling-inkomen:latest"
+    },
+    {
+        "activityId": "VrijstellingenTitelTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "large",
+        "formDefinitionName": "bs-224-vaststellen-mogelijke-vrijlatingen"
+    }
+]

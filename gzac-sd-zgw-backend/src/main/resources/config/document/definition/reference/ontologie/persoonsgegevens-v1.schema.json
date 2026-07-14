@@ -1,0 +1,800 @@
+{
+    "$id": "persoonsgegevens.schema",
+    "type": "object",
+    "title": "Model Persoonsgegevens",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "persoon": {
+            "type":"object",
+            "properties": {
+                "persoonsId": {
+                    "description": "<p>Uniek nummer toegekend door het systeem, zodat een persoon kan worden geidentificeerd.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                    "$ref": "#/definitions/guid"
+                },
+                "burgerservicenummer": {
+                    "description": "<p>Een uniek identificerend nummer van een PERSOON, die ingeschreven staat in de Gemeentelijke Basisadministratie Persoonsgegevens (GBA) of de Registratie Niet-ingezetenen (RNI).</p><br/><p>Bron: SGR</p><br/><p>                              </p><p>Elk nummer moet voldoen aan de bij de voorwaarden beschreven proef.</p><p>Voorwaarden waarde BSN:</p><ul>                              </ul><br/><p>                              </p><ul>                              </ul><br/><p>De oorspronkelijke naamgeving en definitie van dit gegevenselement conform de (authentieke) bron:</p><ul>                              </ul>",
+                    "$ref": "#/definitions/bsn"
+                },
+                "voorlettersAanschrijving": {
+                    "description": "<p>De voorletters waarmee een persoonaangeschreven wil worden.</p><br/><p>Bron: RSGB 3.0</p><br/>",
+                    "$ref": "#/definitions/tekst"
+                },
+                "voornamen": {
+                    "description": "De samenvoeging van alle exemplaren van voornaam van een persoon.",
+                    "$ref": "#/definitions/tekst"
+                },
+                "voorvoegsel": {
+                    "description": "<p>Voorvoegsel behorende bij de stam van de geslachtsnaam.</p><br/><p>Bron: RSGB 3.0</p><br/>",
+                    "$ref": "#/definitions/tekst"
+                },
+                "scheidingsteken": {
+                    "description": "Teken dat een eventueel voorvoegsel scheidt van de stam van de geslachtsnaam.",
+                    "$ref": "#/definitions/tekst"
+                },
+                "geslachtsnaamstam": {
+                    "description": "De stam van de geslachtsnaam. Deze is ontadaan van voorvoegsels en titels.",
+                    "$ref": "#/definitions/tekst"
+                },
+                "geslachtsnaamstamPartner": {
+                    "description": "<p>De stam van de geslachtsnaam van de partner.</p><p>De stam van de geslachtsnaam is ontdaan van titels en voorvoegsels.</p><p>Dit attribuut betreft de (ex-)partner. Het is opgenomen bij de persoon omdat de persoon de naam van de (ex-)partner wenst te gebruiken in de naamsaanduiding van de persoon. In dat geval is niet altijd de naamsaanduidning te herleiden vanuit de historische relatie met de andere persoon.</p><br/>",
+                    "$ref": "#/definitions/tekst"
+                },
+                "aanhefAanschrijving": {
+                    "description": "<p>De aanhef waarmee de persoon aangeschreven wil worden.</p><br/><p>Het datatype met de overeenkomstige waarden in de enumeratie is overgenomen van uit het SGR </p>",
+                    "$ref": "#/definitions/tekst"
+                },
+                "naamgebruik": {
+                    "description": "Een aanduiding voor de wijze van aanschrijving van de NATUURLIJKe PERSOON.",
+                    "$ref": "#/definitions/aanduidingNaamgebruik"
+                },
+                "namenreeks": {
+                    "description": "Indicator die aangeeft dat er sprake is van een namenreeks.",
+                    "$ref": "#/definitions/stdIndJN"
+                },
+                "predicaat": {
+                    "description": "<p>Predicaat dat door de persoon gevoerd mag worden voorafgaand aan de voornaam.</p><p>Bij alle adelijke titels is het predicaat Jonkheer of Jonkvrouw. In de RSGB zijn adelijketitels en predicaten beide opgenomen in ��n enumeratie: adellijkeTitelPredikaat.</p><br/><p>                              </p><ul>                              </ul><br/><p>In de aanschrijfwijze wordt het predicaat of de titel altijd geplaatst als het element adellijkeTitelPredikaat is gevuld. De waarde van adellijkeTitelPredicaat wordt overgenomen met dien te verstande dat alle adellijke titels met een kleine letter beginnen (in tegenstelling tot de Enumeratie van het element adelijkeTitelPredikaat.</p><br/><p>Predicaten en adellijke titels worden gebruikt in onderstaande volgorde:</p><p>predicaat - Voorletters - adellijke titel - Achternaam.</p><p>Bijvoorbeeld:</p><ul>                              </ul><br/><p>Gebruik adellijke titels en predicaten in combinatie met aanduiding naamgebruik. Voorbeeld:</p><p>Herman is getrouwd met Anna Jansen.</p><ul>                              </ul><br/><p>                              </p><p>Aangezien academische titels met een kleine letter geschreven worden, kan hetzelfde gelden voor adellijke titels en predicaten.</p><br/><p>                              </p><p>De titel ridder heeft geen vrouwelijk equivalent; voor echtgenotes en dochters van ridders gelden dezelfde regels als voor die van jonkheren.</p>",
+                    "$ref": "#/definitions/predicaat"
+                },
+                "adellijkeTitel": {
+                    "description": "<p>Adellijke titel die door de persoon gevoerd mag worden voorafgaand aan de geslachtsnaam.</p><p>In de RSGB zijn adelijketitels en predicaten beide opgenomen in ��n enumeratie: adellijkeTitelPredikaat.</p><br/><p>Voor gebruik: zie predicaat.</p>",
+                    "$ref": "#/definitions/cdAdellijkeTitelPredikaatNed"
+                },
+                "burgerlijkeStaat": {
+                    "description": "<p>De rechtstoestand van een PERSOON ten aanzien van huwelijk of geregistreerd partnerschap.</p><br/><p>Bron: NEN 1888:2002 - Burgerlijke staat, gecodeerd</p><p>Opmerking: Overgenomen van SGR</p><p>Hoort een enumeratie bij met waardebereik:</p><br/><p>0   Onbekend</p><p>1   Ongehuwd en geen geregistreerd partner en nooit gehuwd of geregistreerd partner geweest</p><p>2   Gehuwd</p><p>3   Gescheiden</p><p>4   Weduwe/weduwnaar</p><p>5   Geregistreerd partner</p><p>6   Gescheiden geregistreerd partner</p><p>7   Achtergebleven geregistreerd partner</p><p>9   Ongehuwd en geen geregistreerd partner, eventueel wel gehuwd of geregistreerd partner geweest</p><br/><p>Opmerking2:</p><ul>                              </ul><p>Dit element is vaak afgeleid uit de in de GBA gevoerde gegevenselementen 'soort verbintenis' in combinatie met 'datum huwelijk of geregistreerd partnerschap' (codes 2 en 5) of 'soort verbintenis' in combinatie met 'reden be�indiging huwelijk of geregistreerd partnerschap' (codes 3, 4, 6 en 7).</p><p>Code '1' is af te leiden indien ook de historische gegevens over huwelijk of geregistreerd partnerschap in aanmerking worden genomen. Indien dit niet mogelijk of gewenst is, kan code '9' worden gebruikt voor 'ongehuwd zonder nadere precisering'.</p><br/><p>Code '0'(=onbekend) kent geen bron voor verificatie.</p><br/>",
+                    "$ref": "#/definitions/burgerlijkeStaat"
+                },
+                "geboortedatum": {
+                    "description": "<p>De datum van geboorte van een PERSOON.</p><br/><p>Bron: NEN 1888:2002 - Geboortedatum (overgenomen zoals in SGR)</p><p>Opmerking:</p><ol>                              </ol><p>Een GEBOORTEDATUM behoort te worden vastgesteld in verband met zijn rechtsgeldige betekenis, in het bijzonder voor de instellingen die minimaal een SZ-WET uitvoeren.</p>",
+                    "$ref": "#/definitions/datum"
+                },
+                "datumOverlijden": {
+                    "description": "Datum waarop de INGESCHREVEN NATUURLIJK PERSOON is overleden.",
+                    "$ref": "#/definitions/datum"
+                },
+                "geslachtsaanduiding": {
+                    "description": "Een aanduiding die aangeeft dat de ingeschrevene een man of een vrouw is, of dat het geslacht (nog) onbekend is.",
+                    "$ref": "#/definitions/geslacht"
+                },
+                "codeBrpGegevensGeheim": {
+                    "description": "<p>Code die aangeeft dat de persoonsgegevens, behorend bij een bepaalde CLIENT SUWI, volgens Basisregistratie Personen, wel of niet aan een andere organisatie (derden, kerken) verstrekt mogen worden.</p><br/><p>Bron : SGR. Norminstantie: Basisregistratie Personen (BRP)</p><br/><p>Opmerking:</p><p>De oorspronkelijke naamgeving en definitie conform de (authentieke) bron.</p><p>Elementnaam:    Indicatie geheim (70.10)</p><p>Definitie:   Een aanduiding die aangeeft dat gegevens wel of niet verstrekt mogen worden.</p><p>Norminstantie:   BRP</p>",
+                    "$ref": "#/definitions/cdBrpGegevensGeheim"
+                },
+                "aNummer": {
+                    "description": "<p>Het administratienummer van een PERSOON binnen de gemeentelijke basisadministratie (GBA), zoals bedoeld als in artikel 50 van de Wet GBA.</p><br/><p>Norminstantie: GBA</p><br/>",
+                    "$ref": "#/definitions/getal"
+                },
+                "kanaalDocumentverzending": {
+                    "type":"object",
+                    "properties": {
+                        "communicatiekanaalId": {
+                            "description": "Uniek nummer toegekend door het systeem, zodat de voorkeur verzending kan worden geidentificeerd.",
+                            "$ref": "#/definitions/guid"
+                        },
+                        "voorkeurskanaal": {
+                            "description": "Het type verzending die de burger prefereert (digitaal of fysiek).",
+                            "$ref": "#/definitions/cdVoorkeurskanaal"
+                        },
+                        "mediumCommunicatie": {
+                            "description": "Het medium waarop gecommuniceerd wordt in het geval van notificaties (sms of email of app).",
+                            "$ref": "#/definitions/mediumCommunicatie"
+                        }
+                    }
+                },
+                "contactgegevens": {
+                    "type":"array",
+                    "items": {
+                        "type":"object",
+                        "properties": {
+                            "contactgegevensId": {
+                                "description": "Uniek nummer toegekend door het systeem, zodat contactgegevens kunnen worden geidentificeerd.",
+                                "$ref": "#/definitions/guid"
+                            },
+                            "email": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "eMailadres": {
+                                            "description": "Het adres waaronder een PERSOON per elektronische post bereikbaar is.",
+                                            "$ref": "#/definitions/eMail"
+                                        }
+                                    }
+                                }
+                            },
+                            "telefoon": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "telefoonLandnummer": {
+                                            "description": "<p>Het telefoon landnummer waaronder de PERSOON bereikbaar is.</p><br/><p>Norminstantie: ITU</p><br/>",
+                                            "$ref": "#/definitions/getal"
+                                        },
+                                        "telefoonnummer": {
+                                            "description": "Het telefoonnummer waaronder een PERSOON bereikbaar is.",
+                                            "$ref": "#/definitions/telefoonnummer"
+                                        },
+                                        "tenaamstellingTelefoonnummer": {
+                                            "description": "Het opgegeven telefoonnummer hoeft niet van de persoon zelf te zijn. Dit gegeven legt de tenaamstelling vast.",
+                                            "$ref": "#/definitions/cdTenaamstellingTelefoonnummer"
+                                        },
+                                        "codeTypeTelefoonnummer": {
+                                            "description": "De code die het type TELEFOONNUMMER aangeeft.",
+                                            "$ref": "#/definitions/cdTypeTelefoonnummer"
+                                        },
+                                        "indicatieGeheimTelefoonnummer": {
+                                            "description": "De code die aangeeft of het TELEFOONNUMMER beperkt bekend wordt gemaakt door de telecomprovider.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "indicatieVoorkeurTelefoonnummer": {
+                                            "description": "De code die aangeeft of het TELEFOONNUMMER het voorkeur nummer is.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "identiteitsbewijs": {
+                    "type":"array",
+                    "items": {
+                        "type":"object",
+                        "properties": {
+                            "identiteitsbewijsId": {
+                                "description": "Uniek nummer toegekend door het systeem, zodat een identiteitsbewijs kan worden geidentificeerd.",
+                                "$ref": "#/definitions/guid"
+                            },
+                            "codeSoortIdentiteitsbewijs": {
+                                "description": "Code die het soort IDENTITEITSBEWIJS aangeeft, conform de Wet op de Identificatieplicht.",
+                                "$ref": "#/definitions/cdSrtLegitimatiebewijs"
+                            },
+                            "documentnummerIdentiteitsbewijs": {
+                                "description": "De unieke aanduiding van het IDENTITEITSBEWIJS.",
+                                "$ref": "#/definitions/tekst"
+                            },
+                            "datumEindeGeldigheidIdentiteitsbewijs": {
+                                "description": "De datum van de laatste dag waarop het IDENTITEITSBEWIJS geldig is.",
+                                "$ref": "#/definitions/datum"
+                            },
+                            "vreemdelingendocument": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "vreemdelingendocumentId": {
+                                            "description": "Uniek nummer toegekend door het systeem, zodat een vreemdelingendocument kan worden geidentificeerd.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "indicatieArbeidToegestaan": {
+                                            "description": "Code die aangeeft of blijkens het VREEMDELINGENDOCUMENT arbeid in loondienst is toegestaan.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "indicatieTewerkstellingsvergunningVereist": {
+                                            "description": "Code die aangeeft of blijkens het VREEMDELINGENDOCUMENT de (aanstaande) werkgever van CLIENT SUWI een tewerkstellingsvergunning nodig heeft om hem in dienst te nemen.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "indicatieVerlengingAangevraagd": {
+                                            "description": "Code die aangeeft of de CLIENT SUWI verlenging van het VREEMDELINGENDOCUMENT heeft aangevraagd, maar nog niet verkregen.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "codeSoortVreemdelingendocument": {
+                                            "description": "Code die het soort VREEMDELINGENDOCUMENT aangeeft.",
+                                            "$ref": "#/definitions/cdSrtVreemdelingendocument"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "nationaliteit": {
+                    "type":"array",
+                    "items": {
+                        "type":"object",
+                        "properties": {
+                            "nationaliteitId": {
+                                "description": "Uniek nummer toegekend door het systeem, zodat een nationaliteit kan worden geidentificeerd.",
+                                "$ref": "#/definitions/guid"
+                            },
+                            "datumAanvangNationaliteit": {
+                                "description": "De datum van de eerste dag waarop de NATIONALITEIT van toepassing is.",
+                                "$ref": "#/definitions/datum"
+                            },
+                            "datumEindeNationaliteit": {
+                                "description": "De datum van de laatste dag waarop de NATIONALITEIT van toepassing is.",
+                                "$ref": "#/definitions/datum"
+                            },
+                            "codeBijzonderNederlanderschap": {
+                                "description": "<p>De code die aangeeft, dat de PERSOON als Nederlander wordt behandeld, of dat door de rechter is vastgesteld dat de PERSOON niet de Nederlandse nationaliteit bezit.</p><br/><p>Bron: SGR 16.0</p><p>Norminstantie: GBA</p><br/><p>Opmerking</p><p>De oorspronkelijke naamgeving en definitie van dit gegevenselement conform de (authentieke) bron:</p><p>Elementnaam: Aanduiding bijzonder Nederlanderschap</p><p>Definitie: Een aanduiding die of aangeeft dat de ingeschrevene behandeld wordt als Nederlander, of dat door de rechter is vastgesteld dat de ingeschrevene niet de Nederlandse nationaliteit bezit.</p><p>Norminstantie: GBA</p><br/><p>Waardebereik:</p><p>B   Behandeld als Nederlander</p><p>V   Vastgesteld niet-Nederlander</p><br/>",
+                                "$ref": "#/definitions/cdBijzonderNederlanderschap"
+                            },
+                            "codeNationaliteit": {
+                                "description": "<p>Code die de NATIONALITEIT van een PERSOON aangeeft.</p><br/><p>Bron: SGR 16.0</p><p>Norminstantie: SGR, gebaseerd op NEN 1888:2002 - Nationaliteit, gecodeerd.</p><p>Tabel 32 - Nationaliteiten gesorteerd op code (RVIG landelijke tabellen).</p><br/><p>Opmerking :</p><br/><p>Omdat de NEN 1888 een definitie geeft van </p><p>De definitie van </p><br/><p>Relevante nationaliteiten:</p><ul>                              </ul>",
+                                "$ref": "#/definitions/cdNationaliteit"
+                            },
+                            "brontype": {
+                                "description": "De soort bron van de gegevens in deze entiteit (burger, professional of externe bron).",
+                                "$ref": "#/definitions/brontype"
+                            }
+                        }
+                    }
+                },
+                "verblijfBuitenland": {
+                    "type":"array",
+                    "items": {
+                        "type":"object",
+                        "properties": {
+                            "verblijfBuitenlandId": {
+                                "description": "Uniek nummer toegekend door het systeem, zodat een verblijf in het buitenland kan worden geidentificeerd.",
+                                "$ref": "#/definitions/guid"
+                            },
+                            "begindatumVerblijfBuitenland": {
+                                "description": "Datum van de eerste dag waarop de burger in het buitenland verblijft.",
+                                "$ref": "#/definitions/datum"
+                            },
+                            "einddatumVerblijfBuitenland": {
+                                "description": "Datum van de laatste dag waarop de burger in het buitenland verblijft.",
+                                "$ref": "#/definitions/datum"
+                            },
+                            "brontype": {
+                                "description": "De soort bron van de gegevens in deze entiteit (burger, professional of externe bron).",
+                                "$ref": "#/definitions/brontype"
+                            },
+                            "bijzondereOmstandigheden": {
+                                "description": "Indicatie of er sprake is van bijzondere omstandigheden waarin een persoon in het buitenland verblijft die geen gewijzigd recht hebben op de bijstand (het wordt niet afgetrokken van de 4 weken vakantie).",
+                                "$ref": "#/definitions/stdIndJN"
+                            },
+                            "toelichtingBijzondereOmstandigheden": {
+                                "description": "Toelichting van de omstandigheden waarin een persoon in het buitenland verblijft die geen gewijzigd recht hebben op de bijstand (het wordt niet afgetrokken van de 4 weken vakantie).",
+                                "$ref": "#/definitions/tekst"
+                            }
+                        }
+                    }
+                },
+                "verblijfstitel": {
+                    "type":"object",
+                    "properties": {
+                        "verblijfstitelId": {
+                            "description": "Uniek nummer toegekend door het systeem, zodat een verblijfstitel kan wroden geidentificeerd.",
+                            "$ref": "#/definitions/guid"
+                        },
+                        "codeVerblijfstitel": {
+                            "description": "<p>Code die een aanduiding geeft van de juridische grondslag op basis waarvan een persoon als bedoeld in de Vreemdelingenwet in Nederland verblijft.</p><br/><p>Bron: SGR 16.0, gebaseerd op NEN 1888:2002 - Verblijfstitel.</p><p>Tabel 56 - Verblijfstiteltabel (RVIG landelijke tabellen).</p><br/><p>Opmerking :</p><ul>                              </ul>",
+                            "$ref": "#/definitions/cdVerblijfstitel"
+                        },
+                        "datumAanvangVerblijfstitel": {
+                            "description": "<p>De datum van de eerste dag waarop de VERBLIJFSTITEL van toepassing is.</p><br/><p>Norminstantie: UGR</p>",
+                            "$ref": "#/definitions/datum"
+                        },
+                        "datumEindeVerblijfstitel": {
+                            "description": "<p>De datum van de laatste dag waarop de VERBLIJFSTITEL van toepassing is.</p><br/><p>Norminstantie: UGR</p>",
+                            "$ref": "#/definitions/datum"
+                        },
+                        "indicatieGarant": {
+                            "description": "<p>Indicatie die aangeeft of de IND garant staat voor de vreemdeling.</p><br/><p>Bron: WGR</p>",
+                            "$ref": "#/definitions/stdIndJN"
+                        },
+                        "datumEindeRechtmatigVerblijf": {
+                            "description": "De datum van de laatste dag dat de PERSOON rechtmatig in Nederland verblijft.",
+                            "$ref": "#/definitions/datum"
+                        },
+                        "nadereVerblijfsgegevens": {
+                            "description": "<p>Code die nadere gegevens over de verblijfstitel aangeeft.</p><br/><p>Bron: WGR</p><br/>",
+                            "$ref": "#/definitions/nadereVerblijfsgegevens"
+                        },
+                        "brontype": {
+                            "description": "De soort bron van de gegevens in deze entiteit (burger, professional of externe bron).",
+                            "$ref": "#/definitions/brontype"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "guid": {
+            "type": "string",
+            "pattern": "^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$"
+        },
+        "bsn": {
+            "type": "string",
+            "pattern": "^[0-9]{9}$"
+        },
+        "tekst": {
+            "type": "string"
+        },
+        "aanduidingNaamgebruik": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Eigen naam" },
+                { "code": "2", "name": "Naam echtgeno(o)te of geregistreerd partner" },
+                { "code": "3", "name": "Naam echtgeno(o)te of geregistreerd partner gevolgd door eigen naam" },
+                { "code": "4", "name": "Eigen naam gevolgd door naam echtgeno(o)te of geregistreerd partner" }
+            ]
+        },
+        "stdIndJN": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Ja" },
+                { "code": "2", "name": "Nee" }
+            ]
+        },
+        "predicaat": {
+            "type": "object",
+            "enum": [
+                { "code": "JH", "name": "Jonkheer" },
+                { "code": "JV", "name": "Jonkvrouw" }
+            ]
+        },
+        "cdAdellijkeTitelPredikaatNed": {
+            "type": "object",
+            "enum": [
+                { "code": "B", "name": "Baron" },
+                { "code": "BS", "name": "Barones" },
+                { "code": "G", "name": "Graaf" },
+                { "code": "GI", "name": "Gravin" },
+                { "code": "H", "name": "Hertog" },
+                { "code": "HI", "name": "Hertogin" },
+                { "code": "JH", "name": "Jonkheer" },
+                { "code": "JV", "name": "Jonkvrouw" },
+                { "code": "M", "name": "Markies" },
+                { "code": "MI", "name": "Markiezin" },
+                { "code": "P", "name": "Prins" },
+                { "code": "PS", "name": "Prinses" },
+                { "code": "R", "name": "Ridder" }
+            ]
+        },
+        "burgerlijkeStaat": {
+            "type": "object",
+            "enum": [
+                { "code": "0", "name": "Onbekend" },
+                { "code": "1", "name": "Ongehuwd en geen geregistreerd partner en nooit gehuwd of geregistreerd partner geweest" },
+                { "code": "2", "name": "Gehuwd" },
+                { "code": "3", "name": "Gescheiden" },
+                { "code": "4", "name": "Weduwe/weduwnaar" },
+                { "code": "5", "name": "Geregistreerd partner" },
+                { "code": "6", "name": "Gescheiden geregistreerd partner" },
+                { "code": "7", "name": "Achtergebleven geregistreerd partner" },
+                { "code": "9", "name": "Ongehuwd en geen geregistreerd partner, eventueel wel gehuwd of geregistreerd partner geweest" }
+            ]
+        },
+        "datum": {
+            "type": "string"
+        },
+        "geslacht": {
+            "type": "object",
+            "enum": [
+                { "code": "0", "name": "onbekend" },
+                { "code": "1", "name": "mannelijk" },
+                { "code": "2", "name": "vrouwelijk" },
+                { "code": "9", "name": "niet gespecificeerd (het gegevenselement wordt niet gevoerd in de administratie)" }
+            ]
+        },
+        "cdBrpGegevensGeheim": {
+            "type": "object",
+            "enum": [
+                { "code": "0", "name": "geen beperking" },
+                { "code": "1", "name": "niet zonder toestemming aan derden ter uitvoering van een algemeen verbindend voorschrift" },
+                { "code": "2", "name": "niet aan kerken" },
+                { "code": "3", "name": "niet aan vrije derden" },
+                { "code": "4", "name": "niet zonder toestemming aan derden ter uitvoering van een algemeen verbindend voorschrift en niet aan kerken" },
+                { "code": "5", "name": "niet zonder toestemming aan derden ter uitvoering van een algemeen verbindend voorschrift en niet aan vrije derden" },
+                { "code": "6", "name": "niet aan kerken en niet aan vrije derden" },
+                { "code": "7", "name": "niet zonder toestemming aan derden ter uitvoering van een algemeen verbindend voorschrift en niet aan vrije derden en niet aan kerken" }
+            ]
+        },
+        "getal": {
+            "type": "integer",
+            "pattern": "^-?[0-9]{1,}$"
+        },
+        "cdVoorkeurskanaal": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Fysiek" },
+                { "code": "2", "name": "Digitaal" }
+            ]
+        },
+        "mediumCommunicatie": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Fysiek" },
+                { "code": "2", "name": "SMS" },
+                { "code": "3", "name": "eMail" },
+                { "code": "4", "name": "App" }
+            ]
+        },
+        "eMail": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+([.][A-Za-z0-9_-]+)*@[A-Za-z0-9_-]+([.][A-Za-z0-9_-]+)*[.][A-Za-z0-9]+$"
+        },
+        "telefoonnummer": {
+            "type": "string",
+            "pattern": "^0[1-9][0-9]{8}$"
+        },
+        "cdTenaamstellingTelefoonnummer": {
+            "type": "object",
+            "enum": [
+                { "code": "0", "name": "Onbekend" },
+                { "code": "1", "name": "Client (zelf)" },
+                { "code": "2", "name": "Begeleider" },
+                { "code": "3", "name": "Bewindvoerder" },
+                { "code": "4", "name": "Kind" },
+                { "code": "5", "name": "Broer of zus" },
+                { "code": "6", "name": "Ouder" },
+                { "code": "7", "name": "Overig" }
+            ]
+        },
+        "cdTypeTelefoonnummer": {
+            "type": "object",
+            "enum": [
+                { "code": "01", "name": "Privé" },
+                { "code": "02", "name": "Werk" },
+                { "code": "03", "name": "Vast" },
+                { "code": "04", "name": "Mobiel" },
+                { "code": "05", "name": "Fax" },
+                { "code": "06", "name": "Sateliet" }
+            ]
+        },
+        "cdSrtLegitimatiebewijs": {
+            "type": "object",
+            "enum": [
+                { "code": "LB01", "name": "Nationaal paspoort" },
+                { "code": "LB02", "name": "Diplomatiek paspoort" },
+                { "code": "LB03", "name": "Dienstpaspoort" },
+                { "code": "LB04", "name": "Reisdocument voor vluchtelingen" },
+                { "code": "LB05", "name": "Reisdocument voor vreemdelingen" },
+                { "code": "LB06", "name": "Nooddocument" },
+                { "code": "LB07", "name": "Ander, door de minister van Justitie vastgesteld, reisdocument" },
+                { "code": "LB08", "name": "Europese identiteitskaart" },
+                { "code": "LB09", "name": "Vreemdelingendocument" },
+                { "code": "LB10", "name": "Nederlandse Identiteitskaart" },
+                { "code": "LB11", "name": "DigiD" }
+            ]
+        },
+        "cdSrtVreemdelingendocument": {
+            "type": "object",
+            "enum": [
+                { "code": "0", "name": "Geen" },
+                { "code": "1", "name": "A-document" },
+                { "code": "2", "name": "B-document" },
+                { "code": "3", "name": "C-document" },
+                { "code": "4", "name": "D-document" },
+                { "code": "5", "name": "E-document" },
+                { "code": "6", "name": "F1-document" },
+                { "code": "7", "name": "F2-document" },
+                { "code": "8", "name": "F3-document" },
+                { "code": "9", "name": "W-document" },
+                { "code": "10", "name": "BuZa-document" },
+                { "code": "11", "name": "Document I" },
+                { "code": "12", "name": "Document II" },
+                { "code": "13", "name": "Document III" },
+                { "code": "14", "name": "Document IV" },
+                { "code": "15", "name": "EU/EUR-document" }
+            ]
+        },
+        "cdBijzonderNederlanderschap": {
+            "type": "object",
+            "enum": [
+                { "code": "B", "name": "Behandeld als Nederlander" },
+                { "code": "V", "name": "Vastgesteld niet-Nederlander" }
+            ]
+        },
+        "cdNationaliteit": {
+            "type": "object",
+            "enum": [
+                { "code": "0", "name": "Onbekend" },
+                { "code": "1", "name": "Nederlandse" },
+                { "code": "2", "name": "Behandeld als Nederlander" },
+                { "code": "27", "name": "Slowaakse" },
+                { "code": "28", "name": "Tsjechische" },
+                { "code": "29", "name": "Burger van Bosnië-Herzegovina" },
+                { "code": "30", "name": "Georgische" },
+                { "code": "31", "name": "Turkmeense" },
+                { "code": "32", "name": "Tadzjiekse" },
+                { "code": "33", "name": "Oezbeekse" },
+                { "code": "34", "name": "Oekraïense" },
+                { "code": "35", "name": "Kirgizische" },
+                { "code": "36", "name": "Moldavische" },
+                { "code": "37", "name": "Kazachse" },
+                { "code": "38", "name": "Belarussische" },
+                { "code": "39", "name": "Azerbeidzjaanse" },
+                { "code": "40", "name": "Armeense" },
+                { "code": "41", "name": "Russische" },
+                { "code": "42", "name": "Sloveense" },
+                { "code": "43", "name": "Kroatische" },
+                { "code": "44", "name": "Letse" },
+                { "code": "45", "name": "Estische" },
+                { "code": "46", "name": "Litouwse" },
+                { "code": "47", "name": "Marshalleilandse" },
+                { "code": "48", "name": "Myanmarese" },
+                { "code": "49", "name": "Namibische" },
+                { "code": "50", "name": "Albanese" },
+                { "code": "51", "name": "Andorrese" },
+                { "code": "52", "name": "Belgische" },
+                { "code": "53", "name": "Bulgaarse" },
+                { "code": "54", "name": "Deense" },
+                { "code": "55", "name": "Burger van de Bondsrepubliek Duitsland" },
+                { "code": "56", "name": "Finse" },
+                { "code": "57", "name": "Franse" },
+                { "code": "58", "name": "Jemenitische" },
+                { "code": "59", "name": "Griekse" },
+                { "code": "60", "name": "Brits burger" },
+                { "code": "61", "name": "Hongaarse" },
+                { "code": "62", "name": "Ierse" },
+                { "code": "63", "name": "IJslandse" },
+                { "code": "64", "name": "Italiaanse" },
+                { "code": "65", "name": "Joegoslavische" },
+                { "code": "66", "name": "Liechtensteinse" },
+                { "code": "67", "name": "Luxemburgse" },
+                { "code": "68", "name": "Maltese" },
+                { "code": "69", "name": "Monegaskische" },
+                { "code": "70", "name": "Noorse" },
+                { "code": "71", "name": "Oostenrijkse" },
+                { "code": "72", "name": "Poolse" },
+                { "code": "73", "name": "Portugese" },
+                { "code": "74", "name": "Roemeense" },
+                { "code": "75", "name": "Burger van de Sovjet-Unie" },
+                { "code": "76", "name": "San Marinese" },
+                { "code": "77", "name": "Spaanse" },
+                { "code": "78", "name": "Tsjecho-Slowaakse" },
+                { "code": "79", "name": "Vaticaanse" },
+                { "code": "80", "name": "Zweedse" },
+                { "code": "81", "name": "Zwitserse" },
+                { "code": "82", "name": "Oost-Duitse" },
+                { "code": "83", "name": "Brits onderdaan" },
+                { "code": "84", "name": "Eritrese" },
+                { "code": "85", "name": "Brits overzees burger" },
+                { "code": "86", "name": "Macedonische" },
+                { "code": "87", "name": "Kosovaarse" },
+                { "code": "100", "name": "Algerijnse" },
+                { "code": "101", "name": "Angolese" },
+                { "code": "104", "name": "Burundese" },
+                { "code": "105", "name": "Botswaanse" },
+                { "code": "106", "name": "Burkinese" },
+                { "code": "108", "name": "Centraal-Afrikaanse" },
+                { "code": "109", "name": "Comorese" },
+                { "code": "110", "name": "Burger van Congo" },
+                { "code": "111", "name": "Beninse" },
+                { "code": "112", "name": "Egyptische" },
+                { "code": "113", "name": "Equatoriaal-Guinese" },
+                { "code": "114", "name": "Ethiopische" },
+                { "code": "115", "name": "Djiboutiaanse" },
+                { "code": "116", "name": "Gabonese" },
+                { "code": "117", "name": "Gambiaanse" },
+                { "code": "118", "name": "Ghanese" },
+                { "code": "119", "name": "Guinese" },
+                { "code": "120", "name": "Ivoriaanse" },
+                { "code": "121", "name": "Kaapverdische" },
+                { "code": "122", "name": "Kameroense" },
+                { "code": "123", "name": "Kenyaanse" },
+                { "code": "124", "name": "Zaïrese" },
+                { "code": "125", "name": "Lesothaanse" },
+                { "code": "126", "name": "Liberiaanse" },
+                { "code": "127", "name": "Libische" },
+                { "code": "128", "name": "Malagassische" },
+                { "code": "129", "name": "Malawische" },
+                { "code": "130", "name": "Malinese" },
+                { "code": "131", "name": "Marokkaanse" },
+                { "code": "132", "name": "Mauritaanse" },
+                { "code": "133", "name": "Mauritiaanse" },
+                { "code": "134", "name": "Mozambikaanse" },
+                { "code": "135", "name": "Swazische" },
+                { "code": "136", "name": "Nigerese" },
+                { "code": "137", "name": "Nigeriaanse" },
+                { "code": "138", "name": "Ugandese" },
+                { "code": "139", "name": "Guinee-Bissause" },
+                { "code": "140", "name": "Zuid-Afrikaanse" },
+                { "code": "142", "name": "Zimbabwaanse" },
+                { "code": "143", "name": "Rwandese" },
+                { "code": "144", "name": "Burger van São Tomé en Principe" },
+                { "code": "145", "name": "Senegalese" },
+                { "code": "147", "name": "Sierra Leoonse" },
+                { "code": "148", "name": "Soedanese" },
+                { "code": "149", "name": "Somalische" },
+                { "code": "151", "name": "Tanzaniaanse" },
+                { "code": "152", "name": "Togolese" },
+                { "code": "154", "name": "Tsjadische" },
+                { "code": "155", "name": "Tunesische" },
+                { "code": "156", "name": "Zambiaanse" },
+                { "code": "157", "name": "Zuid-Soedanese" },
+                { "code": "200", "name": "Bahamaanse" },
+                { "code": "202", "name": "Belizaanse" },
+                { "code": "204", "name": "Canadese" },
+                { "code": "205", "name": "Costa Ricaanse" },
+                { "code": "206", "name": "Cubaanse" },
+                { "code": "207", "name": "Dominicaanse" },
+                { "code": "208", "name": "Salvadoraanse" },
+                { "code": "211", "name": "Guatemalaanse" },
+                { "code": "212", "name": "Haïtiaanse" },
+                { "code": "213", "name": "Hondurese" },
+                { "code": "214", "name": "Jamaicaanse" },
+                { "code": "216", "name": "Mexicaanse" },
+                { "code": "218", "name": "Nicaraguaanse" },
+                { "code": "219", "name": "Panamese" },
+                { "code": "222", "name": "Burger van Trinidad en Tobago" },
+                { "code": "223", "name": "Amerikaans burger" },
+                { "code": "250", "name": "Argentijnse" },
+                { "code": "251", "name": "Barbadaanse" },
+                { "code": "252", "name": "Boliviaanse" },
+                { "code": "253", "name": "Braziliaanse" },
+                { "code": "254", "name": "Chileense" },
+                { "code": "255", "name": "Colombiaanse" },
+                { "code": "256", "name": "Ecuadoraanse" },
+                { "code": "259", "name": "Guyaanse" },
+                { "code": "261", "name": "Paraguayaanse" },
+                { "code": "262", "name": "Peruaanse" },
+                { "code": "263", "name": "Surinaamse" },
+                { "code": "264", "name": "Uruguayaanse" },
+                { "code": "265", "name": "Venezolaanse" },
+                { "code": "267", "name": "Grenadaanse" },
+                { "code": "268", "name": "Burger van Saint Kitts en Nevis" },
+                { "code": "300", "name": "Afghaanse" },
+                { "code": "301", "name": "Bahreinse" },
+                { "code": "302", "name": "Bhutaanse" },
+                { "code": "303", "name": "Burmaanse" },
+                { "code": "304", "name": "Bruneise" },
+                { "code": "305", "name": "Cambodjaanse" },
+                { "code": "306", "name": "Sri Lankaanse" },
+                { "code": "307", "name": "Chinese" },
+                { "code": "308", "name": "Cyprische" },
+                { "code": "309", "name": "Filipijnse" },
+                { "code": "310", "name": "Taiwanese" },
+                { "code": "312", "name": "Indiase" },
+                { "code": "313", "name": "Indonesische" },
+                { "code": "314", "name": "Iraakse" },
+                { "code": "315", "name": "Iraanse" },
+                { "code": "316", "name": "Israïlische" },
+                { "code": "317", "name": "Japanse" },
+                { "code": "318", "name": "Noord-Jemenitische" },
+                { "code": "319", "name": "Jordaanse" },
+                { "code": "320", "name": "Koeweitse" },
+                { "code": "321", "name": "Laotiaanse" },
+                { "code": "322", "name": "Libanese" },
+                { "code": "324", "name": "Maldivische" },
+                { "code": "325", "name": "Maleisische" },
+                { "code": "326", "name": "Mongolische" },
+                { "code": "327", "name": "Omaanse" },
+                { "code": "328", "name": "Nepalese" },
+                { "code": "329", "name": "Noord-Koreaanse" },
+                { "code": "331", "name": "Pakistaanse" },
+                { "code": "333", "name": "Qatarese" },
+                { "code": "334", "name": "Saoedi-Arabische" },
+                { "code": "335", "name": "Singaporese" },
+                { "code": "336", "name": "Syrische" },
+                { "code": "337", "name": "Thaise" },
+                { "code": "338", "name": "Burger van de Verenigde Arabische Emiraten" },
+                { "code": "339", "name": "Turkse" },
+                { "code": "340", "name": "Zuid-Jemenitische" },
+                { "code": "341", "name": "Zuid-Koreaanse" },
+                { "code": "342", "name": "Vietnamese" },
+                { "code": "345", "name": "Bengalese" },
+                { "code": "400", "name": "Australische" },
+                { "code": "401", "name": "Papoea-Nieuw-Guinese" },
+                { "code": "402", "name": "Nieuw-Zeelandse" },
+                { "code": "404", "name": "West-Samoaanse" },
+                { "code": "405", "name": "Samoaanse" },
+                { "code": "421", "name": "Burger van Antigua en Barbuda" },
+                { "code": "424", "name": "Vanuatuaanse" },
+                { "code": "425", "name": "Fijische" },
+                { "code": "429", "name": "Burger van Britse afhankelijke gebieden" },
+                { "code": "430", "name": "Tongaanse" },
+                { "code": "431", "name": "Nauruaanse" },
+                { "code": "432", "name": "Palause" },
+                { "code": "437", "name": "Amerikaans onderdaan" },
+                { "code": "442", "name": "Salomonseilandse" },
+                { "code": "443", "name": "Micronesische" },
+                { "code": "444", "name": "Seychelse" },
+                { "code": "445", "name": "Kiribatische" },
+                { "code": "446", "name": "Tuvaluaanse" },
+                { "code": "447", "name": "Saint Luciaanse" },
+                { "code": "448", "name": "Burger van Dominica" },
+                { "code": "449", "name": "Burger van Saint Vincent en de Grenadines" },
+                { "code": "450", "name": "British National (overseas)" },
+                { "code": "451", "name": "Burger van Democratische Republiek Congo" },
+                { "code": "452", "name": "Burger van Timor Leste" },
+                { "code": "453", "name": "Burger van Servië en Montenegro" },
+                { "code": "454", "name": "Servische" },
+                { "code": "455", "name": "Montenegrijnse" },
+                { "code": "499", "name": "Staatloos" },
+                { "code": "500", "name": "Vastgesteld niet-Nederlander" },
+                { "code": "86", "name": "Burger van de Republiek Noord-Macedonië" }
+            ]
+        },
+        "brontype": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Klant" },
+                { "code": "2", "name": "Professional" },
+                { "code": "3", "name": "Register" },
+                { "code": "4", "name": "Externe bron" }
+            ]
+        },
+        "cdVerblijfstitel": {
+            "type": "object",
+            "enum": [
+                { "code": "0", "name": "Onbekend" },
+                { "code": "9", "name": "Art. 9 van de Vreemdelingenwet" },
+                { "code": "10", "name": "Art. 10 van de Vreemdelingenwet" },
+                { "code": "11", "name": "Vergunning art. 9 Vw, zonder beperking, dan wel gerechtigd krachtens art. 10 Vw" },
+                { "code": "12", "name": "Vergunning art. 9 Vw, met beperking, die elke vorm arbeid in loondienst toestaat" },
+                { "code": "13", "name": "Vergunning art. 9 Vw, met beperking, die arbeid in loondienst niet toestaat" },
+                { "code": "14", "name": "Voorwaardelijke vergunning art. 9a Vw" },
+                { "code": "15", "name": "Benelux of EG richtl nrs 68/360/EEG, 73/148/EEG 75/34/EEG, verord nr 1251/70/EEG" },
+                { "code": "16", "name": "EG-richtlijnen nrs. 90/364/EEG, 90/365/EEG en 90/366/EEG" },
+                { "code": "17", "name": "Verzoek tot toelating als vluchteling, uitzetting blijft achterwege" },
+                { "code": "18", "name": "Gemeld bij VD, geen verzoek toelating als vluchteling, geen uitzetting" },
+                { "code": "19", "name": "Vergunning art. 9 Vw, met andere beperking dan hierboven" },
+                { "code": "20", "name": "Ander verdrag dan hierboven" },
+                { "code": "21", "name": "Vw 2000 art. 8, onder a, vergunning regulier bepaalde tijd, arbeid vrij" },
+                { "code": "22", "name": "Vw2000 art. 8, sub a, VVR bep tijd arbeid mits TWV, VVR bep tijd verblijf en arbeid" },
+                { "code": "23", "name": "Vw 2000 art. 8, onder a, vergunning regulier bepaalde tijd, arbeid specifiek" },
+                { "code": "24", "name": "Vw 2000 art. 8, onder a, vergunning regulier bepaalde tijd, geen arbeid" },
+                { "code": "25", "name": "Vw 2000 art. 8, sub b, verg. reg. onbep. tijd of langdurig ingez., arbeid vrij" },
+                { "code": "26", "name": "Vw 2000 art. 8, onder c, vergunning asiel bepaalde tijd, arbeid vrij" },
+                { "code": "27", "name": "Vw 2000 art. 8, sub d, verg. asiel onbep. tijd of langdurig ingez., arbeid vrij" },
+                { "code": "28", "name": "Vw 2000 art. 8, onder e, gemeenschapsonderdaan econ. actief, arbeid vrij" },
+                { "code": "29", "name": "Vw 2000 art. 8, onder e, gemeenschapsonderdaan econ. niet-actief, arbeid vrij" },
+                { "code": "30", "name": "Vw 2000 art. 8, onder e, toetsing aan het gemeenschapsrecht, arbeid vrij" },
+                { "code": "31", "name": "Vw 2000 art. 8, onder f en h, in procedure voor vergunning art. 14 Vw 2000" },
+                { "code": "32", "name": "Vw 2000 art. 8, onder f en h, in procedure voor vergunning art. 28 Vw 2000" },
+                { "code": "33", "name": "Vw 2000 art. 8, onder g en h, in procedure voortgezet verblijf, tijdige aanvr." },
+                { "code": "34", "name": "Vw 2000 art. 8, onder g en h, in procedure voortgezet verblijf, ontijdige aanvr." },
+                { "code": "35", "name": "Vw 2000 art. 8, onder l, Associatiebesluit 1/80 EEG/Turkije, arbeid specifiek" },
+                { "code": "36", "name": "Vw 2000 art. 8, onder e, gemeenschapsonderdaan econ. actief, arbeid specifiek" },
+                { "code": "37", "name": "Vw 2000 art. 8, onder e, gemeenschapsonderdaan econ. niet-actief, arbeid spec." },
+                { "code": "38", "name": "Vw 2000 art. 8, onder e, toetsing aan het gemeenschapsrecht, arbeid specifiek" },
+                { "code": "39", "name": "Vw 2000 art. 8, onder m, in afwachting indiening asielaanvraag, geen arbeid" },
+                { "code": "40", "name": "Vw 2000 art. 8, onder e, gemeenschapsonderdaan duurzaam verblijf, arbeid vrij" },
+                { "code": "41", "name": "Rechtmatig verblijf Vw 2000 art. 8, onder e, is be�indigd" },
+                { "code": "42", "name": "Rechtmatig verblijf op grond van voorlopige maatregel EHRM, geen arbeid" },
+                { "code": "43", "name": "Rechtmatig verblijf op aanwijzing Minister van Justitie, geen arbeid" },
+                { "code": "44", "name": "Vw 2000 art. 8, onder m, Dublinclaimant, wacht op overdracht, rva, geen arbeid" },
+                { "code": "45", "name": "Vw 2000 art.8, onder i, onderzoeker/student, verblijfsrecht in EU-land" },
+                { "code": "91", "name": "Vw 2000 art. 115, lid 4, vergunning onbepaalde tijd, arbeid vrij" },
+                { "code": "92", "name": "Vw 2000 art. 115, lid 6, vergunning asiel bepaalde tijd, arbeid vrij" },
+                { "code": "93", "name": "Vw 2000 art. 115, lid 2, verg. regulier bepaalde tijd, arbeid nader te bepalen" },
+                { "code": "98", "name": "geen verblijfstitel (meer)" }
+            ]
+        },
+        "nadereVerblijfsgegevens": {
+            "type": "string"
+        },
+        "integer": {
+            "type": "string",
+            "pattern": "(^-|^)(0|[1-9][0-9]*)$"
+        },
+        "currency": {
+            "type": "string",
+            "pattern": "(^-|^+|^)(0|[1-9][0-9]+)($|,[0-9][0-9]$)"
+        },
+        "url": {
+            "type": "string",
+            "pattern": "^(http://|https://).*"
+        },
+        "datumTijd": {
+            "type": "string",
+            "pattern": "^([0-2][0-9]|3[0-1]|[1-9])-(0[1-9]|[1-9]|1[0-2])-(19|20)[0-9][0-9] T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]"
+        }
+    }
+}

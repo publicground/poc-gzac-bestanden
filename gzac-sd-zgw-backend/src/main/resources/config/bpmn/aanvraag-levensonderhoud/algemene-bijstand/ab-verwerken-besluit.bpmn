@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1y9ob7p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.31.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+  <bpmn:collaboration id="Collaboration_0vdtc6x">
+    <bpmn:participant id="VerwerkenBesluitAlgemeneBijstandParticipant" name="Verwerken besluit Algemene Bijstand" processRef="ab-verwerken-besluit" />
+  </bpmn:collaboration>
+  <bpmn:process id="ab-verwerken-besluit" name="AB: Verwerken besluit" isExecutable="true" camunda:historyTimeToLive="180">
+    <bpmn:sequenceFlow id="Flow_1ksgoy8" sourceRef="BesluitVastgelegdStartEvent" targetRef="GetBesluitDocumentIdTask" />
+    <bpmn:sequenceFlow id="Flow_0xf3bvf" sourceRef="VastleggenBesluitCallActivity" targetRef="ZetZaakeigenschapTask" />
+    <bpmn:sequenceFlow id="Flow_1j4av1j" sourceRef="BepaalBesluittypeEnResultaattypeTask" targetRef="VastleggenBesluitCallActivity" />
+    <bpmn:startEvent id="BesluitVastgelegdStartEvent" name="Besluit vastgelegd">
+      <bpmn:outgoing>Flow_1ksgoy8</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1mcnxnh" sourceRef="AfsluitenZaakCallActivity" targetRef="ZaakAfgeslotenEndEvent" />
+    <bpmn:sequenceFlow id="Flow_0k4yztk" sourceRef="ZetZaakeigenschapTask" targetRef="AfsluitenZaakCallActivity" />
+    <bpmn:sequenceFlow id="Flow_1ila3t0" sourceRef="GetBesluitDocumentIdTask" targetRef="GetBesluitDocumentUrlTask" />
+    <bpmn:sequenceFlow id="Flow_1wnarb1" sourceRef="GetBesluitDocumentUrlTask" targetRef="BepaalBesluittypeEnResultaattypeTask" />
+    <bpmn:serviceTask id="GetBesluitDocumentIdTask" name="Get besluit document id" camunda:expression="${customInformatieobjectenService.getDocumentMetadataValue(tempFileId,&#34;documentId&#34;)}" camunda:resultVariable="besluitDocumentId">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="tempFileId">${documentDelegateService.findValueByJsonPointer("/besluit/besluitDocumenten", execution)[0].id}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1ksgoy8</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ila3t0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="GetBesluitDocumentUrlTask" name="Get besluit document url " camunda:asyncAfter="true" camunda:expression="${customInformatieobjectenService.getDocumentUrlById(besluitDocumentId, execution.businessKey)}" camunda:resultVariable="besluitDocumentUrl">
+      <bpmn:incoming>Flow_1ila3t0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wnarb1</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="BepaalBesluittypeEnResultaattypeTask" name="Bepaal besluittype en resultaattype" camunda:asyncAfter="true" camunda:resultVariable="resultMap" camunda:decisionRef="alo-bepaal-besluittype-resultaattype" camunda:mapDecisionResult="singleResult">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="besluit">${valueResolverDelegateService.resolveValue(execution, "doc:besluit.genomenBesluit")}</camunda:inputParameter>
+          <camunda:outputParameter name="besluitType">${resultMap.besluitType}</camunda:outputParameter>
+          <camunda:outputParameter name="resultaatType">${resultMap.resultaatType}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1wnarb1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1j4av1j</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:callActivity id="VastleggenBesluitCallActivity" name="Vastleggen besluit" camunda:asyncAfter="true" calledElement="generic-vastleggen-besluit">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="besluitType" target="besluitTypeDescription" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="besluitIngangsdatum">${dateTime().toLocalDate().toString()}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:in source="besluitIngangsdatum" target="besluitIngangsdatum" />
+        <camunda:in source="besluitDocumentUrl" target="besluitDocumentUrl" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1j4av1j</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xf3bvf</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="ZetZaakeigenschapTask" name="Zet zaakeigenschap" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="einddatum">${dateTime().toLocalDate().toString("yyyyMMdd")}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0xf3bvf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0k4yztk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="AfsluitenZaakCallActivity" name="Afsluiten zaak" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-afsluiten-zaak-plugin">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="status" target="status" />
+        <camunda:in source="resultaatType" target="resultaat" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="status">Afgehandeld</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0k4yztk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mcnxnh</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="ZaakAfgeslotenEndEvent" name="Zaak afgesloten" camunda:asyncBefore="true">
+      <bpmn:incoming>Flow_1mcnxnh</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_18vkdqw" camunda:expression="${correlationService.sendCatchEventMessage(&#34;ZAAK_AFGESLOTEN&#34;, execution.businessKey)}" />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0vdtc6x">
+      <bpmndi:BPMNShape id="Participant_1c6zn7v_di" bpmnElement="VerwerkenBesluitAlgemeneBijstandParticipant" isHorizontal="true">
+        <dc:Bounds x="140" y="80" width="1250" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_11mgg2h_di" bpmnElement="BesluitVastgelegdStartEvent">
+        <dc:Bounds x="222" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="195" y="225" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0csqht0_di" bpmnElement="GetBesluitDocumentIdTask">
+        <dc:Bounds x="320" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_004oeb7" bpmnElement="GetBesluitDocumentUrlTask">
+        <dc:Bounds x="480" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ednbhd_di" bpmnElement="BepaalBesluittypeEnResultaattypeTask">
+        <dc:Bounds x="650" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_00w9ava_di" bpmnElement="VastleggenBesluitCallActivity">
+        <dc:Bounds x="800" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0h4890q_di" bpmnElement="ZetZaakeigenschapTask">
+        <dc:Bounds x="960" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0u5pbsx" bpmnElement="AfsluitenZaakCallActivity">
+        <dc:Bounds x="1120" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ifxbfp_di" bpmnElement="ZaakAfgeslotenEndEvent">
+        <dc:Bounds x="1282" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1261" y="225" width="79" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ksgoy8_di" bpmnElement="Flow_1ksgoy8">
+        <di:waypoint x="258" y="200" />
+        <di:waypoint x="320" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xf3bvf_di" bpmnElement="Flow_0xf3bvf">
+        <di:waypoint x="900" y="200" />
+        <di:waypoint x="960" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1j4av1j_di" bpmnElement="Flow_1j4av1j">
+        <di:waypoint x="750" y="200" />
+        <di:waypoint x="800" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mcnxnh_di" bpmnElement="Flow_1mcnxnh">
+        <di:waypoint x="1220" y="200" />
+        <di:waypoint x="1282" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0k4yztk_di" bpmnElement="Flow_0k4yztk">
+        <di:waypoint x="1060" y="200" />
+        <di:waypoint x="1120" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ila3t0_di" bpmnElement="Flow_1ila3t0">
+        <di:waypoint x="420" y="200" />
+        <di:waypoint x="480" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wnarb1_di" bpmnElement="Flow_1wnarb1">
+        <di:waypoint x="580" y="200" />
+        <di:waypoint x="650" y="200" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

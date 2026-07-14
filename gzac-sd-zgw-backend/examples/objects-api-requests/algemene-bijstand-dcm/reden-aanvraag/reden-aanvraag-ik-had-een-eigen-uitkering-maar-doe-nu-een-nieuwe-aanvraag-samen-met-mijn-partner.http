@@ -1,0 +1,138 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "index": 1,
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "999991322",
+      "data": {
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Herengracht",
+              "postcode": "2511 EG",
+              "huisletter": "",
+              "huisnummer": "1",
+              "toevoeging": ""
+            },
+            "grPersoongegevens": {
+              "Bsn": "999991322",
+              "voornaam": "Celeste",
+              "achternaam": "Avion",
+              "voorletters": "C.",
+              "voorvoegsels": "",
+              "geboortedatum": "1960-12-29"
+            }
+          }
+        },
+        "alo-ioaw": {
+          "grIoaw": {
+            "geenRechtMeerWw": "NEE",
+            "geenRechtMeerWga": "NEE",
+            "gedeeltelijkArbeidsongeschikt": "NEE"
+          }
+        },
+        "schulden": {
+          "heeftSchulden": "NEE"
+        },
+        "alo-uitbetaling": {
+          "ibanAanWie": "NEE",
+          "ibanUitbetaling": "NL22LOCY0131692836",
+          "naamRekeninghouder": "C Avion"
+        },
+        "alo-uw-inkomsten": {
+          "heeftInkomsten": "GEEN_INKOMSTEN"
+        },
+        "alo-reden-aanvraag": {
+          "grIngangsdatum": {
+            "bijstandsuitkeringEerderStarten": "NEE"
+          },
+          "waaromBijstandsuitkering": "WIJZIGING_GEZINSSITUATIE",
+          "grWijzigingGezinssituatie": {
+            "watGewijzigd": "NIEUWE_AANVRAAG_MET_PARTNER"
+          }
+        },
+        "alo-uw-woonsituatie": {
+          "hoeWoontU": "BIJ_FAMILIE_VRIENDEN_OF_KENNISSEN",
+          "bijWieWoontU": "OUDERS",
+          "grAndereBewoners": {
+            "meerMensenOpAdres": "NEE"
+          }
+        },
+        "alo-uw-beschikbaarheid": {
+          "grBeschikbaarheid": {
+            "onbetaald": "NEE",
+            "beschikbaarheid": 60
+          }
+        },
+        "alo-gezinssamenstelling": {
+          "partnerWoontBijU": "NEE",
+          "thuiswonendeKinderen": "NEE"
+        },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": true,
+          "grWoonsituatie": {
+            "woonsituatie": "WAAR_IK_WOON"
+          },
+          "grNationaliteit": {
+            "nationaliteitBezit": "NEDERLANDSE_NATIONALITEIT"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "NEE"
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": false,
+            "emailAdres": "jouw.naam@ritense.com",
+            "geenTelefoon": true
+          }
+        },
+        "alo-bezittingen-en-schulden": {
+          "grVaartuig": {
+            "hhgVaartuig": [
+              {
+                "waardeVaartuig": 8000
+              }
+            ]
+          },
+          "grRekeningen": {
+            "grLogicaBank": {
+              "hhgVoegRekeningToe": [
+                {
+                  "prive": "NL22LOCY0131692836",
+                  "hoeveelGeld": 12,
+                  "typeRekening": "NEDERLANDSE_PRIVE_REKENING",
+                  "uploadAfschrift": []
+                }
+              ]
+            },
+            "geenBankrekening": "BEZIT_REKENING"
+          },
+          "grUwVermogen": {
+            "welkVermogen": {
+              "CRYPTO": false,
+              "CARAVAN": false,
+              "VAARTUIG": true,
+              "CONTANTEN": false,
+              "KOOPWONING": false,
+              "MOTORVOERTUIG": false,
+              "EEN_STUK_GROND": false,
+              "OBLIGATIES_AANDELEN": false
+            }
+          }
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "language_code": "nl",
+      "submission_id": "1a010c38-f596-4caf-b8c2-c4649a7229e9",
+      "public_reference": "OF-{{$random.alphanumeric(8)}}"
+    },
+    "startAt": "2025-07-08",
+    "registrationAt": "2025-07-08"
+  }
+}

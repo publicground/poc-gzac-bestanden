@@ -1,0 +1,60 @@
+{
+    "heeftAlsEigenaar": {
+        "bestuursfuncties": [
+            {
+                "bevoegdheid": "zelfstandig",
+                "bevoegdheidOmschrijving": "Alleen/zelfstandig bevoegd",
+                "functietitel": "Voorzitter",
+                "functie": "Bestuurder",
+                "natuurlijkPersoon": {
+                    "naam": {
+                        "geslachtsnaam": "Dekker",
+                        "voornamen": "Hans"
+                    },
+                    "geboorte": {
+                        "datum": {
+                            "datum": "1910-01-01",
+                            "jaar": 1910,
+                            "maand": 1,
+                            "dag": 1
+                        },
+                        "plaats": "Amsterdam",
+                        "land": {
+                            "code": "6030",
+                            "omschrijving": "Nederland"
+                        }
+                    },
+                    "geslachtsaanduiding": "man"
+                }
+            }
+        ],
+        "rechtsvorm": "Stichting",
+        "nietNatuurlijkPersoon": {
+            "rsin": "858311537",
+            "naamgeving": "Test Stichting Bolderbast"
+        }
+    },
+    "activiteiten": [
+        {
+            "code": "47291",
+            "omschrijving": "Winkels in kaas",
+            "isHoofdactiviteit": true
+        }
+    ],
+    "datumAanvang": {
+        "datum": "2011-01-01",
+        "jaar": 2011,
+        "maand": 1,
+        "dag": 1
+    },
+    "_links": {
+        "self": {
+            "href": "https://wsgateway.ot.denhaag.nl/haalcentraal/api/hr/maatschappelijkeactiviteiten/69599068"
+        },
+        "eigenaar": {
+            "href": "https://wsgateway.ot.denhaag.nl/haalcentraal/api/hr/nietnatuurlijkpersonen/858311537"
+        }
+    },
+    "kvkNummer": "69599068",
+    "naam": "Test Stichting Bolderbast"
+}

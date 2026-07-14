@@ -1,0 +1,460 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "soort aanvraag",
+            "key": "pv.dossierType",
+            "type": "hidden",
+            "properties": {
+                "sourceKey": "case:definitionId.name"
+            },
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "selectBoxItems",
+            "customDefaultValue": "window.forceRefresh = instance;\nfetch('../api/v1/object/management/configuration/ALO: Informatieverzoek Items/objects', { method: 'GET', headers: { 'Authorization': 'Bearer ' + localStorage.getItem('formioToken') } })\n.then(response => response.json())\n.then(informatieverzoekItems => {\n const items = informatieverzoekItems.filter(item => item.record.data.informatieverzoekItem.dossierType.find(type => type === data.pv.dossierType));\n const selectBoxes = {};\n woonsituatie = items.filter(item => item.record.data.informatieverzoekItem.categorie.find(categorie => categorie === 'woonsituatie'));\n inkomen = items.filter(item => item.record.data.informatieverzoekItem.categorie.find(categorie => categorie === 'inkomen'));\n vermogen = items.filter(item => item.record.data.informatieverzoekItem.categorie.find(categorie => categorie === 'vermogen'));\n selectBoxes.woonsituatie = structuredClone(woonsituatie);\n selectBoxes.inkomen = structuredClone(inkomen);\n selectBoxes.vermogen = structuredClone(vermogen);\n window.forceRefresh.setValue(selectBoxes);\n});\n",
+            "key": "pv.selectBoxItems",
+            "type": "hidden",
+            "tableView": true,
+            "refreshOnChange": true,
+            "input": true
+        },
+        {
+            "label": "Informatieverzoek",
+            "key": "informatieverzoeken",
+            "type": "hidden",
+            "defaultValue": [],
+            "input": true
+        },
+        {
+            "label": "datum uitgezet",
+            "key": "pv.verzoek.datumUitgezet",
+            "type": "hidden",
+            "calculateValue": "value = moment();",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Uitgezet door",
+            "customDefaultValue": "value = JSON.parse(localStorage.getItem('userIdentity'))?.firstName + ' ' + JSON.parse(localStorage.getItem('userIdentity'))?.lastName;",
+            "key": "pv.verzoek.uitgezetDoor",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Hersteltermijn in dagen",
+            "type": "hidden",
+            "conditional": {
+                "eq": "JA",
+                "show": true,
+                "when": "pv.verzoek.hersteltermijn"
+            },
+            "calculateValue": "value = moment(data.pv.verzoek.deadlineInformatieverzoek).endOf('day').diff(moment().startOf('day'), 'days');",
+            "key": "pv.verzoek.hersteltermijnInDagen",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "content": "<h4>Selecteer de documenten die je wilt op vragen bij de aanvrager en geef eventueel per document een toelichting.</h4>",
+            "refreshOnChange": false,
+            "key": "html2",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "displayMessage",
+            "key": "pv.displayMessage",
+            "type": "hidden",
+            "defaultValue": false,
+            "calculateValue": "if (data.pv.verzoek.woonsituatie.opTeVragenInformatie.length > 0 || data.pv.verzoek.inkomen.opTeVragenInformatie.length > 0 || data.pv.verzoek.vermogen.opTeVragenInformatie.length > 0) {data.pv.displayMessage = false;} else { data.pv.displayMessage = true; }",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-warning mt-1",
+            "content": "<h4>Kies minimaal één bestand uit één van de onderstaande categoriën.</h4>",
+            "refreshOnChange": false,
+            "key": "html2",
+            "type": "htmlelement",
+            "customConditional": "show = data.pv.displayMessage",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Tabs",
+            "components": [
+                {
+                    "label": "Woonsituatie",
+                    "key": "woonsituatie",
+                    "components": [
+                        {
+                            "label": "Welke documenten wil je opvragen bij de aanvrager?",
+                            "widget": "choicesjs",
+                            "tableView": true,
+                            "dataSrc": "custom",
+                            "data": {
+                                "custom": "values = data.pv.selectBoxItems.woonsituatie;"
+                            },
+                            "validate": {
+                                "required": false
+                            },
+                            "multiple": true,
+                            "idPath": "uuid",
+                            "valueProperty": "record.data",
+                            "template": "<span> {{ item.record.data.informatieverzoekItem.omschrijvingBehandelaar }} </span>",
+                            "validateWhenHidden": false,
+                            "key": "pv.verzoek.woonsituatie.opTeVragenInformatie",
+                            "type": "select",
+                            "input": true
+                        },
+                        {
+                            "label": "informatieverzoek items container",
+                            "tableView": false,
+                            "key": "pv.informatieverzoekItemsContainer",
+                            "customConditional": "(data.pv?.verzoek?.woonsituatie?.opTeVragenInformatie?.length > 0) ? show = true : show = false;",
+                            "type": "container",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "Op te vragen documenten",
+                                    "content": "<h4>Op te vragen documenten</h4>",
+                                    "refreshOnChange": false,
+                                    "key": "titel",
+                                    "type": "htmlelement",
+                                    "customClass": "no-border-bottom-radius",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "Data Grid",
+                                    "reorder": false,
+                                    "addAnotherPosition": "bottom",
+                                    "layoutFixed": false,
+                                    "enableRowGroups": false,
+                                    "initEmpty": false,
+                                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element",
+                                    "hideLabel": true,
+                                    "disableAddingRemovingRows": true,
+                                    "tableView": false,
+                                    "defaultValue": [
+                                        {}
+                                    ],
+                                    "validateWhenHidden": false,
+                                    "key": "pv.verzoek.opTeVragenInformatie",
+                                    "calculateValue": "value = data.pv.verzoek.woonsituatie.opTeVragenInformatie;",
+                                    "type": "datagrid",
+                                    "input": true,
+                                    "components": [
+                                        {
+                                            "label": "Omschrijving aanvrager",
+                                            "applyMaskOn": "change",
+                                            "tableView": true,
+                                            "validateWhenHidden": false,
+                                            "key": "informatieverzoekItem.omschrijvingAanvrager",
+                                            "disabled": true,
+                                            "type": "textfield",
+                                            "input": true
+                                        },
+                                        {
+                                            "label": "Toelichting",
+                                            "applyMaskOn": "change",
+                                            "tableView": true,
+                                            "validateWhenHidden": false,
+                                            "key": "informatieverzoekItem.toelichting",
+                                            "type": "textfield",
+                                            "input": true
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "label": "Inkomen",
+                    "key": "inkomen",
+                    "components": [
+                        {
+                            "label": "Welke documenten wil je opvragen bij de aanvrager?",
+                            "widget": "choicesjs",
+                            "tableView": true,
+                            "multiple": true,
+                            "validateWhenHidden": false,
+                            "dataSrc": "custom",
+                            "data": {
+                                "custom": "values = data.pv.selectBoxItems.inkomen"
+                            },
+                            "validate": {
+                                "required": false
+                            },
+                            "idPath": "uuid",
+                            "valueProperty": "record.data",
+                            "template": "<span> {{ item.record.data.informatieverzoekItem.omschrijvingBehandelaar }} </span>",
+                            "key": "pv.verzoek.inkomen.opTeVragenInformatie",
+                            "type": "select",
+                            "input": true
+                        },
+                        {
+                            "label": "informatieverzoek items container",
+                            "tableView": false,
+                            "key": "pv.informatieverzoekItemsContainer2",
+                            "customConditional": "(data.pv?.verzoek?.inkomen?.opTeVragenInformatie?.length > 0) ? show = true : show = false;",
+                            "type": "container",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "Op te vragen documenten",
+                                    "content": "<h4>Op te vragen documenten</h4>",
+                                    "refreshOnChange": false,
+                                    "key": "kinderenTitel",
+                                    "type": "htmlelement",
+                                    "customClass": "no-border-bottom-radius",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "Data Grid",
+                                    "reorder": false,
+                                    "addAnotherPosition": "bottom",
+                                    "layoutFixed": false,
+                                    "enableRowGroups": false,
+                                    "initEmpty": false,
+                                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element",
+                                    "hideLabel": true,
+                                    "disableAddingRemovingRows": true,
+                                    "tableView": false,
+                                    "defaultValue": [
+                                        {}
+                                    ],
+                                    "validateWhenHidden": false,
+                                    "key": "chosenDataGrid",
+                                    "calculateValue": "value = data.pv.verzoek.inkomen.opTeVragenInformatie;",
+                                    "type": "datagrid",
+                                    "input": true,
+                                    "components": [
+                                        {
+                                            "label": "Omschrijving aanvrager",
+                                            "applyMaskOn": "change",
+                                            "tableView": true,
+                                            "validateWhenHidden": false,
+                                            "key": "informatieverzoekItem.omschrijvingAanvrager",
+                                            "disabled": true,
+                                            "type": "textfield",
+                                            "input": true
+                                        },
+                                        {
+                                            "label": "Toelichting",
+                                            "applyMaskOn": "change",
+                                            "tableView": true,
+                                            "validateWhenHidden": false,
+                                            "key": "informatieverzoekItem.toelichting",
+                                            "type": "textfield",
+                                            "input": true
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "label": "Vermogen",
+                    "key": "vermogen",
+                    "components": [
+                        {
+                            "label": "Welke documenten wil je opvragen bij de aanvrager?",
+                            "widget": "choicesjs",
+                            "tableView": true,
+                            "multiple": true,
+                            "validateWhenHidden": false,
+                            "dataSrc": "custom",
+                            "data": {
+                                "custom": "values = data.pv.selectBoxItems.vermogen"
+                            },
+                            "validate": {
+                                "required": false
+                            },
+                            "idPath": "uuid",
+                            "valueProperty": "record.data",
+                            "template": "<span> {{ item.record.data.informatieverzoekItem.omschrijvingBehandelaar }} </span>",
+                            "key": "pv.verzoek.vermogen.opTeVragenInformatie",
+                            "type": "select",
+                            "input": true
+                        },
+                        {
+                            "label": "informatieverzoek items container",
+                            "tableView": false,
+                            "key": "pv.informatieverzoekItemsContainer3",
+                            "customConditional": "(data.pv?.verzoek?.vermogen?.opTeVragenInformatie?.length > 0) ? show = true : show = false;",
+                            "type": "container",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "Op te vragen documenten",
+                                    "content": "<h4>Op te vragen documenten</h4>",
+                                    "refreshOnChange": false,
+                                    "key": "kinderenTitel",
+                                    "type": "htmlelement",
+                                    "customClass": "no-border-bottom-radius",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "Data Grid",
+                                    "reorder": false,
+                                    "addAnotherPosition": "bottom",
+                                    "layoutFixed": false,
+                                    "enableRowGroups": false,
+                                    "initEmpty": false,
+                                    "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element",
+                                    "hideLabel": true,
+                                    "disableAddingRemovingRows": true,
+                                    "tableView": false,
+                                    "defaultValue": [
+                                        {}
+                                    ],
+                                    "validateWhenHidden": false,
+                                    "key": "chosenDataGrid",
+                                    "calculateValue": "value = data.pv.verzoek.vermogen.opTeVragenInformatie;",
+                                    "type": "datagrid",
+                                    "input": true,
+                                    "components": [
+                                        {
+                                            "label": "Omschrijving aanvrager",
+                                            "applyMaskOn": "change",
+                                            "tableView": true,
+                                            "validateWhenHidden": false,
+                                            "key": "informatieverzoekItem.omschrijvingAanvrager",
+                                            "disabled": true,
+                                            "type": "textfield",
+                                            "input": true
+                                        },
+                                        {
+                                            "label": "Toelichting",
+                                            "applyMaskOn": "change",
+                                            "tableView": true,
+                                            "validateWhenHidden": false,
+                                            "key": "informatieverzoekItem.toelichting",
+                                            "type": "textfield",
+                                            "input": true
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "key": "tabs",
+            "type": "tabs",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "content": "<h4>Voer een bericht richting de aanvrager in, geef aan of een hersteltermijn van toepassing is en binnen welke termijn er voldaan moet worden aan het informatieverzoek. </h4>",
+            "refreshOnChange": false,
+            "key": "html2",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Bericht aan aanvrager",
+            "applyMaskOn": "change",
+            "autoExpand": false,
+            "tableView": true,
+            "validate": {
+                "maxWords": 500
+            },
+            "validateWhenHidden": false,
+            "key": "pv.verzoek.berichtNaarAanvrager",
+            "type": "textarea",
+            "input": true
+        },
+        {
+            "label": "Deadline informatieverzoek",
+            "format": "dd-MM-yyyy",
+            "tableView": false,
+            "datePicker": {
+                "disableWeekends": false,
+                "disableWeekdays": false,
+                "minDate": "moment().add(1,'days').startOf('day')"
+            },
+            "validate": {
+                "required": true
+            },
+            "enableTime": false,
+            "enableMinDateInput": false,
+            "enableMaxDateInput": false,
+            "validateWhenHidden": false,
+            "key": "pv.verzoek.deadlineInformatieverzoek",
+            "defaultDate": "moment().add(2, 'weeks')",
+            "type": "datetime",
+            "input": true,
+            "widget": {
+                "type": "calendar",
+                "displayInTimezone": "viewer",
+                "locale": "en",
+                "useLocaleSettings": false,
+                "allowInput": true,
+                "mode": "single",
+                "enableTime": false,
+                "noCalendar": false,
+                "format": "dd-MM-yyyy",
+                "hourIncrement": 1,
+                "minuteIncrement": 1,
+                "time_24hr": false,
+                "minDate": null,
+                "disableWeekends": false,
+                "disableWeekdays": false,
+                "maxDate": null
+            }
+        },
+        {
+            "label": "Hersteltermijn van toepassing?",
+            "optionsLabelPosition": "right",
+            "inline": false,
+            "tableView": false,
+            "values": [
+                {
+                    "label": "Ja",
+                    "value": "JA",
+                    "shortcut": ""
+                },
+                {
+                    "label": "Nee",
+                    "value": "NEE",
+                    "shortcut": ""
+                }
+            ],
+            "validate": {
+                "required": true
+            },
+            "validateWhenHidden": false,
+            "key": "pv.verzoek.hersteltermijn",
+            "type": "radio",
+            "input": true
+        },
+        {
+            "label": "Informatieverzoek uitzetten",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "customConditional": "if (data.pv.verzoek.woonsituatie.opTeVragenInformatie.length > 0 || data.pv.verzoek.inkomen.opTeVragenInformatie.length > 0 || data.pv.verzoek.vermogen.opTeVragenInformatie.length > 0) {\n  component.disabled = false;\n} else {\n  component.disabled = true;\n}",
+            "type": "button",
+            "custom": "const verzoekItems = [];\nif (data.pv.verzoek.woonsituatie.opTeVragenInformatie.length > 0) { verzoekItems.push(...data.pv.verzoek.woonsituatie.opTeVragenInformatie); }\nif (data.pv.verzoek.inkomen.opTeVragenInformatie.length > 0) { verzoekItems.push(...data.pv.verzoek.inkomen.opTeVragenInformatie); }\nif (data.pv.verzoek.vermogen.opTeVragenInformatie.length > 0) { verzoekItems.push(...data.pv.verzoek.vermogen.opTeVragenInformatie); }\ndata.pv.verzoek.opTeVragenInformatie = verzoekItems; \ndata.pv.verzoek.documenten = verzoekItems.map((item, index) => `/informatieverzoek/opTeVragenInformatie/${index}/documentUpload`);\nconst submitVerzoek = _.cloneDeep(data.pv.verzoek);\ndelete submitVerzoek.woonsituatie;\ndelete submitVerzoek.inkomen;\ndelete submitVerzoek.vermogen;\ndata.informatieverzoeken.push({'verzoek': submitVerzoek});\nform.submit(); \ncomponent.disabled = true;",
+            "input": true
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+[
+    {
+        "activityId": "DocumentSearchTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "790e7edd-675a-4c4a-8bf6-02fabfb66cfe",
+        "pluginActionDefinitionKey": "search-document",
+        "actionProperties": {
+            "documentPath": "/publicReference",
+            "searchedValue": "pv:public_reference",
+            "resultProcessVariableName": "existingDocumentId"
+        }
+    },
+    {
+        "activityId": "CreateZaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "create-zaak",
+        "actionProperties": {
+            "rsin": "pv:RSIN",
+            "zaaktypeUrl": "pv:zaakTypeUrl"
+        }
+    },
+    {
+        "activityId": "CreateInitiatorZaakRolTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "create-natuurlijk-persoon-zaak-rol",
+        "actionProperties": {
+            "inpBsn": "pv:initiatorValue",
+            "rolToelichting": "pv:rolDescription",
+            "roltypeUrl": "pv:rolTypeUrl"
+        }
+    },
+    {
+        "activityId": "LinkDocumentToZaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "link-document-to-zaak",
+        "actionProperties": {
+            "beschrijving": "Document dat hoort bij het Verzoek",
+            "documentUrl": "pv:documentUrl",
+            "titel": "Verzoek document"
+        }
+    }
+]

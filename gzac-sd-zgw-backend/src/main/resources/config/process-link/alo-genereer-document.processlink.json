@@ -1,0 +1,144 @@
+[
+    {
+        "activityId": "GenereerInformatieverzoekTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "bc6f0a16-a3dc-4142-ad11-80fd5d33bb85",
+        "pluginActionDefinitionKey": "generate-document",
+        "actionProperties": {
+            "templateGroup": "pv:templateGroup",
+            "templateName": "pv:templateName",
+            "resultingDocumentProcessVariableName": "gegenereerdeAloDocument",
+            "format": "PDF",
+            "templateData": [
+                {
+                    "key": "zaaknummer",
+                    "value": "zaak:identificatie"
+                },
+                {
+                    "key": "gegevensAanvrager",
+                    "value": "pv:gegevensAanvrager"
+                },
+                {
+                    "key": "gegevensPartner",
+                    "value": "pv:gegevensPartner"
+                },
+                {
+                    "key": "verzendadres",
+                    "value": "pv:verzendadres"
+                },
+                {
+                    "key": "verzenddatum",
+                    "value": "pv:verzenddatum"
+                },
+                {
+                    "key": "datumAanvraag",
+                    "value": "case:createdOn"
+                },
+                {
+                    "key": "deadlineInformatieverzoek",
+                    "value": "pv:deadlineInformatieverzoek"
+                },
+                {
+                    "key": "opgevraagdeStukken",
+                    "value": "pv:opgevraagdeStukken"
+                }
+            ]
+        }
+    },
+    {
+        "activityId": "OpslaanInformatieverzoekInDocumentenApiTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "bc095125-b9a9-435e-8372-0bf92f8be9be",
+        "pluginActionDefinitionKey": "store-temp-document",
+        "actionProperties": {
+            "fileName": null,
+            "title": "pv:documentTitle",
+            "description": "pv:documentDescription",
+            "localDocumentLocation": "gegenereerdeAloDocument",
+            "storedDocumentUrl": "gegenereerdeAloDocumentUrl",
+            "informatieobjecttype": "${SD_VERZOEK_INFORMATIEBRIEF_INFORMATIEOBJECTTYPE_URL}",
+            "confidentialityLevel": "zaakvertrouwelijk",
+            "taal": "nld",
+            "status": "definitief"
+        }
+    },
+    {
+        "activityId": "GenereerIntrekkingsbriefTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "bc6f0a16-a3dc-4142-ad11-80fd5d33bb85",
+        "pluginActionDefinitionKey": "generate-document",
+        "actionProperties": {
+            "templateGroup": "pv:templateGroup",
+            "templateName": "pv:templateName",
+            "resultingDocumentProcessVariableName": "gegenereerdeAloDocument",
+            "format": "PDF",
+            "templateData": [
+                {
+                    "key": "zaaknummer",
+                    "value": "zaak:identificatie"
+                },
+                {
+                    "key": "gegevensAanvrager",
+                    "value": "pv:gegevensAanvrager"
+                },
+                {
+                    "key": "gegevensPartner",
+                    "value": "pv:gegevensPartner"
+                },
+                {
+                    "key": "verzendadres",
+                    "value": "pv:verzendadres"
+                },
+                {
+                    "key": "verzenddatum",
+                    "value": "pv:verzenddatum"
+                },
+                {
+                    "key": "datumAanvraag",
+                    "value": "case:createdOn"
+                },
+                {
+                    "key": "datumIngetrokken",
+                    "value": "pv:datumIngetrokken"
+                },
+                {
+                    "key": "ingetrokkenVia",
+                    "value": "pv:ingetrokkenVia"
+                }
+            ]
+        }
+    },
+    {
+        "activityId": "OpslaanIntrekkingsbriefInDocumentenApiTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "bc095125-b9a9-435e-8372-0bf92f8be9be",
+        "pluginActionDefinitionKey": "store-temp-document",
+        "actionProperties": {
+            "fileName": null,
+            "title": "pv:documentTitle",
+            "description": "pv:documentDescription",
+            "localDocumentLocation": "gegenereerdeAloDocument",
+            "storedDocumentUrl": "gegenereerdeAloDocumentUrl",
+            "informatieobjecttype": "${SD_INTREKKINGSBRIEF_INFORMATIEOBJECTTYPE_URL}",
+            "confidentialityLevel": "zaakvertrouwelijk",
+            "taal": "nld",
+            "status": "definitief"
+        }
+    },
+    {
+        "activityId": "LinkenDocumentAanDeZaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "link-document-to-zaak",
+        "actionProperties": {
+            "documentUrl": "pv:gegenereerdeAloDocumentUrl",
+            "title": "pv:documentTitle",
+            "description": "pv:documentDescription"
+        }
+    }
+]

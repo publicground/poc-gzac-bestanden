@@ -1,0 +1,132 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "HTML",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<h4>\n  Informatieverzoek item\n</h4>",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Informatieverzoek Item",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "informatieverzoekItem",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "label": "Categorie(en)",
+                    "widget": "choicesjs",
+                    "tableView": true,
+                    "multiple": true,
+                    "data": {
+                        "values": [
+                            {
+                                "label": "Woonsituatie",
+                                "value": "woonsituatie"
+                            },
+                            {
+                                "label": "Inkomen",
+                                "value": "inkomen"
+                            },
+                            {
+                                "label": "vermogen",
+                                "value": "vermogen"
+                            }
+                        ]
+                    },
+                    "validateWhenHidden": false,
+                    "key": "categorie",
+                    "type": "select",
+                    "input": true
+                },
+                {
+                    "label": "Omschrijving voor behandelaar",
+                    "applyMaskOn": "change",
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "omschrijvingBehandelaar",
+                    "type": "textfield",
+                    "input": true
+                },
+                {
+                    "label": "Omschrijving voor aanvrager",
+                    "applyMaskOn": "change",
+                    "autoExpand": false,
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "omschrijvingAanvrager",
+                    "type": "textarea",
+                    "input": true
+                },
+                {
+                    "label": "Toelichting",
+                    "applyMaskOn": "change",
+                    "autoExpand": true,
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "key": "toelichting",
+                    "type": "textarea",
+                    "input": true,
+                    "rows": 1
+                },
+                {
+                    "label": "Dossier type",
+                    "widget": "choicesjs",
+                    "tableView": true,
+                    "multiple": true,
+                    "data": {
+                        "values": [
+                            {
+                                "label": "Algemene Bijstand",
+                                "value": "aanvraag-algemene-bijstand-dcm"
+                            },
+                            {
+                                "label": "IOAW",
+                                "value": "aanvraag-ioaw-uitkering-dcm"
+                            }
+                        ]
+                    },
+                    "validateWhenHidden": false,
+                    "key": "dossierType",
+                    "validate": {
+                        "required": true
+                    },
+                    "type": "select",
+                    "input": true
+                },
+                {
+                    "label": "Informatieobjecttype",
+                    "widget": "choicesjs",
+                    "tableView": true,
+                    "dataSrc": "custom",
+                    "data": {
+                        "custom": "const selected = data.informatieverzoekItem.dossierType || [];\n\nconst fetchDocs = (type) => {\n  return fetch(`../api/v1/documentdefinition/${type}/zaaktype/documenttype`, {\n    method: 'GET',\n    headers: {\n      'Authorization': 'Bearer ' + localStorage.getItem('formioToken'),\n      'Content-Type': 'application/json'\n    }\n  }).then(res => res.json());\n};\n\nreturn Promise.all([\n  selected.includes('aanvraag-algemene-bijstand-dcm') ? fetchDocs('aanvraag-algemene-bijstand-dcm') : Promise.resolve([]),\n  selected.includes('aanvraag-ioaw-uitkering-dcm') ? fetchDocs('aanvraag-ioaw-uitkering-dcm') : Promise.resolve([])\n])\n.then(([bijstand, ioaw]) => {\n\n  if (selected.length === 1 && selected[0] === 'aanvraag-algemene-bijstand-dcm') {\n    return bijstand;\n  }\n\n  if (selected.length === 1 && selected[0] === 'aanvraag-ioaw-uitkering-dcm') {\n    return ioaw;\n  }\n\n  const ioawUrls = new Set(ioaw.map(d => d.url));\n  return bijstand.filter(b => ioawUrls.has(b.url));\n});"
+                    },
+                    "template": "<span>{{ item.name }}</span>",
+                    "refreshOn": "dossierType",
+                    "validateWhenHidden": false,
+                    "key": "informatieobjecttype",
+                    "validate": {
+                        "required": true
+                    },
+                    "type": "select",
+                    "lazyLoad": false,
+                    "disableLimit": false,
+                    "noRefreshOnScroll": false,
+                    "input": true
+                }
+            ]
+        }
+    ]
+}

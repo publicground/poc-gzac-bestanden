@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0r27c1v" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_1hrfleu">
+    <bpmn:participant id="BS217VaststellingVerblijfadresParticipant" name="BS 217 vaststelling verblijfadres" processRef="bs-217-vaststelling-verblijfadres" />
+    <bpmn:textAnnotation id="TextAnnotation_0uggn2j">
+      <bpmn:text>Input variabelen:
+- verblijfadresVastgesteld
+- datumVastgesteld
+- handmatigVaststellen
+- toelichtingVerblijftElders
+
+- verblijfadres
+- brpWoonadres
+
+- taakTitel
+- vastgesteldVerblijfadres
+- brpPostadres
+- toelichtingConsulent</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_1r2hgg0">
+      <bpmn:text>Output variabelen
+- verblijfadresVastgesteld
+- datumVastgesteld
+- vastgesteldVerblijfadres
+- toelichtingConsulent</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0xdc937" associationDirection="None" sourceRef="StartEvent_1" targetRef="TextAnnotation_0uggn2j" />
+    <bpmn:textAnnotation id="TextAnnotation_1iuqb0r">
+      <bpmn:text>Consulent selecteert handmatig het verblijfadres uit de gepresenteerde opties</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1ppl8uq" associationDirection="None" sourceRef="VaststellingVerblijfadresTask" targetRef="TextAnnotation_1iuqb0r" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-217-vaststelling-verblijfadres" name="BS 217 vaststelling verblijfadres" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0jw5bt5</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:businessRuleTask id="VergelijkenOpgegevenVerblijfadresMetAdresInBRPTask" name="Vergelijken opgegeven verblijfadres met adres in BRP" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:resultVariable="comperedResult" camunda:decisionRef="bs-217-verblijfadres-conform-brp" camunda:mapDecisionResult="singleResult">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="opgegevenVerblijfadresConformBrp">${comperedResult.opgegevenVerblijfadresConformBrp}</camunda:outputParameter>
+          <camunda:outputParameter name="isHandmatigBeoordeeld">${comperedResult.handmatigVaststellen}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_17g5evr</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:businessRuleTask id="BepalenGegevensKwalitatiefVoldoendeAanwezigTask" name="Bepalen gegevens kwalitatief voldoende aanwezig" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:resultVariable="resultVariable" camunda:decisionRef="bs-217-kwalitatief-voldoende-aanwezig" camunda:mapDecisionResult="singleResult">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="gegevenskwalitatiefVoldoendeAanwezig">${resultVariable.gegevenskwalitatiefVoldoendeAanwezig}</camunda:outputParameter>
+          <camunda:outputParameter name="handmatigVaststellen">${resultVariable.handmatigVaststellen}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0jw5bt5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0iti4m8</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="Gateway_0dos2vo">
+      <bpmn:incoming>Flow_1kzf47i</bpmn:incoming>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_11nj72e</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="BepalenVastgesteldVerblijfadresTask" name="Bepalen vastgesteld verblijfadres" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:resultVariable="vastgesteldVerblijfadres" camunda:decisionRef="bs-217-lever-vastgesteld-adres" camunda:mapDecisionResult="singleEntry">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="doorConsulentGekozenVerblijfadres">${execution.getVariable("teGebruikenAdres")}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_11nj72e</bpmn:incoming>
+      <bpmn:outgoing>Flow_005sqfg</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="OpgegevenVerblijfadresConformBRPGateway" name="Opgegeven verblijfadres conform BRP" default="NeeSequenceFlow1">
+      <bpmn:incoming>Flow_17g5evr</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow1</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="GegevensKwalitatiefVoldoendeAanwezigGateway" name="Gegevens kwalitatief voldoende aanwezig?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_0iti4m8</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0jw5bt5" sourceRef="StartEvent_1" targetRef="BepalenGegevensKwalitatiefVoldoendeAanwezigTask" />
+    <bpmn:sequenceFlow id="Flow_1yu2fu9" sourceRef="Gateway_0aoybat" targetRef="Event_0d91tij" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="GegevensKwalitatiefVoldoendeAanwezigGateway" targetRef="VergelijkenOpgegevenVerblijfadresMetAdresInBRPTask" />
+    <bpmn:sequenceFlow id="Flow_17g5evr" sourceRef="VergelijkenOpgegevenVerblijfadresMetAdresInBRPTask" targetRef="OpgegevenVerblijfadresConformBRPGateway" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow1" name="Nee" sourceRef="OpgegevenVerblijfadresConformBRPGateway" targetRef="VaststellingVerblijfadresTask" />
+    <bpmn:sequenceFlow id="Flow_1kzf47i" sourceRef="VaststellingVerblijfadresTask" targetRef="Gateway_0dos2vo" />
+    <bpmn:sequenceFlow id="Flow_0iti4m8" sourceRef="BepalenGegevensKwalitatiefVoldoendeAanwezigTask" targetRef="GegevensKwalitatiefVoldoendeAanwezigGateway" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="OpgegevenVerblijfadresConformBRPGateway" targetRef="Gateway_0dos2vo">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${opgegevenVerblijfadresConformBrp == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_11nj72e" sourceRef="Gateway_0dos2vo" targetRef="BepalenVastgesteldVerblijfadresTask" />
+    <bpmn:sequenceFlow id="Flow_005sqfg" sourceRef="BepalenVastgesteldVerblijfadresTask" targetRef="SamenstellenOutputVariabelenTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow1" name="Ja" sourceRef="GegevensKwalitatiefVoldoendeAanwezigGateway" targetRef="Gateway_0aoybat">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${gegevenskwalitatiefVoldoendeAanwezig == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_17roic9" sourceRef="SamenstellenOutputVariabelenTask" targetRef="Gateway_0aoybat" />
+    <bpmn:serviceTask id="SamenstellenOutputVariabelenTask" name="Samenstellen output variabelen" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="verblijfadresVastgesteld">${true}</camunda:outputParameter>
+          <camunda:outputParameter name="datumVastgesteld">${now().toInstant().toString()}</camunda:outputParameter>
+          <camunda:outputParameter name="toelichtingConsulent">${execution.getVariable("toelichtingConsulent")}</camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldVerblijfadres">${vastgesteldVerblijfadres}</camunda:outputParameter>
+          <camunda:outputParameter name="teGebruikenAdres">${execution.getVariable("teGebruikenAdres")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_005sqfg</bpmn:incoming>
+      <bpmn:outgoing>Flow_17roic9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0aoybat">
+      <bpmn:incoming>JaSequenceFlow1</bpmn:incoming>
+      <bpmn:incoming>Flow_17roic9</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yu2fu9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="VaststellingVerblijfadresTask" name="${taakTitel}" camunda:formRef="stelAdresVast" camunda:formRefBinding="latest" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="40">
+      <bpmn:extensionElements />
+      <bpmn:incoming>NeeSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kzf47i</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_0d91tij">
+      <bpmn:incoming>Flow_1yu2fu9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:association id="Association_0ikcykd" associationDirection="None" sourceRef="Event_0d91tij" targetRef="TextAnnotation_1r2hgg0" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1hrfleu">
+      <bpmndi:BPMNShape id="Participant_0h2b16f_di" bpmnElement="BS217VaststellingVerblijfadresParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1700" height="570" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="292" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1npc4jh_di" bpmnElement="VergelijkenOpgegevenVerblijfadresMetAdresInBRPTask">
+        <dc:Bounds x="690" y="340" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08o0sqr_di" bpmnElement="BepalenGegevensKwalitatiefVoldoendeAanwezigTask">
+        <dc:Bounds x="430" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0dos2vo_di" bpmnElement="Gateway_0dos2vo" isMarkerVisible="true">
+        <dc:Bounds x="1125" y="355" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19zglgr_di" bpmnElement="BepalenVastgesteldVerblijfadresTask">
+        <dc:Bounds x="1240" y="340" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0c1dys9_di" bpmnElement="OpgegevenVerblijfadresConformBRPGateway" isMarkerVisible="true">
+        <dc:Bounds x="835" y="355" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="828" y="310" width="66" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_04kgxqe_di" bpmnElement="GegevensKwalitatiefVoldoendeAanwezigGateway" isMarkerVisible="true">
+        <dc:Bounds x="595" y="165" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="594" y="103" width="53" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1yufeas_di" bpmnElement="SamenstellenOutputVariabelenTask">
+        <dc:Bounds x="1380" y="340" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0aoybat_di" bpmnElement="Gateway_0aoybat" isMarkerVisible="true">
+        <dc:Bounds x="1505" y="165" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0t1ciqe_di" bpmnElement="VaststellingVerblijfadresTask">
+        <dc:Bounds x="960" y="460" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0d91tij_di" bpmnElement="Event_0d91tij">
+        <dc:Bounds x="1605" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0jw5bt5_di" bpmnElement="Flow_0jw5bt5">
+        <di:waypoint x="328" y="190" />
+        <di:waypoint x="430" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yu2fu9_di" bpmnElement="Flow_1yu2fu9">
+        <di:waypoint x="1555" y="190" />
+        <di:waypoint x="1605" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_152sf8z_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="620" y="215" />
+        <di:waypoint x="620" y="380" />
+        <di:waypoint x="690" y="380" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="629" y="233" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17g5evr_di" bpmnElement="Flow_17g5evr">
+        <di:waypoint x="790" y="380" />
+        <di:waypoint x="835" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0odgwqe_di" bpmnElement="NeeSequenceFlow1">
+        <di:waypoint x="860" y="405" />
+        <di:waypoint x="860" y="500" />
+        <di:waypoint x="960" y="500" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="869" y="423" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kzf47i_di" bpmnElement="Flow_1kzf47i">
+        <di:waypoint x="1060" y="500" />
+        <di:waypoint x="1150" y="500" />
+        <di:waypoint x="1150" y="405" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0iti4m8_di" bpmnElement="Flow_0iti4m8">
+        <di:waypoint x="530" y="190" />
+        <di:waypoint x="595" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r43izz_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="885" y="380" />
+        <di:waypoint x="1125" y="380" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="904" y="362" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11nj72e_di" bpmnElement="Flow_11nj72e">
+        <di:waypoint x="1175" y="380" />
+        <di:waypoint x="1240" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_005sqfg_di" bpmnElement="Flow_005sqfg">
+        <di:waypoint x="1340" y="380" />
+        <di:waypoint x="1380" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1iqwfck_di" bpmnElement="JaSequenceFlow1">
+        <di:waypoint x="645" y="190" />
+        <di:waypoint x="1505" y="190" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="664" y="172" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17roic9_di" bpmnElement="Flow_17roic9">
+        <di:waypoint x="1480" y="380" />
+        <di:waypoint x="1530" y="380" />
+        <di:waypoint x="1530" y="215" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0ikcykd_di" bpmnElement="Association_0ikcykd">
+        <di:waypoint x="1624" y="208" />
+        <di:waypoint x="1624" y="368" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0uggn2j_di" bpmnElement="TextAnnotation_0uggn2j">
+        <dc:Bounds x="269" y="368" width="276" height="197" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1r2hgg0_di" bpmnElement="TextAnnotation_1r2hgg0">
+        <dc:Bounds x="1580" y="368" width="263" height="82" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1iuqb0r_di" bpmnElement="TextAnnotation_1iuqb0r">
+        <dc:Bounds x="895" y="570" width="230" height="55" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0xdc937_di" bpmnElement="Association_0xdc937">
+        <di:waypoint x="310" y="208" />
+        <di:waypoint x="310" y="368" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1ppl8uq_di" bpmnElement="Association_1ppl8uq">
+        <di:waypoint x="979" y="540" />
+        <di:waypoint x="956" y="570" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

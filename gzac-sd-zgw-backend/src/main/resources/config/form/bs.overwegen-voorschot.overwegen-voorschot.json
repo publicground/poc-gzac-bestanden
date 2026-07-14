@@ -1,0 +1,110 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "content": "<strong>Vastleggen wel/niet uitkeren voorschot</strong></br>Leg hier onder vast of er in het kader van deze zaak wel of geen voorschot zal worden uitgelegd. Geef ook een toelichting.",
+            "tableView": true,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "label": "HTML"
+        },
+        {
+            "label": "voorschotData",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "pv.voorschotData",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "label": "Voorschot uitkeren?",
+                    "optionsLabelPosition": "right",
+                    "inline": false,
+                    "tableView": false,
+                    "values": [
+                        {
+                            "label": "Ja",
+                            "value": "JA",
+                            "shortcut": ""
+                        },
+                        {
+                            "label": "Nee",
+                            "value": "NEE",
+                            "shortcut": ""
+                        }
+                    ],
+                    "validate": {
+                        "required": true
+                    },
+                    "validateWhenHidden": false,
+                    "key": "voorschotUitkeren",
+                    "type": "radio",
+                    "input": true
+                },
+                {
+                    "label": "Toelichting",
+                    "type": "textarea",
+                    "key": "toelichting",
+                    "input": true,
+                    "validate": {
+                        "required": true,
+                        "maxLength": 500
+                    },
+                    "tooltip": "helptekst nog nader te bepalen",
+                    "autoExpand": true,
+                    "tableView": true,
+                    "rows": 8
+                },
+                {
+                    "label": "Datum beoordeeld",
+                    "format": "dd-MM-yyyy",
+                    "tableView": false,
+                    "datePicker": {
+                        "disableWeekends": false,
+                        "disableWeekdays": false
+                    },
+                    "enableTime": false,
+                    "defaultDate": "moment()",
+                    "validate": {
+                        "required": true
+                    },
+                    "enableMinDateInput": false,
+                    "enableMaxDateInput": false,
+                    "key": "datumBeoordeeld",
+                    "type": "datetime",
+                    "input": true,
+                    "widget": {
+                        "type": "calendar",
+                        "displayInTimezone": "viewer",
+                        "locale": "en",
+                        "useLocaleSettings": false,
+                        "allowInput": true,
+                        "mode": "single",
+                        "enableTime": false,
+                        "noCalendar": false,
+                        "format": "dd-MM-yyyy",
+                        "hourIncrement": 1,
+                        "minuteIncrement": 1,
+                        "time_24hr": false,
+                        "minDate": null,
+                        "disableWeekends": false,
+                        "disableWeekdays": false,
+                        "maxDate": null
+                    }
+                }
+            ]
+        },
+        {
+            "label": "Indienen",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "action": "custom",
+            "custom": "form.submit(); component.disabled = true;",
+            "type": "button",
+            "input": true
+        }
+    ]
+}

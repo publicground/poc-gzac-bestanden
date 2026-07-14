@@ -1,0 +1,161 @@
+{
+  "$id": "koppelvlak.schema",
+  "type": "object",
+  "title": "Model Koppelvlak",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "koppelvlakspecificatie": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "description": "Een uniek identificerende eigenschap. Het Id is betekenisloos. Hiervoor wordt een GUID gebruikt.",
+          "$ref": "#/definitions/guid"
+        },
+        "naam": {
+          "description": "De naam van het koppelvlak",
+          "$ref": "#/definitions/tekst"
+        },
+        "schema": {
+          "description": "De URI naar het schema van het voor dit koppelvlak te genereren JSON-schema.",
+          "$ref": "#/definitions/tekst"
+        },
+        "versie": {
+          "description": "De versie van het koppelvlak",
+          "$ref": "#/definitions/tekst"
+        },
+        "publicatiedatum": {
+          "description": "De publicatiedatum van het JSON-schema voor dit koppelvlak",
+          "$ref": "#/definitions/datum"
+        },
+        "definitie": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "Een uniek identificerende eigenschap. Het Id is betekenisloos. Hiervoor wordt een GUID gebruikt.",
+                "$ref": "#/definitions/guid"
+              },
+              "naam": {
+                "description": "De naam van het koppelvlak",
+                "$ref": "#/definitions/tekst"
+              },
+              "geregeldeObjectgroep": {
+                "type":"object",
+                "properties": {
+                  "id": {
+                    "description": "Een uniek identificerende eigenschap. Het Id is betekenisloos. Hiervoor wordt een GUID gebruikt.",
+                    "$ref": "#/definitions/guid"
+                  },
+                  "naam": {
+                    "description": "De naam die de property in de definitie binnen het koppelvlak moet krijgen, die beschreven wordt door deze geregelde objectgroep ",
+                    "$ref": "#/definitions/tekst"
+                  },
+                  "verplicht": {
+                    "description": "Geeft aan of de property in de definitie binnen het koppelvlak verplicht moet zijn opgenomen.",
+                    "$ref": "#/definitions/stdIndJN"
+                  },
+                  "regeltype": {
+                    "description": "Geeft aan welke regel moet worden toegepast op de lijst met gerelateerde definities.",
+                    "$ref": "#/definitions/jsonRuledGroupType"
+                  }
+                }
+              },
+              "gerelateerdObject": {
+                "type":"array",
+                "items": {
+                  "type":"object",
+                  "properties": {
+                    "id": {
+                      "description": "Een uniek identificerende eigenschap. Het Id is betekenisloos. Hiervoor wordt een GUID gebruikt.",
+                      "$ref": "#/definitions/guid"
+                    },
+                    "naam": {
+                      "description": "De naam die het gerelateerde obect in het koppelvlak krijgt als property in de definitie. ",
+                      "$ref": "#/definitions/tekst"
+                    },
+                    "minimaalAantal": {
+                      "description": "Het minimaal aantal toegestane gerelateerde objecten",
+                      "$ref": "#/definitions/getal"
+                    },
+                    "maximaalAantal": {
+                      "description": "Het maximaal aantal toegestane gerelateerde objecten. Als dit niet wordt opgegeven, dan wordt oneindig (n) verondersteld.",
+                      "$ref": "#/definitions/getal"
+                    },
+                    "uniek": {
+                      "description": "Hiermee wordt aangegeven dat de gerelateerde objecten uniek moeten zijn. Bijvoorbeeld: als je kinderen opgeeft bij een ouder, dan mag het niet twee keer hetzelfd kind zijn.",
+                      "$ref": "#/definitions/stdIndJN"
+                    }
+                  }
+                }
+              },
+              "eigenschap": {
+                "type":"array",
+                "items": {
+                  "type":"object",
+                  "properties": {
+                    "id": {
+                      "description": "Een uniek identificerende eigenschap. Het Id is betekenisloos. Hiervoor wordt een GUID gebruikt.",
+                      "$ref": "#/definitions/guid"
+                    },
+                    "verplicht": {
+                      "description": "Geeft aan of het attribuut verplicht opgenomen moet zijn in het koppelvlak.",
+                      "$ref": "#/definitions/stdIndJN"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "guid": {
+      "type": "string",
+      "pattern": "^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$"
+    },
+    "tekst": {
+      "type": "string"
+    },
+    "datum": {
+      "type": "string"
+    },
+    "stdIndJN": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Ja" },
+        { "code": "2", "name": "Nee" }
+      ]
+    },
+    "jsonRuledGroupType": {
+      "type": "object",
+      "enum": [
+        { "code": "oneOf", "name": "oneOf" },
+        { "code": "anyOf", "name": "anyOf" },
+        { "code": "allOf", "name": "allOf" }
+      ]
+    },
+    "getal": {
+      "type": "integer",
+      "pattern": "^-?[0-9]{1,}$"
+    },
+    "integer": {
+      "type": "string",
+      "pattern": "(^-|^)(0|[1-9][0-9]*)$"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "(^-|^+|^)(0|[1-9][0-9]+)($|,[0-9][0-9]$)"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^(http://|https://).*"
+    },
+    "datumTijd": {
+      "type": "string",
+      "pattern": "^([0-2][0-9]|3[0-1]|[1-9])-(0[1-9]|[1-9]|1[0-2])-(19|20)[0-9][0-9] T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]"
+    }
+  }
+}

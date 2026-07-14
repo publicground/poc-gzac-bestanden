@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0el3jbd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_0u2x9rv">
+    <bpmn:participant id="ControlerenAdresOpVeelBewonersParticipant" name="Controleren adres op veel bewoners" processRef="controleren-adres-veel-bewoners" />
+    <bpmn:textAnnotation id="TextAnnotation_0uqnooa">
+      <bpmn:text>Input:
+- adreslijst
+- verblijfadres
+Output:
+- matchResult</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1ae2p8j" associationDirection="None" sourceRef="VergelijkInputAdresMetLijstTask" targetRef="TextAnnotation_0uqnooa" />
+  </bpmn:collaboration>
+  <bpmn:process id="controleren-adres-veel-bewoners" name="Controleren adres op veel bewoners" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1ys01ts</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:dataStoreReference id="ObjectenAPIDataStoreReference" name="Objecten API" />
+    <bpmn:serviceTask id="OphalenLijstAdressenMetVeelBewonersTask" name="Ophalen lijst &#39;Adressen met veel bewoners&#39;" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1ys01ts</bpmn:incoming>
+      <bpmn:outgoing>Flow_131htaw</bpmn:outgoing>
+      <bpmn:property id="Property_1w4elf3" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_1at9c0y">
+        <bpmn:sourceRef>ObjectenAPIDataStoreReference</bpmn:sourceRef>
+        <bpmn:targetRef>Property_1w4elf3</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1ys01ts" sourceRef="StartEvent_1" targetRef="OphalenLijstAdressenMetVeelBewonersTask" />
+    <bpmn:sequenceFlow id="Flow_131htaw" sourceRef="OphalenLijstAdressenMetVeelBewonersTask" targetRef="Gateway_1sb65rz" />
+    <bpmn:sequenceFlow id="Flow_1j4l5qs" sourceRef="VergelijkInputAdresMetLijstTask" targetRef="Gateway_0j09hyd" />
+    <bpmn:exclusiveGateway id="Gateway_1sb65rz" name="lijst adressen met veel bewoners aanwezig?" default="Flow_1ltqlsi">
+      <bpmn:incoming>Flow_131htaw</bpmn:incoming>
+      <bpmn:outgoing>Flow_02ulk4l</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ltqlsi</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_02ulk4l" name="Ja" sourceRef="Gateway_1sb65rz" targetRef="VergelijkInputAdresMetLijstTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable("adreslijst")}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_10kqm58" sourceRef="Gateway_0j09hyd" targetRef="AdresIsWelOfNietEenAdresMetVeelBewonersEndEvent" />
+    <bpmn:scriptTask id="VergelijkInputAdresMetLijstTask" name="Vergelijk input adres met lijst" camunda:asyncAfter="true" scriptFormat="javascript" camunda:resultVariable="matchResult">
+      <bpmn:incoming>Flow_02ulk4l</bpmn:incoming>
+      <bpmn:outgoing>Flow_1j4l5qs</bpmn:outgoing>
+      <bpmn:script>var LinkedHashMap = Java.type("java.util.LinkedHashMap");
+
+function findVeelBewonersMatch() {
+  var javaAdreslijst = execution.getVariable("adreslijst");
+  var javaAdresAanvrager = execution.getVariable("verblijfadres");
+
+  var resultMap = new LinkedHashMap();
+  resultMap.put("veelBewoners", false);
+  resultMap.put("veelBewonersAdres", null);
+
+  if (!(javaAdresAanvrager instanceof java.util.Map) ||
+    !(javaAdreslijst instanceof java.util.List) ||
+    javaAdreslijst.size() === 0) {
+    return resultMap;
+  }
+
+  for (var item of javaAdreslijst) {
+    var address = item.get("adressenMetVeelBewoners");
+    if (address &amp;&amp; checkAddressMatch(address, javaAdresAanvrager)) {
+      resultMap.put("veelBewoners", true);
+      resultMap.put("veelBewonersAdres", address);
+      break;
+    }
+  }
+
+  return resultMap;
+}
+
+function checkAddressMatch(address, adresAanvrager) {
+  function getProp(map, key) {
+    var v = map.get(key);
+    return v !== null
+      ? v.toString()
+      .toLowerCase()
+      .replace(/\s+|['"]+/g, '') : '';
+  }
+
+  var basicMatches =
+    getProp(address, "postcode") === getProp(adresAanvrager, "postcode") &amp;&amp;
+    getProp(address, "huisnummer") === getProp(adresAanvrager, "huisnummer");
+
+  var letterInput = getProp(adresAanvrager, "huisletter");
+  var toevoegInput = getProp(adresAanvrager, "huisnummertoevoeging");
+
+  var letterMatch = (letterInput === '') || (getProp(address, "huisletter") === letterInput);
+  var toevoegMatch = (toevoegInput === '') || (getProp(address, "huisnummertoevoeging") === toevoegInput);
+
+  return basicMatches &amp;&amp; letterMatch &amp;&amp; toevoegMatch;
+}
+
+findVeelBewonersMatch();</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:exclusiveGateway id="Gateway_0j09hyd">
+      <bpmn:incoming>Flow_1j4l5qs</bpmn:incoming>
+      <bpmn:incoming>Flow_1ltqlsi</bpmn:incoming>
+      <bpmn:outgoing>Flow_10kqm58</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="AdresIsWelOfNietEenAdresMetVeelBewonersEndEvent" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_10kqm58</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1ltqlsi" name="Nee" sourceRef="Gateway_1sb65rz" targetRef="Gateway_0j09hyd" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0u2x9rv">
+      <bpmndi:BPMNShape id="Participant_0yqtvqk_di" bpmnElement="ControlerenAdresOpVeelBewonersParticipant" isHorizontal="true">
+        <dc:Bounds x="200" y="120" width="850" height="320" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="272" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_0osj2n6_di" bpmnElement="ObjectenAPIDataStoreReference">
+        <dc:Bounds x="385" y="335" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="378" y="392" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_00xq8ey_di" bpmnElement="OphalenLijstAdressenMetVeelBewonersTask">
+        <dc:Bounds x="360" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1sb65rz_di" bpmnElement="Gateway_1sb65rz" isMarkerVisible="true">
+        <dc:Bounds x="555" y="235" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="548" y="292" width="65" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0y9liil_di" bpmnElement="VergelijkInputAdresMetLijstTask">
+        <dc:Bounds x="670" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0j09hyd_di" bpmnElement="Gateway_0j09hyd" isMarkerVisible="true">
+        <dc:Bounds x="855" y="235" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1vu01a9_di" bpmnElement="AdresIsWelOfNietEenAdresMetVeelBewonersEndEvent">
+        <dc:Bounds x="962" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="629" y="235" width="82" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ys01ts_di" bpmnElement="Flow_1ys01ts">
+        <di:waypoint x="308" y="260" />
+        <di:waypoint x="360" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_131htaw_di" bpmnElement="Flow_131htaw">
+        <di:waypoint x="460" y="260" />
+        <di:waypoint x="555" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1j4l5qs_di" bpmnElement="Flow_1j4l5qs">
+        <di:waypoint x="770" y="260" />
+        <di:waypoint x="855" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02ulk4l_di" bpmnElement="Flow_02ulk4l">
+        <di:waypoint x="605" y="260" />
+        <di:waypoint x="670" y="260" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="614" y="242" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10kqm58_di" bpmnElement="Flow_10kqm58">
+        <di:waypoint x="905" y="260" />
+        <di:waypoint x="962" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ltqlsi_di" bpmnElement="Flow_1ltqlsi">
+        <di:waypoint x="580" y="235" />
+        <di:waypoint x="580" y="180" />
+        <di:waypoint x="880" y="180" />
+        <di:waypoint x="880" y="235" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="549" y="203" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0uqnooa_di" bpmnElement="TextAnnotation_0uqnooa">
+        <dc:Bounds x="670" y="330" width="140" height="84" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataInputAssociation_1at9c0y_di" bpmnElement="DataInputAssociation_1at9c0y">
+        <di:waypoint x="410" y="335" />
+        <di:waypoint x="410" y="300" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1ae2p8j_di" bpmnElement="Association_1ae2p8j">
+        <di:waypoint x="720" y="300" />
+        <di:waypoint x="720" y="330" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

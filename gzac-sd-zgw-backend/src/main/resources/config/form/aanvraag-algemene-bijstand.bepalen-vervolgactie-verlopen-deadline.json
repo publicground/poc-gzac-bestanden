@@ -1,0 +1,78 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "HTML",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<h4>Bepalen vervolgactie na verlopen deadline</h4>",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "className": "alert alert-primary",
+            "tag": "div",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<p>De deadline van het uitgezette informatieverzoek is verlopen. Selecteer hieronder een vervolg actie.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Vervolgactie op verlopen deadline",
+            "optionsLabelPosition": "right",
+            "inline": false,
+            "tableView": false,
+            "values": [
+                {
+                    "label": "Informatieverzoek verlengen",
+                    "value": "VERLENGEN",
+                    "shortcut": ""
+                },
+                {
+                    "label": "Informatieverzoek annuleren",
+                    "value": "ANNULEREN",
+                    "shortcut": ""
+                }
+            ],
+            "validate": {
+                "required": true
+            },
+            "validateWhenHidden": false,
+            "key": "pv.vervolgactieVerlopenDeadline",
+            "type": "radio",
+            "input": true
+        },
+        {
+            "label": "informatieverzoekAfgerond",
+            "key": "gegevensVaststelling.informatieverzoekAfgerond",
+            "calculateValue": "data.pv.vervolgactieVerlopenDeadline === 'ANNULEREN' ? value = true : value = false",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "type": "button",
+            "label": "Submit",
+            "key": "submit",
+            "disableOnInvalid": true,
+            "input": true,
+            "tableView": false
+        }
+    ]
+}

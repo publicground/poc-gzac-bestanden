@@ -1,0 +1,41 @@
+{
+    "$id": "partner.schema",
+    "type": "object",
+    "title": "Partner",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "voorletters": {
+            "type": "string"
+        },
+        "voornamen": {
+            "type": "string"
+        },
+        "voorvoegsel": {
+            "type": "string"
+        },
+        "achternaam": {
+            "type": "string"
+        },
+        "volledigeNaam": {
+            "type": "string"
+        },
+        "geboortedatum": {
+            "type": "string"
+        },
+        "bsn": {
+            "$ref": "/document/definition/reference/ontologie/persoonsgegevens-v1.schema.json#/definitions/bsn"
+        },
+        "datumOverlijden": {
+            "type": "string"
+        },
+        "adres": {
+            "type": "object",
+            "$ref": "/document/definition/reference/sd/adres-sd-v1.schema.json#/definitions/adres"
+        },
+        "zeldeAdresAlsAanvrager": {
+            "type": "string"
+        }
+
+    }
+}

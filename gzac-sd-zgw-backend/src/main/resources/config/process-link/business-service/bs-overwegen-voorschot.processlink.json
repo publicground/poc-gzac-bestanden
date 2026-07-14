@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "OverwegenVoorschotTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "bs.overwegen-voorschot.overwegen-voorschot"
+    }
+]

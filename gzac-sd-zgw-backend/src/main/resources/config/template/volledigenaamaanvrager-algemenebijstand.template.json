@@ -1,0 +1,7 @@
+{
+    "templateKey": "volledige-naam",
+    "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+    "templateType": "text",
+    "metadata": {},
+    "contentRef": "/config/template/volledigenaamaanvrager.ftlh"
+}

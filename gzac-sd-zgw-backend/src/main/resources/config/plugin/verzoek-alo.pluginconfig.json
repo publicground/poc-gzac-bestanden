@@ -1,0 +1,156 @@
+[
+    {
+        "id": "f677bec6-4dbd-4a8f-a425-eabe24b87021",
+        "title": "Verzoek ALO (Autodeployed)",
+        "pluginDefinitionKey": "verzoek",
+        "properties": {
+            "notificatiesApiPluginConfiguration": "020e6ca3-1c15-4496-a4cf-67bfaa36332f",
+            "processToStart": "create-zaakdossier",
+            "rsin": "${AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_RSIN}",
+            "verzoekProperties": [
+                {
+                    "type": "Verzoek AB DCM",
+                    "initiatorRolDescription": "Initiator",
+                    "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+                    "objectManagementId": "13da9340-27f6-4e86-8131-c6981132f939",
+                    "initiatorRoltypeUrl": "${AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_ALO_PROPERTIES_INITIATOR-ROL-TYPE-URL}",
+                    "processDefinitionKey": "ab-afhandelen-aanvraag-dcm",
+                    "copyStrategy": "specified",
+                    "mapping": [
+                        {
+                            "source": "/your-details",
+                            "target": "doc:/verzoekGegevensTeTransformeren/your-details"
+                        },
+                        {
+                            "source": "/alo-aanvullende-gegevens",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-aanvullende-gegevens"
+                        },
+                        {
+                            "source": "/alo-gezinssamenstelling",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-gezinssamenstelling"
+                        },
+                        {
+                            "source": "/gegevens-partner",
+                            "target": "doc:/verzoekGegevensTeTransformeren/gegevens-partner"
+                        },
+                        {
+                            "source": "/gegevens-kinderen",
+                            "target": "doc:/verzoekGegevensTeTransformeren/gegevens-kinderen"
+                        },
+                        {
+                            "source": "/alo-uw-woonsituatie",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-uw-woonsituatie"
+                        },
+                        {
+                            "source": "/alo-reden-aanvraag",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-reden-aanvraag"
+                        },
+                        {
+                            "source": "/alo-ioaw",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-ioaw"
+                        },
+                        {
+                            "source": "/alo-uw-inkomsten",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-uw-inkomsten"
+                        },
+                        {
+                            "source": "/alo-uitbetaling",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-uitbetaling"
+                        },
+                        {
+                            "source": "/alo-bezittingen-en-schulden",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden"
+                        },
+                        {
+                            "source": "/schulden",
+                            "target": "doc:/verzoekGegevensTeTransformeren/schulden"
+                        },
+                        {
+                            "source": "/inkomsten-partner",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-inkomsten-partner"
+                        },
+                        {
+                            "source": "/alo-uw-beschikbaarheid",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid"
+                        },
+                        {
+                            "source": "/beschikbaarheid-partner",
+                            "target": "doc:/verzoekGegevensTeTransformeren/beschikbaarheid-partner"
+                        }
+                    ]
+                },
+                {
+                    "type": "Verzoek IOAW DCM",
+                    "initiatorRolDescription": "Initiator",
+                    "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+                    "objectManagementId": "13da9340-27f6-4e86-8131-c6981132f939",
+                    "initiatorRoltypeUrl": "${AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_IOAW_PROPERTIES_INITIATOR-ROL-TYPE-URL}",
+                    "processDefinitionKey": "ioaw-afhandelen-aanvraag-dcm",
+                    "copyStrategy": "specified",
+                    "mapping": [
+                        {
+                            "source": "/your-details",
+                            "target": "doc:/verzoekGegevensTeTransformeren/your-details"
+                        },
+                        {
+                            "source": "/alo-aanvullende-gegevens",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-aanvullende-gegevens"
+                        },
+                        {
+                            "source": "/alo-gezinssamenstelling",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-gezinssamenstelling"
+                        },
+                        {
+                            "source": "/gegevens-partner",
+                            "target": "doc:/verzoekGegevensTeTransformeren/gegevens-partner"
+                        },
+                        {
+                            "source": "/gegevens-kinderen",
+                            "target": "doc:/verzoekGegevensTeTransformeren/gegevens-kinderen"
+                        },
+                        {
+                            "source": "/alo-uw-woonsituatie",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-uw-woonsituatie"
+                        },
+                        {
+                            "source": "/alo-reden-aanvraag",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-reden-aanvraag"
+                        },
+                        {
+                            "source": "/alo-ioaw",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-ioaw"
+                        },
+                        {
+                            "source": "/alo-uw-inkomsten",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-uw-inkomsten"
+                        },
+                        {
+                            "source": "/alo-uitbetaling",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-uitbetaling"
+                        },
+                        {
+                            "source": "/alo-bezittingen-en-schulden",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden"
+                        },
+                        {
+                            "source": "/schulden",
+                            "target": "doc:/verzoekGegevensTeTransformeren/schulden"
+                        },
+                        {
+                            "source": "/inkomsten-partner",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-inkomsten-partner"
+                        },
+                        {
+                            "source": "/alo-uw-beschikbaarheid",
+                            "target": "doc:/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid"
+                        },
+                        {
+                            "source": "/beschikbaarheid-partner",
+                            "target": "doc:/verzoekGegevensTeTransformeren/beschikbaarheid-partner"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+]

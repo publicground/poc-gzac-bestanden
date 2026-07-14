@@ -1,0 +1,62 @@
+{
+    "searchFields": [
+        {
+            "key": "filterZakenOpDatum",
+            "path": "case:createdOn",
+            "dataType": "date",
+            "fieldType": "range",
+            "matchType": "exact",
+            "dropdownDataProvider": null,
+            "title": "Filter zaken op datum"
+        },
+        {
+            "title": "",
+            "key": "publicReference",
+            "path": "doc:publicReference",
+            "dataType": "text",
+            "fieldType": "single",
+            "matchType": "like"
+        },
+        {
+            "title": "",
+            "key": "zaaknummer",
+            "path": "doc:openzaak.identificatie",
+            "dataType": "text",
+            "fieldType": "single",
+            "matchType": "like"
+        },
+        {
+            "title": "",
+            "key": "bsn",
+            "path": "doc:gegevensVaststelling.aanvrager.bsn",
+            "dataType": "text",
+            "fieldType": "single",
+            "matchType": "like"
+        },
+        {
+            "title": "",
+            "key": "achterNaamAanvrager",
+            "path": "doc:gegevensVaststelling.aanvrager.achternaam",
+            "dataType": "text",
+            "fieldType": "single",
+            "matchType": "like"
+        },
+        {
+            "title": "",
+            "key": "zaakresultaat",
+            "path": "doc:openzaak.resultaatOmschrijving",
+            "dataType": "text",
+            "fieldType": "single-select-dropdown",
+            "matchType": "exact",
+            "dropdownDataProvider": "dropdownJsonFileDataProvider"
+        },
+        {
+            "key": "assigneeFullName",
+            "path": "case:assigneeFullName",
+            "dataType": "text",
+            "fieldType": "single",
+            "matchType": "like",
+            "title": ""
+        }
+    ]
+}

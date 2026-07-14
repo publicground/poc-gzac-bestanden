@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="BS-217-vaststellingAdres" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.44.0">
+  <decision id="bs-217-verblijfadres-conform-brp" name="Vergelijken opgegeven verblijfadres met adres in BRP">
+    <informationRequirement id="InformationRequirement_0kqikxz">
+      <requiredInput href="#InputData_0ibjphg" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1au4v5p">
+      <requiredInput href="#InputData_1455oqb" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0rj3rhz">
+      <requiredInput href="#InputData_1whymi1" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_06prboa" hitPolicy="FIRST" biodi:annotationsWidth="474">
+      <input id="InputClause_0mtjs9v" label="Handmatig vaststellen" biodi:width="150">
+        <inputExpression id="LiteralExpression_0y5e6ws" typeRef="boolean">
+          <text>handmatigVaststellen</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0nk8unt" label="Postcode gelijk" biodi:width="150">
+        <inputExpression id="LiteralExpression_19a16y9" typeRef="boolean">
+          <text>upper case(replace(brpWoonadres.postcode, " ", "")) = upper case(replace(verblijfadres.postcode, " ", ""))</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1sisqbw" label="Huisnummer, huisletter en huisnummertoevoeging gelijk" biodi:width="150">
+        <inputExpression id="LiteralExpression_1k0lcd5" typeRef="boolean">
+          <text>upper case(replace(
+  string(if get value(brpWoonadres, "huisnummer") = null then "" else get value(brpWoonadres, "huisnummer"))
+  + (if get value(brpWoonadres, "huisletter") != null and string(get value(brpWoonadres, "huisletter")) != "" then string(get value(brpWoonadres, "huisletter")) else "")
+  + (if get value(brpWoonadres, "huisnummertoevoeging") != null and string(get value(brpWoonadres, "huisnummertoevoeging")) != "" then string(get value(brpWoonadres, "huisnummertoevoeging")) else "")
+, " ", ""))
+=
+upper case(replace(
+  string(if get value(verblijfadres, "huisnummer") = null then "" else get value(verblijfadres, "huisnummer"))
+  + (if get value(verblijfadres, "huisletter") != null and string(get value(verblijfadres, "huisletter")) != "" then string(get value(verblijfadres, "huisletter")) else "")
+  + (if get value(verblijfadres, "huisnummertoevoeging") != null and string(get value(verblijfadres, "huisnummertoevoeging")) != "" then string(get value(verblijfadres, "huisnummertoevoeging")) else "")
+, " ", ""))</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0hmatu3" label="Handmatig vaststellen" name="handmatigVaststellen" typeRef="boolean" biodi:width="150" />
+      <output id="OutputClause_1lvibt5" label="Opgegeven verblijfadres conform BRP" name="opgegevenVerblijfadresConformBrp" typeRef="boolean" biodi:width="150" />
+      <rule id="DecisionRule_0oslsky">
+        <description>Consulent heeft handmatig het vaststellen van het verblijfadres gestart</description>
+        <inputEntry id="UnaryTests_1fwoesa">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1t6l7gc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0y1l22x">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1lfutkg">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rvu21b">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1gajxnu">
+        <description>Opgegeven verblijfadres komt overeen met het BRP woonadres</description>
+        <inputEntry id="UnaryTests_0i7jg11">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16n3tcn">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_176mf8v">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mex46y">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0snzjxj">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1k27egn">
+        <description>Opgeveven verblijfadres komt niet overeen met het BRP woonadres</description>
+        <inputEntry id="UnaryTests_1ev6jnt">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1q6y7tr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15n5ehb">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0slhxow">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1o3ix02">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0ibjphg" name="brpWoonadres" />
+  <inputData id="InputData_1455oqb" name="aanvraagVerblijfadres" />
+  <inputData id="InputData_171pkyz" name="aanvraagToelichtingVerblijftElders" />
+  <decision id="bs-217-kwalitatief-voldoende-aanwezig" name="Bepalen gegevens kwalitatief voldoende aanwezig">
+    <informationRequirement id="InformationRequirement_09b6kws">
+      <requiredInput href="#InputData_129rjh8" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0f3ruay">
+      <requiredInput href="#InputData_0qi2t85" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0m64eth">
+      <requiredInput href="#InputData_1h6uknx" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0rhvibl">
+      <requiredInput href="#InputData_171pkyz" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_00gi2bw" hitPolicy="FIRST">
+      <input id="InputClause_1clkmqr" label="Is verblijfadres vastgesteld" biodi:width="150">
+        <inputExpression id="LiteralExpression_1kvm00u" typeRef="boolean">
+          <text>verblijfadresVastgesteld</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1aloq3j" label="Datum verblijfadres vastgesteld" biodi:width="150">
+        <inputExpression id="LiteralExpression_0c4ogus" typeRef="date">
+          <text>datumVastgesteld</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_19qu9mu" label="Handmatig vaststellen" biodi:width="167">
+        <inputExpression id="LiteralExpression_1bjyyhs" typeRef="boolean">
+          <text>handmatigVaststellen</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_11vvm64" label="Toelichting verblijft elders" biodi:width="150">
+        <inputExpression id="LiteralExpression_0xk2zm5" typeRef="boolean">
+          <text>toelichtingVerblijftElders != null and toelichtingVerblijftElders != ""</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_14pdmuw" label="BRP Adres is leeg">
+        <inputExpression id="LiteralExpression_0kzip4n" typeRef="boolean">
+          <text>brpWoonadres = null</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_139smit" label="Gegevens kwalitatief voldoende aanwezig" name="gegevenskwalitatiefVoldoendeAanwezig" typeRef="boolean" biodi:width="161" />
+      <output id="OutputClause_13jk7uk" label="Handmatig vaststellen" name="handmatigVaststellen" typeRef="boolean" biodi:width="150" />
+      <rule id="DecisionRule_0aijvte">
+        <inputEntry id="UnaryTests_0q4sjo7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jayp60">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rm7trs">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02ccf2q">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1trsrb4">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1gq7ihz">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0e9c4s4">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0l48aty">
+        <inputEntry id="UnaryTests_0ugihvw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_179hg6d">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1doida5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ndjd07">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00mtny9">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1h6hrqu">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1gig8ku">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1lhwh1k">
+        <inputEntry id="UnaryTests_0dx4xi8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i8j33m">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12u26lx">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1stfizw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05jbe52">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0k8arud">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0554of0">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02yyfaq">
+        <inputEntry id="UnaryTests_1m7p0zc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1khkk1h">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yn2osn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kgnsx7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0078w05">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1h7lwew">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0dtrd2v">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_129rjh8" name="isVerblijfadresVastgesteld" />
+  <inputData id="InputData_0qi2t85" name="datumVerblijfadresVastgesteld" />
+  <inputData id="InputData_1h6uknx" name="HandmatigVaststellen" />
+  <decision id="bs-217-lever-vastgesteld-adres" name="Bepalen vastgesteld verblijfadres">
+    <informationRequirement id="InformationRequirement_15kok2a">
+      <requiredInput href="#InputData_0ibjphg" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_00z02g8">
+      <requiredInput href="#InputData_1455oqb" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1niv5mv">
+      <requiredInput href="#InputData_0fh3ye7" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1wmc4bt">
+      <requiredInput href="#InputData_033x0wa" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_170jn4j">
+      <requiredInput href="#InputData_09433wx" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_19fjcvf">
+      <requiredInput href="#InputData_04eylrz" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0lnfoqj" hitPolicy="FIRST">
+      <input id="InputClause_0v496mq" label="Opgegeven verblijfadres conform BRP" biodi:width="164">
+        <inputExpression id="LiteralExpression_07i49q2" typeRef="boolean">
+          <text>opgegevenVerblijfadresConformBrp</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1hbpy2e" label="Door consulent gekozen verblijfadres" biodi:width="150">
+        <inputExpression id="LiteralExpression_0ssyjuc" typeRef="string">
+          <text>doorConsulentGekozenVerblijfadres</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0o0odxr" label="Brp postadres aanwezig" biodi:width="150">
+        <inputExpression id="LiteralExpression_04788qg" typeRef="boolean">
+          <text>postadresBrp instance of context and matches(postadresBrp.postcode, "\\S+")</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1053ygf" label="Handmatig ingevoerd adres is niet leeg" biodi:width="150">
+        <inputExpression id="LiteralExpression_0u9otgu" typeRef="boolean">
+          <text>handmatigIngevoerdAdres != null</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1c5oa1s" label="Vastgesteld verblijfadres" name="vastgesteldVerblijfadres" typeRef="" biodi:width="261" />
+      <rule id="DecisionRule_1wd4zte">
+        <inputEntry id="UnaryTests_1ymadiw">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0blncn6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mfmlsn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16i0nge">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vqbtkd">
+          <text>brpWoonadres</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0kwduj4">
+        <inputEntry id="UnaryTests_15jvju1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m9yrn7">
+          <text>"verblijfadres"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kxcyc6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_166xo5k">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1hnxx2o">
+          <text>verblijfadres</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1nq2eke">
+        <inputEntry id="UnaryTests_1l52ypz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dnwy68">
+          <text>"brpadres"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fj4s9v">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1283twa">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16rnkj7">
+          <text>postadresBrp</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1lxufcg">
+        <inputEntry id="UnaryTests_0ynsh9t">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0w4en9d">
+          <text>"brpadres"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i1vfo3">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_045jy6x">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0v50add">
+          <text>brpWoonadres</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0cfjzyd">
+        <inputEntry id="UnaryTests_1dk9pmu">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1chppoq">
+          <text>"anders"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_134a4fr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bcvycl">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1m2cigs">
+          <text>handmatigIngevoerdAdres</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0fh3ye7" name="brpPostadres" />
+  <inputData id="InputData_033x0wa" name="doorConsulentGekozenVerblijfadres" />
+  <inputData id="InputData_09433wx" name="handmatigIngevoerdAdres" />
+  <inputData id="InputData_1whymi1" name="HandmatigVaststellen" />
+  <inputData id="InputData_01jatat" name="brpWoonadres" />
+  <inputData id="InputData_0ewnm2t" name="aanvraagVerblijfadres" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="DMNShape_0hmtvtp" dmnElementRef="bs-217-verblijfadres-conform-brp">
+        <dc:Bounds height="80" width="180" x="930" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_00rr0v7" dmnElementRef="InputData_0ibjphg">
+        <dc:Bounds height="45" width="125" x="1097" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0pcx3ub" dmnElementRef="InputData_1455oqb">
+        <dc:Bounds height="45" width="125" x="957" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1vyupj6" dmnElementRef="InputData_171pkyz">
+        <dc:Bounds height="45" width="125" x="577" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0dc9rqi" dmnElementRef="InformationRequirement_0kqikxz">
+        <di:waypoint x="1160" y="277" />
+        <di:waypoint x="1065" y="180" />
+        <di:waypoint x="1065" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1avqlrb" dmnElementRef="InformationRequirement_1au4v5p">
+        <di:waypoint x="1020" y="277" />
+        <di:waypoint x="1020" y="180" />
+        <di:waypoint x="1020" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1fmi0t7" dmnElementRef="InformationRequirement_0rhvibl">
+        <di:waypoint x="640" y="277" />
+        <di:waypoint x="484" y="180" />
+        <di:waypoint x="484" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1xhwbjp" dmnElementRef="bs-217-kwalitatief-voldoende-aanwezig">
+        <dc:Bounds height="80" width="180" x="340" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1o2wnjb" dmnElementRef="InputData_129rjh8">
+        <dc:Bounds height="45" width="125" x="157" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_04xssla" dmnElementRef="InputData_0qi2t85">
+        <dc:Bounds height="45" width="125" x="297" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1yi8cj9" dmnElementRef="InputData_1h6uknx">
+        <dc:Bounds height="45" width="125" x="437" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1iuj5eq" dmnElementRef="InformationRequirement_09b6kws">
+        <di:waypoint x="220" y="277" />
+        <di:waypoint x="376" y="180" />
+        <di:waypoint x="376" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_14pi3az" dmnElementRef="InformationRequirement_0f3ruay">
+        <di:waypoint x="360" y="277" />
+        <di:waypoint x="412" y="180" />
+        <di:waypoint x="412" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0zu9yvj" dmnElementRef="InformationRequirement_0m64eth">
+        <di:waypoint x="500" y="277" />
+        <di:waypoint x="448" y="180" />
+        <di:waypoint x="448" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1hi3xk3" dmnElementRef="bs-217-lever-vastgesteld-adres">
+        <dc:Bounds height="80" width="180" x="1570" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_048v404" dmnElementRef="InformationRequirement_15kok2a">
+        <di:waypoint x="1520" y="277" />
+        <di:waypoint x="1630" y="180" />
+        <di:waypoint x="1630" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0wdywfx" dmnElementRef="InformationRequirement_00z02g8">
+        <di:waypoint x="1380" y="277" />
+        <di:waypoint x="1600" y="180" />
+        <di:waypoint x="1600" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0wymytx" dmnElementRef="InputData_0fh3ye7">
+        <dc:Bounds height="45" width="125" x="1597" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0ohigu3" dmnElementRef="InformationRequirement_1niv5mv">
+        <di:waypoint x="1660" y="277" />
+        <di:waypoint x="1660" y="180" />
+        <di:waypoint x="1660" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1wk4ifj" dmnElementRef="InputData_033x0wa">
+        <dc:Bounds height="45" width="125" x="1737" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_02io9pw" dmnElementRef="InformationRequirement_1wmc4bt">
+        <di:waypoint x="1800" y="277" />
+        <di:waypoint x="1690" y="180" />
+        <di:waypoint x="1690" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1l0n4ac" dmnElementRef="InputData_09433wx">
+        <dc:Bounds height="45" width="125" x="1877" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_01e48fo" dmnElementRef="InformationRequirement_170jn4j">
+        <di:waypoint x="1940" y="277" />
+        <di:waypoint x="1720" y="180" />
+        <di:waypoint x="1720" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1xb3cju" dmnElementRef="InformationRequirement_19fjcvf">
+        <di:waypoint x="1020" y="80" />
+        <di:waypoint x="1330" y="-40" />
+        <di:waypoint x="1330" y="-60" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_03urwaa" dmnElementRef="InputData_1whymi1">
+        <dc:Bounds height="45" width="125" x="817" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0lir0tm" dmnElementRef="InformationRequirement_0rj3rhz">
+        <di:waypoint x="880" y="277" />
+        <di:waypoint x="975" y="180" />
+        <di:waypoint x="975" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1yany2r" dmnElementRef="InputData_01jatat">
+        <dc:Bounds height="45" width="125" x="1457" y="277" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1gzxvb5" dmnElementRef="InputData_0ewnm2t">
+        <dc:Bounds height="45" width="125" x="1317" y="277" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

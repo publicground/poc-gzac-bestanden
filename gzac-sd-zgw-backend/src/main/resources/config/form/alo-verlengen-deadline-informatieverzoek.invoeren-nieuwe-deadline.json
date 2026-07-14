@@ -1,0 +1,80 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "Informatieverzoeken",
+            "key": "informatieverzoeken",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "className": "alert alert-info",
+            "content": "Pas hieronder de deadline van het informatieverzoek aan, zodat de aanvrager meer tijd heeft om de aangevraagde stukken aan te leveren.",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Deadline informatieverzoek",
+            "format": "dd-MM-yyyy",
+            "tableView": true,
+            "datePicker": {
+                "disableWeekends": false,
+                "disableWeekdays": false,
+                "minDate": "moment().add(1,'days').startOf('day')"
+            },
+            "enableTime": false,
+            "customDefaultValue": "value = data.informatieverzoeken.at(-1).verzoek?.deadlineInformatieverzoek;",
+            "validate": {
+                "required": false
+            },
+            "enableMinDateInput": false,
+            "enableMaxDateInput": false,
+            "validateWhenHidden": false,
+            "key": "verzoek.deadlineInformatieverzoek",
+            "type": "datetime",
+            "input": true,
+            "widget": {
+                "type": "calendar",
+                "displayInTimezone": "viewer",
+                "locale": "en",
+                "useLocaleSettings": false,
+                "allowInput": true,
+                "mode": "single",
+                "enableTime": false,
+                "noCalendar": false,
+                "format": "dd-MM-yyyy",
+                "hourIncrement": 1,
+                "minuteIncrement": 1,
+                "time_24hr": false,
+                "minDate": null,
+                "disableWeekends": false,
+                "disableWeekdays": false,
+                "maxDate": null
+            }
+        },
+        {
+            "label": "Hersteltermijn in dagen",
+            "type": "hidden",
+            "calculateValue": "value = moment(data.verzoek.deadlineInformatieverzoek).endOf('day').diff(moment().startOf('day'), 'days');",
+            "key": "verzoek.hersteltermijnInDagen",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Doorgaan",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "type": "button",
+            "custom": "data.informatieverzoeken.at(-1).verzoek = data.verzoek; delete data.verzoek; form.submit(); component.disabled = true;",
+            "input": true
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+[
+    {
+        "activityId": "VaststellenWoonsituatieTask1",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "large",
+        "formDefinitionName": "bs-223-vaststellen-woonsituatie.vaststellen-woonsituatie"
+    },
+    {
+        "activityId": "VaststellenLeefsituatieTask1",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "large",
+        "formDefinitionName": "bs-223-vaststellen-leefsituatie.vaststellen-leefsituatie"
+    }
+]

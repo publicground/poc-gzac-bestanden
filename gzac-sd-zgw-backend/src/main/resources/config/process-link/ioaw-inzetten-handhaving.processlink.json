@@ -1,0 +1,18 @@
+[
+    {
+        "activityId": "OverwegenInzetHandhavingTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDefinitionName": "aanvraag-ioaw.overwegen-inzet-handhaving",
+        "formDisplayType": "panel",
+        "formSize": "medium"
+    },
+    {
+        "activityId": "VerwerkenUitkomstPoortonderzoekTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDefinitionName": "aanvraag-ioaw.verwerken-uitkomst-poortonderzoek",
+        "formDisplayType": "panel",
+        "formSize": "medium"
+    }
+]

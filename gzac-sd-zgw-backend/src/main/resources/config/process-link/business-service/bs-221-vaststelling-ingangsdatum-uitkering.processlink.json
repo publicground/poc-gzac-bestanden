@@ -1,0 +1,21 @@
+[
+    {
+        "activityId": "VaststellenIngangsdatumTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "large",
+        "formDefinitionName": "bs-221-vaststelling-ingangsdatum"
+    },
+    {
+        "activityId": "AanpassenZaakProperiesTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "patch-zaak",
+        "actionProperties": {
+            "startDate": "pv:aanvraagDatum",
+            "finalDeliveryDate": "pv:uiterlijkeEinddatumAfdoening"
+        },
+        "processLinkType": "plugin"
+    }
+]

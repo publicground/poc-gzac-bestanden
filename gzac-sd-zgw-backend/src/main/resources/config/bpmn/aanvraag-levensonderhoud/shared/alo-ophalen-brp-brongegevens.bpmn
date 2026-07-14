@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0vol0sx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.31.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:collaboration id="Collaboration_1gmd3lc">
+    <bpmn:participant id="ALOOphalenBRPBrongegevensParticipant" name="ALO: Ophalen BRP Brongegevens" processRef="alo-ophalen-brp-brongegevens" />
+    <bpmn:textAnnotation id="TextAnnotation_07okm9r">
+      <bpmn:text>out: brpPersoonsgegevensInfo</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0kky9km" sourceRef="OphalenBRPPersoonsgegevensTask" targetRef="TextAnnotation_07okm9r" />
+  </bpmn:collaboration>
+  <bpmn:process id="alo-ophalen-brp-brongegevens" name="ALO: Ophalen BRP Brongegevens" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_1tb0eas" sourceRef="StartEvent_1" targetRef="OphalenBRPPersoonsgegevensTask" />
+    <bpmn:sequenceFlow id="Flow_1t85gku" sourceRef="OpslaanPersoonsgegevensTask" targetRef="HeeftPartnerGateway" />
+    <bpmn:sequenceFlow id="Flow_1qe90bb" sourceRef="OphalenBRPPersoonsgegevensTask" targetRef="Gateway_0atlwtc" />
+    <bpmn:sequenceFlow id="Flow_0q570ig" sourceRef="OphalenBRPPartnerGegevensTask" targetRef="Gateway_1f57v3d" />
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1tb0eas</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="ja" sourceRef="HeeftPartnerGateway" targetRef="OphalenBRPPartnerGegevensTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${partnerBsn != ""}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1klab2p" sourceRef="Gateway_12gpieh" targetRef="Gateway_0s72njz" />
+    <bpmn:sequenceFlow id="Flow_0vxg3x7" sourceRef="OpslaanPersoonsgegevensPartnerInDocumentTask" targetRef="Gateway_12gpieh" />
+    <bpmn:sequenceFlow id="Flow_0yekogb" sourceRef="OphalenBRPKinderenGegevensTask" targetRef="Gateway_0ztd2ue" />
+    <bpmn:sequenceFlow id="Flow_1d8agm6" sourceRef="HeeftPartnerGateway" targetRef="Gateway_12gpieh" />
+    <bpmn:sequenceFlow id="Flow_1d2txnp" sourceRef="HeeftKinderenGateway" targetRef="Gateway_0d9jdgq" />
+    <bpmn:sequenceFlow id="JaSequenceFlow1" name="ja" sourceRef="HeeftKinderenGateway" targetRef="OphalenBRPKinderenGegevensTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${kinderenBsns != "" &amp;&amp; kinderenBsns.size() &gt; 0}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0b6nq98" sourceRef="Gateway_0d9jdgq" targetRef="Gateway_0o4gw7s" />
+    <bpmn:sequenceFlow id="Flow_1g8197m" sourceRef="OpslaanPersoonsgegevensKinderenInDocumentTask" targetRef="Gateway_0d9jdgq" />
+    <bpmn:sequenceFlow id="PvBrpPersoonsgegevensInfoIsSetSequenceFlow" name="pv brpPersoonsgegevensInfo is set" sourceRef="Gateway_0atlwtc" targetRef="OpslaanPersoonsgegevensTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable('brpPersoonsgegevensInfo')}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1ia9g59" sourceRef="Gateway_0atlwtc" targetRef="Event_1111mmu" />
+    <bpmn:sequenceFlow id="HasBrpPersoonsgegevensPartnerInfoSequenceFlow" name="has brpPersoonsgegevensPartnerInfo" sourceRef="Gateway_1f57v3d" targetRef="OpslaanPersoonsgegevensPartnerInDocumentTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable('brpPersoonsgegevensPartnerInfo')}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1lt6l33" sourceRef="Gateway_0s72njz" targetRef="HeeftKinderenGateway" />
+    <bpmn:sequenceFlow id="Flow_0tt9f3s" sourceRef="Gateway_1f57v3d" targetRef="Gateway_0s72njz" />
+    <bpmn:sequenceFlow id="HasBrpPersoonsgegevensKinderenInfoSequenceFlow" name="has brpPersoonsgegevensKinderenInfo" sourceRef="Gateway_0ztd2ue" targetRef="OpslaanPersoonsgegevensKinderenInDocumentTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable('brpPersoonsgegevensKinderenInfo')}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1itklmt" sourceRef="Gateway_0o4gw7s" targetRef="Event_1qzgjt4" />
+    <bpmn:sequenceFlow id="Flow_0mzjyo1" sourceRef="Gateway_0ztd2ue" targetRef="Gateway_0o4gw7s" />
+    <bpmn:serviceTask id="OphalenBRPPersoonsgegevensTask" name="Ophalen BRP persoonsgegevens" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1tb0eas</bpmn:incoming>
+      <bpmn:outgoing>Flow_1qe90bb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="OpslaanPersoonsgegevensTask" name="Opslaan persoonsgegevens" camunda:asyncAfter="true" camunda:expression="${documentWriterService.writeValueToDocumentAtPath(brpPersoonsgegevensInfo,execution.getVariable(&#34;aanvragerPath&#34;),execution.businessKey)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="partnerBsn">${documentDelegateService.findValueByJsonPointerOrDefault(execution.getVariable("partnerBsn"), execution, "")}</camunda:outputParameter>
+          <camunda:outputParameter name="kinderenBsns">${documentDelegateService.findValueByJsonPointerOrDefault(execution.getVariable("kinderenBsns"), execution, "")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>PvBrpPersoonsgegevensInfoIsSetSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1t85gku</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0atf5y9">
+        <bpmn:targetRef>DocumentDataObjectReference</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:dataObjectReference id="DocumentDataObjectReference" name="Document" dataObjectRef="DataObject_1q8v953" />
+    <bpmn:dataObject id="DataObject_1q8v953" />
+    <bpmn:serviceTask id="OphalenBRPPartnerGegevensTask" name="Ophalen BRP partner gegevens" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0q570ig</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="HeeftPartnerGateway" name="heeft partner?" default="Flow_1d8agm6">
+      <bpmn:incoming>Flow_1t85gku</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1d8agm6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0atlwtc" default="Flow_1ia9g59">
+      <bpmn:incoming>Flow_1qe90bb</bpmn:incoming>
+      <bpmn:outgoing>PvBrpPersoonsgegevensInfoIsSetSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ia9g59</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_1f57v3d" default="Flow_0tt9f3s">
+      <bpmn:incoming>Flow_0q570ig</bpmn:incoming>
+      <bpmn:outgoing>HasBrpPersoonsgegevensPartnerInfoSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0tt9f3s</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="OpslaanPersoonsgegevensPartnerInDocumentTask" name="Opslaan persoonsgegevens partner in document" camunda:asyncAfter="true" camunda:expression="${documentWriterService.writeValueToDocumentAtPath(brpPersoonsgegevensPartnerInfo,execution.getVariable(&#34;partnerPath&#34;),execution.businessKey)}">
+      <bpmn:incoming>HasBrpPersoonsgegevensPartnerInfoSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vxg3x7</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_01dbdxs">
+        <bpmn:targetRef>DocumentDataObjectReference1</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_12gpieh">
+      <bpmn:incoming>Flow_0vxg3x7</bpmn:incoming>
+      <bpmn:incoming>Flow_1d8agm6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1klab2p</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:dataObjectReference id="DocumentDataObjectReference1" name="Document" dataObjectRef="DataObject_0nhqhr8" />
+    <bpmn:dataObject id="DataObject_0nhqhr8" />
+    <bpmn:exclusiveGateway id="Gateway_0s72njz">
+      <bpmn:incoming>Flow_1klab2p</bpmn:incoming>
+      <bpmn:incoming>Flow_0tt9f3s</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lt6l33</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="HeeftKinderenGateway" name="heeft kinderen?" default="Flow_1d2txnp">
+      <bpmn:incoming>Flow_1lt6l33</bpmn:incoming>
+      <bpmn:outgoing>Flow_1d2txnp</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0ztd2ue" default="Flow_0mzjyo1">
+      <bpmn:incoming>Flow_0yekogb</bpmn:incoming>
+      <bpmn:outgoing>HasBrpPersoonsgegevensKinderenInfoSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0mzjyo1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="OpslaanPersoonsgegevensKinderenInDocumentTask" name="opslaan persoonsgegevens kinderen in document" camunda:asyncAfter="true" camunda:expression="${documentWriterService.writeValueToDocumentAtPath(brpPersoonsgegevensKinderenInfo,execution.getVariable(&#34;kinderenPath&#34;),execution.businessKey)}">
+      <bpmn:incoming>HasBrpPersoonsgegevensKinderenInfoSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1g8197m</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1i6wv91">
+        <bpmn:targetRef>DocumentDataObjectReference2</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:dataObjectReference id="DocumentDataObjectReference2" name="Document" dataObjectRef="DataObject_0vr33zi" />
+    <bpmn:dataObject id="DataObject_0vr33zi" />
+    <bpmn:exclusiveGateway id="Gateway_0d9jdgq">
+      <bpmn:incoming>Flow_1d2txnp</bpmn:incoming>
+      <bpmn:incoming>Flow_1g8197m</bpmn:incoming>
+      <bpmn:outgoing>Flow_0b6nq98</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0o4gw7s">
+      <bpmn:incoming>Flow_0b6nq98</bpmn:incoming>
+      <bpmn:incoming>Flow_0mzjyo1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1itklmt</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_1qzgjt4">
+      <bpmn:incoming>Flow_1itklmt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_1111mmu">
+      <bpmn:incoming>Flow_1ia9g59</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="OphalenBRPKinderenGegevensTask" name="Ophalen BRP kinderen gegevens" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>JaSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0yekogb</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:error id="Error_10q1uq2" name="Error_3lbup3a" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1gmd3lc">
+      <bpmndi:BPMNShape id="Participant_0gc491p_di" bpmnElement="ALOOphalenBRPBrongegevensParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="120" width="2458" height="520" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="289" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j7h7ol_di" bpmnElement="OphalenBRPPersoonsgegevensTask">
+        <dc:Bounds x="370" y="267" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1yxx3np" bpmnElement="OpslaanPersoonsgegevensTask">
+        <dc:Bounds x="690" y="267" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_0n9bs02_di" bpmnElement="DocumentDataObjectReference">
+        <dc:Bounds x="722" y="375" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="715" y="432" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1h9dleo_di" bpmnElement="OphalenBRPPartnerGegevensTask">
+        <dc:Bounds x="940" y="370" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0pttd74_di" bpmnElement="HeeftPartnerGateway" isMarkerVisible="true">
+        <dc:Bounds x="835" y="282" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="827" y="252" width="69" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0atlwtc_di" bpmnElement="Gateway_0atlwtc" isMarkerVisible="true">
+        <dc:Bounds x="525" y="282" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1f57v3d_di" bpmnElement="Gateway_1f57v3d" isMarkerVisible="true">
+        <dc:Bounds x="1115" y="385" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1k5u5sn" bpmnElement="OpslaanPersoonsgegevensPartnerInDocumentTask">
+        <dc:Bounds x="1280" y="370" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_12rlici_di" bpmnElement="Gateway_12gpieh" isMarkerVisible="true">
+        <dc:Bounds x="1395" y="282" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0k42s68" bpmnElement="DocumentDataObjectReference1">
+        <dc:Bounds x="1312" y="475" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1305" y="532" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0s72njz_di" bpmnElement="Gateway_0s72njz" isMarkerVisible="true">
+        <dc:Bounds x="1515" y="282" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0emfq92_di" bpmnElement="HeeftKinderenGateway" isMarkerVisible="true">
+        <dc:Bounds x="1645" y="282" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1633" y="252" width="76" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ztd2ue_di" bpmnElement="Gateway_0ztd2ue" isMarkerVisible="true">
+        <dc:Bounds x="1935" y="385" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_17x4vul" bpmnElement="OpslaanPersoonsgegevensKinderenInDocumentTask">
+        <dc:Bounds x="2090" y="370" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_08m12ru" bpmnElement="DocumentDataObjectReference2">
+        <dc:Bounds x="2122" y="475" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2115" y="532" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0d9jdgq_di" bpmnElement="Gateway_0d9jdgq" isMarkerVisible="true">
+        <dc:Bounds x="2275" y="282" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0o4gw7s_di" bpmnElement="Gateway_0o4gw7s" isMarkerVisible="true">
+        <dc:Bounds x="2375" y="282" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qzgjt4_di" bpmnElement="Event_1qzgjt4">
+        <dc:Bounds x="2482" y="289" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1111mmu_di" bpmnElement="Event_1111mmu">
+        <dc:Bounds x="2482" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0bvxvnr" bpmnElement="OphalenBRPKinderenGegevensTask">
+        <dc:Bounds x="1750" y="370" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1tb0eas_di" bpmnElement="Flow_1tb0eas">
+        <di:waypoint x="268" y="307" />
+        <di:waypoint x="370" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1t85gku_di" bpmnElement="Flow_1t85gku">
+        <di:waypoint x="790" y="307" />
+        <di:waypoint x="835" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qe90bb_di" bpmnElement="Flow_1qe90bb">
+        <di:waypoint x="470" y="307" />
+        <di:waypoint x="525" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0q570ig_di" bpmnElement="Flow_0q570ig">
+        <di:waypoint x="1040" y="410" />
+        <di:waypoint x="1115" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1o90ueh_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="860" y="332" />
+        <di:waypoint x="860" y="410" />
+        <di:waypoint x="940" y="410" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="895" y="393" width="9" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1klab2p_di" bpmnElement="Flow_1klab2p">
+        <di:waypoint x="1445" y="307" />
+        <di:waypoint x="1515" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vxg3x7_di" bpmnElement="Flow_0vxg3x7">
+        <di:waypoint x="1380" y="410" />
+        <di:waypoint x="1420" y="410" />
+        <di:waypoint x="1420" y="332" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yekogb_di" bpmnElement="Flow_0yekogb">
+        <di:waypoint x="1850" y="410" />
+        <di:waypoint x="1935" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1d8agm6_di" bpmnElement="Flow_1d8agm6">
+        <di:waypoint x="885" y="307" />
+        <di:waypoint x="1395" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1d2txnp_di" bpmnElement="Flow_1d2txnp">
+        <di:waypoint x="1695" y="307" />
+        <di:waypoint x="2275" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qsjhma_di" bpmnElement="JaSequenceFlow1">
+        <di:waypoint x="1670" y="332" />
+        <di:waypoint x="1670" y="410" />
+        <di:waypoint x="1750" y="410" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1705" y="393" width="9" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0b6nq98_di" bpmnElement="Flow_0b6nq98">
+        <di:waypoint x="2325" y="307" />
+        <di:waypoint x="2375" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1g8197m_di" bpmnElement="Flow_1g8197m">
+        <di:waypoint x="2190" y="410" />
+        <di:waypoint x="2300" y="410" />
+        <di:waypoint x="2300" y="332" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0x3o4h3_di" bpmnElement="PvBrpPersoonsgegevensInfoIsSetSequenceFlow">
+        <di:waypoint x="575" y="307" />
+        <di:waypoint x="690" y="307" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="576" y="315" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ia9g59_di" bpmnElement="Flow_1ia9g59">
+        <di:waypoint x="550" y="282" />
+        <di:waypoint x="550" y="200" />
+        <di:waypoint x="2482" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rnv77f_di" bpmnElement="HasBrpPersoonsgegevensPartnerInfoSequenceFlow">
+        <di:waypoint x="1165" y="410" />
+        <di:waypoint x="1280" y="410" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1180" y="420" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lt6l33_di" bpmnElement="Flow_1lt6l33">
+        <di:waypoint x="1565" y="307" />
+        <di:waypoint x="1645" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tt9f3s_di" bpmnElement="Flow_0tt9f3s">
+        <di:waypoint x="1140" y="435" />
+        <di:waypoint x="1140" y="560" />
+        <di:waypoint x="1540" y="560" />
+        <di:waypoint x="1540" y="332" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15fy0ex_di" bpmnElement="HasBrpPersoonsgegevensKinderenInfoSequenceFlow">
+        <di:waypoint x="1985" y="410" />
+        <di:waypoint x="2090" y="410" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1995" y="420" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1itklmt_di" bpmnElement="Flow_1itklmt">
+        <di:waypoint x="2425" y="307" />
+        <di:waypoint x="2482" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mzjyo1_di" bpmnElement="Flow_0mzjyo1">
+        <di:waypoint x="1960" y="435" />
+        <di:waypoint x="1960" y="560" />
+        <di:waypoint x="2400" y="560" />
+        <di:waypoint x="2400" y="332" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_07okm9r_di" bpmnElement="TextAnnotation_07okm9r">
+        <dc:Bounds x="340" y="140" width="195" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0atf5y9_di" bpmnElement="DataOutputAssociation_0atf5y9">
+        <di:waypoint x="740" y="347" />
+        <di:waypoint x="740" y="375" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_01dbdxs_di" bpmnElement="DataOutputAssociation_01dbdxs">
+        <di:waypoint x="1331" y="450" />
+        <di:waypoint x="1331" y="475" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1i6wv91_di" bpmnElement="DataOutputAssociation_1i6wv91">
+        <di:waypoint x="2141" y="450" />
+        <di:waypoint x="2141" y="475" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0kky9km_di" bpmnElement="Association_0kky9km">
+        <di:waypoint x="415" y="267" />
+        <di:waypoint x="406" y="170" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

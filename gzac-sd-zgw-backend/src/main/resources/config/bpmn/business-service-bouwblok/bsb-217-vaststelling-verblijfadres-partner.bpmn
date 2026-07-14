@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_02hvfl8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_14lgarr">
+    <bpmn:participant id="BSB217VaststellingVerblijfadresPartnerParticipant" name="BSB 217 vaststelling verblijfadres partner" processRef="bsb-217-vaststelling-verblijfadres-partner" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-217-vaststelling-verblijfadres-partner" name="BSB 217 vaststelling verblijfadres partner" isExecutable="true">
+    <bpmn:startEvent id="StartVaststellingVerblijfadresPartnerStartEvent" name="Start vaststelling verblijfadres partner">
+      <bpmn:outgoing>Flow_1r6tfvn</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1r6tfvn" sourceRef="StartVaststellingVerblijfadresPartnerStartEvent" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_1fvu66l" sourceRef="OphalenInputTask" targetRef="Bs217VaststellingVerblijfadresCallActivity" />
+    <bpmn:sequenceFlow id="Flow_06d169j" sourceRef="Bs217VaststellingVerblijfadresCallActivity" targetRef="WegschrijvenOutputVerblijfadresTask" />
+    <bpmn:sequenceFlow id="Flow_0o6ypts" sourceRef="WegschrijvenOutputVerblijfadresTask" targetRef="WegschrijvenOutputAdditioneleVeldenPartnerTask" />
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="isPartnerVerblijfadresVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenPartner/verblijfadres/verblijfadresVastgesteld")}</camunda:inputParameter>
+          <camunda:outputParameter name="verblijfadresVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenPartner/verblijfadres/verblijfadresVastgesteld")}</camunda:outputParameter>
+          <camunda:outputParameter name="datumVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenPartner/verblijfadres/datumVastgesteld")}</camunda:outputParameter>
+          <camunda:outputParameter name="partnerToelichtingVerblijftElders">${isPartnerVerblijfadresVastgesteld ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner/verblijfadres/toelichtingNietIngeschrevenOpVerblijfadres") : valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/partner/verblijfadres/toelichtingNietIngeschrevenOpVerblijfadres")}</camunda:outputParameter>
+          <camunda:outputParameter name="partnerVerblijfadres">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/partner/woonsituatie") == 'PARTNER_INWONEND' ?
+    ((valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/aanvrager/woonsituatie") == "ELDERS" || valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/aanvrager/woonsituatie") == "DETENTIE") ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/aanvrager/verblijfadres") : valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/aanvrager/adresBrp")) :
+    valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/partner/verblijfadres")}</camunda:outputParameter>
+          <camunda:outputParameter name="adresBrp">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitBronnen/partner/adresBrp")}</camunda:outputParameter>
+          <camunda:outputParameter name="taakTitel">Selecteren verblijfadres partner</camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldVerblijfadres">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner/verblijfadres")}</camunda:outputParameter>
+          <camunda:outputParameter name="postadresBrp">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitBronnen/partner/postadresBrp")}</camunda:outputParameter>
+          <camunda:outputParameter name="toelichtingConsulent">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenPartner/verblijfadres/toelichtingConsulent")}</camunda:outputParameter>
+          <camunda:outputParameter name="handmatigVaststellen">${execution.getVariable("handmatigVaststellen") ? handmatigVaststellen : false}</camunda:outputParameter>
+          <camunda:outputParameter name="teGebruikenAdres">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenPartner/verblijfadres/teGebruikenAdres")}</camunda:outputParameter>
+          <camunda:outputParameter name="prefillHandmatigIngevoerdAdres">${teGebruikenAdres == "anders" ? vastgesteldVerblijfadres : null}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1r6tfvn</bpmn:incoming>
+      <bpmn:outgoing>Flow_1fvu66l</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="Bs217VaststellingVerblijfadresCallActivity" name="bs 217 vaststelling verblijfadres" camunda:asyncAfter="true" calledElement="bs-217-vaststelling-verblijfadres">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="verblijfadresVastgesteld" target="verblijfadresVastgesteld" />
+        <camunda:in source="datumVastgesteld" target="datumVastgesteld" />
+        <camunda:in source="partnerToelichtingVerblijftElders" target="toelichtingVerblijftElders" />
+        <camunda:in source="partnerVerblijfadres" target="verblijfadres" />
+        <camunda:in source="adresBrp" target="brpWoonadres" />
+        <camunda:in source="taakTitel" target="taakTitel" />
+        <camunda:in source="vastgesteldVerblijfadres" target="vastgesteldVerblijfadres" />
+        <camunda:in source="postadresBrp" target="postadresBrp" />
+        <camunda:in source="toelichtingConsulent" target="toelichtingConsulent" />
+        <camunda:in source="handmatigVaststellen" target="handmatigVaststellen" />
+        <camunda:in source="teGebruikenAdres" target="teGebruikenAdres" />
+        <camunda:in source="prefillHandmatigIngevoerdAdres" target="prefillHandmatigIngevoerdAdres" />
+        <camunda:in source="opgegevenVerblijfadres" target="opgegevenVerblijfadres" />
+        <camunda:out source="verblijfadresVastgesteld" target="verblijfadresVastgesteld" />
+        <camunda:out source="datumVastgesteld" target="datumVastgesteld" />
+        <camunda:out source="toelichtingConsulent" target="toelichtingConsulent" />
+        <camunda:out source="vastgesteldVerblijfadres" target="vastgesteldVerblijfadres" />
+        <camunda:out source="teGebruikenAdres" target="teGebruikenAdres" />
+        <camunda:out source="isHandmatigBeoordeeld" target="isHandmatigBeoordeeld" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1fvu66l</bpmn:incoming>
+      <bpmn:outgoing>Flow_06d169j</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="WegschrijvenOutputVerblijfadresTask" name="wegschrijven output &#39;verblijfadres&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/partner/verblijfadres&#34;, vastgesteldVerblijfadres)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06d169j</bpmn:incoming>
+      <bpmn:outgoing>Flow_0o6ypts</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WegschrijvenOutputAdditioneleVeldenPartnerTask" name="wegschrijven output &#39;additioneleVeldenPartner&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/additioneleVeldenPartner/verblijfadres&#34;,additioneleVeldenPartner)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="additioneleVeldenPartner">
+            <camunda:map>
+              <camunda:entry key="verblijfadresVastgesteld">${verblijfadresVastgesteld}</camunda:entry>
+              <camunda:entry key="datumVastgesteld">${datumVastgesteld}</camunda:entry>
+              <camunda:entry key="toelichtingConsulent">${toelichtingConsulent}</camunda:entry>
+              <camunda:entry key="teGebruikenAdres">${teGebruikenAdres}</camunda:entry>
+              <camunda:entry key="isHandmatigBeoordeeld">${isHandmatigBeoordeeld}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0o6ypts</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gm6qmz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1gm6qmz" sourceRef="WegschrijvenOutputAdditioneleVeldenPartnerTask" targetRef="VerblijfadresPartnerOpgehaaldEndEvent" />
+    <bpmn:endEvent id="VerblijfadresPartnerOpgehaaldEndEvent" name="Verblijfadres partner opgehaald">
+      <bpmn:incoming>Flow_1gm6qmz</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_14lgarr">
+      <bpmndi:BPMNShape id="Participant_1b5j5v0_di" bpmnElement="BSB217VaststellingVerblijfadresPartnerParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="60" width="900" height="240" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartVaststellingVerblijfadresPartnerStartEvent">
+        <dc:Bounds x="232" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="210" y="205" width="81" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0f3dcs4" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="330" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1g57l5r" bpmnElement="Bs217VaststellingVerblijfadresCallActivity">
+        <dc:Bounds x="490" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0rumw3g" bpmnElement="WegschrijvenOutputVerblijfadresTask">
+        <dc:Bounds x="650" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1u0j9n0" bpmnElement="WegschrijvenOutputAdditioneleVeldenPartnerTask">
+        <dc:Bounds x="810" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qws04k_di" bpmnElement="VerblijfadresPartnerOpgehaaldEndEvent">
+        <dc:Bounds x="972" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="946" y="205" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1r6tfvn_di" bpmnElement="Flow_1r6tfvn">
+        <di:waypoint x="268" y="180" />
+        <di:waypoint x="330" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1r4n8cz" bpmnElement="Flow_1fvu66l">
+        <di:waypoint x="430" y="180" />
+        <di:waypoint x="490" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_133ehcd" bpmnElement="Flow_06d169j">
+        <di:waypoint x="590" y="180" />
+        <di:waypoint x="650" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0o6ypts_di" bpmnElement="Flow_0o6ypts">
+        <di:waypoint x="750" y="180" />
+        <di:waypoint x="810" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gm6qmz_di" bpmnElement="Flow_1gm6qmz">
+        <di:waypoint x="910" y="180" />
+        <di:waypoint x="972" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

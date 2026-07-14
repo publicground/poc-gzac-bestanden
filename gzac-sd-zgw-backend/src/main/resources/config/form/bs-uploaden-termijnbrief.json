@@ -1,0 +1,263 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "Uitgezet door",
+            "defaultValue": "informatieverzoekUitzetten",
+            "key": "pv.vervolgactieUitzettenInformatieverzoek",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Verzoek",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "pv.verzoek",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "label": "Uitgezet door",
+                    "customDefaultValue": "value = JSON.parse(localStorage.getItem('userIdentity'))?.firstName + ' ' + JSON.parse(localStorage.getItem('userIdentity'))?.lastName;",
+                    "key": "uitgezetDoor",
+                    "type": "hidden",
+                    "input": true,
+                    "tableView": false
+                },
+                {
+                    "label": "documenten",
+                    "key": "documenten",
+                    "type": "hidden",
+                    "defaultValue": [
+                        "/informatieverzoek/opTeVragenInformatie/0/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/1/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/2/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/3/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/4/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/5/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/6/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/7/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/8/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/9/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/10/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/11/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/12/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/13/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/14/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/15/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/16/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/17/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/18/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/19/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/20/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/21/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/22/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/23/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/24/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/25/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/26/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/27/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/28/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/29/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/30/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/31/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/32/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/33/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/34/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/35/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/36/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/37/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/38/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/39/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/40/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/41/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/42/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/43/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/44/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/45/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/46/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/47/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/48/documentUpload",
+                        "/informatieverzoek/opTeVragenInformatie/49/documentUpload"
+                    ],
+                    "input": true,
+                    "tableView": false
+                },
+                {
+                    "label": "datum uitgezet",
+                    "key": "datumUitgezet",
+                    "type": "hidden",
+                    "calculateValue": "value = moment();",
+                    "input": true,
+                    "tableView": false
+                },
+                {
+                    "label": "Hersteltermijn in dagen",
+                    "type": "hidden",
+                    "conditional": {
+                        "eq": "JA",
+                        "show": true,
+                        "when": "pv.verzoekNotSave.hersteltermijn"
+                    },
+                    "calculateValue": "value = moment(data.pv.verzoekNotSave.deadlineInformatieverzoek).endOf('day').diff(moment().startOf('day'), 'days');",
+                    "key": "hersteltermijnInDagen",
+                    "input": true,
+                    "tableView": false
+                },
+                {
+                    "label": "HTML",
+                    "content": "<h4>Voer een bericht richting de aanvrager in, geef aan of een hersteltermijn van toepassing is en binnen welke termijn er voldaan moet worden aan het informatieverzoek. </h4>",
+                    "refreshOnChange": false,
+                    "key": "html4",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                },
+                {
+                    "label": "Bericht aan aanvrager",
+                    "applyMaskOn": "change",
+                    "autoExpand": false,
+                    "tableView": true,
+                    "validate": {
+                        "maxWords": 500,
+                        "required": true
+                    },
+                    "validateWhenHidden": false,
+                    "key": "berichtNaarAanvrager",
+                    "type": "textarea",
+                    "input": true
+                },
+                {
+                    "label": "Deadline informatieverzoek",
+                    "format": "dd-MM-yyyy",
+                    "tableView": false,
+                    "datePicker": {
+                        "disableWeekends": false,
+                        "disableWeekdays": false,
+                        "minDate": "moment().add(1,'days').startOf('day')"
+                    },
+                    "validate": {
+                        "required": true
+                    },
+                    "enableTime": false,
+                    "enableMinDateInput": false,
+                    "enableMaxDateInput": false,
+                    "validateWhenHidden": false,
+                    "key": "deadlineInformatieverzoek",
+                    "defaultDate": "moment().add(2, 'weeks')",
+                    "type": "datetime",
+                    "input": true,
+                    "widget": {
+                        "type": "calendar",
+                        "displayInTimezone": "viewer",
+                        "locale": "en",
+                        "useLocaleSettings": false,
+                        "allowInput": true,
+                        "mode": "single",
+                        "enableTime": false,
+                        "noCalendar": false,
+                        "format": "dd-MM-yyyy",
+                        "hourIncrement": 1,
+                        "minuteIncrement": 1,
+                        "time_24hr": false,
+                        "minDate": "moment().add(1,'days').startOf('day')",
+                        "disableWeekends": false,
+                        "disableWeekdays": false,
+                        "maxDate": null
+                    }
+                },
+                {
+                    "label": "Hersteltermijn van toepassing?",
+                    "optionsLabelPosition": "right",
+                    "inline": false,
+                    "tableView": false,
+                    "values": [
+                        {
+                            "label": "Ja",
+                            "value": "JA",
+                            "shortcut": ""
+                        },
+                        {
+                            "label": "Nee",
+                            "value": "NEE",
+                            "shortcut": ""
+                        }
+                    ],
+                    "validate": {
+                        "required": true
+                    },
+                    "validateWhenHidden": false,
+                    "key": "hersteltermijn",
+                    "type": "radio",
+                    "input": true
+                },
+                {
+                    "label": "Informatieverzoek status",
+                    "defaultValue": "In afwachting van reactie",
+                    "key": "status",
+                    "type": "hidden",
+                    "input": true,
+                    "tableView": false
+                },
+                {
+                    "label": "HTML",
+                    "content": "<h4>Upload hieronder de termijnbrief.</h4>",
+                    "refreshOnChange": false,
+                    "key": "html4",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false
+                }
+            ]
+        },
+        {
+            "label": "Upload hieronder de termijnbrief",
+            "type": "documenten-api-file",
+            "key": "pv.termijnbrief",
+            "customOptions": {
+                "title": "",
+                "hideTitle": false,
+                "subtitle": "",
+                "maxFileSize": 1,
+                "hideMaxFileSize": false,
+                "camera": false,
+                "documentTitle": "Verzoek om informatie",
+                "disableDocumentTitle": false,
+                "filename": "",
+                "disableFilename": false,
+                "author": "",
+                "disableAuthor": false,
+                "status": "definitief",
+                "disableStatus": false,
+                "language": "nld",
+                "disableLanguage": false,
+                "documentType": "VerzoekInformatieBrief",
+                "disableDocumentType": true,
+                "description": "Verzoek om informatie",
+                "disableDescription": false,
+                "confidentialityLevel": "zaakvertrouwelijk",
+                "disableConfidentialityLevel": false
+            },
+            "input": true,
+            "customDefaultValue": " component.customOptions.author = data.pv?.verzoek?.uitgezetDoor;",
+            "validate": {
+                "required": true,
+                "custom": "valid = input.length == 1;",
+                "customMessage": "Upload maximaal 1 document"
+            },
+            "tableView": false
+        },
+        {
+            "label": "Informatieverzoek uitzetten",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "custom": "form.submit(); component.disabled = true;",
+            "key": "submit",
+            "type": "button",
+            "input": true
+        }
+    ]
+}

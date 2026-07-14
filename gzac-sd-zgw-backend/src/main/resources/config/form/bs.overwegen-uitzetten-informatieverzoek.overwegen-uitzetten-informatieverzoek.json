@@ -1,0 +1,67 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "Aanvrager",
+            "key": "pv.aanvrager",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Titel blok",
+            "content": "<div class=\"mb-3\">\n  <h4>Uitzetten informatieverzoek</h4>\n <h4>Naam aanvrager: {{{data.pv?.aanvrager?.voornamen + ' ' + data.pv?.aanvrager?.voorvoegsel + ' ' + data.pv?.aanvrager?.achternaam + ' | Geboorte datum: ' + (data.pv?.aanvrager?.geboortedatum ? moment(data.pv?.aanvrager?.geboortedatum).format('DD-MM-yyyy') : '')  + ' | BSN: ' + data.pv?.aanvrager?.bsn }}}</h4>\n</div>",
+            "refreshOnChange": false,
+            "key": "titelBlok",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Titel blok",
+            "content": "<p>Geef hieronder aan of er wel of niet een informatieverzoek uitgezet moet worden naar de aanvrager.</p>",
+            "refreshOnChange": false,
+            "customClass": "alert alert-primary",
+            "key": "titelBlok",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Informatieverzoek uitzetten naar de aanvrager?",
+            "optionsLabelPosition": "right",
+            "inline": false,
+            "tableView": false,
+            "values": [
+                {
+                    "label": "Ja",
+                    "value": "JA",
+                    "shortcut": ""
+                },
+                {
+                    "label": "Nee",
+                    "value": "NEE",
+                    "shortcut": ""
+                }
+            ],
+            "validate": {
+                "required": true
+            },
+            "validateWhenHidden": false,
+            "key": "pv.uitzettenVerzoek",
+            "type": "radio",
+            "input": true
+        },
+        {
+            "label": "Indienen",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "input": true,
+            "type": "button",
+            "custom": "form.submit(); component.disabled = true;"
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+[
+    {
+        "activityId": "BesluitVastgelegdStartEvent",
+        "activityType": "bpmn:StartEvent:start",
+        "processLinkType": "form",
+        "formDefinitionName": "aanvraag-algemene-bijstand.vastleggen-besluit"
+    },
+    {
+        "activityId": "ZetZaakeigenschapTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "create-zaakeigenschap",
+        "actionProperties": {
+            "eigenschapUrl": "${ALGEMENE_BIJSTAND_AANVRAAG_ZAAKEIGENSCHAP_URL}",
+            "eigenschapValue": "pv:einddatum"
+        }
+    }
+]

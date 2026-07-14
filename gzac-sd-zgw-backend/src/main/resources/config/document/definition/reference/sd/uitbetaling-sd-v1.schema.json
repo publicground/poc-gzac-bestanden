@@ -1,0 +1,87 @@
+{
+    "$id": "uitbetaling.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Uitbetaling",
+    "type": "object",
+    "properties": {
+        "wijzeVanUitbetaling": {
+            "type": "string",
+            "enum": [
+                "VOLLEDIG_AANVRAGER",
+                "VERDEELD_AANVRAGER_PARTNER",
+                "VOLLEDIG_PARTNER"
+            ]
+        }
+    },
+    "definitions": {
+        "bankrekening": {
+            "type": "object",
+            "properties": {
+                "iban": {
+                    "description": "<p>Het wereldwijde unieke nummer van een bankrekening.</p><br/><p>Bron: SGR 16.0</p><p>Norminstantie: ISO - 13616</p><br/><p>Opmerkingen:</p><p>Zie ISO - 13616 voor de opbouw van dit gegevenselement.</p><br/><br/>",
+                    "type": "string"
+                },
+                "tenaamstelling": {
+                    "description": "<p>De naam van de houder(s) van de BANKREKENING.</p><br/><p>Bron: SGR</p><br/>",
+                    "type": "string"
+                },
+                "adresRekeninghouder": {
+                    "type": "string"
+                },
+                "betalingskenmerk": {
+                    "type": "string"
+                }
+            }
+        },
+        "uitbetaling": {
+            "type": "object",
+            "properties": {
+                "redenAanDerden": {
+                    "type": "string"
+                },
+                "aanDerden": {
+                    "type": "string",
+                    "enum": [
+                        "JA",
+                        "NEE",
+                        "ONBEKEND"
+                    ]
+                },
+                "aanvrager": {
+                    "properties": {
+                        "bankrekening": {
+                            "$ref": "#/definitions/bankrekening"
+                        }
+                    }
+                },
+                "partner": {
+                    "properties": {
+                        "bankrekening": {
+                            "$ref": "#/definitions/bankrekening"
+                        }
+                    }
+                },
+                "derden": {
+                    "properties": {
+                        "bankrekening": {
+                            "$ref": "#/definitions/bankrekening"
+                        }
+                    }
+                },
+                "wijzeVanUitbetaling": {
+                    "type": "string",
+                    "enum": [
+                        "VOLLEDIG_AANVRAGER",
+                        "VERDEELD_AANVRAGER_PARTNER",
+                        "VOLLEDIG_PARTNER",
+                        "DERDE"
+                    ]
+                },
+                "toelichtingUitbetaling": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
+

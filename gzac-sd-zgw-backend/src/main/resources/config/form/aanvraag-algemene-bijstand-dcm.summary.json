@@ -1,0 +1,845 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "aanvrager",
+            "key": "gegevensVaststelling",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "besluiten",
+            "key": "besluiten",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "createdOn",
+            "applyMaskOn": "change",
+            "tableView": true,
+            "key": "createdOn",
+            "properties": {
+                "sourceKey": "case:createdOn"
+            },
+            "type": "hidden",
+            "input": true
+        },
+        {
+            "label": "uiterlijkeEinddatumAfdoening",
+            "key": "uiterlijkeEinddatumAfdoening",
+            "type": "hidden",
+            "properties": {
+                "sourceKey": "zaak:uiterlijkeEinddatumAfdoening"
+            },
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Referentienummer",
+            "key": "publicReference",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "headerIdentificatie",
+            "customClass": "border-around-formio-container",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "headerIdentificatie",
+            "type": "container",
+            "title": "header",
+            "input": true,
+            "components": [
+                {
+                    "label": "headerHTML",
+                    "content": "<section class=\"container-fluid p-0\">\n  <div class=\"bg-light border-bottom m-0 py-1 px-3\">\n    <div class=\"row align-items-center mx-0\">\n      <div class=\"col-12 px-1\">\n        <div style=\"font-size: 1.1rem; font-weight: normal; line-height: 1.4; margin: 0; white-space: nowrap; overflow: visible; text-overflow: clip;\" title=\"{{ data.openzaak?.identificatie || '-' }}\">{{{ data.openzaak?.identificatie || '-' }}}</div>\n      </div>\n    </div>\n  </div>\n\n  <!-- BODY MET REGELS -->\n  <div class=\"row align-items-center mx-0 gx-0 px-3 py-2\">\n\n    <!-- LINKERKOLOM -->\n    <div class=\"col-4 mb-0 p-0\">\n      <div class=\"row mb-1 mx-0\">\n        <div class=\"col-6 p-0\">Aanvrager:</div>\n        <div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.achternaam ? (data.gegevensVaststelling?.aanvrager?.achternaam + ((data.gegevensVaststelling?.aanvrager?.voorvoegsel || data.gegevensVaststelling?.aanvrager?.tussenvoegsel) ? ', ' + (data.gegevensVaststelling?.aanvrager?.voorvoegsel || data.gegevensVaststelling?.aanvrager?.tussenvoegsel) : '')) : '-' }}}</strong></div>\n      </div>\n      <div class=\"row mb-0 mx-0\">\n        <div class=\"col-6 p-0\">Partner:</div>\n        <div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.achternaam ? (data.gegevensVaststelling?.partner?.achternaam + ((data.gegevensVaststelling?.partner?.voorvoegsel || data.gegevensVaststelling?.partner?.tussenvoegsel) ? ', ' + (data.gegevensVaststelling?.partner?.voorvoegsel || data.gegevensVaststelling?.partner?.tussenvoegsel) : '')) : '-' }}}</strong></div>\n      </div>\n    </div>\n\n    <div class=\"col-4 mb-0 px-1\">\n      <div class=\"row mb-1 mx-0\"><div class=\"col-6\">Geb. datum:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.geboortedatum ? moment(data.gegevensVaststelling.aanvrager.geboortedatum).format('DD-MM-YYYY') : '-' }}}</strong></div></div>\n      <div class=\"row mb-0 mx-0\"><div class=\"col-6\">Geb. datum partner:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.geboortedatum ? moment(data.gegevensVaststelling.partner.geboortedatum).format('DD-MM-YYYY') : '-' }}}</strong></div></div>\n    </div>\n\n    <div class=\"col-4 mb-0 px-1\">\n      <div class=\"row mb-1 mx-0\"><div class=\"col-6\">BSN:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.bsn || '-' }}}</strong></div></div>\n      <div class=\"row mb-0 mx-0\"><div class=\"col-6\">BSN partner:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.bsn || '-' }}}</strong></div></div>\n    </div>\n\n  </div>\n</section>",
+                    "refreshOnChange": false,
+                    "customClass": "no-border-around-formio-container",
+                    "key": "html",
+                    "type": "htmlelement",
+                    "tableView": false,
+                    "input": true
+                }
+            ]
+        },
+        {
+            "label": "Columns",
+            "columns": [
+                {
+                    "components": [
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "openzaak",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "content": "<h4>Zaak informatie</h4>\n<section class=\"px-3 py-2\">\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Zaaknummer</dd>\n        <dt class=\"col-6\">{{{ data.openzaak?.identificatie || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Zaakstatus</dd>\n        <dt class=\"col-6\">{{{ data.openzaak?.statusOmschrijving || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Referentienummer</dd>\n        <dt class=\"col-6\">{{{ data.publicReference || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Meldingsdatum</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.meldingsDatum ? moment(data.gegevensVaststelling?.meldingsDatum).format('DD-MM-yyyy') : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Aanvraagdatum</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.startDatum ? moment(data.gegevensVaststelling?.startDatum).format('DD-MM-yyyy') : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Uiterste afhandelingsdatum</dd>\n        <dt class=\"col-6\">{{{ data.uiterlijkeEinddatumAfdoening ? moment(data.uiterlijkeEinddatumAfdoening).format('DD-MM-yyyy') : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Recht op eerste voorschot*</dd>\n        <dt class=\"col-6\">{{{'-'}}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "type": "container",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.code === '1' ? show = true : show = false;",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Laatste werkgever</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestoptBetaaldWerk[0]?.bedrijfsadres || '-' }}}</dt>\n    </dl> \n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">&nbsp;</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestoptBetaaldWerk[0]?.naamBedrijf || '-' }}}</dt>\n    </dl>  \n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Datum laatste salaris</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestoptBetaaldWerk[0]?.laatsteSalarisDatum ? moment(data.gegevensVaststelling?.redenAanvraag?.gestoptBetaaldWerk[0]?.laatsteSalarisDatum).format('DD-MM-YYYY') : '-' }}}</dt>\n    </dl>  \n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden geen betaald werk meer</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestoptBetaaldWerk[0]?.eindeWerkReden?.name || '-' }}}</dt>\n    </dl>  \n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "type": "container",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.code === '2' ? show = true : show = false;",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.name || '-' }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.code === '3' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Uitkering wordt gestopt per</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteUitkering[0]?.uitkeringEinddatum ? moment(data.gegevensVaststelling?.redenAanvraag?.gestopteUitkering[0]?.uitkeringEinddatum).format('DD-MM-YYYY') : '-' }}}</dt>\n    </dl> \n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden uitkering gestopt</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteUitkering[0]?.eindeUitkeringReden?.name || '-' }}}</dt>\n    </dl>  \n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.code === '4' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Uitkering wordt gestopt per</dd>\n        <dt class=\"col-6\">{{{ '-' }}}</dt>\n    </dl> \n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden uitkering gestopt</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteBijstanduitkering[0]?.eindeBijstandReden?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Wijzigingen in situatie</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteBijstanduitkering[0]?.situatieGewijzigd?.name || '-' }}}</dt>\n    </dl>  \n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.code === '5' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Wijzigingen in situatie</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteBijstanduitkering[0]?.situatieGewijzigd?.name || '-' }}}</dt>\n    </dl>  \n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.code === '6' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Alimentatie wordt gestopt of verlaagd per</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteVerlaagdeAlimentatie[0]?.alimentatieEinddatum ? moment( data.gegevensVaststelling?.redenAanvraag?.gestopteVerlaagdeAlimentatie[0]?.alimentatieEinddatum).format('DD-MM-YYYY') : '-' }}}</dt>\n    </dl>  \n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Kosten worden nu betaald met</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteVerlaagdeAlimentatie[0]?.opgaveFinancieleOndersteuning || '-' }}}</dt>\n    </dl>  \n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden alimentatie gestopt of verlaagd</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteVerlaagdeAlimentatie[0]?.cdRedenAanvraagEindeAlimentatieReden?.name || '-' }}}</dt>\n    </dl>  \n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">ANW-uitkering aangevraagd?</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteVerlaagdeAlimentatie[0]?.anwnabestaatdeuitkeringAangevraagd?.name || '-' }}}</dt>\n    </dl>  \n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.code === '7' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.onvoldoendeInkomen?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Datum opleiding / studie afgerond of gestopt</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteStudiefinanciering[0]?.studiefinancieringEinddatum ? moment(data.gegevensVaststelling?.redenAanvraag?.gestopteStudiefinanciering[0]?.studiefinancieringEinddatum).format('DD-MM-YYYY') : '-' }}}</dt>\n    </dl>  \n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Soort financiering of tegemoetkoming</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteStudiefinanciering[0]?.studiefinancieringSpecificatie?.name || '-' }}}</dt>\n    </dl>  \n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum1",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.wijzigingGezin?.code === '1' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.wijzigingGezin?.name || '-' }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.wijzigingGezin?.code === '2' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.wijzigingGezin?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Relatie verbroken per</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.verbrokenRelatie[0]?.verbrokenRelatieDatum ? moment(data.gegevensVaststelling?.redenAanvraag?.verbrokenRelatie[0]?.verbrokenRelatieDatum).format('DD-MM-YYYY') : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Kosten worden nu betaald met</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.verbrokenRelatie[0]?.opgaveFinancieleOndersteuning || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Afspraken gemaakt over een onderhoudsbijdrage</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.verbrokenRelatie[0]?.afspraakOnderhoudsbijdrage?.name || '-' }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.wijzigingGezin?.code === '3' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.wijzigingGezin?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">ANW-uitkering aangevraagd?</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.overledenPartner[0]?.anwnabestaandeuitkeringAangevraagd?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden afwijzing ANW-uitkering</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.overledenPartner[0]?.anwafgewezenReden || '-' }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.zelfstandige?.code === '1' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.zelfstandige?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden gestopt</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestoptVerkochtEigenBedrijf[0]?.eigenBedrijfGestoptReden?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Per wanneer gestopt</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestoptVerkochtEigenBedrijf[0]?.eigenBedrijfDatum ? moment(data.gegevensVaststelling?.redenAanvraag?.gestoptVerkochtEigenBedrijf[0]?.eigenBedrijfDatum).format('DD-MM-YYYY') : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Inschrijfnummer KVK</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestoptVerkochtEigenBedrijf[0]?.kvKinschrijfnummer || '-' }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.zelfstandige?.code === '2' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.zelfstandige?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Per wanneer gestopt</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestoptVerkochtEigenBedrijf[0]?.eigenBedrijfDatum ? moment(data.gegevensVaststelling?.redenAanvraag?.gestoptVerkochtEigenBedrijf[0]?.eigenBedrijfDatum).format('DD-MM-YYYY') : '-' }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.verblijfstatus?.code === '1' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.verblijfstatus?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Ontvangt u weekgeld van het COA</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.weekgeldCOA?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Weekgeld COA per week</dd>\n        <dt class=\"col-6\">{{{ (typeof data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.weekgeldCOAbedrag === 'number' ? data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.weekgeldCOAbedrag.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) : '-') }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Weekgeld stopt per</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.weekgeldCOAeinddatum ? moment(data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.weekgeldCOAeinddatum).format('DD-MM-YYYY') : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Bericht van COA ontvangen</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.berichtWeekgeld?.name || '-' }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.verblijfstatus?.code === '2' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.verblijfstatus?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Ingangsdatum huurcontract</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.ingangsdatumHuurcontract ? moment(data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.ingangsdatumHuurcontract).format('DD-MM-YYYY') : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Ontvangt u weekgeld van het COA</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.weekgeldCOA?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Weekgeld COA per week</dd>\n        <dt class=\"col-6\">{{{ (typeof data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.weekgeldCOAbedrag === 'number' ? data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.weekgeldCOAbedrag.toLocaleString(\"nl-NL\", {style:\"currency\", currency:\"EUR\"}) : '-') }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Weekgeld stopt per</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.weekgeldCOAeinddatum ? moment(data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.weekgeldCOAeinddatum).format('DD-MM-YYYY') : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Bericht van COA ontvangen</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.vertrekAsielzoekerscentrum[0]?.berichtWeekgeld?.name || '-' }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.reden?.code === '5' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.reden?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Duur detentie</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteDetentie[0]?.detentieDuur?.name || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Detentie stopt per</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteDetentie[0]?.detentieEinddatum ? moment(data.gegevensVaststelling?.redenAanvraag?.gestopteDetentie[0]?.detentieEinddatum).format('DD-MM-YYYY') : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Uitkering vóór detentie</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.gestopteDetentie[0]?.uitkeringVoorDetentie?.name || '-' }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.reden?.code === '6' ? show = true : show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "content": "<h4>Reden aanvraag</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Reden aanvraag</dd>\n        <dt class=\"col-6\">Aanvrager heeft \"Anders\" opgegeven</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.eerderAanvragenRedenAanwezig?.code === \"1\" ? show = true :  show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "content": "<h4>Reden niet in staat eerder een aanvraag te doen</h4>\n<div class=\"container\">\n  <div class=\"mt-2\"></div>\n  <div class=\"row mb-0\">\n        <div class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.redenGewensteIngangsdatum ? 'Waarom kan u niet eerder een aanvraag doen?' : '' }}}</div>\n        <div class=\"col-6\" style=\"font-weight: 700\">{{{ { 'WACHTEN_BESLISSING_INSTANTIE' : 'U moest wachten op een beslissing van een andere instantie' , 'OPNAME_INSTELLING' : 'U was opgenomen in een ziekenhuis/zorginstelling' , 'WACHTEN_DIGID' : 'U of uw partner moest wachten op uw DigigD-inlogcode' , 'ANDERE_REDEN' : 'Een andere reden' , '' : '' , }[data.gegevensVaststelling?.redenAanvraag?.redenGewensteIngangsdatum] }}}</div>\n    </div>\n    {{ data.gegevensVaststelling?.redenAanvraag?.redenGewensteIngangsdatum ? '<div style=\"margin-bottom: 0.5rem\"></div>' : '' }}\n  <div class=\"row mb-0\">\n        <div class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.bijzondereRedenAanvraagdatumLaterIngaan ? 'Toelichting' : '' }}}</div>\n        <div class=\"col-6\" style=\"font-weight: 700\">{{{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.bijzondereRedenAanvraagdatumLaterIngaan || '' }}}</div>\n    </div>\n    {{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.bijzondereRedenAanvraagdatumLaterIngaan ? '<div style=\"margin-bottom: 0.5rem\"></div>' : '' }}\n    <div class=\"row mb-0\">\n        <div class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.bijzondereRedenNietEerderAanvragen ? { 'WACHTEN_BESLISSING_INSTANTIE' : 'Toelichting in afwachting beslissing andere instantie' , 'OPNAME_INSTELLING' : 'Toelichting opname ziekenhuis / zorginstelling' , 'WACHTEN_DIGID' : 'Toelichting DigiD aanvraag ' , '' : ''  }[data.gegevensVaststelling?.redenAanvraag?.redenGewensteIngangsdatum] : '' }}}</div>\n        <div class=\"col-6\" style=\"font-weight: 700\">{{{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.bijzondereRedenNietEerderAanvragen || '' }}}</div>\n    </div>\n      {{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.bijzondereRedenNietEerderAanvragen ? '<div style=\"margin-bottom: 0.5rem\"></div>' : '' }}\n    <div class=\"row mb-0\">\n        <div class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.digiDaanvraagdatum ? 'Datum aanvraag DigiD' : '' }}}</div>\n        <div class=\"col-6\" style=\"font-weight: 700\">{{{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.digiDaanvraagdatum ? moment(data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.digiDaanvraagdatum).format('DD-MM-YYYY')  : '' }}}</div>\n    </div>\n      {{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.digiDaanvraagdatum ? '<div style=\"margin-bottom: 0.5rem\"></div>' : '' }}\n    <div class=\"row mb-0\">\n        <div class=\"col-6\">{{{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.beslissingInstantieOntvangstdatum ? 'Datum beslissing andere instantie' : '' }}}</div>\n        <div class=\"col-6\" style=\"font-weight: 700\">{{{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.beslissingInstantieOntvangstdatum ? moment(data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.beslissingInstantieOntvangstdatum).format('DD-MM-YYYY') : '' }}}</div>\n    </div>\n      {{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.beslissingInstantieOntvangstdatum ? '<div style=\"margin-bottom: 0.5rem\"></div>' : '' }}\n    <div class=\"row mb-0\">\n        <div class=\"col-6\">{{{ data.gegevensVaststelling.redenAanvraag.ingangBijstandsuitkering.opnameStartdatum ? 'Datum opname in instelling' : '' }}}</div>\n        <div class=\"col-6\" style=\"font-weight: 700\">{{{ data.gegevensVaststelling.redenAanvraag.ingangBijstandsuitkering.opnameStartdatum ? moment(data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.opnameStartdatum).format('DD-MM-YYYY')  : '' }}}</div>\n    </div>\n      {{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.opnameStartdatum ? '<div style=\"margin-bottom: 0.5rem\"></div>' : '' }}\n    <div class=\"row mb-0\">\n        <div class=\"col-6\">{{{ data.gegevensVaststelling.redenAanvraag.ingangBijstandsuitkering.opnameEinddatum ? 'Datum ontslag in instelling' : '' }}}</div>\n        <div class=\"col-6\" style=\"font-weight: 700\">{{{ data.gegevensVaststelling.redenAanvraag.ingangBijstandsuitkering.opnameEinddatum ? moment(data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.opnameEinddatum).format('DD-MM-YYYY')  : '' }}}</div>\n    </div>  \n      <div style=\"margin-bottom: 1.3rem\"></div>\n</div>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                       {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.eerderAanvragenRedenAanwezig?.code === \"2\" ? show = true :  show = false;",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "content": "<h4>Reden niet in staat eerder een aanvraag te doen</h4>\n<div class=\"container\">\n  <div class=\"mt-2\"></div>\n  <div class=\"row mb-0\">\n        <div class=\"col-6\">Heeft u een reden dat u niet eerder een aanvraag kon doen?</div>\n        <div class=\"col-6\" style=\"font-weight: 700\">{{{ data.gegevensVaststelling?.redenAanvraag?.ingangBijstandsuitkering?.eerderAanvragenRedenAanwezig?.name }}}</div>\n    </div>\n      <div style=\"margin-bottom: 1.3rem\"></div>\n</div>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "Ingangsdatum",
+                            "customConditional": "show = data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs221ingangsdatum?.ingangsDatumVastgesteld",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "content": "<h4 style=\"display: flex; align-items: center; justify-content: space-between;\">Vaststelling ingangsdatum <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs221ingangsdatum?.isHandmatigBeoordeeld ? 'Handmatig' : 'Automatisch' }}} {{{ moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs221ingangsdatum?.datumVastgesteld).format('DD-MM-YYYY')  }}}</span></h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Ingangsdatum uitkering</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs221ingangsdatum?.ingangsdatum ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs221ingangsdatum?.ingangsdatum).format('DD-MM-yyyy') : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs221ingangsdatum?.toelichting ? 'Toelichting' : '' }}}</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs221ingangsdatum?.toelichting || '' }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "key": "container",
+                            "type": "container",
+                            "customClass": "border-around-formio-container",
+                            "input": true,
+                            "label": "Container",
+                            "customConditional": "show = Array.isArray(data.besluiten) && data.besluiten.some(b => b?.genomenBesluit);",
+                            "tableView": false,
+                            "components": [
+                                {
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "input": true,
+                                    "label": "zaakInformatieHTML",
+                                    "content": "<h4>Conclusie na beoordeling <span style=\"float: right; font-size: small\">{{ data.besluiten?.length > 0 \n? (!!data.besluiten.at(-1).vervaldatum ? 'Opnieuw vast te stellen' : 'Handmatig ' + moment(data.besluiten.at(-1).besluitDatum).format('DD-MM-yyyy') )\n: 'Nog vast te stellen'  }}</span></h4>\n",
+                                    "hideLabel": true,
+                                    "tableView": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "refreshOnChange": false
+                                },
+                                {
+                                    "key": "besluiten",
+                                    "type": "datagrid",
+                                    "input": true,
+                                    "label": "besluiten",
+                                    "reorder": false,
+                                    "hideLabel": true,
+                                    "initEmpty": false,
+                                    "tableView": false,
+                                    "components": [
+                                        {
+                                            "label": "zaakInformatieHTML",
+                                            "content": "<section class=\"{{ row.vervaldatum ? 'disabled' : '' }}\">\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Beslisser</dd>\n        <dt class=\"col-6\">{{{ row.beslisser || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0 {{ !!row.vervaldatum ? '' : 'd-none'}}\">\n        <dd class=\"col-6\">Vervalreden</dd>\n        <dt class=\"col-6\">{{{ {'tijdelijk':'Tijdelijk','ingetrokken_overheid':'Ingetrokken door de overheid','ingetrokken_belanghebbende':'Ingetrokken door belanghebbende' }[row.vervalreden] || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0 {{ !!row.vervaldatum ? '' : 'd-none'}}\">\n        <dd class=\"col-6\">Vervaldatum</dd>\n        <dt class=\"col-6\">{{{ !!row.vervaldatum ? moment(row.vervaldatum).format('DD-MM-yyyy') : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Besluit</dd>\n        <dt class=\"col-6\">{{{ row.genomenBesluit ?  {'TOEGEKEND': 'Toekennen', 'AFGEWEZEN': 'Afwijzen', 'BUITEN_BEHANDELING_GESTELD': 'Buiten behandeling stellen', 'INGETROKKEN': 'Intrekken'}[row.genomenBesluit] : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">{{ row.versneldBeslist ? 'Versneld beslist' : '' }}</dd>\n        <dt class=\"col-6\">{{ row.versneldBeslist ? ('Ja' || 'Nee') : ''  }}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs221ingangsdatum?.ingangsdatum ? 'Ingangsdatum uitkering' : '' }}}</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs221ingangsdatum?.ingangsdatum ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs221ingangsdatum?.ingangsdatum).format('DD-MM-yyyy') : '' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">{{ row.genomenBesluit === 'AFGEWEZEN' ? 'Reden afwijzing' : '' }}</dd>\n        <dt class=\"col-6\">{{ row.genomenBesluit === 'AFGEWEZEN' ? (row.redenAfwijzing || '-') : ''  }}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">{{ row.genomenBesluit === 'BUITEN_BEHANDELING_GESTELD' ? 'Toelichting' : '' }}</dd>\n        <dt class=\"col-6\">{{ row.genomenBesluit === 'BUITEN_BEHANDELING_GESTELD' ? (row.buitenBehandelingStellen?.toelichting || '-') : '' }}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">{{{row.dienst?.length > 0 &&  row.dienst[0].leveringsopdracht?.length > 0 && row.dienst[0].leveringsopdracht[0]?.verstrekkingsvorm?.type ? 'Bijstandsvorm' : ''}}}</dd>\n        <dt class=\"col-6\">{{{ row.dienst?.length > 0 &&  row.dienst[0].leveringsopdracht?.length > 0 && row.dienst[0].leveringsopdracht[0]?.verstrekkingsvorm?.type ? {'OMNIET': 'Uitkering om niet', 'KREDIETHYPOTHEEK': 'Krediethypotheek', 'LENING': 'Lening', 'ON': 'Uitkering om niet', 'KH': 'Krediethypotheek', 'RLL': 'Lening'}[row.dienst[0]?.leveringsopdracht[0]?.verstrekkingsvorm?.type] : '' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Maatregel*</dd>\n        <dt class=\"col-6\">{{{'-'}}}</dt>\n    </dl>\n</section>",                                            "refreshOnChange": false,
+                                            "customClass": "no-border-around-formio-container",
+                                            "key": "html",
+                                            "type": "htmlelement",
+                                            "input": true,
+                                            "customConditional": "row.genomenBesluit ? show = true : show = false;",
+                                            "hideLabel": true,
+                                            "tableView": false
+                                        }
+                                    ],
+                                    "customClass": "no-border-around-formio-container no-margin",
+                                    "layoutFixed": false,
+                                    "defaultValue": [
+                                        {}
+                                    ],
+                                    "enableRowGroups": false,
+                                    "addAnotherPosition": "bottom",
+                                    "validateWhenHidden": false,
+                                    "disableAddingRemovingRows": true
+                                },
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "content": "<section class= \"{{{ (data.besluiten?.length > 0 && data.besluiten.at(-1).genomenBesluit === 'TOEGEKEND' && !data.besluiten.at(-1).versneldBeslist && !data.besluiten.at(-1).vervaldatum && data.gegevensVaststelling?.additioneleVeldenAanvraag?.bs219norm?.aantalKostendelers > 0 && data.gegevensVaststelling?.additioneleVeldenAanvraag?.bs219norm?.aantalRechthebbenden === 2) ? '' : 'd-none' }}}\">\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Norm</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvraag?.bs219norm?.kostendelersnorm\n            ? data.gegevensVaststelling?.additioneleVeldenAanvraag?.bs219norm?.kostendelersnorm.replace(/-/g, ' ').replace(/^\\w/, c => c.toUpperCase())\n            : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Aantal rechthebbenden</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvraag?.bs219norm?.aantalRechthebbenden || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Aantal kostendelers</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvraag?.bs219norm?.aantalKostendelers || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Hoogte norm (gezamenlijk)</dd>\n        <dt class=\"col-6\">{{{\n            data.gegevensVaststelling?.additioneleVeldenAanvraag?.bs219norm?.hoogteNorm\n            ? new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' })\n            .format(Number(data.gegevensVaststelling.additioneleVeldenAanvraag.bs219norm.hoogteNorm))\n            : '-'\n            }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                },
+                {
+                    "components": [
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "container1",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "content": "<h4>Contact</h4>\n<section>\n    <dl class=\"row mb-0\"> \n    <dd class=\"col-6\">Telefoonnummer</dd> \n    <dt class=\"col-6\">{{{ data.gegevensVaststelling?.aanvrager?.contactgegevens?.telefoon ? data.gegevensVaststelling?.aanvrager?.contactgegevens?.telefoon : '-' }}} </dt> \n  </dl>\n    <dl class=\"row mb-0\"> \n    <dd class=\"col-6\">E-mail</dd> \n    <dt class=\"col-6\">{{{ data.gegevensVaststelling?.aanvrager?.contactgegevens?.email ? data.gegevensVaststelling?.aanvrager?.contactgegevens?.email : '-' }}} </dt> \n  </dl> \n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Communicatievoorkeur</dd>\n        <dt class=\"col-6\">{{{ data.gegevensVaststelling?.aanvrager?.communicatievoorkeur ? _.capitalize(data.gegevensVaststelling?.aanvrager?.communicatievoorkeur) : '-'  }}}</dt>\n      \n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "container1",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "content": "<h4>Contactpersoon</h4>\n<section>\n    <dl class=\"row mb-0\"> \n    <dd class=\"col-6\">Naam contactpersoon</dd> \n    <dt class=\"col-6\">{{{ (data?.gegevensVaststelling?.contactpersoon?.naamContactpersoon || '-') }}} </dt> \n  </dl>\n  <dl class=\"row mb-0\"> \n    <dd class=\"col-6\">Telefoon contactpersoon</dd> \n    <dt class=\"col-6\">{{{ (data?.gegevensVaststelling?.contactpersoon?.telefoon || '-') }}} </dt> \n  </dl>\n    <dl class=\"row mb-0\"> \n    <dd class=\"col-6\">Relatie</dd> \n   <dt class=\"col-6\">\n        <div class=\"status-item\">{{{ (data?.gegevensVaststelling?.contactpersoon?.relatieTotAanvrager === 'FAMILIE' ? 'Familie' : '') }}}</div>\n        <div class=\"status-item\">{{{ (data?.gegevensVaststelling?.contactpersoon?.relatieTotAanvrager === 'BUURMAN_VROUW' ? 'Buurman / -vrouw' : '') }}}</div>\n        <div class=\"status-item\">{{{ (data?.gegevensVaststelling?.contactpersoon?.relatieTotAanvrager === 'KENNIS' ? 'Kennis' : '') }}}</div>\n        <div class=\"status-item\">{{{ (data?.gegevensVaststelling?.contactpersoon?.relatieTotAanvrager === 'HULPVERLENER' ? 'Hulpverlener' : '') }}}</div>\n        <div class=\"status-item\">{{{ (data?.gegevensVaststelling?.contactpersoon?.relatieTotAanvrager === 'BEWINDVOERDER' ? 'Bewindvoerder' : '') }}}</div>\n        <div class=\"status-item\">{{{ (data?.gegevensVaststelling?.contactpersoon?.relatieTotAanvrager === 'BOEKHOUDER' ? 'Boekhouder' : '') }}}</div>\n        <div class=\"status-item\">{{{ (data?.gegevensVaststelling?.contactpersoon?.relatieTotAanvrager === 'MEDEWERKER_VAN_DE_GEMEENTE' ? 'Medewerker van de gemeente' : '') }}}</div>\n    </dt> \n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "container13",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "zaakInformatieHTML",
+                                    "content": "<h4>Betaalwijze</h4>\n<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Overmaken aan*</dd>\n        <dt class=\"col-6\">{{{ '-' }}}</dt>\n    </dl>\n</section>",
+                                    "refreshOnChange": false,
+                                    "customClass": "no-border-around-formio-container",
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "tableView": false,
+                                    "input": true
+                                }
+                            ]
+                        },
+                        {
+                            "label": "aanvragerContainer",
+                            "customClass": "border-around-formio-container",
+                            "tableView": false,
+                            "validateWhenHidden": false,
+                            "key": "gegevensVaststelling1",
+                            "type": "container",
+                            "title": "client",
+                            "input": true,
+                            "components": [
+                                {
+                                    "label": "Uitkering voorschot",
+                                    "reorder": false,
+                                    "addAnotherPosition": "bottom",
+                                    "layoutFixed": false,
+                                    "enableRowGroups": false,
+                                    "initEmpty": false,
+                                    "customClass": "bbz-inkomsten-tab-data-grid no-border-around-formio-container",
+                                    "tableView": false,
+                                    "defaultValue": [
+                                        {}
+                                    ],
+                                    "validateWhenHidden": false,
+                                    "key": "gegevensVaststelling.vastleggenVoorschot",
+                                    "type": "datagrid",
+                                    "disableAddingRemovingRows": true,
+                                    "input": true,
+                                    "components": [
+                                        {
+                                            "label": "Columns",
+                                            "columns": [
+                                                {
+                                                    "components": [
+                                                        {
+                                                            "label": "zaakInformatieHTML",
+                                                            "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Voorschot uitkeren?</dd>\n        <dt class=\"col-6\">{{{ row?.voorschotUitkeren ?  {'JA': 'Ja', 'NEE': 'Nee'}[row?.voorschotUitkeren] : '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Toelichting</dd>\n        <dt class=\"col-6\">{{{ row?.toelichting || '-' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-6\">Datum laatste beoordeling</dd>\n        <dt class=\"col-6\">{{{ row?.datumBeoordeeld ? moment(row?.datumBeoordeeld).format('DD-MM-yyyy') : '-' }}}</dt>\n    </dl>\n</section>",
+                                                            "refreshOnChange": false,
+                                                            "customClass": "no-border-around-formio-container",
+                                                            "key": "html",
+                                                            "type": "htmlelement",
+                                                            "tableView": false,
+                                                            "input": true
+                                                        }
+                                                    ],
+                                                    "width": 12,
+                                                    "offset": 0,
+                                                    "push": 0,
+                                                    "pull": 0,
+                                                    "size": "md",
+                                                    "currentWidth": 12
+                                                }
+                                            ],
+                                            "key": "columns",
+                                            "type": "columns",
+                                            "hideLabel": true,
+                                            "input": false,
+                                            "tableView": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                }
+            ],
+            "key": "columns",
+            "type": "columns",
+            "input": false,
+            "tableView": false
+        }
+    ]
+}

@@ -1,0 +1,66 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "statusOmschrijving",
+            "key": "openzaak",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>De taak 'Verversen brongegevens' kan niet worden gestart, omdat het proces zich in de bezwaarperiode bevindt.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Beslist'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>Dit dossier is al afgehandeld.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Afgehandeld'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "content": "<p>Verversen brongegevens</p><br>",
+            "refreshOnChange": false,
+            "key": "html3",
+            "type": "htmlelement",
+            "customConditional": "data.openzaak?.statusOmschrijving !== 'Afgehandeld' ? show = true : show = false;",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Uitgezet door",
+            "customDefaultValue": "value = JSON.parse(localStorage.getItem('userIdentity'))?.firstName + ' ' + JSON.parse(localStorage.getItem('userIdentity'))?.lastName;",
+            "key": "pv.gebruiker",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Doorgaan",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "customConditional": "!['Afgehandeld', 'Beslist'].includes(data.openzaak?.statusOmschrijving) ? show = true : show = false;",
+            "key": "submit",
+            "type": "button",
+            "custom": "form.submit(); component.disabled = true;",
+            "input": true
+        }
+    ]
+}

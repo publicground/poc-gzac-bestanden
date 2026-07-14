@@ -1,0 +1,52 @@
+{
+    "$id": "bbz-regeling.schema",
+    "type": "object",
+    "title": "BBZ regeling",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "bbzRegeling": {
+            "type": "object",
+            "enum": [
+                {
+                    "code": "BBZ_STARTEND",
+                    "name": "Een BBZ-uitkering voor startende ondernemers of ondernemers die korter dan 1,5 jaar ondernemen"
+                },
+                {
+                    "code": "BBZ_GEVESTIGD",
+                    "name": "Een BBZ-uitkering voor ondernemers die langer dan 1,5 jaar ondernemen (gevestigde ondernemers)"
+                },
+                {
+                    "code": "BBZ_OUDERE",
+                    "name": "Een BBZ-uitkering voor oudere ondernemers die voor 1 januari 1960 zijn geboren"
+                },
+                {
+                    "code": "BBZ_STOPPEND",
+                    "name": "Een BBZ-uitkering omdat u wilt stoppen met ondernemen"
+                },
+                {
+                    "code": "IOAZ_STOPPEND",
+                    "name": "Een IOAZ uitkering omdat u wilt stoppen met ondernemen en ouder bent dan 55 jaar"
+                },
+                {
+                    "code": "BBZ_LENING",
+                    "name": "Een bedrijfskrediet (lening)"
+                }
+            ]
+        },
+        "bbzLevensonderhoud": {
+            "type": "string",
+            "enum": [
+                "BBZ_STARTEND",
+                "BBZ_GEVESTIGD",
+                "BBZ_OUDERE",
+                "BBZ_STOPPEND",
+                "IOAZ_STOPPEND",
+                ""
+            ]
+        },
+        "bbzKrediet": {
+            "type": "boolean"
+        }
+    }
+}

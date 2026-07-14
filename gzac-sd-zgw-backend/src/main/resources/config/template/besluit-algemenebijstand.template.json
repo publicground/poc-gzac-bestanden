@@ -1,0 +1,7 @@
+{
+    "templateKey": "besluit",
+    "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+    "templateType": "text",
+    "metadata": {},
+    "contentRef": "/config/template/besluit.ftlh"
+}

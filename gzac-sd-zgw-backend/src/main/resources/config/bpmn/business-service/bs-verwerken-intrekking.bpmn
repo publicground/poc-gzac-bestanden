@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0st8q2v" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_1l94hsy">
+    <bpmn:participant id="BSVerwerkenIntrekkingGeheleAanvraagParticipant" name="BS verwerken intrekking gehele aanvraag" processRef="bs-verwerken-intrekking" />
+    <bpmn:textAnnotation id="TextAnnotation_0h2hghc">
+      <bpmn:text>Zaak en Interne status: Beslist</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0ov6930" associationDirection="None" sourceRef="UpdateZaakstatusEnInterneStatusCallActivity" targetRef="TextAnnotation_0h2hghc" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-verwerken-intrekking" name="BS verwerken intrekking gehele aanvraag" isExecutable="true">
+    <bpmn:userTask id="VastleggenIntrekkingTask" name="Vastleggen intrekking" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="6">
+      <bpmn:incoming>Flow_0moiwah</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kjgg64</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="IntrekkingGeheleAanvraagOntvangenStartEvent" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_0moiwah</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1kjgg64" sourceRef="VastleggenIntrekkingTask" targetRef="GenereerDocumentCallActivity" />
+    <bpmn:sequenceFlow id="Flow_17x9ouf" sourceRef="GenereerDocumentCallActivity" targetRef="VastleggenBesluitCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0moiwah" sourceRef="IntrekkingGeheleAanvraagOntvangenStartEvent" targetRef="VastleggenIntrekkingTask" />
+    <bpmn:callActivity id="GenereerDocumentCallActivity" name="Genereer document" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="alo-genereer-document">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="zaaknummer" target="zaaknummer" />
+        <camunda:in source="templateName" target="templateName" />
+        <camunda:in source="templateGroup" target="templateGroup" />
+        <camunda:in source="gegevensAanvrager" target="gegevensAanvrager" />
+        <camunda:in source="gegevensPartner" target="gegevensPartner" />
+        <camunda:in source="communicatievoorkeur" target="communicatievoorkeur" />
+        <camunda:in source="verzendadres" target="verzendadres" />
+        <camunda:in source="verzenddatum" target="verzenddatum" />
+        <camunda:in source="ingetrokkenVia" target="ingetrokkenVia" />
+        <camunda:in source="datumIngetrokken" target="datumIngetrokken" />
+        <camunda:in source="documentTitle" target="documentTitle" />
+        <camunda:in source="documentDescription" target="documentDescription" />
+        <camunda:out source="gegenereerdeAloDocumentUrl" target="besluitDocumentUrl" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="verzenddatum">${now().toInstant().toString()}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1kjgg64</bpmn:incoming>
+      <bpmn:outgoing>Flow_17x9ouf</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="VastleggenBesluitCallActivity" name="Vastleggen besluit" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-vastleggen-besluit">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="besluitDocumentUrl" target="besluitDocumentUrl" />
+        <camunda:in source="besluitTypeDescription" target="besluitTypeDescription" />
+        <camunda:in source="besluitIngangsdatum" target="besluitIngangsdatum" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="besluitTypeDescription">Intrekking</camunda:inputParameter>
+          <camunda:inputParameter name="besluitIngangsdatum">${dateTime().toLocalDate().toString()}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_17x9ouf</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i2w889</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_1bakwea" sourceRef="InformerenBetrokkenenMetBriefCallActivity" targetRef="UpdateZaakstatusEnInterneStatusCallActivity" />
+    <bpmn:sequenceFlow id="Flow_1i2w889" sourceRef="VastleggenBesluitCallActivity" targetRef="InformerenBetrokkenenMetBriefCallActivity" />
+    <bpmn:callActivity id="InformerenBetrokkenenMetBriefCallActivity" name="Informeren betrokkenen met brief" camunda:asyncAfter="true" calledElement="generic-informeren-betrokkenen-met-brief">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in sourceExpression="${execution.getVariable(&#34;gegevensAanvrager&#34;).communicatievoorkeur}" target="communicatievoorkeur" />
+        <camunda:in sourceExpression="${execution.getVariable(&#34;gegevensAanvrager&#34;).contactgegevens.email}" target="emailAanwezig" />
+        <camunda:in source="mailTaskSubject" target="mailTaskSubject" />
+        <camunda:in source="mailTaskTemplate" target="mailTaskTemplate" />
+        <camunda:in sourceExpression="${execution.getVariable(&#34;gegevensAanvrager&#34;).voorletters}" target="voorlettersAanvrager" />
+        <camunda:in sourceExpression="${execution.getVariable(&#34;gegevensAanvrager&#34;).voornamen}" target="voornaamAanvrager" />
+        <camunda:in sourceExpression="${execution.getVariable(&#34;gegevensAanvrager&#34;).achternaam}" target="achternaamAanvrager" />
+        <camunda:in sourceExpression="${execution.getVariable(&#34;gegevensAanvrager&#34;).contactgegevens.email}" target="emailAanvrager" />
+        <camunda:in sourceExpression="${execution.getVariable(&#34;gegevensAanvrager&#34;).voorvoegsel}" target="voorvoegselAanvrager" />
+        <camunda:in source="datumOntvangstAanvraag" target="datumOntvangstAanvraag" />
+        <camunda:in sourceExpression="${null}" target="prettyDeadline" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1i2w889</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bakwea</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="UpdateZaakstatusEnInterneStatusCallActivity" name="Update zaakstatus en interne status" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-update-zaakstatus-en-interne-status-plugin-v2">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="zaakstatus" target="zaakstatus" />
+        <camunda:in source="interneStatus" target="interneStatus" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bakwea</bpmn:incoming>
+      <bpmn:outgoing>Flow_0f6uucn</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_0f6uucn" sourceRef="UpdateZaakstatusEnInterneStatusCallActivity" targetRef="Event_0bp5bf2" />
+    <bpmn:endEvent id="Event_0bp5bf2">
+      <bpmn:incoming>Flow_0f6uucn</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1l94hsy">
+      <bpmndi:BPMNShape id="Participant_1w8n009_di" bpmnElement="BSVerwerkenIntrekkingGeheleAanvraagParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="90" width="1020" height="310" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ieyoeg_di" bpmnElement="VastleggenIntrekkingTask">
+        <dc:Bounds x="320" y="208" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1q6gkb8_di" bpmnElement="IntrekkingGeheleAanvraagOntvangenStartEvent">
+        <dc:Bounds x="232" y="230" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="728" y="352" width="84" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0uwu9eq" bpmnElement="GenereerDocumentCallActivity">
+        <dc:Bounds x="470" y="208" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1r19c5r" bpmnElement="VastleggenBesluitCallActivity">
+        <dc:Bounds x="630" y="208" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12bxdka_di" bpmnElement="InformerenBetrokkenenMetBriefCallActivity">
+        <dc:Bounds x="800" y="208" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_10sh2ya" bpmnElement="UpdateZaakstatusEnInterneStatusCallActivity">
+        <dc:Bounds x="960" y="208" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0jybq8j_di" bpmnElement="Event_0bp5bf2">
+        <dc:Bounds x="1112" y="230" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1kjgg64_di" bpmnElement="Flow_1kjgg64">
+        <di:waypoint x="420" y="248" />
+        <di:waypoint x="470" y="248" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17x9ouf_di" bpmnElement="Flow_17x9ouf">
+        <di:waypoint x="570" y="248" />
+        <di:waypoint x="630" y="248" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0moiwah_di" bpmnElement="Flow_0moiwah">
+        <di:waypoint x="268" y="248" />
+        <di:waypoint x="320" y="248" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bakwea_di" bpmnElement="Flow_1bakwea">
+        <di:waypoint x="900" y="248" />
+        <di:waypoint x="960" y="248" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i2w889_di" bpmnElement="Flow_1i2w889">
+        <di:waypoint x="730" y="249" />
+        <di:waypoint x="800" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0f6uucn_di" bpmnElement="Flow_0f6uucn">
+        <di:waypoint x="1060" y="248" />
+        <di:waypoint x="1112" y="248" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0h2hghc_di" bpmnElement="TextAnnotation_0h2hghc">
+        <dc:Bounds x="960" y="130" width="160" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0ov6930_di" bpmnElement="Association_0ov6930">
+        <di:waypoint x="1010" y="208" />
+        <di:waypoint x="1010" y="171" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,25 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "HTML",
+            "content": "<div class=\"mb-3\">Ga naar tabblad 'Documenten' om het gegenereerde document te downloaden, af te drukken en te verzenden per post</div>",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Indienen",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "input": true,
+            "type": "button",
+            "custom": "form.submit(); component.disabled = true;"
+        }
+    ]
+}

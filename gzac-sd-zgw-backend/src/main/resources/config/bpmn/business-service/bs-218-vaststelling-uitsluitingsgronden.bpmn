@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_09tielq" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.44.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_03g1h5j" isClosed="false">
+    <bpmn:participant id="BS218VaststellinguitslUitingsgrondenParticipant" name="BS 218vaststelling uitsluitingsgronden" processRef="bs-218-vaststelling-uitsluitingsgronden" />
+    <bpmn:textAnnotation id="TextAnnotation_1ijzg9w">
+      <bpmn:text>output variabelen
+Array van uitsluitingsgronden
+- uitsluitingsgrond (String)
+- onderbouwing (String)
+- signalering (Boolean)
+- toelichting (String)
+- vanToepassing (Boolean)
+- brontype = 2 (Professional)
+- vastleggingsdatum = sysdate
+- geimplementeerd
+
+-handmatig of automatisch vastgesteld</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_06tut7p">
+      <bpmn:text>input variabelen
+- BSN
+- brongegevens
+- vastgesteldegegevens
+- aanvraaggegevens
+- handmatigVaststellen</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0iwq6bt" associationDirection="None" sourceRef="StartEvent_1" targetRef="TextAnnotation_06tut7p" />
+    <bpmn:association id="Association_04rqp69" associationDirection="None" sourceRef="Event_1phfh4d" targetRef="TextAnnotation_1ijzg9w" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-218-vaststelling-uitsluitingsgronden" name="BS 218 vaststelling uitsluitingsgronden" processType="None" isClosed="false" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0bo9coh</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:businessRuleTask id="UitsluitingsgrondenTask" name="uitsluitingsgronden" camunda:asyncBefore="true" camunda:asyncAfter="true" implementation="##unspecified" camunda:resultVariable="uitsluitingsgrondenDmn" camunda:decisionRef="bs-218-uitsluitingsgronden">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="gegevensVanuitAanvraag">${gegevensVanuitAanvraag}</camunda:inputParameter>
+          <camunda:inputParameter name="gegevensVaststelling">${gegevensVaststelling}</camunda:inputParameter>
+          <camunda:inputParameter name="gegevensVanuitBronnen">${gegevensVanuitBronnen}</camunda:inputParameter>
+          <camunda:inputParameter name="bsn">${bsn}</camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="javascript">// Merge dmn output with vastgestelde data while keeping user input fields toelichting and vanToepassing.
+var dmnData = execution.getVariable('uitsluitingsgrondenDmn');
+var userData = execution.getVariable('vastgesteldeUitsluitingsgronden');
+
+var ArrayList = Java.type('java.util.ArrayList');
+var LinkedHashMap = Java.type('java.util.LinkedHashMap');
+
+function mergeByKey(primaryList, secondaryList, keyField) {
+
+    if (primaryList == null) {
+        return new ArrayList();
+    }
+
+    var secondaryIndex = new LinkedHashMap();
+
+    if (secondaryList != null) {
+        for (var i = 0; i &lt; secondaryList.size(); i++) {
+            var item = secondaryList.get(i);
+            if (item != null &amp;&amp; item.get(keyField) != null) {
+                secondaryIndex.put(String(item.get(keyField)), item);
+            }
+        }
+    }
+
+    var result = new ArrayList();
+
+    for (var j = 0; j &lt; primaryList.size(); j++) {
+        var primaryItem = primaryList.get(j);
+        if (primaryItem == null) continue;
+
+        var key = primaryItem.get(keyField) != null
+            ? String(primaryItem.get(keyField))
+            : '';
+
+        var secondaryMatch = secondaryIndex.get(key);
+
+        var mergedItem = new LinkedHashMap();
+
+        var signalering = primaryItem.get('signalering');
+        var toelichting = primaryItem.get('toelichting');
+        var uitsluiting = primaryItem.get('uitsluiting');
+        var vanToepassing = primaryItem.get('vanToepassing');
+        var geimplementeerd = primaryItem.get('geimplementeerd');
+        var uitsluitingsgrond = primaryItem.get('uitsluitingsgrond');
+        var verantwoording = primaryItem.get('verantwoordingVaststelling');
+
+        // override with user input
+        if (secondaryMatch != null) {
+            if (secondaryMatch.containsKey('toelichting')) {
+                toelichting = secondaryMatch.get('toelichting');
+            }
+            if (secondaryMatch.containsKey('vanToepassing')) {
+                vanToepassing = secondaryMatch.get('vanToepassing');
+            }
+        }
+
+        // enforce correct order
+        mergedItem.put('signalering', signalering);
+        if (toelichting != null) {
+            mergedItem.put('toelichting', toelichting);
+        }
+        mergedItem.put('uitsluiting', uitsluiting);
+        if (vanToepassing != null) {
+            mergedItem.put('vanToepassing', vanToepassing);
+        }
+        mergedItem.put('geimplementeerd', geimplementeerd);
+        mergedItem.put('uitsluitingsgrond', uitsluitingsgrond);
+        mergedItem.put('verantwoordingVaststelling', verantwoording);
+
+        result.add(mergedItem);
+    }
+
+    return result;
+}
+
+
+function sortTable(list) {
+    if (list == null) return list;
+
+    list.sort(function(a, b) {
+        function bool(val) {
+            return val === true ? 1 : 0;
+        }
+
+        function hasToelichting(val) {
+            return (val != null &amp;&amp; String(val).length &gt; 0) ? 1 : 0;
+        }
+
+        return (
+            bool(b.get('vanToepassing')) - bool(a.get('vanToepassing')) ||
+            bool(b.get('signalering')) - bool(a.get('signalering')) ||
+            hasToelichting(b.get('toelichting')) - hasToelichting(a.get('toelichting')) ||
+            bool(b.get('geimplementeerd')) - bool(a.get('geimplementeerd'))
+        );
+    });
+
+    return list;
+}
+
+
+var result = mergeByKey(dmnData, userData, 'uitsluitingsgrond');
+
+result = sortTable(result);
+
+execution.setVariable('uitsluitingsgronden', result);</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1oznkv3</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="GegevensKwalitatiefVoldoendeAanwezigGateway" name="Gegevens kwalitatief voldoende aanwezig?" default="JaSequenceFlow">
+      <bpmn:incoming>Flow_190i71p</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="BepalenGegevensKwalitatiefVoldoendeAanwezigTask" name="bepalen gegevens kwalitatief voldoende aanwezig" camunda:asyncAfter="true" implementation="##unspecified" camunda:resultVariable="result" camunda:decisionRef="bs-218-kwalitatief-voldoende-aanwezig" camunda:mapDecisionResult="singleResult">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="handmatigVaststellen">${result.handmatigVaststellen || false}</camunda:outputParameter>
+          <camunda:outputParameter name="gegevenskwalitatiefVoldoendeAanwezig">${result.gegevenskwalitatiefVoldoendeAanwezig || false}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0bo9coh</bpmn:incoming>
+      <bpmn:outgoing>Flow_190i71p</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:sequenceFlow id="Flow_0bo9coh" sourceRef="StartEvent_1" targetRef="BepalenGegevensKwalitatiefVoldoendeAanwezigTask" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="GegevensKwalitatiefVoldoendeAanwezigGateway" targetRef="UitsluitingsgrondenTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!gegevenskwalitatiefVoldoendeAanwezig}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1oznkv3" sourceRef="UitsluitingsgrondenTask" targetRef="Activity_02rta47" />
+    <bpmn:sequenceFlow id="Flow_190i71p" sourceRef="BepalenGegevensKwalitatiefVoldoendeAanwezigTask" targetRef="GegevensKwalitatiefVoldoendeAanwezigGateway" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="GegevensKwalitatiefVoldoendeAanwezigGateway" targetRef="Gateway_1uoz24h" />
+    <bpmn:sequenceFlow id="JaSequenceFlow1" name="Ja" sourceRef="IsErEenSignaleringGateway" targetRef="TaakTitelTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isSignalering || handmatigVaststellen}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="NeeSequenceFlow1" name="Nee" sourceRef="IsErEenSignaleringGateway" targetRef="Gateway_10q3d12" />
+    <bpmn:sequenceFlow id="Flow_1gsxosf" sourceRef="Gateway_1uoz24h" targetRef="Event_1phfh4d" />
+    <bpmn:sequenceFlow id="Flow_1hqu3cc" sourceRef="Gateway_10q3d12" targetRef="Gateway_1uoz24h" />
+    <bpmn:sequenceFlow id="Flow_0ty8y0a" sourceRef="TaakTitelTask" targetRef="Gateway_10q3d12" />
+    <bpmn:sequenceFlow id="Flow_1krsaam" sourceRef="Activity_02rta47" targetRef="IsErEenSignaleringGateway" />
+    <bpmn:scriptTask id="Activity_02rta47" name="Zoek naar signalering" camunda:asyncAfter="true" scriptFormat="javascript" camunda:resultVariable="isSignalering">
+      <bpmn:incoming>Flow_1oznkv3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1krsaam</bpmn:outgoing>
+      <bpmn:script>var isSignalering = false;
+var uitsluitingsgronden= execution.getVariable("uitsluitingsgronden");
+isSignalering = uitsluitingsgronden.some(uitsluiting =&gt; uitsluiting.signalering === true);
+
+isSignalering;</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:exclusiveGateway id="IsErEenSignaleringGateway" name="Is er een signalering&#10;of handmatig vaststellen gewenst?" default="NeeSequenceFlow1">
+      <bpmn:incoming>Flow_1krsaam</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow1</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_1phfh4d">
+      <bpmn:incoming>Flow_1gsxosf</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_1uoz24h">
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:incoming>Flow_1hqu3cc</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gsxosf</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="TaakTitelTask" name="${taakTitel}" camunda:asyncBefore="true" camunda:asyncAfter="true" implementation="##unspecified" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR" camunda:priority="36">
+      <bpmn:incoming>JaSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ty8y0a</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_10q3d12">
+      <bpmn:incoming>NeeSequenceFlow1</bpmn:incoming>
+      <bpmn:incoming>Flow_0ty8y0a</bpmn:incoming>
+      <bpmn:outgoing>Flow_1hqu3cc</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_03g1h5j">
+      <bpmndi:BPMNShape id="Participant_18gpi8p_di" bpmnElement="BS218VaststellinguitslUitingsgrondenParticipant" isHorizontal="true">
+        <dc:Bounds x="152" y="80" width="1608" height="450" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="222" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_075tz86_di" bpmnElement="UitsluitingsgrondenTask">
+        <dc:Bounds x="550" y="270" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1p7e59n_di" bpmnElement="GegevensKwalitatiefVoldoendeAanwezigGateway" isMarkerVisible="true">
+        <dc:Bounds x="455" y="165" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="454" y="103" width="53" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08o0sqr_di" bpmnElement="BepalenGegevensKwalitatiefVoldoendeAanwezigTask">
+        <dc:Bounds x="310" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0awxp0u_di" bpmnElement="Activity_02rta47">
+        <dc:Bounds x="700" y="270" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1ftj4lr_di" bpmnElement="IsErEenSignaleringGateway" isMarkerVisible="true">
+        <dc:Bounds x="975" y="285" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="973" y="223" width="64" height="66" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1phfh4d_di" bpmnElement="Event_1phfh4d">
+        <dc:Bounds x="1592" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1uoz24h_di" bpmnElement="Gateway_1uoz24h" isMarkerVisible="true">
+        <dc:Bounds x="1485" y="165" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1hzxdae_di" bpmnElement="TaakTitelTask">
+        <dc:Bounds x="1160" y="400" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_10q3d12_di" bpmnElement="Gateway_10q3d12" isMarkerVisible="true">
+        <dc:Bounds x="1325" y="285" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0bo9coh_di" bpmnElement="Flow_0bo9coh">
+        <di:waypoint x="258" y="190" />
+        <di:waypoint x="310" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ryln2t_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="480" y="220" />
+        <di:waypoint x="480" y="310" />
+        <di:waypoint x="550" y="310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="485" y="262" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1oznkv3_di" bpmnElement="Flow_1oznkv3">
+        <di:waypoint x="650" y="310" />
+        <di:waypoint x="700" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_190i71p_di" bpmnElement="Flow_190i71p">
+        <di:waypoint x="410" y="190" />
+        <di:waypoint x="455" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18q2nab_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="505" y="190" />
+        <di:waypoint x="1485" y="190" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1029" y="172" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rhvdjm_di" bpmnElement="JaSequenceFlow1">
+        <di:waypoint x="1000" y="335" />
+        <di:waypoint x="1000" y="440" />
+        <di:waypoint x="1160" y="440" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1010" y="385" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sapqt1_di" bpmnElement="NeeSequenceFlow1">
+        <di:waypoint x="1025" y="310" />
+        <di:waypoint x="1325" y="310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1165" y="292" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gsxosf_di" bpmnElement="Flow_1gsxosf">
+        <di:waypoint x="1535" y="190" />
+        <di:waypoint x="1592" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hqu3cc_di" bpmnElement="Flow_1hqu3cc">
+        <di:waypoint x="1375" y="310" />
+        <di:waypoint x="1510" y="310" />
+        <di:waypoint x="1510" y="215" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ty8y0a_di" bpmnElement="Flow_0ty8y0a">
+        <di:waypoint x="1260" y="440" />
+        <di:waypoint x="1350" y="440" />
+        <di:waypoint x="1350" y="335" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1krsaam_di" bpmnElement="Flow_1krsaam">
+        <di:waypoint x="800" y="310" />
+        <di:waypoint x="975" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1ijzg9w_di" bpmnElement="TextAnnotation_1ijzg9w">
+        <dc:Bounds x="1510" y="350" width="220" height="183" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_06tut7p_di" bpmnElement="TextAnnotation_06tut7p">
+        <dc:Bounds x="210" y="290" width="330" height="96" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0iwq6bt_di" bpmnElement="Association_0iwq6bt">
+        <di:waypoint x="243" y="207" />
+        <di:waypoint x="257" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_04rqp69_di" bpmnElement="Association_04rqp69">
+        <di:waypoint x="1614" y="207" />
+        <di:waypoint x="1647" y="350" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

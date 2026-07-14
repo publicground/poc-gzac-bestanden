@@ -1,0 +1,125 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "gegevensVaststelling.persoon",
+            "key": "gegevensVaststelling",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Titel blok",
+            "content": "<div class=\"mb-3\">\n  <h4>Overwegen inzet handhaving</h4>\n <h4>Naam aanvrager: {{{data.gegevensVaststelling?.persoon?.voornamen + ' ' + data.gegevensVaststelling?.persoon?.voorvoegsel + ' ' + data.gegevensVaststelling?.persoon?.achternaam + ' | Geboorte datum: ' + (data.gegevensVaststelling?.persoon?.geboortedatum ? moment(data.gegevensVaststelling?.persoon?.geboortedatum).format('DD-MM-yyyy') : '')  + ' | BSN: ' + data.gegevensVaststelling?.persoon?.bsn }}}</h4>\n</div>",
+            "refreshOnChange": false,
+            "key": "titelBlok",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Titel blok",
+            "tag": "div",
+            "content": "<p>Leg hieronder vast of een poortonderzoek wel of niet uitgevoerd dient te worden en geef hierbij een toelichting</p>",
+            "customClass": "alert alert-primary",
+            "refreshOnChange": false,
+            "key": "titelBlok",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Poortonderzoek uitvoeren?",
+            "optionsLabelPosition": "right",
+            "inline": false,
+            "tableView": false,
+            "values": [
+                {
+                    "label": "Ja",
+                    "value": "JA",
+                    "shortcut": ""
+                },
+                {
+                    "label": "Nee",
+                    "value": "NEE",
+                    "shortcut": ""
+                }
+            ],
+            "validate": {
+                "required": true
+            },
+            "validateWhenHidden": false,
+            "key": "poortonderzoek.uitvoeren",
+            "type": "radio",
+            "input": true
+        },
+        {
+            "label": "Datum poortonderzoek aangevraagd",
+            "format": "dd-MM-yyyy",
+            "tableView": false,
+            "datePicker": {
+                "disableWeekends": false,
+                "disableWeekdays": false
+            },
+            "enableTime": false,
+            "defaultDate": "moment()",
+            "validate": {
+                "required": true
+            },
+            "enableMinDateInput": false,
+            "enableMaxDateInput": false,
+            "validateWhenHidden": false,
+            "key": "poortonderzoek.datumAangevraagd",
+            "conditional": {
+                "show": true,
+                "when": "poortonderzoek.uitvoeren",
+                "eq": "JA"
+            },
+            "type": "datetime",
+            "input": true,
+            "widget": {
+                "type": "calendar",
+                "displayInTimezone": "viewer",
+                "locale": "en",
+                "useLocaleSettings": false,
+                "allowInput": true,
+                "mode": "single",
+                "enableTime": false,
+                "noCalendar": false,
+                "format": "dd-MM-yyyy",
+                "hourIncrement": 1,
+                "minuteIncrement": 1,
+                "time_24hr": false,
+                "minDate": null,
+                "disableWeekends": false,
+                "disableWeekdays": false,
+                "maxDate": null
+            }
+        },
+        {
+            "label": "Toelichting",
+            "applyMaskOn": "change",
+            "autoExpand": false,
+            "tableView": true,
+            "validate": {
+                "required": true,
+                "maxLength": 1000
+            },
+            "validateWhenHidden": false,
+            "key": "poortonderzoek.toelichting",
+            "type": "textarea",
+            "input": true
+        },
+        {
+            "label": "Indienen",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "input": true,
+            "type": "button",
+            "custom": "form.submit(); component.disabled = true;"
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+[
+    {
+        "activityId": "VastleggenRoltypeTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "create-natuurlijk-persoon-zaak-rol",
+        "actionProperties": {
+            "roltypeUrl": "${AUTODEPLOYMENT_PLUGINCONFIG_VERZOEK_IOAW_PROPERTIES_INITIATOR-ROL-TYPE-URL}",
+            "rolToelichting": "Initiator",
+            "inpBsn": "pv:bsnAanvrager"
+        }
+    },
+    {
+        "activityId": "MapAanvraaggegevensTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "pluginConfigurationId": "267557ed-53ec-42af-81dd-c7e908cb1da4",
+        "pluginActionDefinitionKey": "process-mapping-instructions",
+        "actionProperties": {
+            "definitionKey": "aanvraag-levensonderhoud-v3"
+        },
+        "processLinkType": "plugin"
+    }
+]

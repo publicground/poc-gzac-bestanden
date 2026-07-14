@@ -1,0 +1,795 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "gegevensVanuitAanvraag",
+            "key": "pv.gegevensVanuitAanvraag",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "aanvrager",
+            "key": "pv.gegevensVaststelling",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "relaties",
+            "key": "pv.vastgesteldeRelaties",
+            "defaultValue": [],
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "partnerRelaties",
+            "key": "pv.partnerRelaties",
+            "defaultValue": [],
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "relaties",
+            "key": "pv.relaties",
+            "defaultValue": [],
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "aanvraagDatum",
+            "key": "pv.aanvraagDatum",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "relatiesVaststellen",
+            "key": "pv.relatiesVaststellen",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Gegevens van de aanvraag",
+            "content": "<h2 class=\"mb-3\">Vaststellen relaties</h2>",
+            "refreshOnChange": false,
+            "key": "MeldigEnAanvraagDatum",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Zijn er relaties om vast te stellen?",
+            "optionsLabelPosition": "right",
+            "hideLabel": false,
+            "inline": false,
+            "tableView": false,
+            "values": [
+                {
+                    "label": "Ja",
+                    "value": "JA",
+                    "shortcut": ""
+                },
+                {
+                    "label": "Nee",
+                    "value": "NEE",
+                    "shortcut": ""
+                }
+            ],
+            "validate": {
+                "required": true
+            },
+            "validateWhenHidden": false,
+            "key": "pv.relatiesVaststellen",
+            "defaultValue": "JA",
+            "type": "radio",
+            "input": true
+        },
+        {
+            "label": "Date Grid",
+            "reorder": false,
+            "addAnother": "Persoon toevoegen",
+            "addAnotherPosition": "bottom",
+            "layoutFixed": false,
+            "enableRowGroups": false,
+            "initEmpty": false,
+            "hideLabel": true,
+            "tableView": false,
+            "customDefaultValue": "let relatiesArray = [];\n\nif (Array.isArray(data.pv.gegevensVanuitAanvraag?.kinderen)) {\n  relatiesArray = data.pv.gegevensVanuitAanvraag.kinderen.map(kind => ({  ...kind,  relatietype: 'ouderKind'}));\n}\n\nif (Array.isArray(data.pv.gegevensVanuitAanvraag?.medebewoners)) {\n  relatiesArray = [...relatiesArray,  ...data.pv.gegevensVanuitAanvraag.medebewoners.map(medebewoner => ({  ...medebewoner,  relatietype: 'medebewoner'}))];\n}\nif (data.pv.gegevensVaststelling?.additioneleVeldenAanvrager?.bs216relaties?.relatieVastgesteld) {\n  relatiesArray = data.pv?.vastgesteldeRelaties;\n    if (data.pv?.partnerRelaties?.length > 0) {\n     const toevoegenAanRelaties = data.pv.partnerRelaties.map(partnerRelatie => {\n       return data.pv.relaties.some(relatie =>  relatie.voornamen === relatie.voornamen && relatie.achternaam === relatie.achternaam && relatie?.isKindVan === 'PARTNER');\n     });\n   }\n}\n\nif (data.pv?.relaties?.length > 0) {\n  relatiesArray = data.pv?.relaties;\n \n}\nvalue = relatiesArray;",
+            "validateWhenHidden": false,
+            "key": "pv.relaties",
+            "customConditional": "show = !(data.pv?.relatiesVaststellen === 'NEE')",
+            "type": "datagrid",
+            "input": true,
+            "components": [
+                {
+                    "label": "Columns",
+                    "hideLabel": true,
+                    "columns": [
+                        {
+                            "components": [
+                                {
+                                    "label": "Columns",
+                                    "hideLabel": true,
+                                    "columns": [
+                                        {
+                                            "components": [
+                                                {
+                                                    "label": "Voornamen",
+                                                    "applyMaskOn": "change",
+                                                    "tableView": true,
+                                                    "validateWhenHidden": false,
+                                                    "key": "voornamen",
+                                                    "type": "textfield",
+                                                    "validate": {
+                                                        "required": true
+                                                    },
+                                                    "customClass": "mt-3 required-buttons",
+                                                    "input": true
+                                                },
+                                                {
+                                                    "label": "Tussenvoegsel",
+                                                    "applyMaskOn": "change",
+                                                    "tableView": true,
+                                                    "validateWhenHidden": false,
+                                                    "key": "tussenvoegsel",
+                                                    "type": "textfield",
+                                                    "input": true
+                                                },
+                                                {
+                                                    "label": "Achternaam",
+                                                    "applyMaskOn": "change",
+                                                    "tableView": true,
+                                                    "validateWhenHidden": false,
+                                                    "key": "achternaam",
+                                                    "type": "textfield",
+                                                    "validate": {
+                                                        "required": true
+                                                    },
+                                                    "customClass": "required-buttons",
+                                                    "input": true
+                                                }
+                                            ],
+                                            "width": 12,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 12
+                                        },
+                                        {
+                                            "components": [],
+                                            "width": 6,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 6
+                                        }
+                                    ],
+                                    "key": "columns1",
+                                    "type": "columns",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "Columns",
+                                    "columns": [
+                                        {
+                                            "components": [
+                                                {
+                                                    "label": "Geboortedatum",
+                                                    "format": "dd-MM-yyyy",
+                                                    "tableView": false,
+                                                    "datePicker": {
+                                                        "disableWeekends": false,
+                                                        "disableWeekdays": false
+                                                    },
+                                                    "enableTime": false,
+                                                    "enableMinDateInput": false,
+                                                    "enableMaxDateInput": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "geboortedatum",
+                                                    "type": "datetime",
+                                                    "input": true,
+                                                    "customClass": "required-buttons",
+                                                    "validate": {
+                                                        "required": true
+                                                    },
+                                                    "widget": {
+                                                        "type": "calendar",
+                                                        "displayInTimezone": "viewer",
+                                                        "locale": "en",
+                                                        "useLocaleSettings": false,
+                                                        "allowInput": true,
+                                                        "mode": "single",
+                                                        "enableTime": false,
+                                                        "noCalendar": false,
+                                                        "format": "dd-MM-yyyy",
+                                                        "hourIncrement": 1,
+                                                        "minuteIncrement": 1,
+                                                        "time_24hr": false,
+                                                        "minDate": null,
+                                                        "disableWeekends": false,
+                                                        "disableWeekdays": false,
+                                                        "maxDate": null
+                                                    }
+                                                }
+                                            ],
+                                            "width": 6,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 6
+                                        },
+                                        {
+                                            "components": [
+                                                {
+                                                    "label": "Leeftijd op datum aanvraag",
+                                                    "applyMaskOn": "change",
+                                                    "tableView": true,
+                                                    "validateWhenHidden": false,
+                                                    "key": "leeftijd",
+                                                    "type": "textfield",
+                                                    "calculateValue": "if (row?.geboortedatum) { value = moment(data.pv.aanvraagDatum).diff(moment(row?.geboortedatum), 'years'); } else { value = null }",
+                                                    "disabled": true,
+                                                    "input": false
+                                                }
+                                            ],
+                                            "width": 6,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 6
+                                        }
+                                    ],
+                                    "key": "columns",
+                                    "type": "columns",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "Columns",
+                                    "hideLabel": true,
+                                    "columns": [
+                                        {
+                                            "components": [
+                                                {
+                                                    "label": "Relatietype",
+                                                    "widget": "choicesjs",
+                                                    "tableView": true,
+                                                    "customClass": "required-buttons",
+                                                    "data": {
+                                                        "values": [
+                                                            {
+                                                                "label": "Partner",
+                                                                "value": "partner"
+                                                            },
+                                                            {
+                                                                "label": "Ex-partner",
+                                                                "value": "exPartner"
+                                                            },
+                                                            {
+                                                                "label": "Ouder Kind",
+                                                                "value": "ouderKind"
+                                                            },
+                                                            {
+                                                                "label": "Kind Ouder",
+                                                                "value": "kindOuder"
+                                                            },
+                                                            {
+                                                                "label": "Medebewoner",
+                                                                "value": "medebewoner"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "validateWhenHidden": false,
+                                                    "key": "relatietype",
+                                                    "validate": {
+                                                        "required": true
+                                                    },
+                                                    "type": "select",
+                                                    "input": true
+                                                },
+                                                {
+                                                    "label": "Toelichting relatie medebewoner",
+                                                    "applyMaskOn": "change",
+                                                    "autoExpand": true,
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "toelichtingRelatieTypeAnders",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner')",
+                                                    "type": "textarea",
+                                                    "input": true
+                                                },
+                                                {
+                                                    "label": "Woont op hetzelfde adres als aanvrager",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "woontOpHetzelfdeAdresAlsAanvrager",
+                                                    "type": "checkbox",
+                                                    "input": true,
+                                                    "defaultValue": true,
+                                                    "customConditional": "show = (row?.relatietype === 'partner' || row?.relatietype === 'exPartner' || row?.relatietype === 'kindOuder' || row?.relatietype === 'algemeneRelatie')"
+                                                },
+                                                {
+                                                    "label": "Begindatum relatie",
+                                                    "format": "dd-MM-yyyy",
+                                                    "tableView": false,
+                                                    "datePicker": {
+                                                        "disableWeekends": false,
+                                                        "disableWeekdays": false
+                                                    },
+                                                    "enableTime": false,
+                                                    "enableMinDateInput": false,
+                                                    "enableMaxDateInput": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "datumAanvangRelatie",
+                                                    "type": "datetime",
+                                                    "input": true,
+                                                    "customClass": "required-buttons",
+                                                    "validate": {
+                                                        "required": true
+                                                    },
+                                                    "widget": {
+                                                        "type": "calendar",
+                                                        "displayInTimezone": "viewer",
+                                                        "locale": "en",
+                                                        "useLocaleSettings": false,
+                                                        "allowInput": true,
+                                                        "mode": "single",
+                                                        "enableTime": false,
+                                                        "noCalendar": false,
+                                                        "format": "dd-MM-yyyy",
+                                                        "hourIncrement": 1,
+                                                        "minuteIncrement": 1,
+                                                        "time_24hr": false,
+                                                        "minDate": null,
+                                                        "disableWeekends": false,
+                                                        "disableWeekdays": false,
+                                                        "maxDate": null
+                                                    }
+                                                },
+                                                {
+                                                    "label": "Einddatum relatie",
+                                                    "format": "dd-MM-yyyy",
+                                                    "tableView": false,
+                                                    "datePicker": {
+                                                        "disableWeekends": false,
+                                                        "disableWeekdays": false
+                                                    },
+                                                    "enableTime": false,
+                                                    "enableMinDateInput": false,
+                                                    "enableMaxDateInput": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "datumEindeRelatie",
+                                                    "type": "datetime",
+                                                    "input": true,
+                                                    "widget": {
+                                                        "type": "calendar",
+                                                        "displayInTimezone": "viewer",
+                                                        "locale": "en",
+                                                        "useLocaleSettings": false,
+                                                        "allowInput": true,
+                                                        "mode": "single",
+                                                        "enableTime": false,
+                                                        "noCalendar": false,
+                                                        "format": "dd-MM-yyyy",
+                                                        "hourIncrement": 1,
+                                                        "minuteIncrement": 1,
+                                                        "time_24hr": false,
+                                                        "minDate": null,
+                                                        "disableWeekends": false,
+                                                        "disableWeekdays": false,
+                                                        "maxDate": null
+                                                    }
+                                                },
+                                                {
+                                                    "label": "Reden einde relatie",
+                                                    "applyMaskOn": "change",
+                                                    "autoExpand": true,
+                                                    "tableView": true,
+                                                    "validateWhenHidden": false,
+                                                    "key": "redenEindeRelatie",
+                                                    "customConditional": "show = row?.datumEindeRelatie;",
+                                                    "type": "textarea",
+                                                    "input": true
+                                                }
+                                            ],
+                                            "width": 6,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 6
+                                        },
+                                        {
+                                            "components": [
+                                                {
+                                                    "label": "Is kind van",
+                                                    "optionsLabelPosition": "right",
+                                                    "inline": false,
+                                                    "tableView": false,
+                                                    "customClass": "required-buttons",
+                                                    "values": [
+                                                        {
+                                                            "label": "Aanvrager en partner",
+                                                            "value": "AANVRAGER_EN_PARTNER",
+                                                            "shortcut": ""
+                                                        },
+                                                        {
+                                                            "label": "Aanvrager",
+                                                            "value": "AANVRAGER",
+                                                            "shortcut": ""
+                                                        },
+                                                        {
+                                                            "label": "Partner",
+                                                            "value": "PARTNER",
+                                                            "shortcut": ""
+                                                        }
+                                                    ],
+                                                    "validateWhenHidden": false,
+                                                    "key": "isKindVan",
+                                                    "type": "radio",
+                                                    "validate": {
+                                                        "required": true
+                                                    },
+                                                    "conditional": {
+                                                        "show": true,
+                                                        "when": "pv.relaties.relatietype",
+                                                        "eq": "ouderKind"
+                                                    },
+                                                    "customConditional": "show = (row?.relatietype === 'ouderKind' && data.pv.gegevensVanuitAanvraag?.partner?.bsn)",
+                                                    "input": true
+                                                },
+                                                {
+                                                    "label": "Indicatie kinderbijslag",
+                                                    "optionsLabelPosition": "right",
+                                                    "inline": false,
+                                                    "tableView": false,
+                                                    "customClass": "required-buttons",
+                                                    "conditional": {
+                                                        "show": true,
+                                                        "when": "pv.relaties.relatietype",
+                                                        "eq": "ouderKind"
+                                                    },
+                                                    "values": [
+                                                        {
+                                                            "label": "Ja",
+                                                            "value": "true",
+                                                            "shortcut": ""
+                                                        },
+                                                        {
+                                                            "label": "Nee",
+                                                            "value": "false",
+                                                            "shortcut": ""
+                                                        }
+                                                    ],
+                                                    "customDefaultValue": "if (row?.kinderbijslag === 'JA') { value = true; } else if (row?.kinderbijslag === 'NEE') { value = false; }",
+                                                    "validateWhenHidden": false,
+                                                    "key": "indicatieKinderbijslag",
+                                                    "validate": {
+                                                        "required": true
+                                                    },
+                                                    "type": "radio",
+                                                    "input": true
+                                                },
+                                                {
+                                                    "label": "Indicatie co-ouder",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "indicatieCoOuder",
+                                                    "conditional": {
+                                                        "show": true,
+                                                        "when": "pv.relaties.relatietype",
+                                                        "eq": "ouderKind"
+                                                    },
+                                                    "type": "checkbox",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Indicatie onderhoudsplicht",
+                                                    "tableView": false,
+                                                    "defaultValue": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "indicatieOnderhoudsplichtOuderKind",
+                                                    "conditional": {
+                                                        "show": true,
+                                                        "when": "pv.relaties.relatietype",
+                                                        "eq": "ouderKind"
+                                                    },
+                                                    "type": "checkbox",
+                                                    "input": true
+                                                },
+                                                {
+                                                    "label": "Afgelopen 2 jaar partner geweest",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "afgelopen2JaarPartnerGeweest",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner' && !data.pv.gegevensVaststelling?.partner?.bsn);",
+                                                    "type": "checkbox",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Samen een erkend kind hebben",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "samenEenErkendKindHebben",
+                                                    "type": "checkbox",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner' && !data.pv.gegevensVaststelling?.partner?.bsn);",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Samenlevingscontract",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "samenlevingscontract",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner' && !data.pv.gegevensVaststelling?.partner?.bsn);",
+                                                    "type": "checkbox",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Afgelopen 2 jaar 1 huishouden",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "afgelopenTweeJaarEeeHuishouden",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner' && !data.pv.gegevensVaststelling?.partner?.bsn);",
+                                                    "type": "checkbox",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Delen kosten huur",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "delenKostenHuur",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner' && !data.pv.gegevensVaststelling?.partner?.bsn);",
+                                                    "type": "checkbox",
+                                                    "customDefaultValue": "value = row?.gezamenlijkHuishouden?.some(item => item.code === 'DELEN_HUUR')",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Delen vaste lasten",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "delenVasteLasten",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner' && !data.pv.gegevensVaststelling?.partner?.bsn);",
+                                                    "type": "checkbox",
+                                                    "customDefaultValue": "value = row?.gezamenlijkHuishouden?.some(item => item.code === 'DELEN_VASTE_LASTEN')",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Delen kosten boodschappen",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "delenkostenBoodschappen",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner' && !data.pv.gegevensVaststelling?.partner?.bsn);",
+                                                    "type": "checkbox",
+                                                    "customDefaultValue": "value = row?.gezamenlijkHuishouden?.some(item => item.code === 'DELEN_BOODSCHAPPEN')",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Samen eten",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "samenEten",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner' && !data.pv.gegevensVaststelling?.partner?.bsn);",
+                                                    "type": "checkbox",
+                                                    "customDefaultValue": "value = row?.gezamenlijkTijdsbesteding?.some(item => item.code === 'ETEN_SAMEN')",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Samen op vakantie",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "samenOpVakantie",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner' && !data.pv.gegevensVaststelling?.partner?.bsn);",
+                                                    "type": "checkbox",
+                                                    "customDefaultValue": "value = row?.gezamenlijkTijdsbesteding?.some(item => item.code === 'VAKANTIE_SAMEN')",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Samen taken huishouden",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "samenTakenHuishouden",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner' && !data.pv.gegevensVaststelling?.partner?.bsn);",
+                                                    "type": "checkbox",
+                                                    "customDefaultValue": "value = row?.gezamenlijkTijdsbesteding?.some(item => item.code === 'TAKEN_VERDELEN')",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Is kostendeler",
+                                                    "optionsLabelPosition": "right",
+                                                    "inline": false,
+                                                    "tableView": false,
+                                                    "customClass": "required-buttons",
+                                                    "customConditional": "show = (row?.relatietype === 'medebewoner' || row?.relatietype === 'ouderKind');",
+                                                    "values": [
+                                                        {
+                                                            "label": "Ja",
+                                                            "value": "true",
+                                                            "shortcut": ""
+                                                        },
+                                                        {
+                                                            "label": "Nee",
+                                                            "value": "false",
+                                                            "shortcut": ""
+                                                        }
+                                                    ],
+                                                    "validateWhenHidden": false,
+                                                    "key": "indicatieKostendeler",
+                                                    "type": "radio",
+                                                    "validate": {
+                                                        "required": true
+                                                    },
+                                                    "input": true
+                                                },
+                                                {
+                                                    "label": "Indicatie gezamelijke huishouding",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "indicatieGezamelijkeHuishouding",
+                                                    "customConditional": "show = (row?.relatietype === 'partner' || row?.relatietype === 'exPartner')",
+                                                    "type": "checkbox",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Indicatie onderhoudsplicht",
+                                                    "tableView": false,
+                                                    "defaultValue": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "indicatieOnderhoudsplichtPartner",
+                                                    "customConditional": "show = (row?.relatietype === 'partner' || row?.relatietype === 'exPartner')",
+                                                    "type": "checkbox",
+                                                    "input": true
+                                                },
+                                                {
+                                                    "label": "Leeftijd < 27",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "leeftijdOnder27",
+                                                    "customConditional": "show = (row?.indicatieKostendeler === false && (row?.relatietype === 'medebewoner' || row?.relatietype === 'ouderKind'))",
+                                                    "type": "checkbox",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Studiefinanciering",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "studiefinanciering",
+                                                    "customConditional": "show = (row?.indicatieKostendeler === false && (row?.relatietype === 'medebewoner' || row?.relatietype === 'ouderKind'))",
+                                                    "type": "checkbox",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Tijdelijk verblijf",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "tijdelijkVerblijf",
+                                                    "customConditional": "show = (row?.indicatieKostendeler === false && (row?.relatietype === 'medebewoner' || row?.relatietype === 'ouderKind'))",
+                                                    "type": "checkbox",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Indicatie zorgbehoefte",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "indicatieZorgbehoefte",
+                                                    "customConditional": "show = (row?.indicatieKostendeler === false && (row?.relatietype === 'medebewoner' || row?.relatietype === 'ouderKind'))",
+                                                    "type": "checkbox",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                },
+                                                {
+                                                    "label": "Kamer(ver)huur",
+                                                    "tableView": false,
+                                                    "validateWhenHidden": false,
+                                                    "key": "kamerHuur",
+                                                    "customConditional": "show = (row?.indicatieKostendeler === false && (row?.relatietype === 'medebewoner' || row?.relatietype === 'ouderKind'))",
+                                                    "type": "checkbox",
+                                                    "customDefaultValue": "value = row?.relatieMedebewoner === 'KAMER_VERHUUR' || row?.relatieMedebewoner === 'KAMER_HUUR'",
+                                                    "input": true,
+                                                    "defaultValue": false
+                                                }
+                                            ],
+                                            "width": 6,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 6
+                                        }
+                                    ],
+                                    "key": "columns",
+                                    "type": "columns",
+                                    "input": false,
+                                    "tableView": false
+                                }
+                            ],
+                            "width": 12,
+                            "offset": 0,
+                            "push": 0,
+                            "pull": 0,
+                            "size": "md",
+                            "currentWidth": 12
+                        },
+                        {
+                            "components": [],
+                            "width": 6,
+                            "offset": 0,
+                            "push": 0,
+                            "pull": 0,
+                            "size": "md",
+                            "currentWidth": 6
+                        }
+                    ],
+                    "key": "columns",
+                    "type": "columns",
+                    "input": false,
+                    "tableView": false
+                }
+            ]
+        },
+        {
+            "label": "Toelichting",
+            "applyMaskOn": "change",
+            "autoExpand": true,
+            "tableView": true,
+            "validateWhenHidden": false,
+            "customConditional": "show = (data.pv?.relatiesVaststellen === 'JA')",
+            "key": "pv.toelichting",
+            "clearOnHide": false,
+            "type": "textarea",
+            "rows": 5,
+            "input": true
+        },
+        {
+            "label": "Toelichting",
+            "applyMaskOn": "change",
+            "autoExpand": true,
+            "tableView": true,
+            "validateWhenHidden": false,
+            "clearOnHide": false,
+            "key": "pv.toelichting",
+            "customConditional": "show = (data.pv?.relatiesVaststellen === 'NEE')",
+            "type": "textarea",
+            "validate": {
+                "required": true
+            },
+            "rows": 5,
+            "input": true
+        },
+        {
+            "label": "Volgende",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "type": "button",
+            "custom": "const properties = [\n  \"woontOpHetzelfdeAdresAlsAanvrager\",\n  \"indicatieGezamelijkeHuishouding\",\n  \"indicatieOnderhoudsplichtPartner\",\n  \"indicatieCoOuder\",\n  \"indicatieOnderhoudsplichtOuderKind\",\n  \"afgelopen2JaarPartnerGeweest\",\n  \"samenEenErkendKindHebben\",\n  \"samenlevingscontract\",\n  \"afgelopenTweeJaarEeeHuishouden\",\n  \"delenKostenHuur\",\n  \"delenVasteLasten\",\n  \"delenkostenBoodschappen\",\n  \"samenEten\",\n  \"samenOpVakantie\",\n  \"samenTakenHuishouden\",\n  \"leeftijdOnder27\",\n  \"studiefinanciering\",\n  \"tijdelijkVerblijf\",\n  \"indicatieZorgbehoefte\",\n  \"kamerHuur\",\n  \"indicatieKostendeler\",\n  \"indicatieKinderbijslag\"\n];\nif (data.pv?.relaties?.length > 0) {\n  let x = data.pv.relaties.map(relatie => {\n    properties.forEach(property => {\n      if(!relatie[property]) {\n        relatie[property] = false;\n      }\n    });\nif (!relatie.datumEindeRelatie) {\n  relatie.redenEindeRelatie = '';\n}\n  });\n   data.pv.relaties = data.pv.relaties.map(relatie => {\n    if (relatie?.indicatieKostendeler) {\n      relatie.leeftijdOnder27 = false;\n      relatie.studiefinanciering = false;\n      relatie.tijdelijkVerblijf = false;\n      relatie.indicatieZorgbehoefte = false;\n      relatie.kamerHuur = false;\n    }\n    return relatie;\n   });\n}\n\nif (data.pv?.relatiesVaststellen === 'NEE') {\n  data.pv.relaties = [];\n  data.pv.partnerRelaties = [];\n}\n\nform.submit(); \ncomponent.disabled = true;",
+            "input": true
+        }
+    ]
+}

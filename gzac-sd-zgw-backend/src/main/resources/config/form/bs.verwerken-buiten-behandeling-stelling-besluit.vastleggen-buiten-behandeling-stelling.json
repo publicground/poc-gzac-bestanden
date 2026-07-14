@@ -1,0 +1,127 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "informatieverzoeken",
+            "key": "pv.informatieverzoeken",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "beslisser",
+            "customDefaultValue": "value = JSON.parse(localStorage.getItem('userIdentity'))?.firstName + ' ' + JSON.parse(localStorage.getItem('userIdentity'))?.lastName;",
+            "key": "pv.besluit.beslisser",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "besluitDatum",
+            "customDefaultValue": "value = new Date();",
+            "key": "pv.besluit.besluitDatum",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "key": "pv.buitenBehandelingStellen",
+            "type": "container",
+            "label": "buitenBehandelingStellen",
+            "input": true,
+            "components": [
+                {
+                    "label": "Toelichting",
+                    "applyMaskOn": "change",
+                    "autoExpand": false,
+                    "tableView": true,
+                    "validateWhenHidden": false,
+                    "validate": {
+                        "required": true
+                    },
+                    "key": "toelichting",
+                    "type": "textarea",
+                    "input": true
+                }
+            ],
+            "tableView": false
+        },
+        {
+            "label": "Container besluit",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "pv.besluit",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "label": "Upload hieronder de beschikking",
+                    "type": "documenten-api-file",
+                    "key": "besluitDocumenten",
+                    "customOptions": {
+                        "title": "",
+                        "hideTitle": false,
+                        "subtitle": "",
+                        "maxFileSize": 1,
+                        "hideMaxFileSize": false,
+                        "camera": false,
+                        "documentTitle": "Buiten behandeling stelling",
+                        "disableDocumentTitle": false,
+                        "filename": "",
+                        "disableFilename": false,
+                        "author": "",
+                        "disableAuthor": false,
+                        "status": "definitief",
+                        "disableStatus": false,
+                        "language": "nld",
+                        "disableLanguage": false,
+                        "documentType": "BuitenBehandelingStelling",
+                        "disableDocumentType": true,
+                        "description": "Buiten behandeling stelling",
+                        "disableDescription": false,
+                        "confidentialityLevel": "zaakvertrouwelijk",
+                        "disableConfidentialityLevel": false
+                    },
+                    "input": true,
+                    "customDefaultValue": " component.customOptions.author = data.pv?.besluit?.beslisser;",
+                    "validate": {
+                        "required": true,
+                        "custom": "valid = input.length == 1;",
+                        "customMessage": "Upload maximaal 1 document"
+                    },
+                    "tableView": false
+                }
+            ]
+        },
+        {
+            "type": "button",
+            "label": "Indienen",
+            "showValidations": true,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "action": "custom",
+            "custom": "form.submit(); component.disabled = true;",
+            "key": "submit",
+            "input": true,
+            "logic": [
+                {
+                    "name": "Disable submit",
+                    "trigger": {
+                        "type": "javascript",
+                        "javascript": "result = data.pv.besluit.besluitDocumenten && data.pv.besluit.besluitDocumenten.length > 1"
+                    },
+                    "actions": [
+                        {
+                            "name": "Disable submit",
+                            "type": "property",
+                            "property": {
+                                "label": "Disabled",
+                                "value": "true"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

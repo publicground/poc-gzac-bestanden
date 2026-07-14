@@ -1,0 +1,16 @@
+[
+    {
+        "activityId": "upload-document",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "bc095125-b9a9-435e-8372-0bf92f8be9be",
+        "pluginActionDefinitionKey": "store-uploaded-document"
+    },
+    {
+        "activityId": "link-document-to-zaak",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "link-uploaded-document-to-zaak"
+    }
+]

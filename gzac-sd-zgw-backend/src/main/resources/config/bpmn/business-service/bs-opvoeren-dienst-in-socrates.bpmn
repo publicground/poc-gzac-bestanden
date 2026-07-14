@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0lh4w7x" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_0iq8p8w">
+    <bpmn:participant id="BSOpvoerenDienstInSocratesParticipant" name="BS opvoeren dienst in Socrates" processRef="bs-opvoeren-dienst-in-socrates" />
+    <bpmn:textAnnotation id="TextAnnotation_0ui3kez">
+      <bpmn:text>Deze taak zet momenteel de procesvariabele isDienstAlAangemaakt op false, omdat het momenteel niet mogelijk is om te controleren of de dienst al is aangemaakt.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_078esdw" associationDirection="None" sourceRef="ControlerenOpAangemaaktDienstTask" targetRef="TextAnnotation_0ui3kez" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-opvoeren-dienst-in-socrates" name="BS opvoeren dienst in Socrates" isExecutable="true">
+    <bpmn:startEvent id="Event_0k5a63i">
+      <bpmn:outgoing>Flow_1cpu59p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1cpu59p" sourceRef="Event_0k5a63i" targetRef="ControlerenOpAangemaaktDienstTask" />
+    <bpmn:sequenceFlow id="Flow_1vq74jn" sourceRef="OpvoerenDienstInSocratesTask" targetRef="Gateway_1o3wgl7" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="DienstAlAangemaaktInSocratesGateway" targetRef="OpvoerenDienstInSocratesTask" />
+    <bpmn:sequenceFlow id="Flow_0s6cb04" sourceRef="ControlerenOpAangemaaktDienstTask" targetRef="DienstAlAangemaaktInSocratesGateway" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="DienstAlAangemaaktInSocratesGateway" targetRef="ControlerenDienstInSocratesTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isDienstAlAangemaakt}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1mgj6fy" sourceRef="ControlerenDienstInSocratesTask" targetRef="Gateway_1o3wgl7" />
+    <bpmn:sequenceFlow id="Flow_1gwb1gb" sourceRef="Gateway_1o3wgl7" targetRef="Event_00jvnra" />
+    <bpmn:exclusiveGateway id="DienstAlAangemaaktInSocratesGateway" name="dienst al aangemaakt in socrates" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_0s6cb04</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="ControlerenDienstInSocratesTask" name="controleren dienst in socrates" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="8">
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mgj6fy</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="ControlerenOpAangemaaktDienstTask" name="Controleren&#10;op aangemaakt dienst" camunda:asyncAfter="true" camunda:expression="${execution.setVariable(&#34;isDienstAlAangemaakt&#34;, false)}">
+      <bpmn:incoming>Flow_1cpu59p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0s6cb04</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="OpvoerenDienstInSocratesTask" name="Opvoeren dienst in socrates" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vq74jn</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0gh0y5q">
+        <bpmn:targetRef>SocratesDataStoreReference</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:dataStoreReference id="SocratesDataStoreReference" name="socrates" />
+    <bpmn:exclusiveGateway id="Gateway_1o3wgl7">
+      <bpmn:incoming>Flow_1vq74jn</bpmn:incoming>
+      <bpmn:incoming>Flow_1mgj6fy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gwb1gb</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_00jvnra">
+      <bpmn:incoming>Flow_1gwb1gb</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:error id="Error_0vycax6" name="SOCRATES_ERROR" errorCode="SOCRATES_ERROR" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0iq8p8w">
+      <bpmndi:BPMNShape id="Participant_1c1a9ne_di" bpmnElement="BSOpvoerenDienstInSocratesParticipant" isHorizontal="true">
+        <dc:Bounds x="131" y="80" width="910" height="510" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0v8z6n8" bpmnElement="Event_0k5a63i">
+        <dc:Bounds x="221" y="297" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1c260ad" bpmnElement="DienstAlAangemaaktInSocratesGateway" isMarkerVisible="true">
+        <dc:Bounds x="495" y="290" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="483" y="240" width="73" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1xib22t_di" bpmnElement="ControlerenDienstInSocratesTask">
+        <dc:Bounds x="470" y="445" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1plgkz1" bpmnElement="ControlerenOpAangemaaktDienstTask">
+        <dc:Bounds x="350" y="275" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_06h62sh" bpmnElement="OpvoerenDienstInSocratesTask">
+        <dc:Bounds x="660" y="275" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1icsvpp" bpmnElement="SocratesDataStoreReference">
+        <dc:Bounds x="685" y="386" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="689" y="443" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_13es79n" bpmnElement="Gateway_1o3wgl7" isMarkerVisible="true">
+        <dc:Bounds x="855" y="290" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00jvnra_di" bpmnElement="Event_00jvnra">
+        <dc:Bounds x="972" y="297" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1cpu59p_di" bpmnElement="Flow_1cpu59p">
+        <di:waypoint x="257" y="315" />
+        <di:waypoint x="350" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1qrezcf" bpmnElement="Flow_1vq74jn">
+        <di:waypoint x="760" y="315" />
+        <di:waypoint x="855" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_107lwom" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="545" y="315" />
+        <di:waypoint x="660" y="315" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="554" y="297" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0upbhc2" bpmnElement="Flow_0s6cb04">
+        <di:waypoint x="450" y="315" />
+        <di:waypoint x="495" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ze4eei_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="520" y="340" />
+        <di:waypoint x="520" y="445" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="534" y="346" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mgj6fy_di" bpmnElement="Flow_1mgj6fy">
+        <di:waypoint x="570" y="485" />
+        <di:waypoint x="880" y="485" />
+        <di:waypoint x="880" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gwb1gb_di" bpmnElement="Flow_1gwb1gb">
+        <di:waypoint x="905" y="315" />
+        <di:waypoint x="972" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0ui3kez_di" bpmnElement="TextAnnotation_0ui3kez">
+        <dc:Bounds x="350" y="130" width="240" height="101" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_03h4hhz" bpmnElement="DataOutputAssociation_0gh0y5q">
+        <di:waypoint x="710" y="355" />
+        <di:waypoint x="710" y="386" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_078esdw_di" bpmnElement="Association_078esdw">
+        <di:waypoint x="400" y="275" />
+        <di:waypoint x="400" y="231" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

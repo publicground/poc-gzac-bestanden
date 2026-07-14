@@ -1,0 +1,196 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "Aanvraag persoon",
+            "key": "pv.aanvraagPersoon",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Brp Persoonsgegevens Info",
+            "key": "pv.brpPersoonsgegevensInfo",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Geboortedatum Brp",
+            "key": "pv.geboortedatumBrp",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "pv.geboortedatumAanvraag",
+            "key": "pv.geboortedatumAanvraag",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "key": "pv.brpDataNull",
+            "type": "hidden",
+            "input": true,
+            "label": "BRP data is empty",
+            "tableView": false,
+            "calculateValue": "const brpData = data.pv?.brpPersoonsgegevensInfo;\n\nvalue = (brpData == (null || '') || !brpData.hasOwnProperty('bsn'));\n"
+        },
+        {
+            "label": "formattedBrpGeboortedatum",
+            "customDefaultValue": "const brpGeboortedatum = data.pv?.brpPersoonsgegevensInfo?.geboortedatum;\n\nconst RE_YMD_DASHED = /^(\\d{4})-(\\d{2})-(\\d{2})$/; // YYYY-MM-DD\nconst RE_YMD_PLAIN  = /^(\\d{4})(\\d{2})(\\d{2})$/;   // YYYYMMDD\n\nlet output = '-';\n\nif (typeof brpGeboortedatum === 'string') {\n  const m = brpGeboortedatum.match(RE_YMD_DASHED) || brpGeboortedatum.match(RE_YMD_PLAIN);\n\n  if (m) {\n    const [, Y, M, D] = m;\n\n    if (M === '00' || D === '00') {\n      output = `${D}-${M}-${Y}`;\n    } else {\n      const mm = moment(`${Y}-${M}-${D}`, 'YYYY-MM-DD', true);\n      output = mm.isValid() ? mm.format('DD-MM-YYYY') : `${D}-${M}-${Y}`;\n    }\n  } else {\n    output = brpGeboortedatum;\n  }\n}\n\nvalue = output;",
+            "key": "pv.formattedBrpGeboortedatum",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "pv.handmatigVaststellen",
+            "key": "pv.handmatigVaststellen",
+            "type": "hidden",
+            "input": true,
+            "tableView": false,
+            "customDefaultValue": "value = true"
+        },
+        {
+            "label": "current user",
+            "customDefaultValue": "value = token.name;",
+            "key": "pv.gebruiker",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Persoonsgegevens zoals opgegeven",
+            "content": "<h4>Persoonsgegevens zoals opgegeven</h4>\n<br>\n<section>\n  <p><strong>BSN:</strong> {{data.pv?.aanvraagPersoon?.bsn || '-'}}</p>\n  <p><strong>Naam:</strong> {{ ( (data.pv?.aanvraagPersoon?.voornamen || data.pv?.aanvraagPersoon?.voorletters) ? (data.pv?.aanvraagPersoon?.voornamen || data.pv?.aanvraagPersoon?.voorletters) + ' ' : '' ) + (data.pv?.aanvraagPersoon?.voorvoegsel ?  data.pv?.aanvraagPersoon?.voorvoegsel + ' ' : '' ) + ( data.pv?.aanvraagPersoon?.achternaam || '' ) || '-'}}<br>\n  <strong>Geboortedatum:</strong> {{ data.pv?.geboortedatumAanvraag ? moment(data.pv?.geboortedatumAanvraag).format('DD-MM-yyyy') : '-'}}</p>\n</section>\n<br>\n",
+            "refreshOnChange": true,
+            "key": "opgegevenVerblijfadres",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Gegevens uit BRP",
+            "content": "<h4>Persoonsgegevens uit BRP</h4>\n<br>\n\n<section>\n    <p><strong>BSN:</strong> {{data.pv?.brpPersoonsgegevensInfo?.bsn || '-'}}</p>\n    <p><strong>Naam:</strong> {{ ( (data.pv?.brpPersoonsgegevensInfo?.voornamen || data.pv?.brpPersoonsgegevensInfo?.voorletters) ? (data.pv?.brpPersoonsgegevensInfo?.voornamen || data.pv?.brpPersoonsgegevensInfo?.voorletters) + ' ' : '' ) + (data.pv?.brpPersoonsgegevensInfo?.voorvoegsel ?  data.pv?.brpPersoonsgegevensInfo?.voorvoegsel + ' ' : '' ) + ( data.pv?.brpPersoonsgegevensInfo?.achternaam || '' ) || '-'}}<br/>\n        <strong>Geboortedatum:</strong> {{data.pv?.formattedBrpGeboortedatum ? data.pv?.formattedBrpGeboortedatum : '-'}}</p>\n\n</section>\n<br>",
+            "refreshOnChange": false,
+            "key": "brpgegevens",
+            "customConditional": "show = (data.pv?.formattedBrpGeboortedatum == moment(data.pv?.geboortedatumBrp).format('DD-MM-yyyy'));",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Gegevens uit BRP",
+            "content": "<h4>Persoonsgegevens uit BRP</h4>\n<br>\n\n<section>\n    <p><strong>BSN:</strong> {{data.pv?.brpPersoonsgegevensInfo?.bsn || '-'}}</p>\n    <p><strong>Naam:</strong> {{ ( (data.pv?.brpPersoonsgegevensInfo?.voornamen || data.pv?.brpPersoonsgegevensInfo?.voorletters) ? (data.pv?.brpPersoonsgegevensInfo?.voornamen || data.pv?.brpPersoonsgegevensInfo?.voorletters) + ' ' : '' ) + (data.pv?.brpPersoonsgegevensInfo?.voorvoegsel ?  data.pv?.brpPersoonsgegevensInfo?.voorvoegsel + ' ' : '' ) + ( data.pv?.brpPersoonsgegevensInfo?.achternaam || '' ) || '-'}}\n    <br>\n    <strong>Geboortedatum:</strong> {{ data.pv?.geboortedatumBrp ? moment(data.pv?.geboortedatumBrp).format('DD-MM-yyyy') : '-'}}\n    <br>\n    <strong>Geboortedatum uit BRP:</strong> {{data.pv?.formattedBrpGeboortedatum ? data.pv?.formattedBrpGeboortedatum : '-'}}\n    </p>\n</section><br>",
+            "refreshOnChange": false,
+            "key": "brpgegevens1",
+            "customConditional": "show = (data.pv?.formattedBrpGeboortedatum !== moment(data.pv?.geboortedatumBrp).format('DD-MM-yyyy'));",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<h4>BRP-gegevens kunnen niet worden opgehaald voor dit BSN.</h4>\n<p class=\"pt-1\">Mogelijke oorzaken:</p>\n<div class=\"col pb-1 pt-1\">\n  <div class=\"pt-1\">1. <strong>BRP niet beschikbaar</strong> → Probeer het later opnieuw.</div>\n</div>\n<p class=\"pt-1\">De taak wordt daarna opnieuw aangeboden ter beoordeling.</p>",
+            "refreshOnChange": false,
+            "key": "html",
+            "customConditional": "show = data.pv?.brpDataNull;",
+            "attributes": {
+                "data-testid": "bs-211-vaststelling-persoon.vaststellen-persoon-html"
+            },
+            "type": "htmlelement",
+            "input": true,
+            "tableView": true
+        },
+        {
+            "key": "pv.gebruikenBrpGegevens",
+            "type": "radio",
+            "input": true,
+            "label": "Mogen bovenstaande BRP gegevens gebruikt worden voor de aanvraag?",
+            "customConditional": "show = !data.pv?.brpDataNull;",
+            "inline": false,
+            "tableView": false,
+            "values": [
+                {
+                    "label": "Ja, gebruik de gegevens uit de BRP",
+                    "value": "JA",
+                    "shortcut": ""
+                },
+                {
+                    "label": "Nee, het opgegeven BSN hoort niet bij deze naam",
+                    "value": "NEE",
+                    "shortcut": ""
+                }
+            ],
+            "validate": {
+                "required": true
+            },
+            "optionsLabelPosition": "right"
+        },
+        {
+            "label": "Uitleg ander BSN",
+            "className": "alert alert-info",
+            "tag": "div",
+            "content": "<p>\n  Vul een BSN in en druk op de knop \"Indienen\".<br/>\nHet systeem haalt daarna de gegevens bij het desbetreffende BSN op uit het BRP. Deze taak wordt dan opnieuw getoond ter beoordeling.\n</p>",
+            "refreshOnChange": false,
+            "key": "uitlegAnderBsn",
+            "conditional": {
+                "show": true,
+                "when": "pv.gebruikenBrpGegevens",
+                "eq": "NEE"
+            },
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Gewenst BSN",
+            "applyMaskOn": "change",
+            "tableView": true,
+            "validate": {
+                "required": true,
+                "custom": "valid = [...input].reverse().reduce( (accumulator, currentValue, currentIndex) => Number(accumulator) + (currentValue * (currentIndex === 0 ? -1 : currentIndex + 1)), 0 ) % 11 === 0;",
+                "minLength": 9,
+                "maxLength": 9
+            },
+            "validateWhenHidden": false,
+            "errors": {
+                "custom": "Voer een valide BSN in.",
+                "minLength": "Voer een valide BSN in.",
+                "maxLength": "Voer een valide BSN in."
+            },
+            "key": "pv.gewenstBsn",
+            "customConditional": "show = data.pv.gebruikenBrpGegevens == 'NEE' || data.pv?.brpDataNull;",
+            "type": "textfield",
+            "input": true
+        },
+        {
+            "label": "Toelichting",
+            "placeholder": "Onderbouw kort je keuze",
+            "applyMaskOn": "change",
+            "autoExpand": false,
+            "tableView": true,
+            "validate": {
+                "required": true
+            },
+            "validateWhenHidden": false,
+            "key": "pv.toelichtingConsulent",
+            "customConditional": "show = !data.pv?.brpDataNull;",
+            "type": "textarea",
+            "input": true
+        },
+        {
+            "label": "Indienen",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "type": "button",
+            "input": true,
+            "saveOnEnter": false
+        }
+    ]
+}

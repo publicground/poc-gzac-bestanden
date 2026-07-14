@@ -1,0 +1,206 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "index": 1,
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "999991322",
+      "data": {
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Herengracht",
+              "postcode": "2511 EG",
+              "huisletter": "",
+              "huisnummer": "1",
+              "toevoeging": ""
+            },
+            "grPersoongegevens": {
+              "Bsn": "999991322",
+              "voornaam": "Celeste",
+              "achternaam": "Avion",
+              "voorletters": "C.",
+              "voorvoegsels": "",
+              "geboortedatum": "1960-12-29"
+            }
+          }
+        },
+        "alo-ioaw": {
+          "grIoaw": {
+            "geenRechtMeerWw": "NEE",
+            "geenRechtMeerWga": "NEE",
+            "gedeeltelijkArbeidsongeschikt": "NEE"
+          }
+        },
+        "schulden": {
+          "heeftSchulden": "NEE"
+        },
+        "alo-uitbetaling": {
+          "ibanAanWie": "NEE",
+          "ibanUitbetaling": "NL34BOFS0587566515",
+          "naamRekeninghouder": "C van Avion"
+        },
+        "alo-uw-inkomsten": {
+          "heeftInkomsten": "JA",
+          "soortenInkomsten": {
+            "PENSIOEN": false,
+            "UITKERING": false,
+            "LOONDIENST": false,
+            "ALIMENTATIE": false,
+            "HEFFINGSKORTING": false,
+            "OVERIGE_INKOMSTEN": true,
+            "INKOMEN_UIT_BUITENLAND": false,
+            "INKOMEN_UIT_ONDERNEMING": false,
+            "INKOMSTEN_UIT_ONDERHUUR": false
+          },
+          "grOverigeInkomsten": {
+            "overigeBedrag": 120000,
+            "grUploadBewijsOverigeInkomsten": {
+              "overigeUpload": [
+                {
+                  "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/09591dd6-bb93-465c-b316-0e8fcfc0b030",
+                  "data": {
+                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/09591dd6-bb93-465c-b316-0e8fcfc0b030",
+                    "form": "",
+                    "name": "Menu Leon's loempias.txt",
+                    "size": 4,
+                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                    "project": ""
+                  },
+                  "name": "Menu Leon-s loempias-edf030de-c002-40bc-aa41-15120f1a6264.txt",
+                  "size": 4,
+                  "type": "text/plain",
+                  "storage": "url",
+                  "originalName": "Menu Leon's loempias.txt"
+                }
+              ]
+            }
+          }
+        },
+        "alo-reden-aanvraag": {
+          "grGeenInkomen": {
+            "waaromGeenInkomen": "UITKERING_STOPGEZET"
+          },
+          "grIngangsdatum": {
+            "bijstandsuitkeringEerderStarten": "JA",
+            "waaromDigid": "Ik heb moeite met het omgaan met computers",
+            "wanneerDigid": "2025-07-10",
+            "welkeredenlaat": "WACHTEN_DIGID"
+          },
+          "waaromBijstandsuitkering": "GEEN_ONVOLDOENDE_INKOMEN",
+          "grBeeindigingAndereUitkering": {
+            "kiesUitkeringGestopt": "MAXIMALE_DUUR_BEREIKT",
+            "wanneerUitkeringStop": "2025-08-02",
+            "welkeUitkeringGestopt": "WW"
+          }
+        },
+        "alo-uw-woonsituatie": {
+          "grHuur": {
+            "hoeveelHuur": 8000,
+            "huurcontract": "NEE",
+            "wieVerhuurder": "Huisje Melker",
+            "contractOpUwNaam": "NEE",
+            "welkeNaamContract": "P Rofiteur",
+            "hoeveelHuurtoeslag": 12
+          },
+          "hoeWoontU": "ZELFSTANDIGE_HUURWONING",
+          "grAndereBewoners": {
+            "meerMensenOpAdres": "NEE"
+          }
+        },
+        "alo-uw-beschikbaarheid": {
+          "grBeschikbaarheid": {
+            "onbetaald": "NEE",
+            "beschikbaarheid": 0,
+            "geenBeschikbaarheid": "Arbeid is niet mijn stijl"
+          }
+        },
+        "alo-gezinssamenstelling": {
+          "partnerWoontBijU": "NEE",
+          "thuiswonendeKinderen": "NEE"
+        },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": true,
+          "grWoonsituatie": {
+            "woonsituatie": "WAAR_IK_WOON"
+          },
+          "grNationaliteit": {
+            "watGedaanBehouden": "BINNEN_BEZWAARPERIODE_BEZWAAR_GEMAAKT",
+            "nationaliteitBezit": "VERBLIJFSVERGUNNING_IS_VERLOPEN",
+            "geenNederlandseNationaliteit": "JA"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "NEE"
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": true,
+            "geenTelefoon": true
+          }
+        },
+        "alo-bezittingen-en-schulden": {
+          "grGrondbezit": {
+            "hhgGrondbezit": [
+              {
+                "grondBezitWaarde": 178000
+              }
+            ]
+          },
+          "grRekeningen": {
+            "grLogicaBank": {
+              "hhgVoegRekeningToe": [
+                {
+                  "prive": "NL34BOFS0587566515",
+                  "hoeveelGeld": 80000,
+                  "typeRekening": "NEDERLANDSE_PRIVE_REKENING",
+                  "uploadAfschrift": [
+                    {
+                      "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/5e486cac-58dc-45d5-9b88-972ccebb983b",
+                      "data": {
+                        "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/5e486cac-58dc-45d5-9b88-972ccebb983b",
+                        "form": "",
+                        "name": "Menu Leon's loempias.txt",
+                        "size": 4,
+                        "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                        "project": ""
+                      },
+                      "name": "Menu Leon-s loempias-11ba4771-6114-48a3-9fec-a7adeddd34da.txt",
+                      "size": 4,
+                      "type": "text/plain",
+                      "storage": "url",
+                      "originalName": "Menu Leon's loempias.txt"
+                    }
+                  ]
+                }
+              ]
+            },
+            "geenBankrekening": "BEZIT_REKENING"
+          },
+          "grUwVermogen": {
+            "welkVermogen": {
+              "CRYPTO": false,
+              "CARAVAN": false,
+              "VAARTUIG": false,
+              "CONTANTEN": false,
+              "KOOPWONING": false,
+              "MOTORVOERTUIG": false,
+              "EEN_STUK_GROND": true,
+              "OBLIGATIES_AANDELEN": false
+            }
+          }
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "language_code": "nl",
+      "submission_id": "943842be-e774-4a3e-86ce-ecc321f6a44a",
+      "public_reference": "OF-{{$random.alphanumeric(8)}}"
+    },
+    "startAt": "2025-07-08",
+    "registrationAt": "2025-07-08"
+  }
+}

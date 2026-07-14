@@ -1,0 +1,146 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "gegevensVanuitBronnen",
+            "key": "pv.gegevensVanuitBronnen",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "gegevensVanuitAanvraag",
+            "key": "pv.gegevensVanuitAanvraag",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "arbeid",
+            "key": "pv.arbeid",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "vastgesteldeVrijlating",
+            "key": "pv.vastgesteldeVrijlating",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Titel",
+            "key": "hdrTitel",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false,
+            "content": "<h2 class=\"mb-3\">Vrijlatingen op inkomen</h2>"
+        },
+        {
+            "label": "Vrijlatingen (container)",
+            "hideLabel": true,
+            "key": "vrijlatingenContainer",
+            "type": "panel",
+            "input": false,
+            "tableView": false,
+            "components": [
+                {
+                    "label": "HTML",
+                    "key": "hdrUserTask",
+                    "type": "htmlelement",
+                    "input": false,
+                    "tableView": false,
+                    "content": "<h5>Beoordeling door zaakbehandelaar</h5>"
+                },
+                {
+                    "label": "Vrijlating",
+                    "key": "pv.vrijlating",
+                    "type": "container",
+                    "input": true,
+                    "tableView": false,
+                    "components": [
+                        {
+                            "label": "Omschrijving",
+                            "key": "vrijlatingType",
+                            "type": "select",
+                            "input": true,
+                            "tableView": true,
+                            "widget": "choicesjs",
+                            "data": {
+                                "values": [
+                                    { "label": "Verlenging vrijlating 15% op inkomen bij LKS", "value": "VERLENGING_LKS_15" },
+                                    { "label": "Vrijlating op inkomsten all.ouder+kind<12jaar", "value": "ALLEENSTAANDE_OUDER_KIND_15" },
+                                    { "label": "Vrijlating 15% op inkomen bij LKS", "value": "LKS_15" },
+                                    { "label": "Vrijlating 15% op inkomsten medisch", "value": "MEDISCH_15" },
+                                    { "label": "Vrijlating 25% op inkomsten uit arbeid", "value": "ARBEID_25" }
+                                ]
+                            },
+                            "clearOnHide": false,
+                            "customDefaultValue": "if (data.pv?.vastgesteldeVrijlating?.vrijlatingType !== '') { value = data.pv.vastgesteldeVrijlating.vrijlatingType}",
+                            "validate": { "required": false }
+                        },
+                        {
+                            "label": "Toe te passen percentage",
+                            "key": "percentage",
+                            "type": "number",
+                            "input": true,
+                            "tableView": true,
+                            "disabled": true,
+                            "calculateValue": "var map = {\n  'VERLENGING_LKS_15': 15,\n  'ALLEENSTAANDE_OUDER_KIND_15': 15,\n  'LKS_15': 15,\n  'MEDISCH_15': 15,\n  'ARBEID_25': 25\n};\nvalue = map[data?.pv?.vrijlating?.vrijlatingType] != null ? map[data.pv.vrijlating.vrijlatingType] : 0;",
+                            "validateWhenHidden": false
+                        },
+                        {
+                            "label": "Ingangsdatum",
+                            "key": "ingangsdatum",
+                            "type": "datetime",
+                            "input": true,
+                            "tableView": true,
+                            "enableTime": false,
+                            "format": "dd-MM-yyyy",
+                            "customDefaultValue": "if (data.pv?.vastgesteldeVrijlating?.ingangsdatum !== '') { value = data.pv.vastgesteldeVrijlating.ingangsdatum}",
+                            "widget": {
+                                "type": "calendar",
+                                "displayInTimezone": "viewer",
+                                "locale": "en",
+                                "allowInput": true,
+                                "mode": "single",
+                                "enableTime": false,
+                                "noCalendar": false,
+                                "format": "dd-MM-yyyy"
+                            },
+                            "validate": { "required": false }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "label": "ButtonColumns",
+            "key": "buttonColumns",
+            "type": "columns",
+            "input": false,
+            "tableView": false,
+            "columns": [
+                {
+                    "width": 6,
+                    "size": "md",
+                    "currentWidth": 6,
+                    "components": [
+                        {
+                            "type": "button",
+                            "label": "Indienen",
+                            "key": "submit",
+                            "action": "custom",
+                            "custom": "form.submit(); component.disabled = true;",
+                            "disableOnInvalid": true,
+                            "showValidations": false,
+                            "input": true,
+                            "tableView": false
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

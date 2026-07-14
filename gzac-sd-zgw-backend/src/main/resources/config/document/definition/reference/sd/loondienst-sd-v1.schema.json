@@ -1,0 +1,96 @@
+{
+    "$id": "loondienst.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "loondienst definition",
+    "properties": {
+        "bedrijfsNaam": {
+            "type": "string"
+        },
+        "nettoLoon": {
+            "type": "number"
+        },
+        "periodiciteitUitbetalingLoon": {
+            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+        },
+        "loonheffingskorting": {
+            "description": "<p>Indicatie of er wel/geen loonheffingskorting toe is gepast.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/stdIndJN"
+        },
+        "additioneleVergoedingen": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "enum": [
+                    {
+                        "code": "VAKANTIEGELD_PER_JAAR",
+                        "name": "1 keer per jaar vakantiegeld"
+                    },
+                    {
+                        "code": "VAKANTIEGELD_IEDERE_UITBETALING",
+                        "name": "Vakantiegeld bij iedere uitbetaling van mijn salaris (dus niet 1 keer per jaar)"
+                    },
+                    {
+                        "code": "DERTIENDE_MAAND_EINDEJAARSUITKERING",
+                        "name": "Een 13de maand of eindejaarsuitkering"
+                    },
+                    {
+                        "code": "REISKOSTENVERGOEDING",
+                        "name": "Reiskostenvergoeding"
+                    },
+                    {
+                        "code": "ONKOSTENVERGOEDING",
+                        "name": "Onkostenvergoeding"
+                    },
+                    {
+                        "code": "MAALTIJDVERGOEDING",
+                        "name": "Maaltijdvergoeding"
+                    },
+                    {
+                        "code": "NATURA",
+                        "name": "Loon in natura (zoals eten of middelen)"
+                    },
+                    {
+                        "code": "GEEN",
+                        "name": "Aanvrager ontvangt geen vakantiegeld 1 keer per jaar, geen 13de maand of eindejaarsuitkering, geen reiskostenvergoeding, geen onkostenvergoeding, geen maaltijdvergoeding, geen loon in natura, geen vakantiegeld bij iedere uitbetaling van mijn salaris"
+                    }
+                ]
+            }
+        },
+        "waardeLoonInNatura": {
+            "type": "number"
+        },
+        "maaltijdvergoeding": {
+            "type": "number"
+        },
+        "onkostenvergoeding": {
+            "type": "number"
+        },
+        "reiskostenvergoeding": {
+            "type": "number"
+        },
+        "soortContract": {
+            "description": "<p>Het soort contract dat geldig is tussen de persoon en de werkgever.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/soortContract"
+        },
+        "aantalUurPerWeek": {
+            "type": "number"
+        },
+        "urenvermindering": {
+            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/stdIndJN"
+        },
+        "contractBinnenkortBeeindigd": {
+            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/stdIndJN"
+        },
+        "einddatumContract": {
+            "description": "<p>De laatste dag waarop het contract tussen persoon geldig is geweest.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/datum"
+        },
+        "toelichting": {
+            "type": "string"
+        }
+    }
+}
+
+
+
+

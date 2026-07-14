@@ -1,0 +1,7 @@
+{
+    "templateKey": "besluit",
+    "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+    "templateType": "text",
+    "metadata": {},
+    "contentRef": "/config/template/besluit.ftlh"
+}

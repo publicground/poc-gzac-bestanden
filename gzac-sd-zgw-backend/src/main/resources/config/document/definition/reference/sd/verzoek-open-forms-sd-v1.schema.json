@@ -1,0 +1,16 @@
+{
+    "$id": "verzoek-open-forms-sd-v1.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Verzoek OpenForms definition",
+    "definitions": {
+        "verzoekOpenForms": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "digid": {
+            "type": "object",
+            "additionalProperties": true
+        }
+    }
+}
+

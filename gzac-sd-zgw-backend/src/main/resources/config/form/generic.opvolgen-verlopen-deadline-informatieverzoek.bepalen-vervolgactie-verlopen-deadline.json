@@ -1,0 +1,88 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "HTML",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<h4>Bepalen vervolgactie na verlopen deadline</h4>",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "className": "alert alert-primary",
+            "tag": "div",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<p>De deadline van het uitgezette informatieverzoek is verlopen. Selecteer hieronder een vervolg actie.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Vervolgactie op verlopen deadline",
+            "optionsLabelPosition": "right",
+            "inline": false,
+            "tableView": false,
+            "values": [
+                {
+                    "label": "Informatieverzoek verlengen",
+                    "value": "VERLENGEN",
+                    "shortcut": ""
+                },
+                {
+                    "label": "Informatieverzoek annuleren",
+                    "value": "ANNULEREN",
+                    "shortcut": ""
+                }
+            ],
+            "validate": {
+                "required": true
+            },
+            "validateWhenHidden": false,
+            "key": "pv.vervolgactieVerlopenDeadline",
+            "type": "radio",
+            "input": true
+        },
+        {
+            "label": "Informatieverzoek",
+            "key": "pv.verzoek",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Geannuleerd door",
+            "customDefaultValue": "value = token.name;",
+            "key": "pv.geannuleerdDoor",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Doorgaan",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "input": true,
+            "type": "button",
+            "custom": "if (data.pv.vervolgactieVerlopenDeadline === 'ANNULEREN') {\n  data.pv.verzoek.geannuleerdDoor = data.pv.geannuleerdDoor;\n} form.submit(); component.disabled = true;"
+        }
+    ]
+}

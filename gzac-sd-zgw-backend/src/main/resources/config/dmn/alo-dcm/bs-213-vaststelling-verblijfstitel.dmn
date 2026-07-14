@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="bs-213-vaststelling-verblijfstitel-drd" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.46.1">
+  <decision id="bs-213-kwalitatief-voldoende-aanwezig" name="Bepalen gegevens kwalitatief voldoende aanwezig">
+    <informationRequirement id="InformationRequirement_0u1llk6">
+      <requiredInput href="#InputData_0n0h7uy" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1lkviaj">
+      <requiredInput href="#InputData_16h160j" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0vl1lt3">
+      <requiredInput href="#InputData_010q3jh" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0ji4dgb" hitPolicy="FIRST">
+      <input id="InputClause_0pjdn2p" label="Is verblijfstitel al vastgesteld?" camunda:inputVariable="verblijfstitelVastgesteld">
+        <inputExpression id="LiteralExpression_0jlqq3j" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_09pofbm" label="Datum verblijfstitel vastgesteld" camunda:inputVariable="datumVerblijfstitelVastgesteld">
+        <inputExpression id="LiteralExpression_0kqzw4n" typeRef="date">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1shouui" label="Handmatig vaststellen" camunda:inputVariable="handmatigVaststellen">
+        <inputExpression id="LiteralExpression_1ymgoem" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Gegevens kwalitatief voldoende aanwezig" name="kwalitatiefVoldoendeGegevens" typeRef="boolean" />
+      <output id="OutputClause_0o8gta1" label="Handmatig vaststellen" name="handmatigVaststellen" typeRef="boolean" />
+      <rule id="DecisionRule_0tm0hhl">
+        <description></description>
+        <inputEntry id="UnaryTests_1mscw04">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0enpeqn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rok0l7">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0l61351">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jq0vaw">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1xbpld0">
+        <inputEntry id="UnaryTests_1wetaxi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e9cpqg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0f7mipu">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0crzp9k">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19aw22f">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0n0h7uy" name="verblijfstitelVastgesteld" />
+  <decision id="bs-213-bepalen-verblijfstitel-rechthebbend" name="Bepalen verblijfstitel rechthebbend">
+    <informationRequirement id="InformationRequirement_0tanoau">
+      <requiredInput href="#InputData_0fu7gql" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0yp5rww">
+      <requiredInput href="#InputData_1sd4y4o" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1sjceaq">
+      <requiredInput href="#InputData_08orcbo" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0l51z4r" hitPolicy="FIRST">
+      <input id="InputClause_0pvk0sb" label="Vastgesteld Nederlandse nationaliteit?" biodi:width="150" camunda:inputVariable="nationaliteitNederlands">
+        <inputExpression id="LiteralExpression_0pujjln" typeRef="boolean" expressionLanguage="feel">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_12wa9xs" label="Vastgestelde verblijfstitel" biodi:width="184" camunda:inputVariable="verblijfstitel.code">
+        <inputExpression id="LiteralExpression_0m9k1ew" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1skojza" label="Gemeenschapsrecht" camunda:inputVariable="isSprakeVanGemeenschapsrecht">
+        <inputExpression id="LiteralExpression_13f0c1v" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0658mop" label="Verblijfstitel geeft recht op bijstand?" name="rechtOpBijstand" typeRef="boolean" biodi:width="214" />
+      <rule id="DecisionRule_1ygkcq0">
+        <inputEntry id="UnaryTests_1e4xik0">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dw9io6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g11bpe">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_012p75m">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1qzvs0a">
+        <inputEntry id="UnaryTests_00jhju1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gt6gv1">
+          <text>not("30", "31", "32", "34", "38", "41", "42", "43", "44", "45", "46", "98")</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kzzowl">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_19u3lcx">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1q7grij">
+        <inputEntry id="UnaryTests_05rl8n8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16ust0k">
+          <text>"30","38"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0x4bmu2">
+          <text>"GEMEENSCHAPSRECHT_VAN_TOEPASSING"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0exhxrs">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0z61l6w">
+        <inputEntry id="UnaryTests_0kkkc0e">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04rcajp">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jbzi7w">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1pli4y7">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_16h160j" name="datumVerblijfstitelVastgesteld" />
+  <inputData id="InputData_010q3jh" name="handmatigVaststellen" />
+  <inputData id="InputData_0v1yqb4" name="nationaliteitVerblijfstatusAanvraag" />
+  <inputData id="InputData_0fu7gql" name="verblijfstitel" />
+  <inputData id="InputData_1cn9k8m" name="nationaliteitenBrp" />
+  <decision id="bs-213-bepalen-handmatige-beoordeling" name="Bepalen handmatige beoordeling">
+    <informationRequirement id="InformationRequirement_1m3om58">
+      <requiredInput href="#InputData_0v1yqb4" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0luixfl">
+      <requiredInput href="#InputData_1cn9k8m" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0ulgslv">
+      <requiredInput href="#InputData_1kgapm8" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0ydtwpa">
+      <requiredInput href="#InputData_1u9jqul" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0voo57i" hitPolicy="FIRST">
+      <input id="InputClause_1co91hr" label="Nationaliteit of Verblijfstatus uit aanvraag" biodi:width="336" camunda:inputVariable="nationaliteitOfVerblijfsstatus">
+        <inputExpression id="LiteralExpression_0g2y219" typeRef="string" />
+      </input>
+      <input id="InputClause_1r7xgtc" label="Code Nationaliteit uit BRP Nederlands" biodi:width="225">
+        <inputExpression id="LiteralExpression_1ndf60l" typeRef="boolean">
+          <text>list contains(nationaliteitenBrp.code, "1") or list contains(nationaliteitenBrp.code, "2")</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0nkazua" label="Verblijfstitel uit BRP" biodi:width="207" camunda:inputVariable="verblijfstitelBrp.code">
+        <inputExpression id="LiteralExpression_0gawj7d" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0y44s2v" label="Handmatig vaststellen" camunda:inputVariable="handmatigVaststellen">
+        <inputExpression id="LiteralExpression_0fyqcqg" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0pjuza1" label="Handmatig beoordelen" name="handmatigBeoordelen" typeRef="boolean" biodi:width="308" />
+      <output id="OutputClause_1rpnuch" label="Nederlandse Nationaliteit" name="nationaliteitNederlands" typeRef="boolean" />
+      <rule id="DecisionRule_0wa6n43">
+        <inputEntry id="UnaryTests_09ivqdc">
+          <text>"NEDERLANDSE_NATIONALITEIT"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1puhsz7">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1td8u3g">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bq9y1z">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0f92g34">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0r7caez">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0jy0y4s">
+        <inputEntry id="UnaryTests_02sktwm">
+          <text>"NEDERLANDSE_NATIONALITEIT"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_151v17c">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s5zau4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13qmsep">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11q0bcu">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ap5wgn">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1vcaaii">
+        <inputEntry id="UnaryTests_0w0gdnq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0cbjtid">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yb4amw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wrimmg">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0tlyy30">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0sl4y0g">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1sd4y4o" name="nationaliteitNederlands" />
+  <inputData id="InputData_08orcbo" name="gemeenschapsrecht" />
+  <inputData id="InputData_1kgapm8" name="verblijfstitelBrp" />
+  <inputData id="InputData_1u9jqul" name="handmatigVaststellen" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="bs-213-kwalitatief-voldoende-aanwezig">
+        <dc:Bounds height="80" width="180" x="280" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1rc29fj" dmnElementRef="InputData_0n0h7uy">
+        <dc:Bounds height="45" width="125" x="167" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0e8a4de" dmnElementRef="InformationRequirement_0u1llk6">
+        <di:waypoint x="230" y="237" />
+        <di:waypoint x="325" y="180" />
+        <di:waypoint x="325" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_155044d" dmnElementRef="bs-213-bepalen-verblijfstitel-rechthebbend">
+        <dc:Bounds height="80" width="180" x="1370" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_07r2g63" dmnElementRef="InputData_16h160j">
+        <dc:Bounds height="45" width="125" x="307" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1g6x72k" dmnElementRef="InformationRequirement_1lkviaj">
+        <di:waypoint x="370" y="237" />
+        <di:waypoint x="370" y="180" />
+        <di:waypoint x="370" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1gfgn5p" dmnElementRef="InputData_010q3jh">
+        <dc:Bounds height="45" width="125" x="447" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0oey4d1" dmnElementRef="InformationRequirement_0vl1lt3">
+        <di:waypoint x="510" y="237" />
+        <di:waypoint x="415" y="180" />
+        <di:waypoint x="415" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1q8wxo8" dmnElementRef="InputData_0v1yqb4">
+        <dc:Bounds height="45" width="125" x="627" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_16k5qru" dmnElementRef="InputData_0fu7gql">
+        <dc:Bounds height="45" width="125" x="1397" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0213zk5" dmnElementRef="InformationRequirement_0tanoau">
+        <di:waypoint x="1460" y="237" />
+        <di:waypoint x="1460" y="180" />
+        <di:waypoint x="1460" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1c1rvw5" dmnElementRef="InputData_1cn9k8m">
+        <dc:Bounds height="45" width="125" x="767" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0k5iomy" dmnElementRef="bs-213-bepalen-handmatige-beoordeling">
+        <dc:Bounds height="80" width="180" x="810" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_10pztjd" dmnElementRef="InformationRequirement_1m3om58">
+        <di:waypoint x="690" y="237" />
+        <di:waypoint x="846" y="180" />
+        <di:waypoint x="846" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_13j5wlm" dmnElementRef="InformationRequirement_0luixfl">
+        <di:waypoint x="830" y="237" />
+        <di:waypoint x="882" y="180" />
+        <di:waypoint x="882" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1p82urd" dmnElementRef="InputData_1sd4y4o">
+        <dc:Bounds height="45" width="125" x="1257" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_12rwynb" dmnElementRef="InformationRequirement_0yp5rww">
+        <di:waypoint x="1320" y="237" />
+        <di:waypoint x="1415" y="180" />
+        <di:waypoint x="1415" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_17h07n3" dmnElementRef="InputData_08orcbo">
+        <dc:Bounds height="45" width="125" x="1537" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0v3xb70" dmnElementRef="InformationRequirement_1sjceaq">
+        <di:waypoint x="1600" y="237" />
+        <di:waypoint x="1505" y="180" />
+        <di:waypoint x="1505" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0bfyydg" dmnElementRef="InputData_1kgapm8">
+        <dc:Bounds height="45" width="125" x="907" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1gfhrz6" dmnElementRef="InformationRequirement_0ulgslv">
+        <di:waypoint x="970" y="237" />
+        <di:waypoint x="918" y="180" />
+        <di:waypoint x="918" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1e5lby5" dmnElementRef="InputData_1u9jqul">
+        <dc:Bounds height="45" width="125" x="1057" y="237" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1uvn9wd" dmnElementRef="InformationRequirement_0ydtwpa">
+        <di:waypoint x="1120" y="237" />
+        <di:waypoint x="954" y="180" />
+        <di:waypoint x="954" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.32.0" camunda:diagramRelationId="c1c21bad-48a8-4110-80b2-6350a80a9e03">
+  <bpmn:collaboration id="Collaboration_0o2qrbx">
+    <bpmn:participant id="VerlengenDeadlineInformatieverzoekParticipant" name="Verlengen deadline informatieverzoek" processRef="ab-verlengen-deadline-informatieverzoek" />
+  </bpmn:collaboration>
+  <bpmn:message id="Message_1qeuq56" name="SHV_OPVRAGEN_INFORMATIE_PORTAALTAAK_AFGEROND" />
+  <bpmn:message id="Message_07ngnm5" name="SHV_OPVRAGEN_INFORMATIE_PORTAALTAAK_GEANNULEERD" />
+  <bpmn:process id="ab-verlengen-deadline-informatieverzoek" name="AB: Verlengen deadline informatieverzoek" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_05ieiak" />
+    <bpmn:startEvent id="DeadlineVerlengenGestartStartEvent" name="deadline verlengen gestart">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${execution.setVariable(&#34;informatieverzoeken&#34;, valueResolverDelegateService.resolveValue(execution, &#34;doc:/informatieverzoeken&#34;))}" event="end" />
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_0rsm9xf</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0rsm9xf" sourceRef="DeadlineVerlengenGestartStartEvent" targetRef="InvoerenNieuweDeadlineTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="HersteltermijnVanToepassingGateway" targetRef="BeeindigdBestaandeEinddatumBeslistermijnTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${verzoek.hersteltermijn == 'JA'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="HersteltermijnVanToepassingGateway" targetRef="Gateway_0ycan9c" />
+    <bpmn:sequenceFlow id="Flow_146035s" sourceRef="BepalenNieuwEinddatumBeslistermijnTask" targetRef="Gateway_0ycan9c" />
+    <bpmn:sequenceFlow id="Flow_1ftsml9" sourceRef="UpdatenPortaaltaakTask" targetRef="DeadlineVerlengdEndEvent" />
+    <bpmn:userTask id="InvoerenNieuweDeadlineTask" name="Invoeren nieuwe deadline" camunda:asyncAfter="true" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR">
+      <bpmn:incoming>Flow_0rsm9xf</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xxzbe1</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1xxzbe1" sourceRef="InvoerenNieuweDeadlineTask" targetRef="VoorbereidenVariabelenTask" />
+    <bpmn:exclusiveGateway id="HersteltermijnVanToepassingGateway" name="hersteltermijn van toepassing?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_0eowxe5</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0eowxe5" sourceRef="VoorbereidenVariabelenTask" targetRef="HersteltermijnVanToepassingGateway" />
+    <bpmn:sequenceFlow id="Flow_1avevr2" sourceRef="Gateway_0ycan9c" targetRef="AanpassenDeadlineMessageSendEvent" />
+    <bpmn:serviceTask id="VoorbereidenVariabelenTask" name="Voorbereiden variabelen" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="informatieverzoeken">${valueResolverDelegateService.resolveValue(execution, "doc:/informatieverzoeken")}</camunda:inputParameter>
+          <camunda:outputParameter name="verzoek">${informatieverzoeken[informatieverzoeken.size() - 1].verzoek}</camunda:outputParameter>
+          <camunda:outputParameter name="prettyDeadline">${dateTime().parse(verzoek.deadlineInformatieverzoek).toLocalDate().toString("dd-MM-yyyy")}</camunda:outputParameter>
+          <camunda:outputParameter name="verwerkerTaakId">${informatieverzoeken[informatieverzoeken.size() - 1].verzoek.verwerkerTaakId}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1xxzbe1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0eowxe5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BepalenNieuwEinddatumBeslistermijnTask" name="Bepalen nieuw einddatum beslistermijn" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="hersteltermijn">${verzoek.hersteltermijnInDagen}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1egm7b9</bpmn:incoming>
+      <bpmn:outgoing>Flow_146035s</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Gateway_0ycan9c">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:incoming>Flow_146035s</bpmn:incoming>
+      <bpmn:outgoing>Flow_1avevr2</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="BeeindigdBestaandeEinddatumBeslistermijnTask" name="Beëindigd bestaande einddatum beslistermijn" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1egm7b9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1egm7b9" sourceRef="BeeindigdBestaandeEinddatumBeslistermijnTask" targetRef="BepalenNieuwEinddatumBeslistermijnTask" />
+    <bpmn:serviceTask id="UpdatenPortaaltaakTask" name="updaten portaaltaak" camunda:asyncAfter="true" camunda:expression="${bbzTaskService.updatePortaalTaak(verwerkerTaakId, &#34;taak&#34;, newDeadline)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="newDeadline">${verzoek.deadlineInformatieverzoek}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0xsqeg6</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ftsml9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="DeadlineVerlengdEndEvent" name="deadline verlengd">
+      <bpmn:incoming>Flow_1ftsml9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:intermediateThrowEvent id="AanpassenDeadlineMessageSendEvent" name="Aanpassen deadline informatieverzoek" camunda:asyncBefore="true" camunda:asyncAfter="true">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="variablesMap">
+            <camunda:map>
+              <camunda:entry key="deadlineInformatieverzoek">${verzoek.deadlineInformatieverzoek}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1avevr2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xsqeg6</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0kg0afe" camunda:expression="${correlationService.sendCatchEventMessage(&#34;AB_OPVRAGEN_INFORMATIE_AANPASSEN_DEADLINE_MESSAGE&#34;, execution.businessKey, variablesMap )}" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_0xsqeg6" sourceRef="AanpassenDeadlineMessageSendEvent" targetRef="UpdatenPortaaltaakTask" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0o2qrbx">
+      <bpmndi:BPMNShape id="BPMNShape_1ctwt6i" bpmnElement="VerlengenDeadlineInformatieverzoekParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1680" height="265" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0vlnv2j" bpmnElement="DeadlineVerlengenGestartStartEvent">
+        <dc:Bounds x="232" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="208" y="215" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1jnf68r" bpmnElement="InvoerenNieuweDeadlineTask">
+        <dc:Bounds x="320" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_11zo1u7" bpmnElement="HersteltermijnVanToepassingGateway" isMarkerVisible="true">
+        <dc:Bounds x="625" y="165" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="606" y="128" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mvgfou_di" bpmnElement="VoorbereidenVariabelenTask">
+        <dc:Bounds x="480" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1bp1weq" bpmnElement="BepalenNieuwEinddatumBeslistermijnTask">
+        <dc:Bounds x="930" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_13xonbx" bpmnElement="Gateway_0ycan9c" isMarkerVisible="true">
+        <dc:Bounds x="1075" y="165" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_04r17t5" bpmnElement="BeeindigdBestaandeEinddatumBeslistermijnTask">
+        <dc:Bounds x="750" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1tuarst_di" bpmnElement="UpdatenPortaaltaakTask">
+        <dc:Bounds x="1280" y="150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0uqyq1o_di" bpmnElement="DeadlineVerlengdEndEvent">
+        <dc:Bounds x="1442" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1417" y="215" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1dxjt1z_di" bpmnElement="AanpassenDeadlineMessageSendEvent">
+        <dc:Bounds x="1182" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1159" y="215" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0rsm9xf_di" bpmnElement="Flow_0rsm9xf">
+        <di:waypoint x="268" y="190" />
+        <di:waypoint x="320" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1a6rl6i" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="675" y="190" />
+        <di:waypoint x="750" y="190" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="684" y="172" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0oli6tg" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="650" y="215" />
+        <di:waypoint x="650" y="280" />
+        <di:waypoint x="1100" y="280" />
+        <di:waypoint x="1100" y="215" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="659" y="222" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1qg3a9f" bpmnElement="Flow_146035s">
+        <di:waypoint x="1030" y="190" />
+        <di:waypoint x="1075" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ftsml9_di" bpmnElement="Flow_1ftsml9">
+        <di:waypoint x="1380" y="190" />
+        <di:waypoint x="1442" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xxzbe1_di" bpmnElement="Flow_1xxzbe1">
+        <di:waypoint x="420" y="190" />
+        <di:waypoint x="480" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0eowxe5_di" bpmnElement="Flow_0eowxe5">
+        <di:waypoint x="580" y="190" />
+        <di:waypoint x="625" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1avevr2_di" bpmnElement="Flow_1avevr2">
+        <di:waypoint x="1125" y="190" />
+        <di:waypoint x="1182" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1egm7b9_di" bpmnElement="Flow_1egm7b9">
+        <di:waypoint x="850" y="190" />
+        <di:waypoint x="930" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xsqeg6_di" bpmnElement="Flow_0xsqeg6">
+        <di:waypoint x="1218" y="190" />
+        <di:waypoint x="1280" y="190" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

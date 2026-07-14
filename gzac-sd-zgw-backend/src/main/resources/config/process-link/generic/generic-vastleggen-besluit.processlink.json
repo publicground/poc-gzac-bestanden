@@ -1,0 +1,46 @@
+[
+    {
+        "activityId": "GetBesluittypeURLTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "ceea60b6-c475-4f80-9ec2-aec54f719b24",
+        "pluginActionDefinitionKey": "get-besluittype",
+        "actionProperties": {
+            "besluittype": "pv:besluitTypeDescription",
+            "processVariable": "besluittypeUrl"
+        }
+    },
+    {
+        "activityId": "CreateBesluitTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "ae28c811-fd8b-4e76-b2f7-5a635e623243",
+        "pluginActionDefinitionKey": "create-besluit",
+        "actionProperties": {
+            "besluittypeUrl": "pv:besluittypeUrl",
+            "toelichting": "Besluit",
+            "bestuursorgaan": "Bestuursorgaan",
+            "ingangsdatum": "pv:besluitIngangsdatum",
+            "createdBesluitUrl": "besluitUrl",
+            "vervalreden": "tijdelijk",
+            "vervaldatum": null,
+            "publicatiedatum": null,
+            "verzenddatum": null,
+            "uiterlijkeReactieDatum": null,
+            "inputTypeBesluitToggle": "text",
+            "inputTypeStartingDateToggle": "text",
+            "inputTypeExpirationDateToggle": "selection"
+        }
+    },
+    {
+        "activityId": "LinkDocumentAanBesluitTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "ae28c811-fd8b-4e76-b2f7-5a635e623243",
+        "pluginActionDefinitionKey": "link-document-to-besluit",
+        "actionProperties": {
+            "besluitUrl": "pv:besluitUrl",
+            "documentUrl": "pv:besluitDocumentUrl"
+        }
+    }
+]

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0y9t2as" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_17rouow">
+    <bpmn:participant id="BSBVerwerkenIntrekkingParticipant" name="BSB Verwerken intrekking" processRef="bsb-verwerken-intrekking" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-verwerken-intrekking" name="BSB Verwerken intrekking" isExecutable="true">
+    <bpmn:startEvent id="Event_0erbzwt">
+      <bpmn:outgoing>Flow_09pyv4p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="mailTaskTemplate">${(zaakdossiertype == "aanvraag-algemene-bijstand") ? "SD Inkomen portaalbrief Algemene Bijstand" : "SD Inkomen portaalbrief IOAW"} </camunda:outputParameter>
+          <camunda:outputParameter name="mailTaskSubject">SD Inkomen ontvangstbevestiging Algemene Bijstand</camunda:outputParameter>
+          <camunda:outputParameter name="emailAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/contactgegevens/email", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/contactgegevens/email", execution,""))}</camunda:outputParameter>
+          <camunda:outputParameter name="zaaknummer">${valueResolverDelegateService.resolveValue(execution, "doc:/openzaak/identificatie")}</camunda:outputParameter>
+          <camunda:outputParameter name="voorlettersAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/voorletters", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/voorletters", execution,""))}</camunda:outputParameter>
+          <camunda:outputParameter name="voornaamAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/voornaam", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/voornaam", execution,""))}</camunda:outputParameter>
+          <camunda:outputParameter name="tussenvoegselAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/voorvoegsel", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/voorvoegsel", execution,""))}</camunda:outputParameter>
+          <camunda:outputParameter name="achternaamAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/achternaam", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/achternaam", execution,""))}</camunda:outputParameter>
+          <camunda:outputParameter name="templateName">${(zaakdossiertype == "aanvraag-algemene-bijstand") ? "ALO Bevestigen intrekken aanvraag bijstandsuitkering" : "IOAW Bevestigen intrekken aanvraag bijstandsuitkering"}</camunda:outputParameter>
+          <camunda:outputParameter name="templateGroup">${(zaakdossiertype == "aanvraag-algemene-bijstand") ? "GZAC Sociaal domein / ALO" : "GZAC Sociaal domein / IOAW"}</camunda:outputParameter>
+          <camunda:outputParameter name="gegevensAanvrager">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager", execution,"")}</camunda:outputParameter>
+          <camunda:outputParameter name="gegevensPartner">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/partner", execution,"")}</camunda:outputParameter>
+          <camunda:outputParameter name="communicatievoorkeur">${documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVaststelling/aanvrager/communicatievoorkeur", execution,documentDelegateService.findValueByJsonPointerOrDefault("/gegevensVanuitAanvraag/aanvrager/communicatievoorkeur", execution,"portaal"))}</camunda:outputParameter>
+          <camunda:outputParameter name="verzendadres">${
+          valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvrager/verblijfadres/verblijfadresVastgesteld") == true
+              ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/verblijfadres")
+              : (
+                  valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/woonsituatie") == "ELDERS"
+                      ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/verblijfadres")
+                      : valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/adresBrp")
+              )
+          }</camunda:outputParameter>
+          <camunda:outputParameter name="zaakstatus">Beslist</camunda:outputParameter>
+          <camunda:outputParameter name="interneStatus">beslist</camunda:outputParameter>
+          <camunda:outputParameter name="besluiten">${valueResolverDelegateService.resolveValue(execution, "doc:/besluiten")}</camunda:outputParameter>
+          <camunda:outputParameter name="datumIngetrokken">${now().toInstant().toString()}</camunda:outputParameter>
+          <camunda:outputParameter name="documentTitle">Intrekkingsbrief</camunda:outputParameter>
+          <camunda:outputParameter name="documentDescription">Intrekkingsbrief voor de aanvraag</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_09pyv4p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j39whd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="BsVerwerkenIntrekkingCallActivity" name="bs verwerken intrekking" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-verwerken-intrekking">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="mailTaskTemplate" target="mailTaskTemplate" />
+        <camunda:in source="mailTaskSubject" target="mailTaskSubject" />
+        <camunda:in source="emailAanvrager" target="emailAanvrager" />
+        <camunda:in source="voorlettersAanvrager" target="voorlettersAanvrager" />
+        <camunda:in source="voornaamAanvrager" target="voornaamAanvrager" />
+        <camunda:in source="tussenvoegselAanvrager" target="tussenvoegselAanvrager" />
+        <camunda:in source="achternaamAanvrager" target="achternaamAanvrager" />
+        <camunda:in source="zaaknummer" target="zaaknummer" />
+        <camunda:in source="templateName" target="templateName" />
+        <camunda:in source="templateGroup" target="templateGroup" />
+        <camunda:in source="gegevensAanvrager" target="gegevensAanvrager" />
+        <camunda:in source="gegevensPartner" target="gegevensPartner" />
+        <camunda:in source="communicatievoorkeur" target="communicatievoorkeur" />
+        <camunda:in source="verzendadres" target="verzendadres" />
+        <camunda:in source="zaakstatus" target="zaakstatus" />
+        <camunda:in source="interneStatus" target="interneStatus" />
+        <camunda:in source="documentTitle" target="documentTitle" />
+        <camunda:in source="documentDescription" target="documentDescription" />
+        <camunda:out source="ingetrokkenVia" target="ingetrokkenVia" />
+        <camunda:out source="datumIngetrokken" target="datumIngetrokken" />
+        <camunda:out source="beslisser" target="beslisser" />
+        <camunda:out source="besluitDatum" target="besluitDatum" />
+        <camunda:inputOutput>
+          <camunda:outputParameter name="intrekking">
+            <camunda:map>
+              <camunda:entry key="datumIngetrokken">${execution.getVariable("datumIngetrokken")}</camunda:entry>
+              <camunda:entry key="ingetrokkenVia">${execution.getVariable("ingetrokkenVia")}</camunda:entry>
+            </camunda:map>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0j39whd</bpmn:incoming>
+      <bpmn:outgoing>Flow_00qd3pv</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_09pyv4p" sourceRef="Event_0erbzwt" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_0j39whd" sourceRef="OphalenInputTask" targetRef="BsVerwerkenIntrekkingCallActivity" />
+    <bpmn:sequenceFlow id="Flow_00qd3pv" sourceRef="BsVerwerkenIntrekkingCallActivity" targetRef="MapBesluitTask" />
+    <bpmn:sequenceFlow id="Flow_1mxvdsj" sourceRef="WegschrijvenOutputBesluitTask" targetRef="IntrekkingVerwerktEndEvent" />
+    <bpmn:sequenceFlow id="Flow_1f8pxmw" sourceRef="MapBesluitTask" targetRef="WegschrijvenOutputBesluitTask" />
+    <bpmn:serviceTask id="WegschrijvenOutputBesluitTask" name="wegschrijven output besluit" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/besluiten&#34;, besluiten)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="besluiten">
+            <camunda:script scriptFormat="javascript">var besluiten = execution.getVariable("besluiten");
+var besluit = execution.getVariable("mappedBesluit");
+
+besluiten = besluiten instanceof java.util.List ? Java.from(besluiten) : [];
+
+besluiten.push(besluit);
+
+result = java.util.Arrays.asList(besluiten);</camunda:script>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1f8pxmw</bpmn:incoming>
+      <bpmn:outgoing>Flow_1mxvdsj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="MapBesluitTask" name="map besluit" camunda:asyncBefore="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="genomenBesluit">INGETROKKEN</camunda:inputParameter>
+          <camunda:outputParameter name="mappedBesluit">
+            <camunda:script scriptFormat="javascript">var genomenBesluit = execution.getVariable("genomenBesluit");
+var beslisser = execution.getVariable("beslisser");
+var besluitDatum = execution.getVariable("besluitDatum");
+var intrekking = execution.getVariable("intrekking");
+
+var mappedBesluit = new java.util.HashMap();
+
+mappedBesluit.put("genomenBesluit", genomenBesluit);
+mappedBesluit.put("beslisser", beslisser);
+mappedBesluit.put("besluitDatum", besluitDatum);
+mappedBesluit.put("intrekking", intrekking);
+
+result = mappedBesluit;</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_00qd3pv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1f8pxmw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="IntrekkingVerwerktEndEvent" name="intrekking verwerkt">
+      <bpmn:incoming>Flow_1mxvdsj</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_17rouow">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="BSBVerwerkenIntrekkingParticipant" isHorizontal="true">
+        <dc:Bounds x="153" y="100" width="877" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03xt9u9" bpmnElement="Event_0erbzwt">
+        <dc:Bounds x="245" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0x5izaw" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="333" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1pfuhdg" bpmnElement="BsVerwerkenIntrekkingCallActivity">
+        <dc:Bounds x="480" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0ffnfju" bpmnElement="WegschrijvenOutputBesluitTask">
+        <dc:Bounds x="790" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1liisas" bpmnElement="MapBesluitTask">
+        <dc:Bounds x="640" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0l73d0i_di" bpmnElement="IntrekkingVerwerktEndEvent">
+        <dc:Bounds x="942" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="936" y="245" width="48" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_10a0jsd" bpmnElement="Flow_09pyv4p">
+        <di:waypoint x="281" y="220" />
+        <di:waypoint x="333" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1qcvydq" bpmnElement="Flow_0j39whd">
+        <di:waypoint x="433" y="220" />
+        <di:waypoint x="480" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1d5o6do" bpmnElement="Flow_00qd3pv">
+        <di:waypoint x="580" y="220" />
+        <di:waypoint x="640" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mxvdsj_di" bpmnElement="Flow_1mxvdsj">
+        <di:waypoint x="890" y="220" />
+        <di:waypoint x="942" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1f8pxmw_di" bpmnElement="Flow_1f8pxmw">
+        <di:waypoint x="740" y="220" />
+        <di:waypoint x="790" y="220" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

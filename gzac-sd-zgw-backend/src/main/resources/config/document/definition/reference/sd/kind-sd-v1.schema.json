@@ -1,0 +1,74 @@
+{
+    "$id": "kind.schema",
+    "type": "object",
+    "title": "Kind",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "voorletters": {
+            "type": "string"
+        },
+        "voornamen": {
+            "type": "string"
+        },
+        "voorvoegsel": {
+            "type": "string"
+        },
+        "achternaam": {
+            "type": "string"
+        },
+        "volledigeNaam": {
+            "type": "string"
+        },
+        "geboortedatum": {
+            "type": "string"
+        },
+        "bsn": {
+            "$ref": "/document/definition/reference/ontologie/persoonsgegevens-v1.schema.json#/definitions/bsn"
+        },
+        "kinderbijslag": {
+            "type": "string"
+        },
+        "redenGeenKinderbijslag": {
+            "type": "string"
+        },
+        "toelichtingRedenGeenKinderbijslag": {
+            "type": "string"
+        },
+        "volgtOpleiding": {
+            "type": "string",
+            "enum": [
+                "JA",
+                "NEE"
+            ]
+        },
+        "soortOpleiding": {
+            "$ref": "/document/definition/reference/sd/opleiding-sd-v1.schema.json#/definitions/opleidingen"
+        },
+        "omschrijvingVolgtOpleiding": {
+            "type": "string"
+        },
+        "volgtBblTraject": {
+            "type": "string",
+            "enum": [
+                "JA",
+                "NEE",
+                ""
+            ]
+        },
+        "soortBblTraject": {
+            "type": "string"
+        },
+        "isKostendeler": {
+            "type": "boolean"
+        },
+        "datumOverlijden": {
+            "type": "string"
+        },
+        "adres": {
+            "type": "object",
+            "$ref": "/document/definition/reference/sd/adres-sd-v1.schema.json#/definitions/adres"
+        }
+
+    }
+}

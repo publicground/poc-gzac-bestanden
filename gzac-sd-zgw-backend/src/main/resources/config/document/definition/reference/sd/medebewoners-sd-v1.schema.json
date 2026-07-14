@@ -1,0 +1,169 @@
+{
+    "$id": "medebewoner.schema",
+    "type": "object",
+    "title": "Medebewoner",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "voorletters": {
+            "type": "string"
+        },
+        "voornamen": {
+            "type": "string"
+        },
+        "voorvoegsel": {
+            "type": "string"
+        },
+        "achternaam": {
+            "type": "string"
+        },
+        "volledigeNaam": {
+            "type": "string"
+        },
+        "geboortedatum": {
+            "type": "string"
+        },
+        "bsn": {
+            "type": "string"
+        },
+        "volgtOpleiding": {
+            "type": "boolean"
+        },
+        "soortOpleiding": {
+            "$ref": "/document/definition/reference/sd/opleiding-sd-v1.schema.json#/definitions/opleidingen"
+        },
+        "omschrijvingVolgtOpleiding": {
+            "type": "string"
+        },
+        "volgtBblTraject": {
+            "type": "string"
+        },
+        "soortBblTraject": {
+            "type": "string"
+        },
+        "relatieMedebewoner": {
+            "$ref": "#/definitions/relatieTotMedebewoner"
+        },
+        "toelichtingRelatieTotMedebewoner": {
+            "type": "string"
+        },
+        "samenlevingsvorm": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/samenlevingsvorm"
+            }
+        },
+        "gezamenlijkHuishouden": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/gezamenlijkHuishouden"
+            }
+        },
+        "gezamenlijkTijdsbesteding": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/gezamenlijkTijdsbesteding"
+            }
+        },
+        "teOntvangenHuur": {
+            "type": "number"
+        },
+        "frequentieOntvangenHuur": {
+            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+        },
+        "gezamenlijkeTijdsbesteding": {
+            "type": "string"
+        },
+        "medebewonerVolgtOpleiding": {
+            "type": "string"
+        },
+        "gezamelijkeHuishouding": {
+            "type": "string",
+            "enum": [
+                "JA",
+                "NEE",
+                "ONBEKEND"
+            ]
+        }
+    },
+    "definitions": {
+        "relatieTotMedebewoner": {
+            "type": "string",
+            "enum": [
+                "OUDERS",
+                "SCHOONOUDERS",
+                "OPA_OMA_BROER_ZUS",
+                "KAMER_VERHUUR",
+                "KAMER_HUUR",
+                "GEEN_RELATIE"
+            ]
+        },
+        "samenlevingsvorm": {
+            "type": "object",
+            "enum": [
+                {
+                    "code": "GEHUWD_PARTNER",
+                    "name": "Wij zijn in de afgelopen 2 jaar gehuwd (of geregistreerd partner) geweest"
+                },
+                {
+                    "code": "SAMEN_KIND",
+                    "name": "Wij hebben samen een kind (of een erkend kind)"
+                },
+                {
+                    "code": "SAMENLEVINGSCONTRACT",
+                    "name": "Wij hebben een samenlevingscontract"
+                },
+                {
+                    "code": "HUISHOUDEN_OVERHEID",
+                    "name": "Wij worden of werden, in de afgelopen 2 jaar, als 1 huishouden gezien door een overheidsinstantie (zoals de Belastingdienst)"
+                },
+                {
+                    "code": "GEEN_RELATIE",
+                    "name": "Wij zijn in de afgelopen 2 jaar niet gehuwd of geregistreerd partner geweest, wij hebben samen geen(erkend) kind, wij hebben geen samenlevingscontract, wij worden of werden (in de afgelopen 2 jaar) niet gezien als 1 huishouden door een overheidsinstantie"
+                }
+            ]
+        },
+        "gezamenlijkHuishouden": {
+            "type": "object",
+            "enum": [
+                {
+                    "code": "DELEN_HUUR",
+                    "name": "Wij delen de kosten van de huur"
+                },
+                {
+                    "code": "DELEN_VASTE_LASTEN",
+                    "name": "Wij delen de vaste lasten, zoals gas en water"
+                },
+                {
+                    "code": "DELEN_BOODSCHAPPEN",
+                    "name": "Wij delen de kosten van de boodschappen"
+                },
+                {
+                    "code": "NIET_DELEN",
+                    "name": "Wij delen niet de kosten van de huur, de vaste lasten (zoals gas en water) of de kosten van de boodschappen"
+                }
+            ]
+        },
+        "gezamenlijkTijdsbesteding": {
+            "type": "object",
+            "enum": [
+                {
+                    "code": "ETEN_SAMEN",
+                    "name": "Wij eten samen"
+                },
+                {
+                    "code": "VAKANTIE_SAMEN",
+                    "name": "Wij gaan samen op vakantie"
+                },
+                {
+                    "code": "TAKEN_VERDELEN",
+                    "name": "Wij verdelen, of doen samen de taken in het huishouden"
+                },
+                {
+                    "code": "NIET_SAMEN",
+                    "name": "Wij eten niet samen, gaan niet samen op vakantie en verdelen geen taken in het huishouden"
+                }
+            ]
+        }
+    }
+}

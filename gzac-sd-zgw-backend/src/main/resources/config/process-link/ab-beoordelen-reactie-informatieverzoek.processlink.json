@@ -1,0 +1,18 @@
+[
+    {
+        "actionProperties": {},
+        "activityId": "BepalenNieuwEinddatumBeslistermijnTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "end-hersteltermijn",
+        "processLinkType": "plugin"
+    },
+    {
+        "activityId": "BeoordelenResultaatInformatieverzoekTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "aanvraag-algemene-bijstand.beoordelen-resultaat-informatieverzoek"
+    }
+]

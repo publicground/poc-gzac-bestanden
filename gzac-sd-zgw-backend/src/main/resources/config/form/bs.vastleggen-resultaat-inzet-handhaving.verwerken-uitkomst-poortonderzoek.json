@@ -1,0 +1,104 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "Aanvrager",
+            "key": "pv.aanvrager",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Titel blok",
+            "content": "<div class=\"mb-3\">\n  <h4>Verwerken uitkomst poortonderzoek</h4>\n <h4>Naam aanvrager: {{{data.pv?.aanvrager?.voornamen + ' ' + data.pv?.aanvrager?.voorvoegsel + ' ' + data.pv?.aanvrager?.achternaam + ' | Geboorte datum: ' + (data.pv?.aanvrager?.geboortedatum ? moment(data.pv?.aanvrager?.geboortedatum).format('DD-MM-yyyy') : '')  + ' | BSN: ' + data.pv?.aanvrager?.bsn }}}</h4>\n</div>",
+            "refreshOnChange": false,
+            "key": "titelBlok",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Titel blok",
+            "content": "<p>Leg hieronder vast wat de uitkomst was van het uitgevoerde poortonderzoek</p>",
+            "customClass": "alert alert-primary",
+            "refreshOnChange": false,
+            "key": "titelBlok",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "pv.poortonderzoek",
+            "tableView": false,
+            "validateWhenHidden": false,
+            "key": "pv.poortonderzoek",
+            "type": "container",
+            "input": true,
+            "components": [
+                {
+                    "label": "Datum ontvangst uitkomst poortonderzoek",
+                    "format": "dd-MM-yyyy",
+                    "tableView": false,
+                    "datePicker": {
+                        "disableWeekends": false,
+                        "disableWeekdays": false
+                    },
+                    "enableTime": false,
+                    "defaultDate": "moment()",
+                    "validate": {
+                        "required": true
+                    },
+                    "enableMinDateInput": false,
+                    "enableMaxDateInput": false,
+                    "validateWhenHidden": false,
+                    "key": "datumUitkomst",
+                    "type": "datetime",
+                    "input": true,
+                    "widget": {
+                        "type": "calendar",
+                        "displayInTimezone": "viewer",
+                        "locale": "en",
+                        "useLocaleSettings": false,
+                        "allowInput": true,
+                        "mode": "single",
+                        "enableTime": false,
+                        "noCalendar": false,
+                        "format": "dd-MM-yyyy",
+                        "hourIncrement": 1,
+                        "minuteIncrement": 1,
+                        "time_24hr": false,
+                        "minDate": null,
+                        "disableWeekends": false,
+                        "disableWeekdays": false,
+                        "maxDate": null
+                    }
+                },
+                {
+                    "label": "Uitkomst poortonderzoek?",
+                    "applyMaskOn": "change",
+                    "autoExpand": false,
+                    "tableView": true,
+                    "validate": {
+                        "required": true,
+                        "maxLength": 1000
+                    },
+                    "validateWhenHidden": false,
+                    "key": "uitkomst",
+                    "type": "textarea",
+                    "input": true
+                }
+            ]
+        },
+        {
+            "label": "Indienen",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "input": true,
+            "type": "button",
+            "custom": "form.submit(); component.disabled = true;"
+        }
+    ]
+}

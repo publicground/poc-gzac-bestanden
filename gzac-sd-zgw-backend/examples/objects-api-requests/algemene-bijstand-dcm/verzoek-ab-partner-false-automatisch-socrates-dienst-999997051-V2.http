@@ -1,0 +1,202 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "999997051",
+      "data": {
+        "alo-ioaw": {
+          "grIoaw": {
+            "geenRechtMeerWw": "NEE",
+            "geenRechtMeerWga": "NEE",
+            "gedeeltelijkArbeidsongeschikt": "NEE"
+          }
+        },
+        "schulden": {
+          "heeftSchulden": "NEE"
+        },
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Koningin Marialaan",
+              "postcode": "2595AK",
+              "huisletter": "B",
+              "huisnummer": 12,
+              "toevoeging": "HS"
+            },
+            "grPersoongegevens": {
+              "Bsn": "999997051",
+              "voornaam": "Alma Milena",
+              "achternaam": "Lata Vishwanathan lyer",
+              "geboortedatum": "1963-09-11"
+            }
+          }
+        },
+        "alo-inleiding": {},
+        "alo-uitbetaling": {
+          "hoeBetaald": "VOLLEDIG_OP_MIJN_REKENING",
+          "ibanAanWie": "JA",
+          "ibanUitbetaling": "NL04ANDL0131790706",
+          "naamRekeninghouder": "Alma Milena"
+        },
+        "alo-uw-inkomsten": {
+          "grUitkering": {
+            "grWw": {
+              "ww": 600,
+              "geenWw": false,
+              "wwPeriode": "MAAND"
+            },
+            "welkeUitkering": {
+              "WW": true,
+              "ANW": false,
+              "AOW": false,
+              "WAO": false,
+              "WIA": false,
+              "WAJONG": false,
+              "ZIEKTEWET": false
+            }
+          },
+          "grLoondienst": {
+            "hhgWerkgevers": [
+              {
+                "naamWerkgever": "Stadswinkel Den Haag Centrum",
+                "soortContract": "CONTRACT_BEPAALDE_TIJD",
+                "hoeveelUurWerk": 24,
+                "nettoloon": 1500,
+                "hoevaakLoon": "MAAND",
+                "kiesLoonheffing": "JA",
+                "urenvermindering": "NEE",
+                "kiesExtraUitbetaald": "NEE"
+              }
+            ]
+          },
+          "heeftInkomsten": "JA",
+          "soortenInkomsten": {
+            "LOONDIENST": true,
+            "UITKERING": true
+          }
+        },
+        "alo-reden-aanvraag": {
+          "grIngangsdatum": {
+            "bijstandsuitkeringEerderStarten": "JA",
+            "welkeredenlaat": "ANDERE_REDEN",
+            "waaromLaatAlgemeen": "Ik wist niet hoe ik deze uitkering kon aanvragen"
+          },
+          "beeindigingRelatie": {
+            "hoeBetaalt": "Leningen bij vrienden ",
+            "sindWanneer": "2025-01-09",
+            "wasGetrouwd": "JA",
+            "afsprakenBijdragen": "NEE"
+          },
+            "waaromBijstandsuitkering": "WIJZIGING_GEZINSSITUATIE",
+            "grWijzigingGezinssituatie": {
+            "watGewijzigd": "RELATIE_VERBROKEN"
+          }
+        },
+
+        "alo-uw-woonsituatie": {
+          "hoeWoontU": "EIGEN_KOOPWONING_OF_WOONBOOT"
+        },
+
+        "alo-uw-beschikbaarheid": {
+          "grBeschikbaarheid": {
+            "onbetaald": "NEE",
+            "onbetaaldWerk": "",
+            "beschikbaarheid": 40
+          }
+        },
+          "alo-gezinssamenstelling": {
+          "partnerWoontBijU": "NEE",
+          "thuiswonendeKinderen": "NEE"
+          },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": false,
+          "grWoonsituatie": {
+            "woonsituatie": "WAAR_IK_WOON"
+          },
+          "grAdresVerblijf": {
+            "plaatsVerblijf": "'s-Gravenhage",
+            "straatVerblijf": "Spui",
+            "postcodeVerblijf": "2511BT",
+            "huisletterVerblijf": "",
+            "huisnummerVerblijf": 69,
+            "nummerToevoegingVerblijf": "",
+            "toelichtingadresVerblijf": ""
+          },
+          "grNationaliteit": {
+            "nationaliteitBezit": "GELDIGE_VERBLIJFSVERGUNNING",
+            "geenNederlandseNationaliteit": "JA"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "NEE"
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": false,
+            "emailAdres": "nora.van.wollingen@example.com",
+            "geenTelefoon": false,
+            "telefoonnummer": "0689453143"
+          }
+        },
+        "alo-uw-inkomsten-overzicht": {},
+        "alo-bezittingen-en-schulden": {
+          "grKoopwoning": {
+            "wozWaarde": 350000,
+            "beleggingsGekoppeld": "NEE",
+            "restHypotheekSchuld": 280000
+          },
+          "grMotorvoertuigen": {
+            "hhgMotorvoertuigen": [
+              {
+                "kenteken": "NK45TR",
+                "dagwaarde": 6500
+              }
+            ]
+          },
+          "grRekeningen": {
+            "grLogicaBank": {
+              "hhgVoegRekeningToe": [
+                {
+                  "prive": "NL12RABO0123456789",
+                  "hoeveelGeld": 1500,
+                  "typeRekening": "NEDERLANDSE_PRIVE_REKENING",
+                  "geenRekeningUploaden": true
+                }
+              ]
+            },
+            "geenBankrekening": "GEEN_REKENING"
+          },
+          "grContant": {
+            "waardeContant": 200
+          },
+          "grUwVermogen": {
+            "welkVermogen": {
+              "CRYPTO": false,
+              "CARAVAN": false,
+              "ERFENIS": false,
+              "VAARTUIG": false,
+              "CONTANTEN": true,
+              "KOOPWONING": true,
+              "MOTORVOERTUIG": true,
+              "EEN_STUK_GROND": false,
+              "OBLIGATIES_AANDELEN": false,
+              "BANK_EN_SPAARREKENINGEN": true
+            }
+          }
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "attachments": [],
+      "language_code": "nl",
+      "submission_id": "12345-abcde-67890",
+      "public_reference": "OF-{{$random.alphanumeric(8)}}"
+    },
+    "startAt": "2025-03-20",
+    "registrationAt": "2025-03-20"
+  }
+}

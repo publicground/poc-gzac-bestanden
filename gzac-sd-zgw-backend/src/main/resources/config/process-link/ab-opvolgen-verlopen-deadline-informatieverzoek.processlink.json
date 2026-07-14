@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "BepalenVervolgactieNaVerlopenDeadlineTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "aanvraag-algemene-bijstand.bepalen-vervolgactie-verlopen-deadline"
+    }
+]

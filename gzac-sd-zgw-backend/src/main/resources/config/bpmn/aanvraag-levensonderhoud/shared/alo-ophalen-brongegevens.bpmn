@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_117lgww" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.32.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_0xit703">
+    <bpmn:participant id="OphalenBrongegevensParticipant" name="Ophalen brongegevens" processRef="alo-ophalen-brongegevens" />
+  </bpmn:collaboration>
+  <bpmn:process id="alo-ophalen-brongegevens" name="ALO: Ophalen brongegevens" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_07g74tj</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_07g74tj" sourceRef="StartEvent_1" targetRef="BestaatPvUserGateway" />
+    <bpmn:sequenceFlow id="Flow_1r9t80g" sourceRef="OphalenUWVBrongegevensCallActivity" targetRef="OphalenSVBBrongegevensCallActivity" />
+    <bpmn:sequenceFlow id="Flow_1pk7f69" sourceRef="OphalenBRPBrongegevenCallActivity" targetRef="OphalenUWVBrongegevensCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0f7iodw" sourceRef="OphalenRDWBrongegevensCallActivity" targetRef="OphalenKadasterBrongegevensCallActivity" />
+    <bpmn:sequenceFlow id="Flow_1sx21lr" sourceRef="OphalenKadasterBrongegevensCallActivity" targetRef="Gateway_1c9waqd" />
+    <bpmn:sequenceFlow id="Flow_0m0s2gx" sourceRef="OphalenDuoOpleidingBrongegevensCallActivity" targetRef="OphalenDUOStudiefinancieringBrongegevensCallActivity" />
+    <bpmn:sequenceFlow id="Flow_06w3u4k" sourceRef="OphalenDUOStudiefinancieringBrongegevensCallActivity" targetRef="BepalenDossiertypeTask" />
+    <bpmn:sequenceFlow id="Flow_162b4zf" sourceRef="OphalenSVBBrongegevensCallActivity" targetRef="OphalenDuoOpleidingBrongegevensCallActivity" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="DossiersVanHetTypeIOAWGateway" targetRef="OphalenRDWBrongegevensCallActivity" />
+    <bpmn:sequenceFlow id="Flow_07iuc19" sourceRef="Gateway_1c9waqd" targetRef="Event_010je2w" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="DossiersVanHetTypeIOAWGateway" targetRef="Gateway_1c9waqd">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${dossiertype == 'ioaw-uitkering'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_09gf9oq" sourceRef="BepalenDossiertypeTask" targetRef="DossiersVanHetTypeIOAWGateway" />
+    <bpmn:sequenceFlow id="Flow_17xvz9p" sourceRef="VoorbereidenVariabelenTask" targetRef="MaakNieuwBrongegevensArrayTask" />
+    <bpmn:sequenceFlow id="Flow_1xyodvn" sourceRef="BrongegevensArrayOpslaanTask" targetRef="Gateway_1buadzq" />
+    <bpmn:sequenceFlow id="Flow_0cmeb47" sourceRef="MaakNieuwBrongegevensArrayTask" targetRef="BrongegevensArrayOpslaanTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow1" name="Ja" sourceRef="BestaatPvUserGateway" targetRef="VoorbereidenVariabelenTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.getVariable("user") != null}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="BestaatPvUserGateway" name="Bestaat pv user?" default="NeeSequenceFlow1">
+      <bpmn:incoming>Flow_07g74tj</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow1</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="VoorbereidenVariabelenTask" name="Voorbereiden variabelen">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="ophalenBronGegevens">
+            <camunda:map>
+              <camunda:entry key="datum">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="user">${user}</camunda:entry>
+            </camunda:map>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="brongegevensArray">${valueResolverDelegateService.resolveValue(execution, "doc:ophalenBronGegevens")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>JaSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_17xvz9p</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:serviceTask id="MaakNieuwBrongegevensArrayTask" name="maak nieuw BrongegevensArray" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="nieuwBrongegevensArray">
+            <camunda:script scriptFormat="javascript">var brongegevensArray = execution.getVariable("brongegevensArray") || [];
+brongegevensArray = brongegevensArray instanceof java.util.List ? Java.from(brongegevensArray) : [];
+brongegevensArray.push(ophalenBronGegevens); 
+java.util.Arrays.asList(brongegevensArray);</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_17xvz9p</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cmeb47</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BrongegevensArrayOpslaanTask" name="BrongegevensArray opslaan" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/ophalenBronGegevens&#34;, nieuwBrongegevensArray)}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0cmeb47</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xyodvn</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="OphalenUWVBrongegevensCallActivity" name="Ophalen UWV brongegevens" camunda:asyncAfter="true" calledElement="alo-ophalen-uwv-brongegevens">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="bsn" target="bsn" />
+        <camunda:in source="documentPath" target="documentPath" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1pk7f69</bpmn:incoming>
+      <bpmn:outgoing>Flow_1r9t80g</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="OphalenBRPBrongegevenCallActivity" name="Ophalen BRP brongegeven" camunda:asyncAfter="true" calledElement="alo-ophalen-brp-brongegevens">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="bsn" target="bsn" />
+        <camunda:in source="aanvragerPath" target="aanvragerPath" />
+        <camunda:in source="partnerPath" target="partnerPath" />
+        <camunda:in source="kinderenPath" target="kinderenPath" />
+        <camunda:in source="partnerBsn" target="partnerBsn" />
+        <camunda:in source="kinderenBsns" target="kinderenBsns" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1w3cqpy</bpmn:incoming>
+      <bpmn:outgoing>Flow_1pk7f69</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="DossiersVanHetTypeIOAWGateway" name="Dossiers van het type &#39;IOAW&#39;?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_09gf9oq</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_010je2w">
+      <bpmn:incoming>Flow_07iuc19</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_1c9waqd">
+      <bpmn:incoming>Flow_1sx21lr</bpmn:incoming>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_07iuc19</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="OphalenKadasterBrongegevensCallActivity" name="Ophalen kadaster brongegevens" camunda:asyncAfter="true" calledElement="alo-ophalen-kadaster-brongegevens">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="bsn" target="bsn" />
+        <camunda:in source="vermogenPath" target="vermogenPath" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0f7iodw</bpmn:incoming>
+      <bpmn:outgoing>Flow_1sx21lr</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="OphalenRDWBrongegevensCallActivity" name="Ophalen RDW brongegevens" camunda:asyncAfter="true" calledElement="alo-ophalen-rdw-brongegevens">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="bsn" target="bsn" />
+        <camunda:in source="vermogenPath" target="vermogenPath" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0f7iodw</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:businessRuleTask id="BepalenDossiertypeTask" name="Bepalen dossiertype" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:resultVariable="dossiertype" camunda:decisionRef="alo-bepaal-dossiertype" camunda:mapDecisionResult="singleEntry">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="caseDefinitionName">${valueResolverDelegateService.resolveValue(execution, "case:definitionId.name")}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06w3u4k</bpmn:incoming>
+      <bpmn:outgoing>Flow_09gf9oq</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:callActivity id="OphalenDUOStudiefinancieringBrongegevensCallActivity" name="Ophalen DUO studiefinanciering brongegevens" camunda:asyncAfter="true" calledElement="alo-ophalen-duo-studiefinanciering-brongegevens">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="bsn" target="bsn" />
+        <camunda:in source="duoStudiefinancieringPath" target="duoStudiefinancieringPath" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0m0s2gx</bpmn:incoming>
+      <bpmn:outgoing>Flow_06w3u4k</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="OphalenDuoOpleidingBrongegevensCallActivity" name="Ophalen duo opleiding brongegevens" camunda:asyncAfter="true" calledElement="alo-ophalen-duo-opleiding-brongegevens">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="bsn" target="bsn" />
+        <camunda:in source="duoPersoonsGegevensPath" target="duoPersoonsGegevensPath" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_162b4zf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0m0s2gx</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="OphalenSVBBrongegevensCallActivity" name="Ophalen SVB brongegevens" camunda:asyncAfter="true" calledElement="alo-ophalen-svb-uitkeringen">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="bsn" target="bsn" />
+        <camunda:in source="svbUitkeringenPath" target="svbUitkeringenPath" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1r9t80g</bpmn:incoming>
+      <bpmn:outgoing>Flow_162b4zf</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="Gateway_1buadzq">
+      <bpmn:incoming>Flow_1xyodvn</bpmn:incoming>
+      <bpmn:incoming>NeeSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1w3cqpy</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1w3cqpy" sourceRef="Gateway_1buadzq" targetRef="OphalenBRPBrongegevenCallActivity" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow1" name="Nee" sourceRef="BestaatPvUserGateway" targetRef="Gateway_1buadzq" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0xit703">
+      <bpmndi:BPMNShape id="Participant_1szi1u5_di" bpmnElement="OphalenBrongegevensParticipant" isHorizontal="true">
+        <dc:Bounds x="156" y="70" width="2454" height="290" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="222" y="186" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1jw45pa_di" bpmnElement="BestaatPvUserGateway" isMarkerVisible="true">
+        <dc:Bounds x="325" y="179" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="309" y="149" width="83" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ygcwss_di" bpmnElement="VoorbereidenVariabelenTask">
+        <dc:Bounds x="460" y="164" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1l5c47h_di" bpmnElement="MaakNieuwBrongegevensArrayTask">
+        <dc:Bounds x="610" y="164" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03ytwbk_di" bpmnElement="BrongegevensArrayOpslaanTask">
+        <dc:Bounds x="780" y="164" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_131opz3" bpmnElement="OphalenUWVBrongegevensCallActivity">
+        <dc:Bounds x="1190" y="164" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1d155kg" bpmnElement="OphalenBRPBrongegevenCallActivity">
+        <dc:Bounds x="1040" y="164" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1b2fs0j_di" bpmnElement="DossiersVanHetTypeIOAWGateway" isMarkerVisible="true">
+        <dc:Bounds x="1975" y="179" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1961" y="149" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_010je2w_di" bpmnElement="Event_010je2w">
+        <dc:Bounds x="2512" y="186" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1c9waqd_di" bpmnElement="Gateway_1c9waqd" isMarkerVisible="true">
+        <dc:Bounds x="2415" y="179" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_04a8duk" bpmnElement="OphalenKadasterBrongegevensCallActivity">
+        <dc:Bounds x="2260" y="164" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0nqodcu" bpmnElement="OphalenRDWBrongegevensCallActivity">
+        <dc:Bounds x="2100" y="164" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0x2063j_di" bpmnElement="BepalenDossiertypeTask">
+        <dc:Bounds x="1810" y="164" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1xe9yme" bpmnElement="OphalenDUOStudiefinancieringBrongegevensCallActivity">
+        <dc:Bounds x="1640" y="164" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0r84zsa" bpmnElement="OphalenDuoOpleidingBrongegevensCallActivity">
+        <dc:Bounds x="1490" y="164" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0bqelhu" bpmnElement="OphalenSVBBrongegevensCallActivity">
+        <dc:Bounds x="1340" y="164" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1buadzq_di" bpmnElement="Gateway_1buadzq" isMarkerVisible="true">
+        <dc:Bounds x="935" y="179" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_07g74tj_di" bpmnElement="Flow_07g74tj">
+        <di:waypoint x="258" y="204" />
+        <di:waypoint x="325" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r9t80g_di" bpmnElement="Flow_1r9t80g">
+        <di:waypoint x="1290" y="204" />
+        <di:waypoint x="1340" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pk7f69_di" bpmnElement="Flow_1pk7f69">
+        <di:waypoint x="1140" y="204" />
+        <di:waypoint x="1190" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0f7iodw_di" bpmnElement="Flow_0f7iodw">
+        <di:waypoint x="2200" y="204" />
+        <di:waypoint x="2260" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1sx21lr_di" bpmnElement="Flow_1sx21lr">
+        <di:waypoint x="2360" y="204" />
+        <di:waypoint x="2415" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0m0s2gx_di" bpmnElement="Flow_0m0s2gx">
+        <di:waypoint x="1590" y="204" />
+        <di:waypoint x="1640" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06w3u4k_di" bpmnElement="Flow_06w3u4k">
+        <di:waypoint x="1740" y="204" />
+        <di:waypoint x="1810" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_162b4zf_di" bpmnElement="Flow_162b4zf">
+        <di:waypoint x="1440" y="204" />
+        <di:waypoint x="1490" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0a4p0xt_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="2025" y="204" />
+        <di:waypoint x="2100" y="204" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2039" y="186" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07iuc19_di" bpmnElement="Flow_07iuc19">
+        <di:waypoint x="2465" y="204" />
+        <di:waypoint x="2512" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1k1m1vu_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="2000" y="229" />
+        <di:waypoint x="2000" y="300" />
+        <di:waypoint x="2440" y="300" />
+        <di:waypoint x="2440" y="229" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2004" y="243" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09gf9oq_di" bpmnElement="Flow_09gf9oq">
+        <di:waypoint x="1910" y="204" />
+        <di:waypoint x="1975" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17xvz9p_di" bpmnElement="Flow_17xvz9p">
+        <di:waypoint x="560" y="204" />
+        <di:waypoint x="610" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xyodvn_di" bpmnElement="Flow_1xyodvn">
+        <di:waypoint x="880" y="204" />
+        <di:waypoint x="935" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cmeb47_di" bpmnElement="Flow_0cmeb47">
+        <di:waypoint x="710" y="204" />
+        <di:waypoint x="780" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pd855i_di" bpmnElement="JaSequenceFlow1">
+        <di:waypoint x="375" y="204" />
+        <di:waypoint x="460" y="204" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="412" y="186" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1w3cqpy_di" bpmnElement="Flow_1w3cqpy">
+        <di:waypoint x="985" y="204" />
+        <di:waypoint x="1040" y="204" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14vr6au_di" bpmnElement="NeeSequenceFlow1">
+        <di:waypoint x="350" y="229" />
+        <di:waypoint x="350" y="310" />
+        <di:waypoint x="960" y="310" />
+        <di:waypoint x="960" y="229" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="645" y="292" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

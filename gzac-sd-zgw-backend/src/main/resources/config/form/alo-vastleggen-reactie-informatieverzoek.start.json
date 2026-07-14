@@ -1,0 +1,110 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "openzaak",
+            "key": "openzaak",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Informatieverzoeken",
+            "key": "informatieverzoeken",
+            "defaultValue": [],
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Deadline verlopen",
+            "key": "pv.deadlineVerlopen",
+            "calculateValue": "if (data.informatieverzoeken?.length > 0) { value = moment().isAfter(moment(data.informatieverzoeken.at(-1)?.verzoek?.deadlineInformatieverzoek)); } else { value = false; }",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>De deadline voor dit informatieverzoek is verstreken. Kies de vervolgactie bij de taak ‘Bepalen vervolgactie na verlopen deadline’.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = !['Afgehandeld', 'Beslist'].includes(data.openzaak?.statusOmschrijving) && data.pv.deadlineVerlopen === true",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>De taak 'Informatieverzoek handmatige reactie vastleggen' kan niet worden gestart, omdat het proces zich in de bezwaarperiode bevindt.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Beslist'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>Dit dossier is al afgehandeld.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Afgehandeld'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "content": "<h4>Vastleggen ontvangen reactie informatieverzoek</h4><br>",
+            "refreshOnChange": false,
+            "key": "html2",
+            "type": "htmlelement",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Informatieverzoek uitgezet' && data.pv.deadlineVerlopen === false;",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "className": "alert alert-warning",
+            "content": "Deze taak kan alleen uitgevoerd worden wanneer er een informatieverzoek uitstaat.",
+            "refreshOnChange": false,
+            "key": "html",
+            "type": "htmlelement",
+            "customConditional": "show = !['Afgehandeld', 'Beslist'].includes(data.openzaak?.statusOmschrijving) && data.openzaak?.statusOmschrijving !== 'Informatieverzoek uitgezet'",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "className": "alert alert-info",
+            "tag": "div",
+            "content": "<p>Voordat dit proces wordt gestart, controleer of de taak <strong>‘Invoeren nieuwe deadline’</strong> nog openstaat en rond deze eerst af. Klik daarna op ‘Doorgaan’ om een per post of e-mail ontvangen reactie op het informatieverzoek vast te leggen.</p>",
+            "refreshOnChange": false,
+            "key": "html",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Informatieverzoek uitgezet' && data.pv.deadlineVerlopen === false",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Doorgaan",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Informatieverzoek uitgezet' && data.pv.deadlineVerlopen === false;",
+            "type": "button",
+            "custom": "delete data.informatieverzoeken; form.submit(); component.disabled = true;",
+            "input": true
+        }
+    ]
+}

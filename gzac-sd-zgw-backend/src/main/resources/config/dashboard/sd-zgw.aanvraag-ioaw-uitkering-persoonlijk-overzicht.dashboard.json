@@ -1,0 +1,298 @@
+{
+    "changesetId": "sd-zgw-aanvraag-ioaw-uitkering-persoonlijk-overzicht-dashboard-v2.3",
+    "dashboards": [
+        {
+            "key": "aanvraag-ioaw-uitkering-persoonlijk-overzicht",
+            "title": "IOAW: Jouw overzicht",
+            "description": "IOAW: Jouw overzicht",
+            "order": 8,
+            "widgetConfigurations": [
+                {
+                    "key": "ioaw-zaken-die-langer-openstaan-dan-4-weken-behandelaars",
+                    "title": "Zaken die langer openstaan dan 4 weken",
+                    "dataSourceKey": "case-count",
+                    "displayType": "number",
+                    "dataSourceProperties": {
+                        "documentDefinition": "aanvraag-ioaw-uitkering-dcm",
+                        "queryConditions": [
+                            {
+                                "queryPath": "case:createdOn",
+                                "queryOperator": "<",
+                                "queryValue": "${localDateTimeNow.minusWeeks(4)}"
+                            },
+                            {
+                                "queryPath": "doc:openzaak.statusOmschrijving",
+                                "queryOperator": "!=",
+                                "queryValue": "Afgehandeld"
+                            },
+                            {
+                                "queryPath": "case:assigneeId",
+                                "queryOperator": "==",
+                                "queryValue": "${currentUserId}"
+                            }
+                        ]
+                    },
+                    "displayTypeProperties": {
+                        "title": "Openstaande zaken",
+                        "subtitle": "Langer open dan 4 weken",
+                        "label": "",
+                        "useKPI": false,
+                        "lowSeverityThreshold": null,
+                        "mediumSeverityThreshold": null,
+                        "highSeverityThreshold": null
+                    },
+                    "url": "/dossiers/aanvraag-ioaw-uitkering-dcm?size=10&collectionSize=4&page=1&isSorting=true&sortStateName=createdOn&sortStateDirection=DESC&assignee=all&status=WyJDQVNFU19XSVRIT1VUX1NUQVRVU19LRVkiLCJhYW52cmFhZy1vbnR2YW5nZW4iLCJpbi1iZWhhbmRlbGluZy1nZW5vbWVuIiwiaW5mb3JtYXRpZXZlcnpvZWstdWl0Z2V6ZXQiLCJhYW52dWxsZW5kZS1pbmZvcm1hdGllLW9udHZhbmdlbiIsImdlZW4tYWFudnVsbGVuZGUtaW5mb3JtYXRpZS1vbnR2YW5nZW4iXQ%3D%3D"
+                },
+                {
+                    "key": "ioaw-zaken-die-langer-openstaan-dan-8-weken-behandelaars",
+                    "title": "Zaken die langer openstaan dan 8 weken",
+                    "dataSourceKey": "case-count",
+                    "displayType": "number",
+                    "dataSourceProperties": {
+                        "documentDefinition": "aanvraag-ioaw-uitkering-dcm",
+                        "queryConditions": [
+                            {
+                                "queryPath": "case:createdOn",
+                                "queryOperator": "<",
+                                "queryValue": "${localDateTimeNow.minusWeeks(8)}"
+                            },
+                            {
+                                "queryPath": "doc:openzaak.statusOmschrijving",
+                                "queryOperator": "!=",
+                                "queryValue": "Afgehandeld"
+                            },
+                            {
+                                "queryPath": "case:assigneeId",
+                                "queryOperator": "==",
+                                "queryValue": "${currentUserId}"
+                            }
+                        ]
+                    },
+                    "displayTypeProperties": {
+                        "title": "Openstaande zaken",
+                        "subtitle": "Langer open dan 8 weken",
+                        "label": "",
+                        "useKPI": false,
+                        "lowSeverityThreshold": null,
+                        "mediumSeverityThreshold": null,
+                        "highSeverityThreshold": null
+                    },
+                    "url": "/dossiers/aanvraag-ioaw-uitkering-dcm?size=10&collectionSize=4&page=1&isSorting=true&sortStateName=createdOn&sortStateDirection=DESC&assignee=all&status=WyJDQVNFU19XSVRIT1VUX1NUQVRVU19LRVkiLCJhYW52cmFhZy1vbnR2YW5nZW4iLCJpbi1iZWhhbmRlbGluZy1nZW5vbWVuIiwiaW5mb3JtYXRpZXZlcnpvZWstdWl0Z2V6ZXQiLCJhYW52dWxsZW5kZS1pbmZvcm1hdGllLW9udHZhbmdlbiIsImdlZW4tYWFudnVsbGVuZGUtaW5mb3JtYXRpZS1vbnR2YW5nZW4iXQ%3D%3D"
+                },
+                {
+                    "key": "ioaw-alle-nieuwe-zaken-afgelopen-4-weken-behandelaars",
+                    "title": "Alle nieuwe zaken afgelopen 4 weken",
+                    "dataSourceKey": "case-count",
+                    "displayType": "number",
+                    "dataSourceProperties": {
+                        "documentDefinition": "aanvraag-ioaw-uitkering-dcm",
+                        "queryConditions": [
+                            {
+                                "queryPath": "case:createdOn",
+                                "queryOperator": ">",
+                                "queryValue": "${localDateTimeNow.minusWeeks(4)}"
+                            },
+                            {
+                                "queryPath": "case:assigneeId",
+                                "queryOperator": "==",
+                                "queryValue": "${currentUserId}"
+                            }
+                        ]
+                    },
+                    "displayTypeProperties": {
+                        "title": "Nieuwe zaken",
+                        "subtitle": "Aangemaakt in de afgelopen 4 weken",
+                        "label": "",
+                        "useKPI": false,
+                        "lowSeverityThreshold": null,
+                        "mediumSeverityThreshold": null,
+                        "highSeverityThreshold": null
+                    },
+                    "url": "/dossiers/aanvraag-ioaw-uitkering-dcm?size=10&collectionSize=5&page=1&isSorting=true&sortStateName=createdOn&sortStateDirection=DESC&assignee=all&status=WyJDQVNFU19XSVRIT1VUX1NUQVRVU19LRVkiLCJhYW52cmFhZy1vbnR2YW5nZW4iLCJpbi1iZWhhbmRlbGluZy1nZW5vbWVuIiwiaW5mb3JtYXRpZXZlcnpvZWstdWl0Z2V6ZXQiLCJhYW52dWxsZW5kZS1pbmZvcm1hdGllLW9udHZhbmdlbiIsImdlZW4tYWFudnVsbGVuZGUtaW5mb3JtYXRpZS1vbnR2YW5nZW4iLCJhZmdlaGFuZGVsZCJd"
+                },
+                {
+                    "key": "ioaw-alle-zaken-van-de-afgelopen-4-weken-per-status-behandelaars",
+                    "title": "Alle zaken van de afgelopen 4 weken, per status van gebruiker",
+                    "dataSourceKey": "case-group-by",
+                    "displayType": "donut",
+                    "dataSourceProperties": {
+                        "documentDefinition": "aanvraag-ioaw-uitkering-dcm",
+                        "path": "doc:openzaak.statusOmschrijving",
+                        "queryConditions": [
+                            {
+                                "queryPath": "case:createdOn",
+                                "queryOperator": ">",
+                                "queryValue": "${localDateTimeNow.minusWeeks(4)}"
+                            },
+                            {
+                                "queryPath": "case:assigneeId",
+                                "queryOperator": "==",
+                                "queryValue": "${currentUserId}"
+                            },
+                            {
+                                "queryPath": "doc:openzaak.statusOmschrijving",
+                                "queryOperator": "!=",
+                                "queryValue": "Afgehandeld"
+                            }
+                        ],
+                        "enum": {}
+                    },
+                    "displayTypeProperties": {
+                        "title": "Open zaken per status",
+                        "subtitle": "Aangemaakt in de afgelopen 4 weken",
+                        "label": "",
+                        "useKPI": false
+                    },
+                    "url": "/dossiers/aanvraag-ioaw-uitkering-dcm?size=10&collectionSize=4&page=1&isSorting=true&sortStateName=createdOn&sortStateDirection=DESC&assignee=all&status=WyJDQVNFU19XSVRIT1VUX1NUQVRVU19LRVkiLCJhYW52cmFhZy1vbnR2YW5nZW4iLCJpbi1iZWhhbmRlbGluZy1nZW5vbWVuIiwiaW5mb3JtYXRpZXZlcnpvZWstdWl0Z2V6ZXQiLCJhYW52dWxsZW5kZS1pbmZvcm1hdGllLW9udHZhbmdlbiIsImdlZW4tYWFudnVsbGVuZGUtaW5mb3JtYXRpZS1vbnR2YW5nZW4iXQ%3D%3D"
+                },
+                {
+                    "key": "ioaw-alle-zaken-van-de-afgelopen-8-weken-per-status-behandelaars",
+                    "title": "Alle zaken van de afgelopen 8 weken, per status van gebruiker",
+                    "dataSourceKey": "case-group-by",
+                    "displayType": "donut",
+                    "dataSourceProperties": {
+                        "documentDefinition": "aanvraag-ioaw-uitkering-dcm",
+                        "path": "doc:openzaak.statusOmschrijving",
+                        "queryConditions": [
+                            {
+                                "queryPath": "case:createdOn",
+                                "queryOperator": ">",
+                                "queryValue": "${localDateTimeNow.minusWeeks(8)}"
+                            },
+                            {
+                                "queryPath": "case:assigneeId",
+                                "queryOperator": "==",
+                                "queryValue": "${currentUserId}"
+                            },
+                            {
+                                "queryPath": "doc:openzaak.statusOmschrijving",
+                                "queryOperator": "!=",
+                                "queryValue": "Afgehandeld"
+                            }
+                        ],
+                        "enum": {}
+                    },
+                    "displayTypeProperties": {
+                        "title": "Open zaken per status",
+                        "subtitle": "Aangemaakt in de afgelopen 8 weken",
+                        "label": "",
+                        "useKPI": false
+                    },
+                    "url": "/dossiers/aanvraag-ioaw-uitkering-dcm?size=10&collectionSize=4&page=1&isSorting=true&sortStateName=createdOn&sortStateDirection=DESC&assignee=all&status=WyJDQVNFU19XSVRIT1VUX1NUQVRVU19LRVkiLCJhYW52cmFhZy1vbnR2YW5nZW4iLCJpbi1iZWhhbmRlbGluZy1nZW5vbWVuIiwiaW5mb3JtYXRpZXZlcnpvZWstdWl0Z2V6ZXQiLCJhYW52dWxsZW5kZS1pbmZvcm1hdGllLW9udHZhbmdlbiIsImdlZW4tYWFudnVsbGVuZGUtaW5mb3JtYXRpZS1vbnR2YW5nZW4iXQ%3D%3D"
+                },
+                {
+                    "key": "ioaw-alle-besluiten-afgelopen-4-weken-behandelaars",
+                    "title": "Alle besluiten afgelopen 4 weken",
+                    "dataSourceKey": "case-group-by",
+                    "displayType": "donut",
+                    "dataSourceProperties": {
+                        "documentDefinition": "aanvraag-ioaw-uitkering-dcm",
+                        "path": "doc:besluit.genomenBesluit",
+                        "queryConditions": [
+                            {
+                                "queryPath": "case:createdOn",
+                                "queryOperator": ">",
+                                "queryValue": "${localDateTimeNow.minusWeeks(4)}"
+                            },
+                            {
+                                "queryPath": "case:assigneeId",
+                                "queryOperator": "==",
+                                "queryValue": "${currentUserId}"
+                            }
+                        ],
+                        "enum": {
+                            "TOEGEKEND": "Toegekend",
+                            "AFGEWEZEN": "Afgewezen",
+                            "BUITEN_BEHANDELING_GESTELD": "Buiten behandeling gesteld",
+                            "INGETROKKEN": "Ingetrokken"
+                        }
+                    },
+                    "displayTypeProperties": {
+                        "title": "Alle besluiten",
+                        "subtitle": "Genomen in de afgelopen 4 weken",
+                        "label": "",
+                        "useKPI": false
+                    },
+                    "url": "/dossiers/aanvraag-ioaw-uitkering-dcm?assignee=all&size=10&collectionSize=1&page=1&isSorting=true&sortStateName=createdOn&sortStateDirection=DESC&status=WyJhZmdlaGFuZGVsZCJd"
+                },
+                {
+                    "key": "ioaw-uitstaande-informatieverzoeken-behandelaars",
+                    "title": "Uitstaande informatieverzoeken",
+                    "dataSourceKey": "case-count",
+                    "displayType": "number",
+                    "dataSourceProperties": {
+                        "documentDefinition": "aanvraag-ioaw-uitkering-dcm",
+                        "queryConditions": [
+                            {
+                                "queryPath": "case:createdOn",
+                                "queryOperator": ">",
+                                "queryValue": "${localDateTimeNow.minusWeeks(4)}"
+                            },
+                            {
+                                "queryPath": "doc:openzaak.statusOmschrijving",
+                                "queryOperator": "==",
+                                "queryValue": "Informatieverzoek uitgezet"
+                            },
+                            {
+                                "queryPath": "case:assigneeId",
+                                "queryOperator": "==",
+                                "queryValue": "${currentUserId}"
+                            }
+                        ]
+                    },
+                    "displayTypeProperties": {
+                        "title": "Uitstaande informatieverzoeken",
+                        "subtitle": "Zaak aangemaakt in de afgelopen 4 weken",
+                        "label": "",
+                        "useKPI": false,
+                        "lowSeverityThreshold": null,
+                        "mediumSeverityThreshold": null,
+                        "highSeverityThreshold": null
+                    },
+                    "url": "/dossiers/aanvraag-ioaw-uitkering-dcm?assignee=all&size=10&collectionSize=0&page=0&isSorting=true&sortStateName=createdOn&sortStateDirection=DESC&status=WyJhYW52dWxsZW5kZS1pbmZvcm1hdGllLW9udHZhbmdlbiJd"
+                },
+                {
+                    "key": "ioaw-poortonderzoek-gestart-niet-afgerond-afgelopen-4-weken-behandelaars",
+                    "title": "Poortonderzoek gestart, niet afgerond, afgelopen 4 weken",
+                    "dataSourceKey": "case-count",
+                    "displayType": "number",
+                    "dataSourceProperties": {
+                        "documentDefinition": "aanvraag-ioaw-uitkering-dcm",
+                        "queryConditions": [
+                            {
+                                "queryPath": "doc:poortonderzoek.uitkomst",
+                                "queryOperator": "==",
+                                "queryValue": "${null}"
+                            },
+                            {
+                                "queryPath": "doc:poortonderzoek.uitvoeren",
+                                "queryOperator": "==",
+                                "queryValue": "JA"
+                            },
+                            {
+                                "queryPath": "doc:poortonderzoek.datumAangevraagd",
+                                "queryOperator": ">",
+                                "queryValue": "${localDateTimeNow.minusWeeks(4)}"
+                            },
+                            {
+                                "queryPath": "case:assigneeId",
+                                "queryOperator": "==",
+                                "queryValue": "${currentUserId}"
+                            }
+                        ]
+                    },
+                    "displayTypeProperties": {
+                        "title": "Uitstaande poortonderzoeken",
+                        "subtitle": "Zaak aangemaakt in de afgelopen 4 weken",
+                        "label": "",
+                        "useKPI": false,
+                        "lowSeverityThreshold": null,
+                        "mediumSeverityThreshold": null,
+                        "highSeverityThreshold": null
+                    },
+                    "url": ""
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,124 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "index": 1,
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "999991322",
+      "data": {
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Herengracht",
+              "postcode": "2511 EG",
+              "huisletter": "",
+              "huisnummer": "1",
+              "toevoeging": ""
+            },
+            "grPersoongegevens": {
+              "Bsn": "999991322",
+              "voornaam": "Celeste",
+              "achternaam": "Avion",
+              "voorletters": "C.",
+              "voorvoegsels": "",
+              "geboortedatum": "1960-12-29"
+            }
+          }
+        },
+        "alo-ioaw": {
+          "grIoaw": {
+            "geenRechtMeerWw": "NEE",
+            "geenRechtMeerWga": "NEE",
+            "gedeeltelijkArbeidsongeschikt": "NEE"
+          }
+        },
+        "schulden": {
+          "heeftSchulden": "NEE"
+        },
+        "alo-uitbetaling": {
+          "ibanAanWie": "NEE"
+        },
+        "alo-uw-inkomsten": {
+          "heeftInkomsten": "GEEN_INKOMSTEN"
+        },
+        "alo-reden-aanvraag": {
+          "grIngangsdatum": {
+            "bijstandsuitkeringEerderStarten": "NEE"
+          },
+          "beeindigingRelatie": {
+            "hoeBetaalt": "Niet",
+            "sindWanneer": "2025-09-09",
+            "wasGetrouwd": "NEE"
+          },
+          "waaromBijstandsuitkering": "WIJZIGING_GEZINSSITUATIE",
+          "grWijzigingGezinssituatie": {
+            "watGewijzigd": "RELATIE_VERBROKEN"
+          }
+        },
+        "alo-uw-woonsituatie": {
+          "hoeWoontU": "BIJ_FAMILIE_VRIENDEN_OF_KENNISSEN",
+          "bijWieWoontU": "OUDERS",
+          "grAndereBewoners": {
+            "meerMensenOpAdres": "NEE"
+          }
+        },
+        "alo-uw-beschikbaarheid": {
+          "grBeschikbaarheid": {
+            "onbetaald": "NEE",
+            "beschikbaarheid": 6
+          }
+        },
+        "alo-gezinssamenstelling": {
+          "partnerWoontBijU": "NEE",
+          "thuiswonendeKinderen": "NEE"
+        },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": true,
+          "grWoonsituatie": {
+            "woonsituatie": "WAAR_IK_WOON"
+          },
+          "grNationaliteit": {
+            "nationaliteitBezit": "NEDERLANDSE_NATIONALITEIT"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "NEE"
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": true,
+            "geenTelefoon": true
+          }
+        },
+        "alo-bezittingen-en-schulden": {
+          "grRekeningen": {
+            "geenBankrekening": "GEEN_REKENING"
+          },
+          "grUwVermogen": {
+            "welkVermogen": {
+              "CRYPTO": false,
+              "CARAVAN": false,
+              "VAARTUIG": false,
+              "CONTANTEN": false,
+              "KOOPWONING": false,
+              "MOTORVOERTUIG": false,
+              "EEN_STUK_GROND": false,
+              "OBLIGATIES_AANDELEN": false
+            }
+          }
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "attachments": [],
+      "language_code": "nl",
+      "submission_id": "446e197d-7a6d-4534-b91d-569171752b72",
+      "public_reference": "OF-{{$random.alphanumeric(8)}}"
+    },
+    "startAt": "2025-07-08",
+    "registrationAt": "2025-07-08"
+  }
+}

@@ -1,0 +1,456 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_aanmelding_schuldhulpverlening}}",
+  "record": {
+    "data": {
+            "kvk": "90002768",
+            "data": {
+                "schulden": {
+                    "schulden": {
+                        "schuldenoverzicht": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/048bd23f-f020-4f9e-b766-73bb91c10dcb",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/048bd23f-f020-4f9e-b766-73bb91c10dcb",
+                                    "form": "",
+                                    "name": "Testschuldenoverzicht xlsx.xlsx",
+                                    "size": 11179,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "Testschuldenoverzicht xlsx-1fd2d48f-eafb-47ea-8c55-a19c3719632a.xlsx",
+                                "size": 11179,
+                                "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "storage": "url",
+                                "originalName": "Testschuldenoverzicht xlsx.xlsx"
+                            }
+                        ],
+                        "geefEenToelichtingOpHetSchuldenoverzicht": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel quam sapien. Sed odio quam, ullamcorper nec magna et, finibus elementum risus. Etiam nec urna ut sapien varius auctor. Integer sit amet justo nec justo egestas venenatis eu ornare ligula. Praesent auctor lectus eget feugiat luctus. In hac habitasse platea dictumst. Suspendisse condimentum velit at molestie sollicitudin."
+                    },
+                    "priveSchulden": {
+                        "bevatHetSchuldenoverzichtPriveSchulden": "b"
+                    }
+                },
+                "overige-shv": {
+                    "tekstvlak1": "",
+                    "overigeDocumenten1": []
+                },
+                "bezit-vermogen": {
+                    "vervoersmiddelen": {
+                        "geefAanWatVoorUwClientVariabeleBEnOfDePartnerVanToepassingIs": {
+                            "a": true,
+                            "b": false
+                        }
+                    },
+                    "financieelVermogen": {
+                        "kinderenspaarrekening": false,
+                        "anderFinancieelVermogen": false,
+                        "rekeningafschriftenVanDeAfgelopen3Maanden": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden3": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden4": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden5": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden7": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden8": [],
+                        "waardeOverzichtAfgelopenJaarPernsioenVerzekering": [],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenSpaarplan": false,
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenPensioenverzekering": false,
+                        "rekeningafschriftenVanDebeheerrekeningVanDeAfgelopen3Maanden1": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/e1249b2f-cad6-4384-99e8-ac8cac5c38e6",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/e1249b2f-cad6-4384-99e8-ac8cac5c38e6",
+                                    "form": "",
+                                    "name": "Testrekeningafschrift pdf.pdf",
+                                    "size": 90867,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "Testrekeningafschrift pdf-582f4e86-5d05-4a3f-8afd-605163fb52c6.pdf",
+                                "size": 90867,
+                                "type": "application/pdf",
+                                "storage": "url",
+                                "originalName": "Testrekeningafschrift pdf.pdf"
+                            }
+                        ],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenOfMeerSpaarrekeningen": false,
+                        "rekeningafschriftenVanDeLeefgeldrekeningVanDeAfgelopen3Maanden": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/a3df721e-d1fd-429b-a1c5-43083674d3c0",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/a3df721e-d1fd-429b-a1c5-43083674d3c0",
+                                    "form": "",
+                                    "name": "Testrekeningafschrift pdf.pdf",
+                                    "size": 90867,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "Testrekeningafschrift pdf-4c04215d-288c-48a2-a3a4-628376a416aa.pdf",
+                                "size": 90867,
+                                "type": "application/pdf",
+                                "storage": "url",
+                                "originalName": "Testrekeningafschrift pdf.pdf"
+                            }
+                        ],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenOfMeerBetaalrekeningen": false,
+                        "mijnClientVariabeleBEnOfDePartnerHeeftMinderjarigeKinderenMetEenOfMeerBetaalrekeningen": false,
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenLevensverzekeringOfOverlijdensrisicoverzekeringInNederlandOfInHetBuitenland": false
+                    },
+                    "overigeBezittingen": {
+                        "geschatteTotaleWaarde": null,
+                        "geefAanWatVoorUwClientVariabeleBEnOfDePartnerVanToepassingIs1": {
+                            "a": false,
+                            "b": false
+                        }
+                    },
+                    "woningenEnVastgoed": {
+                        "isUwClientVariabeleBEnOfDePartnerInHetBezitVanWoningenOfVastgoedInNederlandEnOfInHetBuitenland": "b"
+                    }
+                },
+                "belastingen-shv": {
+                    "geefEenToelichting7": "",
+                    "belastingAanslagMin1Jaar": [
+                        {
+                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/a2655dba-a432-478f-8c9c-dae1544a0960",
+                            "data": {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/a2655dba-a432-478f-8c9c-dae1544a0960",
+                                "form": "",
+                                "name": "Testbelastingoverzicht pdf.pdf",
+                                "size": 95571,
+                                "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                "project": ""
+                            },
+                            "name": "Testbelastingoverzicht pdf-abfa9558-2d79-45d7-a5f8-0db3e99af095.pdf",
+                            "size": 95571,
+                            "type": "application/pdf",
+                            "storage": "url",
+                            "originalName": "Testbelastingoverzicht pdf.pdf"
+                        }
+                    ],
+                    "belastingAanslagMin2Jaar": [
+                        {
+                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/7bf99a39-741e-4b6e-a832-89218d6247bd",
+                            "data": {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/7bf99a39-741e-4b6e-a832-89218d6247bd",
+                                "form": "",
+                                "name": "Testbelastingoverzicht pdf.pdf",
+                                "size": 95571,
+                                "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                "project": ""
+                            },
+                            "name": "Testbelastingoverzicht pdf-fb00cca6-8bad-446c-bb89-eab5926f885e.pdf",
+                            "size": 95571,
+                            "type": "application/pdf",
+                            "storage": "url",
+                            "originalName": "Testbelastingoverzicht pdf.pdf"
+                        }
+                    ],
+                    "belastingAanslagMin3Jaar": [
+                        {
+                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/a9cf2bfa-e96d-47fb-ab45-b9cd05b5c2b8",
+                            "data": {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/a9cf2bfa-e96d-47fb-ab45-b9cd05b5c2b8",
+                                "form": "",
+                                "name": "Testbelastingoverzicht pdf.pdf",
+                                "size": 95571,
+                                "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                "project": ""
+                            },
+                            "name": "Testbelastingoverzicht pdf-382a158e-c48d-4510-bbca-994f7bfa6ff9.pdf",
+                            "size": 95571,
+                            "type": "application/pdf",
+                            "storage": "url",
+                            "originalName": "Testbelastingoverzicht pdf.pdf"
+                        }
+                    ],
+                    "belastingAanslagMin4Jaar": [
+                        {
+                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/7ae3b25c-7d4b-4d1d-9154-1e15c483e44f",
+                            "data": {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/7ae3b25c-7d4b-4d1d-9154-1e15c483e44f",
+                                "form": "",
+                                "name": "Testbelastingoverzicht pdf.pdf",
+                                "size": 95571,
+                                "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                "project": ""
+                            },
+                            "name": "Testbelastingoverzicht pdf-716a5c0c-3ee4-4d37-b113-ccaa78790830.pdf",
+                            "size": 95571,
+                            "type": "application/pdf",
+                            "storage": "url",
+                            "originalName": "Testbelastingoverzicht pdf.pdf"
+                        }
+                    ],
+                    "belastingAanslagMin5Jaar": [
+                        {
+                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/3a42884f-5df8-4074-8fb1-c594fef3b3fa",
+                            "data": {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/3a42884f-5df8-4074-8fb1-c594fef3b3fa",
+                                "form": "",
+                                "name": "Testbelastingoverzicht pdf.pdf",
+                                "size": 95571,
+                                "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                "project": ""
+                            },
+                            "name": "Testbelastingoverzicht pdf-1cd8b306-6825-4b4a-8497-fe0066211ea7.pdf",
+                            "size": 95571,
+                            "type": "application/pdf",
+                            "storage": "url",
+                            "originalName": "Testbelastingoverzicht pdf.pdf"
+                        }
+                    ],
+                    "gemeentelijkeEnRegionaleBelastingen": {
+                        "recenteAanslagRegionaleBelastingen": [],
+                        "recenteAanslagGemeentelijkeBelastingen": [],
+                        "isErKwijtscheldingOntvangenVoorDeGemeentelijkeBelastingen": "nee"
+                    }
+                },
+                "gegevens-client": {
+                    "bsn": "630087490",
+                    "emailcl": "stijn.boots@denhaag.nl",
+                    "typeBewind": {
+                        "curatele": false,
+                        "lichamelijkeOfGeestelijkeToestand": false,
+                        "verkwistingOfProblematischeSchulden": true
+                    },
+                    "voorvoegselScl": "Ur",
+                    "telefoonnummercl": "0622211445",
+                    "aanvraagformulier": {
+                        "machtiging": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/e47ef959-5e42-43d1-8b85-e61f9deb1816",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/e47ef959-5e42-43d1-8b85-e61f9deb1816",
+                                    "form": "",
+                                    "name": "Machtiging.pdf",
+                                    "size": 103609,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "Machtiging-129d0ee9-03dd-489c-8139-f0a21c21829b.pdf",
+                                "size": 103609,
+                                "type": "application/pdf",
+                                "storage": "url",
+                                "originalName": "Machtiging.pdf"
+                            }
+                        ],
+                        "ondertekendAanvraagformulier": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/b145dd81-1c31-4b84-a673-8058854cdce9",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/b145dd81-1c31-4b84-a673-8058854cdce9",
+                                    "form": "",
+                                    "name": "Aanvraagformulier.pdf",
+                                    "size": 103609,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "Aanvraagformulier-e4bb6801-e7d4-4015-b935-70772b4a0047.pdf",
+                                "size": 103609,
+                                "type": "application/pdf",
+                                "storage": "url",
+                                "originalName": "Aanvraagformulier.pdf"
+                            }
+                        ]
+                    },
+                    "voornaam1OfMeerdere": "B",
+                    "watIsDeBurgelijkeStaat": "a",
+                    "achternaamVolgensPaspoortOfIdKaart": "Ger"
+                },
+                "uw-gegevens-shv": {
+                    "email": "stijn.boots@denhaag.nl",
+                    "geslacht": "man",
+                    "achternaam": "Boots",
+                    "voorletterS": "Stijn",
+                    "voorvoegselS": "Test",
+                    "telefoonnummer": "0622223333",
+                    "organisatienaam": "Den Haag "
+                },
+                "inkomsten-uitgaven": {
+                    "uitgaven": {
+                        "recenteHuurspecificatie": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/83bb428e-51a9-4936-a96b-4daf619dfd05",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/83bb428e-51a9-4936-a96b-4daf619dfd05",
+                                    "form": "",
+                                    "name": "Testhuurspecificatie pdf.pdf",
+                                    "size": 68834,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "Testhuurspecificatie pdf-7880308a-0602-4616-bc15-af2db260da32.pdf",
+                                "size": 68834,
+                                "type": "application/pdf",
+                                "storage": "url",
+                                "originalName": "Testhuurspecificatie pdf.pdf"
+                            }
+                        ]
+                    },
+                    "budgetplan": {
+                        "budgetplanUpload": [
+                            {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/1a0c3c76-f5a2-4f10-bb32-7056dbc91f81",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/1a0c3c76-f5a2-4f10-bb32-7056dbc91f81",
+                                    "form": "",
+                                    "name": "Test Budgetplan.xlsx",
+                                    "size": 12261,
+                                    "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "Test Budgetplan-c77c8c51-0caf-4f7d-a455-8e120bb5cbf6.xlsx",
+                                "size": 12261,
+                                "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                "storage": "url",
+                                "originalName": "Test Budgetplan.xlsx"
+                            }
+                        ],
+                        "geefEenToelichtingOpHetBudgetplan": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel quam sapien. Sed odio quam, ullamcorper nec magna et, finibus elementum risus. Etiam nec urna ut sapien varius auctor. Integer sit amet justo nec justo egestas venenatis eu ornare ligula. Praesent auctor lectus eget feugiat luctus. In hac habitasse platea dictumst. Suspendisse condimentum velit at molestie sollicitudin."
+                    },
+                    "beslaglegging": {
+                        "ligtErBeslagOpHetInkomenVanUwClientVariabeleBEnOfDePartner": "nee"
+                    },
+                    "inkomstenVanUwClient": {
+                        "herhalendeGroepInkomstenClient": [
+                            {
+                                "naamWerkgever": "Benny's Autopaleis",
+                                "soortDienstverband": "bepaaldeTijd",
+                                "arbeidsovereenkomst": [
+                                    {
+                                        "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/9478a23f-a79c-4251-8cf2-fbac0a39bb80",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/9478a23f-a79c-4251-8cf2-fbac0a39bb80",
+                                            "form": "",
+                                            "name": "Arbeidsovereenkomst.pdf",
+                                            "size": 103609,
+                                            "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "Arbeidsovereenkomst-ef5d4f7e-506b-4fcd-80f6-831927c1d30d.pdf",
+                                        "size": 103609,
+                                        "type": "application/pdf",
+                                        "storage": "url",
+                                        "originalName": "Arbeidsovereenkomst.pdf"
+                                    }
+                                ],
+                                "geefEenToelichting6": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel quam sapien. Sed odio quam, ullamcorper nec magna et, finibus elementum risus. Etiam nec urna ut sapien varius auctor. Integer sit amet justo nec justo egestas venenatis eu ornare ligula. Praesent auctor lectus eget feugiat luctus. In hac habitasse platea dictumst. Suspendisse condimentum velit at molestie sollicitudin.",
+                                "gemiddeldAantalUurPerWeek3": 36,
+                                "betreftHetEenWisselendOfStabielSalaris1": "stabiel",
+                                "salarisspecificatieVanDeAfgelopenMaand1": [
+                                    {
+                                        "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/06529f2d-b401-41be-ba84-41e4672e3c0c",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/06529f2d-b401-41be-ba84-41e4672e3c0c",
+                                            "form": "",
+                                            "name": "Salarisspecificatie.pdf",
+                                            "size": 90867,
+                                            "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "Salarisspecificatie-33febe38-bb3a-4df3-b14d-da8c1dd9bbc1.pdf",
+                                        "size": 90867,
+                                        "type": "application/pdf",
+                                        "storage": "url",
+                                        "originalName": "Salarisspecificatie.pdf"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "toeslagenBelastingdienst": {
+                        "voorschotbeschikkingToeslagen": []
+                    },
+                    "recenteZorgpolisVanUwClientVariabeleAEnDePartner": [
+                        {
+                            "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/cdff29c9-5a68-4928-b590-6d5c97dbd022",
+                            "data": {
+                                "url": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/submissions/files/cdff29c9-5a68-4928-b590-6d5c97dbd022",
+                                "form": "",
+                                "name": "Testzorgpolis pdf.pdf",
+                                "size": 103609,
+                                "baseUrl": "https://openformulieren-zgw.acc.denhaag.nl/api/v2/",
+                                "project": ""
+                            },
+                            "name": "Testzorgpolis pdf-5097c9e2-2a68-4327-a1c0-7a7d65a5eab4.pdf",
+                            "size": 103609,
+                            "type": "application/pdf",
+                            "storage": "url",
+                            "originalName": "Testzorgpolis pdf.pdf"
+                        }
+                    ]
+                },
+                "situatie-client-partner": {
+                    "fraude": {
+                        "isUwClientDeAfgelopen5JaarDoorDeRechtbankVeroordeeldVoorFraude": "NEE"
+                    },
+                    "onderneming": {
+                        "heeftUwClientOpDitMomentEenActieveOnderneming": "b",
+                        "heeftUwClientEenOfMeerdereOndernemingenInDeAfgelopen5JaarGestaakt": "b"
+                    },
+                    "woonsituatie": {
+                        "hoeIsDeWoonsituatieVanUwClientVariabeleAEnDePartner": "a"
+                    },
+                    "situatieschets": {
+                        "beschrijfDeLeefWoonSituatieVanUwClient": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel quam sapien. Sed odio quam, ullamcorper nec magna et, finibus elementum risus. Etiam nec urna ut sapien varius auctor. Integer sit amet justo nec justo egestas venenatis eu ornare ligula. Praesent auctor lectus eget feugiat luctus. In hac habitasse platea dictumst. Suspendisse condimentum velit at molestie sollicitudin.",
+                        "beschrijfWatTotErNuToeAlGedaanIsOmDeSchuldenOpTeLossen": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel quam sapien. Sed odio quam, ullamcorper nec magna et, finibus elementum risus. Etiam nec urna ut sapien varius auctor. Integer sit amet justo nec justo egestas venenatis eu ornare ligula. Praesent auctor lectus eget feugiat luctus. In hac habitasse platea dictumst. Suspendisse condimentum velit at molestie sollicitudin.",
+                        "beschrijfWanneerEnHoeDeSchuldenVanUwClientIfZijnOntstaan": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel quam sapien. Sed odio quam, ullamcorper nec magna et, finibus elementum risus. Etiam nec urna ut sapien varius auctor. Integer sit amet justo nec justo egestas venenatis eu ornare ligula. Praesent auctor lectus eget feugiat luctus. In hac habitasse platea dictumst. Suspendisse condimentum velit at molestie sollicitudin."
+                    },
+                    "Eerderehulpgroep": {
+                        "eerdereFinancieleHulpClient": {
+                            "GEEN_SCHULDREGELING": true,
+                            "MINNELIJKE_SCHULDREGELING": false,
+                            "WETTELIJKE_SCHULDREGELING": false
+                        }
+                    },
+                    "andereHulpverlening": {
+                        "hulpverleninghh": [
+                            {
+                                "soortHulpverlening": "Geestelijke gezondheidszorg",
+                                "verwachteEinddatumHulpverlening": "2025-08-06",
+                                "contactpersoonEnOfNaamInstelling": "Frank Hulpverlener GGZ-team Centrum"
+                            }
+                        ],
+                        "krijgtUwClientOndersteuningVanAndereHulpverleners": "a"
+                    },
+                    "arbeidssituatieVanUwClient": {
+                        "heeftUwClientBetaaldWerk": "ja",
+                        "werktUwClient36UurOfMeerPerWeek": "ja"
+                    }
+                },
+                "verklaring-van-waarheid": {
+                    "waarheidsVerklaring": true
+                }
+            },
+            "type": "Verzoek schuldhulpverlening bewindvoerders",
+            "attachments": [
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/01f5d29b-98e5-4c81-aa97-1e1549e5575f",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/6f1a1920-b958-4554-9a56-55defe87f959",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/4404ce1b-63be-48e6-aee5-f6b71a779dbe",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/9fe46d15-0c29-4c05-a2dd-40f7b4094f94",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/cbb5be8a-7a9d-4b9d-9627-ebb0ab7b1acb",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/40ed134b-e1aa-4d13-8697-f3466477ec67",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/75296942-1806-4090-9332-ba96e36e50f4",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/19662f67-99a4-4c23-891c-f52a89e11d42",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/ed68c55f-5b38-4d9b-bd5e-8c6c4d4ef57a",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/2faebdf6-4c98-42d0-ade0-534d1dd2827f",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/5b2f8537-d39c-4426-800e-3d14af6e13e4",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/7dc7b3a2-1591-402b-9ede-d679bf98c149",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/4818d6c2-d82c-4b60-a339-93ed6fdc45ee",
+                "https://openzaak-zgw.acc.denhaag.nl/documenten/api/v1/enkelvoudiginformatieobjecten/bbe9503a-9c80-4bfb-b107-0ddba28a157f"
+            ],
+            "language_code": "nl",
+            "submission_id": "9891db97-049c-43c2-b655-ddb59b5b874d",
+            "public_reference": "OF-N4SNQL"
+    },
+    "endAt": null,
+    "index": 1,
+    "startAt": "2024-05-06",
+    "geometry": null,
+    "typeVersion": 1,
+    "registrationAt": "2024-05-06"
+  }
+}

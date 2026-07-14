@@ -1,0 +1,453 @@
+{
+    "$id": "inkomsten-vaststellen.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Vaststellen inkomsten uit uitkeringen, pensioenen of studiefinanciering",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "componentCategorie": {
+            "type": "string",
+            "enum": [
+                "overigeInkomsten",
+                "onderneming",
+                "uitkeringpensioenStufiefinanciering",
+                "loondienst"
+            ]
+        },
+        "primairInkomstencomponentType": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "datumVaststelling": {
+            "type": "string"
+        },
+        "periodeStartdatum": {
+            "type": "string"
+        },
+        "periodeEinddatum": {
+            "type": "string"
+        },
+        "brutoInkomsten": {
+            "type": "number"
+        },
+        "nettoInkomsten": {
+            "type": "number"
+        },
+        "totaalNettoInkomsten": {
+            "type": "number"
+        },
+        "totaalNettomaandelijkseInkomsten": {
+            "type": "number"
+        },
+        "periodiciteitUitbetaling": {
+            "type": "object",
+            "enum": [
+                {},
+                {
+                    "code": "0",
+                    "name": "Niet van toepassing"
+                },
+                {
+                    "code": "1",
+                    "name": "Dag"
+                },
+                {
+                    "code": "2",
+                    "name": "Week"
+                },
+                {
+                    "code": "3",
+                    "name": "2 weken"
+                },
+                {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                },
+                {
+                    "code": "5",
+                    "name": "5 weken"
+                },
+                {
+                    "code": "6",
+                    "name": "Maand"
+                },
+                {
+                    "code": "7",
+                    "name": "Kwartaal"
+                },
+                {
+                    "code": "8",
+                    "name": "Jaar"
+                },
+                {
+                    "code": "9",
+                    "name": "Eenmalig"
+                }
+            ]
+        },
+        "inkomstensoortAlimentatie": {
+            "type": "object",
+            "enum": [
+                {},
+                {
+                    "code": "1",
+                    "name": "Alimentatie ex-echtgenote/echtgenootg (geindexeerd)"
+                },
+                {
+                    "code": "2",
+                    "name": "Alimentatie ex-echtgenote/echtgenootg (niet geindexeerd)"
+                },
+                {
+                    "code": "3",
+                    "name": "Alimentatie kinderen (geindexeerd)"
+                },
+                {
+                    "code": "4",
+                    "name": "Alimentatie kinderen (niet geindexeerd)"
+                }
+            ]
+        },
+        "soortBekostiger": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "naam": {
+            "type": "string"
+        },
+        "loonheffingsnummer": {
+            "type": "string"
+        },
+        "subIndicatorenDataGrid": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        },
+        "soortContract": {
+            "type": "object",
+            "enum": [
+                {},
+                {
+                    "code": "1",
+                    "name": "Vast contract"
+                },
+                {
+                    "code": "2",
+                    "name": "Voor bepaalde tijd"
+                },
+                {
+                    "code": "3",
+                    "name": "Op oproepbasis"
+                },
+                {
+                    "code": "4",
+                    "name": "Uitzendbureau"
+                },
+                {
+                    "code": "5",
+                    "name": "0-uren contract"
+                }
+            ]
+        },
+        "indicatieLoonbeslag": {
+            "type": "boolean"
+        },
+        "indicatieUrenVermindering": {
+            "type": "boolean"
+        },
+        "indicatieHeffingskorting": {
+            "type": "boolean"
+        },
+        "indicatieReserveringVT": {
+            "type": "boolean"
+        },
+        "indicatieAVWBBudget": {
+            "type": "boolean"
+        },
+        "avwbCategorie": {
+            "type": "object",
+            "enum": [
+                {},
+                {
+                    "code": "1",
+                    "name": "Eindejaarsuitkering"
+                },
+                {
+                    "code": "2",
+                    "name": "Dertiende maand"
+                },
+                {
+                    "code": "3",
+                    "name": "Vakantiegeld"
+                },
+                {
+                    "code": "4",
+                    "name": "Individueel keuzebudget (IKB) / keuzeplan"
+                },
+                {
+                    "code": "5",
+                    "name": "Anders"
+                }
+            ]
+        },
+        "avwbBrutoInkomsten": {
+            "type": "number"
+        },
+        "avwbNettoInkomsten": {
+            "type": "number"
+        },
+        "indicatieVakantiegeld": {
+            "type": "boolean"
+        },
+        "vakantiegeldBrutoInkomsten": {
+            "type": "number"
+        },
+        "vakantiegeldNettoInkomsten": {
+            "type": "number"
+        },
+        "nettoInkomstenVakantiegeld": {
+            "type": "number"
+        },
+        "indicatieMaaltijdvergoeding": {
+            "type": "boolean"
+        },
+        "maaltijdvergoedingBrutoInkomsten": {
+            "type": "number"
+        },
+        "maaltijdvergoedingNettoInkomsten": {
+            "type": "number"
+        },
+        "brutoInkomstenMaaltijdvergoeding": {
+            "type": "number"
+        },
+        "nettoInkomstenMaaltijdvergoeding": {
+            "type": "number"
+        },
+        "indicatieOnkostenvergoeding": {
+            "type": "boolean"
+        },
+        "onkostenvergoedingBrutoInkomsten": {
+            "type": "number"
+        },
+        "onkostenvergoedingNettoInkomsten": {
+            "type": "number"
+        },
+        "brutoInkomstenOnkostenvergoeding": {
+            "type": "number"
+        },
+        "nettoInkomstenOnkostenvergoeding": {
+            "type": "number"
+        },
+        "indicatieReiskostenvergoeding": {
+            "type": "boolean"
+        },
+        "reiskostenvergoedingBrutoInkomsten": {
+            "type": "number"
+        },
+        "reiskostenvergoedingNettoInkomsten": {
+            "type": "number"
+        },
+        "brutoInkomstenReiskostenvergoeding": {
+            "type": "number"
+        },
+        "nettoInkomstenReiskostenvergoeding": {
+            "type": "number"
+        },
+        "indicatieVergoedingInNatura": {
+            "type": "boolean"
+        },
+        "naturaBrutoInkomsten": {
+            "type": "number"
+        },
+        "naturaNettoInkomsten": {
+            "type": "number"
+        },
+        "brutoInkomstenNatura": {
+            "type": "number"
+        },
+        "nettoInkomstenNatura": {
+            "type": "number"
+        },
+        "indicatieBedragInConvenant": {
+            "type": "boolean"
+        },
+        "indicatieJuisteBedragBetaaldDoorExPartner": {
+            "type": "boolean"
+        },
+        "indicatieLbioIngeschakeld": {
+            "type": "boolean"
+        },
+        "indicatieBijdrageExPartnerVoorAndereRekeningen": {
+            "type": "boolean"
+        },
+        "bedragAanAndereRekeningen": {
+            "type": "number"
+        },
+        "categorie": {
+            "type": "object",
+            "enum": [
+                {},
+                {
+                    "name": "Anders",
+                    "code": "0"
+                },
+                {
+                    "name": "Vergoeding vrijwilligerswerk",
+                    "code": "1"
+                },
+                {
+                    "name": "Afkoopwaarde lijfrente",
+                    "code": "2"
+                },
+                {
+                    "name": "Huur of onderhuur",
+                    "code": "3"
+                },
+                {
+                    "name": "Giften",
+                    "code": "4"
+                },
+                {
+                    "name": "Toelagen",
+                    "code": "5"
+                },
+                {
+                    "name": "Inkomen uit buitenland",
+                    "code": "6"
+                },
+                {
+                    "name": "Zorgpremie",
+                    "code": "7"
+                },
+                {
+                    "name": "Teruggave inkomstenbelasting",
+                    "code": "8"
+                },
+                {
+                    "name": "Hypotheekrenteaftrek",
+                    "code": "9"
+                },
+                {
+                    "name": "Combinatiekorting",
+                    "code": "10"
+                }
+            ]
+        },
+        "beschrijvingAnderInkomen": {
+            "type": "string"
+        },
+        "beschrijvingHobby": {
+            "type": "string"
+        },
+        "aantalUrenPerWeekBesteedAanHobby": {
+            "type": "number"
+        },
+        "primairInkomstencomponenttypeCode": {
+            "type": "string"
+        },
+        "soortBedrijf": {
+            "type": "string"
+        },
+        "indicatieToestemmingGemeenteParttime": {
+            "type": "boolean"
+        },
+        "indicatieRechtOpZelfstandigenaftrek": {
+            "type": "boolean"
+        },
+        "indicatieIngeschrevenKvK": {
+            "type": "boolean"
+        },
+        "inkomstensoortUitkering": {
+            "type": "object"
+        },
+        "indicatieBeslagUitkering": {
+            "type": "boolean"
+        },
+        "indicatieReserveringVt": {
+            "type": "boolean"
+        },
+        "indicatieToeslag": {
+            "type": "boolean"
+        },
+        "indicatieVerlagingDoorBoete": {
+            "type": "boolean"
+        },
+        "indicatieVerlagingDoorMaatregel": {
+            "type": "boolean"
+        },
+        "indicatieBeslagOpPensioen": {
+            "type": "boolean"
+        },
+        "indicatieLoonHeffingskorting": {
+            "type": "boolean"
+        },
+        "indicatieStudiefinanciering": {
+            "type": "boolean"
+        },
+        "loonheffingsnummerPensioen": {
+            "type": "object",
+            "enum": [
+                {},
+                {
+                    "code": "1",
+                    "name": "Bedrijfspensioen"
+                },
+                {
+                    "code": "2",
+                    "name": "Buitenlands pensioen"
+                },
+                {
+                    "code": "3",
+                    "name": "Pensioen ivm oorlog"
+                },
+                {
+                    "code": "4",
+                    "name": "Invaliditeitspensioen"
+                },
+                {
+                    "code": "5",
+                    "name": "Nabestaandepensioen (weduwe/weduwnaar)"
+                },
+                {
+                    "code": "6",
+                    "name": "Nabestaandepensioen (wezen)"
+                }
+            ]
+        },
+        "loonheffingsnummerStudiefinanciering": {
+            "type": "object",
+            "enum": [
+                {},
+                {
+                    "code": "1",
+                    "name": "WSF"
+                },
+                {
+                    "code": "2",
+                    "name": "WTOS"
+                }
+            ]
+        },
+        "urenPerWeek": {
+            "type": "number"
+        }
+    },
+    "definitions": {
+    }
+}

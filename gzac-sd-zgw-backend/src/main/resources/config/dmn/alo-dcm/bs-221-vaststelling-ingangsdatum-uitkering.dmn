@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="bs-221-vaststelling-ingangsdatum" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.38.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <decision id="bs-221-bepalen-vastgestelde-ingangsdatum" name="Bepalen vastgestelde ingangsdatum">
+    <informationRequirement id="InformationRequirement_1nyu6q1">
+      <requiredInput href="#InputData_0ijww34" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_08annbp">
+      <requiredInput href="#InputData_1e7rx59" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1rvt1yy" hitPolicy="FIRST">
+      <input id="InputClause_1v3sskk" label="ingangsdatumVolgensConsulent" biodi:width="298" camunda:inputVariable="ingangsdatumConsulent">
+        <inputExpression id="LiteralExpression_0n6w7sv" typeRef="boolean">
+          <text>ingangsdatumConsulent != null</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="vastgesteldeIngangsdatum" name="vastgesteldeIngangsdatum" typeRef="string" biodi:width="314" />
+      <rule id="DecisionRule_1kveptk">
+        <description></description>
+        <inputEntry id="UnaryTests_1ivefm5">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0l74yxi">
+          <text>ingangsdatumConsulent</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0u21cvt">
+        <inputEntry id="UnaryTests_12bcf3m">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05wvgrf">
+          <text>voorgesteldeIngangsdatum</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-221-bepalen-ingangsdatum" name="Bepalen ingangsdatum o.b.v. het proces">
+    <informationRequirement id="InformationRequirement_0tom0et">
+      <requiredInput href="#InputData_1gzem4v" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0xqnhga">
+      <requiredInput href="#InputData_114c7u0" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_06g3asw" hitPolicy="FIRST">
+      <input id="InputClause_1d4oje4" label="aanvraagDatum" biodi:width="221" camunda:inputVariable="aanvraagDatum">
+        <inputExpression id="LiteralExpression_1f46xun" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1vbyo82" label="Ingangsdatum op basis van het proces" name="ingangsDatumOpBasisVanProces" typeRef="string" biodi:width="310" />
+      <rule id="DecisionRule_0xutojj">
+        <description>7 dagen = redelijk termijn om de aanvraag te doen</description>
+        <inputEntry id="UnaryTests_1ahdguk">
+          <text>date(aanvraagDatum) &lt;= ( date(meldingsDatum) + @"P7D" )</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_132f9z2">
+          <text>meldingsDatum</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1t431g0">
+        <description>Melddatum niet aanwezig of ligt meer dan 7 dagen voor de aanvraagdatum</description>
+        <inputEntry id="UnaryTests_0wzcfen">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0kfj3l1">
+          <text>aanvraagDatum</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1gzem4v" name="meldingsdatum" />
+  <inputData id="InputData_114c7u0" name="aanvraagdatum" />
+  <inputData id="InputData_1qv6ncw" name="verzochteIngangsdatum" />
+  <decision id="bs-221-bepalen-handmatige-beoordeling" name="Bepalen handmatige beoordeling">
+    <informationRequirement id="InformationRequirement_0ir3g3o">
+      <requiredInput href="#InputData_1qv6ncw" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1qndlpu">
+      <requiredInput href="#InputData_1jhrq3c" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1tnjeh1">
+      <requiredDecision href="#bs-221-bepalen-datum-ontstaan-recht" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1fev0ho" hitPolicy="FIRST">
+      <input id="InputClause_1y2rg7h" label="Aangepaste ingangsdatum gewenst?" biodi:width="150" camunda:inputVariable="gewensteIngangsdatum">
+        <inputExpression id="LiteralExpression_0pkqbtl" typeRef="boolean">
+          <text>gewensteIngangsdatum != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_12hbhgs" label="Reden aanvraag heeft invloed op datum ontstaan recht?" biodi:width="195" camunda:inputVariable="redenInvloedOnstaanRecht">
+        <inputExpression id="LiteralExpression_0y5kyh5" typeRef="boolean">
+          <text>redenInvloedOnstaanRecht</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_07c0hdg" label="Handmatig vaststellen?" biodi:width="150" camunda:inputVariable="handmatigVaststellen">
+        <inputExpression id="LiteralExpression_112wt19" typeRef="boolean">
+          <text>handmatigVaststellen</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0fqo2n3" label="Handmatig vaststellen" name="handmatigeBeoordeling" typeRef="boolean" biodi:width="150" />
+      <rule id="DecisionRule_12b9mor">
+        <inputEntry id="UnaryTests_1lz1boa">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rdez1e">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zsadc2">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1r8ryb2">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1gc52tv">
+        <inputEntry id="UnaryTests_1tepa83">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ds6qx7">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yc9txc">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1i4pkxw">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08pjowl">
+        <inputEntry id="UnaryTests_0cge0r2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0z59mv7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rnl0up">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0jox6r1">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_102pp97">
+        <inputEntry id="UnaryTests_0sjwwte">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14tfjq4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0eh2971">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00av4dv">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jc91te">
+        <inputEntry id="UnaryTests_1pi73e6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kornxv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_080v94e">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_18dhytz">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0ijww34" name="voorgesteldeIngangsdatum" />
+  <inputData id="InputData_1e7rx59" name="ingangsdatumVolgensConsulent" />
+  <decision id="bs-221-bepalen-voorgestelde-ingangsdatum" name="Bepalen voorgestelde ingangsdatum">
+    <informationRequirement id="InformationRequirement_0zwb18u">
+      <requiredInput href="#InputData_05ou322" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1axbvwr">
+      <requiredDecision href="#bs-221-bepalen-datum-ontstaan-recht" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0e2xz1w">
+      <requiredDecision href="#bs-221-bepalen-ingangsdatum" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0772wrt" hitPolicy="FIRST">
+      <input id="InputClause_1snbq6u" label="Andere ingangsdatum gewenst?" biodi:width="201">
+        <inputExpression id="LiteralExpression_0iohtll" typeRef="boolean">
+          <text>gewensteIngangsdatum != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1s7zn65" label="Datum ontstaan recht bekend?">
+        <inputExpression id="LiteralExpression_0anfumn" typeRef="boolean">
+          <text>datumOnstaanRecht != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0xr7hod" label="Gewenste ingangsdatum" biodi:width="298">
+        <inputExpression id="LiteralExpression_1ugtnw9" typeRef="string" expressionLanguage="">
+          <text>gewensteIngangsdatum != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0kb1gse" label="Datum ontstaan recht" biodi:width="301">
+        <inputExpression id="LiteralExpression_1ttilor" typeRef="string">
+          <text>datumOnstaanRecht != null</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0jbxkug" label="Voorgestelde ingangsdatum" name="voorgesteldeIngangsdatum" typeRef="string" biodi:width="266" />
+      <output id="OutputClause_178scdf" label="Welke datum is gebruikt" name="welkeDatumGebruikt" typeRef="string" />
+      <rule id="DecisionRule_02yy1yo">
+        <inputEntry id="UnaryTests_0aq7z0h">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07c9r1p">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zmk5r9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1t6qqzg">
+          <text>date(datumOnstaanRecht) &gt; date(ingangsDatumOpBasisVanProces)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0kly9z1">
+          <text>datumOnstaanRecht</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0u0nuix">
+          <text>"datumOnstaanRecht"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_159gjj5">
+        <inputEntry id="UnaryTests_1iaqzba">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0aci0io">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18shlyk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1k80wgz">
+          <text>date(datumOnstaanRecht) &lt;= date(ingangsDatumOpBasisVanProces)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10y5si0">
+          <text>ingangsDatumOpBasisVanProces</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0dua376">
+          <text>"ingangsDatumOpBasisVanProces" </text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0462965">
+        <inputEntry id="UnaryTests_1iqr24x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1iqim1w">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rs1gs6">
+          <text>date(gewensteIngangsdatum) &gt; date(datumOnstaanRecht)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10p2dbg">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0s00hri">
+          <text>gewensteIngangsdatum</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jyvdp5">
+          <text>"gewensteIngangsdatum"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1h0lrlc">
+        <inputEntry id="UnaryTests_065tusg">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kv6rqc">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03zk9cg">
+          <text>date(gewensteIngangsdatum) &lt;= date(datumOnstaanRecht)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1d2f8ss">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_177uoiy">
+          <text>datumOnstaanRecht</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0yguz8a">
+          <text>"datumOnstaanRecht"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ldx1gj">
+        <description>Momenteel is het aanvraag formulier niet mogelijk om een latere datum dan de datum van inzending te verzoeken.</description>
+        <inputEntry id="UnaryTests_0ulbsef">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0d3s94u">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03zkxd4">
+          <text>date(gewensteIngangsdatum) &lt; date(ingangsDatumOpBasisVanProces)</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17hz9sy">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_13hi2en">
+          <text>gewensteIngangsdatum</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1heuk47">
+          <text>"gewensteIngangsdatum"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0280vn1">
+        <inputEntry id="UnaryTests_1xsll0i">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ejaof3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ghly21">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mwvxat">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0868h3n">
+          <text>ingangsDatumOpBasisVanProces</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1xb36gy">
+          <text>"ingangsDatumOpBasisVanProces"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_05ou322" name="verzochteIngangsDatum" />
+  <decision id="bs-221-bepalen-datum-ontstaan-recht" name="Bepalen datum ontstaan recht">
+    <informationRequirement id="InformationRequirement_11o6dwv">
+      <requiredInput href="#InputData_1kvn2jn" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_09w2k62">
+      <requiredInput href="#InputData_0e5680z" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0wloo5z" hitPolicy="FIRST">
+      <input id="InputClause_14fgm2a" label="Geen betaald werk meer">
+        <inputExpression id="LiteralExpression_18q1sie" typeRef="boolean">
+          <text>laatsteSalarisDatum != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0wivnrw" label="Uitkering is stop gezet">
+        <inputExpression id="LiteralExpression_1a6ddjf" typeRef="boolean">
+          <text>uitkeringEinddatum != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0ac7lre" label="Alimentatie gestopt of verlaagd">
+        <inputExpression id="LiteralExpression_18fu1rm" typeRef="boolean">
+          <text>alimentatieEinddatum != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1kt1817" label="Studiefinanciering gestopt">
+        <inputExpression id="LiteralExpression_1r17hww" typeRef="boolean">
+          <text>studiefinancieringEinddatum != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0dqnzf3" label="Verbreken relatie" biodi:width="192">
+        <inputExpression id="LiteralExpression_05f2mbs" typeRef="boolean">
+          <text>verbrokenRelatieDatum != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_107d3rb" label="Gestopt met eigen bedrijf">
+        <inputExpression id="LiteralExpression_02uflf6" typeRef="boolean">
+          <text>eigenBedrijfDatum != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0t984gd" label="Weekgeld vanuit COA gestopt">
+        <inputExpression id="LiteralExpression_0tthzec" typeRef="boolean">
+          <text>weekgeldCOAeinddatum != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1suod79" label="Detentie gestopt">
+        <inputExpression id="LiteralExpression_0y19pc6" typeRef="boolean">
+          <text>detentieEinddatum != null</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0xyqps3" label="Reden aanvraag heeft invloed op datum ontstaan recht?" name="redenInvloedOnstaanRecht" typeRef="boolean" />
+      <output id="OutputClause_0x7vkjf" label="Datum ontstaan recht" name="datumOnstaanRecht" typeRef="string" biodi:width="332" />
+      <rule id="DecisionRule_0ivhupg">
+        <inputEntry id="UnaryTests_092axy8">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lxpsh8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18ai30v">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jmnzxr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04tv4il">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fq73lj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19qkbp7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_143h9lx">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0j5zbj0">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1l4zoyc">
+          <text>laatsteSalarisDatum</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14stgya">
+        <inputEntry id="UnaryTests_0obh2uv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00ylref">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1y6n2i7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1epamol">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yeh07d">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1d1u2nh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18gc64l">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1idmluv">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_19q2jo8">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0bffdzu">
+          <text>uitkeringEinddatum</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1j0uol1">
+        <inputEntry id="UnaryTests_1jyj6p7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1foq7b1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ao3vng">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18eqgre">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0glzk5b">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ikg3tb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qkg0l4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01shyid">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0jii732">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dcpoce">
+          <text>alimentatieEinddatum</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1f5jset">
+        <inputEntry id="UnaryTests_0zxm1ru">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02sm227">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fb008u">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fdou4u">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hi1zh2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1c7w5ae">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0c3aqqq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gqxdf8">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1rr5d0z">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1aspwad">
+          <text>studiefinancieringEinddatum</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ct6fch">
+        <inputEntry id="UnaryTests_0nzgne7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0encadn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0uuwcn7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08j25r5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1v7v36k">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hzkmmc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_029dpky">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_029vkpa">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0l9z9gg">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vmb9f6">
+          <text>verbrokenRelatieDatum</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_00hj6j6">
+        <inputEntry id="UnaryTests_1aib4xy">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0n5i0qd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kobd2q">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1859p7o">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_038cnth">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0eqxtrg">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tczjag">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18kqtpp">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bhx7po">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1fhmh3m">
+          <text>eigenBedrijfDatum</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1oi4p4t">
+        <inputEntry id="UnaryTests_0kaanau">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0p2i0jj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_139bwyd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13fps3e">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cbupei">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xdpkkv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08llkk0">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12c14j1">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1d0wpih">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_15ipshd">
+          <text>weekgeldCOAeinddatum</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1qk8ftq">
+        <inputEntry id="UnaryTests_0s20c63">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mwd2fd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1poae14">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xaobhm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0r8ephj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oze7vo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17l6btn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_126k9zc">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00t29p7">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1pu7och">
+          <text>detentieEinddatum</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09wnpwx">
+        <inputEntry id="UnaryTests_1ueo0w6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0j1n7z9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e4zazb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pga8j3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0iljyb9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_101ykme">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14h9hkn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1udw1xp">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0izyd8p">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1cfq3ce">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0e5680z" name="redenAanvraag" />
+  <inputData id="InputData_1kvn2jn" name="datumOntstaanRecht" />
+  <inputData id="InputData_1jhrq3c" name="datumOntstaanRecht" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="bs-221-bepalen-vastgestelde-ingangsdatum">
+        <dc:Bounds height="80" width="180" x="1180" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0jpajy6" dmnElementRef="bs-221-bepalen-ingangsdatum">
+        <dc:Bounds height="80" width="180" x="250" y="320" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_138pn96" dmnElementRef="InputData_1gzem4v">
+        <dc:Bounds height="45" width="125" x="187" y="457" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1bun4v9" dmnElementRef="InputData_114c7u0">
+        <dc:Bounds height="45" width="125" x="347" y="457" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1ozmjjg" dmnElementRef="InformationRequirement_0tom0et">
+        <di:waypoint x="250" y="457" />
+        <di:waypoint x="310" y="420" />
+        <di:waypoint x="310" y="400" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_03rjj49" dmnElementRef="InformationRequirement_0xqnhga">
+        <di:waypoint x="410" y="457" />
+        <di:waypoint x="370" y="420" />
+        <di:waypoint x="370" y="400" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_002d9iw" dmnElementRef="InputData_1qv6ncw">
+        <dc:Bounds height="45" width="125" x="777" y="217" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1t59gnc" dmnElementRef="bs-221-bepalen-handmatige-beoordeling">
+        <dc:Bounds height="80" width="180" x="750" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0ogp7r0" dmnElementRef="InformationRequirement_0ir3g3o">
+        <di:waypoint x="840" y="217" />
+        <di:waypoint x="840" y="180" />
+        <di:waypoint x="840" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0ocso33" dmnElementRef="InputData_0ijww34">
+        <dc:Bounds height="45" width="125" x="1087" y="217" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_11tdzjx" dmnElementRef="InputData_1e7rx59">
+        <dc:Bounds height="45" width="125" x="1297" y="217" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_12qp9fp" dmnElementRef="InformationRequirement_1nyu6q1">
+        <di:waypoint x="1150" y="217" />
+        <di:waypoint x="1240" y="180" />
+        <di:waypoint x="1240" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_17yt9ar" dmnElementRef="InformationRequirement_08annbp">
+        <di:waypoint x="1360" y="217" />
+        <di:waypoint x="1300" y="180" />
+        <di:waypoint x="1300" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1tkwz14" dmnElementRef="bs-221-bepalen-voorgestelde-ingangsdatum">
+        <dc:Bounds height="80" width="180" x="330" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_108s2xo" dmnElementRef="InputData_05ou322">
+        <dc:Bounds height="45" width="125" x="157" y="227" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1f3rp38" dmnElementRef="InformationRequirement_0zwb18u">
+        <di:waypoint x="220" y="227" />
+        <di:waypoint x="375" y="180" />
+        <di:waypoint x="375" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1d2jocl" dmnElementRef="bs-221-bepalen-datum-ontstaan-recht">
+        <dc:Bounds height="80" width="180" x="550" y="320" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0rkygx7" dmnElementRef="InputData_0e5680z">
+        <dc:Bounds height="45" width="125" x="497" y="457" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1o2jeza" dmnElementRef="InformationRequirement_09w2k62">
+        <di:waypoint x="560" y="457" />
+        <di:waypoint x="610" y="420" />
+        <di:waypoint x="610" y="400" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0ndbq57" dmnElementRef="InformationRequirement_1axbvwr">
+        <di:waypoint x="640" y="320" />
+        <di:waypoint x="465" y="180" />
+        <di:waypoint x="465" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0tilaji" dmnElementRef="InformationRequirement_0e2xz1w">
+        <di:waypoint x="340" y="320" />
+        <di:waypoint x="420" y="180" />
+        <di:waypoint x="420" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1wu4z9c" dmnElementRef="InputData_1kvn2jn">
+        <dc:Bounds height="45" width="125" x="648" y="457" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_15hv01w" dmnElementRef="InformationRequirement_11o6dwv">
+        <di:waypoint x="711" y="457" />
+        <di:waypoint x="670" y="420" />
+        <di:waypoint x="670" y="400" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_16ctrea" dmnElementRef="InputData_1jhrq3c">
+        <dc:Bounds height="45" width="125" x="918" y="218" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1rteh84" dmnElementRef="InformationRequirement_1qndlpu">
+        <di:waypoint x="981" y="218" />
+        <di:waypoint x="885" y="180" />
+        <di:waypoint x="885" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0ffh6a3" dmnElementRef="InformationRequirement_1tnjeh1">
+        <di:waypoint x="640" y="320" />
+        <di:waypoint x="795" y="180" />
+        <di:waypoint x="795" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

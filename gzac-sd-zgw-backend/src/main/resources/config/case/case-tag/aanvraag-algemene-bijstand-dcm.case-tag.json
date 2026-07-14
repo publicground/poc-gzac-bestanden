@@ -1,0 +1,29 @@
+{
+    "changesetId": "aanvraag-algemene-bijstand-dcm-case-tag-v2",
+    "caseTags": [
+        {
+            "key": "voorschot",
+            "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+            "title": "Voorschot",
+            "color": "RED"
+        },
+        {
+            "key": "te-laat",
+            "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+            "title": "Te laat",
+            "color": "RED"
+        },
+        {
+            "key": "achterstallig",
+            "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+            "title": "Achterstallig",
+            "color": "MAGENTA"
+        },
+        {
+            "key": "verkorte-aanvraagprocedure",
+            "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+            "title": "Verkorte aanvraagprocedure",
+            "color": "TEAL"
+        }
+    ]
+}

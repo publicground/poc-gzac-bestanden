@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1s9w3ki" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.32.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_1gfeo0f">
+    <bpmn:participant id="ABStartBuitenBehandelingStellenParticipant" name="AB: Start buiten behandeling stellen" processRef="ab-start-buiten-behandeling-stellen" />
+  </bpmn:collaboration>
+  <bpmn:process id="ab-start-buiten-behandeling-stellen" name="Aanvraag buiten behandeling stellen" isExecutable="true">
+    <bpmn:startEvent id="StartBuitenBehandelingStellenStartEvent" name="Start buiten behandeling stellen" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_0l6b838</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="StuurBuitenBehandelingStellenMessageEndEvent" name="Stuur buiten behandeling stellen message" camunda:asyncAfter="true">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="variables">
+            <camunda:map>
+              <camunda:entry key="gebeurtenis">start-buiten-behandeling-stellen</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0l6b838</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0updge1" camunda:expression="${correlationService.sendCatchEventMessage(&#34;NIEUWE_GEBEURTENIS_ONTVANGEN_START_MESSAGE&#34;, execution.businessKey, variables)}" />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0l6b838" sourceRef="StartBuitenBehandelingStellenStartEvent" targetRef="StuurBuitenBehandelingStellenMessageEndEvent" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1gfeo0f">
+      <bpmndi:BPMNShape id="Participant_1bh3dtc_di" bpmnElement="ABStartBuitenBehandelingStellenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="120" width="310" height="220" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1gm02w8" bpmnElement="StartBuitenBehandelingStellenStartEvent">
+        <dc:Bounds x="239" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="228" y="245" width="60" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1yks0fl" bpmnElement="StuurBuitenBehandelingStellenMessageEndEvent">
+        <dc:Bounds x="382" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="363" y="245" width="80" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1oct5nl" bpmnElement="Flow_0l6b838">
+        <di:waypoint x="275" y="220" />
+        <di:waypoint x="382" y="220" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

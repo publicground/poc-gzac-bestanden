@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0q43arm" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.31.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_0bm1t4w">
+    <bpmn:participant id="ABInzettenHandhavingParticipant" name="AB: Inzetten handhaving" processRef="ab-inzetten-handhaving" />
+  </bpmn:collaboration>
+  <bpmn:process id="ab-inzetten-handhaving" name="AB: Inzetten handhaving" isExecutable="true">
+    <bpmn:exclusiveGateway id="HandhavingIngezetGateway" name="Handhaving ingezet?" camunda:asyncAfter="true" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_0zqjkfn</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_07ljk5a" camunda:asyncAfter="true">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:incoming>Flow_0l60kmo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gpjla1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="OverwegenInzetHandhavingTask" name="Overwegen inzet handhaving" camunda:asyncAfter="true" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_RAADPLEGER">
+      <bpmn:incoming>Flow_18tbalt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zqjkfn</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="VerwerkenUitkomstPoortonderzoekTask" name="Verwerken uitkomst poortonderzoek" camunda:asyncAfter="true" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_RAADPLEGER">
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0l60kmo</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_1west05">
+      <bpmn:incoming>Flow_0gpjla1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_18tbalt</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0zqjkfn" sourceRef="OverwegenInzetHandhavingTask" targetRef="HandhavingIngezetGateway" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="HandhavingIngezetGateway" targetRef="VerwerkenUitkomstPoortonderzoekTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${valueResolverDelegateService.resolveValue(execution, "doc:/poortonderzoek/uitvoeren") == "JA"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="HandhavingIngezetGateway" targetRef="Gateway_07ljk5a" />
+    <bpmn:sequenceFlow id="Flow_0l60kmo" sourceRef="VerwerkenUitkomstPoortonderzoekTask" targetRef="Gateway_07ljk5a" />
+    <bpmn:sequenceFlow id="Flow_0gpjla1" sourceRef="Gateway_07ljk5a" targetRef="Event_1west05" />
+    <bpmn:sequenceFlow id="Flow_18tbalt" sourceRef="StartEvent_1" targetRef="OverwegenInzetHandhavingTask" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0bm1t4w">
+      <bpmndi:BPMNShape id="Participant_0hvemft_di" bpmnElement="ABInzettenHandhavingParticipant" isHorizontal="true">
+        <dc:Bounds x="125" y="80" width="740" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0jfdkxe" bpmnElement="HandhavingIngezetGateway" isMarkerVisible="true">
+        <dc:Bounds x="411" y="135" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="406" y="98" width="59" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0invfky" bpmnElement="Gateway_07ljk5a" isMarkerVisible="true">
+        <dc:Bounds x="661" y="135" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1qdwlrn" bpmnElement="OverwegenInzetHandhavingTask">
+        <dc:Bounds x="276" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0dnnf6a" bpmnElement="VerwerkenUitkomstPoortonderzoekTask">
+        <dc:Bounds x="496" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1west05_di" bpmnElement="Event_1west05">
+        <dc:Bounds x="768" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1wy7otd" bpmnElement="Flow_0zqjkfn">
+        <di:waypoint x="376" y="160" />
+        <di:waypoint x="411" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0dlcjd1" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="436" y="185" />
+        <di:waypoint x="436" y="260" />
+        <di:waypoint x="496" y="260" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="445" y="220" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1uy1j9z" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="461" y="160" />
+        <di:waypoint x="661" y="160" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="470" y="123" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1nv4rb2" bpmnElement="Flow_0l60kmo">
+        <di:waypoint x="596" y="260" />
+        <di:waypoint x="686" y="260" />
+        <di:waypoint x="686" y="185" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gpjla1_di" bpmnElement="Flow_0gpjla1">
+        <di:waypoint x="711" y="160" />
+        <di:waypoint x="768" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18tbalt_di" bpmnElement="Flow_18tbalt">
+        <di:waypoint x="215" y="160" />
+        <di:waypoint x="276" y="160" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

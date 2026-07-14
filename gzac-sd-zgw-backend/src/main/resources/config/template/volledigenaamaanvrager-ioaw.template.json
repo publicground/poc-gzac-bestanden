@@ -1,0 +1,7 @@
+{
+    "templateKey": "volledige-naam",
+    "caseDefinitionName": "aanvraag-ioaw-uitkering-dcm",
+    "templateType": "text",
+    "metadata": {},
+    "contentRef": "/config/template/volledigenaamaanvrager.ftlh"
+}

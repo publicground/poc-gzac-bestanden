@@ -1,0 +1,166 @@
+{
+    "components": [
+        {
+            "label": "openzaak status",
+            "tableView": false,
+            "key": "openzaak",
+            "type": "hidden",
+            "input": true
+        },
+        {
+            "key": "dossiertype",
+            "type": "hidden",
+            "input": true,
+            "label": "Dossiertype",
+            "tableView": false,
+            "properties": {
+                "sourceKey": "case:definitionId.name"
+            }
+        },
+        {
+            "label": "gegevensVaststelling",
+            "tableView": false,
+            "key": "gegevensVaststelling",
+            "type": "hidden",
+            "input": true
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p> De taak 'Taak opnieuw starten' kan niet worden gestart, omdat het proces zich in de bezwaarperiode bevindt.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Beslist'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Taken om opnieuw te starten",
+            "calculateValue": "const opnieuwTeStartenTaken = [\n    {\n        label: 'Opnieuw informatieverzoek uitzetten',\n        gebeurtenis: 'start-overwegen-uitzetten-informatieverzoek',\n        actieUitzettenInformatieverzoek: 'opnieuw-uitzetten-informatieverzoek'\n    },\n    {\n        label: 'Opnieuw overwegen inzetten handhaving',\n        gebeurtenis: 'start-overwegen-inzetten-handhaving',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen leef en woonsituatie',\n        gebeurtenis: 'start-vaststelling-leef-en-woonsituatie',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen verblijfadres aanvrager',\n        gebeurtenis: 'start-vaststelling-verblijfadres',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen verblijfadres partner',\n        gebeurtenis: 'start-vaststelling-verblijfadres-partner',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen verblijfstitel aanvrager',\n        gebeurtenis: 'start-vaststelling-verblijfstitel',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen verblijfstitel partner',\n        gebeurtenis: 'start-vaststelling-verblijfstitel-partner',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen ingangsdatum',\n        gebeurtenis: 'start-vaststelling-ingangsdatum',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen relaties',\n        gebeurtenis: 'start-vaststelling-relaties',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen norm',\n        gebeurtenis: 'start-vaststelling-norm',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen vermogen',\n        gebeurtenis: 'start-vaststelling-vermogen',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen inkomen aanvrager',\n        gebeurtenis: 'start-vaststelling-inkomen-aanvrager',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen inkomen partner',\n        gebeurtenis: 'start-vaststelling-inkomen-partner',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen voorliggende voorzieningen aanvrager',\n        gebeurtenis: 'start-vaststelling-voorliggende-voorzieningen-aanvrager',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen voorliggende voorzieningen partner',\n        gebeurtenis: 'start-vaststelling-voorliggende-voorzieningen-partner',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen uitsluitingsgronden aanvrager',\n        gebeurtenis: 'start-vaststelling-uitsluitingsgronden-aanvrager',\n        handmatigVaststellen: true\n    },\n    {\n        label: 'Opnieuw vaststellen uitsluitingsgronden partner',\n        gebeurtenis: 'start-vaststelling-uitsluitingsgronden-partner',\n        handmatigVaststellen: true\n    }\n];\n\nconst status = data.openzaak?.statusOmschrijving;\nconst partnerAanwezig = !!data.gegevensVaststelling?.partner?.bsn;\nconst dossiertype = data.dossiertype;\n\nconst removeRules = [\n    {\n        gebeurtenis: 'start-overwegen-uitzetten-informatieverzoek',\n        show: () => status !== 'Informatieverzoek uitgezet'\n    },\n    { gebeurtenis: 'start-vaststelling-leef-en-woonsituatie', },\n    { gebeurtenis: 'start-vaststelling-verblijfadres' },\n    {\n        gebeurtenis: 'start-vaststelling-verblijfadres-partner',\n        show: () => partnerAanwezig\n    },\n    { gebeurtenis: 'start-vaststelling-verblijfstitel' },\n    {\n        gebeurtenis: 'start-vaststelling-verblijfstitel-partner',\n        show: () => partnerAanwezig\n    },\n    { gebeurtenis: 'start-vaststelling-ingangsdatum' },\n    {\n        gebeurtenis: 'start-vaststelling-vermogen',\n        show: () => dossiertype === 'aanvraag-algemene-bijstand-dcm'\n    },\n    {\n        gebeurtenis: 'start-vaststelling-inkomen-aanvrager',\n        show: () => dossiertype === 'aanvraag-algemene-bijstand-dcm'\n    },\n    {\n        gebeurtenis: 'start-vaststelling-inkomen-partner',\n        show: () => dossiertype === 'aanvraag-algemene-bijstand-dcm' && partnerAanwezig\n    },\n    {\n        gebeurtenis: 'start-vaststelling-voorliggende-voorzieningen-partner',\n        show: () => partnerAanwezig\n    },\n    {\n        gebeurtenis: 'start-vaststelling-uitsluitingsgronden-partner',\n        show: () => partnerAanwezig\n    }\n];\n\nconst tasks = opnieuwTeStartenTaken.filter(task => {\n    const rule = removeRules.find(rule => rule.gebeurtenis === task.gebeurtenis);\n    if (rule?.show) {\n        return rule.show();\n    }\n    return true;\n});\n\nvalue = tasks;",
+            "key": "opnieuwTeStartenTakenLijst",
+            "type": "hidden",
+            "tableView": false,
+            "input": true
+        },
+        {
+            "label": "Info text",
+            "className": "alert alert-primary",
+            "tag": "div",
+            "content": "<h4>Let op: het opnieuw starten van een business service annuleert de lopende business service.</h4>",
+            "refreshOnChange": false,
+            "key": "htmlInfoText2",
+            "customConditional": "show = !['Afgehandeld', 'Beslist'].includes(data.openzaak?.statusOmschrijving) && data.opnieuwTeStartenTakenLijst.length !== 0;",
+            "type": "htmlelement",
+            "tableView": false,
+            "input": true
+        },
+        {
+            "label": "Selecteer uit de onderstaande lijst één taak die opnieuw gestart moet worden.",
+            "widget": "choicesjs",
+            "customClass": "mt-2 mb-2",
+            "tableView": true,
+            "dataSrc": "custom",
+            "data": {
+                "custom": "values = data.opnieuwTeStartenTakenLijst;"
+            },
+            "refreshOn": "opnieuwTeStartenTakenLijst",
+            "clearOnRefresh": true,
+            "validate": {
+                "required": true
+            },
+            "validateWhenHidden": false,
+            "key": "pv.opTeStartenTaak",
+            "customConditional": "show = !['Afgehandeld', 'Beslist'].includes(data.openzaak?.statusOmschrijving) && data.opnieuwTeStartenTakenLijst.length > 0;",
+            "type": "select",
+            "input": true
+        },
+        {
+            "label": "Info text",
+            "className": "alert alert-info",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<strong>Er zijn momenteel geen vastgestelde taken beschikbaar om opnieuw uit te voeren.</strong>",
+            "refreshOnChange": false,
+            "key": "htmlInfoText",
+            "customConditional": "show = !['Afgehandeld', 'Beslist'].includes(data.openzaak?.statusOmschrijving) && data.opnieuwTeStartenTakenLijst.length === 0;",
+            "type": "htmlelement",
+            "tableView": false,
+            "input": true
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>Dit dossier is al afgehandeld.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Afgehandeld'",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "extra space",
+            "attrs": [
+                {
+                    "attr": "",
+                    "value": ""
+                }
+            ],
+            "content": "<div style=\"height:260px\">&nbsp;</div>",
+            "refreshOnChange": false,
+            "key": "htmlInfoText3",
+            "customConditional": "show = !['Afgehandeld', 'Beslist'].includes(data.openzaak?.statusOmschrijving) && data.opnieuwTeStartenTakenLijst.length > 0;",
+            "type": "htmlelement",
+            "hideLabel": true,
+            "tableView": false,
+            "input": false
+        },
+        {
+            "label": "Columns",
+            "columns": [
+                {
+                    "components": [],
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 10,
+                    "width": 10
+                },
+                {
+                    "components": [
+                        {
+                            "label": "Indienen",
+                            "action": "custom",
+                            "showValidations": false,
+                            "disableOnInvalid": true,
+                            "tableView": false,
+                            "key": "submit",
+                            "customConditional": "show = !['Afgehandeld', 'Beslist'].includes(data.openzaak?.statusOmschrijving) && data.opnieuwTeStartenTakenLijst.length > 0;",
+                            "type": "button",
+                            "custom": "delete data.gegevensVaststelling; delete data.opnieuwTeStartenTakenLijst; form.submit();",
+                            "input": true
+                        }
+                    ],
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 2,
+                    "width": 2
+                }
+            ],
+            "key": "columns",
+            "type": "columns",
+            "input": false,
+            "tableView": false
+        }
+    ]
+}

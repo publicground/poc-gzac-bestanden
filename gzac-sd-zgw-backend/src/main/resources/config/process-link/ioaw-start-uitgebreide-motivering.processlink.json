@@ -1,0 +1,8 @@
+[
+    {
+        "activityId": "StartUitgebreideMotiveringStartEvent",
+        "activityType": "bpmn:StartEvent:start",
+        "processLinkType": "form",
+        "formDefinitionName": "generic.uitgebreide-motivering.start"
+    }
+]

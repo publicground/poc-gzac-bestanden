@@ -1,0 +1,20 @@
+{
+    "$id": "kadastraalobject.schema",
+    "type": "object",
+    "title": "Kadastrale aanduiding",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "kadastraalobject": {
+            "type": "object",
+            "properties": {
+                "kadastraleaanduiding": {
+                    "$ref": "/document/definition/reference/sd/kadastraleaanduiding-sd-v1.schema.json#/definitions/kadastraleaanduiding"
+                },
+                "locatieOz": {
+                    "$ref": "/document/definition/reference/sd/adres-sd-v1.schema.json#/definitions/adres"
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+}

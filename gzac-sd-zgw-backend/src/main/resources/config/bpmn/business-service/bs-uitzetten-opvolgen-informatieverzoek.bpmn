@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" camunda:diagramRelationId="c1c21bad-48a8-4110-80b2-6350a80a9e03">
+  <bpmn:message id="Message_1qeuq56" name="AB_OPVRAGEN_INFORMATIE_PORTAALTAAK_AFGEROND" />
+  <bpmn:collaboration id="Collaboration_0o2qrbx">
+    <bpmn:participant id="BSUitzettenEnOpvolgenInformatieverzoekParticipant" name="BS uitzetten en opvolgen informatieverzoek" processRef="bs-uitzetten-en-opvolgen-informatieverzoek" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-uitzetten-en-opvolgen-informatieverzoek" name="BS uitzetten en opvolgen informatieverzoek" isExecutable="true">
+    <bpmn:eventBasedGateway id="Gateway_0qt37w5">
+      <bpmn:incoming>Flow_0ho8ksl</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fiubqq</bpmn:outgoing>
+      <bpmn:outgoing>Flow_06jmcte</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="InformatieHandmatigOntvangenEvent" name="Informatie handmatig ontvangen" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_0fiubqq</bpmn:incoming>
+      <bpmn:outgoing>Flow_03a64qt</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0i2msqd" messageRef="Message_396s8g9" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:callActivity id="BeoordelenReactieInformatieverzoekCallActivity" name="Beoordelen reactie informatie-verzoek" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-beoordelen-reactie-informatieverzoek">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="informatiereactie" target="informatiereactie" />
+        <camunda:in source="aangeleverdeDocumenten" target="aangeleverdeDocumenten" />
+        <camunda:in source="verzoek" target="verzoek" />
+        <camunda:out source="informatiereactie" target="reactie" />
+        <camunda:out source="verzoek" target="verzoek" />
+        <camunda:inputOutput>
+          <camunda:outputParameter name="vervolgActieUitzettenInformatieverzoek">beoordeeld</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_044cz6c</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i0kkzl</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="VastleggenReactieInformatieverzoekCallActivity" name="Vastleggen reactie informatie-verzoek" camunda:asyncAfter="true" calledElement="generic-vastleggen-reactie-informatieverzoek">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="verzoek" target="verzoek" />
+        <camunda:out source="reactie" target="reactie" />
+        <camunda:out source="verzoek" target="verzoek" />
+        <camunda:inputOutput>
+          <camunda:outputParameter name="vervolgActieUitzettenInformatieverzoek">beoordeeld</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_03a64qt</bpmn:incoming>
+      <bpmn:outgoing>Flow_1whjgfm</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="Gateway_0sci0mn">
+      <bpmn:incoming>Flow_1i0kkzl</bpmn:incoming>
+      <bpmn:incoming>Flow_1whjgfm</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rzqd8l</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:intermediateCatchEvent id="PortaaltaakAfgerondEvent" name="Portaaltaak afgerond" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_06jmcte</bpmn:incoming>
+      <bpmn:outgoing>Flow_044cz6c</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_02lrrzz" messageRef="Message_0ma3hbg" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:callActivity id="InformatieverzoekAnnulerenCallActivity" name="Informatieverzoek annuleren" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-annuleren-informatieverzoek">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="verzoek" target="verzoek" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ps1i2b</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vshs9p</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:eventBasedGateway id="Gateway_008uvkg">
+      <bpmn:incoming>Flow_0vwjvw7</bpmn:incoming>
+      <bpmn:outgoing>Flow_18em205</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1er4nqo</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15ipwwa</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:exclusiveGateway id="Gateway_0yzaf2h">
+      <bpmn:incoming>Flow_0vshs9p</bpmn:incoming>
+      <bpmn:incoming>InformatieverzoekGeannuleerdSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dbizok</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="VerlengenDeadlineInformatieverzoekCallActivity" name="Verlengen deadline informatie-verzoek" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-verlengen-deadline-informatieverzoek">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="verzoek" target="verzoek" />
+        <camunda:out source="verzoek" target="verzoek" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_02jb2lg</bpmn:incoming>
+      <bpmn:outgoing>Flow_0onl1um</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:callActivity id="OpvolgenVerlopenDeadlineCallActivity" name="Opvolgen verlopen deadline" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-opvolgen-verlopen-deadline-informatieverzoek">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="verzoek" target="verzoek" />
+        <camunda:out source="vervolgactieVerlopenDeadline" target="vervolgactieVerlopenDeadline" />
+        <camunda:out source="verzoek" target="verzoek" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0qi0z8y</bpmn:incoming>
+      <bpmn:outgoing>Flow_0v8j2rw</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:exclusiveGateway id="Gateway_110s2n6">
+      <bpmn:incoming>Flow_0v8j2rw</bpmn:incoming>
+      <bpmn:outgoing>InformatieverzoekGeannuleerdSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>DeadlineVerlopenSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_1tfir56">
+      <bpmn:incoming>Flow_0onl1um</bpmn:incoming>
+      <bpmn:incoming>DeadlineVerlopenSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jbijn5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="ReactieOntvangenEndEvent" name="reactie ontvangen">
+      <bpmn:incoming>Flow_16tejf3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="InformatieverzoekGeannuleerdEndEvent" name="Informatieverzoek geannuleerd">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${execution.setVariable(&#34;vervolgActieUitzettenInformatieverzoek&#34;, &#34;geannuleerd&#34;)}" event="end" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0dbizok</bpmn:incoming>
+      <bpmn:terminateEventDefinition id="TerminateEventDefinition_0vc52qi" />
+    </bpmn:endEvent>
+    <bpmn:intermediateCatchEvent id="AnnulerenInformatieverzoekGestartEvent" name="Annuleren informatie-verzoek gestart" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_18em205</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ps1i2b</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0uv5pny" messageRef="Message_3qj4891" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="OpvolgenVerlopenDeadlineEvent" name="Opvolgen verlopen deadline">
+      <bpmn:incoming>Flow_1er4nqo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qi0z8y</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0lgw3a5" messageRef="Message_09efrtl" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="VerlengenDeadlineInformatieverzoekGestartEvent" name="Verlengen deadline informatieverzoek gestart" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_15ipwwa</bpmn:incoming>
+      <bpmn:outgoing>Flow_02jb2lg</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0vcuul1" messageRef="Message_1ul8vhx" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="ReactieInformatieverzoekOntvangenEnBeoordeeldEndEvent" name="Reactie informatieverzoek ontvangen en beoordeeld">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${execution.setVariable(&#34;vervolgActieUitzettenInformatieverzoek&#34;, &#34;beoordeeld&#34;)}" event="end" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1rzqd8l</bpmn:incoming>
+      <bpmn:terminateEventDefinition id="TerminateEventDefinition_08vwnz1" />
+    </bpmn:endEvent>
+    <bpmn:parallelGateway id="Gateway_0zrmh78">
+      <bpmn:incoming>Flow_0wp2jw1</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ho8ksl</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0mcsn7f</bpmn:outgoing>
+      <bpmn:outgoing>Flow_13weusi</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:exclusiveGateway id="Gateway_114ree3">
+      <bpmn:incoming>Flow_0mcsn7f</bpmn:incoming>
+      <bpmn:incoming>Flow_1jbijn5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vwjvw7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="UitzettenInformatieverzoekCallActivity" name="Uitzetten informatie-verzoek" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-uitzetten-informatieverzoek">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="verzoek" target="verzoek" />
+        <camunda:in source="prettyDeadline" target="prettyDeadline" />
+        <camunda:in source="documenten" target="documenten" />
+        <camunda:in source="opgevraagdeStukken" target="opgevraagdeStukken" />
+        <camunda:in source="datumOntvangstAanvraag" target="datumOntvangstAanvraag" />
+        <camunda:in source="gegevensAanvrager" target="gegevensAanvrager" />
+        <camunda:in source="templateGroup" target="templateGroup" />
+        <camunda:in source="templateName" target="templateName" />
+        <camunda:in source="gegevensPartner" target="gegevensPartner" />
+        <camunda:in source="mailTaskTemplate" target="mailTaskTemplate" />
+        <camunda:in source="mailTaskSubject" target="mailTaskSubject" />
+        <camunda:in source="verzendadres" target="verzendadres" />
+        <camunda:in source="verzenddatum" target="verzenddatum" />
+        <camunda:in source="deadlineInformatieverzoek" target="deadlineInformatieverzoek" />
+        <camunda:out source="aangeleverdeDocumenten" target="aangeleverdeDocumenten" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_13weusi</bpmn:incoming>
+      <bpmn:outgoing>Flow_0smx5ka</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="Event_19wi1yn" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_0smx5ka</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="startEvent" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_0wp2jw1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:boundaryEvent id="Event_1q236pp" attachedToRef="OpvolgenVerlopenDeadlineCallActivity">
+      <bpmn:outgoing>Flow_16tejf3</bpmn:outgoing>
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0p4d2of" camunda:variableName="informatiereactie">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${informatiereactie != null}</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_0ho8ksl" sourceRef="Gateway_0zrmh78" targetRef="Gateway_0qt37w5" />
+    <bpmn:sequenceFlow id="Flow_0fiubqq" sourceRef="Gateway_0qt37w5" targetRef="InformatieHandmatigOntvangenEvent" />
+    <bpmn:sequenceFlow id="Flow_06jmcte" sourceRef="Gateway_0qt37w5" targetRef="PortaaltaakAfgerondEvent" />
+    <bpmn:sequenceFlow id="Flow_03a64qt" sourceRef="InformatieHandmatigOntvangenEvent" targetRef="VastleggenReactieInformatieverzoekCallActivity" />
+    <bpmn:sequenceFlow id="Flow_044cz6c" sourceRef="PortaaltaakAfgerondEvent" targetRef="BeoordelenReactieInformatieverzoekCallActivity" />
+    <bpmn:sequenceFlow id="Flow_1i0kkzl" sourceRef="BeoordelenReactieInformatieverzoekCallActivity" targetRef="Gateway_0sci0mn" />
+    <bpmn:sequenceFlow id="Flow_1whjgfm" sourceRef="VastleggenReactieInformatieverzoekCallActivity" targetRef="Gateway_0sci0mn" />
+    <bpmn:sequenceFlow id="Flow_1rzqd8l" sourceRef="Gateway_0sci0mn" targetRef="ReactieInformatieverzoekOntvangenEnBeoordeeldEndEvent" />
+    <bpmn:sequenceFlow id="Flow_0ps1i2b" sourceRef="AnnulerenInformatieverzoekGestartEvent" targetRef="InformatieverzoekAnnulerenCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0vshs9p" sourceRef="InformatieverzoekAnnulerenCallActivity" targetRef="Gateway_0yzaf2h" />
+    <bpmn:sequenceFlow id="Flow_0vwjvw7" sourceRef="Gateway_114ree3" targetRef="Gateway_008uvkg" />
+    <bpmn:sequenceFlow id="Flow_18em205" sourceRef="Gateway_008uvkg" targetRef="AnnulerenInformatieverzoekGestartEvent" />
+    <bpmn:sequenceFlow id="Flow_1er4nqo" sourceRef="Gateway_008uvkg" targetRef="OpvolgenVerlopenDeadlineEvent" />
+    <bpmn:sequenceFlow id="Flow_15ipwwa" sourceRef="Gateway_008uvkg" targetRef="VerlengenDeadlineInformatieverzoekGestartEvent" />
+    <bpmn:sequenceFlow id="InformatieverzoekGeannuleerdSequenceFlow" name="informatieverzoek geannuleerd" sourceRef="Gateway_110s2n6" targetRef="Gateway_0yzaf2h">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${vervolgactieVerlopenDeadline == "ANNULEREN"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0dbizok" sourceRef="Gateway_0yzaf2h" targetRef="InformatieverzoekGeannuleerdEndEvent" />
+    <bpmn:sequenceFlow id="Flow_02jb2lg" sourceRef="VerlengenDeadlineInformatieverzoekGestartEvent" targetRef="VerlengenDeadlineInformatieverzoekCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0onl1um" sourceRef="VerlengenDeadlineInformatieverzoekCallActivity" targetRef="Gateway_1tfir56" />
+    <bpmn:sequenceFlow id="Flow_0qi0z8y" sourceRef="OpvolgenVerlopenDeadlineEvent" targetRef="OpvolgenVerlopenDeadlineCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0v8j2rw" sourceRef="OpvolgenVerlopenDeadlineCallActivity" targetRef="Gateway_110s2n6" />
+    <bpmn:sequenceFlow id="DeadlineVerlopenSequenceFlow" name="Deadline verlopen" sourceRef="Gateway_110s2n6" targetRef="Gateway_1tfir56">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${vervolgactieVerlopenDeadline == "VERLENGEN"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1jbijn5" sourceRef="Gateway_1tfir56" targetRef="Gateway_114ree3" />
+    <bpmn:sequenceFlow id="Flow_16tejf3" sourceRef="Event_1q236pp" targetRef="ReactieOntvangenEndEvent" />
+    <bpmn:sequenceFlow id="Flow_0wp2jw1" sourceRef="startEvent" targetRef="Gateway_0zrmh78" />
+    <bpmn:sequenceFlow id="Flow_0mcsn7f" sourceRef="Gateway_0zrmh78" targetRef="Gateway_114ree3" />
+    <bpmn:sequenceFlow id="Flow_13weusi" sourceRef="Gateway_0zrmh78" targetRef="UitzettenInformatieverzoekCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0smx5ka" sourceRef="UitzettenInformatieverzoekCallActivity" targetRef="Event_19wi1yn" />
+    <bpmn:subProcess id="StartTimerDeadlineInformatieverzoekSubProcess" name="start timer deadline informatieverzoek" triggeredByEvent="true">
+      <bpmn:startEvent id="Event_1kgj39m" isInterrupting="false">
+        <bpmn:outgoing>Flow_0pq6yd5</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_1t704uj" messageRef="Message_39kfovt" />
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="AanpassenDeadlineTask" name="Aanpassen deadline" camunda:asyncAfter="true" camunda:expression="${jobService.updateTimerDueDateByActivityId(deadlineInformatieverzoek, &#34;DeadlineInformatieverzoekVerlopenEvent&#34;, execution)}">
+        <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+        <bpmn:outgoing>Flow_1j85k9x</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:endEvent id="StartOpvolgenVerlopenDeadlineEndEvent" name="Start opvolgen verlopen deadline">
+        <bpmn:incoming>Flow_08oie3f</bpmn:incoming>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_0bl1ve0" camunda:expression="${correlationService.sendCatchEventMessage(&#34;DEADLINE_INFORMATIEVERZOEK_VERLOPEN_MESSAGE&#34;, execution.businessKey)}" />
+      </bpmn:endEvent>
+      <bpmn:intermediateCatchEvent id="DeadlineInformatieverzoekVerlopenEvent" name="Deadline informatieverzoek verlopen" camunda:asyncBefore="true" camunda:asyncAfter="true">
+        <bpmn:extensionElements />
+        <bpmn:incoming>Flow_0rw9kdq</bpmn:incoming>
+        <bpmn:outgoing>Flow_0tgygg5</bpmn:outgoing>
+        <bpmn:timerEventDefinition id="TimerEventDefinition_1yym9m9">
+          <bpmn:timeDate xsi:type="bpmn:tFormalExpression">${deadlineInformatieverzoek}</bpmn:timeDate>
+        </bpmn:timerEventDefinition>
+      </bpmn:intermediateCatchEvent>
+      <bpmn:exclusiveGateway id="IsDeadlineInformatieverzoekTimerGestartGateway" name="Is deadline informatieverzoek timer gestart?" default="NeeSequenceFlow">
+        <bpmn:incoming>Flow_0pq6yd5</bpmn:incoming>
+        <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+        <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:endEvent id="Event_1obcds2">
+        <bpmn:incoming>Flow_1j85k9x</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_0pq6yd5" sourceRef="Event_1kgj39m" targetRef="IsDeadlineInformatieverzoekTimerGestartGateway" />
+      <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="IsDeadlineInformatieverzoekTimerGestartGateway" targetRef="AanpassenDeadlineTask">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.getVariable("statusDeadlineVerlopenTimer") == "gestart"}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="Flow_1j85k9x" sourceRef="AanpassenDeadlineTask" targetRef="Event_1obcds2" />
+      <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="IsDeadlineInformatieverzoekTimerGestartGateway" targetRef="UpdateStatusDeadlineTimerGestartTask" />
+      <bpmn:task id="UpdateStatusDeadlineTimerGestartTask" name="Update status deadline timer &#39;gestart&#39;" camunda:asyncAfter="true">
+        <bpmn:extensionElements>
+          <camunda:inputOutput>
+            <camunda:outputParameter name="statusDeadlineVerlopenTimer">gestart</camunda:outputParameter>
+          </camunda:inputOutput>
+        </bpmn:extensionElements>
+        <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+        <bpmn:outgoing>Flow_0rw9kdq</bpmn:outgoing>
+      </bpmn:task>
+      <bpmn:sequenceFlow id="Flow_0rw9kdq" sourceRef="UpdateStatusDeadlineTimerGestartTask" targetRef="DeadlineInformatieverzoekVerlopenEvent" />
+      <bpmn:task id="UpdateStatusDeadlineTimerAfgerondTask" name="Update status deadline timer &#39;afgerond&#39;" camunda:asyncAfter="true">
+        <bpmn:extensionElements>
+          <camunda:inputOutput>
+            <camunda:outputParameter name="statusDeadlineVerlopenTimer">afgerond</camunda:outputParameter>
+          </camunda:inputOutput>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_0tgygg5</bpmn:incoming>
+        <bpmn:outgoing>Flow_08oie3f</bpmn:outgoing>
+      </bpmn:task>
+      <bpmn:sequenceFlow id="Flow_0tgygg5" sourceRef="DeadlineInformatieverzoekVerlopenEvent" targetRef="UpdateStatusDeadlineTimerAfgerondTask" />
+      <bpmn:sequenceFlow id="Flow_08oie3f" sourceRef="UpdateStatusDeadlineTimerAfgerondTask" targetRef="StartOpvolgenVerlopenDeadlineEndEvent" />
+    </bpmn:subProcess>
+  </bpmn:process>
+  <bpmn:message id="Message_396s8g9" name="INFORMATIE_HANDMATIG_ONTVANGEN" />
+  <bpmn:message id="Message_1ul8vhx" name="VERLENGEN_DEADLINE_INFORMATIEVERZOEK" />
+  <bpmn:message id="Message_0ma3hbg" name="OPVRAGEN_INFORMATIE_PORTAALTAAK_AFGEROND" />
+  <bpmn:message id="Message_3qj4891" name="ANNULEREN_INFORMATIEVERZOEK_GESTART" />
+  <bpmn:message id="Message_39kfovt" name="OPVRAGEN_INFORMATIE_AANPASSEN_DEADLINE_MESSAGE" />
+  <bpmn:message id="Message_0r1jaea" name="START_TIMER_DEADLINE_INFORMATIEVERZOEK_MESSAGE" />
+  <bpmn:message id="Message_2njor4r" name="SET_PORTAALTAAK_VERWERKER_TAAK_ID" />
+  <bpmn:message id="Message_09efrtl" name="DEADLINE_INFORMATIEVERZOEK_VERLOPEN_MESSAGE" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0o2qrbx">
+      <bpmndi:BPMNShape id="Participant_1dna8q7_di" bpmnElement="BSUitzettenEnOpvolgenInformatieverzoekParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1080" height="1380" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1dcfa9g_di" bpmnElement="Gateway_0qt37w5">
+        <dc:Bounds x="533" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1jc0xxb_di" bpmnElement="InformatieHandmatigOntvangenEvent">
+        <dc:Bounds x="640" y="412" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="632" y="455" width="52" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0k4g6nl_di" bpmnElement="BeoordelenReactieInformatieverzoekCallActivity">
+        <dc:Bounds x="738" y="250" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18mh1uf_di" bpmnElement="VastleggenReactieInformatieverzoekCallActivity">
+        <dc:Bounds x="738" y="390" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0sci0mn_di" bpmnElement="Gateway_0sci0mn" isMarkerVisible="true">
+        <dc:Bounds x="963" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0jcc5zs_di" bpmnElement="PortaaltaakAfgerondEvent">
+        <dc:Bounds x="640" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="631" y="315" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1jpofxu_di" bpmnElement="InformatieverzoekAnnulerenCallActivity">
+        <dc:Bounds x="738" y="560" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0fe4eql_di" bpmnElement="Gateway_008uvkg">
+        <dc:Bounds x="543" y="575" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0yzaf2h_di" bpmnElement="Gateway_0yzaf2h" isMarkerVisible="true">
+        <dc:Bounds x="953" y="575" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0y9hrw4" bpmnElement="VerlengenDeadlineInformatieverzoekCallActivity">
+        <dc:Bounds x="738" y="870" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0dvwol0" bpmnElement="OpvolgenVerlopenDeadlineCallActivity">
+        <dc:Bounds x="738" y="720" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_110s2n6_di" bpmnElement="Gateway_110s2n6" isMarkerVisible="true">
+        <dc:Bounds x="953" y="735" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1tfir56_di" bpmnElement="Gateway_1tfir56" isMarkerVisible="true">
+        <dc:Bounds x="953" y="885" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1jzv1ex_di" bpmnElement="ReactieOntvangenEndEvent">
+        <dc:Bounds x="900" y="662" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="874" y="705" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1qg3vme_di" bpmnElement="InformatieverzoekGeannuleerdEndEvent">
+        <dc:Bounds x="1120" y="582" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1094" y="625" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_13025ss_di" bpmnElement="AnnulerenInformatieverzoekGestartEvent">
+        <dc:Bounds x="640" y="582" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="621" y="630" width="76" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_12n9p03" bpmnElement="OpvolgenVerlopenDeadlineEvent">
+        <dc:Bounds x="640" y="742" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="618" y="785" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1xctp9m" bpmnElement="VerlengenDeadlineInformatieverzoekGestartEvent">
+        <dc:Bounds x="640" y="892" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="616" y="935" width="87" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1n1d58e_di" bpmnElement="ReactieInformatieverzoekOntvangenEnBeoordeeldEndEvent">
+        <dc:Bounds x="1120" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1095" y="315" width="87" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0hr12or_di" bpmnElement="Gateway_0zrmh78">
+        <dc:Bounds x="405" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_114ree3_di" bpmnElement="Gateway_114ree3" isMarkerVisible="true">
+        <dc:Bounds x="405" y="575" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1b4sjgq" bpmnElement="UitzettenInformatieverzoekCallActivity">
+        <dc:Bounds x="500" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_19wi1yn_di" bpmnElement="Event_19wi1yn">
+        <dc:Bounds x="640" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1wk7grz_di" bpmnElement="startEvent">
+        <dc:Bounds x="302" y="272" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="228" y="205" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1giit9t" bpmnElement="StartTimerDeadlineInformatieverzoekSubProcess" isExpanded="true">
+        <dc:Bounds x="340" y="1100" width="730" height="320" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1ts57u1" bpmnElement="Event_1kgj39m">
+        <dc:Bounds x="362" y="1172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dq8di8_di" bpmnElement="AanpassenDeadlineTask">
+        <dc:Bounds x="567" y="1150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1g04ddn" bpmnElement="StartOpvolgenVerlopenDeadlineEndEvent">
+        <dc:Bounds x="979" y="1292" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="953" y="1347" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0xzi6z9_di" bpmnElement="DeadlineInformatieverzoekVerlopenEvent">
+        <dc:Bounds x="719" y="1292" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="693" y="1340" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_074u7qt_di" bpmnElement="IsDeadlineInformatieverzoekTimerGestartGateway" isMarkerVisible="true">
+        <dc:Bounds x="445" y="1165" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="427" y="1120" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1obcds2_di" bpmnElement="Event_1obcds2">
+        <dc:Bounds x="719" y="1172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ws293y_di" bpmnElement="UpdateStatusDeadlineTimerGestartTask">
+        <dc:Bounds x="567" y="1270" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0bwd9oc" bpmnElement="UpdateStatusDeadlineTimerAfgerondTask">
+        <dc:Bounds x="817" y="1270" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0pq6yd5_di" bpmnElement="Flow_0pq6yd5">
+        <di:waypoint x="398" y="1190" />
+        <di:waypoint x="445" y="1190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wm6vnm_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="495" y="1190" />
+        <di:waypoint x="567" y="1190" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="508" y="1172" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1j85k9x_di" bpmnElement="Flow_1j85k9x">
+        <di:waypoint x="667" y="1190" />
+        <di:waypoint x="719" y="1190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pecxlj_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="470" y="1215" />
+        <di:waypoint x="470" y="1310" />
+        <di:waypoint x="567" y="1310" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="476" y="1260" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rw9kdq_di" bpmnElement="Flow_0rw9kdq">
+        <di:waypoint x="667" y="1310" />
+        <di:waypoint x="719" y="1310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tgygg5_di" bpmnElement="Flow_0tgygg5">
+        <di:waypoint x="755" y="1310" />
+        <di:waypoint x="817" y="1310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08oie3f_di" bpmnElement="Flow_08oie3f">
+        <di:waypoint x="917" y="1310" />
+        <di:waypoint x="979" y="1310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0esqqs6_di" bpmnElement="Event_1q236pp">
+        <dc:Bounds x="820" y="702" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ho8ksl_di" bpmnElement="Flow_0ho8ksl">
+        <di:waypoint x="455" y="290" />
+        <di:waypoint x="533" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fiubqq_di" bpmnElement="Flow_0fiubqq">
+        <di:waypoint x="558" y="315" />
+        <di:waypoint x="558" y="430" />
+        <di:waypoint x="640" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06jmcte_di" bpmnElement="Flow_06jmcte">
+        <di:waypoint x="583" y="290" />
+        <di:waypoint x="640" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03a64qt_di" bpmnElement="Flow_03a64qt">
+        <di:waypoint x="676" y="430" />
+        <di:waypoint x="738" y="430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_044cz6c_di" bpmnElement="Flow_044cz6c">
+        <di:waypoint x="676" y="290" />
+        <di:waypoint x="738" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i0kkzl_di" bpmnElement="Flow_1i0kkzl">
+        <di:waypoint x="838" y="290" />
+        <di:waypoint x="963" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1whjgfm_di" bpmnElement="Flow_1whjgfm">
+        <di:waypoint x="838" y="430" />
+        <di:waypoint x="988" y="430" />
+        <di:waypoint x="988" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rzqd8l_di" bpmnElement="Flow_1rzqd8l">
+        <di:waypoint x="1013" y="290" />
+        <di:waypoint x="1120" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ps1i2b_di" bpmnElement="Flow_0ps1i2b">
+        <di:waypoint x="676" y="600" />
+        <di:waypoint x="738" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vshs9p_di" bpmnElement="Flow_0vshs9p">
+        <di:waypoint x="838" y="600" />
+        <di:waypoint x="953" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vwjvw7_di" bpmnElement="Flow_0vwjvw7">
+        <di:waypoint x="455" y="600" />
+        <di:waypoint x="543" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18em205_di" bpmnElement="Flow_18em205">
+        <di:waypoint x="593" y="600" />
+        <di:waypoint x="640" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1er4nqo_di" bpmnElement="Flow_1er4nqo">
+        <di:waypoint x="568" y="625" />
+        <di:waypoint x="568" y="760" />
+        <di:waypoint x="640" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15ipwwa_di" bpmnElement="Flow_15ipwwa">
+        <di:waypoint x="568" y="625" />
+        <di:waypoint x="568" y="910" />
+        <di:waypoint x="640" y="910" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0m7zy4n_di" bpmnElement="InformatieverzoekGeannuleerdSequenceFlow">
+        <di:waypoint x="978" y="735" />
+        <di:waypoint x="978" y="625" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="984" y="681" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dbizok_di" bpmnElement="Flow_0dbizok">
+        <di:waypoint x="1003" y="600" />
+        <di:waypoint x="1120" y="600" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02jb2lg_di" bpmnElement="Flow_02jb2lg">
+        <di:waypoint x="676" y="910" />
+        <di:waypoint x="738" y="910" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0onl1um_di" bpmnElement="Flow_0onl1um">
+        <di:waypoint x="838" y="910" />
+        <di:waypoint x="953" y="910" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qi0z8y_di" bpmnElement="Flow_0qi0z8y">
+        <di:waypoint x="676" y="760" />
+        <di:waypoint x="738" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v8j2rw_di" bpmnElement="Flow_0v8j2rw">
+        <di:waypoint x="838" y="760" />
+        <di:waypoint x="953" y="760" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1cvquxq_di" bpmnElement="DeadlineVerlopenSequenceFlow">
+        <di:waypoint x="978" y="785" />
+        <di:waypoint x="978" y="885" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="993" y="828" width="89" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jbijn5_di" bpmnElement="Flow_1jbijn5">
+        <di:waypoint x="978" y="935" />
+        <di:waypoint x="978" y="1060" />
+        <di:waypoint x="430" y="1060" />
+        <di:waypoint x="430" y="625" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16tejf3_di" bpmnElement="Flow_16tejf3">
+        <di:waypoint x="838" y="702" />
+        <di:waypoint x="838" y="680" />
+        <di:waypoint x="900" y="680" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wp2jw1_di" bpmnElement="Flow_0wp2jw1">
+        <di:waypoint x="338" y="290" />
+        <di:waypoint x="405" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mcsn7f_di" bpmnElement="Flow_0mcsn7f">
+        <di:waypoint x="430" y="315" />
+        <di:waypoint x="430" y="575" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13weusi_di" bpmnElement="Flow_13weusi">
+        <di:waypoint x="430" y="265" />
+        <di:waypoint x="430" y="180" />
+        <di:waypoint x="500" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0smx5ka_di" bpmnElement="Flow_0smx5ka">
+        <di:waypoint x="600" y="180" />
+        <di:waypoint x="640" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

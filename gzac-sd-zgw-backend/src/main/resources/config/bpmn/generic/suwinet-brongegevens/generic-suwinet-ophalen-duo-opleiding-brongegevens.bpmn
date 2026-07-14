@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0vol0sx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.44.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:collaboration id="Collaboration_1gmd3lc">
+    <bpmn:participant id="GenericOphalenDUOOpleidingBrongegevensParticipant" name="Generic: Suwinet ophalen DUO opleiding brongegevens" processRef="generic-suwinet-ophalen-duo-opleiding-brongegevens" />
+    <bpmn:textAnnotation id="TextAnnotation_1dji29k">
+      <bpmn:text>output: duoPersoonsInformatieRaw</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0baaih5" associationDirection="None" sourceRef="OphalenDUOOpleidingBrongegevensTask" targetRef="TextAnnotation_1dji29k" />
+    <bpmn:textAnnotation id="TextAnnotation_055g0r6">
+      <bpmn:text>input: bsn</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0ru66fx" associationDirection="None" sourceRef="StartEvent_1" targetRef="TextAnnotation_055g0r6" />
+  </bpmn:collaboration>
+  <bpmn:process id="generic-suwinet-ophalen-duo-opleiding-brongegevens" name="Generic: Suwinet ophalen DUO opleiding brongegevens " isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_1if7i5z</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="OphalenDUOOpleidingBrongegevensTask" name="Ophalen DUO opleiding brongegevens" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="javascript">var raw = execution.getVariable('duoPersoonsInformatieRaw');
+var dynProps = raw != null &amp;&amp; raw.dynamicProperties != null ? raw.dynamicProperties : null;
+
+function toJavaValue(value) {
+    if (value == null) return null;
+
+    var valueType = typeof value;
+
+    if (valueType === 'string') return String(value);
+    if (valueType === 'number') return Number(value);
+    if (valueType === 'boolean') return value;
+
+    if (Array.isArray(value)) {
+        return toJavaList(value);
+    }
+
+    if (valueType === 'object') {
+        return toJavaMap(value);
+    }
+
+    return String(value);
+}
+
+function toJavaMap(obj) {
+    var map = new Packages.java.util.LinkedHashMap();
+
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            map.put(String(key), toJavaValue(obj[key]));
+        }
+    }
+
+    return map;
+}
+
+function toJavaList(arr) {
+    var list = new Packages.java.util.ArrayList();
+
+    for (var i = 0; i &lt; arr.length; i++) {
+        list.add(toJavaValue(arr[i]));
+    }
+
+    return list;
+}
+
+function normalizeDuoDate(value) {
+    if (value == null) return '';
+    return String(value).replace(/-/g, '');
+}
+
+function mapOpleidingBasis(i) {
+    if (!i) return null;
+
+    return {
+        naamOpleidingKortDuo: i.naamOpleidingKortDuo != null ? String(i.naamOpleidingKortDuo) : '',
+        codeNiveauOpleidingDuo: i.cdNiveauOpleidingDuo != null ? String(i.cdNiveauOpleidingDuo) : ''
+    };
+}
+
+function mapInhoudDeelnameOpleiding(i) {
+    if (!i) return null;
+
+    var basis = mapOpleidingBasis(i);
+
+    return {
+        omsStudiegebied: i.omsStudiegebied != null ? String(i.omsStudiegebied) : '',
+        omsStudieinhoud: i.omsStudieinhoud != null ? String(i.omsStudieinhoud) : '',
+        omsStudieuitstroom: i.omsStudieuitstroom != null ? String(i.omsStudieuitstroom) : '',
+        naamOpleidingKortDuo: basis.naamOpleidingKortDuo,
+        codeNiveauOpleidingDuo: basis.codeNiveauOpleidingDuo
+    };
+}
+
+function mapDeelnameOpleidingGeregistrDuo(i) {
+    if (!i) return null;
+
+    return {
+        codeLeerwegMbo: i.cdLeerwegMbo != null ? String(i.cdLeerwegMbo) : '',
+        codeOnderwijsvorm: i.cdOnderwijsvorm != null ? String(i.cdOnderwijsvorm) : '',
+        aanduidingLeerjaar: i.aanduidingLeerjaar != null ? String(i.aanduidingLeerjaar) : '',
+        codeInschrijvingsvorm: i.cdInschrijvingsvorm != null ? String(i.cdInschrijvingsvorm) : '',
+        datumEindDeelnameOpleiding: normalizeDuoDate(i.datEDeelnameOpleiding),
+        datumBeginDeelnameOpleiding: normalizeDuoDate(i.datBDeelnameOpleiding),
+        inhoudDeelnameOpleiding: mapInhoudDeelnameOpleiding(i.inhoudDeelnameOpleidingDuo)
+    };
+}
+
+function mapOnderwijsOvereenkomst(i) {
+    if (!i) return null;
+
+    var eersteBrin = i.brin &amp;&amp; i.brin.length &gt; 0 ? i.brin[0] : null;
+
+    var deelnameOpleidingGeregistrDuo = [];
+    if (i.deelnameOpleidingGeregistrDuo &amp;&amp; i.deelnameOpleidingGeregistrDuo.length &gt; 0) {
+        deelnameOpleidingGeregistrDuo = i.deelnameOpleidingGeregistrDuo.map(function(item) {
+            return mapDeelnameOpleidingGeregistrDuo(item);
+        });
+    }
+
+    return {
+        brin: eersteBrin &amp;&amp; eersteBrin.brinNr != null ? String(eersteBrin.brinNr) : '',
+        datumInschrijvingOpleiding: normalizeDuoDate(i.datInschrijvingOpleiding),
+        datumUitschrijvingOpleiding: normalizeDuoDate(i.datUitschrijvingOpleiding),
+        deelnameOpleidingGeregistrDuo: deelnameOpleidingGeregistrDuo
+    };
+}
+
+function mapInhoudResultaatOpleidingDuo(i) {
+    return mapOpleidingBasis(i);
+}
+
+function mapResultaatExamen(i) {
+    if (!i) return null;
+
+    return {
+        codeResultaatExamen: i.cdResultaatExamen != null ? String(i.cdResultaatExamen) : '',
+        datumResultaatExamen: i.datResultaatExamen != null ? String(i.datResultaatExamen) : ''
+    };
+}
+
+function mapResultaatOpleiding(i) {
+    if (!i) return null;
+
+    return {
+        codeFaseOpleidingDuo: i.cdFaseOpleidingDuo != null ? String(i.cdFaseOpleidingDuo) : '',
+        resultaatExamen: mapResultaatExamen(i.resultaatExamen),
+        inhoudResultaatOpleidingDuo: mapInhoudResultaatOpleidingDuo(i.inhoudResultaatOpleidingDuo)
+    };
+}
+
+function convertToDuoOpleiding(data) {
+    var onderwijsOvereenkomst = [];
+    if (data &amp;&amp; data.onderwijsovereenkomst &amp;&amp; data.onderwijsovereenkomst.length &gt; 0) {
+        onderwijsOvereenkomst = data.onderwijsovereenkomst.map(function(i) {
+            return mapOnderwijsOvereenkomst(i);
+        });
+    }
+
+    var resultaatOpleiding = [];
+    if (data &amp;&amp; data.resultaatOpleidingGeregistrDuo &amp;&amp; data.resultaatOpleidingGeregistrDuo.length &gt; 0) {
+        resultaatOpleiding = data.resultaatOpleidingGeregistrDuo.map(function(i) {
+            return mapResultaatOpleiding(i);
+        });
+    }
+
+    return {
+        burgerservicenummer: data &amp;&amp; data.burgerservicenr != null ? String(data.burgerservicenr) : '',
+        indicatieStartkwalificatieDuo: data &amp;&amp; data.indStartkwalificatieDuo != null ? String(data.indStartkwalificatieDuo) : '',
+        onderwijsOvereenkomst: onderwijsOvereenkomst,
+        resultaatOpleiding: resultaatOpleiding
+    };
+}
+
+var result = convertToDuoOpleiding(dynProps);
+if (result != null) {
+    execution.setVariable('duoPersoonsInformatie', toJavaValue(result));
+}</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1if7i5z</bpmn:incoming>
+      <bpmn:outgoing>Flow_147gwdt</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1if7i5z" sourceRef="StartEvent_1" targetRef="OphalenDUOOpleidingBrongegevensTask" />
+    <bpmn:endEvent id="Event_056z83q">
+      <bpmn:incoming>Flow_147gwdt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_147gwdt" sourceRef="OphalenDUOOpleidingBrongegevensTask" targetRef="Event_056z83q" />
+  </bpmn:process>
+  <bpmn:error id="Error_10q1uq2" name="Error_3lbup3a" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1gmd3lc">
+      <bpmndi:BPMNShape id="Participant_0gc491p_di" bpmnElement="GenericOphalenDUOOpleidingBrongegevensParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="410" height="310" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="229" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j7h7ol_di" bpmnElement="OphalenDUOOpleidingBrongegevensTask">
+        <dc:Bounds x="330" y="207" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_056z83q_di" bpmnElement="Event_056z83q">
+        <dc:Bounds x="492" y="229" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1if7i5z_di" bpmnElement="Flow_1if7i5z">
+        <di:waypoint x="268" y="247" />
+        <di:waypoint x="330" y="247" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_147gwdt_di" bpmnElement="Flow_147gwdt">
+        <di:waypoint x="430" y="247" />
+        <di:waypoint x="492" y="247" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1dji29k_di" bpmnElement="TextAnnotation_1dji29k">
+        <dc:Bounds x="350" y="142" width="180" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_055g0r6_di" bpmnElement="TextAnnotation_055g0r6">
+        <dc:Bounds x="230" y="140" width="100" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0baaih5_di" bpmnElement="Association_0baaih5">
+        <di:waypoint x="381" y="207" />
+        <di:waypoint x="387" y="183" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0ru66fx_di" bpmnElement="Association_0ru66fx">
+        <di:waypoint x="256" y="230" />
+        <di:waypoint x="275" y="170" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

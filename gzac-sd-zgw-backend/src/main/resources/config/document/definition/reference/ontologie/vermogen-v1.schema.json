@@ -1,0 +1,269 @@
+{
+    "$id": "vermogen.schema",
+    "type": "object",
+    "title": "Model Vermogen",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "vermogen": {
+            "type":"object",
+            "properties": {
+                "vermogenId": {
+                    "$ref": "#/definitions/getal"
+                },
+                "brontype": {
+                    "$ref": "#/definitions/brontype"
+                },
+                "vermogenscomponent": {
+                    "type":"array",
+                    "items": {
+                        "type":"object",
+                        "properties": {
+                            "vermogenscomponentId": {
+                                "$ref": "#/definitions/getal"
+                            },
+                            "datumVaststellingVermogencomponent": {
+                                "$ref": "#/definitions/datum"
+                            },
+                            "codeSoortVermogenscomponent": {
+                                "$ref": "#/definitions/cdSrtVermogenscomponent"
+                            },
+                            "vrijTeLatenVermogen": {
+                                "description": "Het voor dit type vermogenscomponent wettelijk vrij te laten deel. Dit kan per type vermogen anders liggen. Er is wel vrijstelling op huis, maar niet op goud. Bij een huis is het wettelijke vrij te laten vermogen anders dan bij een auto.",
+                                "$ref": "#/definitions/geldbedrag"
+                            },
+                            "nogAanTeSprekenVermogen": {
+                                "description": "<p>Bij personen niet opnieuw in de bijstand komen, kan het zijn dat zij in de vorige bijstandsperiode al een deel van hun vermogen hebben moeten </p><p>Per vermogenscomponent moet de bedrijfsservice </p>",
+                                "$ref": "#/definitions/geldbedrag"
+                            },
+                            "motorvoertuig": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "kenteken": {
+                                            "$ref": "#/definitions/kenteken"
+                                        },
+                                        "soortMotorvoertuig": {
+                                            "$ref": "#/definitions/cdSrtVoertuig"
+                                        }
+                                    }
+                                }
+                            },
+                            "bankrekening": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "bankrekeningId": {
+                                            "description": "<p>Uniek nummer toegekend door het systeem, zodat een bankrekening kan worden geidentificeerd.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "bankrekeningnummer": {
+                                            "description": "<p>Het nummer van een bankrekening, zoals dat door een bankinstelling als identificerend nummer aan een overeenkomst tussen de bank en ��n of meer PERSO(O)Nen wordt toegekend.</p><p>Dit rekeningnummer kan worden gebruikt in het geval er wel sprake is van bovenstaande afspraak, maar geen IBAN bekend is. Deze informatiebehoefte bestaat om vermogen op buitenlandse rekeningen (bijv. Russisch) toe te kunnen voegen als vermogen.</p><br/><p>Bron: SGR 16.0</p><p>Norminstantie: NEN-1888:2002 - Bankrekeningnummer</p><br/>",
+                                            "$ref": "#/definitions/tekst"
+                                        },
+                                        "iban": {
+                                            "description": "<p>Het wereldwijde unieke nummer van een bankrekening.</p><br/><p>Bron: SGR 16.0</p><p>Norminstantie: ISO - 13616</p><br/><p>Opmerkingen:</p><p>Zie ISO - 13616 voor de opbouw van dit gegevenselement.</p><br/><br/>",
+                                            "$ref": "#/definitions/tekst"
+                                        },
+                                        "tenaamstelling": {
+                                            "description": "<p>De naam van de houder(s) van de BANKREKENING.</p><br/><p>Bron: SGR</p><br/>",
+                                            "$ref": "#/definitions/tekst"
+                                        },
+                                        "voorkeurBankrekening": {
+                                            "description": "<p>Bankrekening die de voorkeur geniet van de burger ter gebruikmaking door de gemeente.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "datumAanvangBankrekening": {
+                                            "$ref": "#/definitions/datum"
+                                        },
+                                        "datumEindeBankrekening": {
+                                            "$ref": "#/definitions/datum"
+                                        },
+                                        "brontype": {
+                                            "description": "<p>De soort bron van de gegevens in deze entiteit (burger, professional of externe bron).</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/brontype"
+                                        },
+                                        "rekeningtype": {
+                                            "description": "Rekeningtype (Bank, Spaar, Deposito, etc.)",
+                                            "$ref": "#/definitions/rekeningtype"
+                                        }
+                                    }
+                                }
+                            },
+                            "hypotheek": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "overwaarde": {
+                                            "description": "<p>Het verschil tussen de laatste waardepeiling van de gemeente, d.i. de WOZ-waarde, en de hoogte van de hypotheek.</p><br/><p>De onroerende zaak en de hypotheek zijn beide typen van een vermogenscomponent.</p><p>De WOZ-waarde en de hoogte van de hypotheek zijn beide waardepeilingen bij die typen vermogenscomponent.</p><p>Zij zijn onderling te relateren omdat beide typen vermogenscomponent een relatie hebben naar adres.</p>",
+                                            "$ref": "#/definitions/geldbedrag"
+                                        }
+                                    }
+                                }
+                            },
+                            "onroerendGoed": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "overwaarde": {
+                                            "description": "<p>Het verschil tussen de laatste waardepeiling van de gemeente, d.i. de WOZ-waarde, en de hoogte van de hypotheek.</p><br/><p>De onroerende zaak en de hypotheek zijn beide typen van een vermogenscomponent.</p><p>De WOZ-waarde en de hoogte van de hypotheek zijn beide waardepeilingen bij die typen vermogenscomponent.</p><p>Zij zijn onderling te relateren omdat beide typen vermogenscomponent een relatie hebben naar adres.</p>",
+                                            "$ref": "#/definitions/geldbedrag"
+                                        }
+                                    }
+                                }
+                            },
+                            "waardepeiling": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "waardepeilingId": {
+                                            "description": "Identificerend gegeven",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "brontype": {
+                                            "$ref": "#/definitions/brontype"
+                                        },
+                                        "waardeVermogenscomponent": {
+                                            "$ref": "#/definitions/geldbedrag"
+                                        },
+                                        "datumAanspraakVermogenscomponent": {
+                                            "$ref": "#/definitions/datum"
+                                        },
+                                        "bijgevoegdBewijs": {
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "linkNaarBewijs": {
+                                            "$ref": "#/definitions/tekst"
+                                        },
+                                        "peilmoment": {
+                                            "description": "<p>Het moment waarop het saldobedrag op de bankrekening stond.</p><p>Bron: GBI-team Ontologie</p>",
+                                            "$ref": "#/definitions/datum"
+                                        },
+                                        "waardeSoortVermogenscomponent": {
+                                            "description": "De soort waarde waarover de waardepeiling gaat, Zie de enumeratie.",
+                                            "$ref": "#/definitions/cdSrtWaardeVermogenscomponent"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "getal": {
+            "type": "integer",
+            "pattern": "^-?[0-9]{1,}$"
+        },
+        "brontype": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Klant" },
+                { "code": "2", "name": "Professional" },
+                { "code": "3", "name": "Register" },
+                { "code": "4", "name": "Externe bron" }
+            ]
+        },
+        "datum": {
+            "type": "string"
+        },
+        "cdSrtVermogenscomponent": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Eigen woning (huis/woonschip/woonwagen in eigendom)" },
+                { "code": "2", "name": "Contanten" },
+                { "code": "3", "name": "Bank-/Girorekening" },
+                { "code": "4", "name": "Overig onroerend goed" },
+                { "code": "5", "name": "Waardepapieren" },
+                { "code": "6", "name": "Motorvoertuigen" },
+                { "code": "7", "name": "Caravans" },
+                { "code": "8", "name": "Antiek/sieraden" },
+                { "code": "9", "name": "Overige bezittingen" },
+                { "code": "10", "name": "Aandeel onverdeelde boedel" },
+                { "code": "11", "name": "Leningen aan derden" },
+                { "code": "12", "name": "Schulden uitgezonderd studieschuld" },
+                { "code": "13", "name": "Levensverzekering/belegging niet gekoppeld aan hypotheek" },
+                { "code": "14", "name": "Studieschuld" },
+                { "code": "15", "name": "Levensverzekering/belegging gekoppeld aan hypotheek" },
+                { "code": "16", "name": "Beleggingsproduct (Aandeel, Lease, Effect, Obligatie, e.d.)" },
+                { "code": "17", "name": "Hypotheek eigen woning" },
+                { "code": "18", "name": "Aanspraak op erfenis binnen zes maanden" },
+                { "code": "19", "name": "Digitale valuta (cryptomunten)" }
+            ]
+        },
+        "geldbedrag": {
+            "type": "number",
+            "pattern": "^-?[0-9]((;|,|\\.)[0-9]{2}|)$"
+        },
+        "kenteken": {
+            "type": "string",
+            "pattern": "^([a-zA-Z]{2}-[0-9]{2}-[0-9]{2}|[0-9]{2}-[0-9]{2}-[a-zA-Z]{2}|[0-9]{2}-[a-zA-Z]{2}-[0-9]{2}|[a-zA-Z]{2}-[0-9]{2}-[a-zA-Z]{2}|[a-zA-Z]{2}-[a-zA-Z]{2}-[0-9]{2}|[0-9]{2}-[a-zA-Z]{2}-[a-zA-Z]{2}|[0-9]{2}-[a-zA-Z]{3}-[0-9]{1}|[0-9]{1}-[a-zA-Z]{3}-[0-9]{2}|[a-zA-Z]{2}-[0-9]{3}-[a-zA-Z]{1}|[a-zA-Z]{1}-[0-9]{3}-[a-zA-Z]{2}|[a-zA-Z]{3}-[0-9]{2}-[a-zA-Z]{1}|[a-zA-Z]{1}-[0-9]{2}-[a-zA-Z]{3}|[0-9]{1}-[a-zA-Z]{2}-[0-9]{3}|[0-9]{3}-[a-zA-Z]{2}-[0-9]{1})$"
+        },
+        "cdSrtVoertuig": {
+            "type": "object",
+            "enum": [
+                { "code": "A", "name": "Aanhangwagen" },
+                { "code": "B", "name": "Bedrijfsauto" },
+                { "code": "C", "name": "Bromfiets" },
+                { "code": "D", "name": "Driewielig motorrijtuig" },
+                { "code": "M", "name": "Motorfiets" },
+                { "code": "P", "name": "Personenauto" }
+            ]
+        },
+        "guid": {
+            "type": "string",
+            "pattern": "^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$"
+        },
+        "tekst": {
+            "type": "string"
+        },
+        "stdIndJN": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Ja" },
+                { "code": "2", "name": "Nee" }
+            ]
+        },
+        "rekeningtype": {
+            "type": "object",
+            "enum": [
+                { "code": "B", "name": "Betaalrekening" },
+                { "code": "S", "name": "Spaarrekening" },
+                { "code": "D", "name": "Deposito" }
+            ]
+        },
+        "cdSrtWaardeVermogenscomponent": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Hypotheekschuld" },
+                { "code": "2", "name": "WOZwaarde" },
+                { "code": "3", "name": "Banksaldo" },
+                { "code": "4", "name": "Beleggingsproductsaldo" },
+                { "code": "5", "name": "Cataloguswaarde" },
+                { "code": "9", "name": "Marktwaarde" }
+            ]
+        },
+        "integer": {
+            "type": "string",
+            "pattern": "(^-|^)(0|[1-9][0-9]*)$"
+        },
+        "currency": {
+            "type": "string",
+            "pattern": "(^-|^+|^)(0|[1-9][0-9]+)($|,[0-9][0-9]$)"
+        },
+        "url": {
+            "type": "string",
+            "pattern": "^(http://|https://).*"
+        },
+        "datumTijd": {
+            "type": "string",
+            "pattern": "^([0-2][0-9]|3[0-1]|[1-9])-(0[1-9]|[1-9]|1[0-2])-(19|20)[0-9][0-9] T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]"
+        }
+    }
+}

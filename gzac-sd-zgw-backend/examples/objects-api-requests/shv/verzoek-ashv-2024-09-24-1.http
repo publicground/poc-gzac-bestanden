@@ -1,0 +1,230 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+    "type": "{{objecttypes_api_url_aanmelding_schuldhulpverlening}}",
+    "record": {
+        "index": 1,
+        "typeVersion": 1,
+        "data": {
+           "kvk": "90002768",
+            "data": {
+                "schulden": {
+                    "schulden": {
+                        "schuldenoverzicht": [
+
+                        ],
+                        "geefEenToelichtingOpHetSchuldenoverzicht": "Schulden bij de bank"
+                    },
+                    "priveSchulden": {
+                        "bevatHetSchuldenoverzichtPriveSchulden": "b"
+                    }
+                },
+                "overige-shv": {
+                    "tekstvlak1": "Overige informatie",
+                    "overigeDocumenten1": [
+
+                    ]
+                },
+                "bezit-vermogen": {
+                    "vervoersmiddelen": {
+                        "geefAanWatVoorUwClientVariabeleBEnOfDePartnerVanToepassingIs": {
+                            "a": true,
+                            "b": true
+                        }
+                    },
+                    "financieelVermogen": {
+                        "kinderenspaarrekening": false,
+                        "anderFinancieelVermogen": false,
+                        "rekeningafschriftenVanDeAfgelopen3Maanden": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden4": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden7": [],
+                        "rekeningafschriftenVanDeAfgelopen3Maanden8": [],
+                        "waardeOverzichtAfgelopenJaarPernsioenVerzekering": [],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenSpaarplan": true,
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenPensioenverzekering": false,
+                        "rekeningafschriftenVanDebeheerrekeningVanDeAfgelopen3Maanden1": [
+
+                        ],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenOfMeerSpaarrekeningen": true,
+                        "rekeningafschriftenVanDeLeefgeldrekeningVanDeAfgelopen3Maanden": [
+
+                        ],
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenOfMeerBetaalrekeningen": false,
+                        "mijnClientVariabeleBEnOfDePartnerHeeftMinderjarigeKinderenMetEenOfMeerBetaalrekeningen": false,
+                        "mijnClientVariabeleBEnOfDePartnerHeeftEenLevensverzekeringOfOverlijdensrisicoverzekeringInNederlandOfInHetBuitenland": false
+                    },
+                    "overigeBezittingen": {
+                        "geschatteTotaleWaarde": null,
+                        "geefAanWatVoorUwClientVariabeleBEnOfDePartnerVanToepassingIs1": {
+                            "a": false,
+                            "b": false
+                        }
+                    },
+                    "woningenEnVastgoed": {
+                        "toelichting": "Woning in duitsland",
+                        "isUwClientVariabeleBEnOfDePartnerInHetBezitVanWoningenOfVastgoedInNederlandEnOfInHetBuitenland": "a"
+                    }
+                },
+                "belastingen-shv": {
+                    "geefEenToelichting7": "Geef een toelichting",
+                    "belastingAanslagMin1Jaar": [
+
+                    ],
+                    "belastingAanslagMin2Jaar": [
+
+                    ],
+                    "belastingAanslagMin3Jaar": [],
+                    "belastingAanslagMin4Jaar": [],
+                    "belastingAanslagMin5Jaar": [],
+                    "gemeentelijkeEnRegionaleBelastingen": {
+                        "recenteAanslagRegionaleBelastingen": [
+
+                        ],
+                        "isErKwijtscheldingOntvangenVoorDeGemeentelijkeBelastingen": "ja"
+                    }
+                },
+                "gegevens-client": {
+                    "bsn": "111111110",
+                    "emailcl": "jarred.mac.intosh@ritense.com",
+                    "typeBewind": {
+                        "curatele": true,
+                        "lichamelijkeOfGeestelijkeToestand": true,
+                        "verkwistingOfProblematischeSchulden": true
+                    },
+                    "voorvoegselScl": "",
+                    "telefoonnummercl": "0201234567",
+                    "aanvraagformulier": {
+                        "machtiging": [],
+                        "ondertekendAanvraagformulier": [
+
+                        ]
+                    },
+                    "voornaam1OfMeerdere": "James",
+                    "watIsDeBurgelijkeStaat": "a",
+                    "achternaamVolgensPaspoortOfIdKaart": "Oriental"
+                },
+                "onderneming-shv": {
+                    "gegevensOndernemingEn": {
+                        "eenOnderneming": [
+                            {
+                                "kvKNummer4": "90002768",
+                                "organisatienaam1": "Gestaake onderneming",
+                                "jaarrekeningen5JaarTMJaarVanStaking": [
+
+                                ],
+                                "aangiftenOmzetbelastingenVanDeLaatste3Jaar": [
+
+                                ]
+                            }
+                        ],
+                        "geefEenToelichting8": "Onderneming is uitgeschreven bij kvk"
+                    }
+                },
+                "uw-gegevens-shv": {
+                    "email": "jarred.mac.intosh@ritense.com",
+                    "geslacht": "vrouw",
+                    "achternaam": "Bon",
+                    "voorletterS": "J",
+                    "voorvoegselS": "",
+                    "telefoonnummer": "0101234567",
+                    "organisatienaam": "Agriservice J. Otten"
+                },
+                "inkomsten-uitgaven": {
+                    "budgetplan": {
+                        "budgetplanUpload": [
+
+                        ],
+                        "geefEenToelichtingOpHetBudgetplan": "Geef een toelichting op het budgetplan"
+                    },
+                    "beslaglegging": {
+                        "ligtErBeslagOpHetInkomenVanUwClientVariabeleBEnOfDePartner": "nee"
+                    },
+                    "inkomstenVanUwClient": {
+                        "herhalendeGroepInkomstenClient": [
+                            {
+                                "naamWerkgever": "Marine",
+                                "soortDienstverband": "onbepaaldeTijd",
+                                "geefEenToelichting6": "Kapitein",
+                                "gemiddeldAantalUurPerWeek3": 40,
+                                "betreftHetEenWisselendOfStabielSalaris1": "stabiel",
+                                "salarisspecificatieVanDeAfgelopenMaand1": [
+
+                                ]
+                            }
+                        ]
+                    },
+                    "toeslagenBelastingdienst": {
+                        "voorschotbeschikkingToeslagen": [
+
+                        ]
+                    },
+                    "recenteZorgpolisVanUwClientVariabeleAEnDePartner": [
+
+                    ]
+                },
+                "situatie-client-partner": {
+                    "fraude": {
+                        "isUwClientDeAfgelopen5JaarDoorDeRechtbankVeroordeeldVoorFraude": "NEE"
+                    },
+                    "onderneming": {
+                        "veldengroep": {
+                            "kvKNummer2": "90002768",
+                            "organisatienaam3": "Onderneming 1"
+                        },
+                        "heeftUwClientOpDitMomentEenActieveOnderneming": "a",
+                        "heeftUwClientEenOfMeerdereOndernemingenInDeAfgelopen5JaarGestaakt": "a"
+                    },
+                    "woonsituatie": {
+                        "hoeIsDeWoonsituatieVanUwClientVariabeleAEnDePartner": "c"
+                    },
+                    "situatieschets": {
+                        "beschrijfDeLeefWoonSituatieVanUwClient": "Beschrijf de leef/woonsituatie van uw cliënt",
+                        "beschrijfWatTotErNuToeAlGedaanIsOmDeSchuldenOpTeLossen": "Beschrijf wat tot er nu toe al gedaan is om de schulden op te lossen",
+                        "beschrijfWanneerEnHoeDeSchuldenVanUwClientIfZijnOntstaan": "Beschrijf wanneer en hoe de schulden van uw client zijn ontstaan"
+                    },
+                    "Eerderehulpgroep": {
+                        "eerdereFinancieleHulpClient": {
+                            "GEEN_SCHULDREGELING": false,
+                            "MINNELIJKE_SCHULDREGELING": true,
+                            "WETTELIJKE_SCHULDREGELING": true
+                        }
+                    },
+                    "andereHulpverlening": {
+                        "hulpverleninghh": [
+                            {
+                                "soortHulpverlening": "Fysio",
+                                "verwachteEinddatumHulpverlening": "2024-09-13",
+                                "contactpersoonEnOfNaamInstelling": "Fysio"
+                            }
+                        ],
+                        "krijgtUwClientOndersteuningVanAndereHulpverleners": "a"
+                    },
+                    "arbeidssituatieVanUwClient": {
+                        "heeftUwClientBetaaldWerk": "ja",
+                        "werktUwClient36UurOfMeerPerWeek": "ja"
+                    },
+                    "eerdereWettelijkeSchuldregelingClientGroep": {
+                        "eerdereWettelijkeSchuldregelingClientAfgerond": "JA",
+                        "eerdereWettelijkeSchuldregelingClientToelichting": "Toelichting",
+                        "eerderWettelijkeSchuldregelingClientAfgerondDatum": "2024-09-18"
+                    }
+                },
+                "verklaring-van-waarheid": {
+                    "waarheidsVerklaring": true
+                }
+            },
+            "type": "Verzoek schuldhulpverlening bewindvoerders",
+            "attachments": [],
+            "language_code": "nl",
+            "submission_id": "9651e8a2-a1a7-4e59-8eec-8111a294df0e",
+            "public_reference": "OF-6W2ZKU"
+        },
+        "geometry": null,
+        "startAt": "2024-09-12",
+        "endAt": null,
+        "registrationAt": "2024-09-12"
+    }
+}

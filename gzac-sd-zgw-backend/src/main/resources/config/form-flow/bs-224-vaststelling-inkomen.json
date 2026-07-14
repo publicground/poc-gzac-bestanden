@@ -1,0 +1,130 @@
+{
+    "startStep": "bs-224-vaststellen-inkomen",
+    "steps": [
+        {
+            "key": "bs-224-vaststellen-inkomen",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-224-vaststellen-inkomen"
+                }
+            },
+            "onComplete": [
+                "${step.submissionData.pv.welkeInkomsten.geenInkomstenVaststellen ? valtimoFormFlow.completeTask(additionalProperties, step.submissionData, { 'pv:arbeid' :'/pv/arbeid', 'pv:uitkeringen' :'/pv/uitkeringen', 'pv:onderneming' :'/pv/onderneming', 'pv:overigeInkomsten' :'/pv/overigeInkomsten', 'pv:totaalNettoMaandInkomsten' :'/pv/totaalNettoMaandInkomsten', 'pv:toelichtingTotaalVastgesteldInkomen' :'/pv/toelichtingTotaalVastgesteldInkomen', 'pv:welkeInkomsten' :'/pv/welkeInkomsten' }) : false }"
+            ],
+            "nextSteps": [
+                {
+                    "step": "bs-224-vaststellen-inkomsten-uit-arbeid",
+                    "condition": "${step.submissionData.pv.welkeInkomsten.loondienst}"
+                },
+                {
+                    "step": "bs-224-vaststellen-inkomsten-uitkering-pensioen-stufi",
+                    "condition": "${step.submissionData.pv.welkeInkomsten.uitkeringenPensioenenEnStudiefinanciering}"
+                },
+                {
+                    "step": "bs-224-vaststellen-inkomsten-uit-onderneming",
+                    "condition": "${step.submissionData.pv.welkeInkomsten.onderneming}"
+                },
+                {
+                    "step": "bs-224-vaststellen-overige-inkomsten",
+                    "condition": "${step.submissionData.pv.welkeInkomsten.overigeInkomsten}"
+                }
+            ]
+        },
+        {
+            "key": "bs-224-vaststellen-inkomsten-uit-arbeid",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-224-vaststellen-inkomsten-uit-arbeid"
+                }
+            },
+            "nextSteps": [
+                {
+                    "step": "bs-224-vaststellen-inkomsten-uitkering-pensioen-stufi",
+                    "condition": "${step.submissionData.pv.welkeInkomsten.uitkeringenPensioenenEnStudiefinanciering}"
+                },
+                {
+                    "step": "bs-224-vaststellen-inkomsten-uit-onderneming",
+                    "condition": "${step.submissionData.pv.welkeInkomsten.onderneming}"
+                },
+                {
+                    "step": "bs-224-vaststellen-overige-inkomsten",
+                    "condition": "${step.submissionData.pv.welkeInkomsten.overigeInkomsten}"
+                },
+                {
+                    "step": "bs-224-controleren-vastgesteld-inkomen",
+                    "condition": null
+                }
+            ]
+        },
+        {
+            "key": "bs-224-vaststellen-inkomsten-uitkering-pensioen-stufi",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-224-vaststellen-inkomsten-uitkering-pensioen-stufi"
+                }
+            },
+            "nextSteps": [
+                {
+                    "step": "bs-224-vaststellen-inkomsten-uit-onderneming",
+                    "condition": "${step.submissionData.pv.welkeInkomsten.onderneming}"
+                },
+                {
+                    "step": "bs-224-vaststellen-overige-inkomsten",
+                    "condition": "${step.submissionData.pv.welkeInkomsten.overigeInkomsten}"
+                },
+                {
+                    "step": "bs-224-controleren-vastgesteld-inkomen",
+                    "condition": null
+                }
+            ]
+        },
+        {
+            "key": "bs-224-vaststellen-inkomsten-uit-onderneming",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-224-vaststellen-inkomsten-uit-onderneming"
+                }
+            },
+            "nextSteps": [
+                {
+                    "step": "bs-224-vaststellen-overige-inkomsten",
+                    "condition": "${step.submissionData.pv.welkeInkomsten.overigeInkomsten}"
+                },
+                {
+                    "step": "bs-224-controleren-vastgesteld-inkomen",
+                    "condition": null
+                }
+            ]
+        },
+        {
+            "key": "bs-224-vaststellen-overige-inkomsten",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-224-vaststellen-overige-inkomsten"
+                }
+            },
+            "nextSteps": [
+                {
+                    "step": "bs-224-controleren-vastgesteld-inkomen"
+                }
+            ]
+        },
+        {
+            "key": "bs-224-controleren-vastgesteld-inkomen",
+            "type": {
+                "name": "form",
+                "properties": {
+                    "definition": "bs-224-controleren-vastgesteld-inkomen"
+                }
+            },
+            "onComplete": [
+                "${valtimoFormFlow.completeTask(additionalProperties, step.submissionData, { 'pv:arbeid' :'/pv/arbeid', 'pv:uitkeringen' :'/pv/uitkeringen', 'pv:onderneming' :'/pv/onderneming', 'pv:overigeInkomsten' :'/pv/overigeInkomsten', 'pv:totaalNettoMaandInkomsten' :'/pv/totaalNettoMaandInkomsten', 'pv:toelichtingTotaalVastgesteldInkomen' :'/pv/toelichtingTotaalVastgesteldInkomen', 'pv:welkeInkomsten' :'/pv/welkeInkomsten' })}"
+            ]
+        }
+    ]
+}

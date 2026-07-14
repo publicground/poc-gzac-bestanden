@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0vol0sx" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <bpmn:collaboration id="Collaboration_1gmd3lc">
+    <bpmn:participant id="GenericOphalenKadasterBrongegevensParticipant" name="Generic: Suwinet ophalen Kadaster brongegevens" processRef="generic-suwinet-ophalen-kadaster-brongegevens" />
+    <bpmn:textAnnotation id="TextAnnotation_09srmo6">
+      <bpmn:text>output: kadastraleObjectenRaw</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_0ussy3n">
+      <bpmn:text>input: bsn</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0gkxiv1" associationDirection="None" sourceRef="TextAnnotation_09srmo6" targetRef="OphalenKadasterAanduidingenTask" />
+  </bpmn:collaboration>
+  <bpmn:process id="generic-suwinet-ophalen-kadaster-brongegevens" name="Generic: Suwinet ophalen Kadaster brongegevens" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_19f36ix</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="OphalenKadasterAanduidingenTask" name="Ophalen Kadaster Aanduidingen" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_19f36ix</bpmn:incoming>
+      <bpmn:outgoing>Flow_150hw04</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_19f36ix" sourceRef="StartEvent_1" targetRef="OphalenKadasterAanduidingenTask" />
+    <bpmn:sequenceFlow id="Flow_150hw04" sourceRef="OphalenKadasterAanduidingenTask" targetRef="Activity_Initieer_KadasterObjecten" />
+    <bpmn:sequenceFlow id="Flow_1s9yboe" sourceRef="Activity_Initieer_KadasterObjecten" targetRef="Ophalen_KadasterObjectenTask" />
+    <bpmn:endEvent id="Event_0fhl1pf">
+      <bpmn:incoming>Flow_1920ghh</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0akdvoh" sourceRef="Ophalen_KadasterObjectenTask" targetRef="Activity_Transfomeer_KadasterObjectList" />
+    <bpmn:scriptTask id="Activity_Initieer_KadasterObjecten" name="Initieer KadasterObjecten" camunda:asyncAfter="true" scriptFormat="javascript" camunda:resultVariable="kadasterAanduidingen">
+      <bpmn:incoming>Flow_150hw04</bpmn:incoming>
+      <bpmn:outgoing>Flow_1s9yboe</bpmn:outgoing>
+      <bpmn:script>const ArrayList = Java.type("java.util.ArrayList");
+var kadasterObjecten = new ArrayList();
+execution.setVariable('kadasterObjecten', kadasterObjecten);
+
+var kadasterAanduidingen = new ArrayList();
+
+var raw = execution.getVariable('kadasterAanduidingenObjectRaw')
+print(raw);
+if(raw !== null) {
+  kadasterAanduidingen = raw.dynamicProperties
+}
+
+kadasterAanduidingen;</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:serviceTask id="Ophalen_KadasterObjectenTask" name="Ophalen KadasterObjecten" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:executionListener event="end">
+          <camunda:script scriptFormat="javascript">var kadasterObject = execution.getVariable('kadasterObject');
+
+print(kadasterObject);
+
+var kadasterObjectList = execution.getVariable('kadasterObjecten');
+
+kadasterObjectList.push(kadasterObject);</camunda:script>
+        </camunda:executionListener>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1s9yboe</bpmn:incoming>
+      <bpmn:outgoing>Flow_0akdvoh</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:asyncBefore="true" camunda:collection="kadasterAanduidingen" camunda:elementVariable="kadasterAanduiding" />
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1920ghh" sourceRef="Activity_Transfomeer_KadasterObjectList" targetRef="Event_0fhl1pf" />
+    <bpmn:scriptTask id="Activity_Transfomeer_KadasterObjectList" name="Transfomeer KadasterObjectList" camunda:asyncAfter="true" scriptFormat="javascript" camunda:resultVariable="kadastraleObjecten">
+      <bpmn:incoming>Flow_0akdvoh</bpmn:incoming>
+      <bpmn:outgoing>Flow_1920ghh</bpmn:outgoing>
+      <bpmn:script>// common script
+function toJavaValue(value) {
+    if (value == null) return null;
+
+    var valueType = typeof value;
+
+    if (valueType === 'string') return String(value);
+    if (valueType === 'number') return Number(value);
+    if (valueType === 'boolean') return value;
+
+    if (Array.isArray(value)) {
+        return toJavaList(value);
+    }
+
+    if (valueType === 'object') {
+        return toJavaMap(value);
+    }
+
+    return String(value);
+}
+
+function toJavaMap(obj) {
+    var map = new Packages.java.util.LinkedHashMap();
+
+    for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            map.put(String(key), toJavaValue(obj[key]));
+        }
+    }
+
+    return map;
+}
+
+function toJavaList(arr) {
+    var list = new Packages.java.util.ArrayList();
+
+    for (var i = 0; i &lt; arr.length; i++) {
+        list.add(toJavaValue(arr[i]));
+    }
+
+    return list;
+}
+
+function mapAdres(adres) {
+    if (!adres) return null;
+    return {
+        straatnaam: adres.straatnaam != null ? String(adres.straatnaam) : '',
+        huisnummer: adres.huisnr != null ? Number(adres.huisnr) : 0,
+        huisletter: adres.huisletter != null ? String(adres.huisletter) : '',
+        huisnummertoevoeging: adres.huisnrtoevoeging != null ? String(adres.huisnrtoevoeging) : '',
+        postcode: adres.postcd != null ? String(adres.postcd) : '',
+        woonplaatsnaam: adres.woonplaatsnaam != null ? String(adres.woonplaatsnaam) : '',
+        aanduidingBijHuisnummer: adres.aanduidingBijHuisnr != null ? String(adres.aanduidingBijHuisnr) : '',
+        locatieomschrijving: adres.locatieoms != null ? String(adres.locatieoms) : ''
+    };
+}
+
+// kadaster mapping script
+function convertToKadastraalObjectDto(obj) {
+  var ka = obj.kadastraleAanduiding;
+  var kadastraleAanduiding = ka != null ? {
+    codeKadastraleGemeente: ka.cdKadastraleGemeente != null ? String(ka.cdKadastraleGemeente) : '',
+    kadastraleGemeentenaam: ka.kadastraleGemeentenaam != null ? String(ka.kadastraleGemeentenaam) : '',
+    kadastraleSectie: ka.kadastraleSectie != null ? String(ka.kadastraleSectie) : '',
+    kadastraalPerceelnr: ka.kadastraalPerceelnr != null ? ka.kadastraalPerceelnr : null,
+    volgnrKadastraalAppartementsrecht: ka.volgnrKadastraalAppartementsrecht != null ? ka.volgnrKadastraalAppartementsrecht : null
+  } : null;
+
+  var zrList = obj.zakelijkRecht;
+  var zr = (zrList != null &amp;&amp; zrList.size() &gt; 0) ? zrList.get(0) : null;
+  var zakelijkRecht = {
+    omschrijvingZakelijkRecht: zr != null &amp;&amp; zr.omsZakelijkRecht != null ? String(zr.omsZakelijkRecht) : '',
+    datumEZakelijkRecht: zr != null &amp;&amp; zr.datEZakelijkRecht != null ? String(zr.datEZakelijkRecht) : ''
+  };
+
+  var locatieList = obj.locatieOZ;
+  var locatie = (locatieList != null &amp;&amp; locatieList.size() &gt; 0) ? locatieList.get(0) : null;
+  var locatieOz = mapAdres(locatie != null ? locatie.straatadresBag : null);
+
+  var pbList = obj.publiekrechtelijkeBeperking;
+  var publiekrechtelijkeBeperking = [];
+  if (pbList != null) {
+    for (var j = 0; j &lt; pbList.size(); j++) {
+      var pb = pbList.get(j);
+      var aanto = pb != null ? pb.aantekeningKadastraalObject : null;
+      publiekrechtelijkeBeperking.push({
+        aantekeningKadastraal: {
+          datumEAantekeningKadastraal: aanto != null &amp;&amp; aanto.datEAantekeningKadastraalObject != null ? String(aanto.datEAantekeningKadastraalObject) : '',
+          omschrijvingAantekeningKadastraal: aanto != null &amp;&amp; aanto.omsAantekeningKadastraalObject != null ? String(aanto.omsAantekeningKadastraalObject) : ''
+        }
+      });
+    }
+  }
+
+  return {
+    codeTypeOnroerendeZaak: obj.cdTypeOnroerendeZaak != null ? String(obj.cdTypeOnroerendeZaak) : '',
+    datumOntstaan: obj.datOntstaan != null ? String(obj.datOntstaan) : '',
+    kadastraleAanduiding: kadastraleAanduiding,
+    omschrijving: obj.omsKadastraalObject != null ? String(obj.omsKadastraalObject) : '',
+    zakelijkRecht: zakelijkRecht,
+    locatieOz: locatieOz,
+    publiekrechtelijkeBeperking: publiekrechtelijkeBeperking,
+    indicatieMeerGerechtigden: obj.indMeerGerechtigden != null ? String(obj.indMeerGerechtigden) : ''
+  };
+}
+
+function convertToKadastraleObjectenDto(kadasterObjecten) {
+  var kadastraleObjecten = [];
+  for (var i = 0; i &lt; kadasterObjecten.size(); i++) {
+    var item = kadasterObjecten.get(i);
+    var obj = item != null ? item.dynamicProperties : null;
+    if (obj == null) continue;
+    kadastraleObjecten.push(convertToKadastraalObjectDto(obj));
+  }
+  return { kadastraleObjecten: kadastraleObjecten };
+}
+
+
+// process script
+var raw = execution.getVariable('kadasterObjecten');
+var result = convertToKadastraleObjectenDto(raw);
+toJavaValue(result);</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:association id="Association_1qijcg4" associationDirection="None" sourceRef="StartEvent_1" targetRef="TextAnnotation_0ussy3n" />
+  </bpmn:process>
+  <bpmn:error id="Error_10q1uq2" name="Error_3lbup3a" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1gmd3lc">
+      <bpmndi:BPMNShape id="Participant_0gc491p_di" bpmnElement="GenericOphalenKadasterBrongegevensParticipant" isHorizontal="true">
+        <dc:Bounds x="180" y="120" width="850" height="360" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="252" y="289" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0cn4olx_di" bpmnElement="OphalenKadasterAanduidingenTask">
+        <dc:Bounds x="340" y="267" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0fhl1pf_di" bpmnElement="Event_0fhl1pf">
+        <dc:Bounds x="962" y="289" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mliip9_di" bpmnElement="Activity_Initieer_KadasterObjecten">
+        <dc:Bounds x="500" y="267" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_07w5b5x" bpmnElement="Ophalen_KadasterObjectenTask">
+        <dc:Bounds x="660" y="267" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_042zqa2_di" bpmnElement="Activity_Transfomeer_KadasterObjectList">
+        <dc:Bounds x="810" y="267" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_19f36ix_di" bpmnElement="Flow_19f36ix">
+        <di:waypoint x="288" y="307" />
+        <di:waypoint x="340" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_150hw04_di" bpmnElement="Flow_150hw04">
+        <di:waypoint x="440" y="307" />
+        <di:waypoint x="500" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1s9yboe_di" bpmnElement="Flow_1s9yboe">
+        <di:waypoint x="600" y="307" />
+        <di:waypoint x="660" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0akdvoh_di" bpmnElement="Flow_0akdvoh">
+        <di:waypoint x="760" y="307" />
+        <di:waypoint x="810" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1920ghh_di" bpmnElement="Flow_1920ghh">
+        <di:waypoint x="910" y="307" />
+        <di:waypoint x="962" y="307" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1qijcg4_di" bpmnElement="Association_1qijcg4">
+        <di:waypoint x="274" y="290" />
+        <di:waypoint x="287" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_09srmo6_di" bpmnElement="TextAnnotation_09srmo6">
+        <dc:Bounds x="380" y="180" width="170" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0ussy3n_di" bpmnElement="TextAnnotation_0ussy3n">
+        <dc:Bounds x="240" y="200" width="100" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0gkxiv1_di" bpmnElement="Association_0gkxiv1">
+        <di:waypoint x="451" y="221" />
+        <di:waypoint x="418" y="267" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="bs-213-vaststelling-bijstandsvorm-drd" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.19.0">
+  <decision id="bs-212-bepalen-bijstandsvorm" name="Bepalen bijstandsvorm">
+    <informationRequirement id="InformationRequirement_1q5qy8b">
+      <requiredInput href="#InputData_1cahgu1" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1cn0rkr">
+      <requiredInput href="#InputData_05qbuyi" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0v2xg7j" hitPolicy="FIRST">
+      <input id="InputClause_1dzby9w" label="Dossiertype = IOAW" biodi:width="192" camunda:inputVariable="dossierType">
+        <inputExpression id="LiteralExpression_1eev3rx" typeRef="boolean">
+          <text>dossierType = "aanvraag-ioaw-uitkering-dcm"
+</text>
+        </inputExpression>
+      </input>
+      <input id="Input_1" label="leefsituatie" biodi:width="265" camunda:inputVariable="leefsituatie">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0zli05w" label="Som beleenbare vermogenscomponenten" biodi:width="255">
+        <inputExpression id="LiteralExpression_03sszj3" typeRef="double">
+          <text>beleenbaarVermogen</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0ro095m" label="Som totaalvermogen + beleenbaar vermogen" biodi:width="255">
+        <inputExpression id="LiteralExpression_06gub54" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0l1pu0w" label="Overwaarde eigen woning" biodi:width="252" camunda:inputVariable="overwaarde">
+        <inputExpression id="LiteralExpression_0spl7zc" typeRef="double">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_14fl68a" label="Verstrekkingsvorm" name="verstrekkingsvorm" typeRef="string" />
+      <output id="OutputClause_1qadz0j" name="welkeRegel" typeRef="string" />
+      <rule id="DecisionRule_17vrxzu">
+        <description>Als dossier type IOAW is, dan is de bijstandsvorm altijd OMNIET</description>
+        <inputEntry id="UnaryTests_1xs1l43">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wa8gnu">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xq5wbf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kyrczb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yfh8ux">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0czxz7g">
+          <text>"ON"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0s6ybcn">
+          <text>"IOAW"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1thdjlp">
+        <description>X door de gemeente in te stellen. Het gaat om de som van vermogenscomponenten van het type 10 - aandeel onverdeelde boedel, 18 - aanspraak op erfenis binnen 6 maanden</description>
+        <inputEntry id="UnaryTests_05x6m3t">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0py8u8y">
+          <text>"ALLEENSTAAND", "INSTITUTIONEEL_HUISHOUDEN"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kgofzk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1aioqch">
+          <text>(totaalVermogen + beleenbaarVermogen) &gt; 8000</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08pmtye">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0x1gsrt">
+          <text>"RLL"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wibcp6">
+          <text>"LENING art 34.3a"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_10jxrb8">
+        <description>X door de gemeente in te stellen. Het gaat om de som van vermogenscomponenten van het type 10 - aandeel onverdeelde boedel, 18 - aanspraak op erfenis binnen 6 maanden</description>
+        <inputEntry id="UnaryTests_0lz1q0i">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_073bus4">
+          <text>"ALLEENSTAANDE_OUDER", "SAMENWONEND_KINDEREN", "SAMENWONEND"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rni4l2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mpsoby">
+          <text>(totaalVermogen + beleenbaarVermogen) &gt; 16000 </text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09wu00m">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0chg1tr">
+          <text>"RLL"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0bcvfrc">
+          <text>"LENING art 34.3b/c"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1vkhpng">
+        <description>Let op: code 17, Hypotheek, is een negatieve vermogenscomponent! Bedrag komt uit art 34.2.d en wordt jaarlijks vastgesteld</description>
+        <inputEntry id="UnaryTests_1m7hl3m">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hiztot">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04um7nf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1awm7t9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0daxlfb">
+          <text>&gt; 67500</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0gbaayj">
+          <text>"KH"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_11izh45">
+          <text>"KREDIETHYPOTHEEK"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_15lu2rz">
+        <inputEntry id="UnaryTests_0du0cha">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rhpx3f">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_187xq0r">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cm1kif">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qqjjbx">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0dyxhbn">
+          <text>"ON"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1l099jk">
+          <text>"REST"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1cahgu1" name="somBeleenbareVermogenscomponenten" />
+  <inputData id="InputData_05qbuyi" name="totaalOverwaardeEigenWoningen" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="bs-212-bepalen-bijstandsvorm">
+        <dc:Bounds height="80" width="180" x="270" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_19lilcv" dmnElementRef="InputData_1cahgu1">
+        <dc:Bounds height="45" width="125" x="157" y="268" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_05yn0cf" dmnElementRef="InformationRequirement_1q5qy8b">
+        <di:waypoint x="220" y="268" />
+        <di:waypoint x="330" y="180" />
+        <di:waypoint x="330" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0lama0t" dmnElementRef="InputData_05qbuyi">
+        <dc:Bounds height="45" width="125" x="457" y="268" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0c45s1p" dmnElementRef="InformationRequirement_1cn0rkr">
+        <di:waypoint x="520" y="268" />
+        <di:waypoint x="390" y="180" />
+        <di:waypoint x="390" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

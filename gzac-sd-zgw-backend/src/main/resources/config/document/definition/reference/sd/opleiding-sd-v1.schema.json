@@ -1,0 +1,60 @@
+{
+    "$id": "opleidingen.schema",
+    "type": "object",
+    "title": "Opleidingen",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "opleiding": {
+            "type": "object",
+            "enum": [
+                {
+                    "code": "BASISSCHOOL",
+                    "name": "Basisschool"
+                },
+                {
+                    "code": "VMBO",
+                    "name": "VMBO"
+                },
+                {
+                    "code": "HAVO_VWO",
+                    "name": "Havo of vwo"
+                },
+                {
+                    "code": "MBO",
+                    "name": "MBO"
+                },
+                {
+                    "code": "HBO",
+                    "name": "HBO"
+                },
+                {
+                    "code": "WO",
+                    "name": "WO"
+                },
+                {
+                    "code": "GEEN_OPLEIDING",
+                    "name": "Mijn kind volgt geen opleiding"
+                },
+                {
+                    "code": "ANDERS",
+                    "name": "Anders"
+                }
+            ]
+        },
+        "opleidingen": {
+            "type": "string",
+            "enum": [
+                "BASISSCHOOL",
+                "VMBO",
+                "HAVO_VWO",
+                "MBO",
+                "HBO",
+                "WO",
+                "GEEN_OPLEIDING",
+                "ANDERS",
+                ""
+            ]
+        }
+    }
+}

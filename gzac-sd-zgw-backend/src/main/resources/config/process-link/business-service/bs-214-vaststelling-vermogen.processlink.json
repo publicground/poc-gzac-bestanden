@@ -1,0 +1,18 @@
+[
+    {
+        "activityId": "VaststellenVermogenscomponentenTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form-flow",
+        "formFlowDefinitionId": "bs-214-vaststelling-vermogenscomponenten:latest",
+        "formDisplayType": "panel",
+        "formSize": "large"
+    },
+    {
+        "activityId": "VaststellenInAanmerkingTeNemenVermogenTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "modal",
+        "formSize": "large",
+        "formDefinitionName": "bs-214-vaststelling-aanmerking-vermogen"
+    }
+]

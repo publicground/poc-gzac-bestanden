@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "VastleggenUitkomstPoortonderzoekTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "bs.vastleggen-resultaat-inzet-handhaving.verwerken-uitkomst-poortonderzoek"
+    }
+]

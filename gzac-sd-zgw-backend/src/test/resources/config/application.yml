@@ -1,0 +1,152 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration is used for unit/integration tests.
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+spring:
+    application:
+        name: valtimo-implementation-test
+    jackson:
+        date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+        time-zone: UTC
+    liquibase:
+        enabled: false
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://localhost:3306/test-db
+        name: test-db
+        username: user
+        password: password
+        hikari:
+            auto-commit: false
+    jpa:
+        database-platform: org.hibernate.dialect.MySQL8Dialect
+        database: mysql
+        show_sql: true
+        open-in-view: false
+        properties:
+            hibernate:
+                generate_statistics: false
+                naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+                cache:
+                    use_second_level_cache: false
+                    use_query_cache: false
+                    region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+                format_sql: true
+                jdbc:
+                    time_zone: UTC
+                connection:
+                    provider_disables_autocommit: true
+        hibernate:
+            ddl-auto: none
+            naming:
+                physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+                implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+            use-new-id-generator-mappings: false
+    messages:
+        basename: i18n/messages
+    mail:
+        host: localhost
+#    main.allow-bean-definition-overriding: true
+    autoconfigure:
+        exclude: org.springframework.boot.actuate.autoconfigure.metrics.web.tomcat.TomcatMetricsAutoConfiguration
+    boot:
+        admin:
+            client:
+                enabled: false
+    profiles:
+        active: test
+
+
+server:
+    port: 10344
+    address: localhost
+
+mailing:
+    onlyAllowWhitelistedRecipients: true
+    whitelistedPriority: 2
+    redirectAllMails: false
+    redirectAllMailsPriority: 1
+    whitelistedEmailAddresses:
+    whitelistedDomains:
+        - ritense.com
+    sendRedirectedMailsTo:
+
+valtimo:
+    app:
+        hostname: localhost:9000
+        scheme: http
+    mandrill:
+        apiKey: #external
+        dateFormat: dd-MM-yyyy
+        notificationTemplate: bpc-task-notification
+        completionTemplate: bpc-task-completion
+        reminderTemplate: bpc-task-reminder
+    jwt:
+        base64encoding: false
+        tokenValidityInSeconds: 36000 # Token is valid 1 hour
+        tokenValidityInSecondsForRememberMe: 2592000
+        secret: #external
+    hardening:
+        allowStacktraceOnIps:
+            - 213.127.182.74
+    public-task:
+        token-secret: i7e3DJpUd4G+jFbIruTkJs6xwVeuAyj5JVWXw912yIWD4O0soZVrosbWquCWRkuJLGPQa8yswg/kQwn035LTXw==
+
+aws:
+    profile: ritense
+    region: eu-central-1
+    s3:
+        bucketRegion: us-east-1
+        bucketName: ritense-development
+    ssm:
+        enabled: false
+        region: eu-central-1
+        projectName: Valtimo-Implementation
+
+spring-actuator:
+    username: admin
+    password: #external
+
+camunda:
+    bpm:
+        job-execution:
+            active: true
+            enabled: true
+        database:
+            type: mysql
+        history-level: AUDIT
+        history-level-default: AUDIT
+
+audit:
+    record:
+        retention: 365 # days
+
+# ==================
+# CRON job settings
+# ==================
+scheduling:
+    enabled: false
+    job:
+        cron:
+            syncAuth0LogsEvents: 0 0 3 * * ? # Every day at 3:00
+            cleanupAuditEvents: 0 0 0 * * ? # Every day at 00:00
+            taskNotificationReminder: 0 0 7 * * ? # Every day at 07:00
+
+keycloak:
+    realm: valtimo
+    auth-server-url: https://keycloak.valtimo.nl/auth
+    resource: valtimo-user-m2m-client
+    credentials:
+        secret: #external
+logging:
+    level:
+        root: debug

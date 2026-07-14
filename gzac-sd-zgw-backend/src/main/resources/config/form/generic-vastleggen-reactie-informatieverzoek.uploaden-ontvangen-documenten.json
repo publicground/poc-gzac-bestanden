@@ -1,0 +1,246 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "Verzoek",
+            "key": "pv.verzoek",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "key": "html1",
+            "type": "htmlelement",
+            "input": false,
+            "label": "HTML",
+            "content": "<h4>Informatieverzoek</h4>\n<hr style='border: 1px solid #AAAAAA;'>",
+            "tableView": false,
+            "refreshOnChange": false
+        },
+        {
+            "label": "Bericht aan de aanvrager",
+            "labelPosition": "left-left",
+            "applyMaskOn": "change",
+            "tableView": true,
+            "validateWhenHidden": false,
+            "key": "pv.verzoek.berichtNaarAanvrager",
+            "disabled": true,
+            "type": "textfield",
+            "input": true
+        },
+        {
+            "label": "Deadline",
+            "labelPosition": "left-left",
+            "format": "dd-MM-yyyy",
+            "tableView": true,
+            "datePicker": {
+                "disableWeekends": false,
+                "disableWeekdays": false
+            },
+            "enableTime": false,
+            "enableMinDateInput": false,
+            "enableMaxDateInput": false,
+            "key": "pv.verzoek.deadlineInformatieverzoek",
+            "disabled": true,
+            "type": "datetime",
+            "input": true,
+            "widget": {
+                "type": "calendar",
+                "displayInTimezone": "viewer",
+                "locale": "en",
+                "useLocaleSettings": false,
+                "allowInput": true,
+                "mode": "single",
+                "enableTime": false,
+                "noCalendar": false,
+                "format": "dd-MM-yyyy",
+                "hourIncrement": 1,
+                "minuteIncrement": 1,
+                "time_24hr": false,
+                "minDate": null,
+                "disableWeekends": false,
+                "disableWeekdays": false,
+                "maxDate": null
+            }
+        },
+        {
+            "label": "Toelichting van de aanvrager",
+            "applyMaskOn": "change",
+            "autoExpand": false,
+            "tableView": true,
+            "validateWhenHidden": false,
+            "key": "pv.reactie.toelichting",
+            "customClass": "mb-2",
+            "type": "textarea",
+            "input": true
+        },
+        {
+            "label": "Datum ontvangst reactie",
+            "format": "dd-MM-yyyy",
+            "tableView": true,
+            "datePicker": {
+                "disableWeekends": false,
+                "disableWeekdays": false
+            },
+            "enableTime": false,
+            "enableMinDateInput": false,
+            "enableMaxDateInput": false,
+            "key": "pv.reactie.reactiedatum",
+            "customDefaultValue": "value = moment()",
+            "type": "datetime",
+            "input": true,
+            "widget": {
+                "type": "calendar",
+                "displayInTimezone": "viewer",
+                "locale": "en",
+                "useLocaleSettings": false,
+                "allowInput": true,
+                "mode": "single",
+                "enableTime": false,
+                "noCalendar": false,
+                "format": "dd-MM-yyyy",
+                "hourIncrement": 1,
+                "minuteIncrement": 1,
+                "time_24hr": false,
+                "minDate": null,
+                "disableWeekends": false,
+                "disableWeekdays": false,
+                "maxDate": null
+            }
+        },
+        {
+            "key": "html2",
+            "type": "htmlelement",
+            "input": false,
+            "label": "HTML",
+            "content": "<h4>Ontvangen stukken</h4>\n<hr style='border: 1px solid #AAAAAA;'>",
+            "tableView": false,
+            "refreshOnChange": false
+        },
+        {
+            "className": "alert alert-info",
+            "content": "<strong>Upload ontvangen bestanden via de documenten tab en rond vervolgens deze taak af.</strong>",
+            "tableView": true,
+            "key": "html",
+            "type": "htmlelement",
+            "input": true
+        },
+        {
+            "label": "Data Grid",
+            "disableAddingRemovingRows": true,
+            "reorder": false,
+            "addAnotherPosition": "bottom",
+            "layoutFixed": false,
+            "enableRowGroups": false,
+            "initEmpty": false,
+            "hideLabel": true,
+            "tableView": false,
+            "customClass": "bbz-inkomsten-tab-data-grid extra-padding-html-element",
+            "defaultValue": [
+                {}
+            ],
+            "customDefaultValue": "value = data.pv?.verzoek?.opTeVragenInformatie;",
+            "validateWhenHidden": false,
+            "key": "pv.reactie.opTeVragenInformatie",
+            "type": "datagrid",
+            "input": true,
+            "components": [
+                {
+                    "key": "columns",
+                    "type": "columns",
+                    "input": false,
+                    "label": "Columns",
+                    "columns": [
+                        {
+                            "pull": 0,
+                            "push": 0,
+                            "size": "md",
+                            "width": 12,
+                            "offset": 0,
+                            "components": [
+                                {
+                                    "key": "html",
+                                    "type": "htmlelement",
+                                    "attrs": [
+                                        {
+                                            "attr": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "input": false,
+                                    "label": "HTML",
+                                    "content": "{{row.informatieverzoekItem?.omschrijvingBehandelaar}} <br> {{row.informatieverzoekItem?.toelichting}}",
+                                    "tableView": false,
+                                    "refreshOnChange": false
+                                },
+                                {
+                                    "key": "upload",
+                                    "type": "checkbox",
+                                    "input": true,
+                                    "label": "Bestand geupload",
+                                    "tableView": false,
+                                    "defaultValue": false,
+                                    "customConditional": "row?.bestandNietAanleveren === true ? show = false : show = true;",
+                                    "validateWhenHidden": false
+                                },
+                                {
+                                    "key": "bestandNietAanleveren",
+                                    "type": "checkbox",
+                                    "validate": {
+                                        "required": true
+                                    },
+                                    "input": true,
+                                    "label": "De aanvrager kan momenteel het gevraagde document niet aanleveren",
+                                    "tableView": false,
+                                    "customConditional": "row?.upload === true ? show = false : show = true;",
+                                    "defaultValue": false,
+                                    "validateWhenHidden": false
+                                },
+                                {
+                                    "label": "documentUpload",
+                                    "key": "documentUpload",
+                                    "defaultValue": ["document upload via documenten tab"],
+                                    "type": "hidden",
+                                    "customConditional": "row?.upload ? show = true : show = false;",
+                                    "input": true,
+                                    "tableView": false
+                                }
+                            ],
+                            "currentWidth": 12
+                        },
+                        {
+                            "pull": 0,
+                            "push": 0,
+                            "size": "md",
+                            "width": 6,
+                            "offset": 0,
+                            "components": [],
+                            "currentWidth": 6
+                        }
+                    ],
+                    "hideLabel": true,
+                    "tableView": false
+                }
+            ]
+        },
+        {
+            "label": "Reactie beoordeeld door",
+            "key": "pv.reactie.beoordeeldDoor",
+            "type": "hidden",
+            "input": true,
+            "customDefaultValue": "value = token.name;",
+            "tableView": false
+        },
+        {
+            "label": "Indienen",
+            "action": "custom",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "submit",
+            "type": "button",
+            "custom": "data.pv.reactie.opTeVragenInformatie.forEach(function(item){ delete item.upload; }); \nform.submit(); component.disabled = true;",
+            "input": true
+        }
+    ]
+}

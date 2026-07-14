@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "VaststellenRelatiesTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form-flow",
+        "formDisplayType": "panel",
+        "formSize": "large",
+        "formFlowDefinitionId": "bs-216-vaststelling-relaties:latest"
+    }
+]

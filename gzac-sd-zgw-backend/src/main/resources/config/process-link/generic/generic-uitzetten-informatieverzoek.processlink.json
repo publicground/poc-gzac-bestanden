@@ -1,0 +1,88 @@
+[
+    {
+        "activityId": "BepalenNieuwEinddatumBeslistermijnTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "start-hersteltermijn",
+        "actionProperties": {
+            "maxDurationInDays": "pv:hersteltermijn"
+        }
+    },
+    {
+        "activityId": "AanleverenInformatieTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "3f03749a-aed2-4815-b444-360659f51859",
+        "pluginActionDefinitionKey": "create-externe-klanttaak",
+        "actionProperties": {
+            "externeKlanttaakVersion": "1.1.0",
+            "config": {
+                "portaalformulierValue": "${AUTODEPLOYMENT_ALO_PORTAALFORMULIER}",
+                "koppelingRegistratie": "zaak",
+                "koppelingUuid": "zaak:uuid",
+                "verloopdatum": "pv:deadlineInformatieverzoek",
+                "resultingKlanttaakObjectUrlVariable": "klanttaakObjectUrl",
+                "taakSoort": "portaalformulier",
+                "portaalformulierSoort": "url",
+                "taakReceiver": "zaakInitiator",
+                "portaalformulierData": [
+                    {
+                        "key": "pv:verzoek",
+                        "value": "/informatieverzoek"
+                    },
+                    {
+                        "key": "pv:prettyDeadline",
+                        "value": "/prettyDeadline"
+                    },
+                    {
+                        "key": "pv:documenten",
+                        "value": "/documenten"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "activityId": "AnnulerenPortaaltaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "53059ffe-2407-40de-9fbf-671b2383a0ca",
+        "pluginActionDefinitionKey": "update-object",
+        "actionProperties": {
+            "objectManagementConfigurationId": "8e31996b-20ed-4abf-b39b-312b98e649ab",
+            "objectUrl": "pv:klanttaakObjectUrl",
+            "objectData": [
+                {
+                    "key": "/status",
+                    "value": "gesloten"
+                }
+            ]
+        }
+    },
+    {
+        "activityId": "UpdatenPortaaltaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "53059ffe-2407-40de-9fbf-671b2383a0ca",
+        "pluginActionDefinitionKey": "update-object",
+        "actionProperties": {
+            "objectManagementConfigurationId": "8e31996b-20ed-4abf-b39b-312b98e649ab",
+            "objectUrl": "pv:klanttaakObjectUrl",
+            "objectData": [
+                {
+                    "key": "/verloopdatum",
+                    "value": "pv:verloopdatum"
+                },
+                {
+                    "key": "/portaalformulier/data/deadlineInformatieverzoek",
+                    "value": "pv:newDeadlineInformatieverzoek"
+                },
+                {
+                    "key": "/portaalformulier/data/prettyDeadline",
+                    "value": "pv:formattedDate"
+                }
+            ]
+        }
+    }
+]

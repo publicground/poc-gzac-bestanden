@@ -1,0 +1,43 @@
+{
+    "$id": "alimentatie.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Alimentatie",
+    "type": "object",
+    "properties": {
+        "properties": {
+            "ontvangtAlimentatie": {
+                "type": "string"
+            },
+            "inkomstensoortAlimentatie": {
+                "description": "De inkomstensoorten die vallen onder de categorie alimentatie.",
+                "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/inkomstensoortAlimentatie"
+            },
+            "bedragInConvenant": {
+                "description": "Indicatie of het bedrag wel/niet op is genomen in een convenant.",
+                "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/stdIndJN"
+            },
+            "juisteBedragBetaaldDoorExPartner": {
+                "description": "Indicatie of er wel/niet het juiste bedrag is betaald door de ex-partner.",
+                "type": "boolean"
+            },
+            "lbioIngeschakeld": {
+                "description": "Indicatie of het LBIO wel/niet is ingeschakeld.",
+                "type": "boolean"
+            },
+            "bijdrageExPartnerVoorAndereRekeningen": {
+                "description": "Indicatie of er wel/geen bijdrage van de partner is voor andere rekeningen.",
+                "type": "boolean"
+            },
+            "bedragAanAndereRekeningen": {
+                "description": "De hoogte van het bedrag dat door de ex-partner aan andere rekeningen wordt betaald.",
+                "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/geldbedrag"
+            },
+            "bedragAlimentatie": {
+                "type": "number"
+            },
+            "toelichting": {
+                "type": "string"
+            }
+        }
+    }
+}

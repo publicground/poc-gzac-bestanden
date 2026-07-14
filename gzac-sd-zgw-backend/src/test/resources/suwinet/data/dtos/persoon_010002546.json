@@ -1,0 +1,69 @@
+{
+    "voornamen" : "Lev is overleden",
+    "voorvoegsel" : "de",
+    "achternaam" : "Jansen",
+    "geboortedatum" : "2017-08-19",
+    "bsn" : "010002546",
+    "adresBrp" : {
+        "straatnaam" : "Zomerdijkstraat",
+        "huisnummer" : 19,
+        "huisletter" : "C",
+        "huisnummertoevoeging" : "Huis",
+        "postcode" : "1079WZ",
+        "woonplaatsnaam" : "Amsterdam",
+        "aanduidingBijHuisnummer" : "",
+        "locatieomschrijving" : ""
+    },
+    "postadresBrp" : {
+        "straatnaam" : "",
+        "huisnummer" : 0,
+        "huisletter" : "",
+        "huisnummertoevoeging" : "",
+        "postcode" : "",
+        "woonplaatsnaam" : "",
+        "aanduidingBijHuisnummer" : "",
+        "locatieomschrijving" : ""
+    },
+    "verblijfplaatsHistorisch": [
+        {
+            "type": "WOONADRES",
+            "adres": {
+                "postcode": "2511BT",
+                "huisletter": "a",
+                "huisnummer": 70,
+                "straatnaam": "Spui",
+                "woonplaatsnaam": "'s-Gravenhage",
+                "locatieomschrijving": "",
+                "huisnummertoevoeging": "Huis",
+                "aanduidingBijHuisnummer": ""
+            },
+            "datumBeginAdreshouding": "2025-12-09"
+        },
+        {
+            "type": "POSTADRES",
+            "adres": {
+                "postcode": "2511BD",
+                "huisletter": "",
+                "huisnummer": 4,
+                "straatnaam": "Lange Poten",
+                "woonplaatsnaam": "Den Haag",
+                "locatieomschrijving": "",
+                "huisnummertoevoeging": "",
+                "aanduidingBijHuisnummer": ""
+            },
+            "datumBeginAdreshouding": "2024-05-01"
+        }
+    ],
+    "verblijfstitel" : {
+        "codeVerblijfstitel" : {
+            "code" : "41",
+            "name" : ""
+        },
+        "datumAanvangVerblijfstitel" : "2012-09-15",
+        "datumEindeVerblijfstitel" : "2024-09-15"
+    },
+    "nationaliteiten" : [ ],
+    "kinderenBsns" : [ ],
+    "partnerBsn" : "",
+    "datumOverlijden" : "2017-09-10"
+}

@@ -1,0 +1,308 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "gegevensVanuitAanvraag",
+            "key": "pv.gegevensVanuitAanvraag",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "aanvrager",
+            "key": "pv.gegevensVaststelling",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "relaties",
+            "key": "pv.relaties",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "relatiesVaststellen",
+            "key": "pv.relatiesVaststellen",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "form flow medebewoners",
+            "content": "<h2 class=\"mb-3\">Overzicht vastgestelde relaties</h2>",
+            "refreshOnChange": false,
+            "key": "MeldigEnAanvraagDatum",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Data Grid",
+            "reorder": false,
+            "addAnotherPosition": "bottom",
+            "disableAddingRemovingRows": true,
+            "layoutFixed": false,
+            "enableRowGroups": false,
+            "initEmpty": false,
+            "hideLabel": true,
+            "tableView": false,
+            "validateWhenHidden": false,
+            "customDefaultValue": "value = data.pv.relaties;",
+            "key": "pv.samenvattingRelaties",
+            "type": "datagrid",
+            "customClass": "indicatoren-lijst",
+            "input": true,
+            "components": [
+                {
+                    "label": "Columns",
+                    "hideLabel": true,
+                    "columns": [
+                        {
+                            "components": [
+                                {
+                                    "label": "Columns",
+                                    "hideLabel": true,
+                                    "columns": [
+                                        {
+                                            "components": [
+                                                {
+                                                    "label": "aanvragerHTML",
+                                                    "attrs": [
+                                                        {
+                                                            "attr": "",
+                                                            "value": ""
+                                                        }
+                                                    ],
+                                                    "content": "<div class=\"row\">\n  <div class=\"col-6\">\n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 16px;\"><div>Naam</div> <div style=\"font-weight: 700\">{{{ (row.voornamen || '') }}} {{{ (row.tussenvoegsel || '') }}} {{{ (row.achternaam || '') }}}</div></div>\n  </div>\n  <div class=\"col-6\">\n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 16px;\"><div>Begindatum relatie</div> <div style=\"font-weight: 700\">{{{ (row?.datumAanvangRelatie ? moment(row?.datumAanvangRelatie).format('DD-MM-YYYY') : '-') }}}</div></div>\n  </div>\n</div>\n<div class=\"row\">\n  <div class=\"col-6\">\n   <div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 16px;\"><div>Geboortedatum</div> <div style=\"font-weight: 700\">{{{ (row.geboortedatum ? moment(row.geboortedatum).format('DD-MM-YYYY') : '') }}}</div></div>\n  </div>\n  <div class=\"col-6\">\n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 16px;\"><div>Einddatum relatie</div> <div style=\"font-weight: 700\">{{{ (row?.datumEindeRelatie ? moment(row?.datumEindeRelatie).format('DD-MM-YYYY') : '-') }}}</div></div>\n  </div>\n</div>\n<div class=\"row\">\n  <div class=\"col-6\">\n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 16px;\"><div>Relatietype</div> <div style=\"font-weight: 700\">{{{ ({'partner': 'Partner', 'exPartner': 'Ex-partner', 'ouderKind': 'Ouder Kind', 'kindOuder': 'Kind Ouder', 'medebewoner': 'Medebewoner', 'algemeneRelatie': 'Algemene relatie'}[row?.relatietype] || '-') }}}</div></div>\n  </div>\n  <div class=\"col-6\">\n    <div class=\"\"></div>\n  </div>\n</div>\n",
+                                                    "refreshOnChange": false,
+                                                    "key": "html2",
+                                                    "type": "htmlelement",
+                                                    "hideLabel": true,
+                                                    "tableView": false,
+                                                    "input": true
+                                                }
+                                            ],
+                                            "width": 12,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 12
+                                        }
+                                    ],
+                                    "key": "columns",
+                                    "type": "columns",
+                                    "input": false,
+                                    "tableView": false
+                                },
+                                {
+                                    "label": "Columns",
+                                    "hideLabel": true,
+                                    "columns": [
+                                        {
+                                            "components": [
+                                                {
+                                                    "label": "Vastgestelde indicatoren",
+                                                    "widget": "choicesjs",
+                                                    "hideLabel": true,
+                                                    "disabled": true,
+                                                    "tableView": false,
+                                                    "multiple": true,
+                                                    "data": {
+                                                        "values": [
+                                                            {
+                                                                "label": "Woont op hetzelfde adres",
+                                                                "value": "woontOpHetzelfdeAdresAlsAanvrager"
+                                                            },
+                                                            {
+                                                                "label": "Is onderdeel van gezamelijke huishouding",
+                                                                "value": "indicatieGezamelijkeHuishouding"
+                                                            },
+                                                            {
+                                                                "label": "Is onderhoudsplichtig",
+                                                                "value": "indicatieOnderhoudsplichtPartner"
+                                                            },
+                                                            {
+                                                                "label": "Heeft recht op Kinderbijslag",
+                                                                "value": "indicatieKinderbijslag"
+                                                            },
+                                                            {
+                                                                "label": "Is co-ouder",
+                                                                "value": "indicatieCoOuder"
+                                                            },
+                                                            {
+                                                                "label": "Is onderhoudsplichtig",
+                                                                "value": "indicatieOnderhoudsplichtOuderKind"
+                                                            },
+                                                            {
+                                                                "label": "Is ook medebewoner",
+                                                                "value": "isKindEenMedebewoner"
+                                                            },
+                                                            {
+                                                                "label": "Is kostendeler",
+                                                                "value": "indicatieKostendeler"
+                                                            },
+                                                            {
+                                                                "label": "Is afgelopen 2 jaar partner geweest",
+                                                                "value": "afgelopen2JaarPartnerGeweest"
+                                                            },
+                                                            {
+                                                                "label": "Heeft samen een kind",
+                                                                "value": "samenEenErkendKindHebben"
+                                                            },
+                                                            {
+                                                                "label": "Heeft een samenlevingscontract",
+                                                                "value": "samenlevingscontract"
+                                                            },
+                                                            {
+                                                                "label": "Was afgelopen 2 jaar één huishouden",
+                                                                "value": "afgelopenTweeJaarEeeHuishouden"
+                                                            },
+                                                            {
+                                                                "label": "Deelt kosten huur",
+                                                                "value": "delenKostenHuur"
+                                                            },
+                                                            {
+                                                                "label": "Deelt vaste lasten",
+                                                                "value": "delenVasteLasten"
+                                                            },
+                                                            {
+                                                                "label": "Deelt kosten boodschappen",
+                                                                "value": "delenkostenBoodschappen"
+                                                            },
+                                                            {
+                                                                "label": "Eet samen",
+                                                                "value": "samenEten"
+                                                            },
+                                                            {
+                                                                "label": "Gaat samen op vakantie",
+                                                                "value": "samenOpVakantie"
+                                                            },
+                                                            {
+                                                                "label": "Deelt taken huishouden",
+                                                                "value": "samenTakenHuishouden"
+                                                            },
+                                                            {
+                                                                "label": "Betreft een tijdelijke verblijf",
+                                                                "value": "tijdelijkVerblijf"
+                                                            },
+                                                            {
+                                                                "label": "Heeft een zorgbehoefte",
+                                                                "value": "indicatieZorgbehoefte"
+                                                            },
+                                                            {
+                                                                "label": "Heeft een commerciële relatie",
+                                                                "value": "kamerHuur"
+                                                            },
+                                                            {
+                                                                "label": "Leeftijd onder 27",
+                                                                "value": "leeftijdOnder27"
+                                                            },
+                                                            {
+                                                                "label": "Studiefinanciering",
+                                                                "value": "studiefinanciering"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "customDefaultValue": "let selectedValues = [];\nif (row?.indicatieKostendeler) { selectedValues.push('indicatieKostendeler') } \nif (row?.woontOpHetzelfdeAdresAlsAanvrager) { selectedValues.push('woontOpHetzelfdeAdresAlsAanvrager') }\nif (row?.indicatieGezamelijkeHuishouding) { selectedValues.push('indicatieGezamelijkeHuishouding') }\nif (row?.indicatieOnderhoudsplichtPartner) { selectedValues.push('indicatieOnderhoudsplichtPartner') }\nif (row?.indicatieKinderbijslag) { selectedValues.push('indicatieKinderbijslag') }\nif (row?.indicatieCoOuder) { selectedValues.push('indicatieCoOuder') }\nif (row?.indicatieOnderhoudsplichtOuderKind) { selectedValues.push('indicatieOnderhoudsplichtOuderKind') }\nif (row?.isKindEenMedebewoner) { selectedValues.push('isKindEenMedebewoner') }\nif (row?.indicatieKostendeler) { selectedValues.push('indicatieKostendeler') }\nif (row?.afgelopen2JaarPartnerGeweest) { selectedValues.push('afgelopen2JaarPartnerGeweest') }\nif (row?.samenEenErkendKindHebben) { selectedValues.push('samenEenErkendKindHebben') }\nif (row?.samenlevingscontract) { selectedValues.push('samenlevingscontract') }\nif (row?.afgelopenTweeJaarEeeHuishouden) { selectedValues.push('afgelopenTweeJaarEeeHuishouden') }\nif (row?.delenKostenHuur) { selectedValues.push('delenKostenHuur') }\nif (row?.delenVasteLasten) { selectedValues.push('delenVasteLasten') }\nif (row?.delenkostenBoodschappen) { selectedValues.push('delenkostenBoodschappen') }\nif (row?.samenEten) { selectedValues.push('samenEten') }\nif (row?.samenOpVakantie) { selectedValues.push('samenOpVakantie') }\nif (row?.samenTakenHuishouden) { selectedValues.push('samenTakenHuishouden') }\nif (row?.tijdelijkVerblijf) { selectedValues.push('tijdelijkVerblijf') }\nif (row?.indicatieZorgbehoefte) { selectedValues.push('indicatieZorgbehoefte') }\nif (row?.kamerHuur) { selectedValues.push('kamerHuur') }\nif (row?.leeftijdOnder27) { selectedValues.push('leeftijdOnder27') }\nif (row?.studiefinanciering) { selectedValues.push('studiefinanciering') }\n\nvalue = selectedValues;",
+                                                    "validateWhenHidden": false,
+                                                    "key": "select",
+                                                    "type": "select",
+                                                    "input": true
+                                                }
+                                            ],
+                                            "width": 12,
+                                            "offset": 0,
+                                            "push": 0,
+                                            "pull": 0,
+                                            "size": "md",
+                                            "currentWidth": 12
+                                        }
+                                    ],
+                                    "key": "columns2",
+                                    "type": "columns",
+                                    "input": false,
+                                    "tableView": false
+                                }
+                            ],
+                            "width": 12,
+                            "offset": 0,
+                            "push": 0,
+                            "pull": 0,
+                            "size": "md",
+                            "currentWidth": 12
+                        }
+                    ],
+                    "key": "columns",
+                    "type": "columns",
+                    "input": false,
+                    "tableView": false
+                }
+            ]
+        },
+        {
+            "label": "Toelichting",
+            "applyMaskOn": "change",
+            "autoExpand": true,
+            "tableView": true,
+            "validateWhenHidden": false,
+            "key": "pv.toelichting",
+            "type": "textarea",
+            "disabled": true,
+            "rows": 5,
+            "input": true
+        },
+        {
+            "label": "ButtonColumns",
+            "columns": [
+                {
+                    "components": [
+                        {
+                            "type": "button",
+                            "label": "Vorige",
+                            "key": "back",
+                            "theme": "warning",
+                            "action": "custom",
+                            "custom": "data.pv.goBack = 'true'; form.submit(); component.disabled = true;",
+                            "input": true,
+                            "tableView": false
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                },
+                {
+                    "components": [
+                        {
+                            "label": "Indienen",
+                            "action": "custom",
+                            "showValidations": false,
+                            "disableOnInvalid": true,
+                            "tableView": false,
+                            "key": "submit",
+                            "type": "button",
+                            "custom": "const partnerRelaties = [];\nconst relaties = data.pv.relaties.map(relatie => {\n  delete relatie.soortOpleiding;\n  delete relatie.volgtOpleiding;\n  delete relatie.kinderbijslag;\n  delete relatie.gezamenlijkTijdsbesteding;\n  delete relatie.samenlevingsvorm;\n  delete relatie.relatieMedebewoner;\n  delete relatie.gezamenlijkHuishouden;\n  delete relatie.omschrijvingVolgtOpleiding;\n  delete relatie.volgtBblTraject;\n  delete relatie.soortBblTraject;\n  delete relatie.toelichtingRelatieTotMedebewoner;\n  delete relatie.teOntvangenHuur;\n  delete relatie.frequentieOntvangenHuur;\n  delete relatie.gezamenlijkeTijdsbesteding;\n  delete relatie.medebewonerVolgtOpleiding;\n  delete relatie.leeftijd;\n  delete relatie.relatiesVaststellen;\n  \n  if(!relatie.isKindVan) {\n    delete relatie.isKindVan;\n  }\n  \n  if (relatie.isKindVan === 'AANVRAGER_EN_PARTNER') {\n    partnerRelaties.push(relatie);\n  } else if (relatie.isKindVan === 'PARTNER') {\n    partnerRelaties.push(relatie);\n  }\n  return relatie;\n});\ndata.pv.relaties = relaties;\ndata.pv.partnerRelaties = partnerRelaties;\n\n\nconst order = [\"ouderKind\", \"kindOuder\", \"medebewoner\", \"partner\", \"exPartner\", \"algemeneRelatie\"];\n\nrelaties.sort((a, b) => order.indexOf(a.relatietype) - order.indexOf(b.relatietype));\n\n\nform.submit(); \ncomponent.disabled = true;",
+                            "input": true
+                        }
+                    ],
+                    "width": 6,
+                    "offset": 0,
+                    "push": 0,
+                    "pull": 0,
+                    "size": "md",
+                    "currentWidth": 6
+                }
+            ],
+            "key": "buttonColumns",
+            "type": "columns",
+            "input": false,
+            "tableView": false
+        }
+    ]
+}

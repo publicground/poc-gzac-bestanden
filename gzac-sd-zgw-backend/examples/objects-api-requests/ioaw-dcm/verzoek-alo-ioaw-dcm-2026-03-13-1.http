@@ -1,0 +1,266 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+    "type": "{{objecttypes_api_url_alo}}",
+    "record": {
+        "typeVersion": "{{objecttypes_version}}",
+        "data": {
+            "bsn": "999991954",
+            "data": {
+                "alo-ioaw": {
+                    "grIoaw": {
+                        "geenRechtMeerWw": "NEE",
+                        "geenRechtMeerWga": "NEE",
+                        "gedeeltelijkArbeidsongeschikt": "NEE"
+                    }
+                },
+                "schulden": {
+                    "heeftSchulden": "NEE"
+                },
+                "your-details": {
+                    "naw": {
+                        "grAdresgegevens": {
+                            "plaats": "'s-Gravenhage",
+                            "straat": "Leyweg",
+                            "postcode": "2545 CC",
+                            "huisletter": "e",
+                            "huisnummer": "61",
+                            "toevoeging": ""
+                        },
+                        "grPersoongegevens": {
+                            "Bsn": "999991954",
+                            "voornaam": "Sierra",
+                            "achternaam": "Karima 2",
+                            "voorletters": "S.",
+                            "voorvoegsels": "",
+                            "geboortedatum": "2003-03-03"
+                        }
+                    }
+                },
+                "alo-uitbetaling": {
+                    "hoeBetaald": "VOLLEDIG_OP_MIJN_REKENING",
+                    "ibanAanWie": "NEE",
+                    "ibanUitbetaling": "NL59INGB0000000025",
+                    "naamRekeninghouder": "mijn eigen naam"
+                },
+                "alo-uw-inkomsten": {
+                    "grUitkering": {
+                        "grWw": {
+                            "ww": 1000,
+                            "wwPeriode": "MAAND",
+                            "wwOverzicht": []
+                        },
+                        "welkeUitkering": {
+                            "WW": true,
+                            "ANW": false,
+                            "AOW": false,
+                            "WAO": false,
+                            "WIA": false,
+                            "WAJONG": false,
+                            "ZIEKTEWET": false
+                        }
+                    },
+                    "grLoondienst": {
+                        "hhgWerkgevers": [
+                            {
+                                "nettoloon": 600,
+                                "hoevaakLoon": "MAAND",
+                                "naamWerkgever": "jumbo",
+                                "soortContract": "VAST_CONTRACT",
+                                "hoeveelUurWerk": 600,
+                                "kiesLoonheffing": "JA",
+                                "kiesStopContract": "NEE",
+                                "urenvermindering": "NEE",
+                                "kiesExtraUitbetaald": "NEE",
+                                "uploadLoon": []
+                            }
+                        ]
+                    },
+                    "heeftInkomsten": "JA",
+                    "soortenInkomsten": {
+                        "PENSIOEN": false,
+                        "UITKERING": true,
+                        "LOONDIENST": true,
+                        "ALIMENTATIE": false,
+                        "HEFFINGSKORTING": false,
+                        "OVERIGE_INKOMSTEN": false,
+                        "INKOMEN_UIT_BUITENLAND": false,
+                        "INKOMEN_UIT_ONDERNEMING": false,
+                        "INKOMSTEN_UIT_ONDERHUUR": false
+                    }
+                },
+                "inkomsten-partner": {
+                    "grLoondienstPartner": {
+                        "hhgLoondienstPartner": [
+                            {
+                                "krijgtExtraPartner": "GEEN",
+                                "geenLoonstrookPartner": true,
+                                "loondienstStoptPartner": "NEE",
+                                "loondienstBedragPartner": 250,
+                                "loondienstPerWeekPartner": 12,
+                                "loondienstPeriodePartner": "MAAND",
+                                "loondienstContractPartner": "NUL_UREN_CONTRACT",
+                                "loondienstWerkgeverPartner": "kruidvat",
+                                "loondienstHeffingskortingPartner": "JA",
+                                "loondienstUrenverminderingPartner": "NEE",
+                                "loondienstUploadPartner": []
+                            }
+                        ]
+                    },
+                    "heeftPartnerInkomsten": "JA",
+                    "soortenInkomstenPartner": {
+                        "PENSIOEN": false,
+                        "UITKERING": false,
+                        "LOONDIENST": true,
+                        "ALIMENTATIE": false,
+                        "HEFFINGSKORTING": true,
+                        "OVERIGE_INKOMSTEN": false,
+                        "INKOMSTEN_UIT_ONDERHUUR": false,
+                        "INKOMEN_UIT_ONDERNEMING": false,
+                        "INKOMEN_UIT_BUITENLAND": false
+                    },
+                    "grHeffingskortingenPartner": {
+                        "heffingskortingSoortPartner": {
+                            "ALGEMENE_HEFFINGSKORTING": true,
+                            "INKOMENSAFHANKELIJKE_COMBINATIEKORTING": false
+                        },
+                        "heffingskortingBedragTotaalPartner": 50
+                    }
+                },
+                "alo-reden-aanvraag": {
+                    "grGeenInkomen": {
+                        "waaromGeenInkomen": "UITKERING_STOPGEZET"
+                    },
+                    "grIngangsdatum": {
+                        "bijstandsuitkeringEerderStarten": "NEE"
+                    },
+                    "waaromBijstandsuitkering": "GEEN_ONVOLDOENDE_INKOMEN",
+                    "grBeeindigingAndereUitkering": {
+                        "kiesUitkeringGestopt": "MAXIMALE_DUUR_BEREIKT",
+                        "wanneerUitkeringStop": "2025-02-28",
+                        "welkeUitkeringGestopt": "WW"
+                    }
+                },
+                "alo-uw-woonsituatie": {
+                    "grHuur": {
+                        "hoeveelHuur": 950.12,
+                        "huurcontract": "JA",
+                        "wieVerhuurder": "Particulier",
+                        "contractOpUwNaam": "JA",
+                        "hoeveelHuurtoeslag": 415
+                    },
+                    "hoeWoontU": "ZELFSTANDIGE_HUURWONING",
+                    "grAndereBewoners": {
+                        "meerMensenOpAdres": "NEE"
+                    }
+                },
+                "alo-uw-beschikbaarheid": {
+                    "grBeschikbaarheid": {
+                        "onbetaald": "NEE",
+                        "beschikbaarheid": 20
+                    }
+                },
+                "beschikbaarheid-partner": {
+                    "grBeschikbaarheidPartner": {
+                        "onbetaaldPartner": "NEE",
+                        "beschikbaarheidPartner": 30
+                    }
+                },
+                "alo-gezinssamenstelling": {
+                    "partnerWoontBijU": "JA",
+                    "thuiswonendeKinderen": "JA"
+                },
+                "gegevens-partner": {
+                    "grGegevensPartner": {
+                        "bsnPartner": "999991322",
+                        "geboortePartner": "1970-02-11",
+                        "achternaamPartner": "Artner",
+                        "voorletterPartner": "P",
+                        "voorvoegselPartner": "",
+                        "zelfdeAdresPartner": "JA",
+                        "nationaliteitPartner": "NEDERLANDSE_NATIONALITEIT"
+                    }
+                },
+                "gegevens-kinderen": {
+                    "grGegevensKinderen": {
+                        "hhgGegevensKinderen": [
+                            {
+                                "voornaamKind": "Primula",
+                                "opleidingKind": "GEEN_OPLEIDING",
+                                "achternaamKind": "Avion",
+                                "voorletterKind": "P",
+                                "voorvoegselKind": "",
+                                "geboortedatumKind": "2025-02-11",
+                                "krijgtKinderbijslag": "JA"
+                            }
+                        ]
+                    }
+                },
+                "alo-aanvullende-gegevens": {
+                    "lieverPost": false,
+                    "grWoonsituatie": {
+                        "woonsituatie": "WAAR_IK_WOON"
+                    },
+                    "grNationaliteit": {
+                        "nationaliteitBezit": "NEDERLANDSE_NATIONALITEIT"
+                    },
+                    "grContactAanvraag": {
+                        "hulpAanvraag": "JA",
+                        "grContactHulp": {
+                            "naamHulp": "H. Elper",
+                            "relatieHulp": "FAMILIE",
+                            "telefoonHulp": "0687654321"
+                        }
+                    },
+                    "grNieuweContactgegevens": {
+                        "geenEmail": false,
+                        "emailAdres": "hari.gautam@denhaag.nl",
+                        "geenTelefoon": false,
+                        "telefoonnummer": "0612345678"
+                    }
+                },
+                "alo-bezittingen-en-schulden": {
+                    "grContant": {
+                        "waardeContant": 12.34
+                    },
+                    "grRekeningen": {
+                        "grLogicaBank": {
+                            "hhgVoegRekeningToe": [
+                                {
+                                    "prive": "NL59INGB0000000025",
+                                    "hoeveelGeld": -450,
+                                    "typeRekening": "NEDERLANDSE_PRIVE_REKENING",
+                                    "geenRekeningUploaden": true
+                                }
+                            ]
+                        },
+                        "geenBankrekening": "BEZIT_REKENING"
+                    },
+                    "grUwVermogen": {
+                        "welkVermogen": {
+                            "CRYPTO": false,
+                            "CARAVAN": false,
+                            "VAARTUIG": false,
+                            "CONTANTEN": true,
+                            "KOOPWONING": false,
+                            "MOTORVOERTUIG": false,
+                            "EEN_STUK_GROND": false,
+                            "OBLIGATIES_AANDELEN": false,
+                            "BANK_EN_SPAARREKENINGEN": true
+                        }
+                    }
+                }
+            },
+            "type": "Verzoek IOAW DCM",
+            "attachments": [],
+            "language_code": "nl",
+            "submission_id": "578d8baa-334d-430b-b254-f55a44e358f7",
+            "public_reference": "OF-{{$random.alphanumeric(8)}}"
+        },
+        "startAt": "2025-02-27",
+        "registrationAt": "2025-02-27"
+    }
+}

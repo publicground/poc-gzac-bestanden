@@ -1,0 +1,222 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "label": "openzaak",
+            "key": "openzaak",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "isErEenBesluit",
+            "key": "pv.isErEenBesluit",
+            "defaultValue": false,
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "informatieverzoeken",
+            "key": "informatieverzoeken",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "informatieverzoekAfgerond",
+            "key": "gegevensVaststelling",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "poortonderzoek",
+            "key": "poortonderzoek",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "isInzettenHandhavingAfgerond",
+            "key": "pv.isInzettenHandhavingAfgerond",
+            "calculateValue": "value = data.poortonderzoek?.uitvoeren === 'NEE' || !!data.poortonderzoek?.datumUitkomst?.trim();",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "gegevensVaststelling",
+            "key": "gegevensVaststelling",
+            "type": "hidden",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-warning",
+            "content": "<p>Deze taak kan alleen gestart worden als de uitgebreide motivering definitief is ingediend.</p>",
+            "refreshOnChange": false,
+            "key": "htmlMotiveringNietDefinitief",
+            "customConditional": "show = !data.gegevensVaststelling?.uitgebreideMotivering?.isMotiveringDefinitief",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "aanvragerHTML",
+            "tag": "div",
+            "className": "alert alert-warning",
+            "content": "<p>Dit dossier is al afgesloten.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving === 'Afgehandeld'",
+            "type": "htmlelement",
+            "tableView": false,
+            "input": true
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<p>Een besluit kan pas worden vastgelegd nadat het openstaande informatieverzoek is afgehandeld. Werk eerst de informatieverzoektaken af.</p>",
+            "refreshOnChange": false,
+            "key": "html1",
+            "customConditional": "show = data.openzaak?.statusOmschrijving !== 'Afgehandeld' && !data.gegevensVaststelling.informatieverzoekAfgerond",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "className": "alert alert-info",
+            "content": "<h4>Voordat er een besluit genomen kan worden, dient er eerst overwogen te worden of afdeling handhaving een poortonderzoek dient uit te voeren. Rond daarom eerst de taak 'Overwegen inzet handhaving' af. Indien een poortonderzoek is uitgezet, rond dan de taak 'Verwerken uitkomst poortonderzoek' af wanneer de uitkomst van het poortonderzoek is ontvangen.</h4>",
+            "refreshOnChange": false,
+            "key": "html2",
+            "type": "htmlelement",
+            "customConditional": "show = data.openzaak?.statusOmschrijving !== 'Afgehandeld' && data.pv?.isInzettenHandhavingAfgerond === false",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "genomen besluit",
+            "key": "besluit",
+            "customDefaultValue": "if (data.besluit?.genomenBesluit === 'TOEGEKEND' || data.besluit?.genomenBesluit === 'INGETROKKEN' || data.besluit?.genomenBesluit === 'AFGEWEZEN' || data.besluit?.genomenBesluit === 'BUITEN_BEHANDELING_GESTELD') { data.pv.isErEenBesluit = true; } else { data.pv.isErEenBesluit = false; }",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "content": "<h4>Er is al een besluit genomen.</h4>",
+            "refreshOnChange": false,
+            "key": "html3",
+            "type": "htmlelement",
+            "customConditional": "show = data.openzaak?.statusOmschrijving !== 'Afgehandeld' && data.pv?.isErEenBesluit;",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "content": "<strong> Vastleggen besluit na inhoudelijke beoordeling</strong></br>Beoordeel de aanvraag inhoudelijk en leg vervolgens hieronder het genomen besluit vast.",
+            "tableView": true,
+            "key": "vastleggenBesluit",
+            "type": "htmlelement",
+            "input": false,
+            "customConditional": "show = data.openzaak?.statusOmschrijving !== 'Afgehandeld' && !data.pv?.isErEenBesluit && data.pv?.isInzettenHandhavingAfgerond && data.gegevensVaststelling.informatieverzoekAfgerond === true;",
+            "label": "HTML"
+        },
+        {
+            "label": "Genomen besluit",
+            "optionsLabelPosition": "right",
+            "inline": false,
+            "tableView": false,
+            "values": [
+                {
+                    "label": "Toekennen",
+                    "value": "TOEGEKEND"
+                },
+                {
+                    "label": "Afwijzen",
+                    "value": "AFGEWEZEN"
+                },
+                {
+                    "label": "Buiten behandeling stellen",
+                    "value": "BUITEN_BEHANDELING_GESTELD"
+                },
+                {
+                    "label": "Intrekken",
+                    "value": "INGETROKKEN"
+                }
+            ],
+            "key": "besluit.genomenBesluit",
+            "customConditional": "show = data.openzaak?.statusOmschrijving !== 'Afgehandeld' && !data.pv?.isErEenBesluit && data.pv?.isInzettenHandhavingAfgerond && data.gegevensVaststelling.informatieverzoekAfgerond === true;",
+            "type": "radio",
+            "validate": {
+                "required": true
+            },
+            "input": true
+        },
+        {
+            "label": "HTML",
+            "tag": "div",
+            "content": "<h4>\n  {{{data.besluit.genomenBesluit === 'TOEGEKEND' ? 'Selecteer bij documenttype: \\'Toekenningsbeschikking\\'' : ''}}}\n  {{{data.besluit.genomenBesluit === 'AFGEWEZEN' ? 'Selecteer bij documenttype: \\'Afwijzingsbeschikking\\'' : ''}}}\n  {{{data.besluit.genomenBesluit === 'INGETROKKEN' ? 'Selecteer bij documenttype: \\'Intrekkingsbrief\\'' : ''}}}\n  {{{data.besluit.genomenBesluit === 'BUITEN_BEHANDELING_GESTELD' ? 'Selecteer bij documenttype: \\'BuitenBehandelingStelling \\'' : ''}}}\n</h4>",
+            "refreshOnChange": true,
+            "customClass": "text-danger",
+            "key": "html",
+            "customConditional": "show = data.openzaak?.statusOmschrijving !== 'Afgehandeld' && data.besluit?.genomenBesluit && data.pv?.isErEenBesluit && data.gegevensVaststelling.informatieverzoekAfgerond === true;",
+            "type": "htmlelement",
+            "input": false,
+            "tableView": false
+        },
+        {
+            "label": "Upload hieronder de beschikking",
+            "type": "documenten-api-file",
+            "key": "besluit.besluitDocumenten",
+            "customOptions": {
+                "title": "",
+                "hideTitle": false,
+                "subtitle": "",
+                "maxFileSize": 1,
+                "hideMaxFileSize": false,
+                "camera": false,
+                "documentTitle": "Besluit",
+                "disableDocumentTitle": false,
+                "filename": "",
+                "disableFilename": false,
+                "author": "",
+                "disableAuthor": false,
+                "status": "definitief",
+                "disableStatus": false,
+                "language": "nld",
+                "disableLanguage": false,
+                "documentType": "",
+                "disableDocumentType": false,
+                "description": "Besluit",
+                "disableDescription": false,
+                "confidentialityLevel": "zaakvertrouwelijk",
+                "disableConfidentialityLevel": false
+            },
+            "input": true,
+            "customConditional": "show = data.openzaak?.statusOmschrijving !== 'Afgehandeld' && !data.pv?.isErEenBesluit && data.pv?.isInzettenHandhavingAfgerond && data.gegevensVaststelling.informatieverzoekAfgerond === true;",
+            "validate": {
+                "required": true
+            },
+            "tableView": false
+        },
+        {
+            "type": "button",
+            "label": "Indienen",
+            "showValidations": false,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "customConditional": "show = data.openzaak?.statusOmschrijving !== 'Afgehandeld' && !data.pv?.isErEenBesluit && data.pv?.isInzettenHandhavingAfgerond && data.gegevensVaststelling.informatieverzoekAfgerond === true && data.gegevensVaststelling?.uitgebreideMotivering?.isMotiveringDefinitief;",
+            "action": "custom",
+            "custom": "delete data.poortonderzoek; delete data.gegevensVaststelling; delete data.informatieverzoeken; delete data.openzaak; form.submit(); component.disabled = true;",
+            "key": "submit",
+            "input": true
+        }
+    ]
+}

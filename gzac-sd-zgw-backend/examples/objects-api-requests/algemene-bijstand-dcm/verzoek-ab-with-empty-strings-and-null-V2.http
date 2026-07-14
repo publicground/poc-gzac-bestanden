@@ -1,0 +1,592 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+    "type": "{{objecttypes_api_url_alo}}",
+    "record": {
+        "typeVersion": "{{objecttypes_version}}",
+        "data": {
+          "bsn": "999991322",
+          "data": {
+            "alo-ioaw": {
+              "grIoaw": {
+                "geenRechtMeerWw": "NEE",
+                "geenRechtMeerWga": "NEE",
+                "gedeeltelijkArbeidsongeschikt": "JA"
+              }
+            },
+            "your-details": {
+              "naw": {
+                "grAdresgegevens": {
+                  "land": "",
+                  "plaats": "'s-Gravenhage",
+                  "straat": "Herengracht",
+                  "postcode": "2511 EG",
+                  "stadsdeel": "",
+                  "huisletter": "",
+                  "huisnummer": "1",
+                  "toevoeging": ""
+                },
+                "grPersoongegevens": {
+                  "Bsn": "999991322",
+                  "geslacht": "",
+                  "voornaam": "Celeste",
+                  "achternaam": "Avion",
+                  "voorletters": "C.",
+                  "voorvoegsels": "",
+                  "geboortedatum": "1960-12-29"
+                }
+              },
+              "grContactgegevens": {
+                "email": "",
+                "Telefoonnummer": ""
+              }
+            },
+            "alo-uitbetaling": {
+              "hoeBetaald": "VOLLEDIG_OP_MIJN_REKENING",
+              "ibanAanWie": "NEE",
+              "ibanUitbetaling": "BE13957423934539",
+              "grUitbetalenAnder": {
+                "ibanNaamAnder": "",
+                "ibanAdresAnder": "",
+                "ibanUitbetalingAnder": "",
+                "ibanUitbetalingWaaromAnder": ""
+              },
+              "naamRekeninghouder": "14K Dai Lo",
+              "ibanUitbetalingPartner": "",
+              "naamRekeninghouderPartner": ""
+            },
+            "alo-uw-inkomsten": {
+              "grUitkering": {
+                "grWw": {
+                  "ww": null,
+                  "wwPeriode": ""
+                },
+                "grAnw": {
+                  "anw": null,
+                  "anwPeriode": ""
+                },
+                "grAow": {
+                  "aow": null,
+                  "aowPeriode": ""
+                },
+                "grWao": {
+                  "wao": null,
+                  "waoPeriode": ""
+                },
+                "grWia": {
+                  "wia": null,
+                  "wiaPeriode": ""
+                },
+                "grWajong": {
+                  "wajong": null,
+                  "wajongPeriode": ""
+                },
+                "grZiektewet": {
+                  "ziektewet": null,
+                  "ziektewetPeriode": ""
+                },
+                "welkeUitkering": {
+                  "WW": false,
+                  "ANW": false,
+                  "AOW": false,
+                  "WAO": false,
+                  "WIA": false,
+                  "WAJONG": false,
+                  "ZIEKTEWET": false
+                }
+              },
+              "grLoondienst": {
+                "hhgWerkgevers": []
+              },
+              "grPensioenen": {
+                "hhgPensioenen": []
+              },
+              "grAlimentatie": {
+                "alimentatie": "",
+                "betaaltPartner": "",
+                "alimentatieLBIO": "",
+                "alimentatieHulpEx": "",
+                "alimentatieHoeveel": null,
+                "alimentatieRechtOp": "",
+                "partnerAlimentatie": null,
+                "alimentatieHulpExHoeveel": null
+              },
+              "heeftInkomsten": "JA",
+              "soortenInkomsten": {
+                "PENSIOEN": false,
+                "UITKERING": false,
+                "LOONDIENST": false,
+                "ALIMENTATIE": false,
+                "HEFFINGSKORTING": true,
+                "OVERIGE_INKOMSTEN": true,
+                "INKOMEN_UIT_BUITENLAND": false,
+                "INKOMEN_UIT_ONDERNEMING": true,
+                "INKOMSTEN_UIT_ONDERHUUR": false
+              },
+              "grOverigeInkomsten": {
+                "overigeBedrag": 6000
+              },
+              "grHeffingskortingen": {
+                "heffingskortingSoort": {
+                  "ALGEMENE_HEFFINGSKORTING": true,
+                  "INKOMENSAFHANKELIJKE_COMBINATIEKORTING": true
+                },
+                "heffingskortingBedragTotaal": 10000
+              },
+              "grInkomenBuitenland": {
+                "inkomenBuitenlandBedrag": null,
+                "inkomenBuitenlandPeriode": ""
+              },
+              "grInkomstenOnderhuur": {
+                "inkomstenOnderhuurBedrag": null
+              },
+              "grInkomstenOnderneming": {
+                "kvk": "69599068",
+                "inkomenOnderneming": 6000
+              }
+            },
+            "gegevens-partner": {
+              "grGegevensPartner": {
+                "bsnPartner": "111222333",
+                "grAdresPartner": {
+                  "plaatsPartner": "",
+                  "straatPartner": "",
+                  "postcodePartner": "",
+                  "huisletterPartner": "",
+                  "huisnummerPartner": null,
+                  "nummerToevoegingPartner": ""
+                },
+                "geboortePartner": "1965-01-01",
+                "verblijfPartner": "",
+                "achternaamPartner": "Trunks",
+                "voorletterPartner": "Gohan",
+                "voorvoegselPartner": "",
+                "zelfdeAdresPartner": "JA",
+                "nationaliteitPartner": "GELDIGE_VERBLIJFSVERGUNNING",
+                "geenNederlanderPartner": "JA"
+              }
+            },
+            "gegevens-kinderen": {
+              "grGegevensKinderen": {
+                "hhgGegevensKinderen": []
+              }
+            },
+            "inkomsten-partner": {
+              "grLoondienstPartner": {
+                "hhgLoondienstPartner": []
+              },
+              "grPensioenenPartner": {
+                "hhgPensioenenPartner": []
+              },
+              "grAlimentatiePartner": {
+                "alimentatiePartner": "",
+                "alimentatieHulpPartner": "",
+                "alimentatieLBIOPartner": "",
+                "alimentatieKrijgtPartner": "",
+                "alimentatieBetaaltPartner": null,
+                "alimentatieHoeveelPartner": null
+              },
+              "grUitkeringenPartner": {
+                "grWwPartner": {
+                  "wwPartner": null,
+                  "wwPeriodePartner": ""
+                },
+                "grAnwPartner": {
+                  "anwPartner": null,
+                  "anwPeriodePartner": ""
+                },
+                "grAowPartner": {
+                  "aowPartner": 5000,
+                  "aowPeriodePartner": "MAAND"
+                },
+                "grWaoPartner": {
+                  "waoPartner": null,
+                  "waoPeriodePartner": ""
+                },
+                "grWiaPartner": {
+                  "wiaPartner": null,
+                  "wiaPeriodePartner": ""
+                },
+                "grWajongPartner": {
+                  "wajongPartner": 5000,
+                  "wajongPeriodePartner": "MAAND"
+                },
+                "grBijstandPartner": {
+                  "bijstandPartnerBedrag": null,
+                  "bijstandPeriodePartner": ""
+                },
+                "grZiektewetPartner": {
+                  "ziektewetPartner": null,
+                  "ziektewetPeriodePartner": ""
+                },
+                "uitkeringenPartner": {
+                  "WW": false,
+                  "ANW": false,
+                  "AOW": true,
+                  "WAO": false,
+                  "WIA": false,
+                  "WAJONG": true,
+                  "BIJSTAND": false,
+                  "ZIEKTEWET": false
+                }
+              },
+              "heeftPartnerInkomsten": "JA",
+              "soortenInkomstenPartner": {
+                "PENSIOEN": false,
+                "UITKERING": true,
+                "LOONDIENST": false,
+                "ALIMENTATIE": false,
+                "HEFFINGSKORTING": false,
+                "OVERIGE_INKOMSTEN": false,
+                "INKOMEN_UIT_BUITENLAND": false,
+                "INKOMEN_UIT_ONDERNEMING": false,
+                "INKOMSTEN_UIT_ONDERHUUR": false
+              },
+              "grOverigeInkomstenPartner": {
+                "overigeBedragPartner": null
+              },
+              "grHeffingskortingenPartner": {
+                "heffingskortingSoortPartner": {
+                  "ALGEMENE_HEFFINGSKORTING": false,
+                  "INKOMENSAFHANKELIJKE_COMBINATIEKORTING": false
+                },
+                "heffingskortingBedragTotaalPartner": null
+              },
+              "grInkomenBuitenlandPartner": {
+                "inkomenBuitenlandBedragPartner": null,
+                "inkomenBuitenlandPeriodePartner": ""
+              },
+              "grInkomstenOnderhuurPartner": {
+                "inkomstenOnderhuurBedragPartner": null
+              },
+              "grInkomstenOndernemingPartner": {
+                "kvkPartner": "",
+                "inkomenOndernemingPartner": null
+              }
+            },
+            "alo-reden-aanvraag": {
+              "grZiekte": {
+                "aanvraagZiektewetUitkering": ""
+              },
+              "grInkomen": {
+                "zelfstandigOndernemer": ""
+              },
+              "grDetentie": {
+                "hoeLangDetentie": "",
+                "laatsteDagDetentie": "",
+                "uitkeringGehadDetentie": "",
+                "welkeUitkeringDetentie": "",
+                "andereUitkeringDetentie": ""
+              },
+              "grVermogen": {
+                "bijstandswet": ""
+              },
+              "grInkomsten": {
+                "bijstandsnorm": ""
+              },
+              "grUwAanvraag": {
+                "redenAanvraag": ""
+              },
+              "grAndereReden": {
+                "betaaldWerkGestopt": ""
+              },
+              "grGeenInkomen": {
+                "waaromGeenInkomen": ""
+              },
+              "grRedenAnders": {
+                "hoeBetaaltKosten": "",
+                "waaromNietGenoeg": ""
+              },
+              "grIngangsdatum": {
+                "waaromDigid": "",
+                "ingangsDatum": "",
+                "wanneerDigid": "",
+                "welkZiekenhuis": "",
+                "welkeredenlaat": "",
+                "welkeBeslissing": "",
+                "wanneerBeslissing": "",
+                "waaromLaatAlgemeen": "",
+                "wanneerInZiekenhuis": "",
+                "wanneerUitZiekenhuis": "",
+                "bijstandsuitkeringEerderStarten": "NEE"
+              },
+              "grZelfstandige": {
+                "wanneerGestopt": "",
+                "uitgeschrevenKvk": "",
+                "waaromBedrijfWeg": "",
+                "redenZelfstandige": "",
+                "inschrijfnummerKvK": "",
+                "welkBedragVerkocht": null
+              },
+              "grEerderInkomen": {
+                "terugkeerder": "NEE"
+              },
+              "grVerblijfstatus": {
+                "stoptWeekgeld": "JA",
+                "berichtWeekgeld": "JA",
+                "hoeveelWeekgeld": 30000,
+                "ontvangtWeekgeld": "JA",
+                "redenVerblijfstatus": "VERBLIJFSDOCUMENT",
+                "wanneerHuurcontract": "",
+                "wanneerStoptWeekgeld": "2026-01-12"
+              },
+              "grGeenBetaaldWerk": {
+                "waaromGeenWerk": "",
+                "naamOudWerkgever": "",
+                "adresOudWerkgever": "",
+                "totWanneerSalaris": "",
+                "telefoonOudWerkgever": "",
+                "welkeJuridischeStappen": ""
+              },
+              "beeindigingRelatie": {
+                "hoeBetaalt": "",
+                "sindWanneer": "",
+                "wasGetrouwd": "",
+                "afsprakenBijdragen": ""
+              },
+              "grPartnerOverleden": {
+                "arbeidsongeschikt": "",
+                "nabestaandenuitkering": "",
+                "nabestaandenuitkeringAfgewezen": ""
+              },
+              "grGezinWoonsituatie": {
+                "veranderingWoonsituatie": "",
+                "veranderingGezinssituatie": ""
+              },
+              "grbeeindigingStudie": {
+                "financiering": "",
+                "studieGestopt": ""
+              },
+              "grAllimentatieGestopt": {
+                "kiesAnwUitkering": "",
+                "hoeBetaaldUwKosten": "",
+                "heeftLbioIngeschakeld": "",
+                "datumAlimentatieGestopt": "",
+                "kiesRedenGeenAlimentatie": ""
+              },
+              "grEindeTijdelijkContract": {
+                "wwAangevraagd": "",
+                "hoelangContract": "",
+                "waaromWwAfgewezen": "",
+                "minimaalNWekenGewerkt": "",
+                "ontslagBriefOntvangen": ""
+              },
+              "waaromBijstandsuitkering": "VERBLIJFSTATUS",
+              "grWijzigingGezinssituatie": {
+                "watGewijzigd": ""
+              },
+              "grAanvraagBijstandAfgewezen": {
+                "gewijzigd": "",
+                "kiesSituatieAfwijzingOfGelijk": ""
+              },
+              "grBeeindigingAndereUitkering": {
+                "andereUitkering": "",
+                "kiesUitkeringGestopt": "",
+                "wanneerUitkeringStop": "",
+                "welkeUitkeringGestopt": "",
+                "waaromUitkeringGestopt": "",
+                "bezwaarUitkeringGestopt": ""
+              },
+              "grBeeindigingBijstandsUitkering": {
+                "uwSituatieGewijzigd": "",
+                "kiesSituatieAfwijzing": "",
+                "leguitBijstandGestopt": "",
+                "kiesBijstandsuitkeringGestopt": ""
+              }
+            },
+            "alo-uw-woonsituatie": {
+              "grHuur": {
+                "hoeveelHuur": 5000,
+                "vanWieKamer": "",
+                "huurcontract": "NEE",
+                "wieVerhuurder": "Piccolo",
+                "bijOudersInwonen": "",
+                "contractOpUwNaam": "JA",
+                "welkeNaamContract": "",
+                "hoeveelHuurtoeslag": 5500,
+                "waaromNietBijOuders": ""
+              },
+              "hoeWoontU": "ZELFSTANDIGE_HUURWONING",
+              "bijWieWoontU": "",
+              "wonenRelatie": "",
+              "grAndereBewoners": {
+                "grBewoner": {
+                  "hhgAndereBewoners": [
+                    {
+                      "bBLAndereBewoner": "JA",
+                      "medebewonerOpleiding": "NEE",
+                      "relatieAndereBewoner": "OUDERS",
+                      "soortBBLAndereBewoner": "Ik volg een bBl traject",
+                      "achternaamAndereBewoner": "Teun Eugene Sander Tico",
+                      "samenlevenAndereBewoner": {
+                        "NIET_VAN_TOEPASSING": false,
+                        "SAMENLEVINGSCONTRACT": true,
+                        "SAMEN_EEN_KIND_OF_EEN_ERKEND_KIND": true,
+                        "AFGELOPEN_2_JAAR_ALS_1_HUISHOUDEN_GEZIEN": false,
+                        "AFGELOPEN_2_JAAR_GEHUWD_OF_GEREGISTREERD_PARTNER_GEWEEST": false
+                      },
+                      "kostenDelenAndereBewoner": {
+                        "NIET_VAN_TOEPASSING": false,
+                        "DE_KOSTEN_VAN_DE_HUUR": true,
+                        "KOSTEN_VAN_DE_BOODSCHAPPEN": true,
+                        "VASTE_LASTEN_ZOALS_GAS_EN_WATER": false
+                      },
+                      "voorlettersAndereBewoner": "T.E.S.T",
+                      "activiteitenAndereBewoner": {
+                        "WIJ_ETEN_SAMEN": true,
+                        "GEEN_ACTIVITEITEN_SAMEN": true,
+                        "WIJ_GAAN_SAMEN_OP_VAKANTIE": false,
+                        "WIJ_VERDELEN_OF_DOEN_SAMEN_DE_TAKEN_IN_HET_HUISHOUDEN": false
+                      },
+                      "voorvoegselsAndereBewoner": "",
+                      "geboortedatumAndereBewoner": "2021-02-11"
+                    }
+                  ]
+                },
+                "meerMensenOpAdres": "JA"
+              },
+              "grZorginstelling": {
+                "naamZorginstelling": "",
+                "stadZorginstelling": "",
+                "postcodeZorginstelling": "",
+                "huisletterZorginstelling": "",
+                "huisnummerZorginstelling": null,
+                "straatnaamZorginstelling": ""
+              },
+              "grMaatschappelijkeOpvang": {
+                "naamMaatschappelijkeOpvang": "",
+                "stadMaatschappelijkeOpvang": "",
+                "dagenMaatschappelijkeOpvang": null,
+                "postcodeMaatschappelijkeOpvang": "",
+                "huisletterMaatschappelijkeOpvang": "",
+                "huisnummerMaatschappelijkeOpvang": null,
+                "straatnaamMaatschappelijkeOpvang": "",
+                "nummerToevoegingMaatschappelijkeOpvang": ""
+              }
+            },
+            "alo-uw-beschikbaarheid": {
+              "grBeschikbaarheid": {
+                "onbetaald": "NEE",
+                "onbetaaldWerk": "",
+                "beschikbaarheid": 40,
+                "geenBeschikbaarheid": "",
+                "organisatieOnbetaald": ""
+              }
+            },
+            "alo-gezinssamenstelling": {
+              "partnerWoontBijU": "JA",
+              "thuiswonendeKinderen": "NEE"
+            },
+            "beschikbaarheid-partner": {
+              "grBeschikbaarheidPartner": {
+                "onbetaaldPartner": "NEE",
+                "onbetaaldwerkPartner": "",
+                "beschikbaarheidPartner": 0,
+                "geenBeschikbaarheidPartner": "Waarom wel? UITKERING KRIJGEN :D",
+                "organisatieOnbetaaldPartner": ""
+              }
+            },
+            "alo-aanvullende-gegevens": {
+              "lieverPost": true,
+              "grWoonsituatie": {
+                "woonsituatie": "ELEKTRONISCHE_DETENTIE"
+              },
+              "grAdresVerblijf": {
+                "plaatsVerblijf": "Zoetermeer",
+                "straatVerblijf": "Kanariegeel",
+                "postcodeVerblijf": "2718 BW",
+                "huisletterVerblijf": "",
+                "huisnummerVerblijf": 8,
+                "nummerToevoegingVerblijf": "",
+                "toelichtingadresVerblijf": "Omdat ik van logeren houdt. Ik ga graag bij iemand anders slapen"
+              },
+              "grNationaliteit": {
+                "watGedaanBehouden": "",
+                "nationaliteitBezit": "GELDIGE_VERBLIJFSVERGUNNING",
+                "geenNederlandseNationaliteit": "JA"
+              },
+              "grContactAanvraag": {
+                "hulpAanvraag": "JA",
+                "grContactHulp": {
+                  "naamHulp": "Test automation",
+                  "relatieHulp": "BOEKHOUDER",
+                  "telefoonHulp": ""
+                }
+              },
+              "grNieuweContactgegevens": {
+                "geenEmail": true,
+                "emailAdres": "",
+                "geenTelefoon": true,
+                "telefoonnummer": ""
+              }
+            },
+            "alo-bezittingen-en-schulden": {
+              "grCrypto": {
+                "hhgCrypto": []
+              },
+              "grCaravan": {
+                "hhgCaravan": []
+              },
+              "grContant": {
+                "waardeContant": null
+              },
+              "grErfenis": {
+                "hhgErfenis": []
+              },
+              "grAandelen": {
+                "hhgAannemelijkBelang": []
+              },
+              "grVaartuig": {
+                "hhgVaartuig": []
+              },
+              "grGrondbezit": {
+                "hhgGrondbezit": []
+              },
+              "grKoopwoning": {
+                "wozWaarde": null,
+                "beleggingsGekoppeld": "",
+                "restHypotheekSchuld": null
+              },
+              "grRekeningen": {
+                "grLogicaBank": {
+                  "hhgVoegRekeningToe": [
+                    {
+                      "hoeveelGeld": -2500,
+                      "typeRekening": "BUITENLANDSE_PRIVE_REKENING",
+                      "priveBuitenland": "BE13957423934539",
+                      "uploadAfschrift": [],
+                      "uploadAfschriftVerkorteProcedure": []
+                    }
+                  ]
+                },
+                "geenBankrekening": "BEZIT_REKENING"
+              },
+              "grUwVermogen": {
+                "welkVermogen": {
+                  "CRYPTO": false,
+                  "CARAVAN": false,
+                  "ERFENIS": false,
+                  "VAARTUIG": false,
+                  "CONTANTEN": false,
+                  "KOOPWONING": false,
+                  "MOTORVOERTUIG": false,
+                  "EEN_STUK_GROND": false,
+                  "OBLIGATIES_AANDELEN": false
+                }
+              },
+              "grMotorvoertuigen": {
+                "hhgMotorvoertuigen": []
+              }
+            }
+          },
+          "type": "Verzoek AB DCM",
+          "attachments": [],
+          "public_reference": "OF-LN4397"
+        },
+        "startAt": "2025-09-04",
+        "registrationAt": "2025-09-04"
+    }
+}

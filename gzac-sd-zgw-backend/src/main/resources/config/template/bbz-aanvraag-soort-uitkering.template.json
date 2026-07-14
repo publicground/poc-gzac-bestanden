@@ -1,0 +1,7 @@
+{
+    "templateKey": "bbz-aanvraag-soort-uitkering",
+    "caseDefinitionName": "bbz-aanvraag",
+    "templateType": "text",
+    "metadata": {},
+    "contentRef": "/config/template/bbz-soort-uitkering.ftlh"
+}

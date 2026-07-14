@@ -1,0 +1,59 @@
+{
+    "$id": "valtimo-file.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Valtimo file definition",
+    "definitions": {
+        "valtimoFile": {
+            "type": "array",
+            "additionalProperties": false,
+            "items": {
+                "file": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string"
+                        },
+                        "data": {
+                            "$ref": "#/definitions/data"
+                        },
+                        "size": {
+                            "type": "number"
+                        },
+                        "type": {
+                            "type": "string"
+                        },
+                        "storage": {
+                            "type": "string"
+                        },
+                        "customUpload": {
+                            "type": "boolean"
+                        },
+                        "originalName": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "data": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "createdOn": {
+                    "type": "string"
+                },
+                "extension": {
+                    "type": "string"
+                },
+                "resourceId": {
+                    "type": "string"
+                },
+                "sizeInBytes": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

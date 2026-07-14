@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1a2oso0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_0v0giez">
+    <bpmn:participant id="BSOverwegenUitzettenInformatieverzoekV2Participant" name="BS Overwegen uitzetten informatieverzoek V2" processRef="bs-overwegen-uitzetten-informatieverzoek-v2" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-overwegen-uitzetten-informatieverzoek-v2" name="BS Overwegen uitzetten informatieverzoek V2" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_02mq06m</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="InformatieverzoekUitzettenGateway" targetRef="InformatieverzoekNietUitzettenEndEvent">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${uitzettenVerzoek == "NEE"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1a375mx" sourceRef="VerzoekOmInformatieTask" targetRef="OpTeVragenItemsBepaaldEndEvent" />
+    <bpmn:sequenceFlow id="Flow_1ub11o9" sourceRef="OverwegenUitzettenInformatieverzoekTask" targetRef="InformatieverzoekUitzettenGateway" />
+    <bpmn:sequenceFlow id="Flow_02mq06m" sourceRef="StartEvent_1" targetRef="OverwegenUitzettenInformatieverzoekTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="InformatieverzoekUitzettenGateway" targetRef="VerzoekOmInformatieTask" />
+    <bpmn:userTask id="OverwegenUitzettenInformatieverzoekTask" name="Overwegen uitzetten informatieverzoek" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="62">
+      <bpmn:incoming>Flow_02mq06m</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ub11o9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="InformatieverzoekUitzettenGateway" name="Informatieverzoek uitzetten?" default="JaSequenceFlow">
+      <bpmn:incoming>Flow_1ub11o9</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="VerzoekOmInformatieTask" name="Verzoek om informatie" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="58">
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1a375mx</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="OpTeVragenItemsBepaaldEndEvent" name="Op te vragen items bepaald" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_1a375mx</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="InformatieverzoekNietUitzettenEndEvent" name="Informatieverzoek niet uitzetten" camunda:asyncAfter="true">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0v0giez">
+      <bpmndi:BPMNShape id="Participant_023rn1n_di" bpmnElement="BSOverwegenUitzettenInformatieverzoekV2Participant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="880" height="390" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1vxuqc9_di" bpmnElement="OverwegenUitzettenInformatieverzoekTask">
+        <dc:Bounds x="360" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1jyfmpb_di" bpmnElement="InformatieverzoekUitzettenGateway" isMarkerVisible="true">
+        <dc:Bounds x="515" y="195" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="546" y="166" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ul0ddy_di" bpmnElement="VerzoekOmInformatieTask">
+        <dc:Bounds x="720" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1u0csqc_di" bpmnElement="OpTeVragenItemsBepaaldEndEvent">
+        <dc:Bounds x="922" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="906" y="245" width="69" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_04ec37y_di" bpmnElement="InformatieverzoekNietUitzettenEndEvent">
+        <dc:Bounds x="922" y="342" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="898" y="385" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1v6cr63_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="540" y="245" />
+        <di:waypoint x="540" y="360" />
+        <di:waypoint x="922" y="360" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="545" y="300" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1a375mx_di" bpmnElement="Flow_1a375mx">
+        <di:waypoint x="820" y="220" />
+        <di:waypoint x="922" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ub11o9_di" bpmnElement="Flow_1ub11o9">
+        <di:waypoint x="460" y="220" />
+        <di:waypoint x="515" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02mq06m_di" bpmnElement="Flow_02mq06m">
+        <di:waypoint x="268" y="220" />
+        <di:waypoint x="360" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17pt2sp_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="565" y="220" />
+        <di:waypoint x="720" y="220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="637" y="202" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

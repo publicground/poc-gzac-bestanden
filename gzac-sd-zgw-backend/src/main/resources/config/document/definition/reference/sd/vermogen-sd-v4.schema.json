@@ -1,0 +1,690 @@
+{
+    "$id": "vermogen.schema",
+    "type": "object",
+    "title": "Model Vermogen",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "geenBankrekening": {
+            "enum": [
+                "BEZIT_REKENING",
+                "REKENING_IN_AANVRAAG",
+                "GEEN_REKENING"
+            ],
+            "title": "Heeft u 1 of meerdere bankrekeningen?"
+        },
+        "bankrekeningen": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/rekening"
+            }
+        },
+        "soortenVermogen": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/soortVermogen"
+            }
+        },
+        "cryptoCurrencies": {
+            "type": "array",
+            "description": "Waarde en definities van crypto currencies",
+            "items": {
+                "$ref": "#/definitions/crypto"
+            }
+        },
+        "koopwoningen": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/koopwoning"
+            }
+        },
+        "caravans": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/caravan"
+            }
+        },
+        "motorVoertuigen": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "kenteken": {
+                        "type": "string"
+                    },
+                    "datumEersteInschrijving": {
+                        "type": "string"
+                    },
+                    "datumRegistratieAansprakelijkheid": {
+                        "type": "string"
+                    },
+                    "soortMotorvoertuig": {
+                        "$ref": "#/definitions/cdSrtVoertuig"
+                    },
+                    "merk": {
+                        "type": "string"
+                    },
+                    "bouwjaar": {
+                        "type": "number"
+                    },
+                    "toelichting": {
+                        "type": "string"
+                    },
+                    "dagwaarde": {
+                        "type": "number"
+                    },
+                    "model": {
+                        "description": "Het model voertuig staat in RDW onder de property \"type\"",
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "onroerendeGoederen": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "kadastraalobject": {
+                        "type": "object"
+                    },
+                    "wozWaarde": {
+                        "type": "number"
+                    },
+                    "hypotheekSchuld": {
+                        "type": "number"
+                    },
+                    "spaarOfBeleggingsproducten": {
+                        "type": "string",
+                        "enum": [
+                            "JA",
+                            "NEE",
+                            "ONBEKEND"
+                        ]
+                    },
+                    "kadastraleAanduiding": {
+                        "type": "object"
+                    },
+                    "locatieOz": {
+                        "type": [
+                            "object",
+                            "null"
+                        ]
+                    },
+                    "codeTypeOnroerendeZaak": {
+                        "type": "string"
+                    },
+                    "datumOntstaan": {
+                        "type": "string"
+                    },
+                    "omschrijving": {
+                        "type": "string"
+                    },
+                    "zakelijkRecht": {
+                        "type": [
+                            "object",
+                            "null"
+                        ]
+                    },
+                    "publiekrechtelijkeBeperking": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "items": {
+                        }
+                    },
+                    "indicatieMeerGerechtigden": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "grond": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/perceel"
+            }
+        },
+        "beleggingsproducten": {
+            "type": "array",
+            "description": "Waarde van beleggingsproducten bestaat uit obligaties en aandelen",
+            "items": {
+                "$ref": "#/definitions/beleggingsproduct"
+            }
+        },
+        "schulden": {
+            "type": "array",
+            "description": "Betalingsachterstanden en andere schulden",
+            "items": {
+                "$ref": "#/definitions/schuld"
+            }
+        },
+        "aanvragerHeeftSchulden": {
+            "type": "string",
+            "enum": [
+                "JA",
+                "NEE",
+                "ONBEKEND"
+            ]
+        },
+        "vaartuigen": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/vaartuig"
+            }
+        },
+        "erfenis": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/erfenis"
+            }
+        },
+        "contantGeld": {
+            "oneOf": [
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "vermogenGroepen": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "commentaar": {
+                        "type": "string"
+                    },
+                    "rekenwaarde": {
+                        "type": "number"
+                    },
+                    "brutoSubtotaal": {
+                        "type": "number"
+                    },
+                    "vrijlating": {
+                        "type": "number"
+                    },
+                    "nettoSubtotaal": {
+                        "type": "number"
+                    },
+                    "componenten": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/vermogensComponent"
+                        }
+                    },
+                    "toelichting": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "berekendVermogen": {
+            "type": "number"
+        },
+        "vermogenAangepast": {
+            "type": "boolean"
+        },
+        "inAanmerkingTeNemenVermogenToelichting": {
+            "type": [
+                "null",
+                "string"
+            ]
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "vermogensComponent": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "omschrijving": {
+                    "type": "string"
+                },
+                "datumVaststelling": {
+                    "type": "string"
+                },
+                "toelichting": {
+                    "type": "string"
+                },
+                "soortVermogenscomponent": {
+                    "type": "object",
+                    "$ref": "/document/definition/reference/ontologie/vermogen-v1.schema.json#/definitions/cdSrtVermogenscomponent"
+                },
+                "nogAanTeSprekenVermogen": {
+                    "type": "number"
+                },
+                "overwaarde": {
+                    "type": "number"
+                },
+                "hypotheek": {
+                    "type": "number"
+                },
+                "kenteken": {
+                    "type": "string"
+                },
+                "soortMotorvoertuig": {
+                    "type": "object",
+                    "enum": [
+                        {
+                            "code": "A",
+                            "name": "Aanhangwagen"
+                        },
+                        {
+                            "code": "B",
+                            "name": "Bedrijfsauto"
+                        },
+                        {
+                            "code": "C",
+                            "name": "Bromfiets"
+                        },
+                        {
+                            "code": "D",
+                            "name": "Driewielig motorrijtuig"
+                        },
+                        {
+                            "code": "M",
+                            "name": "Motorfiets"
+                        },
+                        {
+                            "code": "P",
+                            "name": "Personenauto"
+                        }
+                    ]
+                },
+                "bankrekeningnummer": {
+                    "type": "string"
+                },
+                "iban": {
+                    "type": "string"
+                },
+                "tenaamstelling": {
+                    "type": "string"
+                },
+                "voorkeurBankrekening": {
+                    "type": "object",
+                    "enum": [
+                        {
+                            "code": "1",
+                            "name": "Ja"
+                        },
+                        {
+                            "code": "2",
+                            "name": "Nee"
+                        }
+                    ]
+                },
+                "datumAanvangBankrekening": {
+                    "type": "string"
+                },
+                "datumEindeBankrekening": {
+                    "type": "string"
+                },
+                "bronType": {
+                    "type": "object",
+                    "description": "De soort bron van de gegevens in deze entiteit (burger, professional of externe bron).",
+                    "enum": [
+                        {
+                            "code": "1",
+                            "name": "Klant"
+                        },
+                        {
+                            "code": "2",
+                            "name": "Professional"
+                        },
+                        {
+                            "code": "3",
+                            "name": "Register"
+                        },
+                        {
+                            "code": "4",
+                            "name": "Externe bron"
+                        }
+                    ]
+                },
+                "rekeningType": {
+                    "type": "object",
+                    "enum": [
+                        {
+                            "code": "B",
+                            "name": "Betaalrekening"
+                        },
+                        {
+                            "code": "S",
+                            "name": "Spaarrekening"
+                        },
+                        {
+                            "code": "D",
+                            "name": "Deposito"
+                        }
+                    ]
+                },
+                "bronTypeWaardepeiling": {
+                    "type": "string",
+                    "description": "check welke waardes"
+                },
+                "waarde": {
+                    "type": "number"
+                },
+                "datumAanspraakVermogensComponent": {
+                    "type": "string"
+                },
+                "bijgevoegdBewijs": {
+                    "type": "object",
+                    "enum": [
+                        {
+                            "code": "1",
+                            "name": "Ja"
+                        },
+                        {
+                            "code": "2",
+                            "name": "Nee"
+                        }
+                    ]
+                },
+                "linkNaarBewijs": {
+                    "type": "string"
+                },
+                "pijlMoment": {
+                    "type": "string",
+                    "description": "Het moment waarop het saldobedrag op de bankrekening stond."
+                },
+                "waardeSoortVermogensComponent": {
+                    "type": "object",
+                    "enum": [
+                        {
+                            "code": "1",
+                            "name": "Hypotheekschuld"
+                        },
+                        {
+                            "code": "2",
+                            "name": "WOZwaarde"
+                        },
+                        {
+                            "code": "3",
+                            "name": "Banksaldo"
+                        },
+                        {
+                            "code": "4",
+                            "name": "Beleggingsproductsaldo"
+                        },
+                        {
+                            "code": "5",
+                            "name": "Cataloguswaarde"
+                        },
+                        {
+                            "code": "9",
+                            "name": "Marktwaarde"
+                        }
+                    ]
+                }
+            }
+        },
+        "soortVermogen": {
+            "type": "object",
+            "enum": [
+                {
+                    "code": "BANKREKENING",
+                    "name": "Bank- en spaarrekeningen privé en zakelijk (binnen en buitenland)"
+                },
+                {
+                    "code": "BELEGGINGSPRODUCTEN",
+                    "name": "Obligaties / Aandelen"
+                },
+                {
+                    "code": "CRYPTO",
+                    "name": "Crypto"
+                },
+                {
+                    "code": "CONTANTEN",
+                    "name": "Contanten"
+                },
+                {
+                    "code": "WONING",
+                    "name": "Een of meerdere koopwoning(en) in Nederland en/of het buitenland"
+                },
+                {
+                    "code": "GROND",
+                    "name": "Een stuk grond in Nederland en/of het buitenland"
+                },
+                {
+                    "code": "MOTORVOERTUIG",
+                    "name": "Een motorvoertuig (auto, camper of motor)"
+                },
+                {
+                    "code": "CARAVAN",
+                    "name": "Caravan"
+                },
+                {
+                    "code": "VAARTUIG",
+                    "name": "Vaartuig"
+                },
+                {
+                    "code": "ERFENIS",
+                    "name": "Erfenis"
+                }
+            ]
+        },
+        "rekening": {
+            "type": "object",
+            "properties": {
+                "soortRekening": {
+                    "type": "string",
+                    "enum": [
+                        "REKENING_PRIVE_NL",
+                        "REKENING_ZAKELIJK_NL",
+                        "REKENING_PRIVE_BUITENLAND",
+                        "REKENING_ZAKELIJK_BUITENLAND"
+                    ]
+                },
+                "ibanNederland": {
+                    "type": "string"
+                },
+                "ibanBuitenland": {
+                    "type": "string"
+                },
+                "saldoRekening": {
+                    "type": "number"
+                },
+                "uploadRekening": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "description": "Bijbehorende informatieobjecten"
+                    }
+                },
+                "saldoDatum": {
+                    "type": "string"
+                }
+            }
+        },
+        "caravan": {
+            "type": "object",
+            "properties": {
+                "caravan": {
+                    "type": "string"
+                },
+                "kenteken": {
+                    "type": "string"
+                },
+                "merk": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "bouwjaar": {
+                    "type": "string"
+                },
+                "dagwaarde": {
+                    "type": "number"
+                },
+                "toelichting": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "beleggingsproduct": {
+            "type": "object",
+            "properties": {
+                "waarde": {
+                    "type": "number"
+                },
+                "toelichting": {
+                    "type": "string"
+                },
+                "uploadBeleggingsproducs": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "description": "Bijbehorende informatieobjecten"
+                    }
+                },
+                "saldoDatum": {
+                    "type": "string"
+                }
+            }
+        },
+        "crypto": {
+            "type": "object",
+            "properties": {
+                "omschrijving": {
+                    "type": "string"
+                },
+                "waarde": {
+                    "type": "number"
+                },
+                "toelichting": {
+                    "type": "string"
+                },
+                "uploadCrypto": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                },
+                "saldoDatum": {
+                    "type": "string"
+                }
+            }
+        },
+        "koopwoning": {
+            "type": "object",
+            "properties": {
+                "woz": {
+                    "type": "number"
+                },
+                "hypotheekWaarde": {
+                    "type": "number"
+                },
+                "waardeSpaarBeleggingsproducten": {
+                    "type": "number"
+                },
+                "productenGekoppeld": {
+                    "type": "string",
+                    "enum": [
+                        "JA",
+                        "NEE",
+                        "ONBEKEND"
+                    ]
+                },
+                "toelichting": {
+                    "type": "string"
+                }
+            }
+        },
+        "vaartuig": {
+            "omschrijving": {
+                "type": "string"
+            },
+            "waarde": {
+                "type": "number"
+            },
+            "toelichting": {
+                "type": "string"
+            }
+        },
+        "perceel": {
+            "omschrijving": {
+                "type": "string"
+            },
+            "waarde": {
+                "type": "number"
+            },
+            "toelichting": {
+                "type": "string"
+            }
+        },
+        "erfenis": {
+            "omschrijving": {
+                "type": "string"
+            },
+            "waarde": {
+                "type": "number"
+            },
+            "toelichting": {
+                "type": "string"
+            }
+        },
+        "schuld": {
+            "omschrijving": {
+                "type": "string"
+            },
+            "hoogteSchuld": {
+                "type": "number"
+            },
+            "schuldEiser": {
+                "type": "string"
+            },
+            "uploadSchuld": {
+                "type": "array",
+                "items": {
+                    "type": "object"
+                }
+            }
+        },
+        "cdSrtVoertuig": {
+            "type": "object",
+            "enum": [
+                {
+                    "code": "A",
+                    "name": "Aanhangwagen"
+                },
+                {
+                    "code": "B",
+                    "name": "Bedrijfsauto"
+                },
+                {
+                    "code": "C",
+                    "name": "Bromfiets"
+                },
+                {
+                    "code": "D",
+                    "name": "Driewielig motorrijtuig"
+                },
+                {
+                    "code": "M",
+                    "name": "Motorfiets"
+                },
+                {
+                    "code": "P",
+                    "name": "Personenauto"
+                },
+                {
+                    "code": "O",
+                    "name": "Onbekend"
+                },
+                {
+                    "code": null,
+                    "name": "Onbekend"
+                }
+            ]
+        }
+    }
+}

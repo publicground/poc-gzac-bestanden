@@ -1,0 +1,106 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "022264541",
+      "data": {
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Vuurtorenweg",
+              "postcode": "2583 XL",
+              "huisletter": "",
+              "huisnummer": "3",
+              "toevoeging": ""
+            },
+            "grPersoongegevens": {
+              "Bsn": "022264541",
+              "voornaam": "Robert Johannes",
+              "achternaam": "Leijenhorst",
+              "voorletters": "R.J.",
+              "voorvoegsels": "van der",
+              "geboortedatum": "1980-04-20"
+            }
+          }
+        },
+        "alo-uitbetaling": {
+          "ibanAanWie": "NEE",
+          "ibanUitbetaling": "ES33380887105790077007",
+          "naamRekeninghouder": "Jane"
+        },
+        "alo-reden-aanvraag": {
+          "grInkomen": {
+            "zelfstandigOndernemer": "NEE"
+          },
+          "grVermogen": {
+            "bijstandswet": "NEE"
+          },
+          "grInkomsten": {
+            "bijstandsnorm": "NEE"
+          },
+          "grUwAanvraag": {
+            "redenAanvraag": "geen reden",
+            "uploadBewijsstukken": []
+          },
+          "grIngangsdatum": {
+            "bijstandsuitkeringEerderStarten": "NEE"
+          },
+          "grEerderInkomen": {
+            "terugkeerder": "JA"
+          },
+          "grGezinWoonsituatie": {
+            "veranderingWoonsituatie": "NEE",
+            "veranderingGezinssituatie": "NEE"
+          }
+        },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": false,
+          "grWoonsituatie": {
+            "woonsituatie": "WAAR_IK_WOON"
+          },
+          "grNationaliteit": {
+            "nationaliteitBezit": "EU_BURGER",
+            "geenNederlandseNationaliteit": "JA"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "NEE"
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": false,
+            "emailAdres": "jane@test.com",
+            "geenTelefoon": true
+          }
+        },
+        "alo-bezittingen-en-schulden": {
+          "grRekeningen": {
+            "grLogicaBank": {
+              "hhgVoegRekeningToe": [
+                {
+                  "hoeveelGeld": 456,
+                  "typeRekening": "BUITENLANDSE_PRIVE_REKENING",
+                  "priveBuitenland": "ES33380887105790077007",
+                  "uploadAfschriftVerkorteProcedure": []
+                }
+              ]
+            },
+            "geenBankrekening": "BEZIT_REKENING"
+          }
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "attachments": [],
+      "language_code": "nl",
+      "submission_id": "cdb22fc0-09bc-4206-8c12-29139b833c3f",
+      "public_reference": "OF-KSLRA3"
+    },
+    "startAt": "2026-02-05",
+    "registrationAt": "2026-02-05"
+  }
+}

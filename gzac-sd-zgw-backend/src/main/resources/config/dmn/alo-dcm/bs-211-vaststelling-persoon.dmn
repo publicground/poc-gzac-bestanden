@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="bs-211-vaststelling-persoon" name="BS 211 vaststelling persoon" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.44.0">
+  <decision id="BS-211-persoonHandmatigVaststellen" name="vaststellen persoon">
+    <informationRequirement id="InformationRequirement_1au4v5p">
+      <requiredInput href="#InputData_1455oqb" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0ck0krr">
+      <requiredInput href="#InputData_1pcy062" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1bj1uvw">
+      <requiredInput href="#InputData_19kkizw" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_118bagd">
+      <requiredInput href="#InputData_0dgfpg9" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_19zvsp0">
+      <requiredInput href="#InputData_0ab59tm" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1suom1m">
+      <requiredInput href="#InputData_1czjfma" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_06prboa" hitPolicy="FIRST">
+      <input id="InputClause_1sisqbw" label="Achternaam inclusief voorvoegsel gelijk" biodi:width="192">
+        <inputExpression id="LiteralExpression_1k0lcd5" typeRef="boolean">
+          <text>( voorvoegselPersoon + aanvraagPersoon.achternaam) = ( brpPersoonsgegevensInfo.voorvoegsel + brpPersoonsgegevensInfo.achternaam)</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0h0jml8" label="Geboortedatum gelijk">
+        <inputExpression id="LiteralExpression_1y2r9p0" typeRef="boolean">
+          <text>geboortedatumAanvraag = geboortedatumBrp</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0mtjs9v" label="Handmatig vaststellen?" camunda:inputVariable="handmatigVaststellen">
+        <inputExpression id="LiteralExpression_0y5e6ws" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0hmatu3" label="Handmatig vaststellen" name="handmatigVaststellen" typeRef="boolean" />
+      <rule id="DecisionRule_0oslsky">
+        <inputEntry id="UnaryTests_0y1l22x">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hj5th5">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fwoesa">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1lfutkg">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zwhu4k">
+        <inputEntry id="UnaryTests_0sg2pqk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0nhm8xd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j5rw78">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15bh6zu">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1gajxnu">
+        <description></description>
+        <inputEntry id="UnaryTests_176mf8v">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kubkrx">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i7jg11">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mex46y">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1455oqb" name="aanvraagPersoon. voorvoegsel" />
+  <decision id="BS-211-KwalitatiefVoldoendeAanwezig" name="Gegevens kwalitatief voldoende aanwezig">
+    <informationRequirement id="InformationRequirement_09b6kws">
+      <requiredInput href="#InputData_129rjh8" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0f3ruay">
+      <requiredInput href="#InputData_0qi2t85" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0m64eth">
+      <requiredInput href="#InputData_1h6uknx" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_00gi2bw" hitPolicy="FIRST">
+      <input id="InputClause_1clkmqr" label="Is persoon al vastgesteld?" camunda:inputVariable="persoonVastgesteld">
+        <inputExpression id="LiteralExpression_1kvm00u" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1aloq3j" label="Datum persoon vastgesteld" biodi:width="191" camunda:inputVariable="datumVastgesteld">
+        <inputExpression id="LiteralExpression_0c4ogus" typeRef="date">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_19qu9mu" label="Handmatig vaststellen?">
+        <inputExpression id="LiteralExpression_1bjyyhs" typeRef="boolean">
+          <text>handmatigVaststellen</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_139smit" label="Gegevens kwalitatief voldoende aanwezig" name="kwalitatiefVoldoendeAanwezig" typeRef="boolean" />
+      <output id="OutputClause_13t11si" label="Handmatig vaststellen" name="handmatigVaststellen" typeRef="boolean" />
+      <rule id="DecisionRule_1lhwh1k">
+        <inputEntry id="UnaryTests_0dx4xi8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i8j33m">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12u26lx">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0k8arud">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0bvtbb2">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1wotbqe">
+        <inputEntry id="UnaryTests_1gu5gpa">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gphdd3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09ex4b7">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_03ya6o9">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0haerej">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_129rjh8" name="persoonVastgesteld" />
+  <inputData id="InputData_0qi2t85" name="datumVastgesteld" />
+  <inputData id="InputData_1h6uknx" name="handmatigVaststellen" />
+  <inputData id="InputData_1pcy062" name="aanvraagPersoon. achternaam" />
+  <inputData id="InputData_19kkizw" name="brondataPersoon.BRP.voorvoegsel" />
+  <inputData id="InputData_0dgfpg9" name="brondataPersoon.BRP.achternaam" />
+  <inputData id="InputData_0ab59tm" name="geboortedatumAanvraag" />
+  <inputData id="InputData_1czjfma" name="geboortedatumBrp" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="DMNShape_0hmtvtp" dmnElementRef="BS-211-persoonHandmatigVaststellen">
+        <dc:Bounds height="80" width="180" x="1010" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0pcx3ub" dmnElementRef="InputData_1455oqb">
+        <dc:Bounds height="45" width="125" x="677" y="257" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1avqlrb" dmnElementRef="InformationRequirement_1au4v5p">
+        <di:waypoint x="740" y="257" />
+        <di:waypoint x="1036" y="180" />
+        <di:waypoint x="1036" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1xhwbjp" dmnElementRef="BS-211-KwalitatiefVoldoendeAanwezig">
+        <dc:Bounds height="80" width="180" x="280" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1o2wnjb" dmnElementRef="InputData_129rjh8">
+        <dc:Bounds height="45" width="125" x="157" y="257" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_04xssla" dmnElementRef="InputData_0qi2t85">
+        <dc:Bounds height="45" width="125" x="307" y="257" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1yi8cj9" dmnElementRef="InputData_1h6uknx">
+        <dc:Bounds height="45" width="125" x="457" y="257" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1iuj5eq" dmnElementRef="InformationRequirement_09b6kws">
+        <di:waypoint x="220" y="257" />
+        <di:waypoint x="325" y="180" />
+        <di:waypoint x="325" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_14pi3az" dmnElementRef="InformationRequirement_0f3ruay">
+        <di:waypoint x="370" y="257" />
+        <di:waypoint x="370" y="180" />
+        <di:waypoint x="370" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0zu9yvj" dmnElementRef="InformationRequirement_0m64eth">
+        <di:waypoint x="520" y="257" />
+        <di:waypoint x="415" y="180" />
+        <di:waypoint x="415" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0e7e7tz" dmnElementRef="InputData_1pcy062">
+        <dc:Bounds height="45" width="125" x="818" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_12o9tbq" dmnElementRef="InformationRequirement_0ck0krr">
+        <di:waypoint x="881" y="258" />
+        <di:waypoint x="1061" y="180" />
+        <di:waypoint x="1061" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1u2oz6t" dmnElementRef="InputData_19kkizw">
+        <dc:Bounds height="45" width="125" x="1107" y="257" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1fk5isj" dmnElementRef="InformationRequirement_1bj1uvw">
+        <di:waypoint x="1170" y="257" />
+        <di:waypoint x="1113" y="180" />
+        <di:waypoint x="1113" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0h8p6qw" dmnElementRef="InputData_0dgfpg9">
+        <dc:Bounds height="45" width="125" x="1247" y="257" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_18il18x" dmnElementRef="InformationRequirement_118bagd">
+        <di:waypoint x="1310" y="257" />
+        <di:waypoint x="1139" y="180" />
+        <di:waypoint x="1139" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_03gv0pr" dmnElementRef="InputData_0ab59tm">
+        <dc:Bounds height="45" width="125" x="967" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1rio4vs" dmnElementRef="InformationRequirement_19zvsp0">
+        <di:waypoint x="1030" y="258" />
+        <di:waypoint x="1087" y="180" />
+        <di:waypoint x="1087" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0iak5c3" dmnElementRef="InputData_1czjfma">
+        <dc:Bounds height="45" width="125" x="1387" y="257" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1kx2eu6" dmnElementRef="InformationRequirement_1suom1m">
+        <di:waypoint x="1450" y="257" />
+        <di:waypoint x="1164" y="180" />
+        <di:waypoint x="1164" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

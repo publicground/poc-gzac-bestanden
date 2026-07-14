@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.31.0" camunda:diagramRelationId="c1c21bad-48a8-4110-80b2-6350a80a9e03">
+  <bpmn:message id="Message_1qeuq56" />
+  <bpmn:message id="Message_1o5s70m" />
+  <bpmn:collaboration id="Collaboration_0o2qrbx">
+    <bpmn:participant id="ABAnnulerenInformatieverzoekParticipant" name="AB: Annuleren informatieverzoek" processRef="ab-start-annuleren-informatieverzoek" />
+  </bpmn:collaboration>
+  <bpmn:process id="ab-start-annuleren-informatieverzoek" name="AB: Annuleren informatieverzoek" isExecutable="true">
+    <bpmn:startEvent id="AnnulerenInformatieverzoekStartEvent" name="Annuleren informatieverzoek">
+      <bpmn:outgoing>Flow_07fwzs6</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="AloAnnulerenInformatieverzoekAfgerondEndEvent" name="Alo annuleren informatieverzoek afgerond" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_07fwzs6</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0ao9t74" camunda:expression="${correlationService.sendCatchEventMessage(&#34;ALO_ANNULEREN_INFORMATIEVERZOEK_GESTART&#34;,execution.businessKey)}" />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_07fwzs6" sourceRef="AnnulerenInformatieverzoekStartEvent" targetRef="AloAnnulerenInformatieverzoekAfgerondEndEvent" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0o2qrbx">
+      <bpmndi:BPMNShape id="Participant_1dna8q7_di" bpmnElement="ABAnnulerenInformatieverzoekParticipant" isHorizontal="true">
+        <dc:Bounds x="130" y="80" width="410" height="230" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ga17e8_di" bpmnElement="AnnulerenInformatieverzoekStartEvent">
+        <dc:Bounds x="222" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="199" y="215" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0csh9d9_di" bpmnElement="AloAnnulerenInformatieverzoekAfgerondEndEvent">
+        <dc:Bounds x="382" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="358" y="215" width="87" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_07fwzs6_di" bpmnElement="Flow_07fwzs6">
+        <di:waypoint x="258" y="190" />
+        <di:waypoint x="382" y="190" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

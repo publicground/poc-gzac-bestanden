@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1n5aqfj" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_0yl959f">
+    <bpmn:participant id="BSOphalenBewoningAdresParticipant" name="BS ophalen bewoning adres" processRef="bs-ophalen-bewoning-adres" />
+    <bpmn:textAnnotation id="TextAnnotation_016vsvk">
+      <bpmn:text>input variabelen:
+- verblijfadres
+- peildatum
+- objectManagementTitle</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1inus4o" associationDirection="None" sourceRef="StartEvent_1" targetRef="TextAnnotation_016vsvk" />
+    <bpmn:textAnnotation id="TextAnnotation_1tdvr3v">
+      <bpmn:text>output variabelen:
+- bewoningAdres
+- adresMetVeelBewoners
+- typeVeelBewonersInstelling</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_13pauvl" associationDirection="None" sourceRef="TextAnnotation_1tdvr3v" targetRef="Event_1spyzjv" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-ophalen-bewoning-adres" name="BS ophalen bewoning adres" isExecutable="true">
+    <bpmn:callActivity id="ControlerenAdresOpVeelBewonersCallActivity" name="Controleren adres op veel bewoners" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="controleren-adres-veel-bewoners">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:out source="matchResult" target="matchResult" />
+        <camunda:in source="verblijfadres" target="verblijfadres" />
+        <camunda:in source="objectManagementTitle" target="objectManagementTitle" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ub6o3a</bpmn:incoming>
+      <bpmn:outgoing>Flow_0sonqb2</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_0ub6o3a" sourceRef="StartEvent_1" targetRef="ControlerenAdresOpVeelBewonersCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0sonqb2" sourceRef="ControlerenAdresOpVeelBewonersCallActivity" targetRef="Gateway_0y8uzcs" />
+    <bpmn:sequenceFlow id="NietVeelBewonersSequenceFlow" name="Niet veel bewoners" sourceRef="Gateway_0y8uzcs" targetRef="OphalenBewoningAdresCallActivity" />
+    <bpmn:sequenceFlow id="VeelBewonersSequenceFlow" name="Veel bewoners" sourceRef="Gateway_0y8uzcs" targetRef="Gateway_1hmg7ih">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${matchResult.veelBewoners == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_02923tm" sourceRef="Gateway_1hmg7ih" targetRef="Event_1spyzjv" />
+    <bpmn:callActivity id="OphalenBewoningAdresCallActivity" name="Ophalen bewoning adres" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="ophalen-brp-bewoningen-gegevens">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="peildatum" target="peildatum" />
+        <camunda:in source="verblijfadres" target="verblijfadres" />
+        <camunda:in source="brpPersoonsgegevensInfo" target="brpPersoonsgegevensInfo" />
+        <camunda:in source="templateKey" target="templateKey" />
+        <camunda:out source="bewoningen" target="bewoningen" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>NietVeelBewonersSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_05zmy48</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:startEvent id="StartEvent_1" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_0ub6o3a</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_05zmy48" sourceRef="OphalenBewoningAdresCallActivity" targetRef="Gateway_1hmg7ih" />
+    <bpmn:exclusiveGateway id="Gateway_1hmg7ih">
+      <bpmn:incoming>VeelBewonersSequenceFlow</bpmn:incoming>
+      <bpmn:incoming>Flow_05zmy48</bpmn:incoming>
+      <bpmn:outgoing>Flow_02923tm</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_1spyzjv">
+      <bpmn:incoming>Flow_02923tm</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_0y8uzcs" default="NietVeelBewonersSequenceFlow">
+      <bpmn:incoming>Flow_0sonqb2</bpmn:incoming>
+      <bpmn:outgoing>NietVeelBewonersSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>VeelBewonersSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0yl959f">
+      <bpmndi:BPMNShape id="Participant_05ydolo_di" bpmnElement="BSOphalenBewoningAdresParticipant" isHorizontal="true">
+        <dc:Bounds x="120" y="120" width="1020" height="370" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0i9vk89" bpmnElement="ControlerenAdresOpVeelBewonersCallActivity">
+        <dc:Bounds x="350" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15q35yq_di" bpmnElement="OphalenBewoningAdresCallActivity">
+        <dc:Bounds x="670" y="220" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1hmg7ih_di" bpmnElement="Gateway_1hmg7ih" isMarkerVisible="true">
+        <dc:Bounds x="835" y="235" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1spyzjv_di" bpmnElement="Event_1spyzjv">
+        <dc:Bounds x="972" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0y8uzcs_di" bpmnElement="Gateway_0y8uzcs" isMarkerVisible="true">
+        <dc:Bounds x="495" y="235" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ub6o3a_di" bpmnElement="Flow_0ub6o3a">
+        <di:waypoint x="268" y="260" />
+        <di:waypoint x="350" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0sonqb2_di" bpmnElement="Flow_0sonqb2">
+        <di:waypoint x="450" y="260" />
+        <di:waypoint x="495" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18u14re_di" bpmnElement="NietVeelBewonersSequenceFlow">
+        <di:waypoint x="545" y="260" />
+        <di:waypoint x="670" y="260" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="584" y="226" width="48" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qruv9r_di" bpmnElement="VeelBewonersSequenceFlow">
+        <di:waypoint x="520" y="285" />
+        <di:waypoint x="520" y="360" />
+        <di:waypoint x="860" y="360" />
+        <di:waypoint x="860" y="285" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="568" y="343" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02923tm_di" bpmnElement="Flow_02923tm">
+        <di:waypoint x="885" y="260" />
+        <di:waypoint x="972" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05zmy48_di" bpmnElement="Flow_05zmy48">
+        <di:waypoint x="770" y="260" />
+        <di:waypoint x="835" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_016vsvk_di" bpmnElement="TextAnnotation_016vsvk">
+        <dc:Bounds x="200" y="360" width="190" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_158nk6c" bpmnElement="TextAnnotation_1tdvr3v">
+        <dc:Bounds x="920" y="361" width="180" height="70" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1inus4o_di" bpmnElement="Association_1inus4o">
+        <di:waypoint x="250" y="278" />
+        <di:waypoint x="250" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_13pauvl_di" bpmnElement="Association_13pauvl">
+        <di:waypoint x="990" y="361" />
+        <di:waypoint x="990" y="278" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

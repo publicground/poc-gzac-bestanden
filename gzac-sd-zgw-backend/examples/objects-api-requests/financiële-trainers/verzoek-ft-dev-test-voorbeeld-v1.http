@@ -1,0 +1,55 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_ft}}",
+  "record": {
+    "typeVersion": "{{ft_objecttypes_version}}",
+    "data": {
+      "bsn": "",
+      "data": {
+        "uw-gegevens": {
+          "adresgegevens": {
+            "plaats": "'s-Gravenhage",
+            "postcode": "2511 BT",
+            "huisletter": "",
+            "huisnummer": 70,
+            "straatnaam": "Spui",
+            "toevoegingHuisnummer": ""
+          },
+          "contactgegevens": {
+            "eMailadres": "email_deelnemer@ritense.com",
+            "telefoonnummer": "0612345678"
+          },
+          "persoonsgegevens": {
+            "geslacht": "NIET_RELEVANT",
+            "voornaam": "Jan",
+            "achternaam": "Test",
+            "voorvoegsels": "van",
+            "geboortedatum": "2020-05-14"
+          },
+          "trainingsbeheerDocumentId": [
+            "Voeg hier de trainingsbeheer document id toe"
+          ]
+        },
+        "uw-aanmelding": {
+          "gevonden": "a",
+          "namelijk": "",
+          "datumTraining": "",
+          "keuzeTraining": "",
+          "tijdstipTraining": "",
+          "heeftVoedselallergie": "Nee",
+          "opmerkingenBijzonderheden": "Opmerking"
+        }
+      },
+      "type": "Verzoek trainingsdeelname financiele trainingen",
+      "attachments": [],
+      "submission_id": "36a54731-8c85-4ffa-b65e-7a874f379502"
+    },
+    "index": 1,
+    "startAt": "2025-06-06",
+    "registrationAt": "2025-06-06"
+  }
+}

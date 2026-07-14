@@ -1,0 +1,8 @@
+[
+    {
+        "activityId": "StartIntrekkingStartEvent",
+        "activityType": "bpmn:StartEvent:start",
+        "processLinkType": "form",
+        "formDefinitionName": "generic.verwerken-intrekking.start"
+    }
+]

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0y9t2as" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_17rouow">
+    <bpmn:participant id="BSB211VaststellingPersoonPartnerParticipant" name="BSB 211 vaststelling persoon partner" processRef="bsb-211-vaststelling-persoon-partner" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-211-vaststelling-persoon-partner" name="BSB 211 vaststelling persoon partner" isExecutable="true">
+    <bpmn:startEvent id="Event_0erbzwt">
+      <bpmn:outgoing>Flow_1g53lox</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="persoonVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenPartner/vastleggingPersoon/persoonVastgesteld")}</camunda:outputParameter>
+          <camunda:outputParameter name="datumVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenPartner/vastleggingPersoon/datumVastgesteld")}</camunda:outputParameter>
+          <camunda:outputParameter name="toelichtingConsulent">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenPartner/vastleggingPersoon/toelichtingConsulent")}</camunda:outputParameter>
+          <camunda:outputParameter name="handmatigVaststellen">${execution.getVariable("handmatigVaststellen") ? handmatigVaststellen : false}</camunda:outputParameter>
+          <camunda:outputParameter name="aanvraagPersoon">${documentDelegateService.findValueByJsonPointer("/gegevensVanuitAanvraag/partner", execution)}</camunda:outputParameter>
+          <camunda:outputParameter name="taakTitel">Vaststellen persoon partner</camunda:outputParameter>
+          <camunda:outputParameter name="gebruikenBrpGegevens">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenPartner/vastleggingPersoon/gebruikenBrpGegevens")}</camunda:outputParameter>
+          <camunda:outputParameter name="vastgesteldPersoon">
+            <camunda:map>
+              <camunda:entry key="bsn">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner/bsn")}</camunda:entry>
+              <camunda:entry key="voorletters">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner/voorletters")}</camunda:entry>
+              <camunda:entry key="voornamen">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner/voornamen")}</camunda:entry>
+              <camunda:entry key="voorvoegsel">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner/voorvoegsel")}</camunda:entry>
+              <camunda:entry key="achternaam">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner/achternaam")}</camunda:entry>
+              <camunda:entry key="geboortedatum">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner/geboortedatum")}</camunda:entry>
+            </camunda:map>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="templateKey">brp-brongegevens-rapportage</camunda:outputParameter>
+          <camunda:outputParameter name="brongegevensArray">${valueResolverDelegateService.resolveValue(execution, "doc:ophalenBronGegevens")}</camunda:outputParameter>
+          <camunda:outputParameter name="bestandsnaam">brp rapportage partner.pdf</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1g53lox</bpmn:incoming>
+      <bpmn:outgoing>Flow_1m6rure</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1g53lox" sourceRef="Event_0erbzwt" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_1m6rure" sourceRef="OphalenInputTask" targetRef="Bs211VaststellingPersoonCallActivity" />
+    <bpmn:sequenceFlow id="Flow_0pmvxpu" sourceRef="WegschrijvenOutputTask" targetRef="Activity_0mrjeay" />
+    <bpmn:sequenceFlow id="Flow_12tmkgq" sourceRef="Activity_19bxdcb" targetRef="Activity_08ja9ao" />
+    <bpmn:sequenceFlow id="Flow_1gkxk45" sourceRef="Bs211VaststellingPersoonCallActivity" targetRef="Activity_19bxdcb" />
+    <bpmn:sequenceFlow id="Flow_18ymq7c" sourceRef="Activity_08ja9ao" targetRef="WegschrijvenOutputTask" />
+    <bpmn:callActivity id="Bs211VaststellingPersoonCallActivity" name="bs 211 vaststelling persoon" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-211-vaststelling-persoon">
+      <bpmn:extensionElements>
+        <camunda:in variables="all" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="bestandsnaam" target="documentTitle" />
+        <camunda:out variables="all" />
+        <camunda:inputOutput>
+          <camunda:outputParameter name="additioneleVelden">
+            <camunda:map>
+              <camunda:entry key="persoonVastgesteld">${true}</camunda:entry>
+              <camunda:entry key="datumVastgesteld">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="toelichtingConsulent">${execution.getVariable("toelichtingConsulent")}</camunda:entry>
+              <camunda:entry key="gebruikenBrpGegevens">${execution.getVariable("gebruikenBrpGegevens")}</camunda:entry>
+              <camunda:entry key="isHandmatigBeoordeeld">${handmatigVaststellen}</camunda:entry>
+            </camunda:map>
+          </camunda:outputParameter>
+          <camunda:outputParameter name="brondataPersoon">${execution.getVariable("brpPersoonsgegevensInfo")}</camunda:outputParameter>
+          <camunda:outputParameter name="berekendeGeboortedatum">${execution.getVariable("geboortedatumBrp")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1m6rure</bpmn:incoming>
+      <bpmn:outgoing>Flow_1gkxk45</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="Activity_19bxdcb" name="voorbereiden variabele log ophalen brongegevens" camunda:asyncBefore="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="ophalenBronGegevens">
+            <camunda:map>
+              <camunda:entry key="datum">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="user">${execution.getVariable("brpPersoonVernieuwd") ? gebruiker : "Systeem"}</camunda:entry>
+              <camunda:entry key="bsn">${brondataPersoon.bsn}</camunda:entry>
+              <camunda:entry key="bron">BRP</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+          <camunda:outputParameter name="nieuwBrongegevensArray">
+            <camunda:script scriptFormat="javascript">var ophalenBronGegevens = execution.getVariable("ophalenBronGegevens");
+var brongegevensArray = execution.getVariable("brongegevensArray") || [];
+brongegevensArray = brongegevensArray instanceof java.util.List ? Java.from(brongegevensArray) : [];
+brongegevensArray.push(ophalenBronGegevens);
+java.util.Arrays.asList(brongegevensArray);</camunda:script>
+          </camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1gkxk45</bpmn:incoming>
+      <bpmn:outgoing>Flow_12tmkgq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_08ja9ao" name="wegschrijven log ophalen brongegevens" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/ophalenBronGegevens&#34;, nieuwBrongegevensArray)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_12tmkgq</bpmn:incoming>
+      <bpmn:outgoing>Flow_18ymq7c</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WegschrijvenOutputTask" name="wegschrijven output &#39;additioneleVelden&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution,&#34;doc:/gegevensVaststelling/additioneleVeldenPartner/vastleggingPersoon&#34;,additioneleVelden)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_18ymq7c</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pmvxpu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0mrjeay" name="wegschrijven output &#39;vastgesteldPersoon&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution,&#34;doc:/gegevensVaststelling/partner&#34;,vastgesteldPersoon)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="vastgesteldPersoon">
+            <camunda:map>
+              <camunda:entry key="bsn">${brpPersoonsgegevensInfo.bsn}</camunda:entry>
+              <camunda:entry key="voorletters">${brpPersoonsgegevensInfo.voorletters != null &amp;&amp; brpPersoonsgegevensInfo.voorletters != "" ? brpPersoonsgegevensInfo.voorletters : (brpPersoonsgegevensInfo.voornamen != null &amp;&amp; brpPersoonsgegevensInfo.voornamen != "" ? brpPersoonsgegevensInfo.voornamen.trim().substring(0,1) : "")}</camunda:entry>
+              <camunda:entry key="voornamen">${brpPersoonsgegevensInfo.voornamen}</camunda:entry>
+              <camunda:entry key="voorvoegsel">${brpPersoonsgegevensInfo.voorvoegsel != null ? brpPersoonsgegevensInfo.voorvoegsel : ""}</camunda:entry>
+              <camunda:entry key="achternaam">${brpPersoonsgegevensInfo.achternaam}</camunda:entry>
+              <camunda:entry key="geboortedatum">${berekendeGeboortedatum}</camunda:entry>
+              <camunda:entry key="anummer">${brpPersoonsgegevensInfo.anummer}</camunda:entry>
+              <camunda:entry key="geslachtsAanduiding">${brpPersoonsgegevensInfo.geslachtsAanduiding}</camunda:entry>
+              <camunda:entry key="geslachtsnaamPartner">${brpPersoonsgegevensInfo.geslachtsnaamPartner}</camunda:entry>
+              <camunda:entry key="nationaliteiten">${brpPersoonsgegevensInfo.nationaliteiten}</camunda:entry>
+              <camunda:entry key="naamgebruik">${brpPersoonsgegevensInfo.naamgebruik}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0pmvxpu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0sgqlvg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0sgqlvg" sourceRef="Activity_0mrjeay" targetRef="Activity_1j7te7e" />
+    <bpmn:serviceTask id="Activity_1j7te7e" name="wegschrijven output &#39;brondataPersoon&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution,&#34;doc:/gegevensVanuitBronnen/partner&#34;,brondataPersoon)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0sgqlvg</bpmn:incoming>
+      <bpmn:outgoing>Flow_08lrzoa</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_08lrzoa" sourceRef="Activity_1j7te7e" targetRef="PersoonPartnerVastgesteldEndEvent" />
+    <bpmn:endEvent id="PersoonPartnerVastgesteldEndEvent" name="persoon partner vastgesteld">
+      <bpmn:incoming>Flow_08lrzoa</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_17rouow">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="BSB211VaststellingPersoonPartnerParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="81" width="1390" height="279" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1doibs7" bpmnElement="Event_0erbzwt">
+        <dc:Bounds x="232" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_11je2a0" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="320" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1l9xv5x" bpmnElement="Bs211VaststellingPersoonCallActivity">
+        <dc:Bounds x="480" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1sgs3u7" bpmnElement="Activity_19bxdcb">
+        <dc:Bounds x="650" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0pg6gs1" bpmnElement="Activity_08ja9ao">
+        <dc:Bounds x="820" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1weqkhk" bpmnElement="WegschrijvenOutputTask">
+        <dc:Bounds x="980" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1qzglct" bpmnElement="Activity_0mrjeay">
+        <dc:Bounds x="1130" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0fi1oxu" bpmnElement="Activity_1j7te7e">
+        <dc:Bounds x="1290" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1fus92s" bpmnElement="PersoonPartnerVastgesteldEndEvent">
+        <dc:Bounds x="1452" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1432" y="245" width="78" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_0jw9yn4" bpmnElement="Flow_1g53lox">
+        <di:waypoint x="268" y="220" />
+        <di:waypoint x="320" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1m6rure_di" bpmnElement="Flow_1m6rure">
+        <di:waypoint x="420" y="220" />
+        <di:waypoint x="480" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pmvxpu_di" bpmnElement="Flow_0pmvxpu">
+        <di:waypoint x="1080" y="220" />
+        <di:waypoint x="1130" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_10u6fyc" bpmnElement="Flow_12tmkgq">
+        <di:waypoint x="750" y="220" />
+        <di:waypoint x="820" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gkxk45_di" bpmnElement="Flow_1gkxk45">
+        <di:waypoint x="580" y="220" />
+        <di:waypoint x="650" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_18ymq7c_di" bpmnElement="Flow_18ymq7c">
+        <di:waypoint x="920" y="220" />
+        <di:waypoint x="980" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0sgqlvg_di" bpmnElement="Flow_0sgqlvg">
+        <di:waypoint x="1230" y="220" />
+        <di:waypoint x="1290" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08lrzoa_di" bpmnElement="Flow_08lrzoa">
+        <di:waypoint x="1390" y="220" />
+        <di:waypoint x="1452" y="220" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

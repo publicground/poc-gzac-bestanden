@@ -1,0 +1,4286 @@
+[
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-aanvullende-gegevens/grWoonsituatie/woonsituatie",
+        "targetPointer": "/gegevensVanuitAanvraag/aanvrager/woonsituatie",
+        "transformations": [
+            {
+                "when": "WAAR_IK_WOON",
+                "then": "BRP"
+            },
+            {
+                "when": "ANDER_ADRES",
+                "then": "ELDERS"
+            },
+            {
+                "when": "ELEKTRONISCHE_DETENTIE",
+                "then": "DETENTIE"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-aanvullende-gegevens/grNationaliteit/watGedaanBehouden",
+        "targetPointer": "/gegevensVanuitAanvraag/aanvrager/actiesVerblijfstatus",
+        "transformations": [
+            {
+                "when": "VERLENGING_VERBLIJFSDOCUMENT",
+                "then": "VERLENGING_VERBLIJFSDOCUMENT_AANGEVRAAGD"
+            },
+            {
+                "when": "BINNEN_DE_BEZWAARPERIODE_BEZWAAR_GEMAAKT",
+                "then": "BEZWAAR_AFWIJZING"
+            },
+            {
+                "when": "GEEN_VERLENGING_VERBLIJFSVERGUNNING",
+                "then": "GEEN"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-aanvullende-gegevens/grNationaliteit/nationaliteitBezit",
+        "targetPointer": "/gegevensVanuitAanvraag/aanvrager/nationaliteitOfVerblijfsstatus",
+        "transformations": [
+            {
+                "when": "NEDERLANDSE_NATIONALITEIT",
+                "then": "NEDERLANDSE_NATIONALITEIT"
+            },
+            {
+                "when": "EU_BURGER",
+                "then": "EU_ONDERDAAN"
+            },
+            {
+                "when": "GELDIGE_VERBLIJFSVERGUNNING",
+                "then": "GELDIGE_VERBLIJFSVERGUNNING"
+            },
+            {
+                "when": "GEEN_VERBLIJFSVERGUNNING",
+                "then": "GEEN_VERBLIJFSVERGUNNING"
+            },
+            {
+                "when": "VERBLIJFSVERGUNNING_IS_VERLOPEN",
+                "then": "VERLOPEN_VERBLIJFSVERGUNNING"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-aanvullende-gegevens/lieverPost",
+        "targetPointer": "/gegevensVanuitAanvraag/aanvrager/communicatievoorkeur",
+        "transformations": [
+            {
+                "when": true,
+                "then": "post"
+            },
+            {
+                "when": false,
+                "then": "portaal"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grHuur/hoeveelHuur",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adreshouding/huisvesting/huurvorm/huurbedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grHuur/vanWieKamer",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adreshouding/huisvesting/huurvorm/naamVerhuurder"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/bijWieWoontU",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/aanvragerWoontBij",
+        "transformations": [
+            {
+                "when": "OUDERS",
+                "then": "OUDERS"
+            },
+            {
+                "when": "KINDEREN",
+                "then": "KIND"
+            },
+            {
+                "when": "ANDERE_FAMILIELEDEN",
+                "then": "FAMILIELEDEN"
+            },
+            {
+                "when": "VRIENDEN",
+                "then": "VRIENDEN"
+            },
+            {
+                "when": "IEMAND_ANDERS",
+                "then": "ANDERS"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/wonenRelatie",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adreshouding/huisvesting/huurvorm/relatieTotPersoon"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grHuur/huurcontract",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adreshouding/huisvesting/huurvorm/heeftHuurcontract",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grHuur/wieVerhuurder",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adreshouding/huisvesting/huurvorm/naamVerhuurder"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grHuur/contractOpUwNaam",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adreshouding/huisvesting/huurvorm/huurcontractStaatOpNaamAanvrager"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grHuur/bijOudersInwonen",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/aanvragerKanBijOudersWonen",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": true
+            },
+            {
+                "when": "NEE",
+                "then": false
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grHuur/welkeNaamContract",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adreshouding/huisvesting/huurvorm/naamOpHuurcontract"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grHuur/hoeveelHuurtoeslag",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adreshouding/huisvesting/huurvorm/huurtoeslag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grHuur/waaromNietBijOuders",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/redenWaaromAanvragerNietBijOudersKanWonen"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/hoeWoontU",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/woonsituatie",
+        "transformations": [
+            {
+                "when": "ZELFSTANDIGE_HUURWONING",
+                "then": "ZELFSTANDIGE_HUURWONING"
+            },
+            {
+                "when": "KAMER_EN_HUURCONTRACT",
+                "then": "HUURCONTRACT"
+            },
+            {
+                "when": "BIJ_FAMILIE_VRIENDEN_OF_KENNISSEN",
+                "then": "WOON_IN"
+            },
+            {
+                "when": "EIGEN_KOOPWONING_OF_WOONBOOT",
+                "then": "KOOPWONING"
+            },
+            {
+                "when": "WOONWAGEN",
+                "then": "WOONWAGEN"
+            },
+            {
+                "when": "VERBLIJF_ZORGINSTELLING",
+                "then": "ZORGINSTELLING"
+            },
+            {
+                "when": "IK_WOON_MAATSCHAPPELIJKE_OPVANG",
+                "then": "MAATSCHAPPELIJKE_OPVANG"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grHuur/waaromNietBijOuders",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/redenWaaromAanvragerNietBijOudersKanWonen"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/bBLAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/volgtBblTraject"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/relatieAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/relatieMedebewoner",
+        "transformations": [
+            {
+                "when": "OUDERS",
+                "then": "OUDERS"
+            },
+            {
+                "when": "SCHOONOUDERS",
+                "then": "SCHOONOUDERS"
+            },
+            {
+                "when": "MIJN_OPA_OMA_BROER_OF_ZUS",
+                "then": "OPA_OMA_BROER_ZUS"
+            },
+            {
+                "when": "IEMAND_DIE_EEN_KAMER_BIJ_MIJ_HUURT",
+                "then": "KAMER_VERHUUR"
+            },
+            {
+                "when": "IK_HUUR_EEN_KAMER_VAN_DEZE_PERSOON",
+                "then": "KAMER_HUUR"
+            },
+            {
+                "when": "GEEN",
+                "then": "GEEN_RELATIE"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/achternaamAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/achternaam"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/voorlettersAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/voorletters"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/voorvoegselsAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/voorvoegsel"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/geboortedatumAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/geboortedatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/grOntvangenHuur/ontvangenHuurAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/teOntvangenHuur"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/grOntvangenHuur/ontvangenHuurPeriodeAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/frequentieOntvangenHuur",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_4_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            },
+            {
+                "when": "KWARTAAL",
+                "then": {
+                    "code": "7",
+                    "name": "Kwartaal"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/relatieBeschrijvingAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/toelichtingRelatieTotMedebewoner"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/meerMensenOpAdres",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewonersOpAdres"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/soortBBLAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/soortBblTraject"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/medebewonerOpleiding",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/volgtOpleiding",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": true
+            },
+            {
+                "when": "NEE",
+                "then": false
+            }
+        ]
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/samenlevenAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/samenlevingsvorm",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/samenlevenAndereBewoner/AFGELOPEN_2_JAAR_GEHUWD_OF_GEREGISTREERD_PARTNER_GEWEEST",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/samenlevingsvorm",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "GEHUWD_PARTNER",
+                    "name": "Wij zijn in de afgelopen 2 jaar gehuwd (of geregistreerd partner) geweest"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/samenlevenAndereBewoner/SAMEN_EEN_KIND_OF_EEN_ERKEND_KIND",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/samenlevingsvorm",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "SAMEN_KIND",
+                    "name": "Wij hebben samen een kind (of een erkend kind)"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/samenlevenAndereBewoner/SAMENLEVINGSCONTRACT",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/samenlevingsvorm",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "SAMENLEVINGSCONTRACT",
+                    "name": "Wij hebben een samenlevingscontract"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/samenlevenAndereBewoner/AFGELOPEN_2_JAAR_ALS_1_HUISHOUDEN_GEZIEN",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/samenlevingsvorm",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "HUISHOUDEN_OVERHEID",
+                    "name": "Wij worden of werden, in de afgelopen 2 jaar, als 1 huishouden gezien door een overheidsinstantie (zoals de Belastingdienst)"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/samenlevenAndereBewoner/NIET_VAN_TOEPASSING",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/samenlevingsvorm",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "GEEN_RELATIE",
+                    "name": "Wij zijn in de afgelopen 2 jaar niet gehuwd of geregistreerd partner geweest, wij hebben samen geen(erkend) kind, wij hebben geen samenlevingscontract, wij worden of werden (in de afgelopen 2 jaar) niet gezien als 1 huishouden door een overheidsinstantie"
+                }
+            }
+        ]
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/kostenDelenAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/gezamenlijkHuishouden",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/kostenDelenAndereBewoner/DE_KOSTEN_VAN_DE_HUUR",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/gezamenlijkHuishouden",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "DELEN_HUUR",
+                    "name": "Wij delen de kosten van de huur"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/kostenDelenAndereBewoner/VASTE_LASTEN_ZOALS_GAS_EN_WATER",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/gezamenlijkHuishouden",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "DELEN_VASTE_LASTEN",
+                    "name": "Wij delen de vaste lasten, zoals gas en water"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/kostenDelenAndereBewoner/KOSTEN_VAN_DE_BOODSCHAPPEN",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/gezamenlijkHuishouden",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "DELEN_BOODSCHAPPEN",
+                    "name": "Wij delen de kosten van de boodschappen"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/kostenDelenAndereBewoner/NIET_VAN_TOEPASSING",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/gezamenlijkHuishouden",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "NIET_DELEN",
+                    "name": "Wij delen niet de kosten van de huur, de vaste lasten (zoals gas en water) of de kosten van de boodschappen"
+                }
+            }
+        ]
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/activiteitenAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/gezamenlijkTijdsbesteding",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/activiteitenAndereBewoner/WIJ_ETEN_SAMEN",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/gezamenlijkTijdsbesteding",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "ETEN_SAMEN",
+                    "name": "Wij eten samen"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/activiteitenAndereBewoner/WIJ_GAAN_SAMEN_OP_VAKANTIE",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/gezamenlijkTijdsbesteding",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "VAKANTIE_SAMEN",
+                    "name": "Wij gaan samen op vakantie"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/activiteitenAndereBewoner/WIJ_VERDELEN_OF_DOEN_SAMEN_DE_TAKEN_IN_HET_HUISHOUDEN",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/gezamenlijkTijdsbesteding",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "TAKEN_VERDELEN",
+                    "name": "Wij verdelen, of doen samen de taken in het huishouden"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/activiteitenAndereBewoner/GEEN_ACTIVITEITEN_SAMEN",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/gezamenlijkTijdsbesteding",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "NIET_SAMEN",
+                    "name": "Wij eten niet samen, gaan niet samen op vakantie en verdelen geen taken in het huishouden"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/soortOpleiding",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/soortOpleiding",
+        "transformations": [
+            {
+                "when": "BASISSCHOOL",
+                "then": "BASISSCHOOL"
+            },
+            {
+                "when": "VMBO",
+                "then": "VMBO"
+            },
+            {
+                "when": "HAVO_OF_VWO",
+                "then": "HAVO_VWO"
+            },
+            {
+                "when": "MBO",
+                "then": "MBO"
+            },
+            {
+                "when": "HBO",
+                "then": "HBO"
+            },
+            {
+                "when": "WO",
+                "then": "WO"
+            },
+            {
+                "when": "ANDERS",
+                "then": "ANDERS"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grAndereBewoners/grBewoner/hhgAndereBewoners/[]/omschrijvingOpleidingAndereBewoner",
+        "targetPointer": "/gegevensVanuitAanvraag/medebewoners/[]/omschrijvingVolgtOpleiding"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grZorginstelling/naamZorginstelling",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/naamZorginstelling"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grZorginstelling/postcodeZorginstelling",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresZorginstelling/postcode"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grZorginstelling/huisnummerZorginstelling",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresZorginstelling/huisnummer"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grZorginstelling/nummerToevoegingZorginstelling",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresZorginstelling/huisnummertoevoeging"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grZorginstelling/huisletterZorginstelling",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresZorginstelling/huisletter"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grZorginstelling/straatnaamZorginstelling",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresZorginstelling/straatnaam"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grZorginstelling/stadZorginstelling",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresZorginstelling/plaats"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grMaatschappelijkeOpvang/dagenMaatschappelijkeOpvang",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/aantalDagenInInstellingOfOpvang"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grMaatschappelijkeOpvang/naamMaatschappelijkeOpvang",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/naamMaatschappelijkeOpvang"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grMaatschappelijkeOpvang/postcodeMaatschappelijkeOpvang",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresMaatschappelijkeOpvang/postcode"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grMaatschappelijkeOpvang/huisnummerMaatschappelijkeOpvang",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresMaatschappelijkeOpvang/huisnummer"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grMaatschappelijkeOpvang/nummerToevoegingMaatschappelijkeOpvang",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresMaatschappelijkeOpvang/huisnummertoevoeging"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grMaatschappelijkeOpvang/huisletterMaatschappelijkeOpvang",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresMaatschappelijkeOpvang/huisletter"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grMaatschappelijkeOpvang/straatnaamMaatschappelijkeOpvang",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresMaatschappelijkeOpvang/straatnaam"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-woonsituatie/grMaatschappelijkeOpvang/stadMaatschappelijkeOpvang",
+        "targetPointer": "/gegevensVanuitAanvraag/woonsituatie/adresMaatschappelijkeOpvang/plaats"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-gezinssamenstelling/grGegevensPartner/verblijfPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/partner/actiesVerblijfstatus",
+        "transformations": [
+            {
+                "when": "VERLENGING_VERBLIJFSDOCUMENT_PARTNER",
+                "then": "VERLENGING_VERBLIJFSDOCUMENT_AANGEVRAAGD"
+            },
+            {
+                "when": "BINNEN_DE_BEZWAARPERIODE_BEZWAAR_GEMAAKT_PARTNER",
+                "then": "BEZWAAR_AFWIJZING"
+            },
+            {
+                "when": "GEEN_VERLENGING_VERBLIJFSVERGUNNING_PARTNER",
+                "then": "GEEN"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-gezinssamenstelling/grGegevensPartner/zelfdeAdresPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/partner/woonsituatie",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": "PARTNER_INWONEND"
+            },
+            {
+                "when": "ANDER_ADRES",
+                "then": "ELDERS"
+            },
+            {
+                "when": "ONBEKEND",
+                "then": "ONBEKEND"
+            },
+            {
+                "when": "DETENTIE",
+                "then": "DETENTIE"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-gezinssamenstelling/grGegevensPartner/nationaliteitPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/partner/nationaliteitOfVerblijfsstatus",
+        "transformations": [
+            {
+                "when": "NEDERLANDSE_NATIONALITEIT",
+                "then": "NEDERLANDSE_NATIONALITEIT"
+            },
+            {
+                "when": "EU_BURGER",
+                "then": "EU_ONDERDAAN"
+            },
+            {
+                "when": "GELDIGE_VERBLIJFSVERGUNNING",
+                "then": "GELDIGE_VERBLIJFSVERGUNNING"
+            },
+            {
+                "when": "GEEN_VERBLIJFSVERGUNNING",
+                "then": "GEEN_VERBLIJFSVERGUNNING"
+            },
+            {
+                "when": "DE_VERBLIJFSVERGUNNING_VERLOPEN",
+                "then": "VERLOPEN_VERBLIJFSVERGUNNING"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-gezinssamenstelling/grGegevensKinderen/hhgGegevensKinderen/[]/voornaamKind",
+        "targetPointer": "/gegevensVanuitAanvraag/kinderen/[]/voornamen"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-gezinssamenstelling/grGegevensKinderen/hhgGegevensKinderen/[]/achternaamKind",
+        "targetPointer": "/gegevensVanuitAanvraag/kinderen/[]/achternaam"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-gezinssamenstelling/grGegevensKinderen/hhgGegevensKinderen/[]/voorletterKind",
+        "targetPointer": "/gegevensVanuitAanvraag/kinderen/[]/voorletters"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-gezinssamenstelling/grGegevensKinderen/hhgGegevensKinderen/[]/voorvoegselKind",
+        "targetPointer": "/gegevensVanuitAanvraag/kinderen/[]/voorvoegsel"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-gezinssamenstelling/grGegevensKinderen/hhgGegevensKinderen/[]/geboortedatumKind",
+        "targetPointer": "/gegevensVanuitAanvraag/kinderen/[]/geboortedatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-gezinssamenstelling/grGegevensKinderen/hhgGegevensKinderen/[]/krijgtKinderbijslag",
+        "targetPointer": "/gegevensVanuitAanvraag/kinderen/[]/kinderbijslag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-gezinssamenstelling/grGegevensKinderen/hhgGegevensKinderen/[]/opleidingKind",
+        "targetPointer": "/gegevensVanuitAanvraag/kinderen/[]/soortOpleiding"
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/soortenInkomsten",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/soortInkomsten",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/soortenInkomsten/LOONDIENST",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "LOONDIENST",
+                    "name": "Loondienst"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/soortenInkomsten/UITKERING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "UITKERING",
+                    "name": "Uitkering"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/soortenInkomsten/PENSIOEN",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "PENSIOEN",
+                    "name": "Pensioen"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/soortenInkomsten/HEFFINGSKORTING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "HEFFINGSKORTING",
+                    "name": "Heffingskorting"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/soortenInkomsten/ALIMENTATIE",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "ALIMENTATIE",
+                    "name": "Alimentatie"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/soortenInkomsten/INKOMEN_UIT_BUITENLAND",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "BUITENLAND",
+                    "name": "Inkomen uit het buitenland"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/soortenInkomsten/INKOMSTEN_UIT_ONDERHUUR",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "ONDERHUUR",
+                    "name": "Inkomsten uit onderhuur"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/soortenInkomsten/INKOMEN_UIT_ONDERNEMING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "ONDERNEMING",
+                    "name": "Inkomsten uit onderneming"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/soortenInkomsten/OVERIGE_INKOMSTEN",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "OVERIG",
+                    "name": "Overige inkomsten"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/heeftInkomsten",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/heeftInkomsten"
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/naamWerkgever",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/bedrijfsNaam"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/nettoloon",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/nettoLoon"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/hoeveelUurWerk",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/aantalUurPerWeek"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/hoevaakLoon",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/periodiciteitUitbetalingLoon",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_4_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            },
+            {
+                "when": "KWARTAAL",
+                "then": {
+                    "code": "7",
+                    "name": "Kwartaal"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/kiesLoonheffing",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/loonheffingskorting",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/extraUitbetaald/EEN_KEER_PER_JAAR_VAKANTIEGELD",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": [
+                    {
+                        "code": "VAKANTIEGELD_PER_JAAR",
+                        "name": "1 keer per jaar vakantiegeld"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/extraUitbetaald/EINDEJAARSUITKERING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": [
+                    {
+                        "code": "DERTIENDE_MAAND_EINDEJAARSUITKERING",
+                        "name": "Een 13de maand of eindejaarsuitkering"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/extraUitbetaald/REISKOSTENVERGOEDING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": [
+                    {
+                        "code": "REISKOSTENVERGOEDING",
+                        "name": "Reiskostenvergoeding"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/extraUitbetaald/ONKOSTENVERGOEDING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": [
+                    {
+                        "code": "ONKOSTENVERGOEDING",
+                        "name": "Onkostenvergoeding"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/extraUitbetaald/MAALTIJDVERGOEDING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": [
+                    {
+                        "code": "MAALTIJDVERGOEDING",
+                        "name": "Maaltijdvergoeding"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/extraUitbetaald/LOON_IN_NATURA",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": [
+                    {
+                        "code": "NATURA",
+                        "name": "Loon in natura (zoals eten of middelen)"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/extraUitbetaald/VAKANTIEGELD_BIJ_IEDERE_UITBETALING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": [
+                    {
+                        "code": "VAKANTIEGELD_IEDERE_UITBETALING",
+                        "name": "Vakantiegeld bij iedere uitbetaling van mijn salaris (dus niet 1 keer per jaar)"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/kiesExtraUitbetaald",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": "NEE",
+                "then": [
+                    {
+                        "code": "GEEN",
+                        "name": "Aanvrager ontvangt geen vakantiegeld 1 keer per jaar, geen 13de maand of eindejaarsuitkering, geen reiskostenvergoeding, geen onkostenvergoeding, geen maaltijdvergoeding, geen loon in natura, geen vakantiegeld bij iedere uitbetaling van mijn salaris"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/hoeveelNatura",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/waardeLoonInNatura"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/maaltijd",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/maaltijdvergoeding"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/onkosten",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/onkostenvergoeding"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/reiskosten",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/reiskostenvergoeding"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/soortContract",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/soortContract",
+        "transformations": [
+            {
+                "when": "VAST_CONTRACT",
+                "then": {
+                    "code": "1",
+                    "name": "Vast contract"
+                }
+            },
+            {
+                "when": "CONTRACT_BEPAALDE_TIJD",
+                "then": {
+                    "code": "2",
+                    "name": "Voor bepaalde tijd"
+                }
+            },
+            {
+                "when": "CONTRACT_OPROEP_BASIS",
+                "then": {
+                    "code": "3",
+                    "name": "Op oproepbasis"
+                }
+            },
+            {
+                "when": "UITZENDCONTRACT",
+                "then": {
+                    "code": "4",
+                    "name": "Uitzendbureau"
+                }
+            },
+            {
+                "when": "NUL_UREN_CONTRACT",
+                "then": {
+                    "code": "5",
+                    "name": "0-uren contract"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/urenvermindering",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/urenvermindering",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/kiesStopContract",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/contractBinnenkortBeeindigd",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grLoondienst/hhgWerkgevers/[]/wanneerStoptContract",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/loondienst/[]/einddatumContract"
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/welkeUitkering",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkeringTypes",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/welkeUitkering/AOW",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "AOW"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/welkeUitkering/WAJONG",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "WAJONG"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/welkeUitkering/WAO",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "WAO"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/welkeUitkering/WW",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "WW"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/welkeUitkering/WIA",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "WIA"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/welkeUitkering/ANW",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "ANW"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/welkeUitkering/BIJSTAND",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "BIJSTAND"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/welkeUitkering/ZIEKTEWET",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "ZIEKTEWET"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/welkeUitkering/GEEN",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "GEEN"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grAow/aow",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/AOW/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grAow/aowPeriode",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/AOW/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grWajong/wajong",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/WAJONG/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grWajong/wajongPeriode",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/WAJONG/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grWao/wao",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/WAO/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grWao/waoPeriode",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/WAO/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grWw/ww",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/WW/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grWw/wwPeriode",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/WW/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grWia/wia",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/WIA/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grWia/wiaPeriode",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/WIA/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grAnw/anw",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/ANW/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grAnw/anwPeriode",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/ANW/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grBijstand/bijstandBedrag",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/BIJSTAND/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grBijstand/bijstandPeriode",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/BIJSTAND/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grZiektewet/ziektewet",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/ZIEKTEWET/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grUitkering/grZiektewet/ziektewetPeriode",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/uitkering/ZIEKTEWET/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grPensioenen",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/pensioenen",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grPensioenen/hhgPensioenen/[]/pensioenBedrag",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/pensioenen/[]/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grPensioenen/hhgPensioenen/[]/pensioenPeriode",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/pensioenen/[]/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grHeffingskortingen/heffingskortingSoort",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/heffingskorting/types",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grHeffingskortingen/heffingskortingSoort/INKOMENSAFHANKELIJKE_COMBINATIEKORTING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/heffingskorting/types",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "INKOMENSAFHANKELIJKE_COMBINATIEKORTING",
+                    "name": "Inkomensafhankelijke combinatiekorting"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grHeffingskortingen/heffingskortingSoort/ALGEMENE_HEFFINGSKORTING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/heffingskorting/types",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "ALGEMENE_HEFFINGSKORTING",
+                    "name": "Algemene heffingskorting"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grHeffingskortingen/heffingskortingSoort/GEEN",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/heffingskorting/types",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "GEEN",
+                    "name": "Ik krijg geen inkomensafhankelijke combinatiekorting en geen algemene heffingskorting"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grHeffingskortingen/heffingskortingBedragTotaal",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/heffingskorting/totaalBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grAlimentatie/alimentatie",
+        "targetPointer": "/gegevensVanuitAanvraag/kinderAlimentatieAanvrager/ontvangtAlimentatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grAlimentatie/alimentatieHoeveel",
+        "targetPointer": "/gegevensVanuitAanvraag/kinderAlimentatieAanvrager/bedragAlimentatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grAlimentatie/alimentatieRechtOp",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatieAanvrager/ontvangtAlimentatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grAlimentatie/partnerAlimentatie",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatieAanvrager/bedragAlimentatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grAlimentatie/betaaltPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatieAanvrager/juisteBedragBetaaldDoorExPartner",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": true
+            },
+            {
+                "when": "NEE",
+                "then": false
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grAlimentatie/alimentatieLBIO",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatieAanvrager/lbioIngeschakeld",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": true
+            },
+            {
+                "when": "NEE",
+                "then": false
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grAlimentatie/alimentatieHulpEx",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatieAanvrager/bijdrageExPartnerVoorAndereRekeningen",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": true
+            },
+            {
+                "when": "NEE",
+                "then": false
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grAlimentatie/alimentatieHulpExHoeveel",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatieAanvrager/bedragAanAndereRekeningen"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grInkomenBuitenland/inkomenBuitenlandBedrag",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/inkomstenBuitenland/nettoInkomstenBuitenland"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grInkomenBuitenland/inkomenBuitenlandPeriode",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/inkomstenBuitenland/periodeInkomstenBuitenland",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grInkomstenOnderhuur/inkomstenOnderhuurBedrag",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/onderhuur/totaalBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grInkomstenOnderneming/inkomenOnderneming",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/onderneming/totaalBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grInkomstenOnderneming/kvk",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/onderneming/kvkNummer"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-inkomsten/grOverigeInkomsten/overigeBedrag",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenAanvrager/overig/totaalBedrag"
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/soortenInkomstenPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/soortInkomsten",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/soortenInkomstenPartner/LOONDIENST",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "LOONDIENST",
+                    "name": "Loondienst"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/soortenInkomstenPartner/UITKERING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "UITKERING",
+                    "name": "Uitkering"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/soortenInkomstenPartner/PENSIOEN",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "PENSIOEN",
+                    "name": "Pensioen"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/soortenInkomstenPartner/HEFFINGSKORTING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "HEFFINGSKORTING",
+                    "name": "Heffingskorting"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/soortenInkomstenPartner/ALIMENTATIE",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "ALIMENTATIE",
+                    "name": "Alimentatie"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/soortenInkomstenPartner/INKOMEN_UIT_HET_BUITENLAND",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "BUITENLAND",
+                    "name": "Inkomen uit het buitenland"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/soortenInkomstenPartner/INKOMSTEN_UIT_ONDERHUUR",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "ONDERHUUR",
+                    "name": "Inkomsten uit onderhuur"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/soortenInkomstenPartner/INKOMSTEN_UIT_ONDERNEMING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "ONDERNEMING",
+                    "name": "Inkomsten uit onderneming"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/soortenInkomstenPartner/OVERIGE_INKOMSTEN",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/soortInkomsten",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "OVERIG",
+                    "name": "Overige inkomsten"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/heeftPartnerInkomsten",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/heeftInkomsten",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": "JA"
+            },
+            {
+                "when": "MIJN_PARTNER_HEEFT_GEEN_INKOMEN",
+                "then": "GEEN_INKOMSTEN"
+            }
+        ]
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstWerkgeverPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/bedrijfsNaam"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstBedragPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/nettoLoon"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstPeriodePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/periodiciteitUitbetalingLoon",
+        "transformations": [
+            {
+                "when": "PER_WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_4_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "PER_MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            },
+            {
+                "when": "KWARTAAL",
+                "then": {
+                    "code": "7",
+                    "name": "Kwartaal"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstHeffingskortingPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/loonheffingskorting",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstExtraPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/additioneleVergoedingen",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstExtraPartner/EEN_KEER_PER_JAAR_VAKANTIEGELD",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "VAKANTIEGELD_PER_JAAR",
+                    "name": "1 keer per jaar vakantiegeld"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstExtraPartner/EEN_13DE_MAAND_OF_EINDEJAARSUITKERING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "DERTIENDE_MAAND_EINDEJAARSUITKERING",
+                    "name": "Een 13de maand of eindejaarsuitkering"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstExtraPartner/REISKOSTENVERGOEDING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "REISKOSTENVERGOEDING",
+                    "name": "Reiskostenvergoeding"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstExtraPartner/ONKOSTENVERGOEDING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "ONKOSTENVERGOEDING",
+                    "name": "Onkostenvergoeding"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstExtraPartner/MAALTIJDVERGOEDING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "MAALTIJDVERGOEDING",
+                    "name": "Maaltijdvergoeding"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstExtraPartner/LOON_IN_NATURA",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "NATURA",
+                    "name": "Loon in natura (zoals eten of middelen)"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstExtraPartner/VAKANTIEGELD_BIJ_IEDERE_UITBETALING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "VAKANTIEGELD_IEDERE_UITBETALING",
+                    "name": "Vakantiegeld bij iedere uitbetaling van mijn salaris (dus niet 1 keer per jaar)"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstExtraPartner/GEEN",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/additioneleVergoedingen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "GEEN",
+                    "name": "Aanvrager ontvangt geen vakantiegeld 1 keer per jaar, geen 13de maand of eindejaarsuitkering, geen reiskostenvergoeding, geen onkostenvergoeding, geen maaltijdvergoeding, geen loon in natura, geen vakantiegeld bij iedere uitbetaling van mijn salaris"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstNaturaPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/waardeLoonInNatura"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstMaaltijdPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/maaltijdvergoeding"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstOnkostenPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/onkostenvergoeding"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstReiskostenPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/reiskostenvergoeding"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstContractPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/soortContract",
+        "transformations": [
+            {
+                "when": "VAST_CONTRACT",
+                "then": {
+                    "code": "1",
+                    "name": "Vast contract"
+                }
+            },
+            {
+                "when": "CONTRACT_BEPAALDE_TIJD",
+                "then": {
+                    "code": "2",
+                    "name": "Voor bepaalde tijd"
+                }
+            },
+            {
+                "when": "CONTRACT_OPROEP_BASIS",
+                "then": {
+                    "code": "3",
+                    "name": "Op oproepbasis"
+                }
+            },
+            {
+                "when": "UITZENDCONTRACT",
+                "then": {
+                    "code": "4",
+                    "name": "Uitzendbureau"
+                }
+            },
+            {
+                "when": "NUL_UREN_CONTRACT",
+                "then": {
+                    "code": "5",
+                    "name": "0-uren contract"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstPerWeekPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/aantalUurPerWeek"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstUrenverminderingPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/urenvermindering",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstStoptPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/contractBinnenkortBeeindigd",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grLoondienstPartner/hhgLoondienstPartner/[]/loondienstWanneerStoptPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/loondienst/[]/einddatumContract"
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/uitkeringenPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkeringTypes",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/uitkeringenPartner/AOW",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "AOW"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/uitkeringenPartner/WAJONG",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "WAJONG"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/uitkeringenPartner/WAO",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "WAO"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/uitkeringenPartner/WW",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "WW"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/uitkeringenPartner/WIA",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "WIA"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/uitkeringenPartner/ANW",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "ANW"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/uitkeringenPartner/BIJSTAND",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "BIJSTAND"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/uitkeringenPartner/ZIEKTEWET",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "ZIEKTEWET"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/uitkeringenPartner/GEEN",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkeringTypes",
+        "transformations": [
+            {
+                "when": true,
+                "then": "GEEN"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grAowPartner/aowPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/AOW/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grAowPartner/aowPeriodePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/AOW/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grWajongPartner/wajongPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/WAJONG/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grWajongPartner/wajongPeriodePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/WAJONG/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grWaoPartner/waoPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/WAO/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grWaoPartner/waoPeriodePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/WAO/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grWwPartner/wwPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/WW/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grWwPartner/wwPeriodePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/WW/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grWiaPartner/wiaPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/WIA/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grWiaPartner/wiaPeriodePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/WIA/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grAnwPartner/anwPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/ANW/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grAnwPartner/anwPeriodePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/ANW/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grBijstandPartner/bijstandPartnerBedrag",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/BIJSTAND/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grBijstandPartner/bijstandPeriodePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/BIJSTAND/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grZiektewetPartner/ziektewetPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/ZIEKTEWET/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grUitkeringenPartner/grZiektewetPartner/ziektewetPeriodePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/uitkering/ZIEKTEWET/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grPensioenenPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/pensioenen",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grPensioenenPartner/hhgPensioenenPartner/[]/pensioenBedragPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/pensioenen/[]/nettoBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grPensioenenPartner/hhgPensioenenPartner/[]/pensioenPeriodePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/pensioenen/[]/periodeUitkering",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "defaultValue": [],
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grHeffingskortingenPartner/heffingskortingSoortPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/heffingskorting/types",
+        "transformations": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grHeffingskortingenPartner/heffingskortingSoortPartner/INKOMENSAFHANKELIJKE_COMBINATIEKORTING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/heffingskorting/types",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "INKOMENSAFHANKELIJKE_COMBINATIEKORTING",
+                    "name": "Inkomensafhankelijke combinatiekorting"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grHeffingskortingenPartner/heffingskortingSoortPartner/ALGEMENE_HEFFINGSKORTING",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/heffingskorting/types",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "ALGEMENE_HEFFINGSKORTING",
+                    "name": "Algemene heffingskorting"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grHeffingskortingenPartner/heffingskortingSoortPartner/GEEN",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/heffingskorting/types",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "GEEN",
+                    "name": "Ik krijg geen inkomensafhankelijke combinatiekorting en geen algemene heffingskorting"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grHeffingskortingenPartner/heffingskortingBedragTotaalPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/heffingskorting/totaalBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grAlimentatiePartner/alimentatiePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatie/ontvangtAlimentatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grAlimentatiePartner/alimentatieHoeveelPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatie/bedragAlimentatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grAlimentatiePartner/alimentatieKrijgtPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatie/juisteBedragBetaaldDoorExPartner",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": true
+            },
+            {
+                "when": "NEE",
+                "then": false
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grAlimentatiePartner/alimentatieLBIOPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatie/lbioIngeschakeld",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": true
+            },
+            {
+                "when": "NEE",
+                "then": false
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grAlimentatiePartner/alimentatieHulpPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatie/bijdrageExPartnerVoorAndereRekeningen",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": true
+            },
+            {
+                "when": "NEE",
+                "then": false
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grAlimentatiePartner/alimentatieBetaaltPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/partnerAlimentatie/bedragAanAndereRekeningen"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grInkomenBuitenlandPartner/inkomenBuitenlandBedragPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/inkomstenBuitenland/nettoInkomstenBuitenland"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grInkomenBuitenlandPartner/inkomenBuitenlandPeriodePartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/inkomstenBuitenland/periodeInkomstenBuitenland",
+        "transformations": [
+            {
+                "when": "WEEK",
+                "then": {
+                    "code": "2",
+                    "name": "Week"
+                }
+            },
+            {
+                "when": "PER_VIER_WEKEN",
+                "then": {
+                    "code": "4",
+                    "name": "4 weken (13 maanden)"
+                }
+            },
+            {
+                "when": "MAAND",
+                "then": {
+                    "code": "6",
+                    "name": "Maand"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grInkomstenOnderhuurPartner/inkomstenOnderhuurBedragPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/onderhuur/totaalBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grInkomstenOndernemingPartner/kvkPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/onderneming/kvkNummer"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grInkomstenOndernemingPartner/inkomenOndernemingPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/onderneming/totaalBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-inkomsten-partner/grOverigeInkomstenPartner/overigeBedragPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/inkomstenPartner/overig/totaalBedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid/grBeschikbaarheid/beschikbaarheid",
+        "targetPointer": "/gegevensVanuitAanvraag/beschikbaarheidAanvrager/uurPerWeek"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid/grBeschikbaarheid/onbetaald",
+        "targetPointer": "/gegevensVanuitAanvraag/beschikbaarheidAanvrager/onbetaaldWerk",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": true
+            },
+            {
+                "when": "NEE",
+                "then": false
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid/grBeschikbaarheid/organisatieOnbetaald",
+        "targetPointer": "/gegevensVanuitAanvraag/beschikbaarheidAanvrager/organisatieOnbetaaldWerk"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid/grBeschikbaarheid/onbetaaldWerk",
+        "targetPointer": "/gegevensVanuitAanvraag/beschikbaarheidAanvrager/soortOnbetaaldWerk"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid/grBeschikbaarheid/geenBeschikbaarheid",
+        "targetPointer": "/gegevensVanuitAanvraag/beschikbaarheidAanvrager/redenOnbeschikbaar"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid/grBeschikbaarheidPartner/beschikbaarheidPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/beschikbaarheidPartner/uurPerWeek"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid/grBeschikbaarheidPartner/onbetaaldPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/beschikbaarheidPartner/onbetaaldWerk",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": true
+            },
+            {
+                "when": "NEE",
+                "then": false
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid/grBeschikbaarheidPartner/organisatieOnbetaaldPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/beschikbaarheidPartner/organisatieOnbetaaldWerk"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid/grBeschikbaarheidPartner/onbetaaldwerkPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/beschikbaarheidPartner/soortOnbetaaldWerk"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uw-beschikbaarheid/grBeschikbaarheidPartner/geenBeschikbaarheidPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/beschikbaarheidPartner/redenOnbeschikbaar"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/soortenVermogen",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grUwVermogen/welkVermogen/BANK_EN_SPAARREKENINGEN",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/soortenVermogen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "BANKREKENING",
+                    "name": "Bank- en spaarrekeningen privé en zakelijk (binnen en buitenland)"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grUwVermogen/welkVermogen/OBLIGATIES_AANDELEN",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/soortenVermogen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "BELEGGINGSPRODUCTEN",
+                    "name": "Obligaties / Aandelen"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grUwVermogen/welkVermogen/CRYPTO",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/soortenVermogen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "CRYPTO",
+                    "name": "Crypto"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grUwVermogen/welkVermogen/CONTANTEN",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/soortenVermogen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "CONTANTEN",
+                    "name": "Contanten"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grUwVermogen/welkVermogen/KOOPWONING",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/soortenVermogen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "WONING",
+                    "name": "Een of meerdere koopwoning(en) in Nederland en/of het buitenland"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grUwVermogen/welkVermogen/EEN_STUK_GROND",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/soortenVermogen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "GROND",
+                    "name": "Een stuk grond in Nederland en/of het buitenland"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grUwVermogen/welkVermogen/MOTORVOERTUIG",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/soortenVermogen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "MOTORVOERTUIG",
+                    "name": "Een motorvoertuig (auto, camper of motor)"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grUwVermogen/welkVermogen/CARAVAN",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/soortenVermogen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "CARAVAN",
+                    "name": "Caravan"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grUwVermogen/welkVermogen/VAARTUIG",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/soortenVermogen",
+        "transformations": [
+            {
+                "when": true,
+                "then": {
+                    "code": "VAARTUIG",
+                    "name": "Vaartuig"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grRekeningen/grLogicaBank",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/bankrekeningen",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grRekeningen/grLogicaBank/hhgVoegRekeningToe/[]/typeRekening",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/bankrekeningen/[]/soortRekening",
+        "transformations": [
+            {
+                "when": "NEDERLANDSE_PRIVE_REKENING",
+                "then": "REKENING_PRIVE_NL"
+            },
+            {
+                "when": "NEDERLANDSE_ZAKELIJKE_REKENING",
+                "then": "REKENING_ZAKELIJK_NL"
+            },
+            {
+                "when": "BUITENLANDSE_PRIVE_REKENING",
+                "then": "REKENING_PRIVE_BUITENLAND"
+            },
+            {
+                "when": "BUITENLANDSE_ZAKELIJKE_REKENING",
+                "then": "REKENING_ZAKELIJK_BUITENLAND"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grRekeningen/grLogicaBank/hhgVoegRekeningToe/[]/prive",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/bankrekeningen/[]/ibanNederland"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grRekeningen/grLogicaBank/hhgVoegRekeningToe/[]/zakelijk",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/bankrekeningen/[]/ibanNederland"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grRekeningen/grLogicaBank/hhgVoegRekeningToe/[]/priveBuitenland",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/bankrekeningen/[]/ibanBuitenland"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grRekeningen/grLogicaBank/hhgVoegRekeningToe/[]/zakelijkBuitenland",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/bankrekeningen/[]/ibanBuitenland"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grRekeningen/grLogicaBank/hhgVoegRekeningToe/[]/hoeveelGeld",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/bankrekeningen/[]/saldoRekening"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grAandelen",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/beleggingsproducten",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grAandelen/hhgAannemelijkBelang/[]/waardeAandelen",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/beleggingsproducten/[]/waarde"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grCrypto",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/cryptoCurrencies",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grCrypto/hhgCrypto/[]/waardeCrypto",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/cryptoCurrencies/[]/waarde"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grContant/waardeContant",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/contantGeld"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/koopwoningen",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grKoopwoning/wozWaarde",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/koopwoningen/[0]/woz"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grKoopwoning/restHypotheekSchuld",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/koopwoningen/[0]/hypotheekWaarde"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grKoopwoning/beleggingsGekoppeld",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/koopwoningen/[0]/productenGekoppeld"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grGrondbezit",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/grond",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grGrondbezit/hhgGrondbezit/[]/grondBezitWaarde",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/grond/[]/waarde"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grMotorvoertuigen",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/motorVoertuigen",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grMotorvoertuigen/hhgMotorvoertuigen/[]/kenteken",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/motorVoertuigen/[]/kenteken"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grMotorvoertuigen/hhgMotorvoertuigen/[]/dagwaarde",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/motorVoertuigen/[]/dagwaarde"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grCaravan",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/caravans",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grCaravan/hhgCaravan/[]/waardeCaravan",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/caravans/[]/dagwaarde"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grVaartuig",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/vaartuigen",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grVaartuig/hhgVaartuig/[]/waardeVaartuig",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/vaartuigen/[]/waarde"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/heeftSchulden",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/aanvragerHeeftSchulden",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": "JA"
+            },
+            {
+                "when": "NEE",
+                "then": "NEE"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grSchulden",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/schulden",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grSchulden/hhgSchulden/[]/waardeSchuld",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/schulden/[]/hoogteSchuld"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-bezittingen-en-schulden/grSchulden/hhgSchulden/[]/bijWieSchuld",
+        "targetPointer": "/gegevensVanuitAanvraag/vermogen/schulden/[]/schuldEiser"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uitbetaling/grUitbetaling/hoeBetaald",
+        "targetPointer": "/gegevensVanuitAanvraag/uitbetaling/wijzeVanUitbetaling",
+        "transformations": [
+            {
+                "when": "VOLLEDIG_OP_MIJN_REKENING",
+                "then": "VOLLEDIG_AANVRAGER"
+            },
+            {
+                "when": "VERDEELD_OVER_MIJZELF_EN_MIJN_PARTNER",
+                "then": "VERDEELD_AANVRAGER_PARTNER"
+            },
+            {
+                "when": "VOLLEDIG_OP_REKENING_VAN_MIJN_PARTNER",
+                "then": "VOLLEDIG_PARTNER"
+            },
+            {
+                "when": "DERDE",
+                "then": "DERDE"
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uitbetaling/ibanUitbetaling",
+        "targetPointer": "/gegevensVanuitAanvraag/uitbetaling/aanvrager/bankrekening/iban"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uitbetaling/naamRekeninghouder",
+        "targetPointer": "/gegevensVanuitAanvraag/uitbetaling/aanvrager/bankrekening/tenaamstelling"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uitbetaling/ibanUitbetalingPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/uitbetaling/partner/bankrekening/iban"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uitbetaling/naamRekeninghouderPartner",
+        "targetPointer": "/gegevensVanuitAanvraag/uitbetaling/partner/bankrekening/tenaamstelling"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uitbetaling/grUitbetalenAnder/ibanUitbetalingWaaromAnder",
+        "targetPointer": "/gegevensVanuitAanvraag/uitbetaling/derden/redenAanDerden"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uitbetaling/grUitbetalenAnder/ibanUitbetalingAnder",
+        "targetPointer": "/gegevensVanuitAanvraag/uitbetaling/derden/bankrekening/iban"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uitbetaling/grUitbetalenAnder/ibanNaamAnder",
+        "targetPointer": "/gegevensVanuitAanvraag/uitbetaling/derden/bankrekening/tenaamstelling"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-uitbetaling/grUitbetalenAnder/ibanAdresAnder",
+        "targetPointer": "/gegevensVanuitAanvraag/uitbetaling/derden/bankrekening/adresRekeninghouder"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/waaromBijstandsuitkering",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/reden",
+        "transformations": [
+            {
+                "when": "GEEN_ONVOLDOENDE_INKOMEN",
+                "then": {
+                    "code": "1",
+                    "name": "Geen of te weinig inkomen"
+                }
+            },
+            {
+                "when": "WIJZIGING_GEZINSSITUATIE",
+                "then": {
+                    "code": "2",
+                    "name": "Wijziging gezin"
+                }
+            },
+            {
+                "when": "EX_ZELFSTANDIGE",
+                "then": {
+                    "code": "3",
+                    "name": "(ex)Zelfstandige"
+                }
+            },
+            {
+                "when": "VERBLIJFSTATUS",
+                "then": {
+                    "code": "4",
+                    "name": "Verblijfsstatus"
+                }
+            },
+            {
+                "when": "DETENTIE",
+                "then": {
+                    "code": "5",
+                    "name": "Ik kom vrij na gevangenisstraf"
+                }
+            },
+            {
+                "when": "ANDERS",
+                "then": {
+                    "code": "6",
+                    "name": "Anders"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grGeenInkomen/waaromGeenInkomen",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/onvoldoendeInkomen",
+        "transformations": [
+            {
+                "when": "GEEN_WERK",
+                "then": {
+                    "code": "1",
+                    "name": "Ik heb geen werk meer"
+                }
+            },
+            {
+                "when": "INKOMSTEN_TE_LAAG",
+                "then": {
+                    "code": "2",
+                    "name": "Ik heb wel inkomsten, maar die zijn te laag"
+                }
+            },
+            {
+                "when": "UITKERING_STOPGEZET",
+                "then": {
+                    "code": "3",
+                    "name": "Mijn uitkering (geen bijstandsuitkering) is stopgezet"
+                }
+            },
+            {
+                "when": "BIJSTANDSUITKERING_STOPGEZET",
+                "then": {
+                    "code": "4",
+                    "name": "Mijn bijstandsuitkering is stopgezet"
+                }
+            },
+            {
+                "when": "EERDERE_AANVRAAG_AFGEWEZEN_OF_BUITEN_BEHANDELING_GESTELD",
+                "then": {
+                    "code": "5",
+                    "name": "Mijn eerdere bijstandsaanvraag is afgewezen of niet in behandeling genomen"
+                }
+            },
+            {
+                "when": "ALIMENTATIE_STOPGEZET_VERLAAGD",
+                "then": {
+                    "code": "6",
+                    "name": "Mijn alimentatie is gestopt"
+                }
+            },
+            {
+                "when": "STUDIEFINANCIERING_STOPGEZET",
+                "then": {
+                    "code": "7",
+                    "name": "Mijn studiefinanciering is gestopt"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grGeenBetaaldWerk/naamOudWerkgever",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/naamBedrijf"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grGeenBetaaldWerk/adresOudWerkgever",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/bedrijfsadres"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grGeenBetaaldWerk/telefoonOudWerkgever",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/bedrijfstelefoonnummer"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grGeenBetaaldWerk/totWanneerSalaris",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/laatsteSalarisDatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grGeenBetaaldWerk/waaromGeenWerk",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/eindeWerkReden",
+        "transformations": [
+            {
+                "when": "TIJDELIJK_CONTRACT_GESTOPT",
+                "then": {
+                    "code": "1",
+                    "name": "Tijdelijk contract is afgelopen"
+                }
+            },
+            {
+                "when": "ZELF_ONTSLAG_GENOMEN",
+                "then": {
+                    "code": "2",
+                    "name": "Zelf ontslag genomen"
+                }
+            },
+            {
+                "when": "ONTSLAG",
+                "then": {
+                    "code": "3",
+                    "name": "Ontslagen"
+                }
+            },
+            {
+                "when": "REORGANISATIE",
+                "then": {
+                    "code": "4",
+                    "name": "Ontslagen bij een reorganisatie"
+                }
+            },
+            {
+                "when": "FAILLISEMENT",
+                "then": {
+                    "code": "5",
+                    "name": "Faillissement bedrijf"
+                }
+            },
+            {
+                "when": "ZIEKTE",
+                "then": {
+                    "code": "6",
+                    "name": "Ziekte"
+                }
+            },
+            {
+                "when": "ANDERS",
+                "then": {
+                    "code": "7",
+                    "name": "Andere reden"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grGeenBetaaldWerk/waaromGestoptVorigeBaan",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/eindeWerkRedenSpecificatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grGeenBetaaldWerk/welkeJuridischeStappen",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/wettelijkeStappenGezet",
+        "transformations": [
+            {
+                "when": "JURIDISCHE_STAPPEN",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "GEEN_STAPPEN",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grGeenBetaaldWerk/welkeJuridischeStappen",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/ontslagvergoedingOntvangen",
+        "transformations": [
+            {
+                "when": "ONTSLAGVERGOEDING",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grEindeTijdelijkContract/hoelangContract",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/contractperiode",
+        "transformations": [
+            {
+                "when": "LANGER_6_MAANDEN",
+                "then": {
+                    "code": "1",
+                    "name": "Ik had een contract van 6 maanden of langer"
+                }
+            },
+            {
+                "when": "KORTER_6_MAANDEN",
+                "then": {
+                    "code": "2",
+                    "name": "Ik had een contract van minder dan 6 maanden"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grEindeTijdelijkContract/ontslagBriefOntvangen",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/ontslagbriefOntvangen",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grEindeTijdelijkContract/minimaalNWekenGewerkt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/min26van36gewerkt",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grEindeTijdelijkContract/wwAangevraagd",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/wwuitkeringAangevraagd",
+        "transformations": [
+            {
+                "when": "WACHT_OP_ANTWOORD",
+                "then": {
+                    "code": "1",
+                    "name": "Ja, ik wacht nog op antwoord"
+                }
+            },
+            {
+                "when": "ONTVANG_WW",
+                "then": {
+                    "code": "2",
+                    "name": "Ja, ik ontvang nu een WW-uitkering"
+                }
+            },
+            {
+                "when": "WW_AFGEWEZEN",
+                "then": {
+                    "code": "3",
+                    "name": "Ja, maar mijn WW-aanvraag is afgewezen"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "4",
+                    "name": "Nee, ik heb geen WW-uitkering aangevraagd"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grEindeTijdelijkContract/waaromWwAfgewezen",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/afwijsredenWWaanvraag",
+        "transformations": [
+            {
+                "when": "WEKENEIS",
+                "then": {
+                    "code": "1",
+                    "name": "Ik heb in de periode ervoor onvoldoende gewerkt (wekeneis)"
+                }
+            },
+            {
+                "when": "ONVOLDOENDE_BESCHIKBAAR",
+                "then": {
+                    "code": "2",
+                    "name": "Ik ben niet voldoende beschikbaar voor werk"
+                }
+            },
+            {
+                "when": "ONVOLDOENDE_ACHTERUITGANG",
+                "then": {
+                    "code": "3",
+                    "name": "Ik ben minder dan 5 uren per week achteruit gegaan in uren"
+                }
+            },
+            {
+                "when": "EIGEN_SCHULD_OF_ZELF_ONTSLAG",
+                "then": {
+                    "code": "4",
+                    "name": "Ik ben door eigen schuld ontslagen of heb zelf ontslag genomen"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grZiekte/aanvraagZiektewetUitkering",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/ziektewetUitkeringAangevraagd",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grAndereReden/betaaldWerkGestopt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptBetaaldWerk/[0]/eindeWerkRedenSpecificatie",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteUitkering",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grBeeindigingAndereUitkering/welkeUitkeringGestopt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteUitkering/[0]/uitkering",
+        "transformations": [
+            {
+                "when": "WW",
+                "then": {
+                    "code": "1",
+                    "name": "WW"
+                }
+            },
+            {
+                "when": "ZW",
+                "then": {
+                    "code": "2",
+                    "name": "Ziektewet"
+                }
+            },
+            {
+                "when": "WAO_WIA",
+                "then": {
+                    "code": "3",
+                    "name": "Wao/Wia"
+                }
+            },
+            {
+                "when": "WGA",
+                "then": {
+                    "code": "4",
+                    "name": "Wga"
+                }
+            },
+            {
+                "when": "ANDERS",
+                "then": {
+                    "code": "5",
+                    "name": "Andere uitkering"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grBeeindigingAndereUitkering/andereUitkering",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteUitkering/[0]/andereUitkeringSpecificatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grBeeindigingAndereUitkering/wanneerUitkeringStop",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteUitkering/[0]/uitkeringEinddatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grBeeindigingAndereUitkering/kiesUitkeringGestopt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteUitkering/[0]/eindeUitkeringReden",
+        "transformations": [
+            {
+                "when": "MAXIMALE_DUUR_BEREIKT",
+                "then": {
+                    "code": "1",
+                    "name": "Maximale duur uitkering bereikt"
+                }
+            },
+            {
+                "when": "ARBEIDSGESCHIKT_VERKLAARD",
+                "then": {
+                    "code": "2",
+                    "name": "Arbeidsgeschikt verklaard"
+                }
+            },
+            {
+                "when": "OPGELEGDE_MAATREGEL",
+                "then": {
+                    "code": "3",
+                    "name": "Opgelegde maatregel"
+                }
+            },
+            {
+                "when": "GEDEELTELUK_ARBEIDSGESCHIKT_VERKLAARD",
+                "then": {
+                    "code": "4",
+                    "name": "Gedeeltelijk arbeidsgeschikt verklaard"
+                }
+            },
+            {
+                "when": "ANDERS",
+                "then": {
+                    "code": "5",
+                    "name": "Andere reden"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grBeeindigingAndereUitkering/waaromUitkeringGestopt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteUitkering/[0]/eindeUitkeringRedenSpecificatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grBeeindigingAndereUitkering/bezwaarUitkeringGestopt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteUitkering/[0]/eindeUitkeringInBezwaar",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIoaw/geenRechtMeerWw",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteUitkering/[0]/werkloosPeriode",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIoaw/geenRechtMeerWga",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteUitkering/[0]/minderDan35procentArbeidsongeschikt",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIoaw/gedeeltelijkArbeidsongeschikt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteUitkering/[0]/gedeeltelijkArbeidsongeschiktNa50e",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteBijstanduitkering",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grBeeindigingBijstandsUitkering/kiesBijstandsuitkeringGestopt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteBijstanduitkering/[0]/eindeBijstandReden",
+        "transformations": [
+            {
+                "when": "ANDERE_GEMEENTE",
+                "then": {
+                    "code": "1",
+                    "name": "Verhuizing vanuit andere gemeente"
+                }
+            },
+            {
+                "when": "AANVRAAG_MET_PARTNER",
+                "then": {
+                    "code": "2",
+                    "name": "Aangaan relatie met nieuwe partner"
+                }
+            },
+            {
+                "when": "ANDERE_REDEN",
+                "then": {
+                    "code": "3",
+                    "name": "Andere reden"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grBeeindigingBijstandsUitkering/leguitBijstandGestopt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteBijstanduitkering/[0]/eindeBijstandRedenSpecificatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grBeeindigingBijstandsUitkering/kiesSituatieAfwijzing",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteBijstanduitkering/[0]/situatieGewijzigd",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grBeeindigingBijstandsUitkering/uwSituatieGewijzigd",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteBijstanduitkering/[0]/situatieWijzigingsSpecificatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteVerlaagdeAlimentatie",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grAllimentatieGestopt/datumAlimentatieGestopt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteVerlaagdeAlimentatie/[0]/alimentatieEinddatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grAllimentatieGestopt/hoeBetaaldUwKosten",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteVerlaagdeAlimentatie/[0]/opgaveFinancieleOndersteuning"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grAllimentatieGestopt/kiesRedenGeenAlimentatie",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteVerlaagdeAlimentatie/[0]/eindeAlimentatieReden",
+        "transformations": [
+            {
+                "when": "NIET_VERPLICHT_TE_BETALEN",
+                "then": {
+                    "code": "1",
+                    "name": "Ex-partner is niet meer verplicht te betalen"
+                }
+            },
+            {
+                "when": "WEIGERT_TE_BETALEN",
+                "then": {
+                    "code": "2",
+                    "name": "Ex-partner weigert te betalen"
+                }
+            },
+            {
+                "when": "EX_PARTNER_OVERLEDEN",
+                "then": {
+                    "code": "3",
+                    "name": "Ex-partner is overleden"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grAllimentatieGestopt/heeftLbioIngeschakeld",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteVerlaagdeAlimentatie/[0]/lbioingeschakeld",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grAanvraagBijstandAfgewezen/kiesSituatieAfwijzingOfGelijk",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteBijstanduitkering/[0]/situatieGewijzigd",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grAanvraagBijstandAfgewezen/gewijzigd",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteBijstanduitkering/[0]/situatieWijzigingsSpecificatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteStudiefinanciering",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grbeeindigingStudie/studieGestopt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteStudiefinanciering/[0]/studiefinancieringEinddatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grbeeindigingStudie/financiering",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteStudiefinanciering/[0]/studiefinancieringSpecificatie",
+        "transformations": [
+            {
+                "when": "WSF",
+                "then": {
+                    "code": "1",
+                    "name": "Studiefinanciering (WSF)"
+                }
+            },
+            {
+                "when": "WTOS",
+                "then": {
+                    "code": "2",
+                    "name": "Tegemoetkoming onderwijsbijdrage en schoolkosten (WTOS)"
+                }
+            },
+            {
+                "when": "GEEN",
+                "then": {
+                    "code": "3",
+                    "name": "Geen van bovenstaande"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grWijzigingGezinssituatie/watGewijzigd",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/wijzigingGezin",
+        "transformations": [
+            {
+                "when": "NIEUWE_AANVRAAG_MET_PARTNER",
+                "then": {
+                    "code": "1",
+                    "name": "Ik had een eigen uitkering, maar doe nu een nieuwe aanvraag samen met mijn partner"
+                }
+            },
+            {
+                "when": "RELATIE_VERBROKEN",
+                "then": {
+                    "code": "2",
+                    "name": "Mijn relatie is verbroken"
+                }
+            },
+            {
+                "when": "PARTNER_OVERLEDEN",
+                "then": {
+                    "code": "3",
+                    "name": "Mijn partner is overleden"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/verbrokenRelatie",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/beeindigingRelatie/sindWanneer",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/verbrokenRelatie/[0]/verbrokenRelatieDatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/beeindigingRelatie/hoeBetaalt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/verbrokenRelatie/[0]/opgaveFinancieleOndersteuning"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/beeindigingRelatie/wasGetrouwd",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/verbrokenRelatie/[0]/partnerGeregistreerd",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/beeindigingRelatie/afsprakenBijdrage",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/verbrokenRelatie/[0]/afspraakOnderhoudsbijdrage",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/overledenPartner",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grPartnerOverleden/nabestaandenuitkering",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/overledenPartner/[0]/anwnabestaandeuitkeringAangevraagd",
+        "transformations": [
+            {
+                "when": "JA_TOEGKEND",
+                "then": {
+                    "code": "1",
+                    "name": "Ja, deze is toegekend"
+                }
+            },
+            {
+                "when": "JA_WACHT_OP_BESLUIT",
+                "then": {
+                    "code": "2",
+                    "name": "Ja, ik wacht nog op een besluit"
+                }
+            },
+            {
+                "when": "JA_AFGEWEZEN",
+                "then": {
+                    "code": "3",
+                    "name": "Ja, deze is afgewezen"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "4",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grPartnerOverleden/arbeidsongeschikt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/overledenPartner/[0]/meerDan45procentArbeidsongeschikt",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grPartnerOverleden/nabestaandenuitkeringAfgewezen",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/overledenPartner/[0]/anwafgewezenReden"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grZelfstandige/redenZelfstandige",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/zelfstandige",
+        "transformations": [
+            {
+                "when": "EIGEN_BEDRIJF_GESTOPT",
+                "then": {
+                    "code": "1",
+                    "name": "Ik ben gestopt met mijn eigen bedrijf"
+                }
+            },
+            {
+                "when": "EIGEN_BEDRIJF_ONVOLDOENDE_INKOMEN",
+                "then": {
+                    "code": "2",
+                    "name": "Ik heb een eigen bedrijf, maar onvoldoende inkomen"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptVerkochtEigenBedrijf",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grZelfstandige/waaromBedrijfWeg",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptVerkochtEigenBedrijf/[0]/eigenBedrijfGestoptReden",
+        "transformations": [
+            {
+                "when": "ECONOMISCHE_REDENEN",
+                "then": {
+                    "code": "1",
+                    "name": "Financi�le redenen"
+                }
+            },
+            {
+                "when": "FAILLISSEMENT",
+                "then": {
+                    "code": "2",
+                    "name": "Faillissement"
+                }
+            },
+            {
+                "when": "SLUITING_OPGELEGD_GEMEENTE",
+                "then": {
+                    "code": "3",
+                    "name": "Sluiting opgelegd door de gemeente"
+                }
+            },
+            {
+                "when": "VERKOCHT",
+                "then": {
+                    "code": "4",
+                    "name": "Bedrijf verkocht"
+                }
+            },
+            {
+                "when": "ZELF_GESTOPT",
+                "then": {
+                    "code": "5",
+                    "name": "Zelf gestopt"
+                }
+            },
+            {
+                "when": "ANDERS",
+                "then": {
+                    "code": "6",
+                    "name": "Andere reden"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grZelfstandige/welkBedragVerkocht",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptVerkochtEigenBedrijf/[0]/verkoopbedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grZelfstandige/wanneerGestopt",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptVerkochtEigenBedrijf/[0]/eigenBedrijfDatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grZelfstandige/uitgeschrevenKvk",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptVerkochtEigenBedrijf/[0]/kvKuitgeschreven",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grZelfstandige/inschrijfnummerKvk",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestoptVerkochtEigenBedrijf/[0]/kvKinschrijfnummer"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grVerblijfstatus/redenVerblijfstatus",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/verblijfstatus",
+        "transformations": [
+            {
+                "when": "VERBLIJFSDOCUMENT",
+                "then": {
+                    "code": "1",
+                    "name": "Ik heb een verblijfsvergunning gekregen"
+                }
+            },
+            {
+                "when": "VERBLIJFSDOCUMENT_VERTREK_AZC",
+                "then": {
+                    "code": "2",
+                    "name": "Ik heb een verblijfsvergunning gekregen en vertrek uit een asielzoekerscentrum"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/vertrekAsielzoekerscentrum",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grVerblijfstatus/wanneerHuurcontract",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/vertrekAsielzoekerscentrum/[0]/ingangsdatumHuurcontract"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grVerblijfstatus/ontvangtWeekgeld",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/vertrekAsielzoekerscentrum/[0]/weekgeldCOA",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grVerblijfstatus/berichtWeekgeld",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/vertrekAsielzoekerscentrum/[0]/berichtWeekgeld",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grVerblijfstatus/hoeveelWeekgeld",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/vertrekAsielzoekerscentrum/[0]/weekgeldCOAbedrag"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grVerblijfstatus/stoptWeekgeld",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/vertrekAsielzoekerscentrum/[0]/weekgeldCOAstopt",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grVerblijfstatus/wanneerStoptWeekgeld",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/vertrekAsielzoekerscentrum/[0]/weekgeldCOAeinddatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteDetentie",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grDetentie/hoeLangDetentie",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteDetentie/[0]/detentieDuur",
+        "transformations": [
+            {
+                "when": "31_DAGEN_OF_LANGER",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "30_DAGEN_OF_MINDER",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grDetentie/laatsteDagDetentie",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteDetentie/[0]/detentieEinddatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grDetentie/uitkeringGehadDetentie",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteDetentie/[0]/uitkeringVoorDetentie",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grDetentie/welkeUitkeringDetentie",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteDetentie/[0]/soortuitkeringVoorDetentie",
+        "transformations": [
+            {
+                "when": "WW",
+                "then": {
+                    "code": "1",
+                    "name": "WW"
+                }
+            },
+            {
+                "when": "ZW",
+                "then": {
+                    "code": "2",
+                    "name": "Ziektewet"
+                }
+            },
+            {
+                "when": "WAO_WIA",
+                "then": {
+                    "code": "3",
+                    "name": "Wao/Wia"
+                }
+            },
+            {
+                "when": "WGA",
+                "then": {
+                    "code": "4",
+                    "name": "Wga"
+                }
+            },
+            {
+                "when": "STUDIEFINANCIERING",
+                "then": {
+                    "code": "5",
+                    "name": "Studiefinanciering"
+                }
+            },
+            {
+                "when": "BIJSTAND",
+                "then": {
+                    "code": "6",
+                    "name": "Bijstandsuitkering"
+                }
+            },
+            {
+                "when": "OVERIG",
+                "then": {
+                    "code": "7",
+                    "name": "Andere uitkering"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grDetentie/andereUitkeringDetentie",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/gestopteDetentie/[0]/soortUitkeringVoorDetentieSpecificatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/andereRedenVerzoek",
+        "transformations": [],
+        "defaultValue": []
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grRedenAnders/waaromNietGenoeg",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/andereRedenVerzoek/[0]/geldtekortSpecificatie"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grRedenAnders/hoeBetaaltKosten",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/andereRedenVerzoek/[0]/opgaveFinancieleOndersteuning"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIngangsdatum/redenLaat",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/ingangBijstandsuitkering/eerderAanvragenRedenAanwezig",
+        "transformations": [
+            {
+                "when": "JA",
+                "then": {
+                    "code": "1",
+                    "name": "Ja"
+                }
+            },
+            {
+                "when": "NEE",
+                "then": {
+                    "code": "2",
+                    "name": "Nee"
+                }
+            }
+        ]
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIngangsdatum/welkeBeslissing",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/ingangBijstandsuitkering/bijzondereRedenNietEerderAanvragen"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIngangsdatum/welkZiekenhuis",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/ingangBijstandsuitkering/bijzondereRedenNietEerderAanvragen"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIngangsdatum/waaromDigid",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/ingangBijstandsuitkering/bijzondereRedenNietEerderAanvragen"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIngangsdatum/wanneerBeslissing",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/ingangBijstandsuitkering/beslissingInstantieOntvangstdatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIngangsdatum/wanneerInZiekenhuis",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/ingangBijstandsuitkering/opnameStartdatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIngangsdatum/wanneerUitZiekenhuis",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/ingangBijstandsuitkering/opnameEinddatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIngangsdatum/wanneerDigid",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/ingangBijstandsuitkering/digiDaanvraagdatum"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIngangsdatum/waaromLaatAlgemeen",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/ingangBijstandsuitkering/bijzondereRedenAanvraagdatumLaterIngaan"
+    },
+    {
+        "sourcePointer": "/verzoekGegevensTeTransformeren/alo-reden-aanvraag/grIngangsdatum/welkeredenlaat",
+        "targetPointer": "/gegevensVanuitAanvraag/redenAanvraag/redenGewensteIngangsdatum"
+    }
+]

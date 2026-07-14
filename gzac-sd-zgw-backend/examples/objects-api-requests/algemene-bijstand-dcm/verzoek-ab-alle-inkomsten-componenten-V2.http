@@ -1,0 +1,272 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+    "type": "{{objecttypes_api_url_alo}}",
+    "record": {
+        "typeVersion": "{{objecttypes_version}}",
+        "data": {
+            "bsn": "999991322",
+             "data": {
+                "alo-ioaw": {
+                    "grIoaw": {
+                        "geenRechtMeerWw": "NEE",
+                        "geenRechtMeerWga": "NEE",
+                        "gedeeltelijkArbeidsongeschikt": "NEE"
+                    }
+                },
+                "schulden": {
+                    "heeftSchulden": "NEE"
+                },
+                "your-details": {
+                    "naw": {
+                        "grAdresgegevens": {
+                            "plaats": "'s-Gravenhage",
+                            "straat": "Herengracht",
+                            "postcode": "2511 EG",
+                            "huisletter": "",
+                            "huisnummer": "1",
+                            "toevoeging": ""
+                        },
+                        "grPersoongegevens": {
+                            "Bsn": "999991322",
+                            "voornaam": "Celeste",
+                            "achternaam": "Avion",
+                            "voorletters": "C.",
+                            "voorvoegsels": "",
+                            "geboortedatum": "1960-12-29"
+                        }
+                    }
+                },
+                "alo-uitbetaling": {
+                    "ibanAanWie": "NEE"
+                },
+                "alo-uw-inkomsten": {
+                    "grUitkering": {
+                        "grWw": {
+                            "ww": 100,
+                            "wwPeriode": "WEEK",
+                            "wwOverzicht": []
+                        },
+                        "grAnw": {
+                            "anw": 100,
+                            "anwPeriode": "MAAND",
+                            "anwOverzicht": []
+                        },
+                        "grAow": {
+                            "aow": 100,
+                            "aowPeriode": "WEEK",
+                            "aowOverzicht": []
+                        },
+                        "grWao": {
+                            "wao": 100,
+                            "waoPeriode": "PER_VIER_WEKEN",
+                            "waoOverzicht": []
+                        },
+                        "grWia": {
+                            "wia": 100,
+                            "wiaPeriode": "WEEK",
+                            "wiaOverzicht": []
+                        },
+                        "grWajong": {
+                            "wajong": 100,
+                            "wajongPeriode": "MAAND",
+                            "wajongOverzicht": []
+                        },
+                        "grZiektewet": {
+                            "ziektewet": 100,
+                            "ziektewetPeriode": "PER_VIER_WEKEN",
+                            "ziektewetOverzicht": []
+                        },
+                        "welkeUitkering": {
+                            "WW": true,
+                            "ANW": true,
+                            "AOW": true,
+                            "WAO": true,
+                            "WIA": true,
+                            "WAJONG": true,
+                            "ZIEKTEWET": true
+                        }
+                    },
+                    "grLoondienst": {
+                        "hhgWerkgevers": [
+                            {
+                                "nettoloon": 400,
+                                "uploadLoon": [],
+                                "hoevaakLoon": "WEEK",
+                                "naamWerkgever": "Bedriujf B",
+                                "soortContract": "NUL_UREN_CONTRACT",
+                                "hoeveelUurWerk": 10,
+                                "kiesLoonheffing": "NEE",
+                                "kiesStopContract": "NEE",
+                                "urenvermindering": "NEE",
+                                "kiesExtraUitbetaald": "NEE"
+                            },
+                            {
+                                "maaltijd": 100,
+                                "onkosten": 100,
+                                "nettoloon": 2500,
+                                "reiskosten": 100,
+                                "uploadLoon": [],
+                                "hoevaakLoon": "MAAND",
+                                "hoeveelNatura": 100,
+                                "naamWerkgever": "Test1",
+                                "soortContract": "VAST_CONTRACT",
+                                "hoeveelUurWerk": 40,
+                                "extraUitbetaald": {
+                                    "LOON_IN_NATURA": true,
+                                    "MAALTIJDVERGOEDING": true,
+                                    "ONKOSTENVERGOEDING": true,
+                                    "EINDEJAARSUITKERING": true,
+                                    "REISKOSTENVERGOEDING": true,
+                                    "EEN_KEER_PER_JAAR_VAKANTIEGELD": true,
+                                    "VAKANTIEGELD_BIJ_IEDERE_UITBETALING": true
+                                },
+                                "kiesLoonheffing": "JA",
+                                "kiesStopContract": "NEE",
+                                "urenvermindering": "NEE",
+                                "kiesExtraUitbetaald": "JA"
+                            }
+                        ]
+                    },
+                    "grPensioenen": {
+                        "hhgPensioenen": [
+                            {
+                                "pensioenBedrag": 500,
+                                "pensioenPeriode": "MAAND",
+                                "pensioenOverzicht": []
+                            }
+                        ]
+                    },
+                    "grAlimentatie": {
+                        "alimentatie": "JA",
+                        "betaaltPartner": "JA",
+                        "alimentatieHulpEx": "JA",
+                        "alimentatieHoeveel": 700,
+                        "alimentatieRechtOp": "JA",
+                        "partnerAlimentatie": 90,
+                        "alimentatieHulpExHoeveel": 100
+                    },
+                    "heeftInkomsten": "JA",
+                    "soortenInkomsten": {
+                        "PENSIOEN": true,
+                        "UITKERING": true,
+                        "LOONDIENST": true,
+                        "ALIMENTATIE": true,
+                        "HEFFINGSKORTING": true,
+                        "OVERIGE_INKOMSTEN": true,
+                        "INKOMEN_UIT_BUITENLAND": true,
+                        "INKOMEN_UIT_ONDERNEMING": true,
+                        "INKOMSTEN_UIT_ONDERHUUR": true
+                    },
+                    "grOverigeInkomsten": {
+                        "overigeBedrag": 600,
+                        "grUploadBewijsOverigeInkomsten": {
+                            "overigeUpload": []
+                        }
+                    },
+                    "grHeffingskortingen": {
+                        "heffingskortingSoort": {
+                            "ALGEMENE_HEFFINGSKORTING": true,
+                            "INKOMENSAFHANKELIJKE_COMBINATIEKORTING": true
+                        },
+                        "heffingskortingBedragTotaal": 500
+                    },
+                    "grInkomenBuitenland": {
+                        "inkomenBuitenlandBedrag": 800,
+                        "inkomenBuitenlandPeriode": "MAAND",
+                        "grUploadInkomenBuitenland": {
+                            "inkomenBuitenlandUpload": []
+                        }
+                    },
+                    "grInkomstenOnderhuur": {
+                        "inkomstenOnderhuurBedrag": 600,
+                        "grUploadOnderhuurContract": {
+                            "inkomstenOnderhuurUpload": []
+                        }
+                    },
+                    "grInkomstenOnderneming": {
+                        "kvk": "90004973",
+                        "inkomenOnderneming": 1250
+                    }
+                },
+                "alo-reden-aanvraag": {
+                    "grGeenInkomen": {
+                        "waaromGeenInkomen": "GEEN_WERK"
+                    },
+                    "grIngangsdatum": {
+                        "bijstandsuitkeringEerderStarten": "NEE"
+                    },
+                    "grGeenBetaaldWerk": {
+                        "waaromGeenWerk": "REORGANISATIE",
+                        "naamOudWerkgever": "Bedrijf 1",
+                        "adresOudWerkgever": "Herengracht 1 2511 EG Ben Haag",
+                        "totWanneerSalaris": "2025-12-31",
+                        "telefoonOudWerkgever": ""
+                    },
+                    "waaromBijstandsuitkering": "GEEN_ONVOLDOENDE_INKOMEN"
+                },
+                "alo-uw-woonsituatie": {
+                    "hoeWoontU": "EIGEN_KOOPWONING_OF_WOONBOOT",
+                    "grAndereBewoners": {
+                        "meerMensenOpAdres": "NEE"
+                    }
+                },
+                "alo-uw-beschikbaarheid": {
+                    "grBeschikbaarheid": {
+                        "onbetaald": "NEE",
+                        "beschikbaarheid": 36
+                    }
+                },
+                "alo-gezinssamenstelling": {
+                    "partnerWoontBijU": "NEE",
+                    "thuiswonendeKinderen": "NEE"
+                },
+                "alo-aanvullende-gegevens": {
+                    "lieverPost": false,
+                    "grWoonsituatie": {
+                        "woonsituatie": "WAAR_IK_WOON"
+                    },
+                    "grNationaliteit": {
+                        "nationaliteitBezit": "NEDERLANDSE_NATIONALITEIT"
+                    },
+                    "grContactAanvraag": {
+                        "hulpAanvraag": "NEE"
+                    },
+                    "grNieuweContactgegevens": {
+                        "geenEmail": false,
+                        "emailAdres": "example@example.com",
+                        "geenTelefoon": true
+                    }
+                },
+                "alo-bezittingen-en-schulden": {
+                    "grRekeningen": {
+                        "geenBankrekening": "GEEN_REKENING"
+                    },
+                    "grUwVermogen": {
+                        "welkVermogen": {
+                            "CRYPTO": false,
+                            "CARAVAN": false,
+                            "ERFENIS": false,
+                            "VAARTUIG": false,
+                            "CONTANTEN": false,
+                            "KOOPWONING": false,
+                            "MOTORVOERTUIG": false,
+                            "EEN_STUK_GROND": false,
+                            "OBLIGATIES_AANDELEN": false,
+                            "BANK_EN_SPAARREKENINGEN": false
+                        }
+                    }
+                }
+            },
+            "type": "Verzoek AB DCM",
+            "language_code": "nl",
+            "submission_id": "",
+            "public_reference": "OF-{{$random.alphanumeric(8)}}"
+        },
+        "startAt": "2025-09-04",
+        "registrationAt": "2025-09-04"
+    }
+}

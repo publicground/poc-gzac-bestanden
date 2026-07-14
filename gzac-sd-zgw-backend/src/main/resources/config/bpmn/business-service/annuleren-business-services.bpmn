@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_159nndh" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.42.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_0x05m8z">
+    <bpmn:participant id="AnnulerenBusinessServicesParticipant" name="Annuleren business services" processRef="alo-annuleren-business-services" />
+  </bpmn:collaboration>
+  <bpmn:process id="alo-annuleren-business-services" name="ALO: Annuleren business services" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_1fzvzav" sourceRef="StartEvent_1" targetRef="OphalenActiveBusinessServicesTask" />
+    <bpmn:sequenceFlow id="Flow_1fji44x" sourceRef="BepalenTeAnnulerenBsMessageIdsTask" targetRef="VersturenAnnuleringSubProcess" />
+    <bpmn:sequenceFlow id="Flow_0vrgz93" sourceRef="VersturenAnnuleringSubProcess" targetRef="Event_17tq2r5" />
+    <bpmn:sequenceFlow id="Flow_1wf9yly" sourceRef="OphalenActiveBusinessServicesTask" targetRef="StaatErEenPortaaltaakUitGateway" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="StaatErEenPortaaltaakUitGateway" targetRef="Gateway_12mt66p" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="StaatErEenPortaaltaakUitGateway" targetRef="GenericAnnulerenPortaalEnVerwijderenHersteltermijnCallActivity">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${activeBusinessServices !=null &amp;&amp; teAnnulerenBsBouwblokken == "alle-actieve-bsb" &amp;&amp; activeBusinessServices.contains("generic-uitzetten-informatieverzoek")}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1bjc0sh" sourceRef="Gateway_12mt66p" targetRef="BepalenTeAnnulerenBsMessageIdsTask" />
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1fzvzav</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="OphalenActiveBusinessServicesTask" name="Ophalen active business services" camunda:asyncAfter="true" camunda:expression="${processService.getProcessDefinitionKeysFromActiveProcessInstances(execution)}" camunda:resultVariable="activeBusinessServices">
+      <bpmn:incoming>Flow_1fzvzav</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wf9yly</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="StaatErEenPortaaltaakUitGateway" name="Staat er een portaaltaak uit?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_1wf9yly</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="GenericAnnulerenPortaalEnVerwijderenHersteltermijnCallActivity" name="Generic: annuleren portaal en verwijderen hersteltermijn" camunda:asyncBefore="true" calledElement="generic-annuleren-portaal-en-verwijderen-hersteltermijn">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ba8g34</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="Flow_1ba8g34" sourceRef="GenericAnnulerenPortaalEnVerwijderenHersteltermijnCallActivity" targetRef="Gateway_12mt66p" />
+    <bpmn:exclusiveGateway id="Gateway_12mt66p">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:incoming>Flow_1ba8g34</bpmn:incoming>
+      <bpmn:outgoing>Flow_1bjc0sh</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:businessRuleTask id="BepalenTeAnnulerenBsMessageIdsTask" name="Bepalen te annuleren bs message ids" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:resultVariable="resultTeAnnulerenBSBs" camunda:decisionRef="alo-bepalen-te-annuleren-bs-messages">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1bjc0sh</bpmn:incoming>
+      <bpmn:outgoing>Flow_1fji44x</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:endEvent id="Event_17tq2r5">
+      <bpmn:incoming>Flow_0vrgz93</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:subProcess id="VersturenAnnuleringSubProcess" name="Versturen annulering" camunda:asyncBefore="true">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="teAnnulerenBsb">${teAnnulerenBsbElement.teAnnulerenBsb}</camunda:inputParameter>
+          <camunda:inputParameter name="messageId">${teAnnulerenBsbElement.teAnnulerenBsMessageId}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1fji44x</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vrgz93</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics camunda:asyncBefore="true" camunda:collection="resultTeAnnulerenBSBs" camunda:elementVariable="teAnnulerenBsbElement" />
+      <bpmn:startEvent id="Event_1rfbyb6">
+        <bpmn:outgoing>Flow_08q3swi</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="Flow_08q3swi" sourceRef="Event_1rfbyb6" targetRef="OphalenNogActiveBusinessServicesTask" />
+      <bpmn:intermediateThrowEvent id="Event_1xwluyv" camunda:asyncBefore="true">
+        <bpmn:incoming>JaSequenceFlow1</bpmn:incoming>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_1b3gkkj" camunda:expression="${correlationService.sendCatchEventMessage(messageId,execution.businessKey)}" />
+      </bpmn:intermediateThrowEvent>
+      <bpmn:sequenceFlow id="Flow_16g647x" sourceRef="OphalenNogActiveBusinessServicesTask" targetRef="BsbNogActiefGateway" />
+      <bpmn:serviceTask id="OphalenNogActiveBusinessServicesTask" name="Ophalen active business services" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:expression="${processService.getProcessDefinitionKeysFromActiveProcessInstances(execution)}" camunda:resultVariable="activeBusinessServicesLatest">
+        <bpmn:incoming>Flow_08q3swi</bpmn:incoming>
+        <bpmn:outgoing>Flow_16g647x</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:exclusiveGateway id="BsbNogActiefGateway" name="bsb nog actief?" default="JaSequenceFlow1">
+        <bpmn:incoming>Flow_16g647x</bpmn:incoming>
+        <bpmn:outgoing>JaSequenceFlow1</bpmn:outgoing>
+        <bpmn:outgoing>NeeSequenceFlow1</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:sequenceFlow id="JaSequenceFlow1" name="Ja" sourceRef="BsbNogActiefGateway" targetRef="Event_1xwluyv" />
+      <bpmn:endEvent id="Event_07bv17k">
+        <bpmn:incoming>NeeSequenceFlow1</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="NeeSequenceFlow1" name="Nee" sourceRef="BsbNogActiefGateway" targetRef="Event_07bv17k">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!activeBusinessServicesLatest.contains(teAnnulerenBsb)}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+    </bpmn:subProcess>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0x05m8z">
+      <bpmndi:BPMNShape id="Participant_1b861me_di" bpmnElement="AnnulerenBusinessServicesParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1540" height="410" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1c6i5zu_di" bpmnElement="OphalenActiveBusinessServicesTask">
+        <dc:Bounds x="320" y="250" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0ajzhdn_di" bpmnElement="StaatErEenPortaaltaakUitGateway" isMarkerVisible="true">
+        <dc:Bounds x="475" y="265" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="463" y="322" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1pxllab_di" bpmnElement="GenericAnnulerenPortaalEnVerwijderenHersteltermijnCallActivity">
+        <dc:Bounds x="570" y="168" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_12mt66p_di" bpmnElement="Gateway_12mt66p" isMarkerVisible="true">
+        <dc:Bounds x="705" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0p36u17_di" bpmnElement="BepalenTeAnnulerenBsMessageIdsTask">
+        <dc:Bounds x="830" y="250" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17tq2r5_di" bpmnElement="Event_17tq2r5">
+        <dc:Bounds x="1612" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1eywc6p_di" bpmnElement="VersturenAnnuleringSubProcess" isExpanded="true">
+        <dc:Bounds x="1010" y="140" width="520" height="280" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1rfbyb6_di" bpmnElement="Event_1rfbyb6">
+        <dc:Bounds x="1050" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ywa0a7_di" bpmnElement="Event_1xwluyv">
+        <dc:Bounds x="1442" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0qmbnhd_di" bpmnElement="OphalenNogActiveBusinessServicesTask">
+        <dc:Bounds x="1150" y="250" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_142ia07_di" bpmnElement="BsbNogActiefGateway" isMarkerVisible="true">
+        <dc:Bounds x="1315" y="265" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1302" y="325" width="75" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_07bv17k_di" bpmnElement="Event_07bv17k">
+        <dc:Bounds x="1442" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_08q3swi_di" bpmnElement="Flow_08q3swi">
+        <di:waypoint x="1086" y="290" />
+        <di:waypoint x="1150" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_16g647x_di" bpmnElement="Flow_16g647x">
+        <di:waypoint x="1250" y="290" />
+        <di:waypoint x="1315" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1281rxb_di" bpmnElement="JaSequenceFlow1">
+        <di:waypoint x="1365" y="290" />
+        <di:waypoint x="1442" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1387" y="272" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bdmdwb_di" bpmnElement="NeeSequenceFlow1">
+        <di:waypoint x="1340" y="265" />
+        <di:waypoint x="1340" y="210" />
+        <di:waypoint x="1442" y="210" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1309" y="233" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fzvzav_di" bpmnElement="Flow_1fzvzav">
+        <di:waypoint x="268" y="290" />
+        <di:waypoint x="320" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1fji44x_di" bpmnElement="Flow_1fji44x">
+        <di:waypoint x="930" y="290" />
+        <di:waypoint x="1010" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vrgz93_di" bpmnElement="Flow_0vrgz93">
+        <di:waypoint x="1530" y="290" />
+        <di:waypoint x="1612" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wf9yly_di" bpmnElement="Flow_1wf9yly">
+        <di:waypoint x="420" y="290" />
+        <di:waypoint x="475" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05ld3a0_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="525" y="290" />
+        <di:waypoint x="705" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="605" y="272" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xbhifw_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="500" y="265" />
+        <di:waypoint x="500" y="208" />
+        <di:waypoint x="570" y="208" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="495" y="183" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bjc0sh_di" bpmnElement="Flow_1bjc0sh">
+        <di:waypoint x="755" y="290" />
+        <di:waypoint x="830" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ba8g34_di" bpmnElement="Flow_1ba8g34">
+        <di:waypoint x="670" y="208" />
+        <di:waypoint x="730" y="208" />
+        <di:waypoint x="730" y="265" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

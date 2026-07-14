@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0st8q2v" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_1l94hsy">
+    <bpmn:participant id="BSVerwerkenBuitenBehandelingStellingParticipant" name="BS Verwerken buiten behandeling stelling" processRef="bs-verwerken-buiten-behandeling-stelling" />
+    <bpmn:textAnnotation id="TextAnnotation_0bed85w">
+      <bpmn:text>Notificatie: Nieuw document op portaal</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_03cyoxg">
+      <bpmn:text>Zaak en Interne status: Beslist</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1uext9x" associationDirection="None" sourceRef="VersturenEmailnotificatieTask" targetRef="TextAnnotation_0bed85w" />
+    <bpmn:association id="Association_045kfzu" associationDirection="None" sourceRef="UpdateZaakstatusEnInterneStatusCallActivity" targetRef="TextAnnotation_03cyoxg" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-verwerken-buiten-behandeling-stelling" name="BS Verwerken buiten behandeling stelling" isExecutable="true">
+    <bpmn:userTask id="VastleggenBuitenBehandelingStellingTask" name="Vastleggen buiten behandeling stelling" camunda:asyncAfter="true" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="4">
+      <bpmn:incoming>Flow_0moiwah</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uh3dt0</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="IntrekkingGeheleAanvraagOntvangenStartEvent" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_0moiwah</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0moiwah" sourceRef="IntrekkingGeheleAanvraagOntvangenStartEvent" targetRef="VastleggenBuitenBehandelingStellingTask" />
+    <bpmn:sequenceFlow id="Flow_0phixeg" sourceRef="VastleggenBesluitCallActivity" targetRef="EmailAanwezigGateway" />
+    <bpmn:sequenceFlow id="Flow_04dbrz8" sourceRef="VersturenEmailnotificatieTask" targetRef="Gateway_0oox71j" />
+    <bpmn:sequenceFlow id="Flow_1uh3dt0" sourceRef="VastleggenBuitenBehandelingStellingTask" targetRef="GetBesluitDocumentUrlTask" />
+    <bpmn:sequenceFlow id="Flow_0v87q46" sourceRef="GetBesluitDocumentUrlTask" targetRef="VastleggenBesluitCallActivity" />
+    <bpmn:sequenceFlow id="Flow_1xmwyeq" sourceRef="Gateway_0oox71j" targetRef="UpdateZaakstatusEnInterneStatusCallActivity" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Ja" sourceRef="EmailAanwezigGateway" targetRef="VersturenEmailnotificatieTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${emailAanvrager != null &amp;&amp; emailAanvrager != ""}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Nee" sourceRef="EmailAanwezigGateway" targetRef="Gateway_0oox71j" />
+    <bpmn:sequenceFlow id="Flow_1ige7px" sourceRef="UpdateZaakstatusEnInterneStatusCallActivity" targetRef="Event_0bp5bf2" />
+    <bpmn:serviceTask id="GetBesluitDocumentUrlTask" name="Get besluit document url " camunda:asyncAfter="true" camunda:expression="${resourceStorageDelegate.getMetadata(tempFileId,&#34;documentUrl&#34;)}" camunda:resultVariable="besluitDocumentUrl">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="tempFileId">${besluit.besluitDocumenten[0].id}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1uh3dt0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0v87q46</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="VastleggenBesluitCallActivity" name="Vastleggen besluit" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-vastleggen-besluit">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="besluitDocumentUrl" target="besluitDocumentUrl" />
+        <camunda:in source="besluitTypeDescription" target="besluitTypeDescription" />
+        <camunda:in source="besluitIngangsdatum" target="besluitIngangsdatum" />
+        <camunda:inputOutput>
+          <camunda:inputParameter name="besluitTypeDescription">Buiten behandeling gesteld</camunda:inputParameter>
+          <camunda:inputParameter name="besluitIngangsdatum">${dateTime().toLocalDate().toString()}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0v87q46</bpmn:incoming>
+      <bpmn:outgoing>Flow_0phixeg</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:serviceTask id="VersturenEmailnotificatieTask" name="Versturen emailnotificatie" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_04dbrz8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="EmailAanwezigGateway" name="Email aanwezig?" default="JaSequenceFlow">
+      <bpmn:incoming>Flow_0phixeg</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0oox71j">
+      <bpmn:incoming>Flow_04dbrz8</bpmn:incoming>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1xmwyeq</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:callActivity id="UpdateZaakstatusEnInterneStatusCallActivity" name="Update zaakstatus en interne status" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="generic-update-zaakstatus-en-interne-status-plugin-v2">
+      <bpmn:extensionElements>
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:in source="zaakstatus" target="zaakstatus" />
+        <camunda:in source="interneStatus" target="interneStatus" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1xmwyeq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ige7px</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="Event_0bp5bf2">
+      <bpmn:incoming>Flow_1ige7px</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1l94hsy">
+      <bpmndi:BPMNShape id="Participant_1w8n009_di" bpmnElement="BSVerwerkenBuitenBehandelingStellingParticipant" isHorizontal="true">
+        <dc:Bounds x="170" y="90" width="1280" height="330" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0o9ox8t" bpmnElement="VastleggenBuitenBehandelingStellingTask">
+        <dc:Bounds x="340" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0z5ebbo" bpmnElement="IntrekkingGeheleAanvraagOntvangenStartEvent">
+        <dc:Bounds x="252" y="242" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="728" y="352" width="84" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1sp5sd6" bpmnElement="GetBesluitDocumentUrlTask">
+        <dc:Bounds x="520" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1bz2gsn" bpmnElement="VastleggenBesluitCallActivity">
+        <dc:Bounds x="690" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0uyrj69" bpmnElement="VersturenEmailnotificatieTask">
+        <dc:Bounds x="960" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0vbak6q_di" bpmnElement="EmailAanwezigGateway" isMarkerVisible="true">
+        <dc:Bounds x="835" y="235" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="822" y="213" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1s10h7y_di" bpmnElement="Gateway_0oox71j" isMarkerVisible="true">
+        <dc:Bounds x="1095" y="235" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_10sh2ya" bpmnElement="UpdateZaakstatusEnInterneStatusCallActivity">
+        <dc:Bounds x="1210" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_04lkc6f" bpmnElement="Event_0bp5bf2">
+        <dc:Bounds x="1372" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_1q580u9" bpmnElement="Flow_0moiwah">
+        <di:waypoint x="288" y="260" />
+        <di:waypoint x="340" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_03ud4n5" bpmnElement="Flow_0phixeg">
+        <di:waypoint x="790" y="260" />
+        <di:waypoint x="835" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0df7cej" bpmnElement="Flow_04dbrz8">
+        <di:waypoint x="1060" y="260" />
+        <di:waypoint x="1095" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uh3dt0_di" bpmnElement="Flow_1uh3dt0">
+        <di:waypoint x="440" y="260" />
+        <di:waypoint x="520" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v87q46_di" bpmnElement="Flow_0v87q46">
+        <di:waypoint x="620" y="260" />
+        <di:waypoint x="690" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_0co0sjp" bpmnElement="Flow_1xmwyeq">
+        <di:waypoint x="1145" y="260" />
+        <di:waypoint x="1210" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_08nz7tb" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="885" y="260" />
+        <di:waypoint x="960" y="260" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="917" y="242" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_10vh9n8" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="860" y="285" />
+        <di:waypoint x="860" y="350" />
+        <di:waypoint x="1120" y="350" />
+        <di:waypoint x="1120" y="285" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="879" y="323" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ige7px_di" bpmnElement="Flow_1ige7px">
+        <di:waypoint x="1310" y="260" />
+        <di:waypoint x="1372" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_1r20fp1" bpmnElement="TextAnnotation_0bed85w">
+        <dc:Bounds x="960" y="132" width="130" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_03cyoxg_di" bpmnElement="TextAnnotation_03cyoxg">
+        <dc:Bounds x="1210" y="138" width="160" height="39" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_0kmffwe" bpmnElement="Association_1uext9x">
+        <di:waypoint x="1010" y="220" />
+        <di:waypoint x="1010" y="173" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_045kfzu_di" bpmnElement="Association_045kfzu">
+        <di:waypoint x="1260" y="220" />
+        <di:waypoint x="1260" y="177" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

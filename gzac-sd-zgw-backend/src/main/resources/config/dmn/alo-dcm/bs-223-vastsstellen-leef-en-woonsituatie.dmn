@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="bs-223-vastsstellen-leef-en-woonsituatie" name="BS 223 vastsstellen leef en woonsituatie DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.39.0">
+  <decision id="bs-223-kwalitatief-voldoende-aanwezig" name="Bepalen gegevens kwalitatief voldoende aanwezig">
+    <informationRequirement id="InformationRequirement_057uovv">
+      <requiredInput href="#InputData_137y6mi" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_04jt1dk">
+      <requiredInput href="#InputData_193yq7t" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1oedp7n">
+      <requiredInput href="#InputData_0jm9pb0" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1lq4anw">
+      <input id="InputClause_0vz8ehm" label="Is Leef- en Woonsituatie al vastgesteld?" camunda:inputVariable="leefEnWoonsituatieVastgesteld">
+        <inputExpression id="LiteralExpression_0x2t6jm" typeRef="boolean" />
+      </input>
+      <input id="InputClause_0wzaam3" label="Datum leef- woonsituatie vastgesteld" biodi:width="212">
+        <inputExpression id="LiteralExpression_0z950pm" typeRef="boolean">
+          <text>datumVaststellingLeefEnWoonsituatie != null</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1045cf9" label="Handmatig vaststellen" camunda:inputVariable="handmatigVaststellen">
+        <inputExpression id="LiteralExpression_08vpcsh" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0vfs3fr" label="Gegevens kwalitatief voldoende aanwezig" name="voldoendeGegevensAanwezig" typeRef="boolean" />
+      <output id="OutputClause_127rl6e" label="Handmatig vaststellen" name="handmatigVaststellen" typeRef="boolean" />
+      <rule id="DecisionRule_0x10jl8">
+        <inputEntry id="UnaryTests_1bsut4w">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0cz9wbj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j6n8bg">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1vfm4jv">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13syhjx">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_019xjvc">
+        <inputEntry id="UnaryTests_0cwowfa">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oryiab">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0e3y54r">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_080653u">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dh4pbq">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17lm1q8">
+        <inputEntry id="UnaryTests_1dfnfpf">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pv8gmn">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ktgsoz">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qe738w">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06hpk6w">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_137y6mi" name="leefEnWoonsituatieVastgesteld" />
+  <inputData id="InputData_193yq7t" name="datumVaststellingLeefEnWoonsituatie" />
+  <inputData id="InputData_0jm9pb0" name="handmatigVaststellen" />
+  <decision id="bs-223-vaststellen-woonsituatie" name="Vaststellen woonsituatie">
+    <informationRequirement id="InformationRequirement_0oss21n">
+      <requiredInput href="#InputData_1wpofnp" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1uucc62">
+      <requiredInput href="#InputData_188dzh6" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_13zdrrg">
+      <requiredInput href="#InputData_0v0wau4" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1hx0yx8">
+      <requiredInput href="#InputData_17mc55n" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0jnyice">
+      <requiredInput href="#InputData_182c0ef" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_06uqzb5">
+      <requiredInput href="#InputData_0rjh69r" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0zbz4hg">
+      <requiredInput href="#InputData_06gx64p" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_00rbleo" hitPolicy="FIRST" biodi:annotationsWidth="416">
+      <input id="InputClause_0au226w" label="Partner aanwezig?" camunda:inputVariable="partnerAanwezig">
+        <inputExpression id="LiteralExpression_0xqnwkq" typeRef="boolean" />
+      </input>
+      <input id="InputClause_1881wpb" label="Partner verblijft op hetzelfde verblijfadres als aanvrager?" biodi:width="242">
+        <inputExpression id="LiteralExpression_1eni3nd" typeRef="boolean">
+          <text>verblijfadresAanvrager != null and verblijfadresPartner != null and
+verblijfadresAanvrager.postcode = verblijfadresPartner.postcode and
+verblijfadresAanvrager.huisnummer = verblijfadresPartner.huisnummer and
+verblijfadresAanvrager.straatnaam = verblijfadresPartner.straatnaam and
+verblijfadresAanvrager.woonplaatsnaam = verblijfadresPartner.woonplaatsnaam and
+verblijfadresAanvrager.huisletter = verblijfadresPartner.huisletter</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_09la89n" label="verblijfadres aanvrager = instelling" camunda:inputVariable="verblijfadresAanvragerIsInstelling">
+        <inputExpression id="LiteralExpression_01qdtq7" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_05h35sj" label="verblijfadres partner = instelling" camunda:inputVariable="verblijfadresPartnerIsInstelling">
+        <inputExpression id="LiteralExpression_1m6057h" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_08xwstp" label="Woonsituatie volgens aanvraag = &#34;Zorginstelling&#34; of &#34;Maatschappelijke opvang&#34;" biodi:width="261">
+        <inputExpression id="LiteralExpression_044qufa" typeRef="boolean">
+          <text>woonsituatieVolgensAanvraag = "ZORGINSTELLING" or woonsituatieVolgensAanvraag = "MAATSCHAPPELIJKE_OPVANG"</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0wkgua8" label="Handmatig vaststellen?" camunda:inputVariable="handmatigVaststellen">
+        <inputExpression id="LiteralExpression_05i3nzt" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0gdpn2f" label="Aantal belanghebbenden" name="aantalBelanghebbende" typeRef="integer" biodi:width="192" />
+      <output id="OutputClause_0icnu1z" label="Woonsituatie" name="woonsituatie" typeRef="string" />
+      <output id="OutputClause_1g2af9c" label="art 23.3 mogelijk van toepassing" name="art23Lid3VanToepassing" typeRef="string" />
+      <output id="OutputClause_0ng39yw" label="Handmatig vaststellen" name="handmatigVaststellen" typeRef="boolean" />
+      <rule id="DecisionRule_0zaeh2e">
+        <description>handmatig vaststellen</description>
+        <inputEntry id="UnaryTests_0h8of0n">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gglwgi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qvs0s8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hlb767">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0j7dh4o">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05nfa2h">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0iq1hdn">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_18549ma">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19ky174">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_149nmp2">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_19oxeln">
+        <description>Aanvrager en Partner wonen beide op hetzelfde adres, adres is een instelling, op aanvraag is ook aangegeven dat de woonsituatie een instelling is -&gt; verblijf in instelling</description>
+        <inputEntry id="UnaryTests_1aibbpu">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1b2h55y">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ts9evq">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gteif7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oy1u9z">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_101asu2">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_03czoe8">
+          <text>2</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ahcuv6">
+          <text>"VERBLIJF_INSTELLING"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04nsi9o">
+          <text>"NEE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1e89a8i">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_037wfy4">
+        <description>Aanvrager en Partner wonen beide op hetzelfde adres, adres is een instelling, op aanvraag is aangegeven dat de woonsituatie geen instelling is -&gt; zelfstandig wonend, handmatig vaststellen</description>
+        <inputEntry id="UnaryTests_0j0rr36">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18xj5rm">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0nq6p7q">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1pepmlm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qag6hk">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1q9jjz0">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1vt1vq1">
+          <text>2</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_170xolo">
+          <text>"ZELFSTANDIG_WONEND"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0avo0ip">
+          <text>"NEE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0hd60sl">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14t1bbk">
+        <description>Aanvrager en Partner wonen beide op hetzelfde adres, adres is geen instelling, op aanvraag is ook aangegeven dat de woonsituatie geen instelling is -&gt; zelfstandig wonend</description>
+        <inputEntry id="UnaryTests_1k11016">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gauiod">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0smlxvf">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tmt9ec">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1eicut8">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0b76nwt">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ia3cp7">
+          <text>2</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0kbq0yb">
+          <text>"ZELFSTANDIG_WONEND"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0w3isdn">
+          <text>"NEE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13wt9de">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ioyazt">
+        <description>Aanvrager en Partner wonen beide op hetzelfde adres, adres is geen instelling, op aanvraag is aangegeven dat de woonsituatie een instelling is -&gt; verblijf in instelling, handmatig vaststellen</description>
+        <inputEntry id="UnaryTests_05bydnw">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11cukdm">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05dv7ml">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ernyx1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0aw2ozo">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qt95fy">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1i0ejet">
+          <text>2</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1n05qzd">
+          <text>"VERBLIJF_INSTELLING"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_08wrqa8">
+          <text>"NEE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wvn6dr">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0h9w6qz">
+        <description>Aanvrager en Partner wonen niet op hetzelfde adres, adres aanvrager is instelling  -&gt; art 23.3 mogelijk van toepassing, handmatig vaststellen</description>
+        <inputEntry id="UnaryTests_1929xhu">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1f995it">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_014s91y">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vssk9l">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0nlyg5n">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e6fy1k">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_13p20nt">
+          <text>2</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ob329f">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ndhp64">
+          <text>"JA"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1t2ufzj">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0w2d0go">
+        <description>Aanvrager en Partner wonen niet op hetzelfde adres, adres partner is instelling  -&gt; art 23.3 mogelijk van toepassing, handmatig vaststellen</description>
+        <inputEntry id="UnaryTests_17ufmcl">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ikyvlk">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vrbdjc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gpht60">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lqr22c">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11d6ps7">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0q0n1zu">
+          <text>2</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_16abxq9">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1kzg9c0">
+          <text>"JA"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04r759n">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0u9rzn7">
+        <description>Aanvrager en Partner wonen niet op hetzelfde adres op aanvraag is aangegeven dat de woonsituatie een instelling is -&gt; art 23.3 mogelijk van toepassing, handmatig vaststellen</description>
+        <inputEntry id="UnaryTests_0mbgf9h">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wvtivi">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tlmk9m">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0c9pcyp">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05z3x22">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05b6otf">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0n1pyb0">
+          <text>2</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0c2048h">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04vtiym">
+          <text>"JA"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0sitjj2">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_13nhjq1">
+        <description>Geen partner aanwezig, adres is een instelling, op aanvraag is ook aangegeven dat de woonsituatie een instelling is -&gt; verblijf in instelling</description>
+        <inputEntry id="UnaryTests_1nz78x4">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1oxz4xz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ku91he">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_192uptm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kh5f1h">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hpndso">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1yagpib">
+          <text>1</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_15xnqjy">
+          <text>"VERBLIJF_INSTELLING"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1xso8rg">
+          <text>"NEE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_060nr78">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06oit12">
+        <description>Geen partner aanwezig, adres is een instelling, op aanvraag is aangegeven dat de woonsituatie geen instelling is -&gt; zelfstandig wonend, handmatig vaststellen</description>
+        <inputEntry id="UnaryTests_1swcigh">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00myl9x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08henne">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rn2q79">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rib3ix">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ht379e">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ra3e4b">
+          <text>1</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19vxdtb">
+          <text>"ZELFSTANDIG_WONEND"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_199odrj">
+          <text>"NEE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ybkys3">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hrwbk5">
+        <description>Geen partner aanwezig, adres is geen instelling, op aanvraag is aangegeven dat de woonsituatie geen instelling is -&gt; Zelfstandig wonend</description>
+        <inputEntry id="UnaryTests_0e08d73">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1391bvy">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1476amz">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1aaq081">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0w87wu7">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xozzh7">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1on3swb">
+          <text>1</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1t8e4v9">
+          <text>"ZELFSTANDIG_WONEND"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0pdos03">
+          <text>"NEE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0mx47ma">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_052o2dp">
+        <description>Geen partner aanwezig, adres is geen instelling, op aanvraag is aangegeven dat de woonsituatie een instelling is -&gt; verblijf in instelling, handmatig vaststellen</description>
+        <inputEntry id="UnaryTests_1sieeku">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0olnepz">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rykfws">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0cw7nr2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1666d91">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06vjlwt">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1787mir">
+          <text>1</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1xliy2m">
+          <text>"VERBLIJF_INSTELLING"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vhigi1">
+          <text>"NEE"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1uaeyd2">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0akb2br">
+        <inputEntry id="UnaryTests_09wyqne">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1q5y70s">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ygl8my">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12ouda2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07tfajc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19j2pv1">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15ewx4k">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_14oi67i">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1s1f74x">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ychug3">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1wpofnp" name="partnerAanwezig" />
+  <inputData id="InputData_188dzh6" name="verblijfadresPartner" />
+  <inputData id="InputData_0v0wau4" name="handmatigVaststellen" />
+  <inputData id="InputData_17mc55n" name="verblijfadresAanvrager" />
+  <inputData id="InputData_182c0ef" name="verblijfadresPartnerIsInstelling" />
+  <decision id="bs-223-vaststellen-leefsituatie" name="Vaststellen leefsituatie">
+    <informationRequirement id="InformationRequirement_1qqde03">
+      <requiredInput href="#InputData_0hrbsrw" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1vs5njk">
+      <requiredInput href="#InputData_068gozn" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0cdgngr">
+      <requiredInput href="#InputData_14cv633" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_19i9t8d" hitPolicy="FIRST">
+      <input id="InputClause_0l8axfh" label="Woonsituatie" biodi:width="223" camunda:inputVariable="woonsituatie">
+        <inputExpression id="LiteralExpression_138l34z" typeRef="string" />
+      </input>
+      <input id="InputClause_1pax18c" label="Aantal belanghebbende" camunda:inputVariable="aantalBelanghebbende">
+        <inputExpression id="LiteralExpression_0ewnoys" typeRef="integer">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_18j3sh5" label="Tenlaste komende kinderen aanwezig?" camunda:inputVariable="tenlasteKomendeKinderen">
+        <inputExpression id="LiteralExpression_1cl2is0" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0xzahid" label="Handmatig vaststellen?" camunda:inputVariable="handmatigVaststellen">
+        <inputExpression id="LiteralExpression_1uqq1n1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_05shu13" label="Leefsituatie" name="leefsituatie" typeRef="string" />
+      <output id="OutputClause_0xd44j5" label="Handmatig vaststellen" name="handmatigVaststellen" typeRef="boolean" />
+      <rule id="DecisionRule_1ix46z5">
+        <inputEntry id="UnaryTests_1ap95hd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0y8tnjs">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j4re1d">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1pujhep">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_08ehlqm">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1p2broc">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_03lxck1">
+        <description></description>
+        <inputEntry id="UnaryTests_0d3culh">
+          <text>"VERBLIJF_INSTELLING"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1d9ozpd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qgbg73">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07qmuwj">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16f1glh">
+          <text>"INSTITUTIONEEL_HUISHOUDEN"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1o91yez">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0u5nuu5">
+        <description>Beschrijving: Eenoudergezin</description>
+        <inputEntry id="UnaryTests_0a709jv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ymqd97">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1il5ggl">
+          <text>"JA"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qappmb">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10zohwx">
+          <text>"ALLEENSTAANDE_OUDER"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ddn7ly">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0kka9lf">
+        <description></description>
+        <inputEntry id="UnaryTests_03qvovq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0o8cajt">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1toeo9l">
+          <text>"NEE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ssxmbx">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0o9dmgy">
+          <text>"ALLEENSTAAND"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dedfwh">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1y61v4f">
+        <description>Beschrijving: 2 personen, vaste partners, een of meer thuiswonende kinderen</description>
+        <inputEntry id="UnaryTests_1lfh5w8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xnt76m">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15pnt3x">
+          <text>"JA"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dbjmdo">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1i2p3ns">
+          <text>"SAMENWONEND_KINDEREN"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02ltwn2">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0bhx0y5">
+        <description>Beschrijving: 2 personen, vaste partners, geen thuiswonende kinderen</description>
+        <inputEntry id="UnaryTests_0p4gvz3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0owziyh">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gqfddd">
+          <text>"NEE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14jdrqi">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mskxuk">
+          <text>"SAMENWONEND"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1n3kwi8">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0eo2o1p">
+        <inputEntry id="UnaryTests_1bzims8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_061lk3o">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ilrrcn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xb1msf">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0c9e8xc">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_181s7b1">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0hrbsrw" name="woonsituatie" />
+  <inputData id="InputData_068gozn" name="aantalBelanghebbende" />
+  <inputData id="InputData_14cv633" name="tenlasteKomendeKinderen" />
+  <inputData id="InputData_0rjh69r" name="verblijfadresAanvragerIsInstelling" />
+  <inputData id="InputData_06gx64p" name="woonsituatieVolgensAanvraag" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="DMNShape_0x0nej7" dmnElementRef="bs-223-kwalitatief-voldoende-aanwezig">
+        <dc:Bounds height="80" width="180" x="270" y="100" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0eu1ml1" dmnElementRef="InputData_137y6mi">
+        <dc:Bounds height="45" width="125" x="157" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1mdehtx" dmnElementRef="InformationRequirement_057uovv">
+        <di:waypoint x="220" y="258" />
+        <di:waypoint x="315" y="200" />
+        <di:waypoint x="315" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0q3txoj" dmnElementRef="InputData_193yq7t">
+        <dc:Bounds height="45" width="125" x="297" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0g29mwk" dmnElementRef="InformationRequirement_04jt1dk">
+        <di:waypoint x="360" y="258" />
+        <di:waypoint x="360" y="200" />
+        <di:waypoint x="360" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0p1jpg8" dmnElementRef="InputData_0jm9pb0">
+        <dc:Bounds height="45" width="125" x="437" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_17v6a8y" dmnElementRef="InformationRequirement_1oedp7n">
+        <di:waypoint x="500" y="258" />
+        <di:waypoint x="405" y="200" />
+        <di:waypoint x="405" y="180" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1c3b2uc" dmnElementRef="bs-223-vaststellen-woonsituatie">
+        <dc:Bounds height="80" width="180" x="1000" y="110" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_16ckhxm" dmnElementRef="InputData_1wpofnp">
+        <dc:Bounds height="45" width="125" x="657" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1895l6u" dmnElementRef="InformationRequirement_0oss21n">
+        <di:waypoint x="720" y="258" />
+        <di:waypoint x="1023" y="210" />
+        <di:waypoint x="1023" y="190" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_11p7ahd" dmnElementRef="InputData_188dzh6">
+        <dc:Bounds height="45" width="125" x="798" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_16bhboe" dmnElementRef="InformationRequirement_1uucc62">
+        <di:waypoint x="861" y="258" />
+        <di:waypoint x="1045" y="210" />
+        <di:waypoint x="1045" y="190" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_19rwweg" dmnElementRef="InputData_0v0wau4">
+        <dc:Bounds height="45" width="125" x="1547" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1486go5" dmnElementRef="InformationRequirement_13zdrrg">
+        <di:waypoint x="1610" y="258" />
+        <di:waypoint x="1158" y="210" />
+        <di:waypoint x="1158" y="190" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1hcjo8v" dmnElementRef="InputData_17mc55n">
+        <dc:Bounds height="45" width="125" x="948" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0v3v824" dmnElementRef="InformationRequirement_1hx0yx8">
+        <di:waypoint x="1011" y="258" />
+        <di:waypoint x="1068" y="210" />
+        <di:waypoint x="1068" y="190" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1eeijna" dmnElementRef="InputData_182c0ef">
+        <dc:Bounds height="45" width="125" x="1098" y="259" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1rr5z51" dmnElementRef="InformationRequirement_0jnyice">
+        <di:waypoint x="1161" y="259" />
+        <di:waypoint x="1090" y="210" />
+        <di:waypoint x="1090" y="190" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1i8fkam" dmnElementRef="bs-223-vaststellen-leefsituatie">
+        <dc:Bounds height="80" width="180" x="1920" y="110" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_036chhn" dmnElementRef="InputData_0hrbsrw">
+        <dc:Bounds height="45" width="125" x="1747" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0xqe6ch" dmnElementRef="InformationRequirement_1qqde03">
+        <di:waypoint x="1810" y="258" />
+        <di:waypoint x="1965" y="210" />
+        <di:waypoint x="1965" y="190" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0ti7ixs" dmnElementRef="InputData_068gozn">
+        <dc:Bounds height="45" width="125" x="1887" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1k28vb4" dmnElementRef="InformationRequirement_1vs5njk">
+        <di:waypoint x="1950" y="258" />
+        <di:waypoint x="2010" y="210" />
+        <di:waypoint x="2010" y="190" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1mpjsj1" dmnElementRef="InputData_14cv633">
+        <dc:Bounds height="45" width="125" x="2038" y="259" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_08dchr7" dmnElementRef="InformationRequirement_0cdgngr">
+        <di:waypoint x="2101" y="259" />
+        <di:waypoint x="2055" y="210" />
+        <di:waypoint x="2055" y="190" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1ufit9t" dmnElementRef="InputData_0rjh69r">
+        <dc:Bounds height="45" width="125" x="1248" y="259" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1dx9tcz" dmnElementRef="InformationRequirement_06uqzb5">
+        <di:waypoint x="1311" y="259" />
+        <di:waypoint x="1113" y="210" />
+        <di:waypoint x="1113" y="190" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1ln22aq" dmnElementRef="InputData_06gx64p">
+        <dc:Bounds height="45" width="125" x="1397" y="258" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0nlf1r6" dmnElementRef="InformationRequirement_0zbz4hg">
+        <di:waypoint x="1460" y="258" />
+        <di:waypoint x="1135" y="210" />
+        <di:waypoint x="1135" y="190" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

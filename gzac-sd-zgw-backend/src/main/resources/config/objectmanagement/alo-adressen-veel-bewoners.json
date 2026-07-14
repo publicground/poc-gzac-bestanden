@@ -1,0 +1,12 @@
+
+{
+    "id": "9a52ed27-afb8-4f4c-bf4f-f1b3e9545748",
+    "title": "Adressen met veel bewoners",
+    "objectenApiPluginConfigurationId": "a1a5e464-92db-41fc-9ab9-da663dd18471",
+    "objecttypenApiPluginConfigurationId": "bc109d5e-0388-4637-bcfa-b454f402bef8",
+    "objecttypeId": "${AUTODEPLOYMENT_OBJECTMANAGEMENT_ALO_ADRESSEN_MET_VEEL_BEWONERS_OBJECTTYPE-ID}",
+    "objecttypeVersion": "${AUTODEPLOYMENT_OBJECTMANAGEMENT_ALO_ADRESSEN_MET_VEEL_BEWONERS_OBJECTTYPE-VERSION}",
+    "showInDataMenu": true,
+    "formDefinitionView": "alo-adres-met-veel-bewoners-lijst.view-form",
+    "formDefinitionEdit": "alo-adres-met-veel-bewoners-lijst.edit-form"
+}

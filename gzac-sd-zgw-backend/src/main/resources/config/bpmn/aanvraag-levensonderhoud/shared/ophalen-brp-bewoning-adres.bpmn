@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0t0l2yy" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.33.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_1r0k5kg">
+    <bpmn:participant id="OphalenBRPBewoningenGegevensParticipant" name="Ophalen BRP bewoningen gegevens" processRef="ophalen-brp-bewoningen-gegevens" />
+  </bpmn:collaboration>
+  <bpmn:process id="ophalen-brp-bewoningen-gegevens" name="Ophalen BRP bewoning gegevens" isExecutable="true">
+    <bpmn:serviceTask id="OphalenAdresseerbareObjectidentificatieTask" name="Ophalen adresseerbare objectidentificatie" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="postcode">${verblijfadres.postcode}</camunda:inputParameter>
+          <camunda:inputParameter name="huisnummer">${verblijfadres.huisnummer}</camunda:inputParameter>
+          <camunda:inputParameter name="huisnummertoevoeging">${verblijfadres.huisnummertoevoeging}</camunda:inputParameter>
+          <camunda:inputParameter name="huisletter">${verblijfadres.huisletter}</camunda:inputParameter>
+          <camunda:inputParameter name="exacteMatch">${true}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bykbg9</bpmn:incoming>
+      <bpmn:outgoing>Flow_024dyu2</bpmn:outgoing>
+      <bpmn:property id="Property_14rs970" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="DataInputAssociation_1w52pdg">
+        <bpmn:sourceRef>HaalcentraalBAGDataStoreReference</bpmn:sourceRef>
+        <bpmn:targetRef>Property_14rs970</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1bykbg9</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:dataStoreReference id="HaalcentraalBAGDataStoreReference" name="Haalcentraal BAG" />
+    <bpmn:sequenceFlow id="Flow_02r4lux" sourceRef="Activity_0x5mcvc" targetRef="Gateway_0mqv2au" />
+    <bpmn:sequenceFlow id="Flow_1bykbg9" sourceRef="StartEvent_1" targetRef="OphalenAdresseerbareObjectidentificatieTask" />
+    <bpmn:sequenceFlow id="Flow_024dyu2" sourceRef="OphalenAdresseerbareObjectidentificatieTask" targetRef="Gateway_1n5df86" />
+    <bpmn:subProcess id="Activity_0x5mcvc" camunda:asyncBefore="true" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_0yzpe0p</bpmn:incoming>
+      <bpmn:outgoing>Flow_02r4lux</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:asyncAfter="true" camunda:collection="adresseerbaarObjectIdentificaties" camunda:elementVariable="adresseerbaarObjectIdentificatie" />
+      <bpmn:startEvent id="Event_186n2nh">
+        <bpmn:outgoing>Flow_1540sml</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="OphalenBewoningenTask" name="Ophalen bewoningen" camunda:asyncAfter="true" camunda:expression="${true}">
+        <bpmn:incoming>Flow_1540sml</bpmn:incoming>
+        <bpmn:outgoing>Flow_0mt3oop</bpmn:outgoing>
+        <bpmn:property id="Property_0z4zzow" name="__targetRef_placeholder" />
+        <bpmn:dataInputAssociation id="DataInputAssociation_1cqgfcz">
+          <bpmn:sourceRef>HaalcentraalBRPDataStoreReference</bpmn:sourceRef>
+          <bpmn:targetRef>Property_0z4zzow</bpmn:targetRef>
+        </bpmn:dataInputAssociation>
+      </bpmn:serviceTask>
+      <bpmn:dataStoreReference id="HaalcentraalBRPDataStoreReference" name="Haalcentraal BRP" />
+      <bpmn:sequenceFlow id="Flow_0mt3oop" sourceRef="OphalenBewoningenTask" targetRef="ToevoegenBewoningenTask" />
+      <bpmn:endEvent id="Event_1yu8r4e">
+        <bpmn:incoming>Flow_1pvwh5c</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_1pvwh5c" sourceRef="ToevoegenBewoningenTask" targetRef="Event_1yu8r4e" />
+      <bpmn:sequenceFlow id="Flow_1540sml" sourceRef="Event_186n2nh" targetRef="OphalenBewoningenTask" />
+      <bpmn:scriptTask id="ToevoegenBewoningenTask" name="Toevoegen bewoningen" camunda:asyncAfter="true" scriptFormat="javascript" camunda:resultVariable="bewoningen">
+        <bpmn:incoming>Flow_0mt3oop</bpmn:incoming>
+        <bpmn:outgoing>Flow_1pvwh5c</bpmn:outgoing>
+        <bpmn:script>var bewoningen = execution.getVariable("bewoningen");
+var bewoningenPv = execution.getVariable("bewoningenPv");
+
+function mergeArrays(array1, array2) {
+    array1 = array1 instanceof java.util.List ? Java.from(array1) : [];
+    array2 = array2 instanceof java.util.List ? Java.from(array2) : [];
+
+    var mergedArray = array1.concat(array2);
+
+    return java.util.Arrays.asList(mergedArray);
+}
+
+mergeArrays(bewoningen, bewoningenPv);</bpmn:script>
+      </bpmn:scriptTask>
+    </bpmn:subProcess>
+    <bpmn:exclusiveGateway id="Gateway_1n5df86" name="Adresseerbare objectidentificatie beschikbaar?" default="Flow_1hmq42w">
+      <bpmn:incoming>Flow_024dyu2</bpmn:incoming>
+      <bpmn:outgoing>Flow_0yzpe0p</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1hmq42w</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0yzpe0p" name="Ja" sourceRef="Gateway_1n5df86" targetRef="Activity_0x5mcvc">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.hasVariable("adresseerbaarObjectIdentificaties")}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_1cffo01">
+      <bpmn:incoming>Flow_168vyq8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_0mqv2au">
+      <bpmn:incoming>Flow_02r4lux</bpmn:incoming>
+      <bpmn:incoming>Flow_1hmq42w</bpmn:incoming>
+      <bpmn:outgoing>Flow_168vyq8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_168vyq8" sourceRef="Gateway_0mqv2au" targetRef="Event_1cffo01" />
+    <bpmn:sequenceFlow id="Flow_1hmq42w" name="Nee" sourceRef="Gateway_1n5df86" targetRef="Gateway_0mqv2au" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1r0k5kg">
+      <bpmndi:BPMNShape id="Participant_03xgxve_di" bpmnElement="OphalenBRPBewoningenGegevensParticipant" isHorizontal="true">
+        <dc:Bounds x="120" y="70" width="1320" height="430" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0b2tbmc_di" bpmnElement="OphalenAdresseerbareObjectidentificatieTask">
+        <dc:Bounds x="270" y="223" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="182" y="245" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_1ul81e7_di" bpmnElement="HaalcentraalBAGDataStoreReference">
+        <dc:Bounds x="295" y="335" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="276" y="392" width="89" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1n5df86_di" bpmnElement="Gateway_1n5df86" isMarkerVisible="true">
+        <dc:Bounds x="455" y="238" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="441" y="200" width="79" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1cffo01_di" bpmnElement="Event_1cffo01">
+        <dc:Bounds x="1352" y="245" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0mqv2au_di" bpmnElement="Gateway_0mqv2au" isMarkerVisible="true">
+        <dc:Bounds x="1225" y="238" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0x5mcvc_di" bpmnElement="Activity_0x5mcvc" isExpanded="true">
+        <dc:Bounds x="600" y="130" width="530" height="255" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_186n2nh_di" bpmnElement="Event_186n2nh">
+        <dc:Bounds x="652" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_15rfmur_di" bpmnElement="OphalenBewoningenTask">
+        <dc:Bounds x="740" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0rtjw5c" bpmnElement="HaalcentraalBRPDataStoreReference">
+        <dc:Bounds x="765" y="295" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="746" y="355" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1yu8r4e_di" bpmnElement="Event_1yu8r4e">
+        <dc:Bounds x="1042" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1068u30_di" bpmnElement="ToevoegenBewoningenTask">
+        <dc:Bounds x="890" y="170" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0mt3oop_di" bpmnElement="Flow_0mt3oop">
+        <di:waypoint x="840" y="210" />
+        <di:waypoint x="890" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pvwh5c_di" bpmnElement="Flow_1pvwh5c">
+        <di:waypoint x="990" y="210" />
+        <di:waypoint x="1042" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1540sml_di" bpmnElement="Flow_1540sml">
+        <di:waypoint x="688" y="210" />
+        <di:waypoint x="740" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02r4lux_di" bpmnElement="Flow_02r4lux">
+        <di:waypoint x="1130" y="263" />
+        <di:waypoint x="1225" y="263" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bykbg9_di" bpmnElement="Flow_1bykbg9">
+        <di:waypoint x="218" y="263" />
+        <di:waypoint x="270" y="263" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_024dyu2_di" bpmnElement="Flow_024dyu2">
+        <di:waypoint x="370" y="263" />
+        <di:waypoint x="455" y="263" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yzpe0p_di" bpmnElement="Flow_0yzpe0p">
+        <di:waypoint x="505" y="263" />
+        <di:waypoint x="600" y="263" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="547" y="245" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_168vyq8_di" bpmnElement="Flow_168vyq8">
+        <di:waypoint x="1275" y="263" />
+        <di:waypoint x="1352" y="263" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hmq42w_di" bpmnElement="Flow_1hmq42w">
+        <di:waypoint x="480" y="288" />
+        <di:waypoint x="480" y="460" />
+        <di:waypoint x="1250" y="460" />
+        <di:waypoint x="1250" y="288" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="449" y="323" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataInputAssociation_1w52pdg_di" bpmnElement="DataInputAssociation_1w52pdg">
+        <di:waypoint x="320" y="335" />
+        <di:waypoint x="320" y="303" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataInputAssociation_1cqgfcz_di" bpmnElement="DataInputAssociation_1cqgfcz">
+        <di:waypoint x="790" y="295" />
+        <di:waypoint x="790" y="250" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

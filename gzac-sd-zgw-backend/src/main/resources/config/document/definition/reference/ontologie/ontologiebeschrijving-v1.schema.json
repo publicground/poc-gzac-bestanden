@@ -1,0 +1,199 @@
+{
+  "$id": "ontologiebeschrijving.schema",
+  "type": "object",
+  "title": "Model Ontologiebeschrijving",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "concept": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "description": "De unieke identificator van het concept. Het Id is betekenisloos. Hiervoor wordt een GUID gebruikt.",
+          "$ref": "#/definitions/guid"
+        },
+        "name": {
+          "description": "De naam van het concept",
+          "$ref": "#/definitions/tekst"
+        },
+        "plural": {
+          "description": "De meervoudsvorm van de naam van het concept",
+          "$ref": "#/definitions/tekst"
+        },
+        "technicalName": {
+          "description": "De technische naam van het concept. Dit kan gebruikt worden in gegenereerde code.",
+          "$ref": "#/definitions/tekst"
+        },
+        "conceptType": {
+          "description": "De naam van het concept",
+          "$ref": "#/definitions/ontologieCodeConceptType"
+        },
+        "version": {
+          "description": "Een aanduiding waarmee de versie van het concept wordt aangeduid overeenkomstig een nader overeengekomen afspraak. Bijvoorbeeld 1.1.2",
+          "$ref": "#/definitions/tekst"
+        },
+        "definition": {
+          "description": "De beschrijving van wat met het concept wordt bedoeld.",
+          "$ref": "#/definitions/tekst"
+        },
+        "startdate": {
+          "description": "De datum vanaf wanneer dit concept is ge�ntroduceerd en wordt gebruikt.",
+          "$ref": "#/definitions/datum"
+        },
+        "enddate": {
+          "description": "De datum vanaf wanneer dit concept niet meer wordt gebruikt.",
+          "$ref": "#/definitions/datum"
+        },
+        "representation": {
+          "description": "Een specificatie van hoe het concept wordt gerepresenteerd. Dit is een sequentie van tekstgedeelten en attributen van het concept.",
+          "$ref": "#/definitions/tekst"
+        },
+        "attribute": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "De unieke identificator van het concept. Het Id is betekenisloos. Hiervoor wordt een GUID gebruikt.",
+                "$ref": "#/definitions/guid"
+              },
+              "name": {
+                "description": "De naam van het attribuut",
+                "$ref": "#/definitions/tekst"
+              },
+              "technicalName": {
+                "description": "De technische naam van het attribuut. Dit kan gebruikt worden in gegenereerde code.",
+                "$ref": "#/definitions/tekst"
+              },
+              "attributeType": {
+                "description": "Het type attribuut",
+                "$ref": "#/definitions/ontologieCodeAttribuuttype"
+              },
+              "version": {
+                "description": "Een aanduiding waarmee de versie van het attribuut wordt aangeduid overeenkomstig een nader overeengekomen afspraak. Bijvoorbeeld 1.1.2",
+                "$ref": "#/definitions/tekst"
+              },
+              "definition": {
+                "description": "De beschrijving van wat met het attribuut wordt bedoeld.",
+                "$ref": "#/definitions/tekst"
+              },
+              "startdate": {
+                "description": "De datum vanaf wanneer dit attribuut is ge�ntroduceerd en wordt gebruikt.",
+                "$ref": "#/definitions/datum"
+              },
+              "enddate": {
+                "description": "De datum vanaf wanneer dit attribuut niet meer wordt gebruikt.",
+                "$ref": "#/definitions/datum"
+              }
+            }
+          }
+        }
+      }
+    },
+    "datatype": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "description": "De unieke identificator van het datatype. Het Id is betekenisloos. Hiervoor wordt een GUID gebruikt.",
+          "$ref": "#/definitions/guid"
+        },
+        "name": {
+          "description": "De naam van het datatype",
+          "$ref": "#/definitions/tekst"
+        },
+        "baseType": {
+          "description": "Het basistype van dit datatype. Er is een lijst afgesproken. Deze is overgenomen uit de standaard van JSON-schema.",
+          "$ref": "#/definitions/ontologieDatatypeBasetype"
+        },
+        "dimension": {
+          "description": "Een aanduiding van de dimensie bij de waarde van een attribuut. Dit is alleen relevant voor numerieke invoer.",
+          "$ref": "#/definitions/tekst"
+        },
+        "syntaxis": {
+          "description": "Een RegEx-conforme specificatie van een patroon waaraan de invoer voor dit datatype moet voldoen.",
+          "$ref": "#/definitions/tekst"
+        },
+        "script": {
+          "description": "Een script waaraan de invoer voor dit datatype moet voldoen. ",
+          "$ref": "#/definitions/tekst"
+        },
+        "option": {
+          "type":"array",
+          "items": {
+            "type":"object",
+            "properties": {
+              "id": {
+                "description": "De unieke identificator van de optie. Het Id is betekenisloos. Hiervoor wordt een GUID gebruikt.",
+                "$ref": "#/definitions/guid"
+              },
+              "name": {
+                "description": "De naam van het optie",
+                "$ref": "#/definitions/tekst"
+              },
+              "code": {
+                "description": "Optielijsten zijn vaak gecodeerd, hetzij met numeriek, hetzij alfanumeriek. De code administreert dit.",
+                "$ref": "#/definitions/tekst"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "guid": {
+      "type": "string",
+      "pattern": "^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$"
+    },
+    "tekst": {
+      "type": "string"
+    },
+    "ontologieCodeConceptType": {
+      "type": "object",
+      "enum": [
+        { "code": "1", "name": "Class" }
+      ]
+    },
+    "datum": {
+      "type": "string"
+    },
+    "ontologieCodeAttribuuttype": {
+      "type": "object",
+      "enum": [
+        { "code": "String", "name": "String" },
+        { "code": "Integer", "name": "Integer" },
+        { "code": "Number", "name": "Number" },
+        { "code": "Boolean", "name": "Boolean" },
+        { "code": "DateTime", "name": "DateTime" },
+        { "code": "Currency", "name": "Currency" },
+        { "code": "Enum", "name": "Enum" },
+        { "code": "Uid", "name": "Uid" }
+      ]
+    },
+    "ontologieDatatypeBasetype": {
+      "type": "object",
+      "enum": [
+        { "code": "string", "name": "string" },
+        { "code": "integer", "name": "integer" },
+        { "code": "number", "name": "number" },
+        { "code": "boolean", "name": "boolean" },
+        { "code": "enum", "name": "enum" }
+      ]
+    },
+    "integer": {
+      "type": "string",
+      "pattern": "(^-|^)(0|[1-9][0-9]*)$"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "(^-|^+|^)(0|[1-9][0-9]+)($|,[0-9][0-9]$)"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^(http://|https://).*"
+    },
+    "datumTijd": {
+      "type": "string",
+      "pattern": "^([0-2][0-9]|3[0-1]|[1-9])-(0[1-9]|[1-9]|1[0-2])-(19|20)[0-9][0-9] T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]"
+    }
+  }
+}

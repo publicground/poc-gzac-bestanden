@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_19qc9c6" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_1oh4i48">
+    <bpmn:participant id="Bs224VaststellingInkomenParticipant" name="bs 224 vaststelling inkomen" processRef="bs-224-vaststelling-inkomen" />
+    <bpmn:textAnnotation id="TextAnnotation_0n8bz0d">
+      <bpmn:text>gebruiker selecteert vrijlatingen [naam + % + ingangsdatum]</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1jl9ash" associationDirection="None" sourceRef="VrijstellingenTitelTask" targetRef="TextAnnotation_0n8bz0d" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-224-vaststelling-inkomen" name="BS 224 vaststelling inkomen" isExecutable="true">
+    <bpmn:startEvent id="Event_0cc0ha5">
+      <bpmn:outgoing>Flow_0e52s74</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:businessRuleTask id="BepalenInformatieKwalitatiefEnActueelAanwezigTask" name="Bepalen informatie kwalitatief en actueel aanwezig" camunda:asyncAfter="true" camunda:decisionRef="BS-224-KwalitatiefVoldoendeAanwezig">
+      <bpmn:incoming>Flow_0e52s74</bpmn:incoming>
+      <bpmn:outgoing>Flow_0y7mncq</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:exclusiveGateway id="InformatieActueelEnKwalitatiefBeschikbaarGateway" name="Informatie actueel en kwalitatief beschikbaar?" default="JaSequenceFlow">
+      <bpmn:incoming>Flow_0y7mncq</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1vbtjyf</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0e52s74" sourceRef="Event_0cc0ha5" targetRef="BepalenInformatieKwalitatiefEnActueelAanwezigTask" />
+    <bpmn:sequenceFlow id="Flow_0y7mncq" sourceRef="BepalenInformatieKwalitatiefEnActueelAanwezigTask" targetRef="InformatieActueelEnKwalitatiefBeschikbaarGateway" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="InformatieActueelEnKwalitatiefBeschikbaarGateway" targetRef="Gateway_00v09el" />
+    <bpmn:sequenceFlow id="Flow_1vbtjyf" sourceRef="InformatieActueelEnKwalitatiefBeschikbaarGateway" targetRef="Gateway_00v09el">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1r1k6sj" sourceRef="Gateway_00v09el" targetRef="InkomenVastgesteldEndEvent" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="InformatieActueelEnKwalitatiefBeschikbaarGateway" targetRef="TaakTitelTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0qlj8m4" sourceRef="TaakTitelTask" targetRef="IsErInkomstenUitArbeidTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow1" name="ja" sourceRef="InkomstenUitArbeidGateway" targetRef="VrijstellingenTitelTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isInkomstenUitArbeid}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0x9e612" sourceRef="Gateway_1lp00lf" targetRef="Gateway_00v09el" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow1" name="Nee" sourceRef="InkomstenUitArbeidGateway" targetRef="Gateway_1lp00lf" />
+    <bpmn:sequenceFlow id="Flow_1ml5mdf" sourceRef="VrijstellingenTitelTask" targetRef="Gateway_1lp00lf" />
+    <bpmn:userTask id="TaakTitelTask" name="${taakTitel}" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="20">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qlj8m4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="InkomstenUitArbeidGateway" name="inkomsten uit arbeid?" default="NeeSequenceFlow1">
+      <bpmn:incoming>Flow_0s04co5</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow1</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="VrijstellingenTitelTask" name="${vrijstellingenTitel}" camunda:asyncAfter="true" camunda:candidateGroups="ROLE_ADMIN, ROLE_IV_BEHANDELAAR, ROLE_IV_SENIOR, ROLE_IV_MANAGEMENT, ROLE_IV_SUPERUSER, ROLE_IV_FUNCTIONEEL_BEHEER" camunda:priority="18">
+      <bpmn:incoming>JaSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ml5mdf</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1lp00lf">
+      <bpmn:incoming>NeeSequenceFlow1</bpmn:incoming>
+      <bpmn:incoming>Flow_1ml5mdf</bpmn:incoming>
+      <bpmn:outgoing>Flow_0x9e612</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_00v09el">
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:incoming>Flow_1vbtjyf</bpmn:incoming>
+      <bpmn:incoming>Flow_0x9e612</bpmn:incoming>
+      <bpmn:outgoing>Flow_1r1k6sj</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:scriptTask id="IsErInkomstenUitArbeidTask" name="Is er inkomsten uit arbeid" camunda:asyncAfter="true" scriptFormat="javascript" camunda:resultVariable="isInkomstenUitArbeid">
+      <bpmn:incoming>Flow_0qlj8m4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0s04co5</bpmn:outgoing>
+      <bpmn:script>var isInkomstenUitArbeid = false;
+var isInkomstenUitLoondienst = false;
+var isInkomstenuitOnderneming = false;
+var isInkomstenUitHobbyOfStage = false;
+
+var arbeid = execution.getVariable("arbeid");
+var onderneming = execution.getVariable("onderneming");
+var overigeInkomsten = execution.getVariable("overigeInkomsten");
+
+if (arbeid?.inkomstenComponenten) {
+    isInkomstenUitLoondienst = arbeid.inkomstenComponenten.some(component =&gt; (component.primairInkomstencomponentType?.code === "3" || component.primairInkomstencomponentType?.code === "7"));
+// - Bekijk of er een inkomsten component met code 3 of 7 aanwezig is
+}
+
+if (onderneming?.inkomstenComponenten) {
+    isInkomstenuitOnderneming = onderneming.inkomstenComponenten.some(component =&gt; (component.primairInkomstencomponentType?.code === "9"));
+// - Bekijk of er een inkomsten component met code 9 aanwezig is
+}
+
+if (overigeInkomsten?.inkomstenComponenten) {
+    isInkomstenUitHobbyOfStage = overigeInkomsten.inkomstenComponenten.some(component =&gt; (component.primairInkomstencomponentType?.code === "8"));
+// - Bekijk of er een inkomsten component met code 8 aanwezig is
+}
+
+isInkomstenUitArbeid = (isInkomstenUitLoondienst || isInkomstenUitHobbyOfStage || isInkomstenuitOnderneming);
+isInkomstenUitArbeid;</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_0s04co5" sourceRef="IsErInkomstenUitArbeidTask" targetRef="InkomstenUitArbeidGateway" />
+    <bpmn:endEvent id="InkomenVastgesteldEndEvent" name="inkomen vastgesteld">
+      <bpmn:incoming>Flow_1r1k6sj</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1oh4i48">
+      <bpmndi:BPMNShape id="Participant_0p883ah_di" bpmnElement="Bs224VaststellingInkomenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="1290" height="500" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0cc0ha5_di" bpmnElement="Event_0cc0ha5">
+        <dc:Bounds x="222" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_19q0c90" bpmnElement="BepalenInformatieKwalitatiefEnActueelAanwezigTask">
+        <dc:Bounds x="310" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1e6rq8r" bpmnElement="InformatieActueelEnKwalitatiefBeschikbaarGateway" isMarkerVisible="true">
+        <dc:Bounds x="465" y="155" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="447" y="110" width="88" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_03gsyh5_di" bpmnElement="TaakTitelTask">
+        <dc:Bounds x="550" y="280" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_09t7aeg_di" bpmnElement="InkomstenUitArbeidGateway" isMarkerVisible="true">
+        <dc:Bounds x="895" y="295" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="888" y="256" width="65" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_11mkgyn_di" bpmnElement="VrijstellingenTitelTask">
+        <dc:Bounds x="990" y="380" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1lp00lf_di" bpmnElement="Gateway_1lp00lf" isMarkerVisible="true">
+        <dc:Bounds x="1135" y="295" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0bzphpm" bpmnElement="Gateway_00v09el" isMarkerVisible="true">
+        <dc:Bounds x="1215" y="155" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1oyrock_di" bpmnElement="IsErInkomstenUitArbeidTask">
+        <dc:Bounds x="710" y="280" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1syalos" bpmnElement="InkomenVastgesteldEndEvent">
+        <dc:Bounds x="1352" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1342" y="205" width="56" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0e52s74_di" bpmnElement="Flow_0e52s74">
+        <di:waypoint x="258" y="180" />
+        <di:waypoint x="310" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_16zddc3" bpmnElement="Flow_0y7mncq">
+        <di:waypoint x="410" y="180" />
+        <di:waypoint x="465" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1od2lrz" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="515" y="180" />
+        <di:waypoint x="1215" y="180" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="561" y="159" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vbtjyf_di" bpmnElement="Flow_1vbtjyf">
+        <di:waypoint x="515" y="180" />
+        <di:waypoint x="1215" y="180" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1045" y="338" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1ehm677" bpmnElement="Flow_1r1k6sj">
+        <di:waypoint x="1265" y="180" />
+        <di:waypoint x="1352" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0oofcqe_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="490" y="205" />
+        <di:waypoint x="490" y="320" />
+        <di:waypoint x="550" y="320" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="495" y="221" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qlj8m4_di" bpmnElement="Flow_0qlj8m4">
+        <di:waypoint x="650" y="320" />
+        <di:waypoint x="710" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1s97jh9_di" bpmnElement="JaSequenceFlow1">
+        <di:waypoint x="920" y="345" />
+        <di:waypoint x="920" y="420" />
+        <di:waypoint x="990" y="420" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="931" y="347" width="9" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0x9e612_di" bpmnElement="Flow_0x9e612">
+        <di:waypoint x="1185" y="320" />
+        <di:waypoint x="1240" y="320" />
+        <di:waypoint x="1240" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01nj3mr_di" bpmnElement="NeeSequenceFlow1">
+        <di:waypoint x="945" y="320" />
+        <di:waypoint x="1135" y="320" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="952" y="302" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ml5mdf_di" bpmnElement="Flow_1ml5mdf">
+        <di:waypoint x="1090" y="420" />
+        <di:waypoint x="1160" y="420" />
+        <di:waypoint x="1160" y="345" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0s04co5_di" bpmnElement="Flow_0s04co5">
+        <di:waypoint x="810" y="320" />
+        <di:waypoint x="895" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0n8bz0d_di" bpmnElement="TextAnnotation_0n8bz0d">
+        <dc:Bounds x="975" y="490" width="130" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1jl9ash_di" bpmnElement="Association_1jl9ash">
+        <di:waypoint x="1033" y="460" />
+        <di:waypoint x="1028" y="490" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,49 @@
+[
+    {
+        "activityId": "VaststellenBesluitTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "panel",
+        "formSize": "medium",
+        "formDefinitionName": "bs.vastleggen-besluit.vaststellen-besluit"
+    },
+    {
+        "activityId": "VersturenEmailnotificatieBesluitTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "499329e3-0e84-41b9-9fbf-803ea283e0ee",
+        "pluginActionDefinitionKey": "send-mail",
+        "actionProperties": {
+            "mailSendTaskFrom": "noreply@valtimo.nl",
+            "mailSendTaskTemplate": "pv:mailTaskTemplate",
+            "mailSendTaskSubject": "pv:mailTaskSubject",
+            "mailSendTaskTo": "pv:emailAanvrager",
+            "templateData": [
+                {
+                    "key": "zaaknummer",
+                    "value": "zaak:identificatie"
+                },
+                {
+                    "key": "datumOntvangstAanvraag",
+                    "value": "pv:datumOntvangstAanvraag"
+                },
+                {
+                    "key": "voornaamAanvrager",
+                    "value": "pv:voornaamAanvrager"
+                },
+                {
+                    "key": "voorlettersAanvrager",
+                    "value": "pv:voorlettersAanvrager"
+                },
+                {
+                    "key": "tussenvoegselAanvrager",
+                    "value": "pv:tussenvoegselAanvrager"
+                },
+                {
+                    "key": "achternaamAanvrager",
+                    "value": "pv:achternaamAanvrager"
+                }
+            ]
+        }
+    }
+]

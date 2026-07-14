@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0qo41dt" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.45.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_0t0npm9">
+    <bpmn:participant id="IOAWStartUitgebreideMotiveringParticipant" name="IOAW: Start uitgebreide motivering" processRef="ioaw-start-uitgebreide-motivering" />
+  </bpmn:collaboration>
+  <bpmn:process id="ioaw-start-uitgebreide-motivering" name="Uitgebreide motivatie heropenen" isExecutable="true">
+    <bpmn:startEvent id="StartUitgebreideMotiveringStartEvent" name="Start uitgebreide motivering" camunda:asyncAfter="true">
+      <bpmn:outgoing>Flow_0dpkn7d</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0dpkn7d" sourceRef="StartUitgebreideMotiveringStartEvent" targetRef="StartUitgebreideMotiveringEndEvent" />
+    <bpmn:endEvent id="StartUitgebreideMotiveringEndEvent" name="Start uitgebreide motivering" camunda:asyncAfter="true">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="variables">
+            <camunda:map>
+              <camunda:entry key="gebeurtenis">start-uitgebreide-motivering</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0dpkn7d</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_04du9yf" camunda:expression="${correlationService.sendCatchEventMessage(&#34;NIEUWE_GEBEURTENIS_ONTVANGEN_START_MESSAGE&#34;, execution.businessKey, variables)}" />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0t0npm9">
+      <bpmndi:BPMNShape id="Participant_1dna8q7_di" bpmnElement="IOAWStartUitgebreideMotiveringParticipant" isHorizontal="true">
+        <dc:Bounds x="150" y="110" width="400" height="240" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ga17e8_di" bpmnElement="StartUitgebreideMotiveringStartEvent">
+        <dc:Bounds x="262" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="243" y="255" width="81" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_10wie4a_di" bpmnElement="StartUitgebreideMotiveringEndEvent">
+        <dc:Bounds x="432" y="212" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="412" y="255" width="81" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0dpkn7d_di" bpmnElement="Flow_0dpkn7d">
+        <di:waypoint x="298" y="230" />
+        <di:waypoint x="432" y="230" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

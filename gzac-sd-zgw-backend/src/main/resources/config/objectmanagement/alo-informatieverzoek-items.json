@@ -1,0 +1,11 @@
+{
+    "id": "914f4acf-0c2e-4c7f-8948-2f9f5487ed57",
+    "title": "ALO: Informatieverzoek Items",
+    "objecttypenApiPluginConfigurationId": "bc109d5e-0388-4637-bcfa-b454f402bef8",
+    "objecttypeId": "${AUTODEPLOYMENT_OBJECTMANAGEMENT_ALO_INFORMATIEVERZOEK_ITEMS_OBJECTTYPE-ID}",
+    "objecttypeVersion": "${AUTODEPLOYMENT_OBJECTMANAGEMENT_ALO_INFORMATIEVERZOEK_ITEMS_OBJECTTYPE-VERSION}",
+    "objectenApiPluginConfigurationId": "a1a5e464-92db-41fc-9ab9-da663dd18471",
+    "showInDataMenu": true,
+    "formDefinitionView": "alo-informatieverzoek-items.view-form",
+    "formDefinitionEdit": "alo-informatieverzoek-items.edit-form"
+}

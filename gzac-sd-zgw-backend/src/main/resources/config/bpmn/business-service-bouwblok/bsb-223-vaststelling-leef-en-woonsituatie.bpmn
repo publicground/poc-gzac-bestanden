@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0y9t2as" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.46.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:collaboration id="Collaboration_17rouow">
+    <bpmn:participant id="BSB223VaststellingLeefEnWoonsituatieParticipant" name="BSB 223 vaststelling leef- en woonsituatie" processRef="bsb-223-vaststelling-leef-en-woonsituatie" />
+  </bpmn:collaboration>
+  <bpmn:process id="bsb-223-vaststelling-leef-en-woonsituatie" name="BSB 223 vaststelling leef- en woonsituatie" isExecutable="true">
+    <bpmn:startEvent id="Event_0erbzwt">
+      <bpmn:outgoing>Flow_09pyv4p</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_09pyv4p" sourceRef="Event_0erbzwt" targetRef="OphalenInputTask" />
+    <bpmn:sequenceFlow id="Flow_00qqsf3" sourceRef="OphalenInputTask" targetRef="ControlerenOpTenlasteKomendeKinderenTask" />
+    <bpmn:sequenceFlow id="Flow_1vfw6uu" sourceRef="WegschrijvenOutputAdditioneleVeldenTask" targetRef="WegschrijvenOutputWoonsituatieTask" />
+    <bpmn:sequenceFlow id="Flow_1wloigk" sourceRef="BsVaststellingLeefEnWoonsituatieCallActivity" targetRef="WegschrijvenOutputAdditioneleVeldenTask" />
+    <bpmn:sequenceFlow id="Flow_1iimltk" sourceRef="ControlerenOpTenlasteKomendeKinderenTask" targetRef="BsVaststellingLeefEnWoonsituatieCallActivity" />
+    <bpmn:serviceTask id="OphalenInputTask" name="ophalen input" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="isLeefEnWoonsituateVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/leefEnWoonsituatie/leefEnWoonsituateVastgesteld")}</camunda:inputParameter>
+          <camunda:outputParameter name="leefEnWoonsituateVastgesteld">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/leefEnWoonsituatie/leefEnWoonsituateVastgesteld") == true }</camunda:outputParameter>
+          <camunda:outputParameter name="datumVaststellingLeefEnWoonsituatie">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/leefEnWoonsituatie/datumVastgesteld")} </camunda:outputParameter>
+          <camunda:outputParameter name="handmatigVaststellen">${execution.getVariable("handmatigVaststellen") ? handmatigVaststellen : false}</camunda:outputParameter>
+          <camunda:outputParameter name="partnerAanwezig">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner") != null}</camunda:outputParameter>
+          <camunda:outputParameter name="verblijfadresPartner">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner/verblijfadres")}</camunda:outputParameter>
+          <camunda:outputParameter name="verblijfadresAanvrager">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager/verblijfadres")}</camunda:outputParameter>
+          <camunda:outputParameter name="verblijfadresPartnerIsInstelling">${null}</camunda:outputParameter>
+          <camunda:outputParameter name="verblijfadresAanvragerIsInstelling">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitBronnen/typeInstelling") != null}</camunda:outputParameter>
+          <camunda:outputParameter name="woonsituatieVolgensAanvraag">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/woonsituatie/woonsituatie")}</camunda:outputParameter>
+          <camunda:outputParameter name="woonsituatie">${isLeefEnWoonsituateVastgesteld ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/woonsituatie/woonsituatie") : valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/woonsituatie/woonsituatie")}</camunda:outputParameter>
+          <camunda:outputParameter name="toelichtingWoonsituatie">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/leefEnWoonsituatie/toelichtingWoonsituatie")} </camunda:outputParameter>
+          <camunda:outputParameter name="leefsituatie">${isLeefEnWoonsituateVastgesteld ? valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/leefsituatie/leefsituatie") : valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/leefsituatie/leefsituatie")}</camunda:outputParameter>
+          <camunda:outputParameter name="toelichtingLeefsituatie">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/leefEnWoonsituatie/toelichtingLeefsituatie")} </camunda:outputParameter>
+          <camunda:outputParameter name="aanvrager">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/aanvrager")}</camunda:outputParameter>
+          <camunda:outputParameter name="partner">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/partner")}</camunda:outputParameter>
+          <camunda:outputParameter name="aantalBelanghebbende">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/leefEnWoonsituatie/aantalBelanghebbende")} </camunda:outputParameter>
+          <camunda:outputParameter name="art23Lid3VanToepassing">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVaststelling/additioneleVeldenAanvraag/leefEnWoonsituatie/art23Lid3VanToepassing")} </camunda:outputParameter>
+          <camunda:outputParameter name="aanvragerThuiswonendeKinderen">${valueResolverDelegateService.resolveValue(execution,(isLeefEnWoonsituateVastgesteld ? "doc:/gegevensVaststelling" : "doc:/gegevensVanuitAanvraag").concat("/aanvrager/heeftThuiswonendeKinderen"))}</camunda:outputParameter>
+          <camunda:outputParameter name="kinderen">${ valueResolverDelegateService.resolveValue(execution,(isLeefEnWoonsituateVastgesteld ? "doc:/gegevensVaststelling" : "doc:/gegevensVanuitAanvraag").concat("/kinderen"))}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_09pyv4p</bpmn:incoming>
+      <bpmn:outgoing>Flow_00qqsf3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="WegschrijvenOutputAdditioneleVeldenTask" name="wegschrijven output &#39;additioneleVelden&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/additioneleVeldenAanvraag/leefEnWoonsituatie&#34;, leefEnWoonsituatieData)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="leefEnWoonsituatieData">
+            <camunda:map>
+              <camunda:entry key="aantalBelanghebbende">${aantalBelanghebbende}</camunda:entry>
+              <camunda:entry key="art23Lid3VanToepassing">${art23Lid3VanToepassing}</camunda:entry>
+              <camunda:entry key="toelichtingWoonsituatie">${toelichtingWoonsituatie}</camunda:entry>
+              <camunda:entry key="toelichtingLeefsituatie">${toelichtingLeefsituatie}</camunda:entry>
+              <camunda:entry key="datumVastgesteld">${now().toInstant().toString()}</camunda:entry>
+              <camunda:entry key="leefEnWoonsituateVastgesteld">${true}</camunda:entry>
+              <camunda:entry key="isHandmatigBeoordeeld">${handmatigVaststellenWoon || handmatigVaststellenLeef ? true : false}</camunda:entry>
+              <camunda:entry key="tenlasteKomendeKinderen">${tenlasteKomendeKinderen}</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1wloigk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vfw6uu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:callActivity id="BsVaststellingLeefEnWoonsituatieCallActivity" name="bs vaststelling leef- en woonsituatie" camunda:asyncBefore="true" camunda:asyncAfter="true" calledElement="bs-223-vastsstellen-leef-en-woonsituatie">
+      <bpmn:extensionElements>
+        <camunda:in variables="all" />
+        <camunda:in businessKey="#{execution.processBusinessKey}" />
+        <camunda:out variables="all" />
+        <camunda:inputOutput />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1iimltk</bpmn:incoming>
+      <bpmn:outgoing>Flow_1wloigk</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:scriptTask id="ControlerenOpTenlasteKomendeKinderenTask" name="controleren op tenlaste komende kinderen" camunda:asyncAfter="true" scriptFormat="javascript" camunda:resultVariable="tenlasteKomendeKinderen">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_00qqsf3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1iimltk</bpmn:outgoing>
+      <bpmn:script>var kinderen = execution.getVariable("kinderen");
+var aanvragerThuiswonendeKinderen = execution.getVariable("aanvragerThuiswonendeKinderen");
+kinderen = kinderen instanceof java.util.List ? Java.from(kinderen) : [];
+
+var result = 'NEE';
+if (aanvragerThuiswonendeKinderen === 'JA') {
+  result = tenlasteKomendeKinderen();
+}
+
+function isKindOnder18(geboortedatum) {
+  const geboortedatumKind = new Date(geboortedatum);
+  if (isNaN(geboortedatumKind)) return null;
+  const today = new Date();
+
+  const datumOnder18 = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+  if (geboortedatumKind &gt; datumOnder18) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function tenlasteKomendeKinderen() {
+  for (var i = 0; i &lt; kinderen.length; i++) {
+    var kind = kinderen[i];
+    if (kind.geboortedatum &amp;&amp; kind.kinderbijslag === 'JA') {
+      var isOnder18 = isKindOnder18(kind.geboortedatum);
+      if (isOnder18) {
+        return 'JA';
+        break;
+      }
+    }
+  }
+  return 'NEE';
+}
+
+result;
+</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_091en1r" sourceRef="WegschrijvenOutputWoonsituatieTask" targetRef="WegschrijvenOutputLeefsituatieTask" />
+    <bpmn:sequenceFlow id="Flow_0u2yocp" sourceRef="WegschrijvenOutputLeefsituatieTask" targetRef="LeefEnWoonsituatieVastgesteldEndEvent" />
+    <bpmn:serviceTask id="WegschrijvenOutputLeefsituatieTask" name="wegschrijven output &#39;leefsituatie&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/leefsituatie/leefsituatie&#34;, leefsituatie)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_091en1r</bpmn:incoming>
+      <bpmn:outgoing>Flow_0u2yocp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="LeefEnWoonsituatieVastgesteldEndEvent" name="leef- en woonsituatie vastgesteld">
+      <bpmn:incoming>Flow_0u2yocp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="WegschrijvenOutputWoonsituatieTask" name="wegschrijven output &#39;woonsituatie&#39;" camunda:asyncBefore="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling/woonsituatie/woonsituatie&#34;, woonsituatie)}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R30/PT2S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1vfw6uu</bpmn:incoming>
+      <bpmn:outgoing>Flow_091en1r</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_17rouow">
+      <bpmndi:BPMNShape id="BPMNShape_127wtzm" bpmnElement="BSB223VaststellingLeefEnWoonsituatieParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="70" width="1180" height="260" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_03xt9u9" bpmnElement="Event_0erbzwt">
+        <dc:Bounds x="232" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16do82h_di" bpmnElement="OphalenInputTask">
+        <dc:Bounds x="310" y="150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_064kibo" bpmnElement="WegschrijvenOutputAdditioneleVeldenTask">
+        <dc:Bounds x="780" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0s1fv3n_di" bpmnElement="BsVaststellingLeefEnWoonsituatieCallActivity">
+        <dc:Bounds x="620" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_176sxgn" bpmnElement="ControlerenOpTenlasteKomendeKinderenTask">
+        <dc:Bounds x="470" y="150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_161sysb" bpmnElement="WegschrijvenOutputLeefsituatieTask">
+        <dc:Bounds x="1100" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0d66xzs" bpmnElement="LeefEnWoonsituatieVastgesteldEndEvent">
+        <dc:Bounds x="1252" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1233" y="215" width="77" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1igs6n0" bpmnElement="WegschrijvenOutputWoonsituatieTask">
+        <dc:Bounds x="940" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_10a0jsd" bpmnElement="Flow_09pyv4p">
+        <di:waypoint x="268" y="190" />
+        <di:waypoint x="310" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00qqsf3_di" bpmnElement="Flow_00qqsf3">
+        <di:waypoint x="410" y="190" />
+        <di:waypoint x="470" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vfw6uu_di" bpmnElement="Flow_1vfw6uu">
+        <di:waypoint x="880" y="190" />
+        <di:waypoint x="940" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1wloigk_di" bpmnElement="Flow_1wloigk">
+        <di:waypoint x="720" y="190" />
+        <di:waypoint x="780" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1iimltk_di" bpmnElement="Flow_1iimltk">
+        <di:waypoint x="570" y="190" />
+        <di:waypoint x="620" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_091en1r_di" bpmnElement="Flow_091en1r">
+        <di:waypoint x="1040" y="190" />
+        <di:waypoint x="1100" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0u2yocp_di" bpmnElement="Flow_0u2yocp">
+        <di:waypoint x="1200" y="190" />
+        <di:waypoint x="1252" y="190" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

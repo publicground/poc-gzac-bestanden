@@ -1,0 +1,10 @@
+[
+    {
+        "activityId": "OpbouwenUitgebreideMotiveringTask",
+        "activityType": "bpmn:UserTask:create",
+        "processLinkType": "form",
+        "formDisplayType": "modal",
+        "formSize": "large",
+        "formDefinitionName":  "bs-opbouwen-uitgebreide-motivering.opbouwen-uitgebreide-motivering"
+    }
+]

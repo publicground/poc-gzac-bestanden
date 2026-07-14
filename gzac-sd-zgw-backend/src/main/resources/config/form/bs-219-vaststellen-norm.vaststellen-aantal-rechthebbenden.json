@@ -1,0 +1,52 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "key": "MeldigEnAanvraagDatum1",
+            "tag": "div",
+            "type": "htmlelement",
+            "input": false,
+            "label": "Gegevens van de aanvraag",
+            "content": "<p>Momenteel wordt er nog geen automatische controle gevoerd op rechthebbende personen.<br>\nDe onderstaande waarde wordt automatisch gevuld op basis van verblijfstitel, controleer of deze juist is. Indien niet gevuld dan is er geen persoon met recht op bijstand gevonden.</p>",
+            "className": "alert alert-warning",
+            "tableView": false,
+            "refreshOnChange": false
+        },
+        {
+            "key": "pv.aantalRechthebbenden",
+            "type": "radio",
+            "input": true,
+            "label": "Aantal rechthebbenden",
+            "inline": false,
+            "values": [
+                {
+                    "label": "1",
+                    "value": 1,
+                    "shortcut": ""
+                },
+                {
+                    "label": "2",
+                    "value": 2,
+                    "shortcut": ""
+                }
+            ],
+            "tooltip": "Op basis van (geldige) verblijfstitel.",
+            "dataType": "number",
+            "validate": {
+                "custom": "valid = (input === 0) ? 'Er moet minimaal 1 rechthebbende persoon zijn om de aanvraag te voltooien' : true;",
+                "required": true
+            },
+            "tableView": false,
+            "validateWhenHidden": false,
+            "optionsLabelPosition": "right"
+        },
+        {
+            "key": "submit",
+            "type": "button",
+            "input": true,
+            "label": "Indienen",
+            "tableView": false,
+            "disableOnInvalid": true
+        }
+    ]
+}

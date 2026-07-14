@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_172gt19" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.39.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_05r4r0n">
+    <bpmn:participant id="GenericAnnulerenPortaalEnVerwijderenHersteltermijnParticipant" name="Generic: annuleren portaal en verwijderen hersteltermijn" processRef="generic-annuleren-portaal-en-verwijderen-hersteltermijn" />
+  </bpmn:collaboration>
+  <bpmn:process id="generic-annuleren-portaal-en-verwijderen-hersteltermijn" name="Generic: annuleren portaal en verwijderen hersteltermijn" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1bojmff</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="HersteltermijnVanToepassingGateway" targetRef="VerwijderenHersteltermijnTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${verzoek.hersteltermijn == 'JA'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_04wx4yk" sourceRef="VerwijderenHersteltermijnTask" targetRef="Gateway_0mjkfcn" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="HersteltermijnVanToepassingGateway" targetRef="Gateway_0mjkfcn" />
+    <bpmn:sequenceFlow id="Flow_01e3lv3" sourceRef="Gateway_0mjkfcn" targetRef="Event_1sib4o4" />
+    <bpmn:sequenceFlow id="Flow_0rhdocr" sourceRef="AnnulerenPortaaltaakEvent" targetRef="WachtenTotDePortalTaakIsGeannuleerdEvent" />
+    <bpmn:sequenceFlow id="Flow_0vl468k" sourceRef="WachtenTotDePortalTaakIsGeannuleerdEvent" targetRef="HersteltermijnVanToepassingGateway" />
+    <bpmn:serviceTask id="VerwijderenHersteltermijnTask" name="Verwijderen hersteltermijn" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="hersteltermijn">${verzoek.hersteltermijnInDagen}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_04wx4yk</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="HersteltermijnVanToepassingGateway" name="hersteltermijn van toepassing?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_0vl468k</bpmn:incoming>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0mjkfcn">
+      <bpmn:incoming>Flow_04wx4yk</bpmn:incoming>
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_01e3lv3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_1sib4o4">
+      <bpmn:incoming>Flow_01e3lv3</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:intermediateThrowEvent id="AnnulerenPortaaltaakEvent" name="Annuleren portaaltaak" camunda:asyncBefore="true" camunda:asyncAfter="true">
+      <bpmn:incoming>Flow_0oofhvp</bpmn:incoming>
+      <bpmn:outgoing>Flow_0rhdocr</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0de53dn" camunda:expression="${correlationService.sendCatchEventMessage(&#34;OPVRAGEN_INFORMATIE_PORTAALTAAK_GEANNULEERD&#34;,execution.businessKey)}" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:intermediateCatchEvent id="WachtenTotDePortalTaakIsGeannuleerdEvent" name="Wachten tot de portal taak is geannuleerd">
+      <bpmn:incoming>Flow_0rhdocr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vl468k</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_13558a4">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT10S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_1bojmff" sourceRef="StartEvent_1" targetRef="OphalenHersteltermijnTask" />
+    <bpmn:serviceTask id="OphalenHersteltermijnTask" name="Ophalen hersteltermijn" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="informatieverzoeken">${valueResolverDelegateService.resolveValue(execution, "doc:/informatieverzoeken")}</camunda:inputParameter>
+          <camunda:outputParameter name="verzoek">${informatieverzoeken[informatieverzoeken.size() - 1].verzoek}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1bojmff</bpmn:incoming>
+      <bpmn:outgoing>Flow_0oofhvp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0oofhvp" sourceRef="OphalenHersteltermijnTask" targetRef="AnnulerenPortaaltaakEvent" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_05r4r0n">
+      <bpmndi:BPMNShape id="Participant_0za9jsf_di" bpmnElement="GenericAnnulerenPortaalEnVerwijderenHersteltermijnParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="55" width="1120" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="232" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1fbymgs" bpmnElement="VerwijderenHersteltermijnTask">
+        <dc:Bounds x="890" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1glcnuc_di" bpmnElement="HersteltermijnVanToepassingGateway" isMarkerVisible="true">
+        <dc:Bounds x="765" y="155" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="747" y="121" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0mjkfcn_di" bpmnElement="Gateway_0mjkfcn" isMarkerVisible="true">
+        <dc:Bounds x="1065" y="155" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1sib4o4_di" bpmnElement="Event_1sib4o4">
+        <dc:Bounds x="1192" y="162" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1wp474b_di" bpmnElement="AnnulerenPortaaltaakEvent">
+        <dc:Bounds x="532" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="523" y="128" width="55" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_00aj8yy_di" bpmnElement="WachtenTotDePortalTaakIsGeannuleerdEvent">
+        <dc:Bounds x="642" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="623" y="122" width="74" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1kk4zmq_di" bpmnElement="OphalenHersteltermijnTask">
+        <dc:Bounds x="340" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1bdb169_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="815" y="180" />
+        <di:waypoint x="890" y="180" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="834" y="162" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04wx4yk_di" bpmnElement="Flow_04wx4yk">
+        <di:waypoint x="990" y="180" />
+        <di:waypoint x="1065" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0iunuol_di" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="790" y="205" />
+        <di:waypoint x="790" y="275" />
+        <di:waypoint x="1090" y="275" />
+        <di:waypoint x="1090" y="205" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="829" y="257" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01e3lv3_di" bpmnElement="Flow_01e3lv3">
+        <di:waypoint x="1115" y="180" />
+        <di:waypoint x="1192" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rhdocr_di" bpmnElement="Flow_0rhdocr">
+        <di:waypoint x="568" y="180" />
+        <di:waypoint x="642" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vl468k_di" bpmnElement="Flow_0vl468k">
+        <di:waypoint x="678" y="180" />
+        <di:waypoint x="765" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1bojmff_di" bpmnElement="Flow_1bojmff">
+        <di:waypoint x="268" y="180" />
+        <di:waypoint x="340" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0oofhvp_di" bpmnElement="Flow_0oofhvp">
+        <di:waypoint x="440" y="180" />
+        <di:waypoint x="532" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

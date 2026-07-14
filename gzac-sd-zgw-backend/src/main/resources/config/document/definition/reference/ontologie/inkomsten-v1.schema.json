@@ -1,0 +1,922 @@
+{
+    "$id": "inkomsten.schema",
+    "type": "object",
+    "title": "Model Inkomsten",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "inkomstenverhouding": {
+            "type":"object",
+            "properties": {
+                "id": {
+                    "description": "Een betekenisloos, identificerend kenmerk.",
+                    "$ref": "#/definitions/guid"
+                },
+                "periodeStartdatum": {
+                    "description": "De datum waarop de inkomstenverhouding begon.",
+                    "$ref": "#/definitions/datum"
+                },
+                "periodeEinddatum": {
+                    "description": "<p>De datum waarop de inkomstenverhouding eindigde.</p><p>Als deze nog niet is ge�indigd, is dit gegeven absent.</p>",
+                    "$ref": "#/definitions/datum"
+                },
+                "categorieInkomsten": {
+                    "description": "De type inkomsten zijn gecategoriseerd. Binnen een inkomstenverhouding spreken we altijd van ��n type inkomsten, bijvoorbeeld loon, alimentatie e.d. Zie daarvoor de optiewaarden.",
+                    "$ref": "#/definitions/categorieInkomsten"
+                },
+                "inkomstencomponent": {
+                    "type":"array",
+                    "items": {
+                        "type":"object",
+                        "properties": {
+                            "id": {
+                                "description": "Een betekenisloos, identificerend kenmerk.",
+                                "$ref": "#/definitions/guid"
+                            },
+                            "peilmoment": {
+                                "description": "Het moment waarop de inkomsten zijn geadministreerd. Omdat er op latere momenten in de tijd correcties op de bedragen kunnen komen, is het nodig dit gegeven bij de inkomstencomponent te administreren. Dit stelt tevens in staat om tijdreizen te faciliteren.",
+                                "$ref": "#/definitions/datum"
+                            },
+                            "categorieInkomsten": {
+                                "description": "De categorie van inkomsten (zie ook alle specialisatierelaties).",
+                                "$ref": "#/definitions/categorieInkomsten"
+                            },
+                            "boekingsdatum": {
+                                "description": "De datum waarop het bedrag in dit inkomstencomponent is geboekt op een rekening van de klant.",
+                                "$ref": "#/definitions/datum"
+                            },
+                            "periodeStartdatum": {
+                                "description": "De startdatum van de periode waarop het geboekte bedrag in dit inkomstencomponent betrekking heeft.",
+                                "$ref": "#/definitions/datum"
+                            },
+                            "periodeEinddatum": {
+                                "description": "De einddatum van de periode waarop het geboekte bedrag in dit inkomstencomponent betrekking heeft.",
+                                "$ref": "#/definitions/datum"
+                            },
+                            "inkomsten": {
+                                "description": "Het geldbedrag waaop de boeking betrekking heeft geldig voor de periode in dit inkomstencomponent.",
+                                "$ref": "#/definitions/geldbedrag"
+                            },
+                            "brutoNetto": {
+                                "description": "Geeft aan of de inkomsten geadministreerd in dit inkomstencomponent bruto of netto zijn.",
+                                "$ref": "#/definitions/brutoNettoInkomsten"
+                            },
+                            "bijgevoegdBewijs": {
+                                "description": "Indicatie of bij dit inkomstencomponent een bewijs is toegevoegd",
+                                "$ref": "#/definitions/stdIndJN"
+                            },
+                            "linkNaarBewijs": {
+                                "description": "Een link (URI) naar het bijgevoegde bewijs.",
+                                "$ref": "#/definitions/tekst"
+                            },
+                            "alimentatie": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "inkomstensoortAlimentatie": {
+                                            "description": "De inkomstensoorten die vallen onder de categorie alimentatie.",
+                                            "$ref": "#/definitions/inkomstensoortAlimentatie"
+                                        },
+                                        "bedragInConvenant": {
+                                            "description": "Indicatie of het bedrag wel/niet op is genomen in een convenant.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "juisteBedragBetaaldDoorExPartner": {
+                                            "description": "Indicatie of er wel/niet het juiste bedrag is betaald door de ex-partner.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "lbioIngeschakeld": {
+                                            "description": "Indicatie of het LBIO wel/niet is ingeschakeld.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "bijdrageExPartnerVoorAndereRekeningen": {
+                                            "description": "Indicatie of er wel/geen bijdrage van de partner is voor andere rekeningen.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "bedragAanAndereRekeningen": {
+                                            "description": "De hoogte van het bedrag dat door de ex-partner aan andere rekeningen wordt betaald.",
+                                            "$ref": "#/definitions/geldbedrag"
+                                        }
+                                    }
+                                }
+                            },
+                            "anderInkomen": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "categorie": {
+                                            "description": "Het soort ander inkomen.",
+                                            "$ref": "#/definitions/categorieAnderInkomen"
+                                        },
+                                        "beschrijving": {
+                                            "description": "Beschrijving van de inkomsten uit ander inkomen en waarmee deze inkomsten gegenereerd worden.",
+                                            "$ref": "#/definitions/tekst"
+                                        }
+                                    }
+                                }
+                            },
+                            "betaaldWerk": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "arbeidscontract": {
+                                            "description": "<p>Indicatie of er wel/niet sprake is van een arbeidscontract.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "begindatumContract": {
+                                            "description": "<p>De eerste dag waarop het contract tussen persoon en werkgever in is gegaan.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/datum"
+                                        },
+                                        "einddatumContract": {
+                                            "description": "<p>De laatste dag waarop het contract tussen persoon geldig is geweest.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/datum"
+                                        },
+                                        "soortContract": {
+                                            "description": "<p>Het soort contract dat geldig is tussen de persoon en de werkgever.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/soortContract"
+                                        },
+                                        "inkomstenUitIkbRegeling": {
+                                            "description": "<p>Indicatie of er wel/niet sprake is van inkomsten uit de IKB regeling.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "inkomstensoortBetaaldWerk": {
+                                            "description": "<p>De inkomstensoorten die vallen onder de categorie betaald werk.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/inkomstensoortBetaaldWerk"
+                                        },
+                                        "loondienst": {
+                                            "description": "<p>Indicatie of er inkomsten worden ontvangen uit loondienst.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "loonheffingsnummer": {
+                                            "description": "<p>Het loonheffingsnummer op de loonstrook van de persoon.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/getal"
+                                        },
+                                        "periodiciteitUitbetalingLoon": {
+                                            "$ref": "#/definitions/cdUitkeringsperiode"
+                                        },
+                                        "urenvermindering": {
+                                            "$ref": "#/definitions/getal"
+                                        },
+                                        "dertiendeMaandEindejaarsuitkering": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "heffingskorting": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    },
+                                                    "algemeneHeffingskorting": {
+                                                        "description": "<p>Heffingskortingen zijn kortingen op de inkomstenbelasting en premie volksverzekeringen.</p><p>Zie: </p>",
+                                                        "$ref": "#/definitions/stdIndJN"
+                                                    },
+                                                    "inkomensafhankelijkeCombinatiekorting": {
+                                                        "description": "<p>Heffingskortingen zijn kortingen op de inkomstenbelasting en premie volksverzekeringen.</p><p>Zie: </p>",
+                                                        "$ref": "#/definitions/stdIndJN"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "loonbeslag": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "maaltijdvergoeding": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "onkostenvergoeding": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "reiskostenvergoeding": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "vakantiegeld": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "dertiendeMaandEindejaarsuitkering": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        }
+                                    }
+                                }
+                            },
+                            "eigenBedrijf": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "aantalUrenPerWeekBesteedAanWerk": {
+                                            "description": "<p>Het aantal uren per week die besteedt worden aan het werk waaruit de inkomsten worden gegenereerd. (ZZP)</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/getal"
+                                        },
+                                        "ingeschrevenBijKvk": {
+                                            "description": "<p>Indicatie of het bedrijf wel/niet is ingeschreven bij het KvK. (ZZP)</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "rechtOpZelfstandigenaftrek": {
+                                            "description": "<p>Indicatie of er wel/niet sprake is van recht op zelfstandigenaftrek. (ZZP)</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "soortBedrijf": {
+                                            "description": "<p>Omschrijving van het soort bedrijf waarin inkomsten worden gegenereerd. (ZZP)</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/tekst"
+                                        },
+                                        "toestemmingGemeenteParttimeOndernemen": {
+                                            "description": "<p>Indicatie of er wel/niet toestemming van de gemeente is om parttime te ondernemen. (ZZP)</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        }
+                                    }
+                                }
+                            },
+                            "heffingskorting": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "algemeneHeffingskorting": {
+                                            "description": "<p>Heffingskortingen zijn kortingen op de inkomstenbelasting en premie volksverzekeringen.</p><p>Zie: </p>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "inkomensafhankelijkeCombinatiekorting": {
+                                            "description": "<p>Heffingskortingen zijn kortingen op de inkomstenbelasting en premie volksverzekeringen.</p><p>Zie: </p>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        }
+                                    }
+                                }
+                            },
+                            "hobby": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "beschrijvingHobby": {
+                                            "description": "<p>Beschrijving van de hobby waarme inkomsten gegenereerd worden.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/tekst"
+                                        },
+                                        "aantalUrenPerWeekHobby": {
+                                            "description": "<p>Het aantal uren per week die besteedt worden aan de hobby waaruit de inkomsten worden gegenereerd. (ZZP)</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/getal"
+                                        }
+                                    }
+                                }
+                            },
+                            "inkomstenvermindering": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "loonbeslag": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "verlagingDoorBoete": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "verlagingDoorMaatregel": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "pensioen": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "inkomstensoortPensioen": {
+                                            "description": "<p>De inkomstensoorten die vallen onder de categorie pensioen.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/inkomstensoortPensioen"
+                                        },
+                                        "loonheffingskorting": {
+                                            "description": "<p>Indicatie of er wel/geen loonheffingskorting toe is gepast.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "uitbetalingVakantiegeldPensioen": {
+                                            "description": "<p>De manier waarop het vakantiegeld uit wordt betaald (maandelijks of jaarlijks).</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/uitbetalingVakantiegeldPensioen"
+                                        },
+                                        "beslagOpPensioen": {
+                                            "description": "<p>Indicatie of er wel/geen beslag op het pensioen wordt belegd.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "periodiciteitUitbetalingPensioen": {
+                                            "$ref": "#/definitions/cdUitkeringsperiode"
+                                        },
+                                        "loonbeslag": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "vakantiegeld": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "stage": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "periodiciteitUitbetalingLoon": {
+                                            "$ref": "#/definitions/cdUitkeringsperiode"
+                                        },
+                                        "onkostenvergoeding": {
+                                            "description": "<p>Indicatie of er wel/niet sprake is van onkostenvergoeding.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "reiskostenvergoeding": {
+                                            "description": "<p>Indicatie of er wel/niet sprake is van een reiskostenvergoeding.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "maaltijdvergoeding": {
+                                            "description": "<p>Indicatie of er wel/niet sprake is van een maaltijdvergoeding.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "vergoedingInNatura": {
+                                            "description": "<p>Indicatie of er wel/niet sprake is van vergoeding in natura.</p><br/><p>Bron: GBI-Werkgroep Ontologie Inkomen</p><br/>",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "maaltijdvergoedingen": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "onkostenvergoedingen": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "reiskostenvergoedingen": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "vergoedingenInNatura": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "studiefinanciering": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "inkomstensoortStudiefinanciering": {
+                                            "description": "De inkomstensoorten die vallen onder de categorie studiefinanciering.",
+                                            "$ref": "#/definitions/inkomstensoortStudiefinanciering"
+                                        }
+                                    }
+                                }
+                            },
+                            "uitkering": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "inkomstensoortUitkering": {
+                                            "description": "De inkomstensoorten die vallen onder de categorie uitkering.",
+                                            "$ref": "#/definitions/cdSzWet"
+                                        },
+                                        "toeslagOpUitkering": {
+                                            "description": "Indicatie of er wel/geen toeslag op de uitkering van toepassing is.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "loonheffingskorting": {
+                                            "description": "Indicatie of er wel/geen loonheffingskorting op de uitkering van toepassing is.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "vakantiegeldJaarlijksOntvangen": {
+                                            "description": "Indicatie of het vakantiegeld wel/niet jaarlijks wordt ontvangen.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "beslagOpUitkering": {
+                                            "description": "Indicatie of er wel/geen beslag op de uitkering wordt belegd.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "uitkeringVerlaagdDoorBoete": {
+                                            "description": "Indicatie of er wel/niet sprake is van een verlaagde utikering in verband met een boete.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "uitkeringVerlaagdDoorMaatregel": {
+                                            "description": "Indicatie of er wel/niet sprake is van een verlaagde utikering in verband met een maatregel.",
+                                            "$ref": "#/definitions/stdIndJN"
+                                        },
+                                        "periodiciteitUitbetalingUitkering": {
+                                            "description": "De periodiciteit waarmee de uitkering wordt uitgekeerd.",
+                                            "$ref": "#/definitions/cdUitkeringsperiode"
+                                        },
+                                        "loonbeslag": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "vakantiegeld": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "verlagingDoorBoete": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "verlagingDoorMaatregel": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "vakantiegeld": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        }
+                                    }
+                                }
+                            },
+                            "vergoeding": {
+                                "type":"array",
+                                "items": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "description": "Een betekenisloos, identificerend kenmerk.",
+                                            "$ref": "#/definitions/guid"
+                                        },
+                                        "maaltijdvergoeding": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "onkostenvergoeding": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "reiskostenvergoeding": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "vergoedingInNatura": {
+                                            "type":"array",
+                                            "items": {
+                                                "type":"object",
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Een betekenisloos, identificerend kenmerk.",
+                                                        "$ref": "#/definitions/guid"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "guid": {
+            "type": "string",
+            "pattern": "^(\\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\\}{0,1})$"
+        },
+        "datum": {
+            "type": "string"
+        },
+        "categorieInkomsten": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Alimentatie" },
+                { "code": "2", "name": "Ander inkomen" },
+                { "code": "3", "name": "Betaald werk" },
+                { "code": "4", "name": "Heffingskorting" },
+                { "code": "5", "name": "Pensioen" },
+                { "code": "6", "name": "Studiefinanciering" },
+                { "code": "7", "name": "Uitkering" },
+                { "code": "8", "name": "Vergoeding" },
+                { "code": "9", "name": "Stagevergoeding" },
+                { "code": "10", "name": "Hobby" },
+                { "code": "11", "name": "Eigen bedrijf" },
+                { "code": "12", "name": "Inkomstenvermindering" }
+            ]
+        },
+        "geldbedrag": {
+            "type": "number",
+            "pattern": "^-?[0-9]((;|,|\\.)[0-9]{2}|)$"
+        },
+        "brutoNettoInkomsten": {
+            "type": "object",
+            "enum": [
+                { "code": "Br", "name": "Bruto" },
+                { "code": "Nt", "name": "Netto" }
+            ]
+        },
+        "stdIndJN": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Ja" },
+                { "code": "2", "name": "Nee" }
+            ]
+        },
+        "tekst": {
+            "type": "string"
+        },
+        "inkomstensoortAlimentatie": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Alimentatie ex-echtgenote/echtgenootg (geindexeerd)" },
+                { "code": "2", "name": "Alimentatie ex-echtgenote/echtgenootg (niet geindexeerd)" },
+                { "code": "3", "name": "Alimentatie kinderen (geindexeerd)" },
+                { "code": "4", "name": "Alimentatie kinderen (niet geindexeerd)" }
+            ]
+        },
+        "categorieAnderInkomen": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Vergoeding vrijwilligerswerk" },
+                { "code": "2", "name": "Afkoopwaarde lijfrente" },
+                { "code": "3", "name": "Huur of onderhuur" },
+                { "code": "4", "name": "Giften" },
+                { "code": "5", "name": "Toelagen" },
+                { "code": "6", "name": "Inkomen uit buitenland" },
+                { "code": "7", "name": "Zorgpremie" },
+                { "code": "9", "name": "Anders" }
+            ]
+        },
+        "soortContract": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Vast contract" },
+                { "code": "2", "name": "Voor bepaalde tijd" },
+                { "code": "3", "name": "Op oproepbasis" },
+                { "code": "4", "name": "Uitzendbureau" },
+                { "code": "5", "name": "0-uren contract" }
+            ]
+        },
+        "inkomstensoortBetaaldWerk": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Betaald werk" },
+                { "code": "2", "name": "Zelfstandige / ZZP" }
+            ]
+        },
+        "getal": {
+            "type": "integer",
+            "pattern": "^-?[0-9]{1,}$"
+        },
+        "cdUitkeringsperiode": {
+            "type": "object",
+            "enum": [
+                { "code": "0", "name": "Niet van toepassing" },
+                { "code": "1", "name": "Dag" },
+                { "code": "2", "name": "Week" },
+                { "code": "3", "name": "2 weken" },
+                { "code": "4", "name": "4 weken (13 maanden)" },
+                { "code": "5", "name": "5 weken" },
+                { "code": "6", "name": "Maand" },
+                { "code": "7", "name": "Kwartaal" },
+                { "code": "8", "name": "Jaar" },
+                { "code": "9", "name": "Eenmalig" }
+            ]
+        },
+        "inkomstensoortPensioen": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "Bedrijfspensioen" },
+                { "code": "2", "name": "Buitenlands pensioen" },
+                { "code": "3", "name": "Pensioen ivm oorlog" },
+                { "code": "4", "name": "Invaliditeitspensioen" },
+                { "code": "5", "name": "Nabestaandepensioen (weduwe/weduwnaar)" },
+                { "code": "6", "name": "Nabestaandepensioen (wezen)" }
+            ]
+        },
+        "uitbetalingVakantiegeldPensioen": {
+            "type": "string"
+        },
+        "inkomstensoortStudiefinanciering": {
+            "type": "object",
+            "enum": [
+                { "code": "1", "name": "WSF" },
+                { "code": "2", "name": "WTOS" }
+            ]
+        },
+        "cdSzWet": {
+            "type": "object",
+            "enum": [
+                { "code": "AAW", "name": "(voormalige) Algemene Arbeidsongeschiktheidswet" },
+                { "code": "AB", "name": "Algemene bijstand (regeling)" },
+                { "code": "ABW", "name": "Algemene Bijstandswet" },
+                { "code": "AKW", "name": "Algemene Kinderbijslagwet" },
+                { "code": "ANW", "name": "Algemene Nabestaandenwet" },
+                { "code": "AOW", "name": "Algemene Ouderdomswet" },
+                { "code": "AOW-OBR", "name": "AOW-Overbruggingsregeling" },
+                { "code": "AOWOR", "name": "AOW-Overbruggingsregeling" },
+                { "code": "AWBZ", "name": "Algemene Wet Bijzondere Ziektekosten" },
+                { "code": "AWW", "name": "(voormalige) Algemene Weduwen en Wezenwet" },
+                { "code": "BB", "name": "Bijzondere Bijstand" },
+                { "code": "BBZ", "name": "Besluit Bijstandverlening Zelfstandigen" },
+                { "code": "BBZB", "name": "Besluit Bijstandverlening Zelfstandigen � Bedrijfskapitaal" },
+                { "code": "BBZBB", "name": "Besluit Bijstandverlening Zelfstandigen � Bijzondere Bijstand" },
+                { "code": "BBZL", "name": "Besluit Bijstandverlening Zelfstandigen � Levensonderhoud" },
+                { "code": "CSV", "name": "Co�rdinatiewet Sociale Verzekering" },
+                { "code": "INTW", "name": "Internationale wetten" },
+                { "code": "IOAW", "name": "Wet Inkomensvoorziening Oudere en gedeeltelijk Arbeidsongeschikte Werkloze Werknemers" },
+                { "code": "IOAZ", "name": "Wet Inkomensvoorziening Oudere en gedeeltelijk Arbeidsongeschikte gewezen Zelfstandigen" },
+                { "code": "IOW", "name": "Wet Inkomensvoorziening Oudere Werklozen" },
+                { "code": "IVA", "name": "Regeling Inkomensvoorziening Volledig Arbeidsongeschikten" },
+                { "code": "KB", "name": "Koninklijk besluit en aanverwante regelingen" },
+                { "code": "KOP", "name": "Kopjesregeling" },
+                { "code": "NWJ", "name": "Wet werk en arbeidsondersteuning jonggehandicapten (Wet Wajong)" },
+                { "code": "OSV", "name": "Organisatiewet Sociale Verzekering" },
+                { "code": "PVW", "name": "pensioenwetten" },
+                { "code": "PWJ", "name": "Participatiewet Wajong" },
+                { "code": "REA", "name": "Wet op de (RE)integratie Arbeidsgehandicapten" },
+                { "code": "RW", "name": "Remigratiewet" },
+                { "code": "RWW", "name": "(voormalige) Rijksgroepregeling Werkloze Werknemers" },
+                { "code": "TRI", "name": "Tijdelijke Regeling Inkomensgevolgen herbeoordeelde arbeidsongeschikten" },
+                { "code": "TW", "name": "Toeslagenwet" },
+                { "code": "VUT", "name": "VUT-regeling" },
+                { "code": "WAJ", "name": "Wet Arbeidsongeschiktheidsvoorziening Jonggehandicapten (WAJONG)" },
+                { "code": "WAMIL", "name": "Wet Arbeidsongeschiktheidsvoorziening Militairen" },
+                { "code": "WAO", "name": "Wet op de Arbeidsongeschiktheidsverzekering" },
+                { "code": "WAZ", "name": "Wet Arbeidsongeschiktheidsverzekering Zelfstandigen" },
+                { "code": "WAZO", "name": "Wet Arbeid en Zorg" },
+                { "code": "WBIA", "name": "(Tijdelijke Wet) Beperking Inkomensgevolgen Arbeidsongeschiktheidscriteria" },
+                { "code": "WGA", "name": "Regeling Werkhervatting Gedeeltelijk Arbeidsgeschikten" },
+                { "code": "WHK", "name": "Werkhervattingskas" },
+                { "code": "WIA", "name": "Wet Werk en Inkomen naar Arbeidsvermogen" },
+                { "code": "WIJ", "name": "Wet Investeren in Jongeren" },
+                { "code": "WMO", "name": "Wet Maatschappelijke Ondersteuning" },
+                { "code": "WSW", "name": "Wet Sociale Werkvooriening" },
+                { "code": "WVG", "name": "Wet Voorzieningen Gehandicapten" },
+                { "code": "WW", "name": "Werkloosheidswet" },
+                { "code": "WWAJ", "name": "Wet Werk en Arbeidsondersteuning Jonggehandicapten (Wet Wajong)" },
+                { "code": "WWB", "name": "Wet Werk en Bijstand" },
+                { "code": "WWF", "name": "Werkloosheidswet Faillissementen" },
+                { "code": "WWIK", "name": "Wet Werk en Inkomen Kunstenaars" },
+                { "code": "ZFW", "name": "Ziekenfondswet" },
+                { "code": "ZVW", "name": "Zorgverzekeringswet" },
+                { "code": "ZW", "name": "Ziektewet" }
+            ]
+        },
+        "integer": {
+            "type": "string",
+            "pattern": "(^-|^)(0|[1-9][0-9]*)$"
+        },
+        "currency": {
+            "type": "string",
+            "pattern": "(^-|^+|^)(0|[1-9][0-9]+)($|,[0-9][0-9]$)"
+        },
+        "url": {
+            "type": "string",
+            "pattern": "^(http://|https://).*"
+        },
+        "datumTijd": {
+            "type": "string",
+            "pattern": "^([0-2][0-9]|3[0-1]|[1-9])-(0[1-9]|[1-9]|1[0-2])-(19|20)[0-9][0-9] T[0-2][0-9]:[0-5][0-9]:[0-5][0-9]"
+        }
+    }
+}

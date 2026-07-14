@@ -1,0 +1,36 @@
+{
+    "$id": "kvkregistratie.schema",
+    "type": "object",
+    "title": "KvK registratie",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "kvkInschrijfnummer": {
+            "type": "string"
+        },
+        "naamOnderneming": {
+            "type": "string"
+        },
+        "datumInschrijving": {
+            "type": "string"
+        },
+        "omschrijvingActiviteiten": {
+            "type": "string"
+        },
+        "rechtsvorm": {
+            "type": "string",
+            "enum": [
+                "EENMANSZAAK_ZZP",
+                "VENNOOTSCHAP_ONDER_FIRMA_VOF",
+                "COMMANDITAIRE_VENNOOTSCHAP_CV",
+                "BESLOTEN_VENNOOTSCHAP_BV",
+                "MAATSCHAP",
+                "STICHTING_MET_WINSTOOGMERK",
+                "ONBEKEND"
+            ]
+        },
+        "aantalVennoten": {
+            "type": "number"
+        }
+    }
+}

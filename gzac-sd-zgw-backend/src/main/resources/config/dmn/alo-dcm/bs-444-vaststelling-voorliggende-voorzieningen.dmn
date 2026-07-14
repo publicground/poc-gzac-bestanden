@@ -1,0 +1,4390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="bs-444-drd" name="BS_444_DRD" namespace="http://camunda.org/schema/1.0/dmn" expressionLanguage="https://www.omg.org/spec/DMN/20191111/FEEL/" typeLanguage="https://www.omg.org/spec/DMN/20191111/FEEL/" exporter="Camunda Modeler" exporterVersion="5.46.1">
+  <decision id="bs-444-aanspraak-alimentatie" name="Aanspraak op Alimentatie?">
+    <informationRequirement id="InformationRequirement_05xlbnh">
+      <requiredDecision href="#bs-444-onderhoudsplicht-partner" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0erkujn">
+      <requiredDecision href="#bs-444-aanspraak-kinderalimentatie" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0cl309q" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="Input_1" label="Aanspraak op partneralimentatie">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_10tawh2" label="Aanspraak op kinderalimentatie">
+        <inputExpression id="LiteralExpression_1covxvo" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Aanspraak op alimentatie" name="mogelijkRecht" typeRef="boolean" />
+      <output id="OutputClause_0mzlra1" label="onderbouwing" name="onderbouwing" typeRef="string" />
+      <rule id="DecisionRule_19lzkck">
+        <inputEntry id="UnaryTests_1cy6p4v">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0b8dkzz">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0siogjc">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qc5fb7">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0g4uunl">
+        <inputEntry id="UnaryTests_1bs4p36">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ehkck1">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0qsso8j">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1exftq7">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1fwawtf">
+        <inputEntry id="UnaryTests_1d2337x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14ol4mk">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bvk84u">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_035hg5m">
+          <text></text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-onderhoudsplicht-partner" name="Onderhoudsplicht partner?">
+    <decisionTable id="DecisionTable_16t9zsv" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_1mir6an" label="Partner Overleden">
+        <inputExpression id="LiteralExpression_15tayqm" typeRef="boolean">
+          <text>Persoon(Persoon_expartner).DatumOverlijden
+                        = BRP: ClientSUWI(Burgerservicenummer =
+                        Persoon_expartner.Burgerservicenummer).Overlijden.DatOverlijden
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0wp152e" label="Actuele partner-relatie?" camunda:inputVariable="Persoon">
+        <inputExpression id="LiteralExpression_1366g53" typeRef="boolean">
+          <text>any(Persoon(Persoon_aanvrager).Persoonsrelatie.Persoonsrelatietype="P")</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1mrsg14" label="Datum Echtscheiding" biodi:width="192">
+        <inputExpression id="LiteralExpression_1pv73i8" typeRef="date">
+          <text>BRP:
+                        ClientSUWI(Burgerservicenummer =
+                        Persoon.Burgerservicenummer).HuwelijkHistorisch(Partner.Burgerservicenr=Persoon_expartner.Burgerservicenummer).DatOntbHuwelijk </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1jbudwj" label="Duur huwelijk" biodi:width="192">
+        <inputExpression id="LiteralExpression_14xsivh" typeRef="period">
+          <text>BRP: ClientSUWI(Burgerservicenummer =
+                        Persoon.Burgerservicenummer).HuwelijkHistorisch(Partner.Burgerservicenr=Persoon_expartner.Burgerservicenummer).DatOntbHuwelijk
+                        - ClientSUWI(Burgerservicenummer =
+                        Persoon.Burgerservicenummer).HuwelijkHistorisch(Partner.Burgerservicenr=Persoon_expartner.Burgerservicenummer).DatHuwelijkssluiting
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0q55ihq" label="Kinderen uit relatie?">
+        <inputExpression id="LiteralExpression_13geev4" typeRef="boolean">
+          <text>Voor elk
+                        gevonden kind:
+
+                        OuderKind(IsSubjectIn = Persoon_aanvrager).IsObjectIn = het gevonden
+                        kind
+
+                        EN
+
+                        OuderKind(IsSubjectIn = Persoon_expartner).IsObjectIn = het gevonden kind</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0ojtcfg" label="Zorg voor kinderen &#60; 12 jaar" biodi:width="192" camunda:inputVariable="Zaak">
+        <inputExpression id="LiteralExpression_1lqibyl" typeRef="boolean">
+          <text>any( Zaak.Aanvraag.Huishouden.Personen.OuderKinderen(IndicatieKinderbijslag = true).IsObjectIn.Geboortedatum &gt; today() - duration("P12Y" )</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_11rg08w" label="Leeftijd onderhoudgerechtigde" biodi:width="192" camunda:inputVariable="Zaak">
+        <inputExpression id="LiteralExpression_0a1mhuc" typeRef="integer">
+          <text>Zaak.Aanvraag.Huishouden.Persoon_aanvrager.Geboortedatum</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0c8v7m4" label="Datum echtscheiding">
+        <inputExpression id="LiteralExpression_0pm7ip3" typeRef="date">
+          <text>Zaak.Aanvraag.Huishouden.Persoon(Persoon_aanvrager).IsSubjectIn(type:Ex-partner).IsObjectIn(Persoon_expartner).DatumEindeRelatie</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1h14lvu" label="Onderhoudsplicht partner" typeRef="boolean" />
+      <rule id="DecisionRule_18ilvmm">
+        <inputEntry id="UnaryTests_1sjtsfm">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0e0e8lu">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15uicgo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s0v4y0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09wkwxg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15eomc8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lnot1r">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09yj1vy">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1lz2m4g">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0s17mpj">
+        <inputEntry id="UnaryTests_1pf972x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04px2gp">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1thqzug">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15y6k5t">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1iccflw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zm94uw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qve6ir">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jjz05q">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0yfhpek">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0c2103p">
+        <inputEntry id="UnaryTests_0kgvedw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dz1u24">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03lz4n3">
+          <text>voor 1 januari 2020</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12s5sn7">
+          <text>korter dan 5 jaar</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sbl4ob">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0k05cit">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mwtxhm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i41orc">
+          <text>&gt; vandaag - 12 jaar </text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_02s7e8g">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0y0xbt2">
+        <inputEntry id="UnaryTests_1qxjlgp">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01jwk5q">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00mq7lv">
+          <text>voor 1 januari 2020</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1q03jyq">
+          <text>korter dan 5 jaar</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1b2bj1q">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ru6ept">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_190ffc0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ylbfru">
+          <text>&gt; vandaag - duur huwelijk</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0eyflsy">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14l1l9q">
+        <inputEntry id="UnaryTests_1t9hzn3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0n71d9d">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bq05sj">
+          <text>voor 1 januari 2020</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06bzsku">
+          <text>langer dan 5 jaar</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zg35u0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0w2lk3k">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tmgpc1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04e0fzi">
+          <text>&gt; vandaag - 12 jaar</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0j7ync4">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_161crmr">
+        <description>Alimentatie stopt wanneer jongste kind 12 wordt</description>
+        <inputEntry id="UnaryTests_0ofphj1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12urncr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qq3zlk">
+          <text>na 1 januari 2020</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rlcozh">
+          <text>korter dan 15 jaar</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1w7hdqg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lx19or">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07o737t">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qho6ab">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_08n6lt7">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_15cqg8b">
+        <inputEntry id="UnaryTests_001932u">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ezx5e0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vl1pdm">
+          <text>na 1 januari 2020</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ikbak5">
+          <text>korter dan 10 jaar</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0n4zg8w">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13ujk96">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ys607o">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hqspjd">
+          <text>&gt; vandaag - helft duur huwelijk</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_18rfre8">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0e34frv">
+        <inputEntry id="UnaryTests_02w75zk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17p266m">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sddz4t">
+          <text>na 1 januari 2020</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tkrck7">
+          <text>langer 10 jaar en korter dan 15 jaar</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_077qm2f">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tcvnq5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pb3e5i">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1yqgfcl">
+          <text>&gt; vandaag - 5 jaar </text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1pvisfw">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1bt0bm1">
+        <inputEntry id="UnaryTests_1t8azdu">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1vqvzne">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fugv58">
+          <text>na 1 januari 2020</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gbootu">
+          <text>langer dan 15 jaar</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0b64gv6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09shu38">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15vebda">
+          <text>&lt; AOW leeftijd - 10 en geboren voor 1.1.1970</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ypseqh">
+          <text>&gt; vandaag - 10 jaar</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05ktpnb">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1nw2752">
+        <inputEntry id="UnaryTests_0ze3iv0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_112r9zo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_188w50z">
+          <text>na 1 januari 2020</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0y90vfi">
+          <text>langer dan 15 jaar</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14c2u11">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uyfzra">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0je5bk0">
+          <text>&lt; AOW leeftijd - 10 en geboren na 1.1.1970</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kyyg8e">
+          <text>&gt; vandaag - 5 jaar</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1301k3d">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1m8m1v4">
+        <description>Alimentatie stopt wanneer AOW gerechtigde leeftijd wordt bereikt</description>
+        <inputEntry id="UnaryTests_0tlnhwn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_003u01k">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18shrda">
+          <text>na 1 januari 2020</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gxckjv">
+          <text>langer dan 15 jaar</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gq4c15">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_134stbc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0l0yum9">
+          <text>&lt; AOW leeftijd</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nm6q2a">
+          <text>&gt; vandaag - 10 jaar</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1fnjp1o">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ra0ht9">
+        <inputEntry id="UnaryTests_0r3hc98">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1us0khx">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0d1dw1j">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gme6fz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1velgwm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0m9p79k">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_082hova">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vgy5u8">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_08lq6sf">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-aanspraak-kinderalimentatie" name="Aanspraak kinderalimentatie">
+    <decisionTable id="DecisionTable_143x30h" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_0mupyr3" label="Gezamenlijke kinderen &#60; 21 jaar" biodi:width="303">
+        <inputExpression id="LiteralExpression_1xz5k97" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_130prm6" label="Co-ouder bekend">
+        <inputExpression id="LiteralExpression_0pjx8co" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1vgp289" label="Aanspraak op kinderalimentatie" typeRef="string" />
+      <rule id="DecisionRule_0v1ew0j">
+        <inputEntry id="UnaryTests_0e6mkvn">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0st8h45">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1r61woy">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ivet44">
+        <inputEntry id="UnaryTests_13id21d">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vqlkxx">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0jorpes">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-wajong" name="Mogelijk recht op Wajong">
+    <decisionTable id="DecisionTable_1y4q2s7" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_1vi2ey8" label="Historische Wajong uitkering?">
+        <inputExpression id="LiteralExpression_1p53bi3" typeRef="boolean" />
+      </input>
+      <input id="InputClause_1gmgce4" label="Leeftijd" biodi:width="191">
+        <inputExpression id="LiteralExpression_1hr5vzz" typeRef="double">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1yct4wp" label="Opleiding gevolgd">
+        <inputExpression id="LiteralExpression_1kcbyzy" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0waz30i" label="Mogelijk recht op Wajong?" typeRef="string" />
+      <rule id="DecisionRule_0lz49us">
+        <inputEntry id="UnaryTests_00bnx4r">
+          <text>ja</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18g1zqb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xca3he">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_084y51t">
+          <text>waarschijnlijk recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05hwgz7">
+        <inputEntry id="UnaryTests_0ht5eju">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00793b1">
+          <text>&gt;30</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1r99sfs">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ll178i">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1r9a3qt">
+        <inputEntry id="UnaryTests_1rf15v1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wktivi">
+          <text>&gt;18</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19nwt1a">
+          <text>nee</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1wuzbrp">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_051f9oj">
+        <inputEntry id="UnaryTests_0jvjgj4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ki9i06">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j0ijv6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_157vvev">
+          <text>mogelijk recht</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="BS_444_VervolgWajong" name="Vervolgactie Wajong">
+    <informationRequirement id="InformationRequirement_14ps4bl">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-wajong" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_05gjywf" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_0lfiqxd" label="Recht op Wajong">
+        <inputExpression id="LiteralExpression_1g6lybh" typeRef="string" />
+      </input>
+      <input id="InputClause_1psrfwn" label="Aanvraag Wajong?">
+        <inputExpression id="LiteralExpression_18m6jex" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1qrw3eb" label="Toekenning Wajong">
+        <inputExpression id="LiteralExpression_08lph92" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0wuwmq8" label="Gevolg" typeRef="string" />
+      <rule id="DecisionRule_112xvob">
+        <inputEntry id="UnaryTests_0bbatxr">
+          <text>geen recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11rkwsi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0g3elwb">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1q9sl52">
+          <text>niets</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qisp42">
+        <description>Gemeente kiest één van de vier</description>
+        <inputEntry id="UnaryTests_1f73mz0">
+          <text>waarschijnlijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0w68ijt">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0olephn">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0i5aosu">
+          <text>uitsluiten, individuele verplichting, fictief bijtellen of beoordeling professional</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_002nrv4">
+        <inputEntry id="UnaryTests_10smqey">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1oj64ag">
+          <text>ja</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_039azz4">
+          <text>ja</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1rvg1o7">
+          <text>wajong verrekenen</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hrud2l">
+        <inputEntry id="UnaryTests_1mp33oi">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ar5nlw">
+          <text>ja</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0l18fbn">
+          <text>nee</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qhutfb">
+          <text>niets</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1gnaop8">
+        <description>Gemeente kiest één van de vier</description>
+        <inputEntry id="UnaryTests_0fb8i2y">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_163etwr">
+          <text>nee</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0937fkx">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0xow8gz">
+          <text>uitsluiten, individuele verplichting, fictief bijtellen of beoordeling professional</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-ww" name="Mogelijk recht op WW?">
+    <informationRequirement id="InformationRequirement_1hq4xk5">
+      <requiredDecision href="#bs-444-betrokkenen-en-bronnen" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1wdsvov">
+      <requiredDecision href="#bs-444-berekening-ingangsdatum" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_13uccst" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_1vzsglq" label="Lopende WW (opgaven)">
+        <inputExpression id="LiteralExpression_147kgjx" typeRef="string">
+          <text>count(
+                        flatten(inkomsten.uitkering.opgaven)[date(item.datumEindOpgave) &gt; today() - duration("P3M")  ].codeSoortIkv.code[item="33" or item="35"])&gt;0
+
+                        // 33 - WW
+                        // 35 - Verlenging WW
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0bto7cy" label="Lopende WW (ikv)">
+        <inputExpression id="LiteralExpression_1sujqvb" typeRef="string">
+          <text>count( flatten( inkomsten.uitkering[ date(item.datumEindIkv) &gt; today() - duration("P3M") or item.datumEindIkv = ""].opgaven).codeSoortIkv.code[item="33" or item="35"])&gt;0
+                        // 33 - WW
+                        // 35 - Verlenging WW</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1dxixz2" label="Voldoet mogelijk aan wekeneis">
+        <inputExpression id="LiteralExpression_10jgty1" typeRef="boolean">
+          <text>sum(
+                        for i in [1,2,3,4,5,6,7,8,9] return
+                        if
+                        some opg in flatten(inkomsten.loondienst.opgaven.datumEindOpgave) satisfies date(opg) &lt; date(ingangsdatum) - duration("P1M") * (i-1) and date(opg) &gt; date(ingangsdatum) - duration("P1M") * i
+                        then 1 else 0) &gt; 5
+
+
+                        // Als er in de laatste 9 maanden vier hele maanden geen inkomen was, dan kan er nooit meer dan 26 van de 36 weken gewerkt zijn. Dus alleen als er 5 of meer maande inkomen was, dan is er mogelijk recht op WW
+                    </text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1vxh4m3" name="wwMogelijkRecht" typeRef="string" />
+      <output id="OutputClause_0968voi" name="wwVerantwoordingVaststelling" typeRef="string" />
+      <output id="OutputClause_1j1pwya" name="wwSignalering" typeRef="string" />
+      <rule id="DecisionRule_0meqir8">
+        <inputEntry id="UnaryTests_0f57b8f">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_096x4pr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1btk8fh">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1278650">
+          <text>"wel recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1a1le1d">
+          <text>"lopende WW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1uf79yg">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0spullk">
+        <inputEntry id="UnaryTests_0fiqrwz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mskyha">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s5pb0s">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_01g0bl2">
+          <text>"wel recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1t3t509">
+          <text>"lopende WW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ru82b4">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14iir48">
+        <description>In de laatste 36 weken voordat u werkloos werd, moet u in minstens 26 weken hebben gewerkt. Het maakt niet uit hoeveel uur u per week werkte.</description>
+        <inputEntry id="UnaryTests_14he8jc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15bx5u1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_099hjlh">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1m53frz">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0uss8d4">
+          <text>"Voldoet niet aan wekeneis"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1s527ox">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_178ks62">
+        <inputEntry id="UnaryTests_1n5v4zz">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1oxehns">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ji0x64">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0q2otfg">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13r5n0z">
+          <text>"onvolledige data bepalen lopende WW opgaven"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_16feycc">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_03u0b5h">
+        <inputEntry id="UnaryTests_1gs4mha">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bijdig">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0g8yocz">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15cuxxj">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_003porp">
+          <text>"onvolledige data bepalen lopende WW ikv"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0f4gvcn">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06g0yxo">
+        <inputEntry id="UnaryTests_04y80oj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1f21jz2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03b0ycq">
+          <text>null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vzmuhk">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_17du0g6">
+          <text>"onvolledige data bepalen wekeneis"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_100ihh0">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0rbi53l">
+        <inputEntry id="UnaryTests_0y0cyki">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1472d76">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zjnmsn">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ua151z">
+          <text>"mogelijk recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_143nh52">
+          <text>"Wekeneis mogelijk en geen lopende WW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ygb520">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1gvpm9w">
+        <inputEntry id="UnaryTests_05jcr3j">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xtqvv4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qf2qjx">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1f0tj9b">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05aqypg">
+          <text>"WW onbekend"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0bgvv5q">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="BS_444_VervolgWW" name="Vervolgactie WW">
+    <informationRequirement id="InformationRequirement_0qg158d">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-ww" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0fvbjrw" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_0atk6ff" label="Mogelijk recht WW?">
+        <inputExpression id="LiteralExpression_0dut92p" typeRef="string">
+          <text>dt444_MogelijkWW</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1l3vhon" label="Aanvraag WW?">
+        <inputExpression id="LiteralExpression_1qhv3zt" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_02q6l2u" label="Toekenning WW?">
+        <inputExpression id="LiteralExpression_0s4iulf" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1ogloun" label="Vervolgactie WW" typeRef="string" />
+      <rule id="DecisionRule_05nk6yr">
+        <inputEntry id="UnaryTests_1fqbbfz">
+          <text>geen recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0w0vft1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hpk492">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0k6klrk">
+          <text>niets</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1o5esvb">
+        <inputEntry id="UnaryTests_1q3stwh">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13r1u6i">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0od7mvq">
+          <text>ja</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1vpwvmu">
+          <text>verrekenen</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tt5wjo">
+        <inputEntry id="UnaryTests_0f6j62l">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rpqlgy">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_157og6e">
+          <text>nee</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ha0gv3">
+          <text>niets</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hj8snl">
+        <description>Gemeente kiest één van de 4</description>
+        <inputEntry id="UnaryTests_0dgsdcz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kvs3r0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01647r9">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1vkiz00">
+          <text>uitsluiten, individuele verplichting, fictief bijtellen of beoordeling professional</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-zw" name="Mogelijk recht op ZW?">
+    <informationRequirement id="InformationRequirement_1wcsqbe">
+      <requiredDecision href="#bs-444-betrokkenen-en-bronnen" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_08364s8">
+      <requiredDecision href="#bs-444-berekening-ingangsdatum" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1jat05n" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_07m0zhv" label="Lopende ZW (opgaven)?">
+        <inputExpression id="LiteralExpression_1c5hl1l" typeRef="boolean">
+          <text>count(
+                        flatten(inkomsten.uitkering.opgaven)[date(item.datumEindOpgave) &gt; today() - duration("P3M")  ].codeSoortIkv.code[item="31"])&gt;0
+
+                        // 31 - ZW
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_18e3ln1" label="Lopende ZW (ikv)">
+        <inputExpression id="LiteralExpression_0zxgbiv" typeRef="boolean">
+          <text>count( flatten( inkomsten.uitkering[ date(item.datumEindIkv) &gt; today() - duration("P3M") or item.datumEindIkv = ""].opgaven).codeSoortIkv.code[item="31"])&gt;0
+                        // 31 - ZW
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0oj375p" label="Arbeidsverleden?">
+        <inputExpression id="LiteralExpression_10o0zhf" typeRef="boolean">
+          <text>get or else(
+                        date(sort(
+                        flatten (
+                        for i in flatten(
+                        concatenate(
+                        inkomsten.loondienst.opgaven, inkomsten.uitkering.opgaven
+                        )
+                        ) return  if i.codeSoortIkv.code != "31" then i.datumEindOpgave else []
+                        ),  function(x,y) x &gt; y)[1]) &gt; date(ingangsdatum) - duration("P2Y")
+                        , false )
+                        // als laatste 24 maanden geen UWV-uitkering EN geen loondienst, dan kan er ook geen recht op ZW zijn
+                        // behalve als het ZW - code 31 is</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1dmy9j0" label="Beschikbaar voor werk?">
+        <inputExpression id="LiteralExpression_1p0yyrw" typeRef="boolean">
+          <text>beschikbaarheid.uurPerWeek &gt; 32
+                        // wat is minimaal aantal uur? ik heb nu 32 aangenomen</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1v4zym8" name="zwMogelijkRecht" typeRef="string" />
+      <output id="OutputClause_116yv2o" name="zwVerantwoordingVaststelling" typeRef="string" biodi:width="434" />
+      <output id="OutputClause_0emz7jb" name="zwSignalering" typeRef="boolean" />
+      <rule id="DecisionRule_0nssu4c">
+        <inputEntry id="UnaryTests_0cn1i1o">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17ldt3j">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1as1hu9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0n82pnh">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_098zu1n">
+          <text>"wel recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ix9a2m">
+          <text>"Lopende ZW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0gc4xue">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1010jdn">
+        <inputEntry id="UnaryTests_0wzjqvn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0frdeq2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bfxek7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18u4d1w">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0v3j3k3">
+          <text>"wel recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_031h8f6">
+          <text>"Lopende ZW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jjkc8d">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0owdspy">
+        <inputEntry id="UnaryTests_1nb2odc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12ajbde">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wucwni">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02p0367">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1miazu1">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_00ox58f">
+          <text>"Geen arbeidsverleden"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1c3llfn">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1s5bqmk">
+        <inputEntry id="UnaryTests_0hhqlbr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1pereib">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zry2co">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03gnxd5">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0rdf8mx">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_18dh0be">
+          <text>"Beschikbaar voor werk"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1fpf6zt">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0y7r0b0">
+        <inputEntry id="UnaryTests_1nbf312">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15ynwgn">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p38i0q">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dl141n">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1pnxmnx">
+          <text>"mogelijk recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ugufv0">
+          <text>"Niet volledig beschikbaar voor werk."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0k1drqq">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1elqi6l">
+        <inputEntry id="UnaryTests_06yzg0u">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fiy66q">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hxw9kb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wjan31">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15hxrqu">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0772ays">
+          <text>"onvolledige data bepalen lopende ZW opgaven"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0z653ag">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ug6u1g">
+        <inputEntry id="UnaryTests_0nf0rki">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1vfm6o2">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ctjhv2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gxwv95">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ppuns8">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0lb3e2l">
+          <text>"onvolledige data bepalen lopende ZW ikv"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ajxmwp">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_01xgrso">
+        <inputEntry id="UnaryTests_0wgmgzs">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lb59en">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xjiq0s">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i4xynw">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1fcz69q">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0v2dw6d">
+          <text>"onvolledige data bepalen arbeidverleden"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0uz9bud">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1q7bgyl">
+        <inputEntry id="UnaryTests_15kgbs2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10qxlka">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1evgjj4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0h68id9">
+          <text>null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1kshk48">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jttp35">
+          <text>"onvolledige data bepalen beschikbaarheid voor werk"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0gqc96e">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0oh49kf">
+        <inputEntry id="UnaryTests_12jslda">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_046xpay">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ogegix">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01kg725">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1pgs93a">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1isbats">
+          <text>"ZW onbekend"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0s8o54q">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="BS_444_VervolgZW" name="Vervolgactie ZW">
+    <informationRequirement id="InformationRequirement_0qmn8ek">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-zw" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1udj0ku" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_1vlozru" label="Mogelijk recht op ZW? ">
+        <inputExpression id="LiteralExpression_0ww2u3b" typeRef="string" />
+      </input>
+      <input id="InputClause_1efrv27" label="Aanvraag ZW">
+        <inputExpression id="LiteralExpression_18eaf95" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0v2s86y" label="Toekenning ZW">
+        <inputExpression id="LiteralExpression_0c8j8os" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1tq5as6" label="Vervolgactie ZW" typeRef="string" />
+      <rule id="DecisionRule_15w7d5d">
+        <inputEntry id="UnaryTests_1tiiao0">
+          <text>geen recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14wg85r">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1so8jvf">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wbl4h1">
+          <text>niets</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1gj287x">
+        <inputEntry id="UnaryTests_09zsbl6">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1us21nz">
+          <text>ja</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09nn3rw">
+          <text>ja</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0smsmpk">
+          <text>verrekenen</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_119e2mn">
+        <inputEntry id="UnaryTests_082jcz0">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xgh6iq">
+          <text>ja</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0973ome">
+          <text>nee</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16o6iei">
+          <text>niets</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0iirbcm">
+        <inputEntry id="UnaryTests_14o2q7z">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1f4em5j">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kxd3sm">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0g1caog">
+          <text>uitsluiten, individuele verplichting, fictief bijtellen of beoordeling professional</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="BS_444_VervolgIOAW" name="Vervolgactie IOAW">
+    <informationRequirement id="InformationRequirement_10sfyey">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-ioaw" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_040ym40" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_0yk4sjg" label="Mogelijk recht op IOAW?">
+        <inputExpression id="LiteralExpression_09mkprz" typeRef="string" />
+      </input>
+      <input id="InputClause_059j22x" label="Aanvraag IOAW?">
+        <inputExpression id="LiteralExpression_071w8hh" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1lciq37" label="Toekenning IOAW?">
+        <inputExpression id="LiteralExpression_1uoee0a" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0cu1be3" label="Vervolgactie" typeRef="string" />
+      <rule id="DecisionRule_06o2ft9">
+        <inputEntry id="UnaryTests_1w87rf5">
+          <text>geen recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1oy0gdd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jkd7lt">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1kvr845">
+          <text>niets</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hkxaf7">
+        <description>IOAW is aanvulling van inkomen tot bijstandsniveau maar tegelijk ook een bruto uitkering die af kan wijken van algemene bijstand. </description>
+        <inputEntry id="UnaryTests_0rj4fax">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i3n9v9">
+          <text>ja</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05budkv">
+          <text>ja</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10k023q">
+          <text>verrekenen</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_012jhns">
+        <inputEntry id="UnaryTests_0e0xu7i">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pdnrds">
+          <text>ja</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jyom15">
+          <text>nee</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_12qtfnb">
+          <text>niets</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0d5yu60">
+        <inputEntry id="UnaryTests_1h7poxy">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1posowv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ty0275">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1lpax5v">
+          <text>uitsluiten, individuele verplichting, fictief bijtellen of beoordeling professional</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-ioaw" name="Mogelijk recht op IOAW?">
+    <informationRequirement id="InformationRequirement_12xngri">
+      <requiredDecision href="#bs-444-betrokkenen-en-bronnen" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1tlbu95">
+      <requiredDecision href="#bs-444-berekening-ingangsdatum" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1gp0yxt" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_1ma3jgw" label="Lopende IOAW (opgaven)" biodi:width="192">
+        <inputExpression id="LiteralExpression_02epw2a" typeRef="boolean">
+          <text>get or else( max( inkomsten.uitkering.opgaven[ codeSoortIkv = 34 ].datumEindOpgave ) + duration("P3M") &gt; ingangsdatum, false)
+                        // 34 - IOAW
+
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1xsjmic" label="Lopende IOAW (ikv)">
+        <inputExpression id="LiteralExpression_1gh0tl9" typeRef="boolean">
+          <text>get or else( max( inkomsten.uitkering[codeSoortIkv = 34 ].datumEindIkv ) &gt; ingangsdatum, false ) or
+                        get or else( any( inkomsten.uitkering[codeSoortIkv = 34 ].datumEindIkv[""] ), false)
+
+                        // 34 - ZW</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0z1aebh" label="Lopende IOAW (zaak)" biodi:width="192">
+        <inputExpression id="LiteralExpression_1gludt1" typeRef="boolean">
+          <text>false
+                        // nog niet uitgewerkt in Den Haag
+                        // GBI: any( Zaak.Aanvraag.Huishouding.Personen.Diensten.Diensttype( Naam=IOAW))
+                        // 34 - IOAW</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0e2u8w0" label="Geboren na 1 januari 1965?">
+        <inputExpression id="LiteralExpression_05j1kt1" typeRef="boolean">
+          <text>persoon.geboortedatum &gt; date("19641231")
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0cw8iob" label="WW na 50e verjaardag?" biodi:width="192">
+        <inputExpression id="LiteralExpression_0s4cfx6" typeRef="boolean">
+          <text>get or else( max( inkomsten.uitkering[codeSoortIkv = 33 or codeSoortIkv = 35 ].datumStartIkv ) &gt; persoon.geboortedatum + duration("P50Y"), false )
+
+                        // 33 - WW
+                        // 35 - Verlenging WW
+                        // moeten we hier verlening ook in ogenschouw nemen? want verlening kan alleen als er ook eerst WW is geweest?
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_17ik9sk" label="WGA na 50e verjaardag?">
+        <inputExpression id="LiteralExpression_0hbvf0f" typeRef="boolean">
+          <text>get or else( min( inkomsten.uitkering.opgaven[ codeSoortIkv = 34 ].datumStartOpgave ) + duration("P1M") &gt; persoon.geboortedatum + duration("P50Y"), false )
+
+                        // 40 - WGA
+
+                        // einddatum inkomstenverhouding komt niet voor in json, daarom wordt er gegeken wanneer er voor het eerst  ww is genoten.</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0w9cn9r" label="WW &#62; 3 maanden" biodi:width="192">
+        <inputExpression id="LiteralExpression_12hen95" typeRef="boolean">
+          <text> get or else( max( inkomsten.uitkering[codeSoortIkv = 33 or codeSoortIkv = 35 ].datumEindIkv ) &gt; max( inkomsten.uitkering[codeSoortIkv = 33].datumStartIkv) + duration("P3M"))
+
+                        // 33 - WW
+                        // 35 - Verlenging WW
+                        // we nemen verschil tussen de max van de begindata en de max van de einddata. Er kunnen immers nooit twee WW uitkeringen tegelijkertijd zijn, dus de max van de begindata is de begindatum van de laatste WW en de max van de einddata is de eindatum van de laatste WW
+                        // moeten we hier verlening ook in ogenschouw nemen bij de startdatum? want verlening kan alleen als er ook eerst WW is geweest?</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1uep47z" label="Max WW bereikt?">
+        <inputExpression id="LiteralExpression_1mi6jt6" typeRef="boolean">
+          <text>true
+                        // er is geen goede bron bekend. door de waarde leeg te laten, gaat deze regel nooit af.</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1ochccj" label="Lopende WGA?">
+        <inputExpression id="LiteralExpression_1dxqzfv" typeRef="boolean">
+          <text>get or else( max( inkomsten.uitkering.opgaven[ codeSoortIkv = 40 ].datumEindOpgave ) + duration("P3M") &gt; ingangsdatum )
+                        // 40 - WGA
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0wnwtni" label="Reden einde WGA">
+        <inputExpression id="LiteralExpression_0u8t43g" typeRef="string">
+          <text>""
+                        // er is geen goede bron bekend. door de waarde leeg te laten, gaat deze regel nooit af.</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0oco8vj" name="ioawMogelijkRecht" typeRef="string" />
+      <output id="OutputClause_1mh2jaj" name="ioawVerantwoordingVaststelling" typeRef="string" biodi:width="386" />
+      <output id="OutputClause_0ttdaw4" name="ioawSignalering" typeRef="boolean" />
+      <rule id="DecisionRule_0l6q2hf">
+        <inputEntry id="UnaryTests_14ln6an">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hwb70x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0046yxk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vpm66y">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0iztchl">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fh0nik">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11nq6qc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1amsphg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fo5lx2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07h6v7b">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11gv6d4">
+          <text>"wel recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0p3mtup">
+          <text>"Lopende IOAW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dh34xa">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0cgw3ex">
+        <inputEntry id="UnaryTests_057f9ch">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19q9vvf">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p6rzjo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_118eaqb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zs5sgr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sdhl2y">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0y6gcrl">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0g9c9r5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12helrp">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0baoa83">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11e2jrv">
+          <text>"wel recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wdty87">
+          <text>"Lopende IOAW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1b9vf54">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_03bunqj">
+        <inputEntry id="UnaryTests_0p8qsxe">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mz85zv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bginqe">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06pnmbz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1agyeds">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12tjdyr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ly054z">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tgx1ww">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tes6j6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11wj7tm">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04xmjjp">
+          <text>"wel recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1kfudv8">
+          <text>"Lopende IOAW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1nwdn23">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_04zarbs">
+        <inputEntry id="UnaryTests_1c7048v">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xdfyzg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1h07sog">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ge8gem">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0l0hqq2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oz14cj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jnnlh5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16t044m">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19v2ttc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fdq5th">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0oyb2x9">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0st5bo5">
+          <text>"Geboren na 1/1/1965"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0fit7fj">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0xzltly">
+        <inputEntry id="UnaryTests_16yf82p">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0p9qwcj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0djk03m">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1arzb1g">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12exmte">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01zymgh">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xmyr95">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gxj1yi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mkmgtx">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ihxia1">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_14ya8e1">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_07cbwlt">
+          <text>"Geen WW of WGA  na 50e verjaardag"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vh4w2s">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1geatud">
+        <inputEntry id="UnaryTests_00ae3ay">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kbrncl">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mxj9cl">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j1eoxf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xy6kvu">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bmfctf">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1o01hln">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1go56za">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gpbryi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1x83ns0">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1uk8v1d">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ad68eq">
+          <text>"WW &lt; 3 maanden"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0tq9dj3">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1pvbi5y">
+        <inputEntry id="UnaryTests_0uie712">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0erzrje">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0l3lix2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0r2kfud">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1yto7ji">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kmd1o5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dcidzo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m0sowe">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bbsdce">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g0gguo">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ikp41b">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1kcta2y">
+          <text>"Geen max-WW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05f0nbb">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08f6qcx">
+        <inputEntry id="UnaryTests_13q37uv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16vfy36">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ds9vpu">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1n674sw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1niuud7">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0brsk8l">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dr1z0t">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_190p67a">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04sbpkp">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wzie3r">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0t1qp2a">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1h8v4i2">
+          <text>"Lopende WGA"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19xfjz4">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_071f791">
+        <inputEntry id="UnaryTests_0wkzpou">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0byzpmy">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bwjk7m">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06w1g44">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0q5zc2d">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0azk2uv">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kp71nt">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ll3kuo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bcadhu">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ji2lo3">
+          <text>"&lt;35% arbiedsongeschikt"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0jhv8hh">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_11iywl0">
+          <text>"Geen einde WGA vanwege arbeidsgeschiktheid"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hvtc28">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_16wizh6">
+        <inputEntry id="UnaryTests_0chyxaq">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12uj7ts">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0073je1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wu4raj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_183atsd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dpxdfe">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0byw8tq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0z4isyh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0eexdwh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14oy80v">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_13pissl">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ll0urr">
+          <text>"onvolledige data bepalen lopende IOAW opgaven"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0je84xh">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zgsrp6">
+        <inputEntry id="UnaryTests_0g6g1kv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zabajh">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18xr2qo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fvo749">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bk1h02">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1681ic2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0u6wudw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0t8smgw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0etnhie">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15k0sjv">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05913kq">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vlf7a1">
+          <text>"onvolledige data bepalen lopende IOAW ikv"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1isu424">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ta8td9">
+        <inputEntry id="UnaryTests_0i8zy41">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0uf9oeo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00s53gs">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1l0sucd">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10oibye">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g9lapr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1dwezz1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06uskuo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16qpmtn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_005bcoc">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1f54udf">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1gp84v1">
+          <text>"onvolledige data bepalen lopende IOAW zaak"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1b7vihr">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0tb5aas">
+        <inputEntry id="UnaryTests_0eyo6fq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07778vc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lvbeoe">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1soy4dj">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0c7uxyk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_01tw75x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_038dsha">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03kzmer">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11t2o82">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14kyrns">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ihzvs0">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1oyx6qo">
+          <text>"onvolledige data bepalen geboren na 1-1-1965"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vfqeoh">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_15uwedy">
+        <inputEntry id="UnaryTests_155fvq7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lo9apo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05jtep9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1a0j974">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g4ysim">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qi38my">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yj0z1t">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hlypcl">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06b5ob8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kwpbgb">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ofjzmr">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0a5ceno">
+          <text>"onvolledige data bepalen ww na 50e"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05z6r8u">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ahoohv">
+        <inputEntry id="UnaryTests_0vtrdy1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mheo83">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07vxtmn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uuqk3c">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gwmqom">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dnzlfc">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xm2zy3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1riy5oo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i413co">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0z0f0rw">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0cvwp98">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ttmfr9">
+          <text>"onvolledige data bepalen WGA na 50e"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1y4srag">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06qt46u">
+        <inputEntry id="UnaryTests_1bwhbvq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gcip6u">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05m4cmc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17ss19q">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_062y4wb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1287xky">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zov5so">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0y06ta0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05iqtp1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08gaazk">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1f8b92o">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_093gfw5">
+          <text>"onvolledige data bepalen ww &gt; 3 maanden"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0nnl4th">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1aqclzl">
+        <inputEntry id="UnaryTests_0x5azk9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jald0b">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1yy6ppu">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gg2e4p">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04iyutc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1f3jqch">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jzja7q">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kr2pxe">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ikmzay">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0krgp4x">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0w6d4ci">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0g5rv4a">
+          <text>"onvolledige data bepalen max WW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0joquu4">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0f5tui2">
+        <inputEntry id="UnaryTests_0e7w9ev">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06kaaxl">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ho23km">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0el7jye">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1a1sr44">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i85ytw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gvj9gy">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14d2aed">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0er0xvw">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17jf8xe">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0a4d8im">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1nbcvkf">
+          <text>"onvolledige data bepalen lopende WGA"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1s5y4b6">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_068yagk">
+        <inputEntry id="UnaryTests_1if4cu1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rod67g">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bwdtua">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oc8dab">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rgneop">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19e2lof">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ks0ysq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1708oay">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0utsli1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0drec0e">
+          <text>null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1oyvxlr">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1udau1v">
+          <text>"onvolledige data bepalen reden einde WGA"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0fir0qv">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1kngyrv">
+        <inputEntry id="UnaryTests_1gfrnzs">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0cay08f">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fhp74h">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06e07uo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1olcvdq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1t7o5xb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hgohn5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0510xi3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hy36x2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07qnzdv">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0rdl1kx">
+          <text>"mogelijk recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0say825">
+          <text>"Juiste leeftijdscategorie, na 50e werkeloos, WGA uitkering na 50e en WW volledig uitgenut"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1pkv2k4">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-tw" name="Mogelijk recht op TW?">
+    <informationRequirement id="InformationRequirement_1x84p69">
+      <requiredDecision href="#bs-444-berekening-ingangsdatum" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_19n2q6v">
+      <requiredDecision href="#bs-444-betrokkenen-en-bronnen" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0to0vdn" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_1dxs9o3" label="Lopende TW (opgaven)">
+        <inputExpression id="LiteralExpression_0t77it0" typeRef="boolean">
+          <text>get or else( max( inkomsten.uitkering.opgaven[ codeSoortIkv = 46 ].datumEindOpgave ) + duration("P3M") &gt; ingangsdatum, false )
+                        //46 Uitkering uit hoofde van de Toeslagenwet</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1rjagsa" label="Lopende TW (ikv)">
+        <inputExpression id="LiteralExpression_0rh5p0x" typeRef="boolean">
+          <text>get or else ( max( inkomsten.uitkering[codeSoortIkv = 46 ].datumEindIkv ) &gt; ingangsdatum, false ) or
+                        get or else ( any( inkomsten.uitkering[codeSoortIkv = 46 ].datumEindIkv[""] ), false )
+                        // 46 - toeslagenwet
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0biwk99" label="&#60; 21 jaar">
+        <inputExpression id="LiteralExpression_01phg4c" typeRef="boolean">
+          <text>( date( persoon.geboortedatum ) + duration("P21Y") ) &gt; date( ingangsdatum )</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0m1aekh" label="Thuiswonend?">
+        <inputExpression id="LiteralExpression_14j0t8l" typeRef="boolean">
+          <text> persoon.relaties != null and (
+                        some rt in
+                        persoon.relaties[woontOpHetzelfdeAdresAlsAanvrager].relatietype satisfies rt="kindOuder" or rt="kindSchoonouder"
+                        )</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_11jveb6" label="Gezamenlijke huishouding?">
+        <inputExpression id="LiteralExpression_1up6j3p" typeRef="boolean">
+          <text>gegevensVaststelling.leefsituatie.leefsituatie  = "SAMENWONEND" or gegevensVaststelling.leefsituatie.leefsituatie = "SAMENWONEND_KINDEREN"
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_14gpcdv" label="partner geboren na 1971?">
+        <inputExpression id="LiteralExpression_123jzii" typeRef="boolean">
+          <text>get or else( date(partner.geboortedatum) &gt; date("1971-12-31") , false )</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1n39p7b" label="Kind &#60; 12 jaar?">
+        <inputExpression id="LiteralExpression_12yby19" typeRef="boolean">
+          <text>get or else(
+                        date(
+                        sort(
+                        list: persoon.relaties[relatietype = "ouderKind" ].geboortedatum,
+                        precedes: function(x,y) date(x) &gt; date(y)
+                        )[1]
+                        )  + duration("P12Y") &gt; date( ingangsdatum )
+                        , false )
+                    </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1tfkyic" label="UWV-uitkering of loondoorbetaling bij ziekte?">
+        <inputExpression id="LiteralExpression_1f9bvpo" typeRef="boolean">
+          <text>some uitk in flatten( get or else ( inkomsten.uitkering.opgaven, [] ) ) satisfies date(uitk.datumEindOpgave) &gt; today() - duration("P3M") and list contains(["14", "31", "33", "36", "37", "38", "52", "WAZO"], uitk.codeSoortIkv.code)
+                        // als laatste drie maanden geen UWV-uitkering, dan kan er ook geen recht op TW zijn
+
+
+                    </text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1613wof" name="twMogelijkRecht" typeRef="string" />
+      <output id="OutputClause_0aojlby" name="twVerantwoordingVaststelling" typeRef="string" biodi:width="532" />
+      <output id="OutputClause_0b71ndn" name="twSignalering" typeRef="boolean" />
+      <rule id="DecisionRule_1nrvrbx">
+        <description>op basis van loonaangifte</description>
+        <inputEntry id="UnaryTests_01x6507">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xep2lr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0a4ucts">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0hho98m">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0a1gd7v">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1di9azo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xu5si6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1un2no2">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1e7yn6d">
+          <text>"wel recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_158cgsh">
+          <text>"Reeds TW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_150nipv">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0vdhdhd">
+        <description>op basis van ikv</description>
+        <inputEntry id="UnaryTests_17sd113">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0unvkx8">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qhlua0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ujvovt">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uizhne">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0txfu2i">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qtayq9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bcw77a">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_06txhri">
+          <text>"wel recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1i1ln2f">
+          <text>"Reeds TW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vln4nh">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1f5otps">
+        <inputEntry id="UnaryTests_02js51h">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uzrgts">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jh1e7a">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0uyn2z9">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05psbdy">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mfnztl">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1eusfi1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0olhd60">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_09hn3bj">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_096ce9i">
+          <text>"Onder 21 thuiswonend"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0bpkxmu">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0kflngx">
+        <inputEntry id="UnaryTests_1ocie4q">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0u1osoe">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03ut9fc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fqnlj8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ht12hj">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1s27z7e">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1p9hsl9">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1o7xnuq">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0taeq5b">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1n9379j">
+          <text>"Partner na 1971 geen kinderen &lt; 12"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1tr23bf">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0m3lqt8">
+        <inputEntry id="UnaryTests_1brzz2l">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00oa6th">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ihrkuf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13v8abh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08k4fcp">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wag2d0">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xzayvz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11673xe">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_02kaz8z">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_17zmccw">
+          <text>"Geen UWV of ziekteuitkering"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1vx7qff">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18j4jr8">
+        <inputEntry id="UnaryTests_0y9kgmg">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0u7x0qt">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0b9htap">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02488jh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ojn2a1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10014v8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lvow7j">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pxaaiw">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qw3ymu">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_16fzwig">
+          <text>"onvolledige data bepalen Lopende TW opgaven"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_18z2ige">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_04n9xti">
+        <inputEntry id="UnaryTests_12lrgpf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1v8m7sa">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fuy7xj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gxzky6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1v5y709">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0a1qz9k">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ygmyxr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06mtdhd">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04awn9f">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rewswo">
+          <text>"onvolledige data bepalen Lopende TW - ikv"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0cgt2mr">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0dgqc78">
+        <inputEntry id="UnaryTests_0ecills">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hc2q38">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0sxgra3">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0regn2d">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09f5qi2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ffy39x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1fg1clr">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1av3hq6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0zca5zw">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_01blrz3">
+          <text>"onvolledige data bepalen &lt; 21"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1vgb2ha">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ryt53p">
+        <inputEntry id="UnaryTests_0ahyjsv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00ib0xk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_120y3e6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13uqemz">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0atzgl5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0e0xlxt">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17053i8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i8qoe2">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0eudz4y">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1bx733r">
+          <text>"onvolledige data bepalen thuiswonend"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1k0su0e">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1fggpg6">
+        <inputEntry id="UnaryTests_0aoxj1s">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kzdbzx">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mfw60x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1v3m0jv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_052wcsl">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1t94id4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1coxbax">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0u35zkz">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0shwc7r">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0evz0p5">
+          <text>"onvolledige data bepalen gezamenlijke huishouding"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1y213ni">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14wsz80">
+        <inputEntry id="UnaryTests_12vhvh3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uxpmlc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19byrpj">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kmq367">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pz0uh5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03yalr6">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_092owgf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gl94iv">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_017pp1x">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0yd2aoo">
+          <text>"onvolledige data bepalen parner geboren na 1971"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1oq6o10">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06j3tof">
+        <inputEntry id="UnaryTests_0q21it5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vy7lmv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00yijby">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14509po">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vsn3ec">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0o02fyx">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0g6asel">
+          <text>null</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_179xic2">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wyz9v0">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0gu4n8q">
+          <text>"onvolledige data bepalen kind &lt; 12"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1eyahsq">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0rd6ayv">
+        <inputEntry id="UnaryTests_0ho3sx4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0z7lnvc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07twlpb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17vtrbq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rnmdlw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0lh8ttf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18j8yjq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1h2krmn">
+          <text>null</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1bliqim">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02up240">
+          <text>"onvolledige data bepalen UWV uitkering of loondoorbetaling bij ziekte"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0nt3jbo">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0dt4me4">
+        <description>vanwege AND-voorwaarden, zou je hier OR-regels moeten maken</description>
+        <inputEntry id="UnaryTests_1fsrvnt">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1avkuti">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kdu9cw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wkb0s3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12g7wu8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00wipki">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wveqfk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tgaef6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10jkvnb">
+          <text>"mogelijk recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1igkbib">
+          <text>"Laatstgenoten ziekte  uitkering"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1knwrex">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1nysxi0">
+        <inputEntry id="UnaryTests_0j8g6ns">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_150d9be">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0doef1y">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0tvuxnw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06iysmy">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jj1l1j">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m69jv3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xl5j9f">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1kr02u3">
+          <text>"geen oordeel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06vt2z3">
+          <text>"TW geen regel bekend"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02wlpyn">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="BS_444_VervolgTW" name="Vervolgactie TW">
+    <informationRequirement id="InformationRequirement_1ml2gcm">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-tw" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0avql5h" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_1fnet3h" label="Mogelijk recht?">
+        <inputExpression id="LiteralExpression_0lj14vm" typeRef="string" />
+      </input>
+      <input id="InputClause_02munsk" label="Aanvraag TW?">
+        <inputExpression id="LiteralExpression_1p9obdo" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0royt0s" label="Toekenning TW?">
+        <inputExpression id="LiteralExpression_1w6cjkw" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_12phw76" label="Vervolgactie TW" typeRef="string" />
+      <rule id="DecisionRule_14gotfm">
+        <inputEntry id="UnaryTests_0ri78kv">
+          <text>geen recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04fvvj8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09uc8ua">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16fgrfi">
+          <text>niets</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1kym888">
+        <inputEntry id="UnaryTests_1rbsd9t">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qldubu">
+          <text>ja</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kvxssn">
+          <text>ja</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0kymmsy">
+          <text>verrekenen</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1n3dx5h">
+        <inputEntry id="UnaryTests_0idpe64">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dfvzt2">
+          <text>ja</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03vxe1w">
+          <text>nee</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ibegak">
+          <text>niets</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17x0x33">
+        <description>gemeente kiest 1 van de opties</description>
+        <inputEntry id="UnaryTests_1izr361">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_003bctc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jwikwg">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0h1mjkd">
+          <text>uitsluiten, individuele verplichting, fictief bijtellen of beoordeling professional</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="BS_444_VervolgHK" name="Vervolgacties heffingskortingen">
+    <informationRequirement id="InformationRequirement_0bd623c">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-ahk_minst-verdienende-partner" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1xym3mu">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-ahk" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0bapufu">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-arbeidskorting" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1q7y8lz">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-ouderenkorting" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1kxltjh">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-alleenstaande-ouderen-korting" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1p3oxv3">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-jong-gehandicapten-korting" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0xj7jlg" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_171clk4" label="Heffingskorting aangevraagd bij werkgever of uitkeringsinstantie">
+        <inputExpression id="LiteralExpression_1saod2t" typeRef="boolean" />
+      </input>
+      <input id="InputClause_1homvwp" label="Inkomensafhankelijke combinatiekorting aangevraagd bij belastingdienst?">
+        <inputExpression id="LiteralExpression_1h9g04c" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0sydh6p" label="Mogelijk recht op een of meerdere heffingskortingen?">
+        <inputExpression id="LiteralExpression_1esoot8" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1lt274t" label="Vervolgacties" typeRef="string" />
+      <rule id="DecisionRule_04mmmgf">
+        <inputEntry id="UnaryTests_19ttme3">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qe65w9">
+          <text>true </text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03mys4z">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_14n91zv">
+          <text>niets doen</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_10q9a9y">
+        <inputEntry id="UnaryTests_1p5swo5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0f5xd03">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1948fja">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0pdbw01">
+          <text>niets doen</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1uj9628">
+        <description>Gemeente kiest één van de vier opties</description>
+        <inputEntry id="UnaryTests_0l8g6eq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_014xgf5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1jg8atn">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11ksdma">
+          <text>uitsluiten, individuele verplichting, fictief bijtellen of beoordeling professional</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-ahk_minst-verdienende-partner" name="Mogelijk recht op AHK minst-verdienende partner?">
+    <decisionTable id="DecisionTable_1utgh6q" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_0q5qvhg" label="Geboren op of na 1 januari 1963?">
+        <inputExpression id="LiteralExpression_0a7w6hy" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_029qd5c" label="Loonbelasting betaald?">
+        <inputExpression id="LiteralExpression_07kh5gr" typeRef="boolean" />
+      </input>
+      <input id="InputClause_19dsdv1" label="Heeft partner inkomen uit arbeid of uitkering gehad in aanvraagjaar?">
+        <inputExpression id="LiteralExpression_1ofrbfi" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1s9hrsw" label="Mogelijk recht" typeRef="string" />
+      <rule id="DecisionRule_1u9igeh">
+        <description></description>
+        <inputEntry id="UnaryTests_13cnr1e">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1x6a54q">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0yoix80">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1e5qpih">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0wyuyql">
+        <inputEntry id="UnaryTests_0xqw33u">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0n7gfqh">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bxeklu">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vsci6b">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ytl6g6">
+        <inputEntry id="UnaryTests_0m5bn07">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ipfi6x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0a3piul">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1izsslg">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ertcbh">
+        <inputEntry id="UnaryTests_0s9999v">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1uzpihh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lnm2hk">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0fykf4b">
+          <text>mogelijk recht</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-ahk" name="Mogelijk recht op AHK">
+    <decisionTable id="DecisionTable_0ev277s" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_0kljb2a" label="Loonbelasting betaald?">
+        <inputExpression id="LiteralExpression_0653y3b" typeRef="boolean" />
+      </input>
+      <output id="OutputClause_124hk2p" label="Mogelijk recht" typeRef="string" />
+      <rule id="DecisionRule_0ux22ro">
+        <inputEntry id="UnaryTests_1nz3qc7">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ceqgow">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0xvp7vd">
+        <inputEntry id="UnaryTests_1xztdz0">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1q22r2h">
+          <text>mogelijk recht</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-arbeidskorting" name="Mogelijk recht op arbeidskorting">
+    <decisionTable id="DecisionTable_0nblaw3" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_0w9hip8" label="Inkomen uit arbeid in aanvraagjaar?">
+        <inputExpression id="LiteralExpression_1dbmdca" typeRef="boolean" />
+      </input>
+      <output id="OutputClause_1f5oq6w" label="Mogelijk recht?" typeRef="string" />
+      <rule id="DecisionRule_1dzcnvg">
+        <inputEntry id="UnaryTests_04c28i1">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0p5dcjj">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17p5p4k">
+        <inputEntry id="UnaryTests_1nv2xmi">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0iy4u1h">
+          <text>mogelijk recht</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-ouderenkorting" name="Mogelijk recht op ouderenkorting">
+    <decisionTable id="DecisionTable_1plilam" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_0bdeh10" label="AOW gerechtigde leeftijd in aanvraagjaar?">
+        <inputExpression id="LiteralExpression_12nzh1w" typeRef="boolean" />
+      </input>
+      <output id="OutputClause_1e7zffm" label="Mogelijk recht? " typeRef="string" />
+      <rule id="DecisionRule_04ktx6q">
+        <inputEntry id="UnaryTests_1u412bw">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0hg4p2a">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1pw47uk">
+        <inputEntry id="UnaryTests_0d49kb6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0pzr0ia">
+          <text>mogelijk recht</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-alleenstaande-ouderen-korting" name="Mogelijk recht op alleenstaande ouderenkorting">
+    <decisionTable id="DecisionTable_142y7nh" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_111n4a0" label="AOW gerechtigde leeftijd in aanvraagjaar?">
+        <inputExpression id="LiteralExpression_0u7qdkm" typeRef="boolean" />
+      </input>
+      <input id="InputClause_1trj50i" label="Partner?">
+        <inputExpression id="LiteralExpression_1xwqlv5" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1hwb2fh" label="Mogelijk recht? " typeRef="string" />
+      <rule id="DecisionRule_1w9esy1">
+        <inputEntry id="UnaryTests_08lcipp">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1whixfl">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_14c0snt">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0z91pcz">
+        <inputEntry id="UnaryTests_0gx6f6w">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bxjeit">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0dbq0zc">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0jas0k8">
+        <inputEntry id="UnaryTests_15hnvr9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1me7la4">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ju8ge1">
+          <text>mogelijk recht</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-jong-gehandicapten-korting" name="Mogelijk recht op jonggehandicaptenkorting">
+    <informationRequirement id="InformationRequirement_043g7d4">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-wajong" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1lt59mt" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_0h1idz3" label="AOW gerechtigde leeftijd in aanvraagjaar?">
+        <inputExpression id="LiteralExpression_120y9ut" typeRef="string" />
+      </input>
+      <input id="InputClause_01xil7x" label="Mogelijk recht op Wajong?">
+        <inputExpression id="LiteralExpression_1vecw23" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1pcp65y" label="Mogelijk recht?" typeRef="string" />
+      <rule id="DecisionRule_18p1iob">
+        <inputEntry id="UnaryTests_1kdcd2y">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0riggx8">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1l3b2ft">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0fzotah">
+        <inputEntry id="UnaryTests_11afbef">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mq986a">
+          <text>geen recht</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1nfktpz">
+          <text>geen recht</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1pqhg6m">
+        <inputEntry id="UnaryTests_16c6zl6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0fr9kma">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0d2r4ia">
+          <text>mogelijk recht</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-mogelijk-recht-op-wsf" name="Mogelijk recht op WSF">
+    <decisionTable id="DecisionTable_111ppjt" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_1wpyxea" label="Studeert op rijkserkende opleiding? ">
+        <inputExpression id="LiteralExpression_12kdggd" typeRef="boolean" />
+      </input>
+      <input id="InputClause_0jsrerg" label="Leeftijd &#62;30 jaar en nog niet WSF aangevraagd?">
+        <inputExpression id="LiteralExpression_0mevydg" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1jbaqw1" label="Mogelijk recht?" name="mogelijkRecht" typeRef="string" />
+      <output id="OutputClause_134nblh" label="onderbouwing" name="onderbouwing" typeRef="string" />
+      <rule id="DecisionRule_04mh5p9">
+        <inputEntry id="UnaryTests_0x7arqa">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0t70iuw">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_07wxe2z">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_104qgj0">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1x6v1gx">
+        <inputEntry id="UnaryTests_0te6och">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1yikxcp">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mofffc">
+          <text>"geen recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_014mfde">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0vx6siq">
+        <description></description>
+        <inputEntry id="UnaryTests_12vphs1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g9mk50">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bx92bo">
+          <text>"mogelijk recht"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0dwfqb4">
+          <text>"Studerend en jonger dan 30."</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="BS_444_VervolgWSF" name="Vervolgacties WSF">
+    <informationRequirement id="InformationRequirement_094jgx7">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-wsf" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0v01ayl" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_0x1n9j1" label="Mogelijk recht?">
+        <inputExpression id="LiteralExpression_164zytd" typeRef="string" />
+      </input>
+      <output id="OutputClause_0sk0cip" label="Vervolgactie " typeRef="string" />
+      <rule id="DecisionRule_0dntdjc">
+        <inputEntry id="UnaryTests_057q622">
+          <text>geen recht</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0oxsmc8">
+          <text>niets doen</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1igqgcd">
+        <description>Gemeente kiest één van de opties</description>
+        <inputEntry id="UnaryTests_0gpbln0">
+          <text>mogelijk recht</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1rrgney">
+          <text>uitsluiten, individuele verplichting, fictief bijtellen of beoordeling professional</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="BS_444_VervolgAlimentatie" name="Vervolgactie alimentatie" camunda:versionTag="VervolgAlimentatie">
+    <informationRequirement id="InformationRequirement_1wzuspr">
+      <requiredDecision href="#bs-444-aanspraak-alimentatie" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0qugq2u" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_1abbni4" label="Aanspraak op alimentatie?">
+        <inputExpression id="LiteralExpression_18qt9qr" typeRef="boolean">
+          <text>dt444_AanspraakOpAlimentatie</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0q1go0x" label="Heeft klant zelf geprobeerd alimentatie te verzilveren?" biodi:width="192">
+        <inputExpression id="LiteralExpression_18a66ry" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0iudit0" label="Is verzilveren gelukt?">
+        <inputExpression id="LiteralExpression_0zi3xk6" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0nw8q5d" typeRef="string" />
+      <rule id="DecisionRule_0iltd32">
+        <inputEntry id="UnaryTests_01kqxl2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ubm14x">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1i0bv0v">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1cnih62">
+          <text>niets doen</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0x2wcu3">
+        <inputEntry id="UnaryTests_0zbpt1l">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08z9iph">
+          <text>Ja</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ql4w8d">
+          <text>Ja</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_12s9vzq">
+          <text>Verrekenen met uitkering</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0cy5usx">
+        <description>Let op: igv het starten van een verhaaldszaak, heeft dit geen gevolgen voor de ALO-zaak. Dus zal de ALO zaak verder gewoon afgehandeld kunnen worden</description>
+        <inputEntry id="UnaryTests_05lq2er">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_16ngeu3">
+          <text>Ja</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1x73d6j">
+          <text>Nee</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1d4kue9">
+          <text>Verhaalszaak starten</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0z3veww">
+        <description>Gemeente kiest één van de opties. </description>
+        <inputEntry id="UnaryTests_0us1qy3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_10ova10">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1oiqucg">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qsxd5h">
+          <text>uitsluiten, individuele verplichting, fictief bijtellen of beoordeling professional</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-voorliggende-voorzieningen" name="Voorliggende voorz">
+    <informationRequirement id="InformationRequirement_08mlgg8">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-tw" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_05dgzj6">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-ww" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0epxiye">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-zw" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_02t9o73">
+      <requiredDecision href="#bs-444-mogelijk-recht-op-ioaw" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0wkf9ez" hitPolicy="COLLECT" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_1agru75" label="Signaleringen" biodi:width="266">
+        <inputExpression id="LiteralExpression_0wepav2" typeRef="boolean" />
+      </input>
+      <output id="OutputClause_01xr3sk" name="mogelijkRecht" typeRef="string" biodi:width="389" />
+      <output id="OutputClause_0ky6q3z" name="verantwoordingVaststelling" typeRef="string" biodi:width="351" />
+      <output id="OutputClause_0zcqbaw" name="voorziening" typeRef="string" />
+      <output id="OutputClause_1xqiipa" name="signalering" typeRef="boolean" />
+      <output id="OutputClause_1e93ksa" name="geimplementeerd" typeRef="boolean" />
+      <rule id="DecisionRule_1xgfqqn">
+        <inputEntry id="UnaryTests_07rg6pf">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0pbkk21">
+          <text>twMogelijkRecht</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ys9kut">
+          <text>twVerantwoordingVaststelling</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0y8x09p">
+          <text>"TW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ds4yxu">
+          <text>twSignalering</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wu8bpx">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ss2ewc">
+        <inputEntry id="UnaryTests_13xn9ms">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1q4r6x8">
+          <text>wwMogelijkRecht</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_080576l">
+          <text>wwVerantwoordingVaststelling</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1qe6s7s">
+          <text>"WW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1gx66d7">
+          <text>wwSignalering</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_01yx7z8">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ygqe3t">
+        <inputEntry id="UnaryTests_1w73gb4">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0qf3zrp">
+          <text>zwMogelijkRecht</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13an1xl">
+          <text>zwVerantwoordingVaststelling</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_056tas5">
+          <text>"ZW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0c74ixk">
+          <text>zwSignalering</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_08mmg1n">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hcfqsh">
+        <inputEntry id="UnaryTests_1siysoa">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1d5brsp">
+          <text>ioawMogelijkRecht</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_154spf7">
+          <text>ioawVerantwoordingVaststelling</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0n8x6sn">
+          <text>"IOAW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0xb283f">
+          <text>ioawSignalering</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1mi54d5">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1raw82x">
+        <inputEntry id="UnaryTests_173ymon">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0lphyii">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1o1edmh">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ld55z6">
+          <text>"Alimentatie"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1v12zxb">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0kcijvp">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0vswcjq">
+        <inputEntry id="UnaryTests_0qzaa33">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15gusz9">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0dlr73n">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_083ie76">
+          <text>"ANW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02yevuo">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0peil3k">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18g5olu">
+        <inputEntry id="UnaryTests_0k9nykj">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0h2uiws">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1a3h2fa">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ay8v77">
+          <text>"AOV"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1fawhe3">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0050x7s">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0g6c1v3">
+        <inputEntry id="UnaryTests_1d8cvc8">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0orbf4g">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0921lzc">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1utuve1">
+          <text>"BBZ"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ymphn0">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_011oeos">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qe9vfi">
+        <inputEntry id="UnaryTests_0gdaqkc">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1m2ri62">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06iotmn">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1nq0zg1">
+          <text>"IOAZ"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1nh2sfy">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ldlobe">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1w71ngd">
+        <inputEntry id="UnaryTests_0bw9709">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_06uqse2">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qesskm">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0flmegb">
+          <text>"IOW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0n9wduo">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1q1vjp2">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0jikkvy">
+        <inputEntry id="UnaryTests_0tiv7kp">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0i0434h">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_11rjia4">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0de673g">
+          <text>"Loondoorbetaling bij ziekte"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jj9u50">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0m0enw2">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tvl0y6">
+        <inputEntry id="UnaryTests_1g56ojz">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1lw4bvn">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_122ac6j">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0yslovg">
+          <text>"Pensioen verzekerin buitenland"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1g5pac7">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0z1w4it">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1c88bc0">
+        <inputEntry id="UnaryTests_1gbqpsy">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1x56ujj">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1mkk1q2">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rng6pb">
+          <text>"Wajong"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_01te85b">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0i985he">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_04u9ps9">
+        <inputEntry id="UnaryTests_02h3abk">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_07dpi9t">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0w6qxxf">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0to245q">
+          <text>"WAO"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_14vnp17">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1tp3vce">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_137fw86">
+        <inputEntry id="UnaryTests_1bvfyi7">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_098p7ht">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02ikfrc">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1danw44">
+          <text>"WAZ"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1k9jo4e">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_10t0jdz">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hciwsg">
+        <inputEntry id="UnaryTests_1cpjegr">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1djgxo3">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_060iqmz">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1q5tr5g">
+          <text>"WAZO"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1op8zxw">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_00qym21">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_042f0tk">
+        <inputEntry id="UnaryTests_12ajctk">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0plpzka">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0eif83w">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1d3xc9c">
+          <text>"WIA"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1owzph7">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0317xs7">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07udpku">
+        <inputEntry id="UnaryTests_1n899hq">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1aueez7">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13j4ox7">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1gsflya">
+          <text>"WSF"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0oxs0ok">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1505h6n">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1mqw0vt">
+        <inputEntry id="UnaryTests_0s92y7j">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1awa9gd">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1y4keme">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_103b4zj">
+          <text>"WTOS"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0h03bgq">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1imvmi7">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0oe178r">
+        <inputEntry id="UnaryTests_1ktrpcb">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1v6m4kz">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vwjvxd">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wrx689">
+          <text>"ZEZ"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1fd4di4">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1qvljht">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1xy1di4">
+        <inputEntry id="UnaryTests_0kkvv3e">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0hh7xln">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1thqp8q">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0hcotx2">
+          <text>"AHK"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0l1bf3q">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1vzcdx5">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08rvczp">
+        <inputEntry id="UnaryTests_16jkxka">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ppzaxh">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1qyiy9e">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_10icxoe">
+          <text>"AHK minstverdienende partner"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1sdldwl">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0w1clt9">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05dya5f">
+        <inputEntry id="UnaryTests_0y48azi">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1c0svww">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1uzjka0">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0hhep9m">
+          <text>"Arbeidskorting"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0grva4u">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0b6srui">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0fum1qr">
+        <inputEntry id="UnaryTests_0ia3auq">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0132b4k">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1m9vnan">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1scmb8d">
+          <text>"Inkomensafhankelijke combinatiekorting"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0g4a93z">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1cmt9k1">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0bocqgm">
+        <inputEntry id="UnaryTests_12a9ycu">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00pmzve">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0xbyu2i">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1baox0s">
+          <text>"Ouderenkorting"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03qknzg">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0sr2mgk">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0t31mu4">
+        <inputEntry id="UnaryTests_1xvh2kh">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0nz5aqx">
+          <text>"Niet beoordeeld"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04tair3">
+          <text>"Geen automatische controle"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1yy6i7u">
+          <text>"Alleenstaande ouderenkorting"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1u6j42b">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_129k42b">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-berekening-ingangsdatum" name="ingangsdatum">
+    <variable id="InformationItem_0hnfxoe" name="ingangsdatum" typeRef="string" />
+    <literalExpression id="LiteralExpression_0vsiyq0">
+      <text>date( date and time( get or else( gegevensVaststelling.additioneleVeldenAanvrager.bs221ingangsdatum.ingangsdatum, get or else ( gegevensVaststelling.startDatum,  gegevensVanuitAanvraag.startDatum) ) ) )
+
+                // ingangsdatum indien die is vastgesteld
+                // startdatum
+            </text>
+    </literalExpression>
+  </decision>
+  <decision id="bs-444-betrokkenen-en-bronnen" name="betrokkenen en bronnen">
+    <decisionTable id="DecisionTable_0b6m7u2" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_0owmqi6" label="bsn" biodi:width="329" camunda:inputVariable="bsn">
+        <inputExpression id="LiteralExpression_0gxma4b" typeRef="string" />
+      </input>
+      <output id="OutputClause_0or9skl" name="persoon" typeRef="Any" biodi:width="290" />
+      <output id="OutputClause_0ot1mrh" name="partner" typeRef="Any" biodi:width="261" />
+      <output id="OutputClause_0bd2upc" name="inkomsten" typeRef="Any" />
+      <output id="OutputClause_06nvseu" name="svbUitkeringen" typeRef="Any" />
+      <output id="OutputClause_0f665v0" name="duo" typeRef="Any" biodi:width="323" />
+      <output id="OutputClause_0sbgk7q" name="studiefinanciering" typeRef="Any" biodi:width="439" />
+      <output id="OutputClause_02hslq2" name="beschikbaarheid" typeRef="Any" />
+      <output id="OutputClause_0pse238" name="matchedBSN" typeRef="string" />
+      <rule id="DecisionRule_1wdjplo">
+        <inputEntry id="UnaryTests_0x2ljx1">
+          <text>gegevensVaststelling.aanvrager.bsn</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1k4eyc3">
+          <text>gegevensVaststelling.aanvrager</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wlcytk">
+          <text>gegevensVaststelling.partner</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1aeq9we">
+          <text>gegevensVanuitBronnen.inkomstenAanvrager</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0nfomti">
+          <text>gegevensVanuitBronnen.svbUitkeringenAanvrager</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wx2rh0">
+          <text>gegevensVanuitBronnen.duoAanvrager</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_09v1w7r">
+          <text>gegevensVanuitBronnen.duoStudiefinancieringAanvrager</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0t54aii">
+          <text>gegevensVaststelling.beschikbaarheidAanvrager</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_00p5znj">
+          <text>"aanvrager"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0x9y1og">
+        <inputEntry id="UnaryTests_1v3s1x4">
+          <text>gegevensVaststelling.partner.bsn</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0g0n5bv">
+          <text>gegevensVaststelling.partner</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qzdpsa">
+          <text>gegevensVaststelling.aanvrager</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ntbii9">
+          <text>gegevensVanuitBronnen.inkomstenPartner</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ps1vgm">
+          <text>gegevensVanuitBronnen.svbUitkeringenPartner</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0v60vye">
+          <text>gegevensVanuitBronnen.duoPartner</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_04vh3mh">
+          <text>gegevensVanuitBronnen.duoStudiefinancieringPartner</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0eyghzb">
+          <text>gegevensVaststelling.beschikbaarheidPartner</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rnydwc">
+          <text>"partner"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="bs-444-kwalitatief-voldoende-aanwezig" name="Kwalitatief voldoende gegevens aanwezig">
+    <decisionTable id="DecisionTable_1xho7iq" preferredOrientation="Rule-as-Row">
+      <input id="InputClause_07y0wvm" label="Voorliggende voorziengingen al vastgesteld?">
+        <inputExpression id="LiteralExpression_1l1sqfw" typeRef="string" expressionLanguage="juel">
+          <text>vastgesteldeVoorliggendeVoorzieningen != null </text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_18teqhd" label="handmatigVaststellen" camunda:inputVariable="handmatigVaststellen">
+        <inputExpression id="LiteralExpression_1q45ew7" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1bijwlu" label="handmatigVaststellen" name="handmatigVaststellen" typeRef="string" />
+      <output id="OutputClause_065omlj" label="Gegevens kwalitatief voldoende aanwezig" name="gegevenskwalitatiefVoldoendeAanwezig" typeRef="string" />
+      <rule id="DecisionRule_0td1574">
+        <inputEntry id="UnaryTests_0x47lqf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15bbpil">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1q6rfzv">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_11t1dw6">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0bd5nju">
+        <inputEntry id="UnaryTests_0x5uc5r">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0emssxv">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04s8u0v">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0v1q2me">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08n9mpi">
+        <inputEntry id="UnaryTests_0gl7ojo">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1e38pxb">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_18k0a8l">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ufs53m">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="bs-444-aanspraak-alimentatie" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="2050" y="690" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1hj9s08" dmnElementRef="bs-444-onderhoudsplicht-partner" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="1950" y="850" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0hw4i32" dmnElementRef="bs-444-aanspraak-kinderalimentatie" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="2190" y="850" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1ohg4f4" dmnElementRef="InformationRequirement_05xlbnh">
+        <di:waypoint x="2040" y="850" />
+        <di:waypoint x="2110" y="790" />
+        <di:waypoint x="2110" y="770" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0b2thy0" dmnElementRef="InformationRequirement_0erkujn">
+        <di:waypoint x="2280" y="850" />
+        <di:waypoint x="2170" y="790" />
+        <di:waypoint x="2170" y="770" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1norj2d" dmnElementRef="InformationRequirement_14ps4bl">
+        <di:waypoint x="2590" y="1400" />
+        <di:waypoint x="2720" y="1400" />
+        <di:waypoint x="2740" y="1400" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1e99eu2" dmnElementRef="bs-444-mogelijk-recht-op-wajong" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="2410" y="1360" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_123u8pc" dmnElementRef="BS_444_VervolgWajong" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="2740" y="1360" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1rtjipt" dmnElementRef="bs-444-mogelijk-recht-op-ww" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="400" y="490" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0ziduza" dmnElementRef="BS_444_VervolgWW" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="400" y="330" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0c6fchr" dmnElementRef="InformationRequirement_0qg158d">
+        <di:waypoint x="490" y="490" />
+        <di:waypoint x="490" y="430" />
+        <di:waypoint x="490" y="410" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0oskblt" dmnElementRef="bs-444-mogelijk-recht-op-zw" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="640" y="490" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0wpd9tz" dmnElementRef="InformationRequirement_0qmn8ek">
+        <di:waypoint x="730" y="490" />
+        <di:waypoint x="730" y="430" />
+        <di:waypoint x="730" y="410" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0cmyizo" dmnElementRef="BS_444_VervolgZW" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="640" y="330" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1x5ryuz" dmnElementRef="InformationRequirement_10sfyey">
+        <di:waypoint x="970" y="490" />
+        <di:waypoint x="970" y="430" />
+        <di:waypoint x="970" y="410" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_004iivo" dmnElementRef="BS_444_VervolgIOAW" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="880" y="330" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0jl530j" dmnElementRef="bs-444-mogelijk-recht-op-ioaw" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="880" y="490" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_14se39n" dmnElementRef="InformationRequirement_1ml2gcm">
+        <di:waypoint x="250" y="490" />
+        <di:waypoint x="250" y="430" />
+        <di:waypoint x="250" y="410" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1jrh9o7" dmnElementRef="bs-444-mogelijk-recht-op-tw" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="160" y="490" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_049xsgz" dmnElementRef="BS_444_VervolgTW" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="160" y="330" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0ktvzse" dmnElementRef="BS_444_VervolgHK" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="1820" y="1050" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1mxs09a" dmnElementRef="bs-444-mogelijk-recht-op-ahk_minst-verdienende-partner" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="1270" y="1190" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0k3qvx1" dmnElementRef="InformationRequirement_0bd623c">
+        <di:waypoint x="1360" y="1190" />
+        <di:waypoint x="1846" y="1150" />
+        <di:waypoint x="1846" y="1130" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1twrqkc" dmnElementRef="bs-444-mogelijk-recht-op-ahk" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="1490" y="1190" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1kwwtol" dmnElementRef="InformationRequirement_1xym3mu">
+        <di:waypoint x="1580" y="1190" />
+        <di:waypoint x="1871" y="1150" />
+        <di:waypoint x="1871" y="1130" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0cxy2wx" dmnElementRef="bs-444-mogelijk-recht-op-arbeidskorting" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="1710" y="1190" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0i26h43" dmnElementRef="InformationRequirement_0bapufu">
+        <di:waypoint x="1800" y="1190" />
+        <di:waypoint x="1897" y="1150" />
+        <di:waypoint x="1897" y="1130" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_069z9i1" dmnElementRef="InformationRequirement_1q7y8lz">
+        <di:waypoint x="2030" y="1190" />
+        <di:waypoint x="1923" y="1150" />
+        <di:waypoint x="1923" y="1130" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0jst1l4" dmnElementRef="bs-444-mogelijk-recht-op-ouderenkorting" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="1940" y="1190" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0kiexag" dmnElementRef="bs-444-mogelijk-recht-op-alleenstaande-ouderen-korting" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="2170" y="1190" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0psoc8v" dmnElementRef="InformationRequirement_1kxltjh">
+        <di:waypoint x="2260" y="1190" />
+        <di:waypoint x="1949" y="1150" />
+        <di:waypoint x="1949" y="1130" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_03u4qex" dmnElementRef="bs-444-mogelijk-recht-op-jong-gehandicapten-korting" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="2400" y="1190" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0kobywa" dmnElementRef="InformationRequirement_043g7d4">
+        <di:waypoint x="2500" y="1360" />
+        <di:waypoint x="2490" y="1290" />
+        <di:waypoint x="2490" y="1270" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0tumzze" dmnElementRef="InformationRequirement_1p3oxv3">
+        <di:waypoint x="2490" y="1190" />
+        <di:waypoint x="1974" y="1150" />
+        <di:waypoint x="1974" y="1130" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0vtvrif" dmnElementRef="InformationRequirement_094jgx7">
+        <di:waypoint x="1660" y="690" />
+        <di:waypoint x="1660" y="630" />
+        <di:waypoint x="1660" y="610" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0okwd33" dmnElementRef="bs-444-mogelijk-recht-op-wsf" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="1570" y="690" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1xjv9dg" dmnElementRef="BS_444_VervolgWSF" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="1570" y="530" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1b55vyv" dmnElementRef="BS_444_VervolgAlimentatie" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="2050" y="550" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1p7kgpc" dmnElementRef="InformationRequirement_1wzuspr">
+        <di:waypoint x="2140" y="690" />
+        <di:waypoint x="2140" y="650" />
+        <di:waypoint x="2140" y="630" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0m6ywjw" dmnElementRef="bs-444-voorliggende-voorzieningen" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="474" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1x5tx4d" dmnElementRef="InformationRequirement_08mlgg8">
+        <di:waypoint x="250" y="490" />
+        <di:waypoint x="510" y="180" />
+        <di:waypoint x="510" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0x1gh61" dmnElementRef="InformationRequirement_05dgzj6">
+        <di:waypoint x="490" y="490" />
+        <di:waypoint x="546" y="180" />
+        <di:waypoint x="546" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1jrh883" dmnElementRef="bs-444-berekening-ingangsdatum" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="380" y="930" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_06t67l2" dmnElementRef="InformationRequirement_1x84p69">
+        <di:waypoint x="470" y="930" />
+        <di:waypoint x="220" y="590" />
+        <di:waypoint x="220" y="570" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1ih024v" dmnElementRef="bs-444-betrokkenen-en-bronnen" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="730" y="930" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_02fic88" dmnElementRef="InformationRequirement_19n2q6v">
+        <di:waypoint x="820" y="930" />
+        <di:waypoint x="280" y="590" />
+        <di:waypoint x="280" y="570" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0zu1z9s" dmnElementRef="InformationRequirement_1hq4xk5">
+        <di:waypoint x="820" y="930" />
+        <di:waypoint x="520" y="590" />
+        <di:waypoint x="520" y="570" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1yzw9cs" dmnElementRef="InformationRequirement_1wcsqbe">
+        <di:waypoint x="820" y="930" />
+        <di:waypoint x="760" y="590" />
+        <di:waypoint x="760" y="570" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0d2of9s" dmnElementRef="InformationRequirement_12xngri">
+        <di:waypoint x="820" y="930" />
+        <di:waypoint x="1000" y="590" />
+        <di:waypoint x="1000" y="570" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0cyl9xo" dmnElementRef="InformationRequirement_08364s8">
+        <di:waypoint x="470" y="930" />
+        <di:waypoint x="700" y="590" />
+        <di:waypoint x="700" y="570" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1k9gm5s" dmnElementRef="InformationRequirement_1tlbu95">
+        <di:waypoint x="470" y="930" />
+        <di:waypoint x="940" y="590" />
+        <di:waypoint x="940" y="570" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0h3ygra" dmnElementRef="InformationRequirement_1wdsvov">
+        <di:waypoint x="470" y="930" />
+        <di:waypoint x="460" y="590" />
+        <di:waypoint x="460" y="570" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0s47see" dmnElementRef="InformationRequirement_0epxiye">
+        <di:waypoint x="730" y="490" />
+        <di:waypoint x="582" y="180" />
+        <di:waypoint x="582" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0hamydw" dmnElementRef="InformationRequirement_02t9o73">
+        <di:waypoint x="970" y="490" />
+        <di:waypoint x="618" y="180" />
+        <di:waypoint x="618" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_15vcrtc" dmnElementRef="bs-444-kwalitatief-voldoende-aanwezig" isCollapsed="false">
+        <dc:Bounds height="80" width="180" x="1200" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

@@ -1,0 +1,54 @@
+{
+    "changesetId": "aanvraag-algemene-bijstand-dcm.v2",
+    "internalCaseStatuses": [
+        {
+            "key": "aanvraag-ontvangen",
+            "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+            "title": "Aanvraag ontvangen",
+            "visibleInCaseListByDefault": true,
+            "color": "COOLGRAY"
+        },
+        {
+            "key": "in-behandeling-genomen",
+            "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+            "title": "In behandeling genomen",
+            "visibleInCaseListByDefault": true,
+            "color": "BLUE"
+        },
+        {
+            "key": "informatieverzoek-uitgezet",
+            "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+            "title": "Informatieverzoek uitgezet",
+            "visibleInCaseListByDefault": true,
+            "color": "TEAL"
+        },
+        {
+            "key": "aanvullende-informatie-ontvangen",
+            "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+            "title": "Aanvullende informatie ontvangen",
+            "visibleInCaseListByDefault": true,
+            "color": "GREEN"
+        },
+        {
+            "key": "geen-aanvullende-informatie-ontvangen",
+            "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+            "title": "Geen aanvullende informatie ontvangen",
+            "visibleInCaseListByDefault": true,
+            "color": "RED"
+        },
+        {
+            "key": "beslist",
+            "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+            "title": "Beslist",
+            "visibleInCaseListByDefault": false,
+            "color": "OUTLINE"
+        },
+        {
+            "key": "afgehandeld",
+            "caseDefinitionName": "aanvraag-algemene-bijstand-dcm",
+            "title": "Afgehandeld",
+            "visibleInCaseListByDefault": false,
+            "color": "HIGHCONTRAST"
+        }
+    ]
+}

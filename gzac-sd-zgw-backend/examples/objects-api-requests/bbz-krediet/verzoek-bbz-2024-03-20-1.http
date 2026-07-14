@@ -1,0 +1,315 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+
+{
+    "type": "{{objecttypes_api_url}}",
+    "record": {
+        "index": 1,
+        "typeVersion": 1,
+        "data": {
+            "bsn": "999991322",
+            "data": {
+                "uw-gegevens": {
+                    "digid": {
+                        "persoongegevensPrefill": {
+                            "BsnPrefill": "999991322",
+                            "voornaamPrefill": "Celeste",
+                            "achternaamPrefill": "Avion",
+                            "voorlettersPrefill": "C.",
+                            "voorvoegselPrefill": "",
+                            "geboortedatumPrefill": "1960-12-29"
+                        },
+                        "adresgegevensPrefillGroep": {
+                            "plaatsPrefill": "'s-Gravenhage",
+                            "straatPrefill": "Herengracht",
+                            "postcodePrefill": "2511 EG",
+                            "HuisletterPrefill": "",
+                            "huisnummerPrefill": 1,
+                            "toevoegingPrefill": ""
+                        }
+                    },
+                    "contactgegevens": {
+                        "email": "demo@denhaag.nl",
+                        "Telefoonnummer": ""
+                    }
+                },
+                "foo-inleiding": {},
+                "foo-uitbetaling": {
+                    "ibanUitbetaling": "NL80ABNA0369127188",
+                    "hoeBetaaldKrijgen": "VOLLEDIG_OP_MIJN_REKENING",
+                    "uitkeringAanDerden": "NEE",
+                    "naamRekeninghouderBetaling": "Celeste Avion"
+                },
+                "foo-uw-aanvraag": {
+                    "uwAanvraag": {
+                        "EEN_BEDRIJFSKREDIET": true,
+                        "WAT_IK_WIL_AANVRAGEN_STAAT_HIER_NIET_TUSSEN": false,
+                        "EEN_BBZ_UITKERING_VOOR_ONDERNEMERS_DIE_LANGER_DAN_1_5_JAAR_ONDERNEMEN": false
+                    }
+                },
+                "foo-uw-inkomsten": {
+                    "vormenInkomsten": {
+                        "PENSIOEN": false,
+                        "UITKERING": false,
+                        "LOONDIENST": false,
+                        "ALIMENTATIE": false,
+                        "HEFFINGSKORTING": false,
+                        "OVERIGE_INKOMSTEN": false,
+                        "IK_HEB_GEEN_INKOMSTEN": true,
+                        "INKOMSTEN_UIT_ONDERHUUR": false,
+                        "INKOMEN_UIT_HET_BUITENLAND": false
+                    }
+                },
+                "foo-bedrijfskrediet": {
+                    "andereLeningen": "NEE",
+                    "isBeslaglegging": "NEE",
+                    "contactSchuldhulp": "NEE",
+                    "redenBedrijfskrediet": {
+                        "SANERING": false,
+                        "ACHTERSTANDEN": true,
+                        "INVESTERINGEN": true,
+                        "ANDERS_NAMELIJK": false,
+                        "HERFINANCIERING": false
+                    },
+                    "bedragBedrijfskrediet": 10000,
+                    "toelichtingBedrijfskrediet": "Nieuwe machine"
+                },
+                "foo-uw-woonsituatie": {
+                    "hoeWonen": "IK_HUUR_EEN_KAMER_EN_HEB_HIERVAN_EEN_HUURCONTRACT",
+                    "huurGroep": {
+                        "hoeveelHuur": 634.24,
+                        "vanWieKamer": "particulier",
+                        "huurcontract": "JA",
+                        "contractOpUwNaam": "JA"
+                    },
+                    "andereBewonersGroep": {
+                        "meerOpAdres": "JA",
+                        "andereBewonersGroep1": {
+                            "medebewonerHGroep": [
+                                {
+                                    "samenEten": {
+                                        "WIJ_ETEN_SAMEN": false,
+                                        "WIJ_GAAN_SAMEN_OP_VAKANTIE": false,
+                                        "WIJ_VERDELEN_OF_DOEN_SAMEN_DE_TAKEN_IN_HET_HUISHOUDEN": false,
+                                        "WIJ_ETEN_NIET_SAMEN_GAAN_NIET_SAMEN_OP_VAKANTIE_EN_VERDELEN_GEEN_TAKEN_IN_HET_HUISHOUDEN": true
+                                    },
+                                    "BblTraject": "NEE",
+                                    "bsnMedebewoner2": "999991954",
+                                    "kostenVerdeling": {
+                                        "WIJ_DELEN_DE_KOSTEN_VAN_DE_HUUR": true,
+                                        "WIJ_DELEN_DE_KOSTEN_VAN_DE_BOODSCHAPPEN": false,
+                                        "WIJ_DELEN_DE_VASTE_LASTEN_ZOALS_GAS_EN_WATER": false,
+                                        "WIJ_DELEN_NIET_DE_KOSTEN_VAN_DE_HUUR_DE_VASTE_LASTEN_ZOALS_GAS_EN_WATER_OF_DE_KOSTEN_VAN_DE_BOODSCHAPPEN": false
+                                    },
+                                    "relatieMedebewoner": "MIJN_OPA_OMA_BROER_OF_ZUS",
+                                    "huishoudingSituatie": {
+                                        "WIJ_HEBBEN_EEN_SAMENLEVINGSCONTRACT": false,
+                                        "WIJ_HEBBEN_SAMEN_EEN_KIND_OF_EEN_ERKEND_KIND": false,
+                                        "WIJ_ZIJN_IN_DE_AFGELOPEN_2_JAAR_GEHUWD_OF_GEREGISTREERD_PARTNER_GEWEEST": false,
+                                        "WIJ_WORDEN_OF_WERDEN_IN_DE_AFGELOPEN_2_JAAR_ALS_1_HUISHOUDEN_GEZIEN_DOOR_EEN_OVERHEIDSINSTANTIE": false,
+                                        "WIJ_ZIJN_IN_DE_AFGELOPEN_2_JAAR_NIET_GEHUWD_OF_GEREGISTREERD_PARTNER_GEWEEST_WIJ_HEBBEN_SAMEN_GEEN_ERKEND_KIND_WIJ_HEBBEN_GEEN_SAMENLEVINGSCONTRACT_WIJ_WORDEN_OF_WERDEN_IN_DE_AFGELOPEN_2_JAAR_NIET_GEZIEN_ALS_1_HUISHOUDEN_DOOR_EEN_OVERHEIDSINSTANTIE": true
+                                    },
+                                    "medebewonerOpleiding": "NEE",
+                                    "achternaamMedebewoner": "Test Achternaam",
+                                    "voorlettersMedebewoner": "E",
+                                    "voorvoegselMedebewoner": "Te",
+                                    "geboortedatumMedebewoner": "2000-03-12"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "foo-uw-ondernemingen": {
+                    "ondernemingGr": {
+                        "ingeschrevenKvk": "JA"
+                    },
+                    "10JaarOnafgebroken": "JA",
+                    "ingeschrevenOnderneming": [
+                        {
+                            "kvk": "69599084",
+                            "rechtsvorm": "EENMANSZAAK_ZZP",
+                            "bezitDiplomas": "NVT",
+                            "ondernemingNaam": "DH Test",
+                            "aanvraagSurseance": "NEE",
+                            "korteOmschrijving": "Test omschrijving",
+                            "inschrijvingsDatum": "2020-01-01",
+                            "stoppenOnderneming": "NEE",
+                            "aanvraagFaillissement": "NEE"
+                        }
+                    ]
+                },
+                "foo-financiele-situatie": {
+                    "bedrijfspandGroep": {
+                        "typeBedrijfspand": "IK_HUUR_MIJN_BEDRIJFSPAND",
+                        "uploadContractBedrijfspand": [
+                            {
+                                "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/4cf5a857-e389-47ab-9ada-739d35ecb955",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/4cf5a857-e389-47ab-9ada-739d35ecb955",
+                                    "form": "",
+                                    "name": "Screenshot 2024-03-20 at 14.51.13.png",
+                                    "size": 4540,
+                                    "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "Screenshot 2024-03-20 at 14.51.13-b253d242-a063-42c0-a4b2-c74c38f39328.png",
+                                "size": 4540,
+                                "type": "image/png",
+                                "storage": "url",
+                                "originalName": "Screenshot 2024-03-20 at 14.51.13.png"
+                            }
+                        ]
+                    },
+                    "inkomenOndernemingGroep": {
+                        "waaromHulp": "huur en eten",
+                        "welkeMaandenHulp": "april to december",
+                        "winstKomendeMaanden": 0
+                    },
+                    "situatieOndernemingGroep": {
+                        "voldoendeInkomsten": "JA",
+                        "resultaatHuidigJaar": "JA",
+                        "toestemmingOnderzoek": "JA",
+                        "finSituatieOnderneming": [
+                            {
+                                "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/377b095b-b284-4393-8463-be8f4556170b",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/377b095b-b284-4393-8463-be8f4556170b",
+                                    "form": "",
+                                    "name": "Screenshot 2024-03-20 at 14.50.54.png",
+                                    "size": 5845,
+                                    "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "Screenshot 2024-03-20 at 14.50.54-7083fdc3-c3d5-4dca-9042-ec1dafe7f8e6.png",
+                                "size": 5845,
+                                "type": "image/png",
+                                "storage": "url",
+                                "originalName": "Screenshot 2024-03-20 at 14.50.54.png"
+                            }
+                        ],
+                        "resultaatEenJaarGeleden": 2000,
+                        "resultaatDrieJaarGeleden": 10000,
+                        "resultaatTweeJaarGeleden": 5000,
+                        "resultaatHuidigJaarBedrag": 1000,
+                        "aangifteBelastingAanleveren": "JA",
+                        "resultaatEenJaarBeschikbaar": "JA",
+                        "resultaatDrieJaarBeschikbaar": "JA",
+                        "resultaatTweeJaarBeschikbaar": "JA"
+                    }
+                },
+                "foo-gezinssamenstelling": {
+                    "gezinssituatieGr": {
+                        "partnerDieBijUWoont": "NEE",
+                        "thuiswonendeKinderen": "NEE"
+                    }
+                },
+                "foo-waarheidsverklaring": {
+                    "ikVulDitFormulierNaarWaarheidIn": true
+                },
+                "foo-aanvullende-gegevens": {
+                    "woonsituatieGr": {
+                        "woonsituatie": "IK_WOON_OP_EEN_ANDER_ADRES_DAN_WAAR_IK_BEN_INGESCHREVEN"
+                    },
+                    "nationaliteitGR": {
+                        "uploadKopieId": [
+                            {
+                                "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/abc943c8-7eda-459a-b783-546c44b20c61",
+                                "data": {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/abc943c8-7eda-459a-b783-546c44b20c61",
+                                    "form": "",
+                                    "name": "Screenshot 2024-03-20 at 14.45.27.png",
+                                    "size": 4382,
+                                    "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                    "project": ""
+                                },
+                                "name": "Screenshot 2024-03-20 at 14.45.27-b3435ad6-5108-4253-8f86-7ef6ea668e0b.png",
+                                "size": 4382,
+                                "type": "image/png",
+                                "storage": "url",
+                                "originalName": "Screenshot 2024-03-20 at 14.45.27.png"
+                            }
+                        ],
+                        "nationaliteitBezit": "IK_BEN_EU_ONDERDAAN"
+                    },
+                    "verblijfAdresGr": {
+                        "straatVerblijf": "Spui",
+                        "postcodeVerblijf": "2511 BT",
+                        "huisletterVerblijf": "",
+                        "huisnummerVerblijf": 70,
+                        "woonplaatsVerblijf": "'s-Gravenhage",
+                        "toelichtingVerblijf": "test toelichting",
+                        "huisnummerToevoeging": ""
+                    },
+                    "contactAanvraagGr": {
+                        "contactHulpGr": {
+                            "naamHulp": "Andy Murray",
+                            "relatieHulp": "BUURMAN_VROUW",
+                            "telefoonHulp": "0612345678"
+                        },
+                        "hulpBijAanvraag": "JA"
+                    },
+                    "jaIkWilPostOntvangen": true
+                },
+                "foo-uw-inkomsten-overzicht": {},
+                "foo-bezittingen-en-schulden": {
+                    "heeftSchulden": "NEE",
+                    "rekeningenGroep": {
+                        "rekeningHerGroep": [
+                            {
+                                "ibanZakelijk": "NL31STAL0142185396",
+                                "saldoRekening": -290,
+                                "welkeRekeningen": "NEDERLANDSE_ZAKELIJKE_REKENING",
+                                "uploadSaldoRekening": [
+                                    {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/693d2ee2-d04e-4c80-9ebf-3971671d097b",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/693d2ee2-d04e-4c80-9ebf-3971671d097b",
+                                            "form": "",
+                                            "name": "Screenshot 2024-03-20 at 14.51.13.png",
+                                            "size": 4540,
+                                            "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "Screenshot 2024-03-20 at 14.51.13-f3c5772e-0ca0-400a-a51b-2d1403033334.png",
+                                        "size": 4540,
+                                        "type": "image/png",
+                                        "storage": "url",
+                                        "originalName": "Screenshot 2024-03-20 at 14.51.13.png"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "uwVermogenGroep": {
+                        "welkVermogen": {
+                            "CRYPTO": false,
+                            "CARAVAN": false,
+                            "VAARTUIG": false,
+                            "CONTANTEN": false,
+                            "OBLIGATIES_AANDELEN": false,
+                            "EEN_MOTORVOERTUIG_AUTO_CAMPER_OF_MOTOR": false,
+                            "EEN_STUK_GROND_IN_NEDERLAND_EN_OF_HET_BUITENLAND": false,
+                            "BANK_EN_SPAARREKENINGEN_PRIVE_EN_ZAKELIJK_BINNEN_EN_BUITENLAND": true,
+                            "EEN_OF_MEERDERE_KOOPWONING_EN_IN_NEDERLAND_EN_OF_HET_BUITENLAND": false
+                        }
+                    }
+                },
+                "foo-bezittingen-schulden-overzicht": {}
+            },
+            "type": "verzoek-bbz-krediet",
+            "attachments": [],
+            "language_code": "nl",
+            "submission_id": "404c6fcb-4ef7-4593-94cd-033113f32d36"
+        },
+        "geometry": null,
+        "startAt": "2024-03-19",
+        "endAt": null,
+        "registrationAt": "2024-03-19"
+    }
+}
+
+###
+

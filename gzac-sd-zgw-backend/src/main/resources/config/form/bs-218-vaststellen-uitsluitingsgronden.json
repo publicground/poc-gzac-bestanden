@@ -1,0 +1,126 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "key": "pv.bsn",
+            "type": "hidden",
+            "input": true,
+            "label": "bsn",
+            "tableView": false
+        },
+        {
+            "key": "pv.gegevensVaststelling",
+            "type": "hidden",
+            "input": true,
+            "label": "gegevensVaststelling",
+            "tableView": false
+        },
+        {
+            "key": "pv.persoonVastgesteld",
+            "type": "hidden",
+            "input": true,
+            "label": "persoonVastgesteld",
+            "tableView": false,
+            "customDefaultValue": "if (data.pv.bsn === data.pv.gegevensVaststelling.aanvrager.bsn) {\n  value = data.pv.gegevensVaststelling.aanvrager;\n} else if (data.pv.bsn === data.pv.gegevensVaststelling.partner.bsn) {\n    value = data.pv.gegevensVaststelling.partner;\n}"
+        },
+        {
+            "key": "html",
+            "type": "htmlelement",
+            "input": false,
+            "label": "HTML",
+            "content": "Er zijn geen uitsluitingsgronden gesignaleerd.",
+            "tableView": false,
+            "refreshOnChange": false,
+            "customConditional": "show =  data.pv.uitsluitingsgronden?.find( uitsluitingsgrond => uitsluitingsgrond.signalering ) == 0;"
+        },
+        {
+            "key": "gecontroleerdeUitsluitingsgronden",
+            "tag": "div",
+            "type": "htmlelement",
+            "input": false,
+            "label": "Gecontroleerde uitsluitingsgronden",
+            "content": "Gecontroleerde uitsluitingsgronden: {{{ data.pv.uitsluitingsgronden.filter( grond => grond.geimplementeerd ).map( grond => grond.uitsluitingsgrond ).join(', ') }}}\n<br/>",
+            "tableView": false,
+            "refreshOnChange": false
+        },
+        {
+            "key": "pv.toonAlles",
+            "type": "checkbox",
+            "input": true,
+            "label": "Toon alle gecontroleerde uitsluitingsgronden",
+            "tableView": false,
+            "defaultValue": false
+        },
+        {
+            "key": "pv.uitsluitingsgronden",
+            "type": "datagrid",
+            "input": true,
+            "label": "Data Grid",
+            "reorder": false,
+            "hideLabel": true,
+            "initEmpty": false,
+            "tableView": false,
+            "components": [
+                {
+                    "key": "panel",
+                    "type": "panel",
+                    "input": false,
+                    "label": "Panel",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "components": [
+                        {
+                            "key": "html",
+                            "type": "htmlelement",
+                            "input": true,
+                            "label": "zaakInformatieHTML",
+                            "content": "<section>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-4\">Signalering</dd>\n        <dt class=\"col-8\">{{{ row?.signalering ? 'Ja' : 'Nee' }}}</dt>\n    </dl>\n    <dl class=\"row mb-0\">\n        <dd class=\"col-4\">Uitsluitingsgrond</dd>\n        <dt class=\"col-8\">{{{ row?.uitsluitingsgrond }}}</dt>\n    </dl>  \n    <dl class=\"row mb-0\">\n        <dd class=\"col-4\">Betrokkene</dd>\n        <dt class=\"col-8\">{{{ data.pv.persoonVastgesteld?.voorletters }}} {{{ data.pv.persoonVastgesteld?.voorvoegsel }}} {{{ data.pv.persoonVastgesteld?.achternaam }}}</dt>\n    </dl> \n    <dl class=\"row mb-0\">\n        <dd class=\"col-4\">Uitsluiting</dd>\n        <dt class=\"col-8\">{{{ row?.uitsluiting }}}</dt>\n    </dl> \n    <dl class=\"row mb-0\">\n        <dd class=\"col-4\">Verantwoording</dd>\n        <dt class=\"col-8\">{{{ row?.verantwoordingVaststelling }}}</dt>\n    </dl> \n<br/>    \n</section>",
+                            "tableView": false,
+                            "customClass": "no-border-around-formio-container",
+                            "refreshOnChange": false
+                        },
+                        {
+                            "key": "vanToepassing",
+                            "type": "checkbox",
+                            "input": true,
+                            "label": "Dit is een geldige uitsluitingsgrond",
+                            "tableView": false,
+                            "defaultValue": false,
+                            "labelPosition": "left-left",
+                            "clearOnHide": false
+                        },
+                        {
+                            "key": "toelichting",
+                            "type": "textarea",
+                            "input": true,
+                            "label": "Toelichting",
+                            "tableView": true,
+                            "autoExpand": false,
+                            "labelPosition": "left-left",
+                            "clearOnHide": false
+                        }
+                    ],
+                    "collapsible": false,
+                    "clearOnHide": false,
+                    "customConditional": "show = (row.signalering || row.vanToepassing || row.toelichting || data.pv.toonAlles)"
+                }
+            ],
+            "clearOnHide": false,
+            "layoutFixed": false,
+            "enableRowGroups": false,
+            "addAnotherPosition": "bottom",
+            "disableAddingRemovingRows": true
+        },
+        {
+            "key": "submit",
+            "type": "button",
+            "input": true,
+            "label": "Indienen",
+            "action": "custom",
+            "custom": "form.submit();\ncomponent.disabled = true;",
+            "tableView": false,
+            "showValidations": false,
+            "disableOnInvalid": true
+        }
+    ]
+}

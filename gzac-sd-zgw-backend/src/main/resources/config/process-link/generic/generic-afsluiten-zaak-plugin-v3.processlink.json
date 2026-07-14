@@ -1,0 +1,46 @@
+[
+    {
+        "activityId": "OphalenZaakresultaatTypeUrlTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "pluginConfigurationId": "ceea60b6-c475-4f80-9ec2-aec54f719b24",
+        "pluginActionDefinitionKey": "get-resultaattype",
+        "processLinkType": "plugin",
+        "actionProperties": {
+            "resultaattype": "pv:zaakresultaat",
+            "processVariable": "resultaatTypeUrl"
+        }
+    },
+    {
+        "activityId": "ZetZaakresultaatTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "create-zaakresultaat",
+        "processLinkType": "plugin",
+        "actionProperties": {
+            "toelichting": "pv:zaakresultaat",
+            "resultaattypeUrl": "pv:resultaatTypeUrl"
+        }
+    },
+    {
+        "activityId": "OphalenZaakstatusTypeUrlTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "pluginConfigurationId": "ceea60b6-c475-4f80-9ec2-aec54f719b24",
+        "pluginActionDefinitionKey": "get-statustype",
+        "processLinkType": "plugin",
+        "actionProperties": {
+            "statustype": "pv:zaakstatus",
+            "processVariable": "statusTypeUrl"
+        }
+    },
+    {
+        "activityId": "ZetZaakstatusTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "set-zaakstatus",
+        "processLinkType": "plugin",
+        "actionProperties": {
+            "statustoelichting": "pv:zaakstatus",
+            "statustypeUrl": "pv:statusTypeUrl"
+        }
+    }
+]

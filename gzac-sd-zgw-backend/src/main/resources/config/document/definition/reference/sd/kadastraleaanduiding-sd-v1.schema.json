@@ -1,0 +1,28 @@
+{
+    "$id": "kadastraleaanduiding.schema",
+    "type": "object",
+    "title": "Kadastrale aanduiding",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "kadastraleaanduiding": {
+            "type": "object",
+            "properties": {
+                "codeKadastraleGemeente": {
+                    "type": "number"
+                },
+                "kadastraleGemeentenaam": {
+                    "type": "string"
+                },
+                "kadastraleSectie": {
+                    "type": "string"
+                },
+                "kadastraalPerceelnr": {
+                    "type": "number"
+                },
+                "volgnrKadastraalAppartementsrecht": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,160 @@
+[
+    {
+        "activityId": "OPASVerwerkExterneKlanttaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "3f03749a-aed2-4815-b444-360659f51859",
+        "pluginActionDefinitionKey": "complete-externe-klanttaak",
+        "actionProperties": {
+            "externeKlanttaakVersion": "1.1.0",
+            "config": {
+                "bewaarIngediendeGegevens": true,
+                "koppelDocumenten": true,
+                "documentPadenPad": "/documenten",
+                "verzondenDataMapping": [
+                    {
+                        "key": "pv:bestanden",
+                        "value": "/bestanden"
+                    },
+                    {
+                        "key": "pv:bestandNietAanleveren",
+                        "value": "/bestandNietAanleveren"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "activityId": "ALOVerwerkExterneKlanttaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "3f03749a-aed2-4815-b444-360659f51859",
+        "pluginActionDefinitionKey": "complete-externe-klanttaak",
+        "actionProperties": {
+            "externeKlanttaakVersion": "1.1.0",
+            "config": {
+                "bewaarIngediendeGegevens": true,
+                "koppelDocumenten": true,
+                "documentPadenPad": "/documenten",
+                "verzondenDataMapping": [
+                    {
+                        "key": "pv:informatiereactie",
+                        "value": "/informatieverzoek"
+                    },
+                    {
+                        "key": "pv:opTeVragenInformatie",
+                        "value": "/informatieverzoek/opTeVragenInformatie"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "activityId": "BBZAanvraagVerwerkExterneKlanttaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "3f03749a-aed2-4815-b444-360659f51859",
+        "pluginActionDefinitionKey": "complete-externe-klanttaak",
+        "actionProperties": {
+            "externeKlanttaakVersion": "1.1.0",
+            "config": {
+                "bewaarIngediendeGegevens": true,
+                "koppelDocumenten": true,
+                "documentPadenPad": "/documenten",
+                "verzondenDataMapping": [
+                    {
+                        "key": "pv:informatiereactie",
+                        "value": "/reactie"
+                    },
+                    {
+                        "key": "pv:bestanden",
+                        "value": "/bestanden"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "activityId": "SHVVerwerkExterneKlanttaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "3f03749a-aed2-4815-b444-360659f51859",
+        "pluginActionDefinitionKey": "complete-externe-klanttaak",
+        "actionProperties": {
+            "externeKlanttaakVersion": "1.1.0",
+            "config": {
+                "bewaarIngediendeGegevens": true,
+                "koppelDocumenten": true,
+                "documentPadenPad": "/documenten",
+                "verzondenDataMapping": [
+                    {
+                        "key": "pv:informatiereactie",
+                        "value": "/reactie"
+                    },
+                    {
+                        "key": "pv:bestanden",
+                        "value": "/bestanden"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "activityId": "BBZKredietVerwerkOpvragenInformatieKlanttaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "3f03749a-aed2-4815-b444-360659f51859",
+        "pluginActionDefinitionKey": "complete-externe-klanttaak",
+        "actionProperties": {
+            "externeKlanttaakVersion": "1.1.0",
+            "config": {
+                "bewaarIngediendeGegevens": true,
+                "koppelDocumenten": true,
+                "documentPadenPad": "/documenten",
+                "verzondenDataMapping": [
+                    {
+                        "key": "pv:informatiereactie",
+                        "value": "/reactie"
+                    },
+                    {
+                        "key": "pv:bestanden",
+                        "value": "/bestanden"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "activityId": "BBZKredietVerwerkBevestigenVoldaanAanVoorwaardenKlanttaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "3f03749a-aed2-4815-b444-360659f51859",
+        "pluginActionDefinitionKey": "complete-externe-klanttaak",
+        "actionProperties": {
+            "externeKlanttaakVersion": "1.1.0",
+            "config": {
+                "bewaarIngediendeGegevens": true,
+                "koppelDocumenten": true,
+                "documentPadenPad": "/documenten",
+                "verzondenDataMapping": [
+                    {
+                        "key": "pv:reactie",
+                        "value": "/reactie"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "activityId": "GetTaakObjectFromObjectenAPITask",
+        "activityType": "bpmn:ServiceTask:start",
+        "pluginActionDefinitionKey": "get-object-data-by-url",
+        "pluginConfigurationId": "53059ffe-2407-40de-9fbf-671b2383a0ca",
+        "processLinkType": "plugin",
+        "actionProperties": {
+            "objectManagementConfigurationId": "8e31996b-20ed-4abf-b39b-312b98e649ab",
+            "objectUrl": "pv:externeKlanttaakObjectUrl",
+            "objectDataProcessVariableName": "taakObject"
+        }
+    }
+]

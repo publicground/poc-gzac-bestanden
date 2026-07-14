@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_19qc9c6" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.43.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.23.0">
+  <bpmn:collaboration id="Collaboration_1oh4i48">
+    <bpmn:participant id="Bs224bVaststellenGezamenlijkInkomenParticipant" name="bs 224b vaststellen gezamenlijk inkomen" processRef="bs-224b-vaststellen-gezamenlijk-inkomen" />
+    <bpmn:textAnnotation id="TextAnnotation_012lu9n">
+      <bpmn:text>totaal inkomen aanvrager + totaal inkomen partner</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_17q7mw0" associationDirection="None" sourceRef="BerekenenGezamelijkInkomenTask" targetRef="TextAnnotation_012lu9n" />
+  </bpmn:collaboration>
+  <bpmn:process id="bs-224b-vaststellen-gezamenlijk-inkomen" name="BS 224b vaststellen gezamenlijk inkomen" isExecutable="true">
+    <bpmn:startEvent id="Event_1mjj367">
+      <bpmn:outgoing>Flow_0u9a9r0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0u9a9r0" sourceRef="Event_1mjj367" targetRef="BerekenenGezamelijkInkomenTask" />
+    <bpmn:sequenceFlow id="Flow_0nnbx36" sourceRef="BerekenenGezamelijkInkomenTask" targetRef="GezamenlijkInkomenVastgesteldEndEvent" />
+    <bpmn:scriptTask id="BerekenenGezamelijkInkomenTask" name="Berekenen gezamelijk inkomen" camunda:asyncAfter="true" scriptFormat="javascript" camunda:resultVariable="gezamelijkInkomen">
+      <bpmn:incoming>Flow_0u9a9r0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nnbx36</bpmn:outgoing>
+      <bpmn:script>var gezamelijkInkomen = 0;
+var inkomstenAanvrager = execution.getVariable("inkomstenAanvrager");
+var inkomstenPartner = execution.getVariable("inkomstenPartner");
+
+gezamelijkInkomen = inkomstenAanvrager + inkomstenPartner;
+
+gezamelijkInkomen;</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="GezamenlijkInkomenVastgesteldEndEvent" name="gezamenlijk inkomen vastgesteld">
+      <bpmn:incoming>Flow_0nnbx36</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1oh4i48">
+      <bpmndi:BPMNShape id="Participant_1d9q698_di" bpmnElement="Bs224bVaststellenGezamenlijkInkomenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="60" width="470" height="310" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1mjj367_di" bpmnElement="Event_1mjj367">
+        <dc:Bounds x="262" y="202" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rde7yz_di" bpmnElement="BerekenenGezamelijkInkomenTask">
+        <dc:Bounds x="350" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ateu8g_di" bpmnElement="GezamenlijkInkomenVastgesteldEndEvent">
+        <dc:Bounds x="502" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="491" y="245" width="59" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0u9a9r0_di" bpmnElement="Flow_0u9a9r0">
+        <di:waypoint x="298" y="220" />
+        <di:waypoint x="350" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nnbx36_di" bpmnElement="Flow_0nnbx36">
+        <di:waypoint x="450" y="220" />
+        <di:waypoint x="502" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_012lu9n_di" bpmnElement="TextAnnotation_012lu9n">
+        <dc:Bounds x="330" y="100" width="165" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_17q7mw0_di" bpmnElement="Association_17q7mw0">
+        <di:waypoint x="392" y="180" />
+        <di:waypoint x="385" y="140" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

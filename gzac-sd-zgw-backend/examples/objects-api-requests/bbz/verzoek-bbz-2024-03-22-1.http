@@ -1,0 +1,831 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+
+{
+    "type": "{{objecttypes_api_url}}",
+    "record": {
+        "index": 1,
+        "typeVersion": 1,
+        "data": {
+            "bsn": "999991954",
+            "data": {
+                "uw-gegevens": {
+                    "digid": {
+                        "persoongegevensPrefill": {
+                            "BsnPrefill": "999991954",
+                            "voornaamPrefill": "Sierra",
+                            "achternaamPrefill": "Kooyman",
+                            "voorlettersPrefill": "S.",
+                            "voorvoegselPrefill": "",
+                            "geboortedatumPrefill": "2003-03-03"
+                        },
+                        "adresgegevensPrefillGroep": {
+                            "plaatsPrefill": "&#x27;s-Gravenhage",
+                            "straatPrefill": "Leyweg",
+                            "postcodePrefill": "2545 CC",
+                            "HuisletterPrefill": "e",
+                            "huisnummerPrefill": 61,
+                            "toevoegingPrefill": ""
+                        }
+                    },
+                    "contactgegevens": {
+                        "email": "kooyman@example.com",
+                        "Telefoonnummer": ""
+                    }
+                },
+                "foo-inleiding": {},
+                "foo-uitbetaling": {
+                    "ibanUitbetaling": "NL21ARSN0315085681",
+                    "hoeBetaaldKrijgen": "VOLLEDIG_OP_MIJN_REKENING",
+                    "uitkeringAanDerden": "NEE",
+                    "naamRekeninghouderBetaling": "Kooyman"
+                },
+                "foo-uw-aanvraag": {
+                    "uwAanvraag": {
+                        "EEN_BEDRIJFSKREDIET": true,
+                        "WAT_IK_WIL_AANVRAGEN_STAAT_HIER_NIET_TUSSEN": false,
+                        "EEN_BBZ_UITKERING_VOOR_STARTENDE_ONDERNEMERS_OF_ONDERNEMERS_DIE_KORTER_DAN_1_5_JAAR_ONDERNEMEN": true
+                    }
+                },
+                "foo-uw-inkomsten": {
+                    "buitenlandGoep": {
+                        "nettoBuitenland": 50,
+                        "inkomenBuitenland": "JA",
+                        "periodeBuitenland": "WEEK"
+                    },
+                    "onderhuurGroep": {
+                        "onderhuurBedrag": 50
+                    },
+                    "pensioenenGroep": {
+                        "pensioenenHerGroep": [
+                            {
+                                "nettoPensioen": 50,
+                                "periodePensioen": "VIER_WEKEN",
+                                "pensioenoverzichten": [
+                                    {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/3e61a5ea-cb7a-48e0-bf0c-17ee4a04f75c",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/3e61a5ea-cb7a-48e0-bf0c-17ee4a04f75c",
+                                            "form": "",
+                                            "name": "testing.txt",
+                                            "size": 4,
+                                            "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "testing-3725dc5d-d307-4d2f-ae6f-046eea034670.txt",
+                                        "size": 4,
+                                        "type": "text/plain",
+                                        "storage": "url",
+                                        "originalName": "testing.txt"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "vormenInkomsten": {
+                        "PENSIOEN": true,
+                        "UITKERING": true,
+                        "LOONDIENST": true,
+                        "ALIMENTATIE": true,
+                        "HEFFINGSKORTING": true,
+                        "OVERIGE_INKOMSTEN": true,
+                        "IK_HEB_GEEN_INKOMSTEN": false,
+                        "INKOMSTEN_UIT_ONDERHUUR": true,
+                        "INKOMEN_UIT_HET_BUITENLAND": true
+                    },
+                    "alimentatieGroep": {
+                        "bedragHulp": 50,
+                        "krijgtHulp": "JA",
+                        "alimentatieKind": "NEE"
+                    },
+                    "overigeInkomsten": {
+                        "overigbedrag": 50
+                    },
+                    "uitkeringenGroep": {
+                        "wwGroep": {
+                            "nettoWw": 50,
+                            "periodeWw": "VIER_WEKEN",
+                            "overzichtWw": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/e7390f69-06cd-4ad1-9bff-97f21fe51a8d",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/e7390f69-06cd-4ad1-9bff-97f21fe51a8d",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-6f98e55b-0527-4eae-817e-7525168e67f2.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "anwGroep": {
+                            "nettoAnw": 50,
+                            "periodeAnw": "MAAND",
+                            "overzichtAnw": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/cd3bf456-78ce-4306-a2c9-21a03eb7efc4",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/cd3bf456-78ce-4306-a2c9-21a03eb7efc4",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-696bc6dd-a4e9-4914-a54a-a9f552542737.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "aowGroep": {
+                            "nettoAow": 50,
+                            "periodeAow": "WEEK",
+                            "overzichtAow": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/975b3da8-c77d-4fac-86a9-04bc61893a99",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/975b3da8-c77d-4fac-86a9-04bc61893a99",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-022e5490-06e2-4baf-8d97-9457f6d1ab4e.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "waoGroep": {
+                            "nettoWao": 50,
+                            "periodeWao": "WEEK",
+                            "overzichtWao": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/f5316c3a-f746-4805-b7fc-134e11290644",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/f5316c3a-f746-4805-b7fc-134e11290644",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-6a64bb59-63c9-4dcd-888f-de0dcfc511b3.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "wiaGroep": {
+                            "nettoWia": 50,
+                            "periodeWia": "VIER_WEKEN",
+                            "overzichtWia": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/f305dab7-a1fc-4cd2-9122-834c27dc999f",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/f305dab7-a1fc-4cd2-9122-834c27dc999f",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-e6091040-90b6-4636-8218-dad3e5bceccb.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "uitkeringen": {
+                            "WW": true,
+                            "ANW": true,
+                            "AOW": true,
+                            "WAO": true,
+                            "WIA": true,
+                            "GEEN": false,
+                            "WAJONG": true,
+                            "BIJSTAND": true,
+                            "ZIEKTEWET": true
+                        },
+                        "wajongGroep": {
+                            "nettoWajong": 50,
+                            "periodeWajong": "MAAND",
+                            "overzichtWajong": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/12fd7f26-5639-4c7d-870a-e71aec8b84ed",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/12fd7f26-5639-4c7d-870a-e71aec8b84ed",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-5352a59b-e826-45ef-b55b-466caf60b446.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "bijstandGroep": {
+                            "nettoBijstand": 50,
+                            "periodeBijstand": "WEEK",
+                            "overzichtBijstand": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/2e473f76-e643-428a-900d-e7c8f545a083",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/2e473f76-e643-428a-900d-e7c8f545a083",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-a67b406b-1215-4ea7-b9c6-ad2efd699627.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "ziektewetGroep": {
+                            "nettoZiektewet": 50,
+                            "periodeZiektewet": "WEEK",
+                            "overzichtZiektewet": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/3cccea04-9d36-43cd-a3be-3fce11bee7e3",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/3cccea04-9d36-43cd-a3be-3fce11bee7e3",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-ef944303-ecac-4616-9801-717641229cd5.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        }
+                    },
+                    "loondienstWerkgeverS": {
+                        "werkgeversHerGroep": [
+                            {
+                                "nettoloon": 4500,
+                                "loonstroken": [
+                                    {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/16e9d4af-f86d-4244-9a97-c5ee3d72a676",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/16e9d4af-f86d-4244-9a97-c5ee3d72a676",
+                                            "form": "",
+                                            "name": "testing.txt",
+                                            "size": 4,
+                                            "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "testing-b7848d4e-d7bb-448c-9695-01e997ccb623.txt",
+                                        "size": 4,
+                                        "type": "text/plain",
+                                        "storage": "url",
+                                        "originalName": "testing.txt"
+                                    }
+                                ],
+                                "nettoNatura": 500,
+                                "aantalUurWerk": 32,
+                                "naamWerkgever": "werkgever 1",
+                                "nettoMaaltijd": 500,
+                                "nettoOnkosten": 500,
+                                "soortContract": "IK_HEB_EEN_VAST_CONTRACT",
+                                "nettoReiskosten": 500,
+                                "periodeNettoloon": "PER_MAAND",
+                                "urenvermindering": "NEE",
+                                "contractBeeindigd": "NEE",
+                                "Loonheffingskorting": "JA",
+                                "uitbetalingNaastLoon": {
+                                    "GEEN": false,
+                                    "LOON_IN_NATURA": true,
+                                    "MAALTIJDVERGOEDING": true,
+                                    "ONKOSTENVERGOEDING": true,
+                                    "REISKOSTENVERGOEDING": true,
+                                    "1_KEER_PER_JAAR_VAKANTIEGELD": true,
+                                    "EEN_13DE_MAAND_OF_EINDEJAARSUITKERING": true,
+                                    "VAKANTIEGELD_BIJ_IEDERE_UITBETALING_VAN_MIJN_SALARIS": false
+                                }
+                            }
+                        ]
+                    },
+                    "heffingskortingenGroep": {
+                        "nettoHeffingskortingen": 50,
+                        "welkeHeffingskortingen": {
+                            "GEEN": false,
+                            "ALGEMENE_HEFFINGSKORTING": true,
+                            "INKOMENSAFHANKELIJKE_COMBINATIEKORTING": true
+                        }
+                    }
+                },
+                "foo-bedrijfskrediet": {
+                    "andereLeningen": "JA",
+                    "wanneerTraject": "2024-03-15",
+                    "isBeslaglegging": "JA",
+                    "contactSchuldhulp": "JA",
+                    "afsprakenSchuldhulp": "ER_WORDT_EEN_WSNP_TRAJECT_OPGESTART",
+                    "redenBedrijfskrediet": {
+                        "SANERING": true,
+                        "ACHTERSTANDEN": true,
+                        "INVESTERINGEN": true,
+                        "ANDERS_NAMELIJK": false,
+                        "HERFINANCIERING": true
+                    },
+                    "bedragBedrijfskrediet": 55000,
+                    "toelichtingSchuldhulp": "schuldhulpverlening optioneel",
+                    "toelichtingBeslaglegging": "beslaglegging",
+                    "toelichtingAndereLeningen": "andere instanties leningen aangevraagd",
+                    "toelichtingBedrijfskrediet": "toelichting bedrijfskrediet"
+                },
+                "foo-uw-woonsituatie": {
+                    "hoeWonen": "IK_WOON_IN_MIJN_EIGEN_KOOPWONING_OF_WOONBOOT",
+                    "andereBewonersGroep": {
+                        "meerOpAdres": "NEE"
+                    }
+                },
+                "foo-uw-ondernemingen": {
+                    "ondernemingGr": {
+                        "ingeschrevenKvk": "JA"
+                    },
+                    "ingeschrevenOnderneming": [
+                        {
+                            "kvk": "69599084",
+                            "rechtsvorm": "EENMANSZAAK_ZZP",
+                            "bezitDiplomas": "NEE",
+                            "ondernemingNaam": "test",
+                            "aanvraagSurseance": "NEE",
+                            "korteOmschrijving": "test",
+                            "inschrijvingsDatum": "2024-03-01",
+                            "stoppenOnderneming": "NEE",
+                            "aanvraagFaillissement": "NEE"
+                        }
+                    ]
+                },
+                "foo-inkomsten-partner": {
+                    "buitenlandPartnerGoep": {
+                        "nettoBuitenlandPartner": 100,
+                        "inkomenBuitenlandPartner": "JA",
+                        "periodeBuitenlandPartner": "VIER_WEKEN"
+                    },
+                    "onderhuurPartnerGroep": {
+                        "nettoOnderhuurPartner": 100,
+                        "partnerKrijgtOnderhuur": "JA"
+                    },
+                    "ondernemerPartnerGroep": {
+                        "partnerIsOndernemer": "JA",
+                        "uploadDocBedrijfPartner": {
+                            "IB_AANGIFTE_AFGELOPEN_3_BOEKJAREN": false,
+                            "JAARREKENINGEN_AFGELOPEN_3_BOEKJAREN": true
+                        }
+                    },
+                    "pensioenenPartnerGroep": {
+                        "pensioenenPartnerHerGroep": [
+                            {
+                                "nettoPensioenPartner": 100,
+                                "periodePensioenPartner": "WEEK",
+                                "pensioenoverzichtenPartner": [
+                                    {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/9943ebd9-3b60-4a02-ba92-c33cf1e12034",
+                                        "data": {
+                                            "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/9943ebd9-3b60-4a02-ba92-c33cf1e12034",
+                                            "form": "",
+                                            "name": "testing.txt",
+                                            "size": 4,
+                                            "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                            "project": ""
+                                        },
+                                        "name": "testing-99fa7028-2b9a-4bce-8d9b-4d8bf8e164de.txt",
+                                        "size": 4,
+                                        "type": "text/plain",
+                                        "storage": "url",
+                                        "originalName": "testing.txt"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "vormenInkomstenPartner": {
+                        "PENSIOEN": true,
+                        "UITKERING": true,
+                        "LOONDIENST": true,
+                        "ALIMENTATIE": false,
+                        "HEFFINGSKORTING": true,
+                        "OVERIGE_INKOMSTEN": true,
+                        "INKOMSTEN_UIT_ONDERHUUR": true,
+                        "INKOMSTEN_UIT_ONDERNEMING": true,
+                        "INKOMEN_UIT_HET_BUITENLAND": true,
+                        "MIJN_PARTNER_HEEFT_GEEN_INKOMEN": false
+                    },
+                    "overigeInkomstenPartner": {
+                        "overigBedragPartner": 100
+                    },
+                    "uitkeringenPartnerGroep": {
+                        "wwPartnerGroep": {
+                            "nettoWwPartner": 100,
+                            "periodeWwPartner": "WEEK",
+                            "overzichtWwPartner": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/76854e47-6422-4df0-a39a-5c66e9de11bf",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/76854e47-6422-4df0-a39a-5c66e9de11bf",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-01b9d352-557a-492d-959d-cdcca49c2c76.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "WaoPartnerGroep": {
+                            "nettoWaoPartner": 100,
+                            "periodeWaoPartner": "MAAND",
+                            "overzichtPartnerWao": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/3febfe68-55c2-42d5-914d-86aeb7a0357b",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/3febfe68-55c2-42d5-914d-86aeb7a0357b",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-5df56868-2953-447e-8db0-0f1137644cf4.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "anwPartnerGroep": {
+                            "nettoAnwPartner": 100,
+                            "periodeAnwPartner": "MAAND",
+                            "overzichtAnwPartner": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/6b2151b6-aa48-4458-bce9-41e9029e4fbd",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/6b2151b6-aa48-4458-bce9-41e9029e4fbd",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-816355d2-64c5-4786-9c51-950bfb521063.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "aowPartnerGroep": {
+                            "nettoAowPartner": 100,
+                            "periodeAowPartner": "WEEK",
+                            "overzichtAowPartner": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/29ef6958-27ac-4d1b-be0f-d15699f266b8",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/29ef6958-27ac-4d1b-be0f-d15699f266b8",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-40a507e0-eda2-4621-8205-fe3b9f360a2a.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "wiaPartnerGroep": {
+                            "nettoWiaPartner": 100,
+                            "periodeWiaPartner": "WEEK",
+                            "overzichtWiaPartner": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/c3e76fd3-001e-4e88-8c53-d939aa9df15e",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/c3e76fd3-001e-4e88-8c53-d939aa9df15e",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-202249f1-54fb-430a-9ed6-fa18ada43ce2.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "uitkeringenPartner": {
+                            "WW": true,
+                            "ANW": true,
+                            "AOW": true,
+                            "WAO": true,
+                            "WIA": true,
+                            "GEEN": false,
+                            "WAJONG": true,
+                            "BIJSTAND": true,
+                            "ZIEKTEWET": true
+                        },
+                        "wajongPartnerGroep": {
+                            "nettoWajongPartner": 100,
+                            "periodeWajongPartner": "VIER_WEKEN",
+                            "overzichtWajongPartner": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/78a517b7-c285-4da9-af29-a11045e782c0",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/78a517b7-c285-4da9-af29-a11045e782c0",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-34d27d76-2a49-4d7c-86cc-d638a835ff2e.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "bijstandPartnerGroep": {
+                            "nettoBijstandPartner": 100,
+                            "periodeBijstandPartner": "WEEK",
+                            "overzichtBijstandPartner": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/26d47a16-6e70-40af-9a34-ad8b6fd76a3a",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/26d47a16-6e70-40af-9a34-ad8b6fd76a3a",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-b8a71f01-39a4-4569-ba47-d838d03e1192.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        },
+                        "ziektewetGroepPartner": {
+                            "nettoZiektewetPartner": 100,
+                            "periodeZiektewetPartner": "WEEK",
+                            "overzichtZiektewetPartner": [
+                                {
+                                    "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/ded4ff8e-dfb4-4ef0-a682-c4639cc3b628",
+                                    "data": {
+                                        "url": "https://openformulieren-zgw.test.denhaag.nl/api/v2/submissions/files/ded4ff8e-dfb4-4ef0-a682-c4639cc3b628",
+                                        "form": "",
+                                        "name": "testing.txt",
+                                        "size": 4,
+                                        "baseUrl": "https://openformulieren-zgw.test.denhaag.nl/api/v2/",
+                                        "project": ""
+                                    },
+                                    "name": "testing-ad133a55-c345-4759-85c1-45914c2d8e9c.txt",
+                                    "size": 4,
+                                    "type": "text/plain",
+                                    "storage": "url",
+                                    "originalName": "testing.txt"
+                                }
+                            ]
+                        }
+                    },
+                    "loondienstWerkgeverSPartner": {
+                        "werkgeversPartnerHerGroep": [
+                            {
+                                "nettoloonPartner": 50,
+                                "nettoNaturaPartner": 50,
+                                "aantalUurWerkPartner": 16,
+                                "naamWerkgeverPartner": "werkgever partner 1",
+                                "nettoMaaltijdPartner": 50,
+                                "nettoOnkostenPartner": 50,
+                                "soortContractPartner": "IK_HEB_EEN_CONTRACT_VOOR_BEPAALDE_TIJD",
+                                "nettoReiskostenPartner": 50,
+                                "periodeNettoloonPartner": "PER_4_WEKEN",
+                                "urenverminderingPartner": "NEE",
+                                "contractBeeindigdPartner": "NEE",
+                                "LoonheffingskortingPartner": "JA",
+                                "uitbetalingNaastLoonPartner": {
+                                    "GEEN": false,
+                                    "LOON_IN_NATURA": true,
+                                    "MAALTIJDVERGOEDING": true,
+                                    "ONKOSTENVERGOEDING": true,
+                                    "REISKOSTENVERGOEDING": true,
+                                    "1_KEER_PER_JAAR_VAKANTIEGELD": true,
+                                    "EEN_13DE_MAAND_OF_EINDEJAARSUITKERING": true,
+                                    "VAKANTIEGELD_BIJ_IEDERE_UITBETALING_VAN_MIJN_SALARIS": false
+                                }
+                            }
+                        ]
+                    },
+                    "heffingskortingenPartnerGroep": {
+                        "nettoHeffingskortingenPartner": 100,
+                        "welkeHeffingskortingenPartner": {
+                            "GEEN": false,
+                            "ALGEMENE_HEFFINGSKORTING": true,
+                            "INKOMENSAFHANKELIJKE_COMBINATIEKORTING": true
+                        }
+                    }
+                },
+                "foo-financiele-situatie": {
+                    "bedrijfspandGroep": {
+                        "typeBedrijfspand": "IK_HUUR_MIJN_BEDRIJFSPAND"
+                    },
+                    "inkomenOndernemingGroep": {
+                        "waaromHulp": "test",
+                        "welkeMaandenHulp": "test",
+                        "winstKomendeMaanden": 100000
+                    },
+                    "situatieOndernemingGroep": {
+                        "voldoendeInkomsten": "JA",
+                        "resultaatHuidigJaar": "JA",
+                        "toestemmingOnderzoek": "JA",
+                        "resultaatEenJaarGeleden": 100000,
+                        "resultaatDrieJaarGeleden": 100000,
+                        "resultaatTweeJaarGeleden": 100000,
+                        "resultaatHuidigJaarBedrag": 100000,
+                        "aangifteBelastingAanleveren": "JA",
+                        "resultaatEenJaarBeschikbaar": "JA",
+                        "resultaatDrieJaarBeschikbaar": "JA",
+                        "resultaatTweeJaarBeschikbaar": "JA"
+                    }
+                },
+                "foo-gezinssamenstelling": {
+                    "gegevensPartner": {
+                        "bsnPartner": "111111110",
+                        "geboortePartner": "1980-03-01",
+                        "achternaamParnter": "Bakker",
+                        "voorletterPartner": "B",
+                        "voorvoegsePartner": "",
+                        "partnerZelfdeAdres": "JA",
+                        "nationaliteitPartner": "MIJN_PARTNER_HEEFT_DE_NEDERLANDSE_NATIONALITEIT"
+                    },
+                    "gezinssituatieGr": {
+                        "partnerDieBijUWoont": "JA",
+                        "thuiswonendeKinderen": "NEE"
+                    }
+                },
+                "foo-waarheidsverklaring": {
+                    "ikVulDitFormulierNaarWaarheidIn": true
+                },
+                "foo-aanvullende-gegevens": {
+                    "woonsituatieGr": {
+                        "woonsituatie": "IK_STA_INGESCHREVEN_BIJ_DE_GEMEENTE_OP_HET_ADRES_WAAR_IK_WOON"
+                    },
+                    "nationaliteitGR": {
+                        "nationaliteitBezit": "IK_HEB_DE_NEDERLANDSE_NATIONALITEIT"
+                    },
+                    "contactAanvraagGr": {
+                        "hulpBijAanvraag": "NEE"
+                    },
+                    "jaIkWilPostOntvangen": false
+                },
+                "foo-uw-inkomsten-overzicht": {},
+                "foo-bezittingen-en-schulden": {
+                    "cryptoGroep": {
+                        "cryptoHerGroep": [
+                            {
+                                "waardeCrypto": 600
+                            }
+                        ]
+                    },
+                    "caravanGroep": {
+                        "caravanHerGroep": [
+                            {
+                                "dagwaardeCaravan": 400
+                            }
+                        ]
+                    },
+                    "aandelenGroep": {
+                        "aandelenHerGroep": [
+                            {
+                                "waardeObligatiesAandelen": 450
+                            }
+                        ]
+                    },
+                    "heeftSchulden": "JA",
+                    "schuldenGroep": {
+                        "schuldHerGroep": [
+                            {
+                                "schuldBedrag": 50000,
+                                "schuldBijWie": "belastingdienst"
+                            }
+                        ]
+                    },
+                    "vaartuigGroep": {
+                        "vaartiugHerGroep": [
+                            {
+                                "dagwaardeVaartuig": 2500
+                            }
+                        ]
+                    },
+                    "contantenGroep": {
+                        "hoeveelContant": 5690
+                    },
+                    "grondbezitGroep": {
+                        "grondbezitHerGroep": [
+                            {
+                                "waardeGrond": 60000
+                            }
+                        ]
+                    },
+                    "koopwoningGroep": {
+                        "wozWoning": 330000,
+                        "resterendeHypotheek": 250000,
+                        "productenAanHypotheek": "JA"
+                    },
+                    "rekeningenGroep": {
+                        "rekeningHerGroep": [
+                            {
+                                "ibanPrive": "NL21ARSN0315085681",
+                                "saldoRekening": 500,
+                                "welkeRekeningen": "NEDERLANDSE_PRIVE_REKENING"
+                            }
+                        ]
+                    },
+                    "uwVermogenGroep": {
+                        "welkVermogen": {
+                            "CRYPTO": true,
+                            "CARAVAN": true,
+                            "VAARTUIG": true,
+                            "CONTANTEN": true,
+                            "OBLIGATIES_AANDELEN": true,
+                            "EEN_MOTORVOERTUIG_AUTO_CAMPER_OF_MOTOR": true,
+                            "EEN_STUK_GROND_IN_NEDERLAND_EN_OF_HET_BUITENLAND": true,
+                            "BANK_EN_SPAARREKENINGEN_PRIVE_EN_ZAKELIJK_BINNEN_EN_BUITENLAND": true,
+                            "EEN_OF_MEERDERE_KOOPWONING_EN_IN_NEDERLAND_EN_OF_HET_BUITENLAND": true
+                        }
+                    },
+                    "motorvoertuigenGroep": {
+                        "voertuigHerGroep": [
+                            {
+                                "kenteken": "06-GT-RR",
+                                "dagwaardeVoertuig": 2200
+                            }
+                        ]
+                    }
+                },
+                "foo-bezittingen-schulden-overzicht": {}
+            },
+            "type": "verzoek-bbz-aanvraag",
+            "attachments": [
+],
+            "language_code": "nl",
+            "submission_id": "6f4edb99-c509-45f6-9d18-910b670fbc64"
+        },
+        "geometry": null,
+        "startAt": "2024-03-22",
+        "endAt": null,
+        "registrationAt": "2024-03-22"
+    }
+}
+###
+

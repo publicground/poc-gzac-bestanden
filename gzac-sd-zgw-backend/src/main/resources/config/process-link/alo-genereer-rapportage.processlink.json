@@ -1,0 +1,61 @@
+[
+    {
+        "activityId": "GenereerRapportageTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "98352e3f-9cf3-43e8-9770-77bec3c56fbb",
+        "pluginActionDefinitionKey": "generate-pdf",
+        "actionProperties": {
+            "templateKey": "pv:templateKey",
+            "processVariableName": "gegenereerdeAloDocument"
+        }
+    },
+    {
+        "activityId": "OpslaanBrondocumentInDocumentenApiTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "bc095125-b9a9-435e-8372-0bf92f8be9be",
+        "pluginActionDefinitionKey": "store-temp-document",
+        "actionProperties": {
+            "fileName": "pv:bestandsnaam",
+            "title": "pv:documentTitle",
+            "description": "pv:documentDescription",
+            "localDocumentLocation": "gegenereerdeAloDocument",
+            "storedDocumentUrl": "gegenereerdeAloDocumentUrl",
+            "informatieobjecttype": "${SD_SUWI_RAPPORTAGE_INFORMATIEOBJECTTYPE_URL}",
+            "confidentialityLevel": "intern",
+            "taal": "nld",
+            "status": "definitief"
+        }
+    },
+    {
+        "activityId": "OpslaanRapportageInDocumentenApiTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "bc095125-b9a9-435e-8372-0bf92f8be9be",
+        "pluginActionDefinitionKey": "store-temp-document",
+        "actionProperties": {
+            "fileName": null,
+            "title": "pv:documentTitle",
+            "description": "pv:documentDescription",
+            "localDocumentLocation": "gegenereerdeAloDocument",
+            "storedDocumentUrl": "gegenereerdeAloDocumentUrl",
+            "informatieobjecttype": "${SD_AANVRAAG_RAPPORTAGE_INFORMATIEOBJECTTYPE_URL}",
+            "confidentialityLevel": "intern",
+            "taal": "nld",
+            "status": "definitief"
+        }
+    },
+    {
+        "activityId": "LinkenDocumentAanDeZaakTask",
+        "activityType": "bpmn:ServiceTask:start",
+        "processLinkType": "plugin",
+        "pluginConfigurationId": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
+        "pluginActionDefinitionKey": "link-document-to-zaak",
+        "actionProperties": {
+            "documentUrl": "pv:gegenereerdeAloDocumentUrl",
+            "title": "pv:documentTitle",
+            "description": "pv:documentDescription"
+        }
+    }
+]

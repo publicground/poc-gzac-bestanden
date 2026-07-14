@@ -1,0 +1,328 @@
+{
+    "$id": "inkomsten.schema",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "inkomsten definition",
+    "properties": {
+        "soortInkomsten": {
+            "$ref": "#/definitions/soortInkomsten"
+        },
+        "heffingskorting": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/heffingskorting"
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "onderhuur": {
+            "$ref": "#/definitions/onderhuur"
+        },
+        "pensioenen": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/pensioen/properties"
+            },
+            "additionalProperties": false
+        },
+        "pensioenenToelichting": {
+            "type": "string"
+        },
+        "uitkering": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/uitkering"
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "uitkeringTypes": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/uitkeringTypes"
+            },
+            "additionalProperties": false
+        },
+        "inkomstenBuitenland": {
+            "$ref": "#/definitions/inkomstenBuitenland"
+        },
+        "overig": {
+            "$ref": "#/definitions/overig"
+        },
+        "loondienst": {
+            "type": "array",
+            "items": {
+                "$ref": "/document/definition/reference/sd/loondienst-sd-v1.schema.json"
+            }
+        },
+        "loondienstToelichting": {
+            "type": "string"
+        },
+        "inkomstenUitOnderhuur": {
+            "type": "boolean"
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "soortInkomsten": {
+            "type": "array",
+            "item": {
+                "type": "object",
+                "enum": [
+                    {
+                        "code": "LOONDIENST",
+                        "name": "Loondienst"
+                    },
+                    {
+                        "code": "UITKERING",
+                        "name": "Uitkering"
+                    },
+                    {
+                        "code": "PENSIOEN",
+                        "name": "Pensioen"
+                    },
+                    {
+                        "code": "HEFFINGSKORTING",
+                        "name": "Heffingskorting"
+                    },
+                    {
+                        "code": "ALIMENTATIE",
+                        "name": "Alimentatie"
+                    },
+                    {
+                        "code": "BUITENLAND",
+                        "name": "Inkomen uit het buitenland"
+                    },
+                    {
+                        "code": "ONDERHUUR",
+                        "name": "Inkomsten uit onderhuur"
+                    },
+                    {
+                        "code": "OVERIG",
+                        "name": "Overige inkomsten"
+                    },
+                    {
+                        "code": "GEEN",
+                        "name": "Ik heb geen inkomsten"
+                    }
+                ]
+            },
+            "additionalProperties": false
+        },
+        "heffingskorting": {
+            "type": "object",
+            "properties": {
+                "types": {
+                    "type": "array",
+                    "item": {
+                        "type": "object",
+                        "enum": [
+                            {
+                                "code": "INKOMENSAFHANKELIJKE_COMBINATIEKORTING",
+                                "name": "Inkomensafhankelijke combinatiekorting"
+                            },
+                            {
+                                "code": "ALGEMENE_HEFFINGSKORTING",
+                                "name": "Algemene heffingskorting"
+                            },
+                            {
+                                "code": "GEEN",
+                                "name": "Ik krijg geen inkomensafhankelijke combinatiekorting en geen algemene heffingskorting"
+                            }
+                        ]
+                    },
+                    "additionalProperties": false
+                },
+                "totaalBedrag": {
+                    "type": "number"
+                },
+                "periodeUitkering": {
+                    "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                },
+                "toelichting": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "pensioen": {
+            "type": "object",
+            "properties": {
+                "nettoBedrag": {
+                    "type": "number"
+                },
+                "periodeUitkering": {
+                    "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                }
+            },
+            "additionalProperties": false
+        },
+        "huurMedebewoner": {
+            "type": "object",
+            "properties": {
+                "nettoBedrag": {
+                    "type": "number"
+                },
+                "periodeUitkering": {
+                    "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                }
+            },
+            "additionalProperties": false
+        },
+        "uitkering": {
+            "type": "object",
+            "properties": {
+                "AOW": {
+                    "type": "object",
+                    "properties": {
+                        "nettoBedrag": {
+                            "type": "number"
+                        },
+                        "periodeUitkering": {
+                            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                        }
+                    }
+                },
+                "WAJONG": {
+                    "type": "object",
+                    "properties": {
+                        "nettoBedrag": {
+                            "type": "number"
+                        },
+                        "periodeUitkering": {
+                            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                        }
+                    }
+                },
+                "WAO": {
+                    "type": "object",
+                    "properties": {
+                        "nettoBedrag": {
+                            "type": "number"
+                        },
+                        "periodeUitkering": {
+                            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                        }
+                    }
+                },
+                "WW": {
+                    "type": "object",
+                    "properties": {
+                        "nettoBedrag": {
+                            "type": "number"
+                        },
+                        "periodeUitkering": {
+                            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                        }
+                    }
+                },
+                "WIA": {
+                    "type": "object",
+                    "properties": {
+                        "nettoBedrag": {
+                            "type": "number"
+                        },
+                        "periodeUitkering": {
+                            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                        }
+                    }
+                },
+                "ANW": {
+                    "type": "object",
+                    "properties": {
+                        "nettoBedrag": {
+                            "type": "number"
+                        },
+                        "periodeUitkering": {
+                            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                        }
+                    }
+                },
+                "BIJSTAND": {
+                    "type": "object",
+                    "properties": {
+                        "nettoBedrag": {
+                            "type": "number"
+                        },
+                        "periodeUitkering": {
+                            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                        }
+                    }
+                },
+                "ZIEKTEWET": {
+                    "type": "object",
+                    "properties": {
+                        "nettoBedrag": {
+                            "type": "number"
+                        },
+                        "periodeUitkering": {
+                            "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                        }
+                    }
+                },
+                "toelichting": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "uitkeringTypes": {
+            "type": "string",
+            "enum": [
+                "AOW",
+                "WAJONG",
+                "WAO",
+                "WW",
+                "WIA",
+                "ANW",
+                "BIJSTAND",
+                "ZIEKTEWET"
+            ]
+        },
+        "inkomstenBuitenland": {
+            "heeftInkomstenBuitenland": {
+                "type": "boolean"
+            },
+            "nettoInkomstenBuitenland": {
+                "type": "number"
+            },
+            "periodeInkomstenBuitenland": {
+                "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+            },
+            "toelichting": {
+                "type": "string"
+            }
+        },
+        "onderhuur": {
+            "totaalBedrag": {
+                "type": "number"
+            },
+            "periodeUitkering": {
+                "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+            },
+            "toelichting": {
+                "type": "string"
+            }
+        },
+        "overig": {
+            "properties": {
+                "heeftInkomstenOverig": {
+                    "type": "string"
+                },
+                "totaalBedrag": {
+                    "type": "number"
+                },
+                "periodeUitkering": {
+                    "$ref": "/document/definition/reference/ontologie/inkomsten-v1.schema.json#/definitions/cdUitkeringsperiode"
+                },
+                "toelichting": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
+

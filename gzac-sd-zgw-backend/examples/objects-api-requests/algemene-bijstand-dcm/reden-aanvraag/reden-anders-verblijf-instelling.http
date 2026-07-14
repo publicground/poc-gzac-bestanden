@@ -1,0 +1,126 @@
+POST {{objects_api_url}}
+Authorization: Token {{token}}
+Content-Crs: EPSG:4326
+Content-Type: application/json
+
+{
+  "type": "{{objecttypes_api_url_alo}}",
+  "record": {
+    "index": 1,
+    "typeVersion": "{{objecttypes_version}}",
+    "data": {
+      "bsn": "999991322",
+      "data": {
+        "your-details": {
+          "naw": {
+            "grAdresgegevens": {
+              "plaats": "'s-Gravenhage",
+              "straat": "Herengracht",
+              "postcode": "2511 EG",
+              "huisletter": "",
+              "huisnummer": "1",
+              "toevoeging": ""
+            },
+            "grPersoongegevens": {
+              "Bsn": "999991322",
+              "voornaam": "Celeste",
+              "achternaam": "Avion",
+              "voorletters": "C.",
+              "voorvoegsels": "",
+              "geboortedatum": "1960-12-29"
+            }
+          }
+        },
+        "alo-ioaw": {
+          "grIoaw": {
+            "geenRechtMeerWw": "JA",
+            "geenRechtMeerWga": "JA",
+            "gedeeltelijkArbeidsongeschikt": "JA"
+          }
+        },
+        "alo-uitbetaling": {
+          "ibanAanWie": "NEE",
+          "ibanUitbetaling": "NL49ASNB0336096356",
+          "naamRekeninghouder": "C Avion"
+        },
+        "alo-uw-inkomsten": {
+          "heeftInkomsten": "GEEN_INKOMSTEN"
+        },
+        "alo-reden-aanvraag": {
+          "grRedenAnders": {
+            "hoeBetaaltKosten": "Ik krijg geld van familie",
+            "waaromNietGenoeg": "Ik kan tijdelijke niet werken wegens een ongeval"
+          },
+          "grIngangsdatum": {
+            "bijstandsuitkeringEerderStarten": "JA",
+            "welkZiekenhuis": "Den Haag Academisch Centrum",
+            "welkeredenlaat": "OPNAME_INSTELLING",
+            "wanneerInZiekenhuis": "2025-06-04",
+            "wanneerUitZiekenhuis": "2025-08-24"
+          },
+          "waaromBijstandsuitkering": "ANDERS"
+        },
+        "alo-uw-woonsituatie": {
+          "hoeWoontU": "VERBLIJF_ZORGINSTELLING",
+          "grZorginstelling": {
+            "naamZorginstelling": "De hoop",
+            "stadZorginstelling": "'s-Gravenhage",
+            "postcodeZorginstelling": "2541 JG",
+            "huisletterZorginstelling": "",
+            "huisnummerZorginstelling": 3,
+            "straatnaamZorginstelling": "1e Eeldepad",
+            "nummerToevoegingZorginstelling": ""
+          }
+        },
+        "alo-uw-beschikbaarheid": {
+          "grBeschikbaarheid": {
+            "onbetaald": "NEE",
+            "beschikbaarheid": 32
+          }
+        },
+        "alo-gezinssamenstelling": {
+          "partnerWoontBijU": "NEE",
+          "thuiswonendeKinderen": "NEE"
+        },
+        "alo-aanvullende-gegevens": {
+          "lieverPost": true,
+          "grWoonsituatie": {
+            "woonsituatie": "WAAR_IK_WOON"
+          },
+          "grNationaliteit": {
+            "nationaliteitBezit": "NEDERLANDSE_NATIONALITEIT"
+          },
+          "grContactAanvraag": {
+            "hulpAanvraag": "NEE"
+          },
+          "grNieuweContactgegevens": {
+            "geenEmail": true,
+            "geenTelefoon": true
+          }
+        },
+        "alo-bezittingen-en-schulden": {
+          "grRekeningen": {
+            "grLogicaBank": {
+              "hhgVoegRekeningToe": [
+                {
+                  "prive": "NL49ASNB0336096356",
+                  "hoeveelGeld": 1250,
+                  "typeRekening": "NEDERLANDSE_PRIVE_REKENING",
+                  "uploadAfschrift": []
+                }
+              ]
+            },
+            "geenBankrekening": "BEZIT_REKENING"
+          }
+        }
+      },
+      "type": "Verzoek AB DCM",
+      "attachments": [],
+      "language_code": "nl",
+      "submission_id": "f6a090c6-759c-4192-a99e-59c5c2a9adec",
+      "public_reference": "OF-{{$random.alphanumeric(8)}}"
+    },
+    "startAt": "2025-07-14",
+    "registrationAt": "2025-07-14"
+  }
+}

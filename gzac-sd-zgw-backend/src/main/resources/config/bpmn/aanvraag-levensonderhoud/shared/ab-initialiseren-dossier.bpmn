@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1qrvd0d" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.42.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_1w2exja">
+    <bpmn:participant id="ABInitialiserenDossierParticipant" name="AB: Initialiseren dossier" processRef="ab-initialiseren-dossier" />
+  </bpmn:collaboration>
+  <bpmn:process id="ab-initialiseren-dossier" name="AB: Initialiseren dossier" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0t9v0ia</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0t9v0ia" sourceRef="StartEvent_1" targetRef="ZetOntvangsdatumInDocumentTask" />
+    <bpmn:sequenceFlow id="NeeSequenceFlow" name="Nee" sourceRef="HandmatigAangemaaktGateway" targetRef="OpslaanOFReferentieInDocumentTask" />
+    <bpmn:sequenceFlow id="Flow_0mggdrb" sourceRef="ZetOntvangsdatumInDocumentTask" targetRef="OpslaanZaakindentificatieInDocumentTask" />
+    <bpmn:sequenceFlow id="JaSequenceFlow" name="Ja" sourceRef="HandmatigAangemaaktGateway" targetRef="VastleggenRoltypeTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${execution.getVariable("isDossierHandmatigAangemaakt") == true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0szi8sx" sourceRef="VastleggenRoltypeTask" targetRef="Gateway_0imskjq" />
+    <bpmn:sequenceFlow id="Flow_1y6wdbw" sourceRef="Gateway_0imskjq" targetRef="MapAanvraaggegevensTask" />
+    <bpmn:sequenceFlow id="Flow_0mwtho6" sourceRef="MapAanvraaggegevensTask" targetRef="KopierenGegevensVanuitAanvraagTask" />
+    <bpmn:sequenceFlow id="Flow_07d3i9j" sourceRef="KopierenGegevensVanuitAanvraagTask" targetRef="VerkorteAanvraagprocedureGateway" />
+    <bpmn:serviceTask id="ZetOntvangsdatumInDocumentTask" name="Zet ontvangsdatum in document" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVanuitAanvraag/startDatum&#34;, now().toInstant().toString())}">
+      <bpmn:incoming>Flow_0t9v0ia</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mggdrb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0wwhv5p" sourceRef="OpslaanZaakindentificatieInDocumentTask" targetRef="HandmatigAangemaaktGateway" />
+    <bpmn:serviceTask id="OpslaanZaakindentificatieInDocumentTask" name="Opslaan zaak-indentificatie in document" camunda:asyncAfter="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/openzaak/identificatie&#34;, zaakIdentificatie)}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="zaakIdentificatie">${valueResolverDelegateService.resolveValue(execution, "zaak:identificatie")}</camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0mggdrb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0wwhv5p</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_04bqa25" sourceRef="OpslaanOFReferentieInDocumentTask" targetRef="Gateway_0imskjq" />
+    <bpmn:exclusiveGateway id="HandmatigAangemaaktGateway" name="Handmatig aangemaakt?" default="NeeSequenceFlow">
+      <bpmn:incoming>Flow_0wwhv5p</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_0imskjq">
+      <bpmn:incoming>Flow_0szi8sx</bpmn:incoming>
+      <bpmn:incoming>Flow_04bqa25</bpmn:incoming>
+      <bpmn:outgoing>Flow_1y6wdbw</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="MapAanvraaggegevensTask" name="Map aanvraaggegevens" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>Flow_1y6wdbw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mwtho6</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="KopierenGegevensVanuitAanvraagTask" name="Kopieren gegevens vanuit aanvraag" camunda:asyncAfter="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/gegevensVaststelling&#34;, valueResolverDelegateService.resolveValue(execution, &#34;doc:/gegevensVanuitAanvraag&#34;))}">
+      <bpmn:incoming>Flow_0mwtho6</bpmn:incoming>
+      <bpmn:outgoing>Flow_07d3i9j</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="OpslaanOFReferentieInDocumentTask" name="Opslaan OF referentie in document" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:expression="${valueResolverDelegateService.handleValue(execution, &#34;doc:/publicReference&#34;, publicReference)}">
+      <bpmn:incoming>NeeSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_04bqa25</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="VastleggenRoltypeTask" name="vastleggen roltype" camunda:asyncAfter="true" camunda:expression="${true}">
+      <bpmn:incoming>JaSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_0szi8sx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="VerkorteAanvraagprocedureGateway" name="Verkorte aanvraagprocedure?" default="NeeSequenceFlow1">
+      <bpmn:incoming>Flow_07d3i9j</bpmn:incoming>
+      <bpmn:outgoing>NeeSequenceFlow1</bpmn:outgoing>
+      <bpmn:outgoing>JaSequenceFlow1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="NeeSequenceFlow1" name="Nee" sourceRef="VerkorteAanvraagprocedureGateway" targetRef="Event_0f8uun2" />
+    <bpmn:sequenceFlow id="JaSequenceFlow1" name="Ja" sourceRef="VerkorteAanvraagprocedureGateway" targetRef="SetTagVerkorteAanvraagprocedureTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${valueResolverDelegateService.resolveValue(execution, "doc:/gegevensVanuitAanvraag/redenAanvraag/aanvullendeGegevens/eerderInkomen/terugkeerder") == 'JA'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_0f8uun2">
+      <bpmn:incoming>NeeSequenceFlow1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_00janls" sourceRef="SetTagVerkorteAanvraagprocedureTask" targetRef="Event_1euw173" />
+    <bpmn:endEvent id="Event_1euw173">
+      <bpmn:incoming>Flow_00janls</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="SetTagVerkorteAanvraagprocedureTask" name="Set tag &#39;Verkorte aanvraagprocedure&#39;" camunda:asyncAfter="true" camunda:expression="${documentDelegateService.addCaseTag(execution,&#34;verkorte-aanvraagprocedure&#34;)}">
+      <bpmn:incoming>JaSequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>Flow_00janls</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1w2exja">
+      <bpmndi:BPMNShape id="Participant_1efhms6_di" bpmnElement="ABInitialiserenDossierParticipant" isHorizontal="true">
+        <dc:Bounds x="129" y="52" width="1681" height="338" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_041jp9z" bpmnElement="ZetOntvangsdatumInDocumentTask">
+        <dc:Bounds x="270" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_02srsw5" bpmnElement="OpslaanZaakindentificatieInDocumentTask">
+        <dc:Bounds x="450" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1oi2nuj" bpmnElement="HandmatigAangemaaktGateway" isMarkerVisible="true">
+        <dc:Bounds x="625" y="152" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="617" y="122" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0xck5fg" bpmnElement="Gateway_0imskjq" isMarkerVisible="true">
+        <dc:Bounds x="935" y="152" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_00xv5e0" bpmnElement="MapAanvraaggegevensTask">
+        <dc:Bounds x="1070" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_05fa2ae" bpmnElement="KopierenGegevensVanuitAanvraagTask">
+        <dc:Bounds x="1250" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_108dcw9" bpmnElement="OpslaanOFReferentieInDocumentTask">
+        <dc:Bounds x="760" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0au4pdk" bpmnElement="VastleggenRoltypeTask">
+        <dc:Bounds x="760" y="260" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0a7m2us_di" bpmnElement="VerkorteAanvraagprocedureGateway" isMarkerVisible="true">
+        <dc:Bounds x="1445" y="152" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1428" y="110" width="86" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0f8uun2_di" bpmnElement="Event_0f8uun2">
+        <dc:Bounds x="1702" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1euw173_di" bpmnElement="Event_1euw173">
+        <dc:Bounds x="1702" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wxydw8_di" bpmnElement="SetTagVerkorteAanvraagprocedureTask">
+        <dc:Bounds x="1560" y="250" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0t9v0ia_di" bpmnElement="Flow_0t9v0ia">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="270" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_1201jlp" bpmnElement="NeeSequenceFlow">
+        <di:waypoint x="675" y="177" />
+        <di:waypoint x="760" y="177" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="694" y="159" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mggdrb_di" bpmnElement="Flow_0mggdrb">
+        <di:waypoint x="370" y="177" />
+        <di:waypoint x="450" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1prwrxc_di" bpmnElement="JaSequenceFlow">
+        <di:waypoint x="650" y="202" />
+        <di:waypoint x="650" y="300" />
+        <di:waypoint x="760" y="300" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="634" y="223" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0szi8sx_di" bpmnElement="Flow_0szi8sx">
+        <di:waypoint x="860" y="300" />
+        <di:waypoint x="960" y="300" />
+        <di:waypoint x="960" y="202" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1y6wdbw_di" bpmnElement="Flow_1y6wdbw">
+        <di:waypoint x="985" y="177" />
+        <di:waypoint x="1070" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mwtho6_di" bpmnElement="Flow_0mwtho6">
+        <di:waypoint x="1170" y="177" />
+        <di:waypoint x="1250" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07d3i9j_di" bpmnElement="Flow_07d3i9j">
+        <di:waypoint x="1350" y="177" />
+        <di:waypoint x="1445" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wwhv5p_di" bpmnElement="Flow_0wwhv5p">
+        <di:waypoint x="550" y="177" />
+        <di:waypoint x="625" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04bqa25_di" bpmnElement="Flow_04bqa25">
+        <di:waypoint x="860" y="177" />
+        <di:waypoint x="935" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lwre5h_di" bpmnElement="NeeSequenceFlow1">
+        <di:waypoint x="1495" y="177" />
+        <di:waypoint x="1702" y="177" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1529" y="159" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1e3pap1_di" bpmnElement="JaSequenceFlow1">
+        <di:waypoint x="1470" y="202" />
+        <di:waypoint x="1470" y="290" />
+        <di:waypoint x="1560" y="290" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1479" y="243" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00janls_di" bpmnElement="Flow_00janls">
+        <di:waypoint x="1660" y="290" />
+        <di:waypoint x="1702" y="290" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

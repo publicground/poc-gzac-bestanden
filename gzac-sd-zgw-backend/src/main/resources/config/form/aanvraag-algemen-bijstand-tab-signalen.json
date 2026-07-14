@@ -1,0 +1,535 @@
+{
+    "display": "form",
+    "components": [
+        {
+            "key": "createdOn",
+            "type": "hidden",
+            "input": true,
+            "label": "createdOn",
+            "tableView": true,
+            "properties": {
+                "sourceKey": "case:createdOn"
+            },
+            "applyMaskOn": "change"
+        },
+        {
+            "key": "openzaak",
+            "type": "hidden",
+            "input": true,
+            "label": "openzaak",
+            "tableView": false
+        },
+        {
+            "key": "uiterlijkeEinddatumAfdoening",
+            "type": "hidden",
+            "input": true,
+            "label": "uiterlijkeEinddatumAfdoening",
+            "tableView": false,
+            "properties": {
+                "sourceKey": "zaak:uiterlijkeEinddatumAfdoening"
+            }
+        },
+        {
+            "key": "publicReference",
+            "type": "hidden",
+            "input": true,
+            "label": "Referentienummer",
+            "tableView": false
+        },
+        {
+            "key": "headerIdentificatie",
+            "type": "container",
+            "input": true,
+            "label": "headerIdentificatie",
+            "title": "header",
+            "tableView": false,
+            "components": [
+                {
+                    "key": "html",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "headerHTML",
+                    "content": "<section class=\"container-fluid p-0\">\n  <div class=\"bg-light border-bottom m-0 py-1 px-3\">\n    <div class=\"row align-items-center mx-0\">\n      <div class=\"col-12 px-1\">\n        <div style=\"font-size: 1.1rem; font-weight: normal; line-height: 1.4; margin: 0; white-space: nowrap; overflow: visible; text-overflow: clip;\" title=\"{{ data.openzaak?.identificatie || '-' }}\">{{{ data.openzaak?.identificatie || '-' }}}</div>\n      </div>\n    </div>\n  </div>\n\n  <!-- BODY MET REGELS -->\n  <div class=\"row align-items-center mx-0 gx-0 px-3 py-2\">\n\n    <!-- LINKERKOLOM -->\n    <div class=\"col-4 mb-0 p-0\">\n      <div class=\"row mb-1 mx-0\">\n        <div class=\"col-6 p-0\">Aanvrager:</div>\n        <div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.achternaam ? (data.gegevensVaststelling?.aanvrager?.achternaam + ((data.gegevensVaststelling?.aanvrager?.voorvoegsel || data.gegevensVaststelling?.aanvrager?.tussenvoegsel) ? ', ' + (data.gegevensVaststelling?.aanvrager?.voorvoegsel || data.gegevensVaststelling?.aanvrager?.tussenvoegsel) : '')) : '-' }}}</strong></div>\n      </div>\n      <div class=\"row mb-0 mx-0\">\n        <div class=\"col-6 p-0\">Partner:</div>\n        <div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.achternaam ? (data.gegevensVaststelling?.partner?.achternaam + ((data.gegevensVaststelling?.partner?.voorvoegsel || data.gegevensVaststelling?.partner?.tussenvoegsel) ? ', ' + (data.gegevensVaststelling?.partner?.voorvoegsel || data.gegevensVaststelling?.partner?.tussenvoegsel) : '')) : '-' }}}</strong></div>\n      </div>\n    </div>\n\n    <div class=\"col-4 mb-0 px-1\">\n      <div class=\"row mb-1 mx-0\"><div class=\"col-6\">Geb. datum:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.geboortedatum ? moment(data.gegevensVaststelling.aanvrager.geboortedatum).format('DD-MM-YYYY') : '-' }}}</strong></div></div>\n      <div class=\"row mb-0 mx-0\"><div class=\"col-6\">Geb. datum partner:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.geboortedatum ? moment(data.gegevensVaststelling.partner.geboortedatum).format('DD-MM-YYYY') : '-' }}}</strong></div></div>\n    </div>\n\n    <div class=\"col-4 mb-0 px-1\">\n      <div class=\"row mb-1 mx-0\"><div class=\"col-6\">BSN:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.aanvrager?.bsn || '-' }}}</strong></div></div>\n      <div class=\"row mb-0 mx-0\"><div class=\"col-6\">BSN partner:</div><div class=\"col-6\"><strong>{{{ data.gegevensVaststelling?.partner?.bsn || '-' }}}</strong></div></div>\n    </div>\n\n  </div>\n</section>",
+                    "tableView": false,
+                    "customClass": "no-border-around-formio-container",
+                    "refreshOnChange": false
+                }
+            ],
+            "customClass": "border-around-formio-container",
+            "validateWhenHidden": false
+        },
+        {
+            "key": "gegevensVaststelling",
+            "type": "hidden",
+            "input": true,
+            "label": "gegevensVaststelling",
+            "tableView": false
+        },
+        {
+            "key": "besluiten",
+            "type": "hidden",
+            "input": true,
+            "label": "besluiten",
+            "tableView": false
+        },
+        {
+            "key": "persoonAanvrager",
+            "type": "hidden",
+            "input": true,
+            "label": "persoonAanvrager",
+            "tableView": false,
+            "customDefaultValue": "value = data.gegevensVaststelling?.aanvrager ? data.gegevensVaststelling.aanvrager : null;"
+        },
+        {
+            "key": "persoonPartner",
+            "type": "hidden",
+            "input": true,
+            "label": "persoonPartner",
+            "tableView": false,
+            "customDefaultValue": "value = data.gegevensVaststelling?.partner ? data.gegevensVaststelling?.partner : null;"
+        },
+        {
+            "key": "toonAlles",
+            "type": "checkbox",
+            "input": true,
+            "label": "Toon alle mogelijke onderwerpen",
+            "tableView": false,
+            "defaultValue": false
+        },
+        {
+            "key": "containerVoorliggendeVoorzieningAanvragerNietVastgesteld",
+            "type": "container",
+            "input": true,
+            "label": "container",
+            "tableView": false,
+            "customClass": "border-around-formio-container",
+            "components": [
+                {
+                    "key": "containerVoorliggendeVoorzieningAanvragerNietVastgesteldHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<h4>Voorliggende voorzieningen - {{{ data?.persoonAanvrager?.voorletters }}} {{{ data?.persoonAanvrager?.voorvoegsel }}} {{{ data?.persoonAanvrager?.achternaam }}} <span style=\"float: right; font-size: small\">Nog vast te stellen</span</h4>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-around-formio-container",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "voorliggendeVoorzieningAanvragerNietVastgesteldBody",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<section>Er zijn nog geen voorliggende voorzieningen vastgesteld</section>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-around-formio-container",
+                    "refreshOnChange": false
+                }
+            ],
+            "collapsible": false,
+            "customConditional": "show = !data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs444VoorliggendeVoorzieningen?.voorliggendeVoorzieningenVastgesteld"
+        },
+        {
+            "key": "containerVoorliggendeVoorzieningAanvragerVastgesteld",
+            "type": "container",
+            "input": true,
+            "label": "container",
+            "tableView": false,
+            "components": [
+                {
+                    "key": "containerVoorliggendeVoorzieningAanvragerVastgesteldHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<h4>Voorliggende voorzieningen - {{{ data?.persoonAanvrager?.voorletters }}} {{{ data?.persoonAanvrager?.voorvoegsel }}} {{{ data?.persoonAanvrager?.achternaam }}} <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs444VoorliggendeVoorzieningen?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs444VoorliggendeVoorzieningen?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs444VoorliggendeVoorzieningen?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs444VoorliggendeVoorzieningen?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span</h4>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-bottom-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "voorliggendeVoorzieningAanvragerOpsomming",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<section>Gecontroleerde voorzieningen: {{{ data?.besluiten[0]?.dienst[0]?.aanvrager?.voorliggendeVoorzieningen.filter( v => v.geimplementeerd ).map( v => v.voorziening ).join(', ') }}}  </section>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "extra-padding-html-element border-top-0 border-bottom-0 no-border-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "voorliggendeVoorzieningAanvragerVastgesteldTableHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<dl class=\"row mb-0 pt-1 pb-1\">\n        <dt class=\"col-1\">&nbsp;</dt>\n        <dt class=\"col-1\">Signaal</dt>\n        <dt class=\"col-2\">Voorziening</dt>\n        <dt class=\"col-8\">Omschrijving</dt>\n    </dl>\n",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "extra-padding-html-element border-bottom-0 no-border-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "voorzieningenAanvrager",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "customClass": "bbz-inkomsten-tab-data-grid no-margin border-top-0 extra-padding-html-element",
+                    "components": [
+                        {
+                            "key": "voorliggendeVoorzieningAanvragerVastgesteldTableRow",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "zaakInformatieHTML",
+                            "content": "<section style=\"border-top: 1px solid rgba(0, 0, 0, 0.125);\">\n    <dl class=\"row mb-0\">\n        <dd class=\"col-1\">{{ row?.vanToepassing ? '<span style=\"color: red;\">Ja</span>' : 'Nee' }}</dd>\n        <dd class=\"col-1\">{{{ row?.signalering ? 'Ja' : 'Nee' }}}</dd>\n        <dd class=\"col-2\">{{{ row?.voorziening }}}</dd>\n        <dd class=\"col-8\">{{{ row?.mogelijkRecht ? _.capitalize(row?.mogelijkRecht) : '' }}}: {{{ row?.verantwoordingVaststelling }}}</dd>\n    </dl>\n {{ row.toelichting ? '<dl  class=\"row mb-0\"><dd   class=\"col-1\">Toelichting</dd><dd class=\"col-10\">' + row.toelichting + '</dd></dl>' : '' }} </section>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "customConditional": "show = row.vanToepassing || row.signalering || row.toelichting || data.toonAlles;",
+                            "refreshOnChange": false
+                        }
+                    ],
+                    "clearOnHide": false,
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom",
+                    "customDefaultValue": "if (data.besluiten?.length > 0) {\n  if (data.besluiten[0].dienst?.length > 0 && data.besluiten[0].dienst[0]?.aanvrager) {\n    value = data.besluiten[0].dienst[0].aanvrager.voorliggendeVoorzieningen.sort((a, b) => b.vanToepassing - a.vanToepassing || b.signalering - a.signalering  || (!a.toelichting || a.toelichting.length === 0 ) - (!b.toelichting || b.toelichting.length === 0 ) || b.geimplementeerd - a.geimplementeerd ) }\n}",
+                    "validateWhenHidden": false,
+                    "disableAddingRemovingRows": true
+                }
+            ],
+            "collapsible": false,
+            "customConditional": "show = data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs444VoorliggendeVoorzieningen?.voorliggendeVoorzieningenVastgesteld"
+        },
+        {
+            "key": "containerUitsluitingsgrondenAanvragerNietVastgesteld",
+            "type": "container",
+            "input": true,
+            "label": "container",
+            "tableView": false,
+            "customClass": "border-around-formio-container",
+            "components": [
+                {
+                    "key": "containerUitsluitingsgrondenAanvragerNietVastgesteldHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<h4>Uitsluitingsgronden - {{{ data?.persoonAanvrager?.voorletters }}} {{{ data?.persoonAanvrager?.voorvoegsel }}} {{{ data?.persoonAanvrager?.achternaam }}} <span style=\"float: right; font-size: small\">Nog vast te stellen</span</h4>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-around-formio-container",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "containerUitsluitingsgrondenAanvragerNietVastgesteldBody",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<section>Er zijn nog geen uitsluitingsgronden vastgesteld</section>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-around-formio-container",
+                    "refreshOnChange": false
+                }
+            ],
+            "collapsible": false,
+            "customConditional": "show = !data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs218Uitsluitingsgronden?.uitsluitingsgrondenVastgesteld"
+        },
+        {
+            "key": "containerUitsluitingsgrondenAanvragerVastgesteld",
+            "type": "container",
+            "input": true,
+            "label": "container",
+            "tableView": false,
+            "components": [
+                {
+                    "key": "containerUitsluitingsgrondenAanvragerVastgesteldHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<h4>Uitsluitingsgronden - {{{ data?.persoonAanvrager?.voorletters }}} {{{ data?.persoonAanvrager?.voorvoegsel }}} {{{ data?.persoonAanvrager?.achternaam }}} <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs218Uitsluitingsgronden?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs218Uitsluitingsgronden?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs218Uitsluitingsgronden?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs218Uitsluitingsgronden?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span</h4>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-bottom-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "uitsluitingsgrondenAanvragerOpsomming",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<section>Gecontroleerde uitslutingsgronden: {{{ data?.besluiten[0]?.dienst[0]?.aanvrager?.uitsluitingsgronden.filter( grond => grond.geimplementeerd ).map( grond => grond.uitsluitingsgrond ).join(', ') }}}  </section>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "extra-padding-html-element border-top-0 border-bottom-0 no-border-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "uitsluitingsgrondenAanvragerTableHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<dl class=\"row mb-0 pt-1 pb-1\">\n        <dt class=\"col-1\">&nbsp;</dt>\n        <dt class=\"col-1\">Signaal</dt>\n        <dt class=\"col-2\">Uitsluitingsgrond</dt>\n        <dt class=\"col-8\">Omschrijving</dt>\n    </dl>\n",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "extra-padding-html-element border-bottom-0 no-border-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "uitsluitingsgrondenAanvrager",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "components": [
+                        {
+                            "key": "uitsluitingsgrondenAanvragerTableRow",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "zaakInformatieHTML",
+                            "content": "<section style=\"border-top: 1px solid rgba(0, 0, 0, 0.125);\">\n    <dl class=\"row mb-0\">\n        <dd class=\"col-1\">{{ row?.vanToepassing ? '<span style=\"color: red;\">Ja</span>' : 'Nee' }}</dd>\n        <dd class=\"col-1\">{{{ row?.signalering ? 'Ja' : 'Nee' }}}</dd>\n        <dd class=\"col-2\">{{{ row?.uitsluitingsgrond }}}</dd>\n        <dd class=\"col-8\">{{{ row?.uitsluiting ? _.capitalize(row?.uitsluiting) : '' }}}: {{{ row?.verantwoordingVaststelling }}}</dd>\n    </dl>\n  {{ row.toelichting ? '<dl  class=\"row mb-0\"><dd   class=\"col-1\">Toelichting</dd><dd class=\"col-10\">' + row.toelichting + '</dd></dl>' : '' }} </section>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "refreshOnChange": false,
+                            "customConditional": "show = row.vanToepassing || row.signalering || row.toelichting || data.toonAlles;"
+                        }
+                    ],
+                    "clearOnHide": false,
+                    "customClass": "bbz-inkomsten-tab-data-grid no-margin border-top-0 extra-padding-html-element",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom",
+                    "customDefaultValue": "if (data.besluiten?.length > 0) {\n  if (data.besluiten[0].dienst?.length > 0 && data.besluiten[0].dienst[0]?.aanvrager) {\n    value = data.besluiten[0].dienst[0].aanvrager.uitsluitingsgronden.sort((a, b) =>  b.vanToepassing - a.vanToepassing || b.signalering - a.signalering || (!a.toelichting || a.toelichting.length === 0 ) - (!b.toelichting || b.toelichting.length === 0 ) || b.geimplementeerd - a.geimplementeerd ) }\n   }\n",
+                    "disableAddingRemovingRows": true
+                }
+            ],
+            "collapsible": false,
+            "customConditional": "show = data.gegevensVaststelling?.additioneleVeldenAanvrager?.bs218Uitsluitingsgronden?.uitsluitingsgrondenVastgesteld"
+        },
+        {
+            "key": "containerVoorliggendeVoorzieningPartnerNietVastgesteld",
+            "type": "container",
+            "input": true,
+            "label": "container",
+            "tableView": false,
+            "customClass": "border-around-formio-container",
+            "components": [
+                {
+                    "key": "containerVoorliggendeVoorzieningPartnerNietVastgesteldHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<h4>Voorliggende voorzieningen - {{{ data?.persoonPartner?.voorletters }}} {{{ data?.persoonPartner?.voorvoegsel }}} {{{ data?.persoonPartner?.achternaam }}} <span style=\"float: right; font-size: small\">Nog vast te stellen</span</h4>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-around-formio-container",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "voorliggendeVoorzieningPartnerNietVastgesteldBody",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<section>Er zijn nog geen voorliggende voorzieningen vastgesteld</section>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-around-formio-container",
+                    "refreshOnChange": false
+                }
+            ],
+            "collapsible": false,
+            "customConditional": "show = data.gegevensVaststelling.aanvrager?.heeftPartner === 'JA' && !data.gegevensVaststelling?.additioneleVeldenPartner?.bs444VoorliggendeVoorzieningen?.voorliggendeVoorzieningenVastgesteld"
+        },
+        {
+            "key": "containerVoorliggendeVoorzieningPartnerVastgesteld",
+            "type": "container",
+            "input": true,
+            "label": "container",
+            "tableView": false,
+            "components": [
+                {
+                    "key": "containerVoorliggendeVoorzieningPartnerVastgesteldHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<h4>Voorliggende voorzieningen - {{{ data?.persoonPartner?.voorletters }}} {{{ data?.persoonPartner?.voorvoegsel }}} {{{ data?.persoonPartner?.achternaam }}} <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenPartner?.bs444VoorliggendeVoorzieningen?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenPartner?.bs444VoorliggendeVoorzieningen?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenPartner?.bs444VoorliggendeVoorzieningen?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenPartner?.bs444VoorliggendeVoorzieningen?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span</h4>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-bottom-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "voorliggendeVoorzieningPartnerOpsomming",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<section>Gecontroleerde voorzieningen: {{{ data?.besluiten[0]?.dienst[0]?.partner?.voorliggendeVoorzieningen.filter( v => v.geimplementeerd ).map( v => v.voorziening ).join(', ') }}}  </section>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "extra-padding-html-element border-top-0 border-bottom-0 no-border-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "voorliggendeVoorzieningPartnerVastgesteldTableHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<dl class=\"row mb-0 pt-1 pb-1\n\">\n        <dt class=\"col-1\">&nbsp;</dt>\n        <dt class=\"col-1\">Signaal</dt>\n        <dt class=\"col-2\">Voorziening</dt>\n        <dt class=\"col-8\">Omschrijving</dt>\n    </dl>\n",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "extra-padding-html-element border-bottom-0 no-border-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "voorzieningenPartner",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "components": [
+                        {
+                            "key": "voorliggendeVoorzieningPartnerVastgesteldTableRow",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "zaakInformatieHTML",
+                            "content": "<section style=\"border-top: 1px solid rgba(0, 0, 0, 0.125);\">\n    <dl class=\"row mb-0\">\n        <dd class=\"col-1\">{{ row?.vanToepassing ? '<span style=\"color: red;\">Ja</span>' : 'Nee' }}</dd>\n        <dd class=\"col-1\">{{{ row?.signalering ? 'Ja' : 'Nee' }}}</dd>\n        <dd class=\"col-2\">{{{ row?.voorziening }}}</dd>\n        <dd class=\"col-8\">{{{ row?.mogelijkRecht ? _.capitalize(row?.mogelijkRecht) : '' }}}: {{{ row?.verantwoordingVaststelling }}}</dd>\n    </dl>\n {{ row.toelichting ? '<dl  class=\"row mb-0\"><dd   class=\"col-1\">Toelichting</dd><dd class=\"col-10\">' + row.toelichting + '</dd></dl>' : '' }} </section>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "refreshOnChange": false,
+                            "customConditional": "show = row.vanToepassing || row.signalering || row.toelichting || data.toonAlles;"
+                        }
+                    ],
+                    "clearOnHide": false,
+                    "customClass": "bbz-inkomsten-tab-data-grid no-margin border-top-0 extra-padding-html-element",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom",
+                    "customDefaultValue": "if (data.besluiten?.length > 0) {\n  if (data.besluiten[0].dienst?.length > 0 && data.besluiten[0].dienst[0]?.partner) {\n    value = data.besluiten[0].dienst[0].partner.voorliggendeVoorzieningen.sort((a, b) => b.vanToepassing - a.vanToepassing || b.signalering - a.signalering  || (!a.toelichting || a.toelichting.length === 0 ) - (!b.toelichting || b.toelichting.length === 0 ) || b.geimplementeerd - a.geimplementeerd ) }\n }\n",
+                    "validateWhenHidden": false,
+                    "disableAddingRemovingRows": true
+                }
+            ],
+            "collapsible": false,
+            "customConditional": "show = data.gegevensVaststelling.aanvrager?.heeftPartner === 'JA' && data.gegevensVaststelling?.additioneleVeldenPartner?.bs444VoorliggendeVoorzieningen?.voorliggendeVoorzieningenVastgesteld"
+        },
+        {
+            "key": "containerUitsluitingsgrondenPartnerNietVastgesteld",
+            "type": "container",
+            "input": true,
+            "label": "container",
+            "tableView": false,
+            "customClass": "border-around-formio-container",
+            "components": [
+                {
+                    "key": "containerUitsluitingsgrondenPartnerNietVastgesteldHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<h4>Uitsluitingsgronden - {{{ data?.persoonPartner?.voorletters }}} {{{ data?.persoonPartner?.voorvoegsel }}} {{{ data?.persoonPartner?.achternaam }}} <span style=\"float: right; font-size: small\">Nog vast te stellen</span</h4>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-around-formio-container",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "containerUitsluitingsgrondenPartnerNietVastgesteldBody",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<section>Er zijn nog geen uitsluitingsgronden vastgesteld</section>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-around-formio-container",
+                    "refreshOnChange": false
+                }
+            ],
+            "collapsible": false,
+            "customConditional": "show = data.gegevensVaststelling.aanvrager?.heeftPartner === 'JA' && !data.gegevensVaststelling?.additioneleVeldenPartner?.bs218Uitsluitingsgronden?.uitsluitingsgrondenVastgesteld"
+        },
+        {
+            "key": "containerUitsluitingsgrondenPartnerVastgesteld",
+            "type": "container",
+            "input": true,
+            "label": "container",
+            "tableView": false,
+            "components": [
+                {
+                    "key": "containerUitsluitingsgrondenPartnerVastgesteldHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<h4>Uitsluitingsgronden - {{{ data?.persoonPartner?.voorletters }}} {{{ data?.persoonPartner?.voorvoegsel }}} {{{ data?.persoonPartner?.achternaam }}} <span style=\"float: right; font-size: small\">{{{ data.gegevensVaststelling?.additioneleVeldenPartner?.bs218Uitsluitingsgronden?.isHandmatigBeoordeeld === true ? 'Handmatig' : data.gegevensVaststelling?.additioneleVeldenPartner?.bs218Uitsluitingsgronden?.isHandmatigBeoordeeld === false ? 'Automatisch' : 'Nog vast te stellen' }}} {{{ data.gegevensVaststelling?.additioneleVeldenPartner?.bs218Uitsluitingsgronden?.datumVastgesteld ? moment(data.gegevensVaststelling?.additioneleVeldenPartner?.bs218Uitsluitingsgronden?.datumVastgesteld).format('DD-MM-YYYY') : ''  }}}</span</h4>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "no-border-bottom-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "uitsluitingsgrondenPartnerOpsomming",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<section>Gecontroleerde uitslutingsgronden: {{{ data?.besluiten[0]?.dienst[0]?.partner?.uitsluitingsgronden.filter( grond => grond.geimplementeerd ).map( grond => grond.uitsluitingsgrond ).join(', ') }}}  </section>",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "extra-padding-html-element border-top-0 border-bottom-0 no-border-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "uitsluitingsgrondenPartnerTableHeader",
+                    "type": "htmlelement",
+                    "input": false,
+                    "label": "zaakInformatieHTML",
+                    "content": "<dl class=\"row mb-0 pt-1 pb-1\">\n        <dt class=\"col-1\">&nbsp;</dt>\n        <dt class=\"col-1\">Signaal</dt>\n        <dt class=\"col-2\">Uitsluitingsgrond</dt>\n        <dt class=\"col-8\">Omschrijving</dt>\n    </dl>\n",
+                    "hideLabel": true,
+                    "tableView": false,
+                    "customClass": "extra-padding-html-element border-bottom-0 no-border-radius",
+                    "refreshOnChange": false
+                },
+                {
+                    "key": "uitsluitingsgrondenPartner",
+                    "type": "datagrid",
+                    "input": true,
+                    "label": "Data Grid",
+                    "reorder": false,
+                    "hideLabel": true,
+                    "initEmpty": false,
+                    "tableView": false,
+                    "components": [
+                        {
+                            "key": "uitsluitingsgrondenPartnerTableRow",
+                            "type": "htmlelement",
+                            "input": false,
+                            "label": "zaakInformatieHTML",
+                            "content": "<section style=\"border-top: 1px solid rgba(0, 0, 0, 0.125);\">\n    <dl class=\"row mb-0\">\n        <dd class=\"col-1\">{{ row?.vanToepassing ? '<span style=\"color: red;\">Ja</span>' : 'Nee' }}</dd>\n        <dd class=\"col-1\">{{{ row?.signalering ? 'Ja' : 'Nee' }}}</dd>\n        <dd class=\"col-2\">{{{ row?.uitsluitingsgrond }}}</dd>\n        <dd class=\"col-8\">{{{ row?.uitsluiting ? _.capitalize(row?.uitsluiting) : '' }}}: {{{ row?.verantwoordingVaststelling }}}</dd>\n    </dl>\n  {{ row.toelichting ? '<dl  class=\"row mb-0\"><dd   class=\"col-1\">Toelichting</dd><dd class=\"col-10\">' + row.toelichting + '</dd></dl>' : '' }} </section>",
+                            "hideLabel": true,
+                            "tableView": false,
+                            "refreshOnChange": false,
+                            "customConditional": "show = row.vanToepassing || row.signalering || row.toelichting || data.toonAlles;"
+                        }
+                    ],
+                    "clearOnHide": false,
+                    "customClass": "bbz-inkomsten-tab-data-grid no-margin border-top-0 extra-padding-html-element",
+                    "layoutFixed": false,
+                    "enableRowGroups": false,
+                    "addAnotherPosition": "bottom",
+                    "customDefaultValue": "if (data.besluiten?.length > 0) {\n  if (data.besluiten[0].dienst?.length > 0 && data.besluiten[0].dienst[0]?.partner) {\n    value = data.besluiten[0].dienst[0].partner.uitsluitingsgronden.sort((a, b) =>  b.vanToepassing - a.vanToepassing || b.signalering - a.signalering || (!a.toelichting || a.toelichting.length === 0 ) - (!b.toelichting || b.toelichting.length === 0 ) || b.geimplementeerd - a.geimplementeerd ) }\n   }\n",
+                    "validateWhenHidden": false,
+                    "disableAddingRemovingRows": true
+                }
+            ],
+            "collapsible": false,
+            "customConditional": "show = data.gegevensVaststelling.aanvrager?.heeftPartner === 'JA' && data.gegevensVaststelling?.additioneleVeldenPartner?.bs218Uitsluitingsgronden?.uitsluitingsgrondenVastgesteld"
+        }
+    ]
+}
