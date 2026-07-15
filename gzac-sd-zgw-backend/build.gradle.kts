@@ -127,7 +127,7 @@ dependencies {
     implementation("org.springframework:spring-webflux:6.1.14")
 
     // Postgresql
-    implementation("org.postgresql:postgresql:42.7.3")
+    implementation("org.postgresql:postgresql:42.7.11")
 
     // Kotlin
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:${kotlinCoroutinesVersion}")
