@@ -1,0 +1,21 @@
+[
+    {
+        "id": "e2116590-1dbe-43b8-ad26-1f5e0398b6e0",
+        "title": "Open Notificaties (Autodeployed)",
+        "pluginDefinitionKey": "notificatiesapiauthentication",
+        "properties": {
+            "clientId": "${AUTODEPLOYMENT_PLUGINCONFIG_OPENNOTIFICATIES_AUTHENTICATION_CLIENTID}",
+            "clientSecret": "${AUTODEPLOYMENT_PLUGINCONFIG_OPENNOTIFICATIES_AUTHENTICATION_CLIENTSECRET}"
+        }
+    },
+    {
+        "id": "020e6ca3-1c15-4496-a4cf-67bfaa36332f",
+        "title": "Notificaties API (Autodeployed)",
+        "pluginDefinitionKey": "notificatiesapi",
+        "properties": {
+            "url": "${AUTODEPLOYMENT_PLUGINCONFIG_NOTIFICATIES-API_URL}",
+            "callbackUrl": "${AUTODEPLOYMENT_PLUGINCONFIG_NOTIFICATIES-API_CALLBACK-URL}",
+            "authenticationPluginConfiguration": "e2116590-1dbe-43b8-ad26-1f5e0398b6e0"
+        }
+    }
+]

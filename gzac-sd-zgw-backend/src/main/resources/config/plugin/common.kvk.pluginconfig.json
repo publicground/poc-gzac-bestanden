@@ -1,0 +1,17 @@
+[
+    {
+        "id": "118489d2-9fdd-4d26-a36b-09b52bf28489",
+        "title": "Haalcentraal Handelsregister (Autodeployed)",
+        "properties": {
+            "handelsregisterBaseUrl": "${AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_BASEURL}",
+            "connectionTimeout": 10000,
+            "responseTimeout": 10000,
+            "tokenServiceUrl": "${AUTODEPLOYMENT_PLUGINCONFIG_TOKENSERVICE_URL}",
+            "keystorePath": "${AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_KEYSTOREPATH}",
+            "keystoreSecret": "${AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_KEYSTORESECRET}",
+            "truststorePath": "${AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_TRUSTSTOREPATH}",
+            "truststoreSecret": "${AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_TRUSTSTORESECRET}"
+        },
+        "pluginDefinitionKey": "haalcentraalkvkhandelsregister"
+    }
+]

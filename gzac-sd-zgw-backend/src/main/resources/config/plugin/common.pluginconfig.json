@@ -1,39 +1,5 @@
 [
     {
-        "id": "e2116590-1dbe-43b8-ad26-1f5e0398b6e0",
-        "title": "Open Notificaties (Autodeployed)",
-        "pluginDefinitionKey": "notificatiesapiauthentication",
-        "properties": {
-            "clientId": "${AUTODEPLOYMENT_PLUGINCONFIG_OPENNOTIFICATIES_AUTHENTICATION_CLIENTID}",
-            "clientSecret": "${AUTODEPLOYMENT_PLUGINCONFIG_OPENNOTIFICATIES_AUTHENTICATION_CLIENTSECRET}"
-        }
-    },
-    {
-        "id": "020e6ca3-1c15-4496-a4cf-67bfaa36332f",
-        "title": "Notificaties API (Autodeployed)",
-        "pluginDefinitionKey": "notificatiesapi",
-        "properties": {
-            "url": "${AUTODEPLOYMENT_PLUGINCONFIG_NOTIFICATIES-API_URL}",
-            "callbackUrl": "${AUTODEPLOYMENT_PLUGINCONFIG_NOTIFICATIES-API_CALLBACK-URL}",
-            "authenticationPluginConfiguration": "e2116590-1dbe-43b8-ad26-1f5e0398b6e0"
-        }
-    },
-    {
-        "id": "118489d2-9fdd-4d26-a36b-09b52bf28489",
-        "title": "Haalcentraal Handelsregister (Autodeployed)",
-        "properties": {
-            "handelsregisterBaseUrl": "${AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_BASEURL}",
-            "connectionTimeout": 10000,
-            "responseTimeout": 10000,
-            "tokenServiceUrl": "${AUTODEPLOYMENT_PLUGINCONFIG_TOKENSERVICE_URL}",
-            "keystorePath": "${AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_KEYSTOREPATH}",
-            "keystoreSecret": "${AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_KEYSTORESECRET}",
-            "truststorePath": "${AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_TRUSTSTOREPATH}",
-            "truststoreSecret": "${AUTODEPLOYMENT_PLUGINCONFIG_HANDELSREGISTER_TRUSTSTORESECRET}"
-        },
-        "pluginDefinitionKey": "haalcentraalkvkhandelsregister"
-    },
-    {
         "id": "045071a1-a1d2-4d07-a735-5219406acea4",
         "title": "Custom Object API (Autodeployed)",
         "properties": {},
@@ -52,33 +18,6 @@
             "baseUrl": "${AUTODEPLOYMENT_PLUGINCONFIG_WORDPRESS_MAIL_BASE_URL}"
         },
         "pluginDefinitionKey": "wordpressmail"
-    },
-    {
-        "id": "dddc0b4d-ae0b-4b9e-8085-d95db9e1eb4c",
-        "title": "Open Zaak (Autodeployed)",
-        "properties": {
-            "clientId": "${AUTODEPLOYMENT_PLUGINCONFIG_OPENZAAK-AUTHENTICATION_CLIENTID}",
-            "clientSecret": "${AUTODEPLOYMENT_PLUGINCONFIG_OPENZAAK-AUTHENTICATION_CLIENTSECRET}"
-        },
-        "pluginDefinitionKey": "openzaak"
-    },
-    {
-        "id": "ceea60b6-c475-4f80-9ec2-aec54f719b24",
-        "title": "Catalogi API (Autodeployed)",
-        "properties": {
-            "url": "${AUTODEPLOYMENT_PLUGINCONFIG_CATALOGI-API_URL}",
-            "authenticationPluginConfiguration": "dddc0b4d-ae0b-4b9e-8085-d95db9e1eb4c"
-        },
-        "pluginDefinitionKey": "catalogiapi"
-    },
-    {
-        "id": "9221f56d-4137-4d84-aabb-c8662c54d3e7",
-        "title": "Zaken API (Autodeployed)",
-        "properties": {
-            "url": "${AUTODEPLOYMENT_PLUGINCONFIG_ZAKEN-API_URL}",
-            "authenticationPluginConfiguration": "dddc0b4d-ae0b-4b9e-8085-d95db9e1eb4c"
-        },
-        "pluginDefinitionKey": "zakenapi"
     },
     {
         "id": "37bc4316-d4b3-4ba2-8d80-8ded0c283224",
@@ -112,36 +51,6 @@
         "properties": {
             "url": "${AUTODEPLOYMENT_PLUGINCONFIG_OBJECTTYPES-API_URL}",
             "authenticationPluginConfiguration": "55c0d693-954f-44df-a6b4-d1d0eef72948"
-        }
-    },
-    {
-        "id": "bc095125-b9a9-435e-8372-0bf92f8be9be",
-        "title": "Documenten API (Autodeployed)",
-        "pluginDefinitionKey": "documentenapi",
-        "properties": {
-            "url": "${AUTODEPLOYMENT_PLUGINCONFIG_DOCUMENTEN_API_URL}",
-            "bronorganisatie": "${AUTODEPLOYMENT_PLUGINCONFIG_BRONORGANISATIE_RSIN}",
-            "authenticationPluginConfiguration": "dddc0b4d-ae0b-4b9e-8085-d95db9e1eb4c",
-            "apiVersion": "${AUTODEPLOYMENT_PLUGINCONFIG_DOCUMENTEN_API_VERSION}"
-        }
-    },
-    {
-        "id": "e0a8f9ab-0b5a-4b88-b505-20d204f57036",
-        "title": "Custom Documenten Api (Autodeployed)",
-        "pluginDefinitionKey": "customdocumentenapi",
-        "properties": {
-            "url": "${AUTODEPLOYMENT_PLUGINCONFIG_DOCUMENTEN_API_URL}",
-            "authenticationPluginConfiguration": "dddc0b4d-ae0b-4b9e-8085-d95db9e1eb4c"
-        }
-    },
-    {
-        "id": "ae28c811-fd8b-4e76-b2f7-5a635e623243",
-        "title": "Besluiten API (Autodeployed)",
-        "pluginDefinitionKey": "besluitenapi",
-        "properties": {
-            "rsin": "${AUTODEPLOYMENT_PLUGINCONFIG_BRONORGANISATIE_RSIN}",
-            "url": "${AUTODEPLOYMENT_PLUGINCONFIG_BESLUITEN_API_URL}",
-            "authenticationPluginConfiguration": "dddc0b4d-ae0b-4b9e-8085-d95db9e1eb4c"
         }
     },
     {
