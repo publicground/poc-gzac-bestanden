@@ -1,57 +1,11 @@
 [
     {
-        "id": "045071a1-a1d2-4d07-a735-5219406acea4",
-        "title": "Custom Object API (Autodeployed)",
-        "properties": {},
-        "pluginDefinitionKey": "custom-objecten-api-plugin"
-    },
-    {
-        "id": "9d313a99-60de-489f-b003-59239e700494",
-        "title": "Custom Zaken API (Autodeployed)",
-        "properties": {},
-        "pluginDefinitionKey": "customzakenapi"
-    },
-    {
         "id": "499329e3-0e84-41b9-9fbf-803ea283e0ee",
         "title": "Wordpress Mail (Autodeployed)",
         "properties": {
             "baseUrl": "${AUTODEPLOYMENT_PLUGINCONFIG_WORDPRESS_MAIL_BASE_URL}"
         },
         "pluginDefinitionKey": "wordpressmail"
-    },
-    {
-        "id": "37bc4316-d4b3-4ba2-8d80-8ded0c283224",
-        "title": "Objects API Authentication (Autodeployed)",
-        "pluginDefinitionKey": "objecttokenauthentication",
-        "properties": {
-            "token": "${AUTODEPLOYMENT_PLUGINCONFIG_OBJECTS-API-AUTHENTICATION_TOKEN}"
-        }
-    },
-    {
-        "id": "55c0d693-954f-44df-a6b4-d1d0eef72948",
-        "title": "Objecttypes API Authentication (Autodeployed)",
-        "pluginDefinitionKey": "objecttokenauthentication",
-        "properties": {
-            "token": "${AUTODEPLOYMENT_PLUGINCONFIG_OBJECTTYPES-API-AUTHENTICATION_TOKEN}"
-        }
-    },
-    {
-        "id": "a1a5e464-92db-41fc-9ab9-da663dd18471",
-        "title": "Objects API (Autodeployed)",
-        "pluginDefinitionKey": "objectenapi",
-        "properties": {
-            "url": "${AUTODEPLOYMENT_PLUGINCONFIG_OBJECTS-API_URL}",
-            "authenticationPluginConfiguration": "37bc4316-d4b3-4ba2-8d80-8ded0c283224"
-        }
-    },
-    {
-        "id": "bc109d5e-0388-4637-bcfa-b454f402bef8",
-        "title": "Objecttypes API (Autodeployed)",
-        "pluginDefinitionKey": "objecttypenapi",
-        "properties": {
-            "url": "${AUTODEPLOYMENT_PLUGINCONFIG_OBJECTTYPES-API_URL}",
-            "authenticationPluginConfiguration": "55c0d693-954f-44df-a6b4-d1d0eef72948"
-        }
     },
     {
         "id": "bc6f0a16-a3dc-4142-ad11-80fd5d33bb85",
@@ -62,12 +16,6 @@
             "username": "${AUTODEPLOYMENT_PLUGINCONFIG_SMARTDOCUMENTS_USERNAME}",
             "password": "${AUTODEPLOYMENT_PLUGINCONFIG_SMARTDOCUMENTS_PASSWORD}"
         }
-    },
-    {
-        "id": "53059ffe-2407-40de-9fbf-671b2383a0ca",
-        "title": "Object Management (autodeployed)",
-        "pluginDefinitionKey": "object-management",
-        "properties": {}
     },
     {
         "id": "33d3d166-6015-4045-804d-cb83756cd725",
@@ -110,17 +58,6 @@
         }
     },
     {
-        "id": "3f03749a-aed2-4815-b444-360659f51859",
-        "title": "Externe Klanttaak (Autodeployed)",
-        "pluginDefinitionKey": "externe-klanttaak",
-        "properties": {
-            "pluginVersion": "1.1.0",
-            "objectManagementConfigurationId": "8e31996b-20ed-4abf-b39b-312b98e649ab",
-            "notificatiesApiPluginConfiguration": "020e6ca3-1c15-4496-a4cf-67bfaa36332f",
-            "finalizerProcess": "externe-klanttaak-verwerk-afgeronde-klanttaak"
-        }
-    },
-    {
         "id": "071ea275-9c55-4e83-9819-1cc020335bf3",
         "title": "Opendms Documenten API authenticatie (Autodeployed)",
         "properties": {
@@ -152,11 +89,5 @@
         "properties": {
             "authenticationType": "NONE"
         }
-    },
-    {
-        "id": "98352e3f-9cf3-43e8-9770-77bec3c56fbb",
-        "title": "Document generator (autodeployed)",
-        "pluginDefinitionKey": "document-generator",
-        "properties": {}
     }
 ]

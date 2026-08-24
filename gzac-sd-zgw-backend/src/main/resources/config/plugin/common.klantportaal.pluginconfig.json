@@ -1,0 +1,13 @@
+[
+    {
+        "id": "3f03749a-aed2-4815-b444-360659f51859",
+        "title": "Externe Klanttaak (Autodeployed)",
+        "pluginDefinitionKey": "externe-klanttaak",
+        "properties": {
+            "pluginVersion": "1.1.0",
+            "objectManagementConfigurationId": "8e31996b-20ed-4abf-b39b-312b98e649ab",
+            "notificatiesApiPluginConfiguration": "020e6ca3-1c15-4496-a4cf-67bfaa36332f",
+            "finalizerProcess": "externe-klanttaak-verwerk-afgeronde-klanttaak"
+        }
+    }
+]

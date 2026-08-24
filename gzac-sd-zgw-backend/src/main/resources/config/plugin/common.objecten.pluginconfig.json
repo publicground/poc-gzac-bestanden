@@ -1,0 +1,48 @@
+[
+    {
+        "id": "045071a1-a1d2-4d07-a735-5219406acea4",
+        "title": "Custom Object API (Autodeployed)",
+        "properties": {},
+        "pluginDefinitionKey": "custom-objecten-api-plugin"
+    },
+    {
+        "id": "37bc4316-d4b3-4ba2-8d80-8ded0c283224",
+        "title": "Objects API Authentication (Autodeployed)",
+        "pluginDefinitionKey": "objecttokenauthentication",
+        "properties": {
+            "token": "${AUTODEPLOYMENT_PLUGINCONFIG_OBJECTS-API-AUTHENTICATION_TOKEN}"
+        }
+    },
+    {
+        "id": "55c0d693-954f-44df-a6b4-d1d0eef72948",
+        "title": "Objecttypes API Authentication (Autodeployed)",
+        "pluginDefinitionKey": "objecttokenauthentication",
+        "properties": {
+            "token": "${AUTODEPLOYMENT_PLUGINCONFIG_OBJECTTYPES-API-AUTHENTICATION_TOKEN}"
+        }
+    },
+    {
+        "id": "a1a5e464-92db-41fc-9ab9-da663dd18471",
+        "title": "Objects API (Autodeployed)",
+        "pluginDefinitionKey": "objectenapi",
+        "properties": {
+            "url": "${AUTODEPLOYMENT_PLUGINCONFIG_OBJECTS-API_URL}",
+            "authenticationPluginConfiguration": "37bc4316-d4b3-4ba2-8d80-8ded0c283224"
+        }
+    },
+    {
+        "id": "bc109d5e-0388-4637-bcfa-b454f402bef8",
+        "title": "Objecttypes API (Autodeployed)",
+        "pluginDefinitionKey": "objecttypenapi",
+        "properties": {
+            "url": "${AUTODEPLOYMENT_PLUGINCONFIG_OBJECTTYPES-API_URL}",
+            "authenticationPluginConfiguration": "55c0d693-954f-44df-a6b4-d1d0eef72948"
+        }
+    },
+    {
+        "id": "53059ffe-2407-40de-9fbf-671b2383a0ca",
+        "title": "Object Management (autodeployed)",
+        "pluginDefinitionKey": "object-management",
+        "properties": {}
+    } 
+]

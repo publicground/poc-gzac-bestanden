@@ -55,5 +55,11 @@
             "url": "${AUTODEPLOYMENT_PLUGINCONFIG_BESLUITEN_API_URL}",
             "authenticationPluginConfiguration": "dddc0b4d-ae0b-4b9e-8085-d95db9e1eb4c"
         }
+    },
+    {
+        "id": "9d313a99-60de-489f-b003-59239e700494",
+        "title": "Custom Zaken API (Autodeployed)",
+        "properties": {},
+        "pluginDefinitionKey": "customzakenapi"
     }
 ]
