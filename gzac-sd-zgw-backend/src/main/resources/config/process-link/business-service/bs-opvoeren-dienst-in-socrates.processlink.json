@@ -6,18 +6,5 @@
         "formDisplayType": "panel",
         "formSize": "medium",
         "formDefinitionName": "aanvraag-levensonderhoud.controleren-dienst-in-socrates"
-    },
-    {
-        "activityId": "OpvoerenDienstInSocratesTask",
-        "activityType": "bpmn:ServiceTask:start",
-        "pluginConfigurationId": "9961ca7e-9ae7-4688-90be-68c3ca823e11",
-        "pluginActionDefinitionKey": "dienst-aanmaken",
-        "processLinkType": "plugin",
-        "actionProperties": {
-            "zaakId": "zaak:identificatie",
-            "loBehandeldInputProcessVariable": "loBehandeld",
-            "betrokkenenInputProcessVariable": "betrokkenen",
-            "processVariableName": "socratesResponse"
-        }
     }
 ]

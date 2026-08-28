@@ -4,44 +4,5 @@
         "activityType": "bpmn:StartEvent:start",
         "processLinkType": "form",
         "formDefinitionName": "aanmelding-ioaw-dcm.start"
-    },
-    {
-        "activityId": "VersturenOntvangstbevestigingTask",
-        "activityType": "bpmn:ServiceTask:start",
-        "processLinkType": "plugin",
-        "pluginConfigurationId": "499329e3-0e84-41b9-9fbf-803ea283e0ee",
-        "pluginActionDefinitionKey": "send-mail",
-        "actionProperties": {
-            "mailSendTaskFrom": "noreply@valtimo.nl",
-            "mailSendTaskTemplate": "SD Inkomen ontvangstbevestiging IOAW",
-            "mailSendTaskSubject": "SD Inkomen ontvangstbevestiging IOAW",
-            "mailSendTaskTo": "doc:gegevensVanuitAanvraag.aanvrager.contactgegevens.email",
-            "templateData": [
-                {
-                    "key": "zaaknummer",
-                    "value": "zaak:identificatie"
-                },
-                {
-                    "key": "datumOntvangstAanvraag",
-                    "value": "pv:datumOntvangstAanvraag"
-                },
-                {
-                    "key": "voorlettersAanvrager",
-                    "value": "pv:voorlettersAanvrager"
-                },
-                {
-                    "key": "voornaamAanvrager",
-                    "value": "pv:voornaamAanvrager"
-                },
-                {
-                    "key": "tussenvoegselAanvrager",
-                    "value": "pv:voorvoegselAanvrager"
-                },
-                {
-                    "key": "achternaamAanvrager",
-                    "value": "pv:achternaamAanvrager"
-                }
-            ]
-        }
     }
 ]
