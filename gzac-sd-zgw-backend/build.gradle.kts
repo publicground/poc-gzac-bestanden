@@ -123,7 +123,7 @@ dependencies {
 
     // Netty and WebClient
     implementation("io.projectreactor.netty:reactor-netty-core:1.1.20")
-    implementation("io.projectreactor.netty:reactor-netty-http:1.1.20")
+    implementation("io.projectreactor.netty:reactor-netty-http:1.2.8")
     implementation("org.springframework:spring-webflux:6.1.14")
 
     // Postgresql
