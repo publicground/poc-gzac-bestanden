@@ -1,7 +1,7 @@
 version: '3.9'
 services:
     sd-zgw-test-db:
-        image: mysql:8.0-oracle
+        image: mysql:8.0-oracle@sha256:7dcddc01f13bab2f15cde676d44d01f61fc9f99fe7785e86196dfc07d358ae2b
         command:
             --information-schema-stats-expiry=0
             --innodb-flush-method=O_DIRECT
