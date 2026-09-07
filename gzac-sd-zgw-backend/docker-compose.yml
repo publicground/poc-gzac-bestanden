@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
     valtimo-core-db:
-        image: postgres:15
+        image: postgres:15@sha256:9b1d34adbce1dd07ee6e94b4a2cf698884b89bd44a6c9c12f5da8f3acbfe4957
         environment:
             POSTGRES_DB: sd-zgw
             POSTGRES_USER: user
@@ -11,7 +11,7 @@ services:
             - "5432:5432"
 
     valtimo-core-keycloak:
-        image: keycloak/keycloak:22.0.1
+        image: keycloak/keycloak:22.0.1@sha256:89b37fa67c6d48b08637f5b6fb891785bd679e0bc15ee6c68eaab479c1cef7b1
         depends_on:
             - valtimo-core-keycloak-db
         ports:
@@ -36,7 +36,7 @@ services:
             - ./docker/keycloak/import:/opt/keycloak/data/import
 
     valtimo-core-keycloak-db:
-        image: postgres:15
+        image: postgres:15@sha256:9b1d34adbce1dd07ee6e94b4a2cf698884b89bd44a6c9c12f5da8f3acbfe4957
         ports:
             - "5444:5432"
         cap_add:
@@ -48,7 +48,7 @@ services:
     # Objecten API
 
     objects-api:
-        image: maykinmedia/objects-api:2.1.1-rt324
+        image: maykinmedia/objects-api:2.1.1-rt324@sha256:b52fbbdac57884e82c5786ad065207fb037e95fb8f97c12cee7c20547bee2e26
         platform: linux/amd64
         ports:
             - "8010:8000"
@@ -65,7 +65,7 @@ services:
             - database-objects-api
 
     objects-api-import:
-        image: maykinmedia/objects-api:2.1.1
+        image: maykinmedia/objects-api:2.1.1@sha256:dbd4437de2505f0781f94bc2bbba94f835b7f3e1af3555e5627027c5d44e20e9
         platform: linux/amd64
         environment: *objects-env
         # in the current version of django it is not possible to create a new user with password without user interaction by using the createsuperuser command
@@ -77,7 +77,7 @@ services:
             - objects-api
 
     database-objects-api:
-        image: postgis/postgis:13-3.1
+        image: postgis/postgis:13-3.1@sha256:ec995cadee05ab51dcee4771c7781336fa49456c24b742ab9eb811f9bab195d6
         platform: linux/amd64
         ports:
             - "54321:5432"
@@ -86,7 +86,7 @@ services:
             - POSTGRES_PASSWORD=${DB_PASSWORD:-objects}
 
     objecttypes-api:
-        image: maykinmedia/objecttypes-api:2.1.0
+        image: maykinmedia/objecttypes-api:2.1.0@sha256:df5d6af68b91f26d215cbd1b47a85ed2a028edb8dfaafa197a14e5e58bc36ba4
         platform: linux/amd64
         ports:
             - "8011:8000"
@@ -103,7 +103,7 @@ services:
             - database-objecttypes-api
 
     objecttypes-api-import:
-        image: maykinmedia/objecttypes-api:2.1.0
+        image: maykinmedia/objecttypes-api:2.1.0@sha256:df5d6af68b91f26d215cbd1b47a85ed2a028edb8dfaafa197a14e5e58bc36ba4
         platform: linux/amd64
         environment: *objecttypes-env
         command: sh init/init.sh
@@ -114,7 +114,7 @@ services:
             - objecttypes-api
 
     database-objecttypes-api:
-        image: postgres:15
+        image: postgres:15@sha256:9b1d34adbce1dd07ee6e94b4a2cf698884b89bd44a6c9c12f5da8f3acbfe4957
         ports:
             - "54320:5432"
         environment:
@@ -124,7 +124,7 @@ services:
     # Open notificaties
 
     open-notificaties:
-        image: openzaak/open-notificaties:1.8.2
+        image: openzaak/open-notificaties:1.8.2@sha256:6e74cec50bca51d0b8e6afe49a3827ede12cddc83f895f67e5a055ef3bed9135
         platform: linux/amd64
         ports:
             - "8002:8000"
@@ -149,13 +149,13 @@ services:
             - DISABLE_2FA=True
 
     open-notificaties-celery:
-        image: openzaak/open-notificaties:1.8.2
+        image: openzaak/open-notificaties:1.8.2@sha256:6e74cec50bca51d0b8e6afe49a3827ede12cddc83f895f67e5a055ef3bed9135
         platform: linux/amd64
         environment: *notificaties-env
         command: /celery_worker.sh
 
     database-open-notificaties:
-        image: postgres:13.5  # open-notificaties doesn't work with postgres 14.
+        image: postgres:13.5@sha256:2e2e213c0fe4d1229373bebf114f255f68d86fba9e9f30e9bcc08e92cdf7b5b4  # open-notificaties doesn't work with postgres 14.
         ports:
             - "54319:5432"
         environment:
@@ -166,10 +166,10 @@ services:
             - ./docker/open-notificaties:/docker-entrypoint-initdb.d
 
     redis-open-notificaties:
-        image: redis:6.2.6
+        image: redis:6.2.6@sha256:b7fd1a2c89d09a836f659d72c52d27b9f71202c97014a47639f87c992e8c0f1b
 
     rabbitmq:
-        image: rabbitmq:3.9-management
+        image: rabbitmq:3.9-management@sha256:8a279e9396a89676195b2d122ccb0deb45989afcac7e5b8476338c93ea6d1a46
         expose:
             - 5672
             - 15672
@@ -180,7 +180,7 @@ services:
 #    Open Zaak
 
     openzaak:
-        image: openzaak/open-zaak:1.20.0
+        image: openzaak/open-zaak:1.20.0@sha256:d3fb14acde45c9e5af7615aa717d8cd9cee29d1fe34eed1d7de457d008747dfa
         container_name: openzaak
         platform: linux/amd64
         environment:
@@ -207,7 +207,7 @@ services:
             - openzaak-redis
 
     openzaak-database:
-        image: postgis/postgis:17-3.4
+        image: postgis/postgis:17-3.4@sha256:d0b5a6ecab18997637f55a83cb4a9467391de5645916cfa1b6f2a8d19eee7be5
         platform: linux/amd64
         environment:
             - POSTGRES_USER=openzaak
@@ -219,10 +219,10 @@ services:
             - ./docker/open-zaak:/docker-entrypoint-initdb.d
 
     openzaak-redis:
-        image: redis:7.4.3
+        image: redis:7.4.3@sha256:236e397c1d5ab7a94adaf1a51eec3ca8333b05fafcd6d423c6c7cc5987e519a0
 
     bewoningen-mock:
-        image: ghcr.io/brp-api/bewoning-service-mock:2.0.1-latest
+        image: ghcr.io/brp-api/bewoning-service-mock:2.0.1-latest@sha256:af517a14a635c667b815b4101c087ba949f4a56ae390eeb216fe71b2b272c287
         environment:
             - ASPNETCORE_ENVIRONMENT=Release
             - ASPNETCORE_URLS=http://+:5010
@@ -230,7 +230,7 @@ services:
             - "5010:5010"
 
     bag-api-simulator:
-        image: ayubabdulkader/bag-api-simulator:latest
+        image: ayubabdulkader/bag-api-simulator:latest@sha256:ec3165d08497fc9dc7d15573adc9d9a32e301bf5757fa0a7bdc8593182fb3a00
         ports:
             - "5020:5020"
         env_file:
@@ -238,7 +238,7 @@ services:
 
     suwinet-simulator:
         container_name: gzac-suwinet-simulator
-        image: ghcr.io/generiekzaakafhandelcomponent/suwinet-simulator:1.4.4-202605070852.main.7129d58e
+        image: ghcr.io/generiekzaakafhandelcomponent/suwinet-simulator:1.4.4-202605070852.main.7129d58e@sha256:2e7d99661cd25c536108cd38e5841209cfcd52371232263bb39496bc0dc093a6
         platform: linux/amd64
         ports:
             - "8090:8090"
