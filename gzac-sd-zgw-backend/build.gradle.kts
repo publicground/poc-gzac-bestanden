@@ -165,7 +165,7 @@ dependencies {
     // Apache CXF and Jakarta dependencies
     implementation("org.apache.cxf:cxf-rt-frontend-jaxws:4.0.7")
     implementation("org.apache.cxf:cxf-rt-transports-http:4.0.7")
-    implementation("com.sun.xml.ws:jaxws-ri:4.0.3")
+    implementation("com.sun.xml.ws:jaxws-ri:4.0.5")
     implementation("org.glassfish.jaxb:jaxb-runtime:4.0.5")
 
     implementation("org.apache.cxf:cxf-tools-common:4.0.7")
