@@ -157,7 +157,7 @@ dependencies {
     testImplementation("mysql:mysql-connector-java:8.0.33")
 
     // CXF Codegen
-    cxfCodegen("jakarta.xml.ws:jakarta.xml.ws-api:4.0.2")
+    cxfCodegen("jakarta.xml.ws:jakarta.xml.ws-api:4.0.3")
     cxfCodegen("jakarta.annotation:jakarta.annotation-api:3.0.0")
     cxfCodegen("jakarta.xml.bind:jakarta.xml.bind-api:4.0.2")
     cxfCodegen("jakarta.jws:jakarta.jws-api:3.0.0")
