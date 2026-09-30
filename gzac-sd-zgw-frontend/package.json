@@ -27,7 +27,7 @@
     "@angular/localize": "17.3.12",
     "@angular/platform-browser": "17.3.12",
     "@angular/platform-browser-dynamic": "17.3.12",
-    "@angular/router": "17.3.12",
+    "@angular/router": "20.0.0",
     "@mdi/font": "7.4.47",
     "@valtimo-plugins/document-search": "^1.0.0",
     "@valtimo-plugins/externe-klanttaak": "^1.0.0",
