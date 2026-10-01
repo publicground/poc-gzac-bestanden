@@ -108,7 +108,7 @@ dependencies {
     implementation("com.ritense.valtimoplugins:document-search:1.0.0")
     implementation("com.ritense.valtimoplugins:suwinet:2.1.2")
     implementation("com.ritense.valtimoplugins:suwinet-auth:1.0.1")
-    implementation("com.ritense.valtimoplugins:socrates:1.4.0")
+    implementation("com.ritense.valtimoplugins:socrates:1.4.3")
     implementation("com.ritense.valtimoplugins:http-client-authentication-plugin:1.0.0")
     implementation("com.ritense.valtimoplugins:valuemapper:1.2.0")
 
